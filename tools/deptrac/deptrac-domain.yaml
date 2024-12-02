@@ -1,0 +1,51 @@
+parameters:
+  paths:
+    - ../../code/src
+  exclude_files:
+    - '#.*test.*#'
+    - '#vendor#'
+  layers:
+    - name: HealthcheckClasses
+      collectors:
+        - type: bool
+          must:
+            - type: directory
+              value: src/Healthcheck/.*
+          must_not:
+            - type: interface
+              value: .*Interface$
+    - name: YourDomainClasses
+      collectors:
+        - type: bool
+          must:
+            - type: directory
+              value: src/YourDomain/.*
+          must_not:
+            - type: interface
+              value: .*Interface$
+    - name: HealthcheckInterfaces
+      collectors:
+        - type: bool
+          must:
+            - type: directory
+              value: src/Healthcheck/.*
+            - type: interface
+              value: .*Interface$
+    - name: YourDomainInterfaces
+      collectors:
+        - type: bool
+          must:
+            - type: directory
+              value: src/YourDomain/.*
+            - type: interface
+              value: .*Interface$
+
+  ruleset:
+    HealthcheckClasses:
+      - HealthcheckInterfaces # Can use/implement own domain interfaces
+      - YourDomainInterfaces  # Can use other domain interfaces
+    YourDomainClasses:
+      - YourDomainInterfaces  # Can use/implement own domain interfaces
+      - HealthcheckInterfaces # Can use other domain interfaces
+    HealthcheckInterfaces: ~
+    YourDomainInterfaces: ~

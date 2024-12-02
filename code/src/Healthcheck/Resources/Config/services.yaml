@@ -1,0 +1,13 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    App\Healthcheck\:
+        resource: '../../'
+        exclude:
+            - '../../Resources/'
+        tags: ['controller.service_arguments']
