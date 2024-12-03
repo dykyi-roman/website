@@ -1,184 +1,219 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // DOM Elements
-    const popup = document.getElementById('registerPopup');
-    if (!popup) return;
+    console.log('Register popup script loaded');
 
-    const closeBtn = popup.querySelector('.close');
-    const registrationOptions = popup.querySelector('.registration-options');
-    const registerOptions = popup.querySelectorAll('.register-option');
+    // DOM Elements
+    const popup = document.getElementById('register-popup');
+    const closeBtn = document.getElementById('close-register-popup');
+    const registrationTypeSelection = document.getElementById('registration-type-selection');
     const registrationForm = document.getElementById('registrationForm');
     const registrationType = document.getElementById('registrationType');
 
-    // Validation patterns
-    const validationRules = {
-        name: {
-            pattern: /^[a-zA-Z\s]{2,50}$/,
-            message: 'Name must be 2-50 characters long and contain only letters'
-        },
-        phone: {
-            pattern: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
-            message: 'Please enter a valid phone number'
-        },
-        email: {
-            pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-            message: 'Please enter a valid email address'
-        }
-    };
+    // Registration type buttons
+    const registerTypeButtons = document.querySelectorAll('.register-type-btn');
+    const registerFormSections = document.querySelectorAll('.register-form-section');
+    const backButtons = document.querySelectorAll('.btn-back');
 
-    // Event Listeners for Register button
-    document.addEventListener('click', function(e) {
-        const registerBtn = e.target.closest('[data-action="register"]');
-        if (registerBtn) {
-            showPopup();
-        }
+    // Event listener for register button
+    const registerButtons = document.querySelectorAll('[data-action="register"]');
+    registerButtons.forEach(button => {
+        button.addEventListener('click', showPopup);
     });
 
-    // Close button and outside click
+    // Close button event
     if (closeBtn) {
         closeBtn.addEventListener('click', hidePopup);
     }
-    
-    window.addEventListener('click', (e) => {
-        if (e.target === popup) {
-            hidePopup();
-        }
-    });
 
-    // Register option buttons
-    registerOptions.forEach(option => {
-        option.addEventListener('click', () => {
-            const type = option.dataset.type;
+    // Close on outside click
+    if (popup) {
+        popup.addEventListener('click', function(e) {
+            if (e.target === popup) {
+                hidePopup();
+            }
+        });
+    }
+
+    // Registration type selection
+    registerTypeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const type = this.dataset.type;
             showRegistrationForm(type);
-            registrationOptions.style.display = 'none';
         });
     });
 
-    // Custom validation function
-    function validateField(input) {
-        const name = input.name;
-        const value = input.value.trim();
+    // Back buttons
+    backButtons.forEach(button => {
+        button.addEventListener('click', showRegistrationTypeSelection);
+    });
 
-        // Check if field is empty
-        if (input.hasAttribute('required') && value === '') {
-            showError(input, 'This field is required');
-            return false;
+    // City-Country relationship data
+    const cityByCountry = {
+        'us': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Miami'],
+        'ca': ['Toronto', 'Vancouver', 'Montreal', 'Calgary', 'Ottawa'],
+        'uk': ['London', 'Manchester', 'Birmingham', 'Liverpool', 'Edinburgh']
+    };
+
+    // Update city options based on selected country
+    function updateCityOptions(countrySelect, citySelect) {
+        const country = countrySelect.value;
+        citySelect.innerHTML = '<option value="">Select City</option>';
+        
+        if (country && cityByCountry[country]) {
+            cityByCountry[country].forEach(city => {
+                const option = document.createElement('option');
+                option.value = city.toLowerCase().replace(/\s+/g, '-');
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
         }
-
-        // Check specific validation rules
-        if (validationRules[name]) {
-            if (!validationRules[name].pattern.test(value)) {
-                showError(input, validationRules[name].message);
-                return false;
-            }
-        }
-
-        clearError(input);
-        return true;
     }
 
-    // Show error message
+    // Add event listeners for country selects
+    const clientCountrySelect = document.getElementById('client-country');
+    const clientCitySelect = document.getElementById('client-city');
+    const partnerCountrySelect = document.getElementById('partner-country');
+    const partnerCitySelect = document.getElementById('partner-city');
+
+    if (clientCountrySelect && clientCitySelect) {
+        clientCountrySelect.addEventListener('change', () => {
+            updateCityOptions(clientCountrySelect, clientCitySelect);
+        });
+    }
+
+    if (partnerCountrySelect && partnerCitySelect) {
+        partnerCountrySelect.addEventListener('change', () => {
+            updateCityOptions(partnerCountrySelect, partnerCitySelect);
+        });
+    }
+
+    // Form submission
+    registrationForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        if (validateForm(this)) {
+            await submitRegistration(this);
+        }
+    });
+
+    // Functions
+    function showPopup() {
+        console.log('Showing popup');
+        if (popup) {
+            popup.classList.add('show');
+            document.body.style.overflow = 'hidden';
+            
+            // Reset to initial state
+            showRegistrationTypeSelection();
+        } else {
+            console.error('Popup element not found!');
+        }
+    }
+
+    function hidePopup() {
+        console.log('Hiding popup');
+        if (popup) {
+            popup.classList.remove('show');
+            document.body.style.overflow = '';
+            resetForm();
+        }
+    }
+
+    function showRegistrationTypeSelection() {
+        registrationTypeSelection.style.display = 'flex';
+        registerFormSections.forEach(section => {
+            section.style.display = 'none';
+        });
+        registrationType.value = '';
+    }
+
+    function showRegistrationForm(type) {
+        console.log('Showing registration form for:', type);
+        
+        // Hide type selection
+        registrationTypeSelection.style.display = 'none';
+        
+        // Show corresponding form section
+        registerFormSections.forEach(section => {
+            section.style.display = section.id === `${type}-register-section` ? 'block' : 'none';
+        });
+        
+        // Set registration type
+        registrationType.value = type;
+    }
+
+    function resetForm() {
+        registrationForm.reset();
+        showRegistrationTypeSelection();
+        clearAllErrors();
+    }
+
+    function clearAllErrors() {
+        const errorMessages = registrationForm.querySelectorAll('.invalid-feedback');
+        errorMessages.forEach(error => {
+            error.textContent = '';
+            error.style.display = 'none';
+        });
+    }
+
+    function validateForm(form) {
+        let isValid = true;
+        const inputs = form.querySelectorAll('input[required], select[required]');
+        
+        inputs.forEach(input => {
+            if (!input.value.trim()) {
+                showError(input, 'This field is required');
+                isValid = false;
+            } else {
+                clearError(input);
+            }
+        });
+
+        return isValid;
+    }
+
     function showError(input, message) {
-        const errorElement = input.nextElementSibling;
-        if (errorElement && errorElement.classList.contains('invalid-feedback')) {
-            errorElement.textContent = message;
-            errorElement.style.display = 'block';
+        const feedback = input.nextElementSibling;
+        if (feedback && feedback.classList.contains('invalid-feedback')) {
+            feedback.textContent = message;
+            feedback.style.display = 'block';
             input.classList.add('is-invalid');
         }
     }
 
-    // Clear error message
     function clearError(input) {
-        const errorElement = input.nextElementSibling;
-        if (errorElement && errorElement.classList.contains('invalid-feedback')) {
-            errorElement.style.display = 'none';
+        const feedback = input.nextElementSibling;
+        if (feedback && feedback.classList.contains('invalid-feedback')) {
+            feedback.style.display = 'none';
             input.classList.remove('is-invalid');
         }
     }
 
-    // Add event listeners for real-time validation
-    if (registrationForm) {
-        const inputs = registrationForm.querySelectorAll('input, select');
-        inputs.forEach(input => {
-            input.addEventListener('input', () => validateField(input));
-            input.addEventListener('change', () => validateField(input));
-        });
-
-        // Form submission
-        registrationForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Validate all fields
-            const inputs = this.querySelectorAll('input, select');
-            let isValid = true;
-
-            inputs.forEach(input => {
-                if (!validateField(input)) {
-                    isValid = false;
-                }
+    async function submitRegistration(form) {
+        try {
+            const formData = new FormData(form);
+            const response = await fetch('/api/register', {
+                method: 'POST',
+                body: formData
             });
 
-            // If all fields are valid, submit the form
-            if (isValid) {
-                const formData = new FormData(this);
-                
-                fetch('/register', {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        hidePopup();
-                        // Show success message or redirect
-                        alert('Registration successful!');
-                    } else {
-                        // Handle server-side validation errors
-                        Object.keys(data.errors || {}).forEach(field => {
-                            const input = registrationForm.querySelector(`[name="${field}"]`);
-                            if (input) {
-                                showError(input, data.errors[field]);
-                            }
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Registration error:', error);
-                    alert('An error occurred during registration. Please try again.');
-                });
+            if (response.ok) {
+                console.log('Registration successful');
+                hidePopup();
+                // TODO: Show success message or redirect
+            } else {
+                console.log('Registration failed');
+                const data = await response.json();
+                // Handle validation errors from server
+                if (data.errors) {
+                    Object.entries(data.errors).forEach(([field, message]) => {
+                        const input = form.querySelector(`[name="${field}"]`);
+                        if (input) {
+                            showError(input, message);
+                        }
+                    });
+                }
             }
-        });
-    }
-
-    // Functions
-    function showPopup() {
-        popup.style.display = 'block';
-        registrationForm.style.display = 'none';
-        registrationOptions.style.display = 'flex';
-        document.querySelectorAll('.register-option').forEach(btn => {
-            btn.classList.remove('active');
-        });
-    }
-
-    function hidePopup() {
-        popup.style.display = 'none';
-        registrationForm.reset(); // Reset form on close
-        registrationOptions.style.display = 'flex';
-    }
-
-    function showRegistrationForm(type) {
-        registrationType.value = type;
-        document.querySelectorAll('.register-option').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        document.querySelector(`[data-type="${type}"]`).classList.add('active');
-        registrationForm.style.display = 'block';
+        } catch (error) {
+            console.error('Registration error:', error);
+        }
     }
 });

@@ -10,10 +10,17 @@
 
         {% block javascripts %}
             <script src="{{ asset('js/register-popup.js') }}"></script>
+            <script src="{{ asset('js/form-validation.js') }}"></script>
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% block body %}
+            <div class="user-menu">
+                <button class="register-button" data-action="register">Register</button>
+            </div>
+        {% endblock %}
+        
+        {# Include registration popup #}
         {% include '@Dashboard/components/register-popup.html.twig' %}
     </body>
 </html>

@@ -73,7 +73,7 @@ body {
 /* Search Section */
 .search-section {
     background-color: #fff;
-    padding: 2rem 0;
+    padding: 6rem 0 2rem 0;
 }
 
 .search-section .container-fluid {
@@ -85,6 +85,7 @@ body {
     font-size: 2.5rem;
     font-weight: 600;
     margin-bottom: 2rem;
+    padding-top: 3rem; /* Add padding to push text down */
 }
 
 .search-section .input-group {
@@ -178,18 +179,18 @@ button.btn.btn-primary:disabled {
 .service-image-container {
     position: relative;
     width: 100%;
-    padding-bottom: 100%;
-    overflow: visible;
+    padding-bottom: 100%; /* Creates a square aspect ratio */
+    overflow: hidden;
+    border-radius: 8px;
 }
 
-.service-image {
+.service-image-container img {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
+    object-fit: cover; /* This ensures the image covers the square area without distortion */
 }
 
 .service-feedback {
@@ -256,11 +257,28 @@ button.btn.btn-primary:disabled {
 }
 
 /* Favorite Button Styles */
+.service-image-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%; /* Creates a square aspect ratio */
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.service-image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This ensures the image covers the square area without distortion */
+}
+
 .btn-favorite {
     position: absolute;
-    top: 5px;
-    left: 5px;
-    z-index: 100;
+    top: 0.5rem;
+    left: 0.5rem;
+    z-index: 10;
     background: rgba(255, 255, 255, 0.9);
     border: none;
     border-radius: 50%;
@@ -276,8 +294,8 @@ button.btn.btn-primary:disabled {
 }
 
 .btn-favorite:hover {
-    transform: scale(1.1);
     background: white;
+    transform: scale(1.1);
 }
 
 .btn-favorite i {
@@ -348,6 +366,153 @@ button.btn.btn-primary:disabled {
     background-color: var(--primary-light);
 }
 
+/* Registration Popup */
+.register-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-popup.show {
+    display: flex !important;
+}
+
+.register-popup-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    outline: none;
+    border: none;
+}
+
+.register-popup-content * {
+    outline: none;
+    border: none;
+}
+
+.register-type-btn {
+    outline: none;
+    border: 1px solid #ddd;
+}
+
+.register-type-btn {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.register-type-btn:hover {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+}
+
+.register-type-btn i {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.register-type-btn span {
+    font-size: 16px;
+    color: #333;
+}
+
+/* Registration Popup Type Selection */
+.registration-type-selection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.register-type-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    padding: 15px;
+    margin: 10px 0;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register-type-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.register-type-btn i {
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+.register-form-section {
+    display: none;
+}
+
+.btn-back {
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+    padding: 10px 15px;
+    margin-right: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-register {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.close-popup {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+}
+
+.register-popup .register-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+}
+
+.register-popup .register-btn:hover {
+    background-color: var(--primary-hover);
+}
+
 /* Footer */
 footer {
     background-color: var(--background-light);
@@ -373,7 +538,7 @@ footer h5 {
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .search-section {
-        padding: 1rem 0;
+        padding: 3rem 0; /* Increased padding to move section down */
     }
     
     .search-section .container-fluid,

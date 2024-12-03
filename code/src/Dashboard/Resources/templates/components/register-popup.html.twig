@@ -1,70 +1,119 @@
 <!-- Registration Popup -->
-<div id="registerPopup" class="modal" style="display: none;">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="registration-options">
-            <button class="register-option" data-type="client">Client</button>
-            <button class="register-option" data-type="partner">Partner</button>
-        </div>
+<div id="register-popup" class="register-popup">
+    <div class="register-popup-content">
+        <button id="close-register-popup" class="close-popup">&times;</button>
         
-        <form id="registrationForm" class="registration-form" style="display: none;" novalidate>
-            <input type="hidden" name="type" id="registrationType">
-            
-            <div class="form-group">
-                <input type="text" name="name" id="name" placeholder="Name" 
-                       required 
-                       minlength="2" 
-                       maxlength="50" 
-                       pattern="[a-zA-Z\s]+"
-                       title="Name must be 2-50 characters long and contain only letters">
-                <div class="invalid-feedback">Please enter a valid name</div>
-            </div>
-            
-            <div class="form-group">
-                <input type="tel" name="phone" id="phone" placeholder="Phone" 
-                       required 
-                       pattern="[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}"
-                       title="Please enter a valid phone number">
-                <div class="invalid-feedback">Please enter a valid phone number</div>
-            </div>
-            
-            <div class="form-group">
-                <input type="email" name="email" id="email" placeholder="Email" 
-                       required 
-                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                       title="Please enter a valid email address">
-                <div class="invalid-feedback">Please enter a valid email address</div>
-            </div>
-            
-            <div class="form-group">
-                <select name="country" id="country" required>
-                    <option value="">Select Country</option>
-                    <option value="us">United States</option>
-                    <option value="ca">Canada</option>
-                    <option value="uk">United Kingdom</option>
-                    <!-- Add more countries as needed -->
-                </select>
-                <div class="invalid-feedback">Please select a country</div>
-            </div>
-            
-            <div class="form-group">
-                <select name="city" id="city" required>
-                    <option value="">Select City</option>
-                    <!-- Cities will be dynamically populated based on selected country -->
-                </select>
-                <div class="invalid-feedback">Please select a city</div>
-            </div>
-            
-            <div class="social-login">
-                <button type="button" class="facebook-login">
-                    <i class="fab fa-facebook-f"></i> Facebook
+        <div class="register-popup-header">
+            <h2 class="text-center">Registration</h2>
+        </div>
+
+        <div id="registration-type-selection" class="registration-type-selection active">
+            <div class="register-options">
+                <button class="register-type-btn" data-type="client">
+                    <i class="fas fa-user"></i> 
+                    <span>Client Registration</span>
                 </button>
-                <button type="button" class="google-login">
-                    <i class="fab fa-google"></i> Google
+                <button class="register-type-btn" data-type="partner">
+                    <i class="fas fa-briefcase"></i> 
+                    <span>Partner Registration</span>
                 </button>
             </div>
-            
-            <button type="submit" class="sign-in-btn">Sign in</button>
+        </div>
+
+        <form id="registrationForm" class="register-form">
+            <input type="hidden" id="registrationType" name="type" value="">
+
+            <div id="client-register-section" class="register-form-section">
+                <div class="form-group">
+                    <label for="client-name">Name</label>
+                    <input type="text" id="client-name" name="name" required>
+                    <div class="invalid-feedback"></div>
+                </div>
+                <div class="form-group">
+                    <label for="client-email">Email</label>
+                    <input type="email" id="client-email" name="email" required>
+                    <div class="invalid-feedback"></div>
+                </div>
+                <div class="form-group">
+                    <label for="client-phone">Phone</label>
+                    <input type="tel" id="client-phone" name="phone" required>
+                    <div class="invalid-feedback"></div>
+                </div>
+                <div class="form-group">
+                    <label for="client-country">Country</label>
+                    <select id="client-country" name="country" required>
+                        <option value="">Select Country</option>
+                        <option value="us">United States</option>
+                        <option value="ca">Canada</option>
+                        <option value="uk">United Kingdom</option>
+                    </select>
+                    <div class="invalid-feedback"></div>
+                </div>
+                <div class="form-group">
+                    <label for="client-city">City</label>
+                    <select id="client-city" name="city" required>
+                        <option value="">Select City</option>
+                        <option value="new-york">New York</option>
+                        <option value="los-angeles">Los Angeles</option>
+                        <option value="chicago">Chicago</option>
+                        <option value="houston">Houston</option>
+                        <option value="toronto">Toronto</option>
+                        <option value="vancouver">Vancouver</option>
+                        <option value="london">London</option>
+                        <option value="manchester">Manchester</option>
+                    </select>
+                    <div class="invalid-feedback"></div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="register-btn">Register</button>
+                </div>
+            </div>
+
+            <div id="partner-register-section" class="register-form-section">
+                <div class="form-group">
+                    <label for="partner-name">Company Name</label>
+                    <input type="text" id="partner-name" name="company_name" required>
+                    <div class="invalid-feedback"></div>
+                </div>
+                <div class="form-group">
+                    <label for="partner-email">Business Email</label>
+                    <input type="email" id="partner-email" name="business_email" required>
+                    <div class="invalid-feedback"></div>
+                </div>
+                <div class="form-group">
+                    <label for="partner-phone">Business Phone</label>
+                    <input type="tel" id="partner-phone" name="business_phone" required>
+                    <div class="invalid-feedback"></div>
+                </div>
+                <div class="form-group">
+                    <label for="partner-country">Country</label>
+                    <select id="partner-country" name="country" required>
+                        <option value="">Select Country</option>
+                        <option value="us">United States</option>
+                        <option value="ca">Canada</option>
+                        <option value="uk">United Kingdom</option>
+                    </select>
+                    <div class="invalid-feedback"></div>
+                </div>
+                <div class="form-group">
+                    <label for="partner-city">City</label>
+                    <select id="partner-city" name="city" required>
+                        <option value="">Select City</option>
+                        <option value="new-york">New York</option>
+                        <option value="los-angeles">Los Angeles</option>
+                        <option value="chicago">Chicago</option>
+                        <option value="houston">Houston</option>
+                        <option value="toronto">Toronto</option>
+                        <option value="vancouver">Vancouver</option>
+                        <option value="london">London</option>
+                        <option value="manchester">Manchester</option>
+                    </select>
+                    <div class="invalid-feedback"></div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="register-btn">Register</button>
+                </div>
+            </div>
         </form>
     </div>
 </div>
