@@ -29,10 +29,19 @@ body {
 .navbar {
     box-shadow: var(--shadow-sm);
     background-color: white !important;
+    padding: 0.5rem 0;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .navbar-brand {
     font-weight: 600;
+    padding: 0.5rem 0;
+    margin: 0;
 }
 
 .navbar-brand i {
@@ -42,6 +51,23 @@ body {
 
 .navbar-nav {
     align-items: center;
+}
+
+.nav-item.dropdown {
+    display: flex;
+    align-items: center;
+}
+
+.nav-link {
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.fa-globe,
+.fa-user {
+    font-size: 1.25rem;
+    color: var(--primary-color);
 }
 
 /* Search Section */
