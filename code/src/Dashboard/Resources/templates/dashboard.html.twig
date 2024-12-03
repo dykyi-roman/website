@@ -87,12 +87,21 @@
                                                 
                                                 <!-- Center column with service details -->
                                                 <div class="col-6 col-md-6">
-                                                    <h5 class="card-title">{{ service.title }}</h5>
+                                                    <div class="d-flex justify-content-between align-items-start">
+                                                        <h5 class="card-title">{{ service.title }}</h5>
+                                                    </div>
                                                     <p class="card-text">{{ service.description }}</p>
                                                 </div>
 
                                                 <!-- Right column with features and price -->
                                                 <div class="col-4 col-md-4">
+                                                    {% if is_granted('ROLE_PARTNER') %}
+                                                        <button class="btn-favorite {% if service.is_favorite|default(false) %}active{% endif %}" 
+                                                                onclick="toggleFavorite(this)"
+                                                                data-service-id="{{ service.id|default('') }}">
+                                                            <i class="{% if service.is_favorite|default(false) %}fas{% else %}far{% endif %} fa-heart"></i>
+                                                        </button>
+                                                    {% endif %}
                                                     <div class="service-features">
                                                         {% for feature in service.features %}
                                                             <div class="feature-item">
@@ -105,7 +114,7 @@
                                                     <div class="service-footer">
                                                         <div class="d-flex flex-column align-items-end">
                                                             <div class="service-price mb-2">
-                                                                <span class="price">від {{ service.price }} грн</span>
+                                                                <span class="price">{{ service.price }}</span>
                                                             </div>
                                                             <div>
                                                                 <button class="btn btn-primary">Замовити послугу</button>
@@ -161,5 +170,8 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('js/dashboard.js') }}"></script>
+    {% if is_granted('ROLE_USER') %}
+        <script src="{{ asset('js/partner.js') }}"></script>
+    {% endif %}
+    <script src="{{ asset('js/custom.js') }}"></script>
 {% endblock %}
