@@ -501,6 +501,22 @@ button.btn.btn-primary:disabled {
     margin-top: 1rem;
 }
 
+.form-actions .register-btn {
+    width: 100%;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+}
+
+.form-actions .register-btn:hover {
+    background-color: var(--primary-hover);
+}
+
 .btn-back {
     background-color: #f0f0f0;
     color: #333;
@@ -532,6 +548,7 @@ button.btn.btn-primary:disabled {
 }
 
 .register-popup .register-btn {
+    width: 100%;
     background-color: var(--primary-color);
     color: white;
     border: none;
