@@ -1,3 +1,4 @@
 imports:
     - { resource: '../../src/Healthcheck/Resources/Config/doctrine.yaml' }
     - { resource: '../../src/YourDomain/Resources/Config/doctrine.yaml' }
+    - { resource: '../../src/Dashboard/Resources/Config/doctrine.yaml' }

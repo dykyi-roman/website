@@ -1,0 +1,165 @@
+{% extends '@Dashboard/base.html.twig' %}
+
+{% block title %}{{ page_title }} - ServiceHub{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <!-- Header/Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-tasks"></i> ServiceHub
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container-fluid p-0">
+        <!-- Search Section -->
+        <section class="search-section text-center py-5">
+            <div class="container-fluid container-md">
+                <h1 class="mb-4">Find Your Service</h1>
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-lg" placeholder="What service are you looking for?">
+                            <button class="btn btn-primary btn-lg" type="button">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Grid -->
+        <section class="services-grid py-5" id="services">
+            <div class="container-fluid container-md">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="row g-4">
+                            {% for service in search_results %}
+                                <div class="col-12 px-0">
+                                    <div class="card service-card">
+                                        <div class="card-body">
+                                            <div class="row g-3">
+                                                <!-- Left column with image and reviews -->
+                                                <div class="col-2 col-md-2">
+                                                    <div class="service-image-container">
+                                                        <img src="{{ service.image_url }}" class="img-fluid rounded service-image" alt="{{ service.title }}">
+                                                    </div>
+                                                    <div class="service-feedback text-center">
+                                                        <div class="stars">
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star"></i>
+                                                            <i class="fas fa-star-half-alt"></i>
+                                                        </div>
+                                                        <span class="feedback-count">{{ service.feedback_count }} відгуків</span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Center column with service details -->
+                                                <div class="col-6 col-md-6">
+                                                    <h5 class="card-title">{{ service.title }}</h5>
+                                                    <p class="card-text">{{ service.description }}</p>
+                                                </div>
+
+                                                <!-- Right column with features and price -->
+                                                <div class="col-4 col-md-4">
+                                                    <div class="service-features">
+                                                        {% for feature in service.features %}
+                                                            <div class="feature-item">
+                                                                <i class="fas fa-check-circle text-success me-2"></i>
+                                                                {{ feature }}
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+
+                                                    <div class="service-footer">
+                                                        <div class="d-flex flex-column align-items-end">
+                                                            <div class="service-price mb-2">
+                                                                <span class="price">від {{ service.price }} грн</span>
+                                                            </div>
+                                                            <div>
+                                                                <button class="btn btn-primary">Замовити послугу</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-light mt-5 py-4" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4" id="about">
+                    <h5>Про нас</h5>
+                    <p>Ваша надійна платформа для пошуку та замовлення професійних послуг.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Контакти</h5>
+                    <p>
+                        <i class="fas fa-envelope"></i> info@servicehub.com<br>
+                        <i class="fas fa-phone"></i> +380 123 456 789
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Соціальні мережі</h5>
+                    <div class="social-links">
+                        <a href="#" class="me-2"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12 text-center">
+                    <small>&copy; {{ "now"|date("Y") }} ServiceHub. Всі права захищені.</small>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('js/dashboard.js') }}"></script>
+{% endblock %}
