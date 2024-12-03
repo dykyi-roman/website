@@ -25,22 +25,22 @@
 
             <div id="client-register-section" class="register-form-section">
                 <div class="form-group">
-                    <label for="client-name">Name</label>
-                    <input type="text" id="client-name" name="name" required>
+                    <label for="client-name"></label>
+                    <input type="text" id="client-name" name="name" placeholder="Enter your full name" required>
                     <div class="invalid-feedback"></div>
                 </div>
                 <div class="form-group">
-                    <label for="client-email">Email</label>
-                    <input type="email" id="client-email" name="email" required>
+                    <label for="client-email"></label>
+                    <input type="email" id="client-email" name="email" placeholder="Enter your email address" required>
                     <div class="invalid-feedback"></div>
                 </div>
                 <div class="form-group">
-                    <label for="client-phone">Phone</label>
-                    <input type="tel" id="client-phone" name="phone" required>
+                    <label for="client-phone"></label>
+                    <input type="tel" id="client-phone" name="phone" placeholder="Enter your phone number" required>
                     <div class="invalid-feedback"></div>
                 </div>
                 <div class="form-group">
-                    <label for="client-country">Country</label>
+                    <label for="client-country"></label>
                     <select id="client-country" name="country" required>
                         <option value="">Select Country</option>
                         <option value="us">United States</option>
@@ -50,7 +50,6 @@
                     <div class="invalid-feedback"></div>
                 </div>
                 <div class="form-group">
-                    <label for="client-city">City</label>
                     <select id="client-city" name="city" required>
                         <option value="">Select City</option>
                         <option value="new-york">New York</option>
@@ -64,6 +63,12 @@
                     </select>
                     <div class="invalid-feedback"></div>
                 </div>
+                <div class="form-actions">
+                    <button type="submit" class="register-btn">Register</button>
+                </div>
+                <div class="divider">
+                    <span>or</span>
+                </div>
                 <div class="social-login-buttons">
                     <button id="google-login-btn" class="btn btn-social btn-google">
                         <i class="fab fa-google"></i> Google
@@ -73,6 +78,23 @@
                     </button>
                 </div>
                 <style>
+                    .divider {
+                        display: flex;
+                        align-items: center;
+                        text-align: center;
+                        margin: 20px 0;
+                    }
+                    .divider::before,
+                    .divider::after {
+                        content: '';
+                        flex: 1;
+                        border-bottom: 1px solid #ccc;
+                    }
+                    .divider span {
+                        padding: 0 10px;
+                        color: #888;
+                        font-size: 14px;
+                    }
                     .social-login-buttons {
                         display: flex;
                         justify-content: center;
@@ -100,29 +122,26 @@
                         background-color: #3b5998;
                     }
                 </style>
-                <div class="form-actions">
-                    <button type="submit" class="register-btn">Register</button>
-                </div>
             </div>
 
             <div id="partner-register-section" class="register-form-section">
                 <div class="form-group">
-                    <label for="partner-name">Company Name</label>
-                    <input type="text" id="partner-name" name="company_name" required>
+                    <label for="partner-name"></label>
+                    <input type="text" id="partner-name" name="company_name" placeholder="Enter your company name" required>
                     <div class="invalid-feedback"></div>
                 </div>
                 <div class="form-group">
-                    <label for="partner-email">Business Email</label>
-                    <input type="email" id="partner-email" name="business_email" required>
+                    <label for="partner-email"></label>
+                    <input type="email" id="partner-email" name="company_email" placeholder="Enter company email address" required>
                     <div class="invalid-feedback"></div>
                 </div>
                 <div class="form-group">
-                    <label for="partner-phone">Business Phone</label>
-                    <input type="tel" id="partner-phone" name="business_phone" required>
+                    <label for="partner-phone"></label>
+                    <input type="tel" id="partner-phone" name="company_phone" placeholder="Enter company phone number" required>
                     <div class="invalid-feedback"></div>
                 </div>
                 <div class="form-group">
-                    <label for="partner-country">Country</label>
+                    <label for="partner-country"></label>
                     <select id="partner-country" name="country" required>
                         <option value="">Select Country</option>
                         <option value="us">United States</option>
@@ -132,7 +151,7 @@
                     <div class="invalid-feedback"></div>
                 </div>
                 <div class="form-group">
-                    <label for="partner-city">City</label>
+                    <label for="partner-city"></label>
                     <select id="partner-city" name="city" required>
                         <option value="">Select City</option>
                         <option value="new-york">New York</option>
@@ -146,6 +165,12 @@
                     </select>
                     <div class="invalid-feedback"></div>
                 </div>
+                <div class="form-actions">
+                    <button type="submit" class="register-btn">Register</button>
+                </div>
+                <div class="divider">
+                    <span>or</span>
+                </div>
                 <div class="social-login-buttons">
                     <button id="google-login-btn" class="btn btn-social btn-google">
                         <i class="fab fa-google"></i> Google
@@ -155,6 +180,23 @@
                     </button>
                 </div>
                 <style>
+                    .divider {
+                        display: flex;
+                        align-items: center;
+                        text-align: center;
+                        margin: 20px 0;
+                    }
+                    .divider::before,
+                    .divider::after {
+                        content: '';
+                        flex: 1;
+                        border-bottom: 1px solid #ccc;
+                    }
+                    .divider span {
+                        padding: 0 10px;
+                        color: #888;
+                        font-size: 14px;
+                    }
                     .social-login-buttons {
                         display: flex;
                         justify-content: center;
@@ -182,9 +224,6 @@
                         background-color: #3b5998;
                     }
                 </style>
-                <div class="form-actions">
-                    <button type="submit" class="register-btn">Register</button>
-                </div>
             </div>
         </form>
     </div>
