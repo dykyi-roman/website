@@ -127,19 +127,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function showRegistrationForm(type) {
         // Hide registration type selection
-        registrationTypeSelection.classList.remove('active');
+        registrationTypeSelection.style.display = 'none';
         
         // Reset form
-        resetForm();
+        registrationForm.reset();
+        clearAllErrors();
         
         // Set hidden input value
         registrationType.value = type;
         
         // Show appropriate registration form section
         registerFormSections.forEach(section => {
-            section.classList.remove('active');
             if (section.id === `${type}-register-section`) {
-                section.classList.add('active');
+                section.style.display = 'block';
+            } else {
+                section.style.display = 'none';
             }
         });
     }
