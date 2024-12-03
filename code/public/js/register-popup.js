@@ -222,4 +222,27 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Registration error:', error);
         }
     }
+
+    // Добавляем функции для социальной авторизации
+    function initSocialLogin() {
+        const googleLoginBtn = document.getElementById('google-login-btn');
+        const facebookLoginBtn = document.getElementById('facebook-login-btn');
+
+        if (googleLoginBtn) {
+            googleLoginBtn.addEventListener('click', () => {
+                // TODO: Реализовать логику Google OAuth
+                console.log('Google Login clicked');
+            });
+        }
+
+        if (facebookLoginBtn) {
+            facebookLoginBtn.addEventListener('click', () => {
+                // TODO: Реализовать логику Facebook OAuth
+                console.log('Facebook Login clicked');
+            });
+        }
+    }
+
+    // Добавляем инициализацию социальных кнопок
+    initSocialLogin();
 });
