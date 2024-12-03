@@ -43,8 +43,8 @@
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                         {% else %}
-                            <li><a class="dropdown-item" href="/login"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-                            <li><a class="dropdown-item" href="/register"><i class="fas fa-user-plus"></i> Register</a></li>
+                            <li><a class="dropdown-item"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                            <li><a class="dropdown-item" data-action="register" href="javascript:void(0);"><i class="fas fa-user-plus"></i> Register</a></li>
                         {% endif %}
                     </ul>
                 </div>
@@ -84,8 +84,13 @@
                                             <div class="row g-3">
                                                 <!-- Left column with image and reviews -->
                                                 <div class="col-2 col-md-2">
-                                                    <div class="service-image-container">
+                                                    <div class="service-image-container position-relative">
                                                         <img src="{{ service.image_url }}" class="img-fluid rounded service-image" alt="{{ service.title }}">
+                                                        <button class="btn-favorite {% if service.is_favorite|default(false) %}active{% endif %}"
+                                                                onclick="toggleFavorite(this)"
+                                                                data-service-id="{{ service.id|default('') }}">
+                                                            <i class="{% if service.is_favorite|default(false) %}fas{% else %}far{% endif %} fa-heart"></i>
+                                                        </button>
                                                     </div>
                                                     <div class="service-feedback text-center">
                                                         <div class="stars">
@@ -109,13 +114,6 @@
 
                                                 <!-- Right column with features and price -->
                                                 <div class="col-4 col-md-4">
-                                                    {% if is_granted('ROLE_PARTNER') %}
-                                                        <button class="btn-favorite {% if service.is_favorite|default(false) %}active{% endif %}" 
-                                                                onclick="toggleFavorite(this)"
-                                                                data-service-id="{{ service.id|default('') }}">
-                                                            <i class="{% if service.is_favorite|default(false) %}fas{% else %}far{% endif %} fa-heart"></i>
-                                                        </button>
-                                                    {% endif %}
                                                     <div class="service-features">
                                                         {% for feature in service.features %}
                                                             <div class="feature-item">
