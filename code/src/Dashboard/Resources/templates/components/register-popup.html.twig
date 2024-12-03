@@ -1,3 +1,7 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/register-popup.css') }}">
+{% endblock %}
+
 <!-- Registration Popup -->
 <div id="register-popup" class="register-popup">
     <div class="register-popup-content">
@@ -70,51 +74,6 @@
                         <i class="fab fa-facebook-f"></i> Facebook
                     </button>
                 </div>
-                <style>
-                    .divider {
-                        display: flex;
-                        align-items: center;
-                        text-align: center;
-                        margin: 20px 0;
-                    }
-                    .divider::before,
-                    .divider::after {
-                        content: '';
-                        flex: 1;
-                        border-bottom: 1px solid #ccc;
-                    }
-                    .divider span {
-                        padding: 0 10px;
-                        color: #888;
-                        font-size: 14px;
-                    }
-                    .social-login-buttons {
-                        display: flex;
-                        justify-content: center;
-                        gap: 10px;
-                        margin-bottom: 15px;
-                    }
-                    .btn-social {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        width: 150px;
-                        padding: 10px;
-                        border-radius: 5px;
-                        border: none;
-                        color: white;
-                        font-weight: bold;
-                    }
-                    .btn-social i {
-                        margin-right: 10px;
-                    }
-                    .btn-google {
-                        background-color: #db4437;
-                    }
-                    .btn-facebook {
-                        background-color: #3b5998;
-                    }
-                </style>
             </div>
 
             <div id="partner-register-section" class="register-form-section">
@@ -172,51 +131,6 @@
                         <i class="fab fa-facebook-f"></i> Facebook
                     </button>
                 </div>
-                <style>
-                    .divider {
-                        display: flex;
-                        align-items: center;
-                        text-align: center;
-                        margin: 20px 0;
-                    }
-                    .divider::before,
-                    .divider::after {
-                        content: '';
-                        flex: 1;
-                        border-bottom: 1px solid #ccc;
-                    }
-                    .divider span {
-                        padding: 0 10px;
-                        color: #888;
-                        font-size: 14px;
-                    }
-                    .social-login-buttons {
-                        display: flex;
-                        justify-content: center;
-                        gap: 10px;
-                        margin-bottom: 15px;
-                    }
-                    .btn-social {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        width: 150px;
-                        padding: 10px;
-                        border-radius: 5px;
-                        border: none;
-                        color: white;
-                        font-weight: bold;
-                    }
-                    .btn-social i {
-                        margin-right: 10px;
-                    }
-                    .btn-google {
-                        background-color: #db4437;
-                    }
-                    .btn-facebook {
-                        background-color: #3b5998;
-                    }
-                </style>
             </div>
         </form>
     </div>
