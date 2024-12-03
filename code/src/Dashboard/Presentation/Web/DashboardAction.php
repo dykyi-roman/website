@@ -44,10 +44,23 @@ class DashboardAction extends AbstractController
             ]
         ];
 
+        $countries = [
+            ['code' => 'us', 'name' => 'United States'],
+            ['code' => 'ca', 'name' => 'Canada'],
+            ['code' => 'uk', 'name' => 'United Kingdom'],
+            ['code' => 'ua', 'name' => 'Ukraine'],
+            ['code' => 'de', 'name' => 'Germany'],
+            ['code' => 'fr', 'name' => 'France'],
+            ['code' => 'pl', 'name' => 'Poland'],
+            ['code' => 'it', 'name' => 'Italy'],
+            ['code' => 'es', 'name' => 'Spain']
+        ];
+
         return $this->render('@Dashboard/dashboard.html.twig', [
             'page_title' => 'Dashboard',
             'current_language' => 'UA',
-            'search_results' => $searchResults
+            'search_results' => $searchResults,
+            'countries' => $countries
         ]);
     }
 }

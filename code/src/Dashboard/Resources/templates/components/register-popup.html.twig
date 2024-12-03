@@ -43,23 +43,16 @@
                     <label for="client-country"></label>
                     <select id="client-country" name="country" required>
                         <option value="">Select Country</option>
-                        <option value="us">United States</option>
-                        <option value="ca">Canada</option>
-                        <option value="uk">United Kingdom</option>
+                        {% for country in countries %}
+                            <option value="{{ country.code }}">{{ country.name }}</option>
+                        {% endfor %}
                     </select>
                     <div class="invalid-feedback"></div>
                 </div>
                 <div class="form-group">
+                    <label for="client-city"></label>
                     <select id="client-city" name="city" required>
                         <option value="">Select City</option>
-                        <option value="new-york">New York</option>
-                        <option value="los-angeles">Los Angeles</option>
-                        <option value="chicago">Chicago</option>
-                        <option value="houston">Houston</option>
-                        <option value="toronto">Toronto</option>
-                        <option value="vancouver">Vancouver</option>
-                        <option value="london">London</option>
-                        <option value="manchester">Manchester</option>
                     </select>
                     <div class="invalid-feedback"></div>
                 </div>
@@ -144,9 +137,9 @@
                     <label for="partner-country"></label>
                     <select id="partner-country" name="country" required>
                         <option value="">Select Country</option>
-                        <option value="us">United States</option>
-                        <option value="ca">Canada</option>
-                        <option value="uk">United Kingdom</option>
+                        {% for country in countries %}
+                            <option value="{{ country.code }}">{{ country.name }}</option>
+                        {% endfor %}
                     </select>
                     <div class="invalid-feedback"></div>
                 </div>
