@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // DOM Elements
     const popup = document.getElementById('register-popup');
+    const closeBtn = document.getElementById('close-register-popup');
     const registrationTypeSelection = document.getElementById('registration-type-selection');
     const clientForm = document.getElementById('clientRegistrationForm');
     const partnerForm = document.getElementById('partnerRegistrationForm');
@@ -189,6 +190,16 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', showPopup);
     });
 
+    // Close button event
+    if (closeBtn) {
+        closeBtn.addEventListener('click', hidePopup);
+    }
+
+    // Add event listener for all btn-close elements
+    const closeButtons = document.querySelectorAll('.btn-close');
+    closeButtons.forEach(button => {
+        button.addEventListener('click', hidePopup);
+    });
 
     // Close on outside click
     if (popup) {
@@ -257,7 +268,8 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Showing popup');
         if (popup) {
             popup.classList.add('show');
-            document.body.style.overflow = 'hidden';
+            popup.style.display = 'block';
+            document.body.classList.add('modal-open');
 
             const inputs = popup.querySelectorAll('input, select');
             inputs.forEach(input => {
@@ -279,7 +291,8 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Hiding popup');
         if (popup) {
             popup.classList.remove('show');
-            document.body.style.overflow = '';
+            popup.style.display = 'none';
+            document.body.classList.remove('modal-open');
             resetForm();
         }
     }
@@ -338,8 +351,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show login modal
             const loginModal = document.getElementById('loginModal');
             if (loginModal) {
-                const modal = new bootstrap.Modal(loginModal);
-                modal.show();
+                loginModal.classList.add('show');
+                loginModal.style.display = 'block';
+                document.body.classList.add('modal-open');
             }
         });
     }
