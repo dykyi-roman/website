@@ -8,7 +8,7 @@ use App\Service\DomainModel\Service\ServiceInterface;
 
 final class Client implements ServiceInterface
 {
-    public function all(): array
+    public function search(string $query): array
     {
         return [
             [

@@ -6,5 +6,5 @@ namespace App\Service\DomainModel\Service;
 
 interface ServiceInterface
 {
-    public function all(): array;
+    public function search(string $query): array;
 }

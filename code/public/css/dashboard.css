@@ -604,7 +604,31 @@ select:-moz-placeholder {
     opacity: 0.8;
 }
 
-/* Footer */
+/* Footer Styles */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1 0 auto;
+    padding-top: 60px; /* Account for fixed navbar */
+}
+
+.site-footer {
+    flex-shrink: 0;
+    background-color: var(--background-light);
+    padding: 2rem 0;
+    margin-top: auto;
+    width: 100%;
+}
+
 footer {
     background-color: var(--background-light);
     margin-top: 4rem;
@@ -624,6 +648,23 @@ footer h5 {
 
 .social-links a:hover {
     color: var(--primary-color);
+}
+
+/* Footer Links Styles */
+.footer-links {
+    margin-top: 1rem;
+}
+
+.footer-links a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color var(--transition-speed) ease;
+}
+
+.footer-links a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
 }
 
 /* Responsive Adjustments */

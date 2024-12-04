@@ -13,7 +13,22 @@ class DashboardAction extends AbstractController
     #[Route('/', name: 'dashboard')]
     public function __invoke(): Response
     {
-        $searchResults = [];
+        $searchResults = [
+            [
+                'title' => 'Sample Service Title 1',
+                'description' => 'This is a sample description for the first service offering. This is a sample description for the first service offering. This is a sample description for the first service offering. This is a sample description for the first service offering.',
+                'feedback_count' => '42',
+                'image_url' => 'https://dykyi-roman.github.io/images/photo.jpg',
+                'features' => [
+                    'Super-premium',
+                    'Master-freelancer',
+                    '95% positive reviews',
+                    'Online 4 hours ago',
+                    'Response time: 2 hours'
+                ],
+                'category' => 'Курсы',
+                'price' => '500'
+            ]];
 
         $countries = [
             ['code' => 'ua', 'name' => 'Ukraine'],
