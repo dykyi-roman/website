@@ -223,6 +223,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Switch to login popup
+    const switchToLoginLink = document.getElementById('switch-to-login');
+    if (switchToLoginLink) {
+        switchToLoginLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Hide register popup
+            const registerPopup = document.getElementById('register-popup');
+            if (registerPopup) {
+                registerPopup.style.display = 'none';
+            }
+
+            // Show login modal
+            const loginModal = document.getElementById('loginModal');
+            if (loginModal) {
+                const modal = new bootstrap.Modal(loginModal);
+                modal.show();
+            }
+        });
+    }
+
     // Добавляем функции для социальной авторизации
     function initSocialLogin() {
         const googleLoginBtn = document.getElementById('google-login-btn');

@@ -240,6 +240,23 @@
     background-color: #3b5998;
 }
 
+.login-link-container {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.login-link {
+    color: var(--primary-orange);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.login-link:hover {
+    color: var(--secondary-orange);
+    text-decoration: underline;
+}
+
 @media (max-width: 576px) {
     .register-popup-content {
         width: 95%;
