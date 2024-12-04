@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // DOM Elements
     const forgotPasswordModal = document.getElementById('forgotPasswordModal');
     const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+    const loginModal = document.getElementById('loginModal'); // Added login modal reference
 
     // Validation rules
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -171,10 +172,31 @@ document.addEventListener('DOMContentLoaded', function() {
     forgotPasswordButtons.forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault();
+            
+            // Close login modal if it's open
+            if (loginModal) {
+                const loginModalInstance = bootstrap.Modal.getInstance(loginModal);
+                if (loginModalInstance) {
+                    loginModalInstance.hide();
+                    
+                    // Clear login form inputs and validation states
+                    const loginInputs = loginModal.querySelectorAll('input');
+                    loginInputs.forEach(input => {
+                        input.value = '';
+                        input.classList.remove('is-invalid', 'is-valid');
+                        if (input.type === 'checkbox') {
+                            input.checked = false;
+                        }
+                    });
+                }
+            }
+
+            // Show forgot password modal
             const modal = new bootstrap.Modal(forgotPasswordModal);
             modal.show();
 
-            const inputs = modal.querySelectorAll('input');
+            // Clear forgot password form
+            const inputs = forgotPasswordModal.querySelectorAll('input');
             inputs.forEach(input => {
                 input.value = '';
                 input.classList.remove('is-invalid', 'is-valid');
