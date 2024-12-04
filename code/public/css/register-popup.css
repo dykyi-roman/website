@@ -1,223 +1,33 @@
-/* Specific styles for register popup */
-.register-popup {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s;
-}
-
-.register-popup.show {
-    display: block;
-    opacity: 1;
-    visibility: visible;
-}
-
-.register-popup .modal-header {
-    padding-right: 0;
-    padding-top: 0;
-}
-
-.register-popup-content {
-    background-color: #fefefe;
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 90%;
-    max-width: 500px;
-    border-radius: 10px;
-    position: relative;
-}
-
-.close-register-popup {
-    position: absolute;
-    right: 20px;
-    top: 10px;
-    font-size: 24px;
-    cursor: pointer;
-    color: #666;
-    padding-right: 20px;
-}
-
-.registration-type-selection {
-    text-align: center;
-    margin: 20px auto;
-    max-width: 100%;
-    padding: 0 15px;
-    display: flex;
-    flex-direction: column;
-}
-
-.register-options {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    margin: 20px auto;
-    max-width: 100%;
-    order: 1;
-}
-
+/* Custom styles for register popup that extend Bootstrap */
 .register-type-btn {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 20px 15px;
-    border: 2px solid var(--primary-orange);
-    border-radius: 12px;
-    background-color: white;
-    color: var(--primary-orange);
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
+    min-height: 120px;
     transition: all 0.3s ease;
-    width: 100%;
-    min-width: 120px;
-    max-width: 200px;
 }
 
 .register-type-btn:hover {
-    background-color: var(--primary-orange);
-    color: white;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
 }
 
-.register-type-btn i {
-    font-size: 32px;
-    margin-bottom: 8px;
+/* Override Bootstrap modal width for larger screens */
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 500px;
+    }
 }
 
-.register-type-btn span {
-    text-align: center;
-    line-height: 1.2;
-}
-
-.login-link-container {
-    text-align: center;
-    margin: 15px 0 20px;
-    order: 2;
-}
-
-.login-link {
-    color: var(--primary-orange);
-    text-decoration: none;
-    font-size: 14px;
-    transition: color 0.3s ease;
-}
-
-.login-link:hover {
-    color: var(--secondary-orange);
-    text-decoration: underline;
-}
-
-.register-form {
-    display: none;
-}
-
-.register-form.show {
-    display: block;
-}
-
-.register-form-section {
-    display: none;
-}
-
-.register-form-section.show {
-    display: block;
-}
-
-.divider {
-    text-align: center;
-    margin: 20px 0;
-    position: relative;
-}
-
-.divider::before,
-.divider::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    width: 45%;
-    height: 1px;
-    background-color: #ddd;
-}
-
-.divider::before {
-    left: 0;
-}
-
-.divider::after {
-    right: 0;
-}
-
-.divider span {
-    background-color: #fff;
-    padding: 0 10px;
-    color: #666;
-    font-size: 14px;
-}
-
-.social-login-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-.btn-social {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 150px;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    color: white;
-    font-weight: bold;
-}
-
-.btn-social i {
-    margin-right: 10px;
-}
-
-.btn-google {
-    background-color: #db4437;
-}
-
-.btn-facebook {
-    background-color: #3b5998;
-}
-
-.terms-of-service {
-    font-size: 10px;
-    color: #666;
-    text-align: center;
-    margin-top: 10px;
-    line-height: 1.4;
-}
-
+/* Responsive adjustments */
 @media (max-width: 576px) {
-    .register-popup-content {
-        width: 95%;
-        margin: 10% auto;
+    .modal-dialog {
+        margin: 0.5rem;
     }
-
-    .registration-options {
+    
+    .d-flex.justify-content-center.gap-3 {
         flex-direction: column;
-        gap: 10px;
     }
-
-    .register-option {
+    
+    .register-type-btn {
         width: 100%;
+        min-height: 100px;
     }
 }

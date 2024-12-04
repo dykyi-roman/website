@@ -3,11 +3,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // DOM Elements
     const popup = document.getElementById('register-popup');
-    const closeBtn = document.getElementById('close-register-popup');
     const registrationTypeSelection = document.getElementById('registration-type-selection');
     const clientForm = document.getElementById('clientRegistrationForm');
     const partnerForm = document.getElementById('partnerRegistrationForm');
-    const registrationType = document.getElementById('registrationType');
+
+    // Initialize Bootstrap modal
+    const registerModal = new bootstrap.Modal(popup, {
+        backdrop: 'static',
+        keyboard: false
+    });
 
     // Check if forms exist before proceeding
     if (!clientForm || !partnerForm) {
@@ -75,13 +79,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!isValid) {
             field.classList.add('is-invalid');
             field.classList.remove('is-valid');
-            if (feedback && feedback.classList.contains('invalid-feedback') && field.type !== 'checkbox') {
+            if (feedback && feedback.classList.contains('invalid-feedback')) {
                 feedback.textContent = rule.message;
             }
         } else {
             field.classList.remove('is-invalid');
             field.classList.add('is-valid');
-            if (feedback && field.type !== 'checkbox') {
+            if (feedback) {
                 feedback.textContent = '';
             }
         }
@@ -104,11 +108,6 @@ document.addEventListener('DOMContentLoaded', function() {
             input.addEventListener('blur', function() {
                 validateField(this);
             });
-
-            // Initial validation state
-            if (input.value) {
-                validateField(input);
-            }
         });
     }
 
@@ -127,7 +126,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         if (isValid) {
-            // Form is valid, proceed with submission
             submitForm(form);
         }
     }
@@ -144,13 +142,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
 
             if (data.success) {
-                // Handle successful registration
-                hidePopup();
-                // You might want to show a success message or redirect
+                registerModal.hide();
                 alert('Registration successful!');
             } else {
-                // Handle registration errors
-                // Set custom validity for server-side errors
                 const emailInput = form.querySelector('input[type="email"]');
                 if (emailInput) {
                     emailInput.setCustomValidity(data.message || 'Registration failed');
@@ -159,7 +153,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } catch (error) {
             console.error('Registration error:', error);
-            // Handle network or other errors
             const emailInput = form.querySelector('input[type="email"]');
             if (emailInput) {
                 emailInput.setCustomValidity('An error occurred. Please try again.');
@@ -179,38 +172,14 @@ document.addEventListener('DOMContentLoaded', function() {
         submitRegistration(this);
     });
 
-    // Registration type buttons
-    const registerTypeButtons = document.querySelectorAll('.register-type-btn');
-    const registerFormSections = document.querySelectorAll('.register-form-section');
-    const backButtons = document.querySelectorAll('.btn-back');
-
     // Event listener for register button
     const registerButtons = document.querySelectorAll('[data-action="register"]');
     registerButtons.forEach(button => {
-        button.addEventListener('click', showPopup);
+        button.addEventListener('click', showRegistrationModal);
     });
-
-    // Close button event
-    if (closeBtn) {
-        closeBtn.addEventListener('click', hidePopup);
-    }
-
-    // Add event listener for all btn-close elements
-    const closeButtons = document.querySelectorAll('.btn-close');
-    closeButtons.forEach(button => {
-        button.addEventListener('click', hidePopup);
-    });
-
-    // Close on outside click
-    if (popup) {
-        popup.addEventListener('click', function(e) {
-            if (e.target === popup) {
-                hidePopup();
-            }
-        });
-    }
 
     // Registration type selection
+    const registerTypeButtons = document.querySelectorAll('.register-type-btn');
     registerTypeButtons.forEach(button => {
         button.addEventListener('click', function() {
             const type = this.dataset.type;
@@ -218,9 +187,65 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Back buttons
-    backButtons.forEach(button => {
-        button.addEventListener('click', showRegistrationTypeSelection);
+    // Switch to login popup
+    const switchToLoginLink = document.getElementById('switch-to-login');
+    if (switchToLoginLink) {
+        switchToLoginLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Hide registration modal
+            registerModal.hide();
+            
+            // Show login modal
+            const loginModal = document.getElementById('loginModal');
+            if (loginModal) {
+                const loginModalInstance = new bootstrap.Modal(loginModal);
+                loginModalInstance.show();
+            }
+        });
+    }
+
+    // Functions
+    function showRegistrationModal() {
+        resetForms();
+        showRegistrationTypeSelection();
+        registerModal.show();
+    }
+
+    function showRegistrationTypeSelection() {
+        registrationTypeSelection.classList.remove('d-none');
+        clientForm.classList.add('d-none');
+        partnerForm.classList.add('d-none');
+    }
+
+    function showRegistrationForm(type) {
+        registrationTypeSelection.classList.add('d-none');
+        
+        if (type === 'client') {
+            clientForm.classList.remove('d-none');
+            partnerForm.classList.add('d-none');
+        } else if (type === 'partner') {
+            partnerForm.classList.remove('d-none');
+            clientForm.classList.add('d-none');
+        }
+    }
+
+    function resetForms() {
+        [clientForm, partnerForm].forEach(form => {
+            form.reset();
+            form.classList.remove('was-validated');
+            const inputs = form.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.classList.remove('is-invalid', 'is-valid');
+                input.setCustomValidity('');
+            });
+        });
+    }
+
+    // Modal events
+    popup.addEventListener('hidden.bs.modal', function () {
+        resetForms();
+        showRegistrationTypeSelection();
     });
 
     // City-Country relationship data
@@ -263,185 +288,24 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Functions
-    function showPopup() {
-        console.log('Showing popup');
-        if (popup) {
-            popup.classList.add('show');
-            popup.style.display = 'block';
-            document.body.classList.add('modal-open');
-
-            const inputs = popup.querySelectorAll('input, select');
-            inputs.forEach(input => {
-                input.value = '';
-                input.classList.remove('is-invalid', 'is-valid');
-
-                if (input.tagName.toLowerCase() === 'select') {
-                    input.selectedIndex = 0;
-                }
-            });
-            // Reset to initial state
-            showRegistrationTypeSelection();
-        } else {
-            console.error('Popup element not found!');
-        }
-    }
-
-    function hidePopup() {
-        console.log('Hiding popup');
-        if (popup) {
-            popup.classList.remove('show');
-            popup.style.display = 'none';
-            document.body.classList.remove('modal-open');
-            resetForm();
-        }
-    }
-
-    function showRegistrationTypeSelection() {
-        registrationTypeSelection.style.display = 'flex';
-        registerFormSections.forEach(section => {
-            section.style.display = 'none';
-        });
-    }
-
-    function showRegistrationForm(type) {
-        console.log('Showing registration form:', type);
-        
-        // Hide registration type selection
-        registrationTypeSelection.style.display = 'none';
-
-        // Hide both forms first
-        clientForm.style.display = 'none';
-        partnerForm.style.display = 'none';
-
-        // Show appropriate form
-        if (type === 'client') {
-            clientForm.style.display = 'block';
-            const sections = clientForm.querySelectorAll('.register-form-section');
-            console.log('Client form sections:', sections.length);
-            sections.forEach(section => {
-                section.style.display = 'block';
-                console.log('Section display:', section.style.display);
-            });
-        } else if (type === 'partner') {
-            partnerForm.style.display = 'block';
-            const sections = partnerForm.querySelectorAll('.register-form-section');
-            console.log('Partner form sections:', sections.length);
-            sections.forEach(section => {
-                section.style.display = 'block';
-                console.log('Section display:', section.style.display);
-            });
-        }
-    }
-
-    function resetForm() {
-        clientForm.reset();
-        clientForm.classList.remove('was-validated');
-        partnerForm.reset();
-        partnerForm.classList.remove('was-validated');
-        showRegistrationTypeSelection();
-    }
-
-    // Switch to login popup
-    const switchToLoginLink = document.getElementById('switch-to-login');
-    if (switchToLoginLink) {
-        switchToLoginLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            hidePopup();
-            // Show login modal
-            const loginModal = document.getElementById('loginModal');
-            if (loginModal) {
-                loginModal.classList.add('show');
-                loginModal.style.display = 'block';
-                document.body.classList.add('modal-open');
-            }
-        });
-    }
-
-    // Initialize social login
+    // Initialize social login buttons
     function initSocialLogin() {
-        const googleLoginBtn = document.getElementById('google-login-btn');
-        const facebookLoginBtn = document.getElementById('facebook-login-btn');
+        const googleLoginBtns = document.querySelectorAll('.btn-danger');
+        const facebookLoginBtns = document.querySelectorAll('.btn-primary');
 
-        if (googleLoginBtn) {
-            googleLoginBtn.addEventListener('click', () => {
-                // TODO: Implement Google OAuth logic
+        googleLoginBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
                 console.log('Google Login clicked');
             });
-        }
+        });
 
-        if (facebookLoginBtn) {
-            facebookLoginBtn.addEventListener('click', () => {
-                // TODO: Implement Facebook OAuth logic
+        facebookLoginBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
                 console.log('Facebook Login clicked');
             });
-        }
+        });
     }
 
     // Initialize social buttons
     initSocialLogin();
-
-    // Add event delegation for dynamically added favorite buttons
-    document.addEventListener('click', function(e) {
-        const favoriteBtn = e.target.closest('.btn-favorite');
-        if (favoriteBtn) {
-            e.preventDefault();
-            const serviceId = favoriteBtn.getAttribute('data-service-id');
-            const action = favoriteBtn.getAttribute('data-action');
-
-            if (action === 'register') {
-                // Check if user is logged in
-                if (!isUserLoggedIn()) {
-                    // Show registration popup
-                    showPopup();
-                    return;
-                }
-
-                // If logged in, proceed with favorite action
-                registerFavorite(serviceId);
-            }
-        }
-    });
-
-    // Helper function to check if user is logged in
-    function isUserLoggedIn() {
-        // Implement your login check logic here
-        // For example, check for an authentication token or user session
-        return false; // Default to false, replace with actual login check
-    }
-
-    // Function to register favorite
-    function registerFavorite(serviceId) {
-        if (!serviceId) {
-            console.error('No service ID provided');
-            return;
-        }
-
-        fetch('/api/favorites/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                // Add any authentication headers if needed
-            },
-            body: JSON.stringify({ serviceId: serviceId })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to register favorite');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Favorite registered successfully', data);
-            // Optionally update UI to show favorite status
-            const favoriteBtn = document.querySelector(`.btn-favorite[data-service-id="${serviceId}"]`);
-            if (favoriteBtn) {
-                favoriteBtn.querySelector('i').classList.replace('far', 'fas');
-            }
-        })
-        .catch(error => {
-            console.error('Error registering favorite:', error);
-            // Optionally show error to user
-        });
-    }
 });

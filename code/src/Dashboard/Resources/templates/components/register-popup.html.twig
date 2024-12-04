@@ -2,142 +2,147 @@
     <link rel="stylesheet" href="{{ asset('css/register-popup.css') }}?v={{ "now"|date("U") }}">
 {% endblock %}
 
-<!-- Registration Popup -->
-<div id="register-popup" class="register-popup">
-    <div class="register-popup-content">
-        <div class="modal-header">
-            <h2 class="modal-title text-center w-100" id="loginModalLabel">Registration</h2>
-            <button type="button" class="btn-close" aria-label="Close"></button>
+<!-- Registration Modal -->
+<div class="modal fade" id="register-popup" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title w-100 text-center" id="registrationModalLabel">Registration</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body p-4">
+                <!-- Registration Type Selection -->
+                <div id="registration-type-selection" class="d-flex flex-column align-items-center">
+                    <div class="d-flex justify-content-center gap-3 w-100 mb-4">
+                        <button class="register-type-btn btn btn-outline-primary flex-grow-1 p-3 d-flex flex-column align-items-center" data-type="client">
+                            <i class="fas fa-user fs-2 mb-2"></i>
+                            <span>Client Registration</span>
+                        </button>
+                        <button class="register-type-btn btn btn-outline-primary flex-grow-1 p-3 d-flex flex-column align-items-center" data-type="partner">
+                            <i class="fas fa-briefcase fs-2 mb-2"></i>
+                            <span>Partner Registration</span>
+                        </button>
+                    </div>
+                    <div class="text-center mb-3">
+                        <a href="#" id="switch-to-login" class="text-primary text-decoration-none">Already have an account? Log in</a>
+                    </div>
+                </div>
+
+                <!-- Client Registration Form -->
+                <form id="clientRegistrationForm" class="needs-validation d-none" novalidate>
+                    <div class="register-form-section">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="client-name" name="name" placeholder="Enter your full name" required>
+                            <div class="invalid-feedback">This field is required</div>
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" id="client-email" name="email" placeholder="Enter your email address" required>
+                            <div class="invalid-feedback">Please enter a valid email address</div>
+                        </div>
+                        <div class="mb-3">
+                            <input type="tel" class="form-control" id="client-phone" name="phone" placeholder="Enter your phone number" required>
+                            <div class="invalid-feedback">Please enter a valid phone number</div>
+                        </div>
+                        <div class="mb-3">
+                            <select class="form-select" id="client-country" name="country" required>
+                                <option value="">Select Country</option>
+                                {% for country in countries %}
+                                    <option value="{{ country.code }}">{{ country.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="invalid-feedback">Please select a country</div>
+                        </div>
+                        <div class="mb-3">
+                            <select class="form-select" id="client-city" name="city" required>
+                                <option value="">Select City</option>
+                            </select>
+                            <div class="invalid-feedback">Please select a city</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary w-100">Register as Client</button>
+                            <div class="text-muted text-center small mt-2">
+                                Нажимая «Зарегистрироваться», вы принимаете «Правила использования сайта».
+                            </div>
+                        </div>
+
+                        <div class="position-relative my-4">
+                            <hr>
+                            <div class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted">
+                                or
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-center gap-2">
+                            <button type="button" class="btn btn-danger d-flex align-items-center justify-content-center gap-2 px-4">
+                                <i class="fab fa-google"></i> Google
+                            </button>
+                            <button type="button" class="btn btn-primary d-flex align-items-center justify-content-center gap-2 px-4">
+                                <i class="fab fa-facebook-f"></i> Facebook
+                            </button>
+                        </div>
+                    </div>
+                    <input type="hidden" name="client-id" value="client">
+                </form>
+
+                <!-- Partner Registration Form -->
+                <form id="partnerRegistrationForm" class="needs-validation d-none" novalidate>
+                    <div class="register-form-section">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="partner-name" name="partner_name" placeholder="Enter your name" required>
+                            <div class="invalid-feedback">This field is required</div>
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" id="partner-email" name="partner_email" placeholder="Enter email address" required>
+                            <div class="invalid-feedback">Please enter a valid email address</div>
+                        </div>
+                        <div class="mb-3">
+                            <input type="tel" class="form-control" id="partner-phone" name="partner_phone" placeholder="Enter phone number" required>
+                            <div class="invalid-feedback">Please enter a valid phone number</div>
+                        </div>
+                        <div class="mb-3">
+                            <select class="form-select" id="partner-country" name="country" required>
+                                <option value="">Select Country</option>
+                                {% for country in countries %}
+                                    <option value="{{ country.code }}">{{ country.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="invalid-feedback">Please select a country</div>
+                        </div>
+                        <div class="mb-3">
+                            <select class="form-select" id="partner-city" name="city" required>
+                                <option value="">Select City</option>
+                            </select>
+                            <div class="invalid-feedback">Please select a city</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary w-100">Register as Partner</button>
+                            <div class="text-muted text-center small mt-2">
+                                Нажимая «Зарегистрироваться», вы принимаете «Правила использования сайта».
+                            </div>
+                        </div>
+
+                        <div class="position-relative my-4">
+                            <hr>
+                            <div class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted">
+                                or
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-center gap-2">
+                            <button type="button" class="btn btn-danger d-flex align-items-center justify-content-center gap-2 px-4">
+                                <i class="fab fa-google"></i> Google
+                            </button>
+                            <button type="button" class="btn btn-primary d-flex align-items-center justify-content-center gap-2 px-4">
+                                <i class="fab fa-facebook-f"></i> Facebook
+                            </button>
+                        </div>
+                    </div>
+                    <input type="hidden" name="partner-id" value="partner">
+                </form>
+            </div>
         </div>
-
-        <div id="registration-type-selection" class="registration-type-selection active">
-            <div class="register-options">
-                <button class="register-type-btn" data-type="client">
-                    <i class="fas fa-user"></i>
-                    <span>Client Registration</span>
-                </button>
-                <button class="register-type-btn" data-type="partner">
-                    <i class="fas fa-briefcase"></i>
-                    <span>Partner Registration</span>
-                </button>
-            </div>
-            <div class="login-link-container">
-                <a href="#" id="switch-to-login" class="login-link">Already have an account? Log in</a>
-            </div>
-        </div>
-
-        <!-- Client Registration Form -->
-        <form id="clientRegistrationForm" class="register-form needs-validation" novalidate style="display: none;">
-            <div class="register-form-section">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="client-name" name="name" placeholder="Enter your full name" required>
-                    <div class="invalid-feedback">This field is required</div>
-                </div>
-                <div class="form-group">
-                    <input type="email" class="form-control" id="client-email" name="email" placeholder="Enter your email address" required>
-                    <div class="invalid-feedback">Please enter a valid email address</div>
-                </div>
-                <div class="form-group">
-                    <input type="tel" class="form-control" id="client-phone" name="phone" placeholder="Enter your phone number" required>
-                    <div class="invalid-feedback">Please enter a valid phone number</div>
-                </div>
-                <div class="form-group">
-                    <select class="form-control" id="client-country" name="country" required>
-                        <option value="">Select Country</option>
-                        {% for country in countries %}
-                            <option value="{{ country.code }}">{{ country.name }}</option>
-                        {% endfor %}
-                    </select>
-                    <div class="invalid-feedback">Please select a country</div>
-                </div>
-                <div class="form-group">
-                    <select class="form-control" id="client-city" name="city" required>
-                        <option value="">Select City</option>
-                    </select>
-                    <div class="invalid-feedback">Please select a city</div>
-                </div>
-                <div class="form-actions">
-                    <div class="form-group mt-4">
-                        <button type="submit" class="btn btn-primary w-100">Register as Client</button>
-                    </div>
-                    <div class="terms-of-service">
-                        Нажимая «Зарегистрироваться», вы принимаете «Правила использования сайта».
-                    </div>
-                </div>
-                <div class="divider">
-                    <span>or</span>
-                </div>
-                <div class="social-login-buttons">
-                    <button type="button" class="btn btn-social btn-google google-login-btn">
-                        <i class="fab fa-google"></i> Google
-                    </button>
-                    <button type="button" class="btn btn-social btn-facebook facebook-login-btn">
-                        <i class="fab fa-facebook-f"></i> Facebook
-                    </button>
-                </div>
-            </div>
-            <input type="hidden" id="client-form-type" name="client-id" value="client">
-        </form>
-
-        <!-- Partner Registration Form -->
-        <form id="partnerRegistrationForm" class="register-form needs-validation" novalidate style="display: none;">
-            <div class="register-form-section">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="partner-name" name="partner_name" placeholder="Enter your name" required>
-                    <div class="invalid-feedback">This field is required</div>
-                </div>
-                <div class="form-group">
-                    <input type="email" class="form-control" id="partner-email" name="partner_email" placeholder="Enter email address" required>
-                    <div class="invalid-feedback">Please enter a valid email address</div>
-                </div>
-                <div class="form-group">
-                    <input type="tel" class="form-control" id="partner-phone" name="partner_phone" placeholder="Enter phone number" required>
-                    <div class="invalid-feedback">Please enter a valid phone number</div>
-                </div>
-                <div class="form-group">
-                    <select class="form-control" id="partner-country" name="country" required>
-                        <option value="">Select Country</option>
-                        {% for country in countries %}
-                            <option value="{{ country.code }}">{{ country.name }}</option>
-                        {% endfor %}
-                    </select>
-                    <div class="invalid-feedback">Please select a country</div>
-                </div>
-                <div class="form-group">
-                    <select class="form-control" id="partner-city" name="city" required>
-                        <option value="">Select City</option>
-                        <option value="new-york">New York</option>
-                        <option value="los-angeles">Los Angeles</option>
-                        <option value="chicago">Chicago</option>
-                        <option value="houston">Houston</option>
-                        <option value="toronto">Toronto</option>
-                        <option value="vancouver">Vancouver</option>
-                        <option value="london">London</option>
-                        <option value="manchester">Manchester</option>
-                    </select>
-                    <div class="invalid-feedback">Please select a city</div>
-                </div>
-                <div class="form-actions">
-                    <div class="form-group mt-4">
-                        <button type="submit" class="btn btn-primary w-100">Register as Partner</button>
-                    </div>
-                    <div class="terms-of-service">
-                        Нажимая «Зарегистрироваться», вы принимаете «Правила использования сайта».
-                    </div>
-                </div>
-                <div class="divider">
-                    <span>or</span>
-                </div>
-                <div class="social-login-buttons">
-                    <button type="button" class="btn btn-social btn-google google-login-btn">
-                        <i class="fab fa-google"></i> Google
-                    </button>
-                    <button type="button" class="btn btn-social btn-facebook facebook-login-btn">
-                        <i class="fab fa-facebook-f"></i> Facebook
-                    </button>
-                </div>
-            </div>
-            <input type="hidden" id="partner-form-type" name="partner-id" value="partner">
-        </form>
     </div>
 </div>
