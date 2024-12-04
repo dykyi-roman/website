@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // DOM Elements
     const forgotPasswordModal = document.getElementById('forgotPasswordModal');
     const forgotPasswordForm = document.getElementById('forgotPasswordForm');
-    const closeBtn = document.getElementById('close-forgot-password-modal');
 
     // Validation rules
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -182,14 +181,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
-
-    // Close button event
-    if (closeBtn) {
-        closeBtn.addEventListener('click', function() {
-            const modal = new bootstrap.Modal(forgotPasswordModal);
-            modal.hide();
-        });
-    }
 
     // Initialize form
     setupForm();

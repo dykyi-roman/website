@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // DOM Elements
     const popup = document.getElementById('register-popup');
-    const closeBtn = document.getElementById('close-register-popup');
     const registrationTypeSelection = document.getElementById('registration-type-selection');
     const clientForm = document.getElementById('clientRegistrationForm');
     const partnerForm = document.getElementById('partnerRegistrationForm');
@@ -190,10 +189,6 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', showPopup);
     });
 
-    // Close button event
-    if (closeBtn) {
-        closeBtn.addEventListener('click', hidePopup);
-    }
 
     // Close on outside click
     if (popup) {

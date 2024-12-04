@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // DOM Elements
     const loginModal = document.getElementById('loginModal');
     const loginForm = document.getElementById('loginForm');
-    const closeBtn = document.getElementById('close-login-modal');
     const forgotPasswordForm = document.getElementById('forgotPasswordForm');
 
     // Validation rules
@@ -158,14 +157,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
-
-    // Close button event
-    if (closeBtn) {
-        closeBtn.addEventListener('click', function() {
-            const modal = new bootstrap.Modal(loginModal);
-            modal.hide();
-        });
-    }
 
     // Form submission event
     if (loginForm) {
