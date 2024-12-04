@@ -12,6 +12,7 @@ final class Client implements ServiceInterface
     {
         return [
             [
+                'id' => 1,
                 'title' => 'Sample Service Title 1',
                 'description' => 'This is a sample description for the first service offering. This is a sample description for the first service offering. This is a sample description for the first service offering. This is a sample description for the first service offering.',
                 'feedback_count' => '42',
@@ -26,6 +27,7 @@ final class Client implements ServiceInterface
                 'price' => '500'
             ],
             [
+                'id' => 2,
                 'title' => 'Sample Service Title 2',
                 'description' => 'This is a sample description for the second service offering.',
                 'feedback_count' => '38',
