@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
             field.classList.add('is-invalid');
             field.classList.remove('is-valid');
             const feedbackElement = field.nextElementSibling;
-            if (feedbackElement && feedbackElement.classList.contains('invalid-feedback')) {
+            if (feedbackElement && feedbackElement.classList.contains('invalid-feedback') && field.type !== 'checkbox') {
                 feedbackElement.textContent = rule.message;
                 feedbackElement.style.display = 'block';
             }
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
             field.classList.remove('is-invalid');
             field.classList.add('is-valid');
             const feedbackElement = field.nextElementSibling;
-            if (feedbackElement) {
+            if (feedbackElement && field.type !== 'checkbox') {
                 feedbackElement.textContent = '';
                 feedbackElement.style.display = 'none';
             }

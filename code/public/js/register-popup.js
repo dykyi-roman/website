@@ -75,13 +75,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!isValid) {
             field.classList.add('is-invalid');
             field.classList.remove('is-valid');
-            if (feedback && feedback.classList.contains('invalid-feedback')) {
+            if (feedback && feedback.classList.contains('invalid-feedback') && field.type !== 'checkbox') {
                 feedback.textContent = rule.message;
             }
         } else {
             field.classList.remove('is-invalid');
             field.classList.add('is-valid');
-            if (feedback) {
+            if (feedback && field.type !== 'checkbox') {
                 feedback.textContent = '';
             }
         }

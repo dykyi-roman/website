@@ -79,6 +79,9 @@
 .form-check-label {
     font-size: 14px;
     color: #666;
+    max-width: 200px;
+    white-space: normal;
+    word-wrap: break-word;
 }
 
 .btn-primary {
