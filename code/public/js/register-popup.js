@@ -8,6 +8,77 @@ document.addEventListener('DOMContentLoaded', function() {
     const registrationForm = document.getElementById('registrationForm');
     const registrationType = document.getElementById('registrationType');
 
+    // Form validation setup
+    const form = registrationForm;
+    const inputs = form.querySelectorAll('input, select');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^\+?[\d\s-()]{10,}$/;
+
+    // Validation functions
+    const validators = {
+        email: (value) => emailRegex.test(value.trim()) ? '' : 'Please enter a valid email address',
+        tel: (value) => phoneRegex.test(value.trim()) ? '' : 'Please enter a valid phone number',
+        text: (value) => value.trim() ? '' : 'This field is required',
+        select: (value) => value ? '' : 'Please make a selection'
+    };
+
+    // Add validation to all form fields
+    inputs.forEach(input => {
+        input.addEventListener('input', function() {
+            validateField(this);
+        });
+
+        input.addEventListener('blur', function() {
+            validateField(this);
+        });
+    });
+
+    // Field validation function
+    function validateField(field) {
+        const value = field.value;
+        let error = '';
+
+        // Get the appropriate validator
+        const validator = validators[field.type] || validators.text;
+        if (field.tagName.toLowerCase() === 'select') {
+            error = validators.select(value);
+        } else {
+            error = validator(value);
+        }
+
+        // Update field status
+        if (error) {
+            field.classList.add('is-invalid');
+            field.classList.remove('is-valid');
+            const feedback = field.nextElementSibling;
+            if (feedback && feedback.classList.contains('invalid-feedback')) {
+                feedback.textContent = error;
+            }
+        } else {
+            field.classList.remove('is-invalid');
+            field.classList.add('is-valid');
+        }
+
+        return !error;
+    }
+
+    // Form submission handler
+    registrationForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        let isValid = true;
+        inputs.forEach(input => {
+            if (!validateField(input)) {
+                isValid = false;
+            }
+        });
+
+        if (isValid) {
+            // Form is valid, proceed with submission
+            await submitRegistration(this);
+        }
+    });
+
     // Registration type buttons
     const registerTypeButtons = document.querySelectorAll('.register-type-btn');
     const registerFormSections = document.querySelectorAll('.register-form-section');
@@ -86,14 +157,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Form submission
-    registrationForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        if (validateForm(this)) {
-            await submitRegistration(this);
-        }
-    });
-
     // Functions
     function showPopup() {
         console.log('Showing popup');
@@ -131,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Reset form
         registrationForm.reset();
-        clearAllErrors();
+        registrationForm.classList.remove('was-validated');
         
         // Set hidden input value
         registrationType.value = type;
@@ -148,49 +211,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function resetForm() {
         registrationForm.reset();
+        registrationForm.classList.remove('was-validated');
         showRegistrationTypeSelection();
-        clearAllErrors();
-    }
-
-    function clearAllErrors() {
-        const errorMessages = registrationForm.querySelectorAll('.invalid-feedback');
-        errorMessages.forEach(error => {
-            error.textContent = '';
-            error.style.display = 'none';
-        });
-    }
-
-    function validateForm(form) {
-        let isValid = true;
-        const inputs = form.querySelectorAll('input[required], select[required]');
-        
-        inputs.forEach(input => {
-            if (!input.value.trim()) {
-                showError(input, 'This field is required');
-                isValid = false;
-            } else {
-                clearError(input);
-            }
-        });
-
-        return isValid;
-    }
-
-    function showError(input, message) {
-        const feedback = input.nextElementSibling;
-        if (feedback && feedback.classList.contains('invalid-feedback')) {
-            feedback.textContent = message;
-            feedback.style.display = 'block';
-            input.classList.add('is-invalid');
-        }
-    }
-
-    function clearError(input) {
-        const feedback = input.nextElementSibling;
-        if (feedback && feedback.classList.contains('invalid-feedback')) {
-            feedback.style.display = 'none';
-            input.classList.remove('is-invalid');
-        }
     }
 
     async function submitRegistration(form) {
@@ -201,25 +223,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: formData
             });
 
-            if (response.ok) {
-                console.log('Registration successful');
+            const data = await response.json();
+
+            if (data.success) {
+                // Handle successful registration
                 hidePopup();
-                // TODO: Show success message or redirect
+                // You might want to show a success message or redirect
+                alert('Registration successful!');
             } else {
-                console.log('Registration failed');
-                const data = await response.json();
-                // Handle validation errors from server
-                if (data.errors) {
-                    Object.entries(data.errors).forEach(([field, message]) => {
-                        const input = form.querySelector(`[name="${field}"]`);
-                        if (input) {
-                            showError(input, message);
-                        }
-                    });
+                // Handle registration errors
+                // Set custom validity for server-side errors
+                const emailInput = form.querySelector('input[type="email"]');
+                if (emailInput) {
+                    emailInput.setCustomValidity(data.message || 'Registration failed');
+                    emailInput.reportValidity();
                 }
             }
         } catch (error) {
             console.error('Registration error:', error);
+            // Handle network or other errors
+            const emailInput = form.querySelector('input[type="email"]');
+            if (emailInput) {
+                emailInput.setCustomValidity('An error occurred. Please try again.');
+                emailInput.reportValidity();
+            }
         }
     }
 

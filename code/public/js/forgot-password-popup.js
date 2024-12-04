@@ -11,10 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Basic structure validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            return { 
-                valid: false, 
-                message: 'Please enter a valid email address' 
-            };
+            return false;
         }
 
         // Additional checks
@@ -22,101 +19,99 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Check local part length
         if (localPart.length < 1 || localPart.length > 64) {
-            return { 
-                valid: false, 
-                message: 'Email local part must be between 1 and 64 characters' 
-            };
+            return false;
         }
 
         // Check domain length
         if (domain.length < 3 || domain.length > 255) {
-            return { 
-                valid: false, 
-                message: 'Email domain is invalid' 
-            };
+            return false;
         }
 
         // Prevent certain special characters in local part
         const specialCharsRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+$/;
         if (!specialCharsRegex.test(localPart)) {
-            return { 
-                valid: false, 
-                message: 'Email contains invalid characters' 
-            };
+            return false;
         }
 
         // Prevent consecutive dots
         if (/\.{2,}/.test(localPart) || /\.{2,}/.test(domain)) {
-            return { 
-                valid: false, 
-                message: 'Email cannot contain consecutive dots' 
-            };
+            return false;
         }
 
         // Prevent starting or ending with a dot
         if (localPart.startsWith('.') || localPart.endsWith('.') ||
             domain.startsWith('.') || domain.endsWith('.')) {
-            return { 
-                valid: false, 
-                message: 'Email cannot start or end with a dot' 
-            };
+            return false;
         }
 
-        return { valid: true };
+        return true;
     }
 
-    // Handle form submission
-    if (forgotPasswordForm) {
-        forgotPasswordForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = forgotPasswordEmail.value.trim();
+    // Bootstrap form validation setup
+    function setupBootstrapValidation() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation');
 
-            // Clear previous errors
-            clearError(forgotPasswordEmail);
+        // Loop over them and prevent submission
+        forms.forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
 
-            // Validate email
-            const validationResult = validateEmail(email);
-            if (!validationResult.valid) {
-                showError(forgotPasswordEmail, validationResult.message);
-                return;
-            }
-
-            submitForgotPassword(forgotPasswordForm);
+            // Remove validation classes on input
+            const inputs = form.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    // Custom email validation
+                    if (input.type === 'email') {
+                        if (validateEmail(input.value.trim())) {
+                            input.setCustomValidity('');
+                        } else {
+                            input.setCustomValidity('Invalid email address');
+                        }
+                    }
+                });
+            });
         });
+    }
 
-        // Add real-time validation on blur
-        forgotPasswordEmail.addEventListener('blur', function() {
+    // Handle form submission with custom validation
+    if (forgotPasswordForm) {
+        // Add Bootstrap validation classes
+        forgotPasswordForm.classList.add('needs-validation');
+        forgotPasswordForm.setAttribute('novalidate', true);
+
+        // Setup custom email validation
+        forgotPasswordEmail.addEventListener('input', function() {
             const email = this.value.trim();
             
-            // Clear previous errors
-            clearError(this);
-
-            // Validate email if not empty
-            if (email) {
-                const validationResult = validateEmail(email);
-                if (!validationResult.valid) {
-                    showError(this, validationResult.message);
-                }
+            if (email === '') {
+                this.setCustomValidity('Email is required');
+            } else if (!validateEmail(email)) {
+                this.setCustomValidity('Please enter a valid email address');
+            } else {
+                this.setCustomValidity('');
             }
+            this.reportValidity();
         });
-    }
 
-    function showError(input, message) {
-        clearError(input);
-        input.classList.add('is-invalid');
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'error-message invalid-feedback';
-        errorDiv.textContent = message;
-        input.parentNode.appendChild(errorDiv);
-    }
+        // Setup form submission
+        forgotPasswordForm.addEventListener('submit', function(e) {
+            if (!this.checkValidity()) {
+                e.preventDefault();
+                e.stopPropagation();
+            } else {
+                submitForgotPassword(this);
+            }
+            this.classList.add('was-validated');
+        }, false);
 
-    function clearError(input) {
-        input.classList.remove('is-invalid');
-        const errorElement = input.parentNode.querySelector('.error-message');
-        if (errorElement) {
-            errorElement.remove();
-        }
+        // Initial validation setup
+        setupBootstrapValidation();
     }
 
     function submitForgotPassword(form) {
@@ -138,12 +133,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 modal.hide();
                 alert('Password reset link sent to your email.');
             } else {
-                showError(forgotPasswordEmail, data.message || 'Failed to send reset link');
+                // Set custom validity for server-side errors
+                forgotPasswordEmail.setCustomValidity(data.message || 'Failed to send reset link');
+                forgotPasswordEmail.reportValidity();
             }
         })
         .catch(error => {
             console.error('Forgot password error:', error);
-            showError(forgotPasswordEmail, 'An error occurred. Please try again.');
+            forgotPasswordEmail.setCustomValidity('An error occurred. Please try again.');
+            forgotPasswordEmail.reportValidity();
         });
     }
 });

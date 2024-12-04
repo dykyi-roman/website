@@ -27,41 +27,36 @@
             </div>
         </div>
 
-        <form id="registrationForm" class="register-form">
+        <form id="registrationForm" class="register-form needs-validation" novalidate>
             <input type="hidden" id="registrationType" name="type" value="">
 
             <div id="client-register-section" class="register-form-section">
                 <div class="form-group">
-                    <label for="client-name"></label>
-                    <input type="text" id="client-name" name="name" placeholder="Enter your full name" required>
-                    <div class="invalid-feedback"></div>
+                    <input type="text" class="form-control" id="client-name" name="name" placeholder="Enter your full name" required>
+                    <div class="invalid-feedback">This field is required</div>
                 </div>
                 <div class="form-group">
-                    <label for="client-email"></label>
-                    <input type="email" id="client-email" name="email" placeholder="Enter your email address" required>
-                    <div class="invalid-feedback"></div>
+                    <input type="email" class="form-control" id="client-email" name="email" placeholder="Enter your email address" required>
+                    <div class="invalid-feedback">Please enter a valid email address</div>
                 </div>
                 <div class="form-group">
-                    <label for="client-phone"></label>
-                    <input type="tel" id="client-phone" name="phone" placeholder="Enter your phone number" required>
-                    <div class="invalid-feedback"></div>
+                    <input type="tel" class="form-control" id="client-phone" name="phone" placeholder="Enter your phone number" required>
+                    <div class="invalid-feedback">Please enter a valid phone number</div>
                 </div>
                 <div class="form-group">
-                    <label for="client-country"></label>
-                    <select id="client-country" name="country" required>
+                    <select class="form-control" id="client-country" name="country" required>
                         <option value="">Select Country</option>
                         {% for country in countries %}
                             <option value="{{ country.code }}">{{ country.name }}</option>
                         {% endfor %}
                     </select>
-                    <div class="invalid-feedback"></div>
+                    <div class="invalid-feedback">Please select a country</div>
                 </div>
                 <div class="form-group">
-                    <label for="client-city"></label>
-                    <select id="client-city" name="city" required>
+                    <select class="form-control" id="client-city" name="city" required>
                         <option value="">Select City</option>
                     </select>
-                    <div class="invalid-feedback"></div>
+                    <div class="invalid-feedback">Please select a city</div>
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="register-btn">Register</button>
@@ -81,33 +76,28 @@
 
             <div id="partner-register-section" class="register-form-section">
                 <div class="form-group">
-                    <label for="partner-name"></label>
-                    <input type="text" id="partner-name" name="company_name" placeholder="Enter your company name" required>
-                    <div class="invalid-feedback"></div>
+                    <input type="text" class="form-control" id="partner-name" name="company_name" placeholder="Enter your company name" required>
+                    <div class="invalid-feedback">This field is required</div>
                 </div>
                 <div class="form-group">
-                    <label for="partner-email"></label>
-                    <input type="email" id="partner-email" name="company_email" placeholder="Enter company email address" required>
-                    <div class="invalid-feedback"></div>
+                    <input type="email" class="form-control" id="partner-email" name="company_email" placeholder="Enter company email address" required>
+                    <div class="invalid-feedback">Please enter a valid email address</div>
                 </div>
                 <div class="form-group">
-                    <label for="partner-phone"></label>
-                    <input type="tel" id="partner-phone" name="company_phone" placeholder="Enter company phone number" required>
-                    <div class="invalid-feedback"></div>
+                    <input type="tel" class="form-control" id="partner-phone" name="company_phone" placeholder="Enter company phone number" required>
+                    <div class="invalid-feedback">Please enter a valid phone number</div>
                 </div>
                 <div class="form-group">
-                    <label for="partner-country"></label>
-                    <select id="partner-country" name="country" required>
+                    <select class="form-control" id="partner-country" name="country" required>
                         <option value="">Select Country</option>
                         {% for country in countries %}
                             <option value="{{ country.code }}">{{ country.name }}</option>
                         {% endfor %}
                     </select>
-                    <div class="invalid-feedback"></div>
+                    <div class="invalid-feedback">Please select a country</div>
                 </div>
                 <div class="form-group">
-                    <label for="partner-city"></label>
-                    <select id="partner-city" name="city" required>
+                    <select class="form-control" id="partner-city" name="city" required>
                         <option value="">Select City</option>
                         <option value="new-york">New York</option>
                         <option value="los-angeles">Los Angeles</option>
@@ -118,7 +108,7 @@
                         <option value="london">London</option>
                         <option value="manchester">Manchester</option>
                     </select>
-                    <div class="invalid-feedback"></div>
+                    <div class="invalid-feedback">Please select a city</div>
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="register-btn">Register</button>
