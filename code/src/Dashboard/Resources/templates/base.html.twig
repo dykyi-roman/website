@@ -15,6 +15,7 @@
         {% endblock %}
     </head>
     <body>
+
         {% block body %}
             <div class="user-menu">
                 <button class="register-button" data-action="register">Register</button>
@@ -25,4 +26,7 @@
         {% include '@Dashboard/components/login-popup.html.twig' %}
         {% include '@Dashboard/components/register-popup.html.twig' %}
     </body>
+    <script>
+        window.appUser = {{ app.user ? 'true' : 'false' }};
+    </script>
 </html>
