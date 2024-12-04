@@ -30,7 +30,6 @@
         <!-- Client Registration Form -->
         <form id="clientRegistrationForm" class="register-form needs-validation" novalidate style="display: none;">
             <div class="register-form-section">
-                <input type="hidden" id="client-form-type" name="client-id" value="client">
                 <div class="form-group">
                     <input type="text" class="form-control" id="client-name" name="name" placeholder="Enter your full name" required>
                     <div class="invalid-feedback">This field is required</div>
@@ -73,12 +72,12 @@
                     </button>
                 </div>
             </div>
+            <input type="hidden" id="client-form-type" name="client-id" value="client">
         </form>
 
         <!-- Partner Registration Form -->
         <form id="partnerRegistrationForm" class="register-form needs-validation" novalidate style="display: none;">
             <div class="register-form-section">
-                <input type="hidden" id="partner-form-type" name="partner-id" value="partner">
                 <div class="form-group">
                     <input type="text" class="form-control" id="partner-name" name="partner_name" placeholder="Enter your name" required>
                     <div class="invalid-feedback">This field is required</div>
@@ -129,6 +128,7 @@
                     </button>
                 </div>
             </div>
+            <input type="hidden" id="partner-form-type" name="partner-id" value="partner">
         </form>
     </div>
 </div>
