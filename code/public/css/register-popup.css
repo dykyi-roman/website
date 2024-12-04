@@ -51,6 +51,8 @@
     margin: 20px auto;
     max-width: 100%;
     padding: 0 15px;
+    display: flex;
+    flex-direction: column;
 }
 
 .register-options {
@@ -59,6 +61,7 @@
     gap: 15px;
     margin: 20px auto;
     max-width: 100%;
+    order: 1;
 }
 
 .register-type-btn {
@@ -102,6 +105,7 @@
 .login-link-container {
     text-align: center;
     margin: 15px 0 20px;
+    order: 2;
 }
 
 .login-link {

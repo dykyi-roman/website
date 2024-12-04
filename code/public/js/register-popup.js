@@ -339,13 +339,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (switchToLoginLink) {
         switchToLoginLink.addEventListener('click', function(e) {
             e.preventDefault();
-            
-            // Hide register popup
-            const registerPopup = document.getElementById('register-popup');
-            if (registerPopup) {
-                registerPopup.style.display = 'none';
-            }
-
+            hidePopup();
             // Show login modal
             const loginModal = document.getElementById('loginModal');
             if (loginModal) {
@@ -355,27 +349,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Добавляем функции для социальной авторизации
+    // Initialize social login
     function initSocialLogin() {
         const googleLoginBtn = document.getElementById('google-login-btn');
         const facebookLoginBtn = document.getElementById('facebook-login-btn');
 
         if (googleLoginBtn) {
             googleLoginBtn.addEventListener('click', () => {
-                // TODO: Реализовать логику Google OAuth
+                // TODO: Implement Google OAuth logic
                 console.log('Google Login clicked');
             });
         }
 
         if (facebookLoginBtn) {
             facebookLoginBtn.addEventListener('click', () => {
-                // TODO: Реализовать логику Facebook OAuth
+                // TODO: Implement Facebook OAuth logic
                 console.log('Facebook Login clicked');
             });
         }
     }
 
-    // Добавляем инициализацию социальных кнопок
+    // Initialize social buttons
     initSocialLogin();
 
     // Add event delegation for dynamically added favorite buttons
