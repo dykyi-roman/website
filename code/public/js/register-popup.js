@@ -377,4 +377,68 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Добавляем инициализацию социальных кнопок
     initSocialLogin();
+
+    // Add event delegation for dynamically added favorite buttons
+    document.addEventListener('click', function(e) {
+        const favoriteBtn = e.target.closest('.btn-favorite');
+        if (favoriteBtn) {
+            e.preventDefault();
+            const serviceId = favoriteBtn.getAttribute('data-service-id');
+            const action = favoriteBtn.getAttribute('data-action');
+
+            if (action === 'register') {
+                // Check if user is logged in
+                if (!isUserLoggedIn()) {
+                    // Show registration popup
+                    showPopup();
+                    return;
+                }
+
+                // If logged in, proceed with favorite action
+                registerFavorite(serviceId);
+            }
+        }
+    });
+
+    // Helper function to check if user is logged in
+    function isUserLoggedIn() {
+        // Implement your login check logic here
+        // For example, check for an authentication token or user session
+        return false; // Default to false, replace with actual login check
+    }
+
+    // Function to register favorite
+    function registerFavorite(serviceId) {
+        if (!serviceId) {
+            console.error('No service ID provided');
+            return;
+        }
+
+        fetch('/api/favorites/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // Add any authentication headers if needed
+            },
+            body: JSON.stringify({ serviceId: serviceId })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to register favorite');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Favorite registered successfully', data);
+            // Optionally update UI to show favorite status
+            const favoriteBtn = document.querySelector(`.btn-favorite[data-service-id="${serviceId}"]`);
+            if (favoriteBtn) {
+                favoriteBtn.querySelector('i').classList.replace('far', 'fas');
+            }
+        })
+        .catch(error => {
+            console.error('Error registering favorite:', error);
+            // Optionally show error to user
+        });
+    }
 });

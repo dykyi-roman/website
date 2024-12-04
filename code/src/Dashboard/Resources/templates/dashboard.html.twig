@@ -120,13 +120,6 @@
 
                                                 <!-- Right column with features and price -->
                                                 <div class="col-4 col-md-4">
-                                                    {% if is_granted('ROLE_PARTNER') %}
-                                                        <button class="btn-favorite {% if service.is_favorite|default(false) %}active{% endif %}" 
-                                                                onclick="toggleFavorite(this)"
-                                                                data-service-id="{{ service.id|default('') }}">
-                                                            <i class="{% if service.is_favorite|default(false) %}fas{% else %}far{% endif %} fa-heart"></i>
-                                                        </button>
-                                                    {% endif %}
                                                     <div class="service-features">
                                                         {% for feature in service.features %}
                                                             <div class="feature-item">

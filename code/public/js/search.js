@@ -107,6 +107,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                         <!-- Right column: Features and Price -->
                                         <div class="col-4 col-md-4 text-end">
+                                            <button class="btn-favorite" 
+                                                 data-service-id="" data-action="register">
+                                                 <i class="far fa-heart"></i>
+                                            </button>
                                             <div class="service-features mb-3">
                                                     ${renderFeatures(service.features)}
                                             </div>
