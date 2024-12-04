@@ -178,6 +178,14 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', showRegistrationModal);
     });
 
+    // Add event delegation for favorite buttons
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.btn-favorite')) {
+            console.log('Favorite button clicked');
+            showRegistrationModal();
+        }
+    });
+
     // Registration type selection
     const registerTypeButtons = document.querySelectorAll('.register-type-btn');
     registerTypeButtons.forEach(button => {
@@ -207,6 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Functions
     function showRegistrationModal() {
+        console.log('Showing registration modal');
         resetForms();
         showRegistrationTypeSelection();
         registerModal.show();
