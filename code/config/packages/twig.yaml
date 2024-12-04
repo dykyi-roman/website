@@ -1,7 +1,5 @@
 twig:
     file_name_pattern: '*.twig'
-    globals:
-        timestamp: '%app_timestamp%'
 when@test:
     twig:
         strict_variables: true
