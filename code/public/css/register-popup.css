@@ -176,6 +176,7 @@
 .register-popup-header {
     text-align: center;
     margin-bottom: 20px;
+    padding-bottom: 0;
 }
 
 .register-popup-header h2 {
@@ -183,7 +184,7 @@
     font-size: 24px;
     font-weight: 600;
     margin: 0;
-    padding: 10px 0;
+    padding: 10px 0 0;
 }
 
 /* Divider Styles */
