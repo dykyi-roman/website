@@ -150,6 +150,11 @@ document.addEventListener('DOMContentLoaded', function() {
             inputs.forEach(input => {
                 input.value = '';
                 input.classList.remove('is-invalid', 'is-valid');
+                
+                // Uncheck the "Remember me" checkbox
+                if (input.type === 'checkbox' && input.id === 'rememberMe') {
+                    input.checked = false;
+                }
             });
         });
     });
