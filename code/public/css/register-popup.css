@@ -244,7 +244,7 @@ select.form-control.is-invalid {
 .social-login {
     display: flex;
     justify-content: space-between;
-    margin-top: 15px;
+    margin-top: 0;
 }
 
 .facebook-login,
@@ -333,7 +333,7 @@ select.form-control.is-invalid {
 
 .login-link-container {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 0;
 }
 
 .login-link {

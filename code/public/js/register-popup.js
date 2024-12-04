@@ -285,7 +285,6 @@ document.addEventListener('DOMContentLoaded', function() {
         registerFormSections.forEach(section => {
             section.style.display = 'none';
         });
-        registrationType.value = '';
     }
 
     function showRegistrationForm(type) {
@@ -293,20 +292,28 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Hide registration type selection
         registrationTypeSelection.style.display = 'none';
-        
+
         // Hide both forms first
         clientForm.style.display = 'none';
         partnerForm.style.display = 'none';
-        
+
         // Show appropriate form
         if (type === 'client') {
             clientForm.style.display = 'block';
             const sections = clientForm.querySelectorAll('.register-form-section');
-            sections.forEach(section => section.style.display = 'block');
+            console.log('Client form sections:', sections.length);
+            sections.forEach(section => {
+                section.style.display = 'block';
+                console.log('Section display:', section.style.display);
+            });
         } else if (type === 'partner') {
             partnerForm.style.display = 'block';
             const sections = partnerForm.querySelectorAll('.register-form-section');
-            sections.forEach(section => section.style.display = 'block');
+            console.log('Partner form sections:', sections.length);
+            sections.forEach(section => {
+                section.style.display = 'block';
+                console.log('Section display:', section.style.display);
+            });
         }
     }
 

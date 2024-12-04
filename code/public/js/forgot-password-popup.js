@@ -6,114 +6,108 @@ document.addEventListener('DOMContentLoaded', function() {
     const forgotPasswordForm = document.getElementById('forgotPasswordForm');
     const forgotPasswordEmail = document.getElementById('forgotPasswordEmail');
 
-    // Email validation
-    function validateEmail(email) {
-        // Basic structure validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            return false;
+    // Ensure the form has necessary validation elements
+    function ensureValidationElements() {
+        if (!forgotPasswordEmail.nextElementSibling || 
+            !forgotPasswordEmail.nextElementSibling.classList.contains('invalid-feedback')) {
+            const feedbackElement = document.createElement('div');
+            feedbackElement.classList.add('invalid-feedback');
+            forgotPasswordEmail.parentNode.insertBefore(feedbackElement, forgotPasswordEmail.nextSibling);
         }
-
-        // Additional checks
-        const [localPart, domain] = email.split('@');
-
-        // Check local part length
-        if (localPart.length < 1 || localPart.length > 64) {
-            return false;
-        }
-
-        // Check domain length
-        if (domain.length < 3 || domain.length > 255) {
-            return false;
-        }
-
-        // Prevent certain special characters in local part
-        const specialCharsRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+$/;
-        if (!specialCharsRegex.test(localPart)) {
-            return false;
-        }
-
-        // Prevent consecutive dots
-        if (/\.{2,}/.test(localPart) || /\.{2,}/.test(domain)) {
-            return false;
-        }
-
-        // Prevent starting or ending with a dot
-        if (localPart.startsWith('.') || localPart.endsWith('.') ||
-            domain.startsWith('.') || domain.endsWith('.')) {
-            return false;
-        }
-
-        return true;
     }
 
-    // Bootstrap form validation setup
-    function setupBootstrapValidation() {
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        const forms = document.querySelectorAll('.needs-validation');
+    // Validation rules
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    const validationRules = {
+        email: {
+            validate: (value) => emailRegex.test(value.trim()),
+            message: 'Please enter a valid email address'
+        }
+    };
 
-        // Loop over them and prevent submission
-        forms.forEach(form => {
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-            }, false);
+    // Field validation function
+    function validateField(field) {
+        const value = field.value;
+        const fieldName = field.name;
+        let rule;
 
-            // Remove validation classes on input
-            const inputs = form.querySelectorAll('input');
-            inputs.forEach(input => {
-                input.addEventListener('input', () => {
-                    // Custom email validation
-                    if (input.type === 'email') {
-                        if (validateEmail(input.value.trim())) {
-                            input.setCustomValidity('');
-                        } else {
-                            input.setCustomValidity('Invalid email address');
-                        }
-                    }
-                });
-            });
-        });
-    }
+        // Determine which validation rule to use
+        if (field.type === 'email') {
+            rule = validationRules.email;
+        } else {
+            // Default validation for required fields
+            rule = {
+                validate: (value) => value.trim() !== '',
+                message: 'This field is required'
+            };
+        }
 
-    // Handle form submission with custom validation
-    if (forgotPasswordForm) {
-        // Add Bootstrap validation classes
-        forgotPasswordForm.classList.add('needs-validation');
-        forgotPasswordForm.setAttribute('novalidate', true);
+        const isValid = rule.validate(value);
+        const feedback = field.nextElementSibling;
 
-        // Setup custom email validation
-        forgotPasswordEmail.addEventListener('input', function() {
-            const email = this.value.trim();
-            
-            if (email === '') {
-                this.setCustomValidity('Email is required');
-            } else if (!validateEmail(email)) {
-                this.setCustomValidity('Please enter a valid email address');
-            } else {
-                this.setCustomValidity('');
+        if (!isValid) {
+            field.classList.add('is-invalid');
+            field.classList.remove('is-valid');
+            if (feedback && feedback.classList.contains('invalid-feedback')) {
+                feedback.textContent = rule.message;
             }
-            this.reportValidity();
-        });
+        } else {
+            field.classList.remove('is-invalid');
+            field.classList.add('is-valid');
+            if (feedback) {
+                feedback.textContent = '';
+            }
+        }
 
-        // Setup form submission
-        forgotPasswordForm.addEventListener('submit', function(e) {
-            if (!this.checkValidity()) {
-                e.preventDefault();
-                e.stopPropagation();
-            } else {
+        return isValid;
+    }
+
+    // Setup form validation
+    function setupFormValidation(form) {
+        if (!form) return;
+
+        // Ensure validation elements are in place
+        ensureValidationElements();
+
+        const inputs = form.querySelectorAll('input');
+        inputs.forEach(input => {
+            // Validate on input
+            input.addEventListener('input', function() {
+                validateField(this);
+            });
+
+            // Validate on blur
+            input.addEventListener('blur', function() {
+                validateField(this);
+            });
+
+            // Initial validation state
+            if (input.value) {
+                validateField(input);
+            }
+        });
+    }
+
+    // Setup validation for the form
+    if (forgotPasswordForm) {
+        forgotPasswordForm.classList.add('needs-validation');
+        setupFormValidation(forgotPasswordForm);
+
+        // Handle form submission
+        forgotPasswordForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const isValid = Array.from(this.querySelectorAll('input')).every(input => validateField(input));
+
+            if (isValid) {
                 submitForgotPassword(this);
             }
-            this.classList.add('was-validated');
-        }, false);
-
-        // Initial validation setup
-        setupBootstrapValidation();
+        });
     }
 
+    // Form submission handler
     function submitForgotPassword(form) {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
@@ -122,26 +116,36 @@ document.addEventListener('DOMContentLoaded', function() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
             },
             body: JSON.stringify(data)
         })
         .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const modal = bootstrap.Modal.getInstance(forgotPasswordModal);
-                modal.hide();
-                alert('Password reset link sent to your email.');
+        .then(result => {
+            if (result.success) {
+                // Show success message
+                const successMessage = document.getElementById('forgot-password-success');
+                if (successMessage) {
+                    successMessage.textContent = result.message;
+                    successMessage.style.display = 'block';
+                }
+                // Optional: Clear form or hide modal
+                form.reset();
             } else {
-                // Set custom validity for server-side errors
-                forgotPasswordEmail.setCustomValidity(data.message || 'Failed to send reset link');
-                forgotPasswordEmail.reportValidity();
+                // Show error message
+                const errorMessage = document.getElementById('forgot-password-error');
+                if (errorMessage) {
+                    errorMessage.textContent = result.message;
+                    errorMessage.style.display = 'block';
+                }
             }
         })
         .catch(error => {
-            console.error('Forgot password error:', error);
-            forgotPasswordEmail.setCustomValidity('An error occurred. Please try again.');
-            forgotPasswordEmail.reportValidity();
+            console.error('Error:', error);
+            const errorMessage = document.getElementById('forgot-password-error');
+            if (errorMessage) {
+                errorMessage.textContent = 'An unexpected error occurred. Please try again.';
+                errorMessage.style.display = 'block';
+            }
         });
     }
 });
