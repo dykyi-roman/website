@@ -312,6 +312,44 @@ button.btn.btn-primary:disabled {
     color: white;
 }
 
+.btn-share {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 0;
+}
+
+.btn-share:hover {
+    background: white;
+    transform: scale(1.1);
+}
+
+.btn-share i {
+    color: #6c757d;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.btn-share.active {
+    background: #6c757d;
+}
+
+.btn-share.active i {
+    color: white;
+}
+
 /* Profile and Language Dropdowns */
 .language-dropdown .nav-link,
 .profile-dropdown .nav-link {
