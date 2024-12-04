@@ -264,11 +264,15 @@ document.addEventListener('DOMContentLoaded', function() {
             popup.classList.add('show');
             document.body.style.overflow = 'hidden';
 
-            const invalidInputs = popup.querySelectorAll('.is-invalid');
-            invalidInputs.forEach(input => {
-                input.classList.remove('is-invalid');
-            });
+            const inputs = popup.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.value = '';
+                input.classList.remove('is-invalid', 'is-valid');
 
+                if (input.tagName.toLowerCase() === 'select') {
+                    input.selectedIndex = 0;
+                }
+            });
             // Reset to initial state
             showRegistrationTypeSelection();
         } else {

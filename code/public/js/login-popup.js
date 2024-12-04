@@ -145,6 +145,12 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const modal = new bootstrap.Modal(loginModal);
             modal.show();
+
+            const inputs = loginModal.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.value = '';
+                input.classList.remove('is-invalid', 'is-valid');
+            });
         });
     });
 

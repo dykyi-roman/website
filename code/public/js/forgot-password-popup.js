@@ -174,6 +174,12 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const modal = new bootstrap.Modal(forgotPasswordModal);
             modal.show();
+
+            const inputs = modal.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.value = '';
+                input.classList.remove('is-invalid', 'is-valid');
+            });
         });
     });
 
