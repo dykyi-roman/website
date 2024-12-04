@@ -1,21 +1,4 @@
-:root {
-    --primary-orange: #FF6B35;
-    --secondary-orange: #F08A4B;
-    --light-orange: #F5D547;
-    --error-red: #dc3545;
-}
-
-.modal-content {
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.modal-header {
-    border-bottom: none;
-    padding: 1.5rem 1.5rem 0;
-    text-align: center;
-}
-
+/* Specific styles for login popup */
 .modal-title {
     color: var(--primary-orange);
     font-size: 24px;
@@ -26,96 +9,12 @@
     text-align: center;
 }
 
-.modal-body {
-    padding: 1.5rem;
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
-    position: relative;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 14px;
-    transition: border-color 0.2s;
-}
-
-.form-group input:focus {
-    border-color: var(--primary-orange);
-    box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
-    outline: none;
-}
-
-/* Placeholder styles */
-.form-group input::placeholder {
-    color: #4a4a4a;
-    opacity: 0.8;
-}
-
-.form-group input::-webkit-input-placeholder {
-    color: #4a4a4a;
-    opacity: 0.8;
-}
-
-.form-group input::-moz-placeholder {
-    color: #4a4a4a;
-    opacity: 0.8;
-}
-
-.form-group input:-ms-input-placeholder {
-    color: #4a4a4a;
-    opacity: 0.8;
-}
-
-.form-group input:-moz-placeholder {
-    color: #4a4a4a;
-    opacity: 0.8;
-}
-
 .form-check-label {
     font-size: 14px;
     color: #666;
     max-width: 200px;
     white-space: normal;
     word-wrap: break-word;
-}
-
-.btn-primary {
-    background-color: var(--primary-orange);
-    border-color: var(--primary-orange);
-    padding: 12px;
-    font-size: 16px;
-    font-weight: 500;
-    border-radius: 6px;
-    transition: background-color 0.2s;
-}
-
-.btn-primary:hover {
-    background-color: var(--secondary-orange);
-    border-color: var(--secondary-orange);
-}
-
-.invalid-feedback {
-    display: none;
-    color: var(--error-red);
-    font-size: 12px;
-    margin-top: 0.25rem;
-}
-
-.form-group input.is-invalid {
-    border-color: var(--error-red);
-}
-
-.form-group input.is-invalid:focus {
-    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
-}
-
-.form-group input.is-invalid ~ .invalid-feedback {
-    display: block;
 }
 
 .social-login {
@@ -150,15 +49,4 @@
 
 .form-check-input {
     margin-right: 8px;
-}
-
-.forgot-password {
-    color: var(--primary-orange);
-    text-decoration: none;
-    transition: color 0.2s;
-}
-
-.forgot-password:hover {
-    color: var(--secondary-orange);
-    text-decoration: underline;
 }
