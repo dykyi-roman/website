@@ -26,6 +26,8 @@ class DashboardAction extends AbstractController
                     'Online 4 hours ago',
                     'Response time: 2 hours'
                 ],
+                'rating' => 3,
+                'review_count' => 23,
                 'category' => 'Курсы',
                 'price' => '500'
             ]];

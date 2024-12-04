@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!Array.isArray(features) || features.length === 0) {
             return '<li class="text-muted">No features available</li>';
         }
-        return features.map(feature => 
-            `<li><i class="fas fa-check text-success me-2"></i>${feature}</li>`
+        return features.map(feature =>
+            `<div class="feature-item"><i class="fas fa-check-circle text-success me-2"></i>${feature}</div>`
         ).join('');
     }
 
@@ -73,10 +73,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
-                // Populate services grid
-                services.forEach(service => {
-                    const { filledStars, emptyStars } = renderStarRating(service.rating);
-                    const serviceCard = `
+                    // Populate services grid
+                    services.forEach(service => {
+                        const {filledStars, emptyStars} = renderStarRating(service.rating);
+                        const serviceCard = `
                         <div class="col-12 px-0">
                             <div class="card service-card">
                                 <div class="card-body">
@@ -108,13 +108,17 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <!-- Right column: Features and Price -->
                                         <div class="col-4 col-md-4 text-end">
                                             <div class="service-features mb-3">
-                                                <ul class="list-unstyled">
                                                     ${renderFeatures(service.features)}
-                                                </ul>
                                             </div>
-                                            <div class="service-pricing">
-                                                <h4 class="text-primary">${service.price}</h4>
-                                                <button class="btn btn-outline-primary mt-2">Book Now</button>
+                                            <div class="service-footer">
+                                                 <div class="d-flex flex-column align-items-end">
+                                                     <div class="service-price mb-2">
+                                                         <span class="price">${service.price}</span>
+                                                     </div>
+                                                     <div>
+                                                         <button class="btn btn-primary">Book Now</button>
+                                                     </div>
+                                                 </div>
                                             </div>
                                         </div>
                                     </div>

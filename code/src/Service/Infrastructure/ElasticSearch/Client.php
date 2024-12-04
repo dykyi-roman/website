@@ -23,6 +23,8 @@ final class Client implements ServiceInterface
                     'Online 4 hours ago',
                     'Response time: 2 hours'
                 ],
+                'rating' => 4,
+                'review_count' => 34,
                 'price' => '500'
             ],
             [
@@ -37,6 +39,8 @@ final class Client implements ServiceInterface
                     'Online 2 hours ago',
                     'Response time: 1 hour'
                 ],
+                'rating' => 2,
+                'review_count' => 345,
                 'price' => '500'
             ]
         ];
