@@ -45,14 +45,7 @@ class DashboardAction extends AbstractController
         ];
 
         $countries = [
-            ['code' => 'us', 'name' => 'United States'],
-            ['code' => 'ca', 'name' => 'Canada'],
-            ['code' => 'uk', 'name' => 'United Kingdom'],
             ['code' => 'ua', 'name' => 'Ukraine'],
-            ['code' => 'de', 'name' => 'Germany'],
-            ['code' => 'fr', 'name' => 'France'],
-            ['code' => 'pl', 'name' => 'Poland'],
-            ['code' => 'it', 'name' => 'Italy'],
             ['code' => 'es', 'name' => 'Spain']
         ];
 

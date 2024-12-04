@@ -263,7 +263,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (popup) {
             popup.classList.add('show');
             document.body.style.overflow = 'hidden';
-            
+
+            const invalidInputs = popup.querySelectorAll('.is-invalid');
+            invalidInputs.forEach(input => {
+                input.classList.remove('is-invalid');
+            });
+
             // Reset to initial state
             showRegistrationTypeSelection();
         } else {

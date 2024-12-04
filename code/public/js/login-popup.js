@@ -116,8 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Handle successful login
                 const modal = new bootstrap.Modal(loginModal);
                 modal.hide();
-                resetForm();
-                
+
                 // Redirect or show success message
                 window.location.href = data.redirectUrl || '/dashboard';
             } else {
@@ -154,7 +153,6 @@ document.addEventListener('DOMContentLoaded', function() {
         closeBtn.addEventListener('click', function() {
             const modal = new bootstrap.Modal(loginModal);
             modal.hide();
-            resetForm();
         });
     }
 
@@ -164,21 +162,6 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             submitLogin(this);
         });
-    }
-
-    // Reset form function
-    function resetForm() {
-        if (loginForm) {
-            loginForm.reset();
-            const inputs = loginForm.querySelectorAll('input');
-            inputs.forEach(input => {
-                input.classList.remove('is-valid', 'is-invalid');
-                const feedback = input.nextElementSibling;
-                if (feedback && feedback.classList.contains('invalid-feedback')) {
-                    feedback.textContent = '';
-                }
-            });
-        }
     }
 
     // Handle forgot password form submission

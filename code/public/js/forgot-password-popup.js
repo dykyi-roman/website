@@ -149,9 +149,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     successMessage.textContent = result.message;
                     successMessage.style.display = 'block';
                 }
-                
-                // Reset form
-                resetForm();
             } else {
                 // Show error message
                 const emailInput = form.querySelector('input[type="email"]');
@@ -170,27 +167,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Reset form function
-    function resetForm() {
-        if (forgotPasswordForm) {
-            forgotPasswordForm.reset();
-            const inputs = forgotPasswordForm.querySelectorAll('input');
-            inputs.forEach(input => {
-                input.classList.remove('is-valid', 'is-invalid');
-                const feedback = input.nextElementSibling;
-                if (feedback && feedback.classList.contains('invalid-feedback')) {
-                    feedback.textContent = '';
-                }
-            });
-
-            // Hide success/error messages
-            const successMessage = document.getElementById('forgot-password-success');
-            const errorMessage = document.getElementById('forgot-password-error');
-            if (successMessage) successMessage.style.display = 'none';
-            if (errorMessage) errorMessage.style.display = 'none';
-        }
-    }
-
     // Open forgot password popup
     const forgotPasswordButtons = document.querySelectorAll('[data-action="forgot-password"]');
     forgotPasswordButtons.forEach(button => {
@@ -206,7 +182,6 @@ document.addEventListener('DOMContentLoaded', function() {
         closeBtn.addEventListener('click', function() {
             const modal = new bootstrap.Modal(forgotPasswordModal);
             modal.hide();
-            resetForm();
         });
     }
 
