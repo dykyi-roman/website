@@ -4,17 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // DOM Elements
     const forgotPasswordModal = document.getElementById('forgotPasswordModal');
     const forgotPasswordForm = document.getElementById('forgotPasswordForm');
-    const forgotPasswordEmail = document.getElementById('forgotPasswordEmail');
-
-    // Ensure the form has necessary validation elements
-    function ensureValidationElements() {
-        if (!forgotPasswordEmail.nextElementSibling || 
-            !forgotPasswordEmail.nextElementSibling.classList.contains('invalid-feedback')) {
-            const feedbackElement = document.createElement('div');
-            feedbackElement.classList.add('invalid-feedback');
-            forgotPasswordEmail.parentNode.insertBefore(feedbackElement, forgotPasswordEmail.nextSibling);
-        }
-    }
+    const closeBtn = document.getElementById('close-forgot-password-modal');
 
     // Validation rules
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -46,29 +36,37 @@ document.addEventListener('DOMContentLoaded', function() {
         const isValid = rule.validate(value);
         const feedback = field.nextElementSibling;
 
+        // Always ensure feedback element exists
+        if (!feedback || !feedback.classList.contains('invalid-feedback')) {
+            const feedbackElement = document.createElement('div');
+            feedbackElement.classList.add('invalid-feedback');
+            field.parentNode.insertBefore(feedbackElement, field.nextSibling);
+        }
+
         if (!isValid) {
             field.classList.add('is-invalid');
             field.classList.remove('is-valid');
-            if (feedback && feedback.classList.contains('invalid-feedback')) {
-                feedback.textContent = rule.message;
+            const feedbackElement = field.nextElementSibling;
+            if (feedbackElement && feedbackElement.classList.contains('invalid-feedback')) {
+                feedbackElement.textContent = rule.message;
+                feedbackElement.style.display = 'block';
             }
         } else {
             field.classList.remove('is-invalid');
             field.classList.add('is-valid');
-            if (feedback) {
-                feedback.textContent = '';
+            const feedbackElement = field.nextElementSibling;
+            if (feedbackElement) {
+                feedbackElement.textContent = '';
+                feedbackElement.style.display = 'none';
             }
         }
 
         return isValid;
     }
 
-    // Setup form validation
+    // Add validation to form fields
     function setupFormValidation(form) {
         if (!form) return;
-
-        // Ensure validation elements are in place
-        ensureValidationElements();
 
         const inputs = form.querySelectorAll('input');
         inputs.forEach(input => {
@@ -89,38 +87,61 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Ensure validation elements are in place
+    function ensureValidationElements() {
+        const emailInput = forgotPasswordForm.querySelector('input[type="email"]');
+        if (emailInput && (!emailInput.nextElementSibling || 
+            !emailInput.nextElementSibling.classList.contains('invalid-feedback'))) {
+            const feedbackElement = document.createElement('div');
+            feedbackElement.classList.add('invalid-feedback');
+            emailInput.parentNode.insertBefore(feedbackElement, emailInput.nextSibling);
+        }
+    }
+
     // Setup validation for the form
-    if (forgotPasswordForm) {
-        forgotPasswordForm.classList.add('needs-validation');
+    function setupForm() {
+        if (!forgotPasswordForm) return;
+
+        // Ensure validation elements
+        ensureValidationElements();
+
+        // Setup validation
         setupFormValidation(forgotPasswordForm);
 
-        // Handle form submission
+        // Form submission handler
         forgotPasswordForm.addEventListener('submit', function(event) {
             event.preventDefault();
-            event.stopPropagation();
-
-            const isValid = Array.from(this.querySelectorAll('input')).every(input => validateField(input));
-
-            if (isValid) {
-                submitForgotPassword(this);
-            }
+            submitForgotPassword(this);
         });
     }
 
-    // Form submission handler
-    function submitForgotPassword(form) {
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
+    // Submit form data
+    async function submitForgotPassword(form) {
+        // Validate all inputs first
+        let isValid = true;
+        const inputs = form.querySelectorAll('input');
+        inputs.forEach(input => {
+            if (!validateField(input)) {
+                isValid = false;
+            }
+        });
 
-        fetch('/forgot-password', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(result => {
+        // If not valid, stop submission
+        if (!isValid) return;
+
+        try {
+            const formData = new FormData(form);
+            const response = await fetch('/forgot-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(Object.fromEntries(formData.entries()))
+            });
+
+            const result = await response.json();
+
+            // Handle success
             if (result.success) {
                 // Show success message
                 const successMessage = document.getElementById('forgot-password-success');
@@ -128,24 +149,67 @@ document.addEventListener('DOMContentLoaded', function() {
                     successMessage.textContent = result.message;
                     successMessage.style.display = 'block';
                 }
-                // Optional: Clear form or hide modal
-                form.reset();
+                
+                // Reset form
+                resetForm();
             } else {
                 // Show error message
-                const errorMessage = document.getElementById('forgot-password-error');
-                if (errorMessage) {
-                    errorMessage.textContent = result.message;
-                    errorMessage.style.display = 'block';
+                const emailInput = form.querySelector('input[type="email"]');
+                if (emailInput) {
+                    emailInput.setCustomValidity(result.message || 'Password reset failed');
+                    emailInput.reportValidity();
                 }
             }
-        })
-        .catch(error => {
+        } catch (error) {
             console.error('Error:', error);
-            const errorMessage = document.getElementById('forgot-password-error');
-            if (errorMessage) {
-                errorMessage.textContent = 'An unexpected error occurred. Please try again.';
-                errorMessage.style.display = 'block';
+            const emailInput = form.querySelector('input[type="email"]');
+            if (emailInput) {
+                emailInput.setCustomValidity('An unexpected error occurred. Please try again.');
+                emailInput.reportValidity();
             }
+        }
+    }
+
+    // Reset form function
+    function resetForm() {
+        if (forgotPasswordForm) {
+            forgotPasswordForm.reset();
+            const inputs = forgotPasswordForm.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.classList.remove('is-valid', 'is-invalid');
+                const feedback = input.nextElementSibling;
+                if (feedback && feedback.classList.contains('invalid-feedback')) {
+                    feedback.textContent = '';
+                }
+            });
+
+            // Hide success/error messages
+            const successMessage = document.getElementById('forgot-password-success');
+            const errorMessage = document.getElementById('forgot-password-error');
+            if (successMessage) successMessage.style.display = 'none';
+            if (errorMessage) errorMessage.style.display = 'none';
+        }
+    }
+
+    // Open forgot password popup
+    const forgotPasswordButtons = document.querySelectorAll('[data-action="forgot-password"]');
+    forgotPasswordButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const modal = new bootstrap.Modal(forgotPasswordModal);
+            modal.show();
+        });
+    });
+
+    // Close button event
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            const modal = new bootstrap.Modal(forgotPasswordModal);
+            modal.hide();
+            resetForm();
         });
     }
+
+    // Initialize form
+    setupForm();
 });

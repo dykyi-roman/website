@@ -4,139 +4,138 @@ document.addEventListener('DOMContentLoaded', function() {
     // DOM Elements
     const loginModal = document.getElementById('loginModal');
     const loginForm = document.getElementById('loginForm');
-    const loginEmail = document.getElementById('loginEmail');
-    const loginPassword = document.getElementById('loginPassword');
     const closeBtn = document.getElementById('close-login-modal');
     const forgotPasswordForm = document.getElementById('forgotPasswordForm');
 
-    // Email validation
-    function validateEmail(email) {
-        // Basic structure validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            return { 
-                valid: false, 
-                message: 'Please enter a valid email address' 
+    // Validation rules
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const validationRules = {
+        email: {
+            validate: (value) => emailRegex.test(value.trim()),
+            message: 'Please enter a valid email address'
+        },
+        password: {
+            validate: (value) => value.trim().length >= 8,
+            message: 'Password must be at least 8 characters long'
+        }
+    };
+
+    // Field validation function
+    function validateField(field) {
+        const value = field.value;
+        const fieldName = field.name;
+        let rule;
+
+        // Determine which validation rule to use
+        if (field.type === 'email') {
+            rule = validationRules.email;
+        } else if (field.type === 'password') {
+            rule = validationRules.password;
+        } else {
+            // Default validation for required fields
+            rule = {
+                validate: (value) => value.trim() !== '',
+                message: 'This field is required'
             };
         }
 
-        // Additional checks
-        const [localPart, domain] = email.split('@');
+        const isValid = rule.validate(value);
+        const feedback = field.nextElementSibling;
 
-        // Check local part length
-        if (localPart.length < 1 || localPart.length > 64) {
-            return { 
-                valid: false, 
-                message: 'Email local part must be between 1 and 64 characters' 
-            };
+        if (!isValid) {
+            field.classList.add('is-invalid');
+            field.classList.remove('is-valid');
+            if (feedback && feedback.classList.contains('invalid-feedback')) {
+                feedback.textContent = rule.message;
+            }
+        } else {
+            field.classList.remove('is-invalid');
+            field.classList.add('is-valid');
+            if (feedback) {
+                feedback.textContent = '';
+            }
         }
 
-        // Check domain length
-        if (domain.length < 3 || domain.length > 255) {
-            return { 
-                valid: false, 
-                message: 'Email domain is invalid' 
-            };
-        }
-
-        // Prevent certain special characters in local part
-        const specialCharsRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+$/;
-        if (!specialCharsRegex.test(localPart)) {
-            return { 
-                valid: false, 
-                message: 'Email contains invalid characters' 
-            };
-        }
-
-        // Prevent consecutive dots
-        if (/\.{2,}/.test(localPart) || /\.{2,}/.test(domain)) {
-            return { 
-                valid: false, 
-                message: 'Email cannot contain consecutive dots' 
-            };
-        }
-
-        // Prevent starting or ending with a dot
-        if (localPart.startsWith('.') || localPart.endsWith('.') ||
-            domain.startsWith('.') || domain.endsWith('.')) {
-            return { 
-                valid: false, 
-                message: 'Email cannot start or end with a dot' 
-            };
-        }
-
-        return { valid: true };
+        return isValid;
     }
 
-    // Password validation
-    function validatePassword(password) {
-        // Check if password is empty
-        if (!password) {
-            return {
-                valid: false,
-                message: 'Password is required'
-            };
-        }
+    // Add validation to form fields
+    function setupFormValidation(form) {
+        if (!form) return;
 
-        // Check minimum length
-        if (password.length < 8) {
-            return {
-                valid: false,
-                message: 'Password must be at least 8 characters long'
-            };
-        }
+        const inputs = form.querySelectorAll('input');
+        inputs.forEach(input => {
+            // Validate on input
+            input.addEventListener('input', function() {
+                validateField(this);
+            });
 
-        // Check for at least one uppercase letter
-        if (!/[A-Z]/.test(password)) {
-            return {
-                valid: false,
-                message: 'Password must contain at least one uppercase letter'
-            };
-        }
+            // Validate on blur
+            input.addEventListener('blur', function() {
+                validateField(this);
+            });
 
-        // Check for at least one lowercase letter
-        if (!/[a-z]/.test(password)) {
-            return {
-                valid: false,
-                message: 'Password must contain at least one lowercase letter'
-            };
-        }
-
-        // Check for at least one number
-        if (!/[0-9]/.test(password)) {
-            return {
-                valid: false,
-                message: 'Password must contain at least one number'
-            };
-        }
-
-        // Check for at least one special character
-        if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
-            return {
-                valid: false,
-                message: 'Password must contain at least one special character'
-            };
-        }
-
-        return { valid: true };
+            // Initial validation state
+            if (input.value) {
+                validateField(input);
+            }
+        });
     }
 
-    // Show error message
-    function showError(input, message) {
-        clearError(input);
-        input.classList.add('is-invalid');
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'error-message invalid-feedback';
-        errorDiv.textContent = message;
-        input.parentNode.appendChild(errorDiv);
+    // Setup validation for login form
+    setupFormValidation(loginForm);
+
+    // Form submission handler
+    function submitLogin(form) {
+        let isValid = true;
+        const inputs = form.querySelectorAll('input');
+        inputs.forEach(input => {
+            if (!validateField(input)) {
+                isValid = false;
+            }
+        });
+
+        if (isValid) {
+            // Form is valid, proceed with submission
+            submitForm(form);
+        }
     }
 
-    // Clear error message
-    function clearError(input) {
-        input.classList.remove('is-invalid');
-        const errorElement = input.parentNode.querySelector('.error-message');
-        if (errorElement) {
-            errorElement.remove();
+    // Submit form data
+    async function submitForm(form) {
+        try {
+            const formData = new FormData(form);
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Handle successful login
+                const modal = new bootstrap.Modal(loginModal);
+                modal.hide();
+                resetForm();
+                
+                // Redirect or show success message
+                window.location.href = data.redirectUrl || '/dashboard';
+            } else {
+                // Handle login errors
+                const emailInput = form.querySelector('input[type="email"]');
+                if (emailInput) {
+                    emailInput.setCustomValidity(data.message || 'Login failed');
+                    emailInput.reportValidity();
+                }
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            // Handle network or other errors
+            const emailInput = form.querySelector('input[type="email"]');
+            if (emailInput) {
+                emailInput.setCustomValidity('An error occurred. Please try again.');
+                emailInput.reportValidity();
+            }
         }
     }
 
@@ -159,67 +158,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Handle form submission
+    // Form submission event
     if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            const email = loginEmail.value.trim();
-            const password = loginPassword.value;
-
-            // Clear previous errors
-            clearError(loginEmail);
-            clearError(loginPassword);
-
-            // Validate email
-            const emailValidation = validateEmail(email);
-            if (!emailValidation.valid) {
-                showError(loginEmail, emailValidation.message);
-                return;
-            }
-
-            // Validate password
-            const passwordValidation = validatePassword(password);
-            if (!passwordValidation.valid) {
-                showError(loginPassword, passwordValidation.message);
-                return;
-            }
-
-            // Submit login form
-            submitLogin(loginForm);
+            submitLogin(this);
         });
+    }
 
-        // Real-time email validation on blur
-        loginEmail.addEventListener('blur', function() {
-            const email = this.value.trim();
-            
-            // Clear previous errors
-            clearError(this);
-
-            // Validate email if not empty
-            if (email) {
-                const validationResult = validateEmail(email);
-                if (!validationResult.valid) {
-                    showError(this, validationResult.message);
+    // Reset form function
+    function resetForm() {
+        if (loginForm) {
+            loginForm.reset();
+            const inputs = loginForm.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.classList.remove('is-valid', 'is-invalid');
+                const feedback = input.nextElementSibling;
+                if (feedback && feedback.classList.contains('invalid-feedback')) {
+                    feedback.textContent = '';
                 }
-            }
-        });
-
-        // Real-time password validation on blur
-        loginPassword.addEventListener('blur', function() {
-            const password = this.value;
-            
-            // Clear previous errors
-            clearError(this);
-
-            // Validate password if not empty
-            if (password) {
-                const validationResult = validatePassword(password);
-                if (!validationResult.valid) {
-                    showError(this, validationResult.message);
-                }
-            }
-        });
+            });
+        }
     }
 
     // Handle forgot password form submission
@@ -250,47 +209,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Forgot password error:', error);
                 alert('An error occurred. Please try again.');
             });
-        });
-    }
-
-    function resetForm() {
-        if (loginForm) {
-            loginForm.reset();
-            clearError(loginEmail);
-            clearError(loginPassword);
-        }
-    }
-
-    // Submit login form
-    function submitLogin(form) {
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
-
-        fetch('/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Close modal and potentially redirect
-                const modal = bootstrap.Modal.getInstance(loginModal);
-                modal.hide();
-                
-                // Redirect or reload page
-                window.location.reload();
-            } else {
-                // Show error message
-                showError(loginEmail, data.message || 'Login failed');
-            }
-        })
-        .catch(error => {
-            console.error('Login error:', error);
-            showError(loginEmail, 'An error occurred. Please try again.');
         });
     }
 });
