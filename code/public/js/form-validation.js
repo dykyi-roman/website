@@ -3,13 +3,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const validationRules = {
         name: {
             pattern: /^[a-zA-Z\s]{2,50}$/,
-            message: 'Name must be 2-50 characters long and contain only letters'
+            message: '1 Name must be 2-50 characters long and contain only letters'
         },
         phone: {
             pattern: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
-            message: 'Please enter a valid phone number'
+            message: '2 Please enter a valid phone number'
         },
         email: {
+            pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            message: '3 Please enter a valid email address'
+        },
+        partner_name: {
+            pattern: /^[a-zA-Z0-9\s\-\.,&']{2,100}$/,
+            message: 'Name must be 2-100 characters long and contain only letters, numbers, and basic punctuation'
+        },
+        partner_phone: {
+            pattern: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
+            message: 'Please enter a valid phone number'
+        },
+        partner_email: {
             pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
             message: 'Please enter a valid email address'
         }

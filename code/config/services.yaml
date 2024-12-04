@@ -1,4 +1,5 @@
 parameters:
+    app_timestamp: '%kernel.cache_dir%'
 
 services:
     _defaults:

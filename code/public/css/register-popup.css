@@ -98,69 +98,147 @@ select.form-control.is-invalid {
 
 .register-popup-content {
     background-color: #fefefe;
-    margin: 10% auto;
+    margin: 5% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 90%;
     max-width: 500px;
     border-radius: 10px;
     position: relative;
-    transform: scale(0.7);
-    opacity: 0;
-    transition: all 0.3s ease;
 }
 
-.register-popup.show .register-popup-content {
-    transform: scale(1);
-    opacity: 1;
+.registration-type-selection {
+    text-align: center;
+    margin: 20px auto;
+    max-width: 100%;
+    padding: 0 15px;
 }
 
-.close-popup {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close-popup:hover,
-.close-popup:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.registration-options {
+.register-options {
     display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin: 20px auto;
+    max-width: 100%;
+}
+
+.register-type-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
-}
-
-.register-option {
-    margin: 0 10px;
-    padding: 10px 20px;
-    background-color: #f1f1f1;
-    border: none;
-    border-radius: 5px;
+    gap: 10px;
+    padding: 20px 15px;
+    border: 2px solid var(--primary-orange);
+    border-radius: 12px;
+    background-color: white;
+    color: var(--primary-orange);
+    font-size: 15px;
+    font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    width: 100%;
+    min-width: 120px;
+    max-width: 200px;
 }
 
-.register-option.active,
-.register-option:hover {
-    background-color: #FF6B35;
+.register-type-btn:hover {
+    background-color: var(--primary-orange);
     color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+}
+
+.register-type-btn i {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.register-type-btn span {
+    text-align: center;
+    line-height: 1.2;
+}
+
+.register-form {
+    display: none;
+}
+
+.register-form.show {
+    display: block;
 }
 
 .register-form-section {
     display: none;
 }
 
-.register-form-section.active {
+.register-form-section.show {
     display: block;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.form-control:focus {
+    border-color: var(--primary-orange);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2);
+}
+
+.register-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-orange);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register-btn:hover {
+    background-color: var(--secondary-orange);
+}
+
+.divider {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 45%;
+    height: 1px;
+    background-color: #ddd;
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
+.divider span {
+    background-color: #fff;
+    padding: 0 10px;
+    color: #666;
+    font-size: 14px;
 }
 
 .social-login {
@@ -221,27 +299,6 @@ select.form-control.is-invalid {
     padding: 10px 0 0;
 }
 
-/* Divider Styles */
-.divider {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin: 20px 0;
-}
-
-.divider::before,
-.divider::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid #ccc;
-}
-
-.divider span {
-    padding: 0 10px;
-    color: #888;
-    font-size: 14px;
-}
-
 /* Social Login Buttons Styles */
 .social-login-buttons {
     display: flex;
@@ -276,14 +333,14 @@ select.form-control.is-invalid {
 
 .login-link-container {
     text-align: center;
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
 .login-link {
     color: var(--primary-orange);
     text-decoration: none;
     font-size: 14px;
-    transition: color 0.2s;
+    transition: color 0.3s ease;
 }
 
 .login-link:hover {

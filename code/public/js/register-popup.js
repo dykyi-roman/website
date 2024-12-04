@@ -5,68 +5,121 @@ document.addEventListener('DOMContentLoaded', function() {
     const popup = document.getElementById('register-popup');
     const closeBtn = document.getElementById('close-register-popup');
     const registrationTypeSelection = document.getElementById('registration-type-selection');
-    const registrationForm = document.getElementById('registrationForm');
+    const clientForm = document.getElementById('clientRegistrationForm');
+    const partnerForm = document.getElementById('partnerRegistrationForm');
     const registrationType = document.getElementById('registrationType');
 
+    // Check if forms exist before proceeding
+    if (!clientForm || !partnerForm) {
+        console.error('Registration forms not found!');
+        return;
+    }
+
     // Form validation setup
-    const form = registrationForm;
-    const inputs = form.querySelectorAll('input, select');
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^\+?[\d\s-()]{10,}$/;
+    const nameRegex = /^[a-zA-Z\s'-]{2,50}$/;
 
-    // Validation functions
-    const validators = {
-        email: (value) => emailRegex.test(value.trim()) ? '' : 'Please enter a valid email address',
-        tel: (value) => phoneRegex.test(value.trim()) ? '' : 'Please enter a valid phone number',
-        text: (value) => value.trim() ? '' : 'This field is required',
-        select: (value) => value ? '' : 'Please make a selection'
+    // Validation rules for different field types
+    const validationRules = {
+        name: {
+            validate: (value) => nameRegex.test(value.trim()),
+            message: 'Please enter a valid name (2-50 characters, letters only)'
+        },
+        partner_name: {
+            validate: (value) => value.trim().length >= 2 && value.trim().length <= 100,
+            message: 'Name must be between 2 and 100 characters'
+        },
+        email: {
+            validate: (value) => emailRegex.test(value.trim()),
+            message: 'Please enter a valid email address'
+        },
+        tel: {
+            validate: (value) => phoneRegex.test(value.trim()),
+            message: 'Please enter a valid phone number'
+        },
+        select: {
+            validate: (value) => value && value.trim() !== '',
+            message: 'Please make a selection'
+        }
     };
-
-    // Add validation to all form fields
-    inputs.forEach(input => {
-        input.addEventListener('input', function() {
-            validateField(this);
-        });
-
-        input.addEventListener('blur', function() {
-            validateField(this);
-        });
-    });
 
     // Field validation function
     function validateField(field) {
         const value = field.value;
-        let error = '';
+        const fieldName = field.name;
+        let rule;
 
-        // Get the appropriate validator
-        const validator = validators[field.type] || validators.text;
-        if (field.tagName.toLowerCase() === 'select') {
-            error = validators.select(value);
+        // Determine which validation rule to use
+        if (fieldName === 'name') {
+            rule = validationRules.name;
+        } else if (fieldName === 'partner_name') {
+            rule = validationRules.partner_name;
+        } else if (field.type === 'email') {
+            rule = validationRules.email;
+        } else if (field.type === 'tel') {
+            rule = validationRules.tel;
+        } else if (field.tagName.toLowerCase() === 'select') {
+            rule = validationRules.select;
         } else {
-            error = validator(value);
+            // Default validation for required fields
+            rule = {
+                validate: (value) => value.trim() !== '',
+                message: 'This field is required'
+            };
         }
 
-        // Update field status
-        if (error) {
+        const isValid = rule.validate(value);
+        const feedback = field.nextElementSibling;
+
+        if (!isValid) {
             field.classList.add('is-invalid');
             field.classList.remove('is-valid');
-            const feedback = field.nextElementSibling;
             if (feedback && feedback.classList.contains('invalid-feedback')) {
-                feedback.textContent = error;
+                feedback.textContent = rule.message;
             }
         } else {
             field.classList.remove('is-invalid');
             field.classList.add('is-valid');
+            if (feedback) {
+                feedback.textContent = '';
+            }
         }
 
-        return !error;
+        return isValid;
     }
 
+    // Add validation to form fields
+    function setupFormValidation(form) {
+        if (!form) return;
+
+        const inputs = form.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            // Validate on input
+            input.addEventListener('input', function() {
+                validateField(this);
+            });
+
+            // Validate on blur
+            input.addEventListener('blur', function() {
+                validateField(this);
+            });
+
+            // Initial validation state
+            if (input.value) {
+                validateField(input);
+            }
+        });
+    }
+
+    // Setup validation for both forms
+    setupFormValidation(clientForm);
+    setupFormValidation(partnerForm);
+
     // Form submission handler
-    registrationForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
+    function submitRegistration(form) {
         let isValid = true;
+        const inputs = form.querySelectorAll('input, select');
         inputs.forEach(input => {
             if (!validateField(input)) {
                 isValid = false;
@@ -75,8 +128,55 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (isValid) {
             // Form is valid, proceed with submission
-            await submitRegistration(this);
+            submitForm(form);
         }
+    }
+
+    // Submit form data
+    async function submitForm(form) {
+        try {
+            const formData = new FormData(form);
+            const response = await fetch('/api/register', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Handle successful registration
+                hidePopup();
+                // You might want to show a success message or redirect
+                alert('Registration successful!');
+            } else {
+                // Handle registration errors
+                // Set custom validity for server-side errors
+                const emailInput = form.querySelector('input[type="email"]');
+                if (emailInput) {
+                    emailInput.setCustomValidity(data.message || 'Registration failed');
+                    emailInput.reportValidity();
+                }
+            }
+        } catch (error) {
+            console.error('Registration error:', error);
+            // Handle network or other errors
+            const emailInput = form.querySelector('input[type="email"]');
+            if (emailInput) {
+                emailInput.setCustomValidity('An error occurred. Please try again.');
+                emailInput.reportValidity();
+            }
+        }
+    }
+
+    // Event listeners for form submission
+    clientForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        submitRegistration(this);
+    });
+
+    partnerForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        submitRegistration(this);
     });
 
     // Registration type buttons
@@ -189,65 +289,33 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function showRegistrationForm(type) {
+        console.log('Showing registration form:', type);
+        
         // Hide registration type selection
         registrationTypeSelection.style.display = 'none';
         
-        // Reset form
-        registrationForm.reset();
-        registrationForm.classList.remove('was-validated');
+        // Hide both forms first
+        clientForm.style.display = 'none';
+        partnerForm.style.display = 'none';
         
-        // Set hidden input value
-        registrationType.value = type;
-        
-        // Show appropriate registration form section
-        registerFormSections.forEach(section => {
-            if (section.id === `${type}-register-section`) {
-                section.style.display = 'block';
-            } else {
-                section.style.display = 'none';
-            }
-        });
+        // Show appropriate form
+        if (type === 'client') {
+            clientForm.style.display = 'block';
+            const sections = clientForm.querySelectorAll('.register-form-section');
+            sections.forEach(section => section.style.display = 'block');
+        } else if (type === 'partner') {
+            partnerForm.style.display = 'block';
+            const sections = partnerForm.querySelectorAll('.register-form-section');
+            sections.forEach(section => section.style.display = 'block');
+        }
     }
 
     function resetForm() {
-        registrationForm.reset();
-        registrationForm.classList.remove('was-validated');
+        clientForm.reset();
+        clientForm.classList.remove('was-validated');
+        partnerForm.reset();
+        partnerForm.classList.remove('was-validated');
         showRegistrationTypeSelection();
-    }
-
-    async function submitRegistration(form) {
-        try {
-            const formData = new FormData(form);
-            const response = await fetch('/api/register', {
-                method: 'POST',
-                body: formData
-            });
-
-            const data = await response.json();
-
-            if (data.success) {
-                // Handle successful registration
-                hidePopup();
-                // You might want to show a success message or redirect
-                alert('Registration successful!');
-            } else {
-                // Handle registration errors
-                // Set custom validity for server-side errors
-                const emailInput = form.querySelector('input[type="email"]');
-                if (emailInput) {
-                    emailInput.setCustomValidity(data.message || 'Registration failed');
-                    emailInput.reportValidity();
-                }
-            }
-        } catch (error) {
-            console.error('Registration error:', error);
-            // Handle network or other errors
-            const emailInput = form.querySelector('input[type="email"]');
-            if (emailInput) {
-                emailInput.setCustomValidity('An error occurred. Please try again.');
-                emailInput.reportValidity();
-            }
-        }
     }
 
     // Switch to login popup
