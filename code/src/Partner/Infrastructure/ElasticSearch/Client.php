@@ -17,6 +17,7 @@ final class Client implements ServiceInterface
                 'description' => 'This is a sample description for the first service offering. This is a sample description for the first service offering. This is a sample description for the first service offering. This is a sample description for the first service offering.',
                 'feedback_count' => '42',
                 'image_url' => 'https://dykyi-roman.github.io/images/photo.jpg',
+                'category' => 'category_1',
                 'features' => [
                     'Super-premium',
                     'Master-freelancer',
@@ -32,6 +33,7 @@ final class Client implements ServiceInterface
                 'description' => 'This is a sample description for the second service offering.',
                 'feedback_count' => '38',
                 'image_url' => 'https://dykyi-roman.github.io/images/photo.jpg',
+                'category' => 'category_1',
                 'features' => [
                     'Super-premium',
                     'Master-freelancer',
