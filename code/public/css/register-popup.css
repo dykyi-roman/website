@@ -20,6 +20,11 @@
     visibility: visible;
 }
 
+.register-popup .modal-header {
+    padding-right: 0;
+    padding-top: 0;
+}
+
 .register-popup-content {
     background-color: #fefefe;
     margin: 5% auto;
@@ -29,6 +34,16 @@
     max-width: 500px;
     border-radius: 10px;
     position: relative;
+}
+
+.close-register-popup {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding-right: 20px;
 }
 
 .registration-type-selection {
