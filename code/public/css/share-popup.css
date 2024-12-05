@@ -1,0 +1,108 @@
+/* Share Popup Styles */
+.share-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.share-button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1rem;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-dark);
+    font-size: 1rem;
+    width: 100%;
+}
+
+.share-button:hover {
+    background-color: var(--primary-orange);
+    border-color: var(--primary-orange);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+}
+
+.share-button i {
+    font-size: 1.25rem;
+    margin-right: 1rem;
+    width: 24px;
+    text-align: center;
+}
+
+.share-button span {
+    font-weight: 500;
+}
+
+/* Specific button styles */
+.share-button.copy-link {
+    border-color: var(--primary-orange);
+    color: var(--primary-orange);
+}
+
+.share-button.copy-link:hover {
+    background-color: var(--primary-orange);
+    color: white;
+}
+
+.share-button.email:hover {
+    background-color: var(--primary-orange);
+    border-color: var(--primary-orange);
+}
+
+.share-button.messages:hover {
+    background-color: var(--primary-orange);
+    border-color: var(--primary-orange);
+}
+
+.share-button.whatsapp:hover {
+    background-color: var(--primary-orange);
+    border-color: var(--primary-orange);
+}
+
+.share-button.messenger:hover {
+    background-color: var(--primary-orange);
+    border-color: var(--primary-orange);
+}
+
+.share-button.facebook:hover {
+    background-color: var(--primary-orange);
+    border-color: var(--primary-orange);
+}
+
+/* Modal header styles */
+#shareModal .modal-header {
+    border-bottom: none;
+    padding: 1.5rem 1.5rem 0.5rem;
+}
+
+#shareModal .modal-title {
+    color: var(--primary-orange);
+    font-weight: 600;
+}
+
+#shareModal .btn-close {
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+#shareModal .btn-close:hover {
+    opacity: 1;
+}
+
+/* Responsive styles */
+@media (max-width: 576px) {
+    .share-buttons {
+        grid-template-columns: 1fr;
+    }
+    
+    .share-button {
+        padding: 0.75rem;
+    }
+}

@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                         <!-- Service Details -->
                                         <div class="item-details">
-                                            <h3 class="card-title">${service.title || 'Unnamed Service'}</h3>
+                                            <h3 class="card-title"><a href="${service.url}" target="_blank">${service.title || 'Unnamed Service'}</a></h3>
                                             <p class="card-text">${service.description || 'No description available'}</p>
                                             <div class="item-meta mt-3">
                                                 <span class="badge bg-secondary me-2">${service.category || 'Uncategorized'}</span>

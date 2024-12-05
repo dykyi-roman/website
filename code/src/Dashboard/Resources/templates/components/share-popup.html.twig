@@ -1,0 +1,43 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/share-popup.css') }}?v={{ "now"|date("U") }}">
+{% endblock %}
+
+<!-- Share Popup -->
+<div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title text-center w-100" id="shareModalLabel">Share</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="share-buttons">
+                    <button class="share-button copy-link">
+                        <i class="fas fa-link"></i>
+                        <span>Copy Link</span>
+                    </button>
+                    <button class="share-button email">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email</span>
+                    </button>
+                    <button class="share-button twitter">
+                        <i class="fab fa-twitter"></i>
+                        <span>Twitter</span>
+                    </button>
+                    <button class="share-button whatsapp">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp</span>
+                    </button>
+                    <button class="share-button messenger">
+                        <i class="fab fa-facebook-messenger"></i>
+                        <span>Messenger</span>
+                    </button>
+                    <button class="share-button facebook">
+                        <i class="fab fa-facebook"></i>
+                        <span>Facebook</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

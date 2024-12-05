@@ -32,6 +32,7 @@
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('css/register-popup.css') }}?v={{ "now"|date("U") }}">
             <link rel="stylesheet" href="{{ asset('css/login-popup.css') }}?v={{ "now"|date("U") }}">
+            <link rel="stylesheet" href="{{ asset('css/share-popup.css') }}?v={{ "now"|date("U") }}">
         {% endblock %}
 
         {% block javascripts %}
@@ -41,6 +42,7 @@
 
             <script src="{{ asset('js/register-popup.js') }}?v={{ "now"|date("U") }}"></script>
             <script src="{{ asset('js/login-popup.js') }}?v={{ "now"|date("U") }}"></script>
+            <script src="{{ asset('js/share-popup.js') }}?v={{ "now"|date("U") }}"></script>
         {% endblock %}
 
         <!-- Schema.org markup -->
@@ -69,6 +71,7 @@
         {# Include registration popup #}
         {% include '@Dashboard/components/login-popup.html.twig' %}
         {% include '@Dashboard/components/register-popup.html.twig' %}
+        {% include '@Dashboard/components/share-popup.html.twig' %}
 
         <!-- Structured data for Organization -->
         <script type="application/ld+json">
