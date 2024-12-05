@@ -15,10 +15,10 @@ final readonly class MockClient implements ServiceInterface
     ) {
     }
 
-    public function search(string $query): array
+    public function search(string $query, int $page = 1, int $limit = 10): array
     {
         $items = [];
-        for ($i = 1; $i < self::COUNT; $i++) {
+        for ($i = 0; $i < self::COUNT; $i++) {
             $items[] = [
                 'id' => $i,
                 'title' => 'Sample Service Title 1',
@@ -40,11 +40,16 @@ final readonly class MockClient implements ServiceInterface
             ];
         }
 
-        return $items;
-    }
+        // Calculate pagination
+        $offset = ($page - 1) * $limit;
+        $paginatedItems = array_slice($items, $offset, $limit);
 
-    public function count(string $query): int
-    {
-       return self::COUNT;
+        return [
+            'items' => $paginatedItems,
+            'total' => count($items),
+            'page' => $page,
+            'limit' => $limit,
+            'total_pages' => ceil(count($items) / $limit)
+        ];
     }
 }

@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const listViewButton = document.getElementById('list-view-button');
     const gridViewButton = document.getElementById('grid-view-button');
 
+    let currentPage = 1;
+    const itemsPerPage = 10;
+
     // Initialize view buttons
     if (listViewButton && gridViewButton) {
         listViewButton.addEventListener('click', () => {
@@ -64,113 +67,193 @@ document.addEventListener('DOMContentLoaded', function() {
         return Number(reviewCount) || 0;
     }
 
-    if (searchButton && searchInput && servicesContainer) {
-        searchButton.addEventListener('click', function() {
-            const searchTerm = searchInput.value.trim();
+    // Function to render pagination
+    function renderPagination(currentPage, totalPages) {
+        const paginationContainer = document.createElement('div');
+        paginationContainer.className = 'pagination-container';
+        
+        const pagination = document.createElement('ul');
+        pagination.className = 'pagination';
+        
+        // Previous button
+        const prevLi = document.createElement('li');
+        const prevButton = document.createElement('button');
+        prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+        prevButton.disabled = currentPage === 1;
+        prevButton.addEventListener('click', () => performSearch(currentPage - 1));
+        prevLi.appendChild(prevButton);
+        pagination.appendChild(prevLi);
+        
+        // Page numbers
+        for (let i = 1; i <= totalPages; i++) {
+            if (
+                i === 1 || // First page
+                i === totalPages || // Last page
+                (i >= currentPage - 1 && i <= currentPage + 1) // Pages around current
+            ) {
+                const li = document.createElement('li');
+                const button = document.createElement('button');
+                button.textContent = i;
+                if (i === currentPage) {
+                    button.classList.add('active');
+                }
+                button.addEventListener('click', () => performSearch(i));
+                li.appendChild(button);
+                pagination.appendChild(li);
+            } else if (
+                (i === currentPage - 2 && currentPage > 3) ||
+                (i === currentPage + 2 && currentPage < totalPages - 2)
+            ) {
+                const li = document.createElement('li');
+                const span = document.createElement('button');
+                span.textContent = '...';
+                span.disabled = true;
+                li.appendChild(span);
+                pagination.appendChild(li);
+            }
+        }
+        
+        // Next button
+        const nextLi = document.createElement('li');
+        const nextButton = document.createElement('button');
+        nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.addEventListener('click', () => performSearch(currentPage + 1));
+        nextLi.appendChild(nextButton);
+        pagination.appendChild(nextLi);
+        
+        paginationContainer.appendChild(pagination);
+        return paginationContainer;
+    }
 
-            // Show loading state
-            servicesContainer.innerHTML = `
-                <div class="col-12 text-center">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
+    // Function to perform search
+    function performSearch(page = 1) {
+        currentPage = page;
+        const searchTerm = searchInput.value.trim();
+
+        // Show loading state
+        servicesContainer.innerHTML = `
+            <div class="col-12 text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
-            `;
+            </div>
+        `;
 
-            // Fetch services from API
-            fetch(`/api/service/search?query=${encodeURIComponent(searchTerm)}`, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(services => {
-                // Clear previous results
-                servicesContainer.innerHTML = '';
+        // Remove existing pagination if any
+        const existingPagination = document.querySelector('.pagination-container');
+        if (existingPagination) {
+            existingPagination.remove();
+        }
 
-                // Check if services exist
-                if (services.length === 0) {
-                    servicesContainer.innerHTML = `
-                        <div class="col-12 text-center">
-                            <p class="text-muted">No services found matching your search.</p>
-                        </div>
-                    `;
-                    return;
-                }
+        // Fetch services from API
+        fetch(`/api/service/search?query=${encodeURIComponent(searchTerm)}&page=${page}&limit=${itemsPerPage}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Clear previous results
+            servicesContainer.innerHTML = '';
 
-                // Populate services
-                services.forEach(service => {
-                    const {filledStars, emptyStars} = renderStarRating(service.rating);
-                    const serviceCard = `
-                        <div class="col-12 col-md-6 col-lg-3 item-item">
-                            <div class="card item-card h-100">
-                                <div class="card-body">
-                                    <div class="item-content">
-                                        <!-- Image and Reviews -->
-                                        <div class="item-image-section">
-                                            <div class="item-image-container position-relative">
-                                                <img src="${getImageUrl(service.image_url)}" 
-                                                     class="img-fluid rounded item-image" 
-                                                     alt="${service.title || 'Service Image'}">
-                                            </div>
-                                            <div class="item-reviews mt-2 text-center">
-                                                <span class="text-warning">
-                                                    ${filledStars}${emptyStars}
-                                                </span>
-                                                <small class="d-block">(${getReviewCount(service.review_count)} reviews)</small>
-                                            </div>
-                                        </div>
-
-                                        <!-- Service Details -->
-                                        <div class="item-details">
-                                            <h3 class="card-title"><a href="${service.url}" target="_blank">${service.title || 'Unnamed Service'}</a></h3>
-                                            <p class="card-text">${service.description || 'No description available'}</p>
-                                            <div class="item-meta mt-3">
-                                                <span class="badge bg-secondary me-2">${service.category || 'Uncategorized'}</span>
-                                            </div>
-                                        </div>
-
-                                        <!-- Features and Price -->
-                                        <div class="item-footer">
-                                            ${window.appUser === 'true'
-                                                ? ''
-                                                : '<button class="btn-favorite" data-item-id="" data-action="register"><i class="far fa-heart"></i></button>'}
-                                            <div class="item-features mb-3">
-                                                ${renderFeatures(service.features)}
-                                            </div>
-                                            <div class="price-booking">
-                                                <div class="item-price mb-2">
-                                                    <span class="price">${service.price}</span>
-                                                </div>
-                                                <button class="btn btn-primary">Book Now</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-share" data-item-id="${service.id}">
-                                         <i class="fas fa-share-alt"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    servicesContainer.insertAdjacentHTML('beforeend', serviceCard);
-                });
-            })
-            .catch(error => {
-                console.error('Search Error:', error);
+            // Check if services exist
+            if (!data.items || data.items.length === 0) {
                 servicesContainer.innerHTML = `
                     <div class="col-12 text-center">
-                        <p class="text-danger">An error occurred while searching. Please try again later.</p>
+                        <p class="text-muted">No services found matching your search.</p>
                     </div>
                 `;
+                return;
+            }
+
+            // Populate services
+            data.items.forEach(service => {
+                const {filledStars, emptyStars} = renderStarRating(service.rating);
+                const serviceCard = `
+                    <div class="col-12 col-md-6 col-lg-3 item-item">
+                        <div class="card item-card h-100">
+                            <div class="card-body">
+                                <div class="item-content">
+                                    <!-- Image and Reviews -->
+                                    <div class="item-image-section">
+                                        <div class="item-image-container position-relative">
+                                            <img src="${getImageUrl(service.image_url)}" 
+                                                 class="img-fluid rounded item-image" 
+                                                 alt="${service.title || 'Service Image'}">
+                                        </div>
+                                        <div class="item-reviews mt-2 text-center">
+                                            <span class="text-warning">
+                                                ${filledStars}${emptyStars}
+                                            </span>
+                                            <small class="d-block">(${getReviewCount(service.review_count)} reviews)</small>
+                                        </div>
+                                    </div>
+
+                                    <!-- Service Details -->
+                                    <div class="item-details">
+                                        <h3 class="card-title"><a href="${service.url}" target="_blank">${service.title || 'Unnamed Service'}</a></h3>
+                                        <p class="card-text">${service.description || 'No description available'}</p>
+                                        <div class="item-meta mt-3">
+                                            <span class="badge bg-secondary me-2">${service.category || 'Uncategorized'}</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Features and Price -->
+                                    <div class="item-footer">
+                                        ${window.appUser === 'true'
+                                            ? ''
+                                            : '<button class="btn-favorite" data-item-id="" data-action="register"><i class="far fa-heart"></i></button>'}
+                                        <div class="item-features mb-3">
+                                            ${renderFeatures(service.features)}
+                                        </div>
+                                        <div class="price-booking">
+                                            <div class="item-price mb-2">
+                                                <span class="price">${service.price}</span>
+                                            </div>
+                                            <button class="btn btn-primary">Book Now</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-share" data-item-id="${service.id}">
+                                     <i class="fas fa-share-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                servicesContainer.insertAdjacentHTML('beforeend', serviceCard);
             });
+
+            // Add pagination after the services grid
+            const paginationElement = renderPagination(data.page, data.total_pages);
+            servicesGrid.parentNode.insertBefore(paginationElement, servicesGrid.nextSibling);
+        })
+        .catch(error => {
+            console.error('Search Error:', error);
+            servicesContainer.innerHTML = `
+                <div class="col-12 text-center">
+                    <p class="text-danger">An error occurred while searching. Please try again later.</p>
+                </div>
+            `;
+        });
+    }
+
+    if (searchButton && searchInput && servicesContainer) {
+        searchButton.addEventListener('click', () => performSearch(1));
+        
+        // Add enter key support
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch(1);
+            }
         });
     }
 });

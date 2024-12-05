@@ -14,13 +14,34 @@ final class ServiceSearchAction extends AbstractApiAction
 {
     #[OA\Get(
         path: '/api/service/search',
-        summary: 'Test route message',
-        tags: ['Test']
+        summary: 'Search services with pagination',
+        tags: ['Service']
+    )]
+    #[OA\Parameter(
+        name: 'query',
+        description: 'Search query',
+        in: 'query',
+        required: false,
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'page',
+        description: 'Page number',
+        in: 'query',
+        required: false,
+        schema: new OA\Schema(type: 'integer', default: 1)
+    )]
+    #[OA\Parameter(
+        name: 'limit',
+        description: 'Items per page',
+        in: 'query',
+        required: false,
+        schema: new OA\Schema(type: 'integer', default: 10)
     )]
     #[OA\Response(
         response: 200,
         description: 'Success',
-        content: new OA\JsonContent(type: 'string', example: 'Test')
+        content: new OA\JsonContent(type: 'object')
     )]
     #[Route('/service/search', name: 'api_service_search', methods: ['GET'])]
     public function __invoke(
@@ -28,9 +49,11 @@ final class ServiceSearchAction extends AbstractApiAction
         ServiceInterface $service,
     ): JsonResponse {
         $query = $request->query->get('query', '');
+        $page = (int) $request->query->get('page', 1);
+        $limit = (int) $request->query->get('limit', 10);
         
-        $services = $service->search($query);
+        $result = $service->search($query, $page, $limit);
         
-        return new JsonResponse($services);
+        return new JsonResponse($result);
     }
 }
