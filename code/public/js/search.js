@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const listViewButton = document.getElementById('list-view-button');
     const gridViewButton = document.getElementById('grid-view-button');
 
-    let currentPage = 1;
     const itemsPerPage = 10;
 
     // Function to get URL parameters
@@ -21,7 +20,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to update URL parameters
     function updateUrlParams(query, page) {
         const url = new URL(window.location.href);
-        url.searchParams.set('query', query);
+        if (query) {
+            url.searchParams.set('query', query);
+        } else {
+            url.searchParams.delete('query');
+        }
         url.searchParams.set('page', page);
         window.history.pushState({}, '', url);
     }
@@ -145,8 +148,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to perform search
     function performSearch(query, page = 1) {
-        currentPage = page;
-        
         // Update URL parameters
         updateUrlParams(query, page);
 
@@ -266,9 +267,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (searchButton && searchInput && servicesContainer) {
-        // Initialize from URL parameters
+        // Check URL parameters immediately on page load
         const params = getUrlParams();
-        if (params.query) {
+        if (params.query || params.page > 1) {
             searchInput.value = params.query;
             performSearch(params.query, params.page);
         }
@@ -285,7 +286,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Handle browser back/forward buttons
         window.addEventListener('popstate', function() {
             const params = getUrlParams();
-            searchInput.value = params.query;
+            searchInput.value = params.query || '';
             performSearch(params.query, params.page);
         });
     }
