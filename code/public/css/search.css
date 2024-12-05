@@ -4,26 +4,41 @@
     padding: 0 15px;
     max-width: 1200px;
     text-align: right;
-    margin-top: -20px;
-    margin-bottom: 20px;
+    margin-top: 20px;
     position: relative;
     z-index: 1;
 }
 
 .view-toggle button {
-    padding: 8px 16px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
     margin-left: 10px;
     border: 1px solid #dee2e6;
     background: #fff;
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+}
+
+.view-toggle button:hover {
+    background: #f8f9fa;
+    color: #0d6efd;
+    border-color: #0d6efd;
 }
 
 .view-toggle button.active {
     background: #0d6efd;
     color: #fff;
     border-color: #0d6efd;
+}
+
+.view-toggle button i {
+    font-size: 1.2rem;
 }
 
 /* Grid View */
@@ -110,10 +125,11 @@
 }
 
 .services-grid.list-view .service-footer {
-    width: 220px;
+    width: 350px;
     flex-shrink: 0;
     text-align: right;
-    padding-left: 0px;
+    padding-left: 20px;
+    border-left: 1px solid #dee2e6;
 }
 
 /* Show description in list view */
@@ -228,14 +244,8 @@
         text-align: center;
         padding-left: 0;
         border-left: none;
-        border-bottom: 1px solid #dee2e6;
+        border-top: 1px solid #dee2e6;
         padding-top: 20px;
-    }
-
-    .services-grid.grid-view .service-footer {
-        border-top: 1px solid #eee;
-        padding-top: 0.5rem;
-        padding-bottom: 0.75rem;
     }
 
     .services-grid.list-view .service-features {
