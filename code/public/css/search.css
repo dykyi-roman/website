@@ -102,7 +102,7 @@
 
 /* Grid View */
 .items-grid.grid-view .item-item {
-    /*margin-bottom: 20px;*/
+    margin-bottom: 20px;
 }
 
 .items-grid.grid-view .item-card {
@@ -324,11 +324,49 @@
 }
 
 @media (max-width: 576px) {
+    .items-grid.grid-view .item-image-container {
+        height: 140px;
+    }
+
+    .items-grid.grid-view .card-title {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .items-grid.grid-view .item-reviews {
+        font-size: 0.8rem;
+    }
+
+    .items-grid.grid-view .item-price {
+        font-size: 1rem;
+    }
+
+    .items-grid.grid-view .btn-primary {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .items-grid.grid-view .feature-item {
+        font-size: 0.8rem;
+    }
+
     .items-grid.list-view .item-image-section {
         max-width: 250px;
     }
     
     .items-grid.list-view .item-image-container {
         height: 150px;
+    }
+
+    /* Adjust grid item padding for better spacing */
+    .items-grid.grid-view .item-card .card-body {
+        padding: 0.75rem;
+    }
+
+    /* Ensure buttons and interactive elements have enough touch target size */
+    .btn-share,
+    .btn-favorite {
+        width: 36px;
+        height: 36px;
     }
 }

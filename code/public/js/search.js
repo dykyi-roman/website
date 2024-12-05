@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
             data.items.forEach(service => {
                 const {filledStars, emptyStars} = renderStarRating(service.rating);
                 const serviceCard = `
-                    <div class="col-12 col-md-6 col-lg-3 item-item">
+                    <div class="col-6 col-md-6 col-lg-3 item-item">
                         <div class="card item-card h-100">
                             <div class="card-body">
                                 <div class="item-content">
