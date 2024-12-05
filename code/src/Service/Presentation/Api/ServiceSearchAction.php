@@ -8,6 +8,8 @@ use OpenApi\Attributes as OA;
 use App\Service\DomainModel\Service\ServiceInterface;
 use App\Service\Presentation\Api\Request\SearchRequestDTO;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class ServiceSearchAction extends AbstractApiAction
@@ -70,13 +72,14 @@ final class ServiceSearchAction extends AbstractApiAction
     )]
     #[Route('/service/search', name: 'api_service_search', methods: ['GET'])]
     public function __invoke(
-        SearchRequestDTO $request,
+        Request $request,
+        #[MapQueryString] SearchRequestDTO $searchRequest,
         ServiceInterface $service,
     ): JsonResponse {
         $result = $service->search(
-            $request->query,
-            $request->page,
-            $request->limit,
+            $searchRequest->query,
+            $searchRequest->page,
+            $searchRequest->limit,
         );
         
         return new JsonResponse($result);

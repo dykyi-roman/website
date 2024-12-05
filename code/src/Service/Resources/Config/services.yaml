@@ -6,8 +6,6 @@ services:
         autowire: true
         autoconfigure: true
         public: false
-        bind:
-            $appHost: '%app_host%'
 
     App\Service\:
         resource: '../../'
