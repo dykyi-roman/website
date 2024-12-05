@@ -7,4 +7,6 @@ namespace App\Service\DomainModel\Service;
 interface ServiceInterface
 {
     public function search(string $query): array;
+
+    public function count(string $query): int;
 }

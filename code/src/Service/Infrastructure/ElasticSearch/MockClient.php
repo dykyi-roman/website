@@ -6,8 +6,10 @@ namespace App\Service\Infrastructure\ElasticSearch;
 
 use App\Service\DomainModel\Service\ServiceInterface;
 
-final readonly class Client implements ServiceInterface
+final readonly class MockClient implements ServiceInterface
 {
+    private const int COUNT = 25;
+
     public function __construct(
         private string $appHost,
     ) {
@@ -16,7 +18,7 @@ final readonly class Client implements ServiceInterface
     public function search(string $query): array
     {
         $items = [];
-        for ($i = 1; $i < 25; $i++) {
+        for ($i = 1; $i < self::COUNT; $i++) {
             $items[] = [
                 'id' => $i,
                 'title' => 'Sample Service Title 1',
@@ -39,5 +41,10 @@ final readonly class Client implements ServiceInterface
         }
 
         return $items;
+    }
+
+    public function count(string $query): int
+    {
+       return self::COUNT;
     }
 }
