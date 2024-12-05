@@ -1,0 +1,83 @@
+/* Custom styles for register popup that extend Bootstrap */
+:root {
+    --primary-orange: #FF6B35;
+    --secondary-orange: #FF8B68;
+    --facebook-blue: #1877F2;
+    --facebook-blue-hover: #0d6efd;
+}
+
+/* Orange theme styles */
+.btn-orange {
+    background-color: var(--primary-orange);
+    border-color: var(--primary-orange);
+    color: white;
+}
+
+.btn-orange:hover {
+    background-color: var(--secondary-orange);
+    border-color: var(--secondary-orange);
+    color: white;
+}
+
+.text-orange {
+    color: var(--primary-orange) !important;
+}
+
+.text-orange:hover {
+    color: var(--secondary-orange) !important;
+}
+
+/* Registration type buttons */
+.register-type-btn {
+    min-height: 120px;
+    transition: all 0.3s ease;
+    border: 2px solid var(--primary-orange);
+    color: var(--primary-orange);
+    background-color: white;
+}
+
+.register-type-btn:hover {
+    background-color: var(--primary-orange);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+}
+
+/* Terms acceptance text */
+.text-muted.text-center.small.mt-2 {
+    font-size: 11px !important;
+}
+
+/* Social buttons */
+.btn.btn-primary.d-flex.align-items-center.justify-content-center.gap-2.px-4 {
+    background-color: var(--facebook-blue) !important;
+    border-color: var(--facebook-blue) !important;
+}
+
+.btn.btn-primary.d-flex.align-items-center.justify-content-center.gap-2.px-4:hover {
+    background-color: var(--facebook-blue-hover) !important;
+    border-color: var(--facebook-blue-hover) !important;
+}
+
+/* Override Bootstrap modal width for larger screens */
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 500px;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+    
+    .d-flex.justify-content-center.gap-3 {
+        flex-direction: column;
+    }
+    
+    .register-type-btn {
+        width: 100%;
+        min-height: 100px;
+    }
+}

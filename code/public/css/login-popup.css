@@ -1,0 +1,52 @@
+/* Specific styles for login popup */
+.modal-title {
+    color: var(--primary-orange);
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    padding: 10px 0;
+    width: 100%;
+    text-align: center;
+}
+
+.form-check-label {
+    font-size: 14px;
+    color: #666;
+    max-width: 200px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.social-login {
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.social-btn {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+    transform: translateY(-2px);
+}
+
+.social-btn i {
+    font-size: 1.2rem;
+}
+
+/* Remember Me and Forgot Password Styles */
+.form-check {
+    display: flex;
+    align-items: center;
+}
+
+.form-check-input {
+    margin-right: 8px;
+}

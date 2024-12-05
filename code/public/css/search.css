@@ -1,0 +1,270 @@
+/* View toggle buttons */
+.view-toggle {
+    margin: 0 auto;
+    padding: 0 15px;
+    max-width: 1200px;
+    text-align: right;
+    margin-top: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.view-toggle button {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    margin-left: 10px;
+    border: 1px solid #dee2e6;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+}
+
+.view-toggle button:hover {
+    background: #f8f9fa;
+    color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.view-toggle button.active {
+    background: #0d6efd;
+    color: #fff;
+    border-color: #0d6efd;
+}
+
+.view-toggle button i {
+    font-size: 1.2rem;
+}
+
+/* Grid View */
+.services-grid.grid-view .service-item {
+    margin-bottom: 20px;
+}
+
+.services-grid.grid-view .service-card {
+    height: 100%;
+}
+
+.services-grid.grid-view .service-image-container {
+    height: 200px;
+    overflow: hidden;
+}
+
+.services-grid.grid-view .service-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.services-grid.grid-view .service-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.services-grid.grid-view .service-details {
+    flex-grow: 1;
+}
+
+/* Hide description in grid view */
+.services-grid.grid-view .card-text {
+    display: none;
+}
+
+/* Grid View Share Button */
+.services-grid.grid-view .btn-share {
+    right: 10px !important;
+    left: auto !important;
+    top: 10px !important;
+}
+
+/* List View */
+.services-grid.list-view .service-item {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+    margin-bottom: 20px;
+}
+
+.services-grid.list-view .service-card .card-body {
+    padding: 1.25rem;
+    position: relative;
+}
+
+.services-grid.list-view .service-content {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+}
+
+.services-grid.list-view .service-image-section {
+    width: 200px;
+    flex-shrink: 0;
+    margin-right: 20px;
+}
+
+.services-grid.list-view .service-image-container {
+    height: 150px;
+    overflow: hidden;
+}
+
+.services-grid.list-view .service-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.services-grid.list-view .service-details {
+    flex-grow: 1;
+    padding: 0 20px;
+}
+
+.services-grid.list-view .service-footer {
+    width: 350px;
+    flex-shrink: 0;
+    text-align: right;
+    padding-left: 20px;
+    border-left: 1px solid #dee2e6;
+}
+
+/* Show description in list view */
+.services-grid.list-view .card-text {
+    display: block;
+}
+
+/* List View Share Button */
+.services-grid.list-view .btn-share {
+    left: 10px !important;
+    right: auto !important;
+    bottom: 10px !important;
+    top: auto !important;
+}
+
+/* Common styles */
+.service-card {
+    border: 1px solid #dee2e6;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.service-reviews {
+    font-size: 0.9rem;
+}
+
+.service-features {
+    margin: 15px 0;
+}
+
+.feature-item {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.service-price {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #0d6efd;
+}
+
+/* Share button common styles */
+.btn-share {
+    position: absolute !important;
+    background: rgba(255,255,255,0.9);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.btn-share:hover {
+    background: rgba(255,255,255,1);
+    transform: scale(1.1);
+}
+
+.btn-favorite {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(255,255,255,0.9);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-favorite:hover {
+    background: rgba(255,255,255,1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+    .services-grid.list-view .service-content {
+        flex-direction: column;
+    }
+    
+    .services-grid.list-view .service-image-section {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto 20px;
+    }
+    
+    .services-grid.list-view .service-image-container {
+        height: 200px;
+        max-height: 200px;
+    }
+    
+    .services-grid.list-view .service-details {
+        padding: 0;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .services-grid.list-view .service-footer {
+        width: 100%;
+        text-align: center;
+        padding-left: 0;
+        border-left: none;
+        border-top: 1px solid #dee2e6;
+        padding-top: 20px;
+    }
+
+    .services-grid.list-view .service-features {
+        text-align: left;
+    }
+
+    .services-grid.list-view .price-booking {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .services-grid.list-view .service-image-section {
+        max-width: 250px;
+    }
+    
+    .services-grid.list-view .service-image-container {
+        height: 150px;
+    }
+}
