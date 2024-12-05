@@ -111,6 +111,15 @@ ci: ## Run all code quality checks
 framework: ## Switch to specific framework branch (usage: make framework symfony|laravel)
 	git checkout $(filter-out $@,$(MAKECMDGOALS)); \
 
+## -- GIT --
+
+status: git status
+	git status
+
+commit: ## git commit
+	git add .; \
+	git commit -am $(filter-out $@,$(MAKECMDGOALS)); \
+
 ## -- Documentation --
 
 swagger-generate: ## Generate OpenAPI/Swagger documentation
