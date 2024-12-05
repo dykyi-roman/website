@@ -56,6 +56,13 @@
     flex-grow: 1;
 }
 
+/* Grid View Share Button */
+.services-grid.grid-view .btn-share {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
 /* List View */
 .services-grid.list-view .service-item {
     width: 100% !important;
@@ -66,6 +73,7 @@
 
 .services-grid.list-view .service-card .card-body {
     padding: 1.25rem;
+    position: relative;
 }
 
 .services-grid.list-view .service-content {
@@ -102,6 +110,13 @@
     object-fit: cover;
 }
 
+/* List View Share Button */
+.services-grid.list-view .btn-share {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
 /* Common styles */
 .service-card {
     border: 1px solid #dee2e6;
@@ -132,10 +147,8 @@
     color: #0d6efd;
 }
 
+/* Share button common styles */
 .btn-share {
-    position: absolute;
-    top: 10px;
-    right: 10px;
     background: rgba(255,255,255,0.9);
     border: none;
     border-radius: 50%;
@@ -145,11 +158,13 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    z-index: 1;
 }
 
 .btn-share:hover {
     background: rgba(255,255,255,1);
+    transform: scale(1.1);
 }
 
 .btn-favorite {

@@ -126,9 +126,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                                 </span>
                                                 <small class="d-block">(${getReviewCount(service.review_count)} reviews)</small>
                                             </div>
-                                            <button class="btn btn-share" data-service-id="${service.id}">
-                                                <i class="fas fa-share-alt"></i>
-                                            </button>
                                         </div>
 
                                         <!-- Service Details -->
@@ -156,6 +153,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                             </div>
                                         </div>
                                     </div>
+                                    <button class="btn btn-share" data-service-id="${service.id}">
+                                         <i class="fas fa-share-alt"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
