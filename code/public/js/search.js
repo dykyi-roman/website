@@ -109,18 +109,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 services.forEach(service => {
                     const {filledStars, emptyStars} = renderStarRating(service.rating);
                     const serviceCard = `
-                        <div class="col-12 col-md-6 col-lg-3 service-item">
-                            <div class="card service-card h-100">
+                        <div class="col-12 col-md-6 col-lg-3 item-item">
+                            <div class="card item-card h-100">
                                 <div class="card-body">
-                                    <div class="service-content">
+                                    <div class="item-content">
                                         <!-- Image and Reviews -->
-                                        <div class="service-image-section">
-                                            <div class="service-image-container position-relative">
+                                        <div class="item-image-section">
+                                            <div class="item-image-container position-relative">
                                                 <img src="${getImageUrl(service.image_url)}" 
-                                                     class="img-fluid rounded service-image" 
+                                                     class="img-fluid rounded item-image" 
                                                      alt="${service.title || 'Service Image'}">
                                             </div>
-                                            <div class="service-reviews mt-2 text-center">
+                                            <div class="item-reviews mt-2 text-center">
                                                 <span class="text-warning">
                                                     ${filledStars}${emptyStars}
                                                 </span>
@@ -129,31 +129,31 @@ document.addEventListener('DOMContentLoaded', function() {
                                         </div>
 
                                         <!-- Service Details -->
-                                        <div class="service-details">
+                                        <div class="item-details">
                                             <h3 class="card-title">${service.title || 'Unnamed Service'}</h3>
                                             <p class="card-text">${service.description || 'No description available'}</p>
-                                            <div class="service-meta mt-3">
+                                            <div class="item-meta mt-3">
                                                 <span class="badge bg-secondary me-2">${service.category || 'Uncategorized'}</span>
                                             </div>
                                         </div>
 
                                         <!-- Features and Price -->
-                                        <div class="service-footer">
+                                        <div class="item-footer">
                                             ${window.appUser === 'true'
                                                 ? ''
-                                                : '<button class="btn-favorite" data-service-id="" data-action="register"><i class="far fa-heart"></i></button>'}
-                                            <div class="service-features mb-3">
+                                                : '<button class="btn-favorite" data-item-id="" data-action="register"><i class="far fa-heart"></i></button>'}
+                                            <div class="item-features mb-3">
                                                 ${renderFeatures(service.features)}
                                             </div>
                                             <div class="price-booking">
-                                                <div class="service-price mb-2">
+                                                <div class="item-price mb-2">
                                                     <span class="price">${service.price}</span>
                                                 </div>
                                                 <button class="btn btn-primary">Book Now</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <button class="btn btn-share" data-service-id="${service.id}">
+                                    <button class="btn btn-share" data-item-id="${service.id}">
                                          <i class="fas fa-share-alt"></i>
                                     </button>
                                 </div>

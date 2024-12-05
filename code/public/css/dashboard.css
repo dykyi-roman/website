@@ -273,7 +273,7 @@ select:-moz-placeholder {
     margin: 0 auto;
 }
 
-.service-card {
+.item-card {
     border-radius: 8px;
     margin-bottom: 1rem;
     transition: transform 0.2s;
@@ -281,17 +281,17 @@ select:-moz-placeholder {
     width: 100%;
 }
 
-.service-card .card-body {
+.item-card .card-body {
     padding: 1.25rem;
     padding-bottom: 0.75rem;
 }
 
-.service-card:hover {
+.item-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 15px var(--primary-shadow);
 }
 
-.service-image-container {
+.item-image-container {
     position: relative;
     width: 100%;
     padding-bottom: 100%;
@@ -299,7 +299,7 @@ select:-moz-placeholder {
     border-radius: 8px;
 }
 
-.service-image-container img {
+.item-image-container img {
     position: absolute;
     top: 0;
     left: 0;
@@ -308,36 +308,36 @@ select:-moz-placeholder {
     object-fit: cover;
 }
 
-.service-feedback {
+.item-feedback {
     padding: 1rem 0;
 }
 
-.service-feedback .stars {
+.item-feedback .stars {
     color: #ffc107;
     font-size: 1.1rem;
 }
 
-.service-feedback .feedback-count {
+.item-feedback .feedback-count {
     color: #6c757d;
     font-size: 0.9rem;
     display: block;
     margin-top: 0.5rem;
 }
 
-.service-card .card-title {
+.item-card .card-title {
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 1rem;
     color: #333;
 }
 
-.service-card .card-text {
+.item-card .card-text {
     color: #6c757d;
     margin-bottom: 1.5rem;
     line-height: 1.6;
 }
 
-.service-features {
+.item-features {
     margin: 1.5rem 0;
 }
 
@@ -361,11 +361,11 @@ select:-moz-placeholder {
     padding-bottom: 0.75rem;
 }
 
-.service-price {
+.item-price {
     margin-bottom: 0.5rem;
 }
 
-.service-price .price {
+.item-price .price {
     font-size: 1.1rem;
     font-weight: 500;
     color: var(--text-dark);
@@ -578,7 +578,7 @@ footer h5 {
         padding-right: 15px;
     }
     
-    .service-card {
+    .item-card {
         margin-left: -15px;
         margin-right: -15px;
         border-radius: 0;
@@ -597,11 +597,11 @@ footer h5 {
         border-radius: 0;
     }
 
-    .service-image-container {
+    .item-image-container {
         max-width: 100%;
     }
 
-    .service-image {
+    .item-image {
         width: 100%;
         height: auto;
         min-height: 80px;
@@ -618,11 +618,11 @@ footer h5 {
         margin-bottom: 0.5rem;
     }
 
-    .service-features {
+    .item-features {
         font-size: 0.875rem;
     }
 
-    .service-price {
+    .item-price {
         text-align: left;
         margin-bottom: 0.5rem;
     }
@@ -640,11 +640,11 @@ footer h5 {
         margin-bottom: 1rem;
     }
 
-    .service-card .col-2 {
+    .item-card .col-2 {
         width: 30%;
     }
 
-    .service-card .col-6 {
+    .item-card .col-6 {
         width: 70%;
     }
 }
@@ -655,6 +655,6 @@ footer h5 {
     to { opacity: 1; transform: translateY(0); }
 }
 
-.service-card {
+.item-card {
     animation: fadeIn 0.5s ease-out;
 }

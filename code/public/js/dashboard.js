@@ -1,5 +1,5 @@
 async function toggleFavorite(button) {
-    const serviceId = button.getAttribute('data-service-id');
+    const serviceId = button.getAttribute('data-item-id');
     const isFavorite = button.classList.contains('active');
     
     try {
