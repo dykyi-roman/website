@@ -44,89 +44,89 @@
 }
 
 /* Grid View */
-.services-grid.grid-view .item-item {
+.items-grid.grid-view .item-item {
     margin-bottom: 20px;
 }
 
-.services-grid.grid-view .item-card {
+.items-grid.grid-view .item-card {
     height: 100%;
 }
 
-.services-grid.grid-view .item-image-container {
+.items-grid.grid-view .item-image-container {
     height: 200px;
     overflow: hidden;
 }
 
-.services-grid.grid-view .item-image {
+.items-grid.grid-view .item-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.services-grid.grid-view .item-content {
+.items-grid.grid-view .item-content {
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 
-.services-grid.grid-view .item-details {
+.items-grid.grid-view .item-details {
     flex-grow: 1;
 }
 
 /* Hide description in grid view */
-.services-grid.grid-view .card-text {
+.items-grid.grid-view .card-text {
     display: none;
 }
 
 /* Grid View Share Button */
-.services-grid.grid-view .btn-share {
+.items-grid.grid-view .btn-share {
     right: 10px !important;
     left: auto !important;
     top: 10px !important;
 }
 
 /* List View */
-.services-grid.list-view .item-item {
+.items-grid.list-view .item-item {
     width: 100% !important;
     max-width: 100% !important;
     flex: 0 0 100% !important;
     margin-bottom: 20px;
 }
 
-.services-grid.list-view .item-card .card-body {
+.items-grid.list-view .item-card .card-body {
     padding: 1.25rem;
     position: relative;
 }
 
-.services-grid.list-view .item-content {
+.items-grid.list-view .item-content {
     display: flex;
     flex-direction: row;
     align-items: start;
 }
 
-.services-grid.list-view .item-image-section {
+.items-grid.list-view .item-image-section {
     width: 200px;
     flex-shrink: 0;
     margin-right: 20px;
 }
 
-.services-grid.list-view .item-image-container {
+.items-grid.list-view .item-image-container {
     height: 150px;
     overflow: hidden;
 }
 
-.services-grid.list-view .item-image {
+.items-grid.list-view .item-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.services-grid.list-view .item-details {
+.items-grid.list-view .item-details {
     flex-grow: 1;
     padding: 0 20px;
 }
 
-.services-grid.list-view .item-footer {
+.items-grid.list-view .item-footer {
     width: 220px;
     flex-shrink: 0;
     text-align: right;
@@ -135,12 +135,12 @@
 }
 
 /* Show description in list view */
-.services-grid.list-view .card-text {
+.items-grid.list-view .card-text {
     display: block;
 }
 
 /* List View Share Button */
-.services-grid.list-view .btn-share {
+.items-grid.list-view .btn-share {
     left: 10px !important;
     right: auto !important;
     bottom: 10px !important;
@@ -220,28 +220,28 @@
 
 /* Responsive adjustments */
 @media (max-width: 991px) {
-    .services-grid.list-view .item-content {
+    .items-grid.list-view .item-content {
         flex-direction: column;
     }
     
-    .services-grid.list-view .item-image-section {
+    .items-grid.list-view .item-image-section {
         width: 100%;
         max-width: 300px;
         margin: 0 auto 20px;
     }
     
-    .services-grid.list-view .item-image-container {
+    .items-grid.list-view .item-image-container {
         height: 200px;
         max-height: 200px;
     }
     
-    .services-grid.list-view .item-details {
+    .items-grid.list-view .item-details {
         padding: 0;
         margin-bottom: 20px;
         text-align: center;
     }
 
-    .services-grid.list-view .item-footer {
+    .items-grid.list-view .item-footer {
         width: 100%;
         text-align: center;
         padding-left: 0;
@@ -250,11 +250,11 @@
         padding-top: 20px;
     }
 
-    .services-grid.list-view .item-features {
+    .items-grid.list-view .item-features {
         text-align: left;
     }
 
-    .services-grid.list-view .price-booking {
+    .items-grid.list-view .price-booking {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -262,11 +262,11 @@
 }
 
 @media (max-width: 576px) {
-    .services-grid.list-view .item-image-section {
+    .items-grid.list-view .item-image-section {
         max-width: 250px;
     }
     
-    .services-grid.list-view .item-image-container {
+    .items-grid.list-view .item-image-container {
         height: 150px;
     }
 }

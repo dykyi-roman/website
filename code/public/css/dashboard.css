@@ -268,7 +268,7 @@ select:-moz-placeholder {
 }
 
 /* Services Grid */
-.services-grid .container-fluid {
+.items-grid .container-fluid {
     max-width: 960px;
     margin: 0 auto;
 }
@@ -572,7 +572,7 @@ footer h5 {
     }
     
     .search-section .container-fluid,
-    .services-grid .container-fluid {
+    .items-grid .container-fluid {
         max-width: 100%;
         padding-left: 15px;
         padding-right: 15px;

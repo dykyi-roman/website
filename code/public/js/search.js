@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     const searchButton = document.querySelector('.btn-primary.btn-lg');
     const searchInput = document.querySelector('.form-control.form-control-lg');
-    const servicesGrid = document.querySelector('.services-grid');
-    const servicesContainer = document.querySelector('.services-grid .row.g-4');
+    const servicesGrid = document.querySelector('.items-grid');
+    const servicesContainer = document.querySelector('.items-grid .row.g-4');
     const listViewButton = document.getElementById('list-view-button');
     const gridViewButton = document.getElementById('grid-view-button');
 
