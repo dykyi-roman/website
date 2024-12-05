@@ -1,7 +1,39 @@
 document.addEventListener('DOMContentLoaded', function() {
     const searchButton = document.querySelector('.btn-primary.btn-lg');
     const searchInput = document.querySelector('.form-control.form-control-lg');
-    const servicesGrid = document.querySelector('.services-grid .row.g-4');
+    const servicesGrid = document.querySelector('.services-grid');
+    const servicesContainer = document.querySelector('.services-grid .row.g-4');
+    const listViewButton = document.getElementById('list-view-button');
+    const gridViewButton = document.getElementById('grid-view-button');
+
+    // Initialize view buttons
+    if (listViewButton && gridViewButton) {
+        listViewButton.addEventListener('click', () => {
+            servicesGrid.classList.remove('grid-view');
+            servicesGrid.classList.add('list-view');
+            listViewButton.classList.add('active');
+            gridViewButton.classList.remove('active');
+            localStorage.setItem('viewPreference', 'list');
+        });
+
+        gridViewButton.addEventListener('click', () => {
+            servicesGrid.classList.remove('list-view');
+            servicesGrid.classList.add('grid-view');
+            gridViewButton.classList.add('active');
+            listViewButton.classList.remove('active');
+            localStorage.setItem('viewPreference', 'grid');
+        });
+
+        // Set initial view based on stored preference or default to list
+        const viewPreference = localStorage.getItem('viewPreference') || 'list';
+        if (viewPreference === 'grid') {
+            servicesGrid.classList.add('grid-view');
+            gridViewButton.classList.add('active');
+        } else {
+            servicesGrid.classList.add('list-view');
+            listViewButton.classList.add('active');
+        }
+    }
 
     // Utility function to safely render features
     function renderFeatures(features) {
@@ -32,12 +64,12 @@ document.addEventListener('DOMContentLoaded', function() {
         return Number(reviewCount) || 0;
     }
 
-    if (searchButton && searchInput && servicesGrid) {
+    if (searchButton && searchInput && servicesContainer) {
         searchButton.addEventListener('click', function() {
             const searchTerm = searchInput.value.trim();
 
             // Show loading state
-            servicesGrid.innerHTML = `
+            servicesContainer.innerHTML = `
                 <div class="col-12 text-center">
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Loading...</span>
@@ -61,11 +93,11 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(services => {
                 // Clear previous results
-                servicesGrid.innerHTML = '';
+                servicesContainer.innerHTML = '';
 
                 // Check if services exist
                 if (services.length === 0) {
-                    servicesGrid.innerHTML = `
+                    servicesContainer.innerHTML = `
                         <div class="col-12 text-center">
                             <p class="text-muted">No services found matching your search.</p>
                         </div>
@@ -73,16 +105,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
-                    // Populate services grid
-                    services.forEach(service => {
-                        const {filledStars, emptyStars} = renderStarRating(service.rating);
-                        const serviceCard = `
-                        <div class="col-12 px-0">
-                            <div class="card service-card">
+                // Populate services
+                services.forEach(service => {
+                    const {filledStars, emptyStars} = renderStarRating(service.rating);
+                    const serviceCard = `
+                        <div class="col-12 col-md-6 col-lg-3 service-item">
+                            <div class="card service-card h-100">
                                 <div class="card-body">
-                                    <div class="row g-3">
-                                        <!-- Left column: Image and Reviews -->
-                                        <div class="col-2 col-md-2">
+                                    <div class="service-content">
+                                        <!-- Image and Reviews -->
+                                        <div class="service-image-section">
                                             <div class="service-image-container position-relative">
                                                 <img src="${getImageUrl(service.image_url)}" 
                                                      class="img-fluid rounded service-image" 
@@ -99,8 +131,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                             </button>
                                         </div>
 
-                                        <!-- Center column: Service Details -->
-                                        <div class="col-6 col-md-6">
+                                        <!-- Service Details -->
+                                        <div class="service-details">
                                             <h3 class="card-title">${service.title || 'Unnamed Service'}</h3>
                                             <p class="card-text">${service.description || 'No description available'}</p>
                                             <div class="service-meta mt-3">
@@ -108,23 +140,19 @@ document.addEventListener('DOMContentLoaded', function() {
                                             </div>
                                         </div>
 
-                                        <!-- Right column: Features and Price -->
-                                        <div class="col-4 col-md-4 text-end">
+                                        <!-- Features and Price -->
+                                        <div class="service-footer">
                                             ${window.appUser === 'true'
                                                 ? ''
                                                 : '<button class="btn-favorite" data-service-id="" data-action="register"><i class="far fa-heart"></i></button>'}
                                             <div class="service-features mb-3">
-                                                    ${renderFeatures(service.features)}
+                                                ${renderFeatures(service.features)}
                                             </div>
-                                            <div class="service-footer">
-                                                 <div class="d-flex flex-column align-items-end">
-                                                     <div class="service-price mb-2">
-                                                         <span class="price">${service.price}</span>
-                                                     </div>
-                                                     <div>
-                                                         <button class="btn btn-primary">Book Now</button>
-                                                     </div>
-                                                 </div>
+                                            <div class="price-booking">
+                                                <div class="service-price mb-2">
+                                                    <span class="price">${service.price}</span>
+                                                </div>
+                                                <button class="btn btn-primary">Book Now</button>
                                             </div>
                                         </div>
                                     </div>
@@ -132,12 +160,12 @@ document.addEventListener('DOMContentLoaded', function() {
                             </div>
                         </div>
                     `;
-                    servicesGrid.insertAdjacentHTML('beforeend', serviceCard);
+                    servicesContainer.insertAdjacentHTML('beforeend', serviceCard);
                 });
             })
             .catch(error => {
                 console.error('Search Error:', error);
-                servicesGrid.innerHTML = `
+                servicesContainer.innerHTML = `
                     <div class="col-12 text-center">
                         <p class="text-danger">An error occurred while searching. Please try again later.</p>
                     </div>
