@@ -10,12 +10,7 @@ final readonly class MockClient implements ServiceInterface
 {
     private const int COUNT = 25;
 
-    public function __construct(
-        private string $appHost,
-    ) {
-    }
-
-    public function search(string $query, int $page = 1, int $limit = 10): array
+    public function search(string $query, int $page = 1, int $limit = 20): array
     {
         $items = [];
         for ($i = 0; $i < self::COUNT; $i++) {
