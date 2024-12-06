@@ -15,7 +15,7 @@ services:
             - '../../**/Tests/'
         tags: ['controller.service_arguments']
 
-    App\Dashboard\Presentation\Web\Twig\CountriesExtension:
+    App\Dashboard\Presentation\Web\Twig\GlobalExtension:
         tags: ['twig.extension']
 
 twig:
