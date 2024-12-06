@@ -1,0 +1,88 @@
+/* Main layout styles */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content-wrapper {
+    flex: 1 0 auto;
+    padding: 80px 0 30px; /* Adjusted for fixed navbar */
+}
+
+.content-wrapper .container .page-content {
+    min-height: 400px; /* Added minimum height */
+}
+
+/* Footer styles */
+footer {
+    flex-shrink: 0;
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    border-top: 1px solid #dee2e6;
+}
+
+/* Page content styles */
+.page-content {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    height: 100%;
+    padding: 25px;
+    margin-bottom: 20px;
+    border: 1px solid #dee2e6;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.page-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Typography */
+.page-content h1 {
+    color: var(--primary-orange);
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+}
+
+.page-content h2 {
+    color: #333;
+    margin: 1.5rem 0 1rem;
+    font-size: 1.5rem;
+}
+
+.page-content p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* Links */
+.page-content a {
+    color: var(--primary-orange);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.page-content a:hover {
+    color: var(--secondary-orange);
+    text-decoration: underline;
+}
+
+/* Lists */
+.page-content ul, 
+.page-content ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.page-content li {
+    margin-bottom: 0.5rem;
+    color: #666;
+}
