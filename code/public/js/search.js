@@ -5,20 +5,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const servicesContainer = document.querySelector('.items-grid .row.g-4');
     const listViewButton = document.getElementById('list-view-button');
     const gridViewButton = document.getElementById('grid-view-button');
+    const orderFilterButton = document.getElementById('order-filter-button');
+    const serviceFilterButton = document.getElementById('service-filter-button');
 
     const itemsPerPage = 10;
+    let currentFilter = '';
 
     // Function to get URL parameters
     function getUrlParams() {
         const params = new URLSearchParams(window.location.search);
         return {
             query: params.get('query') || '',
-            page: parseInt(params.get('page')) || 1
+            page: parseInt(params.get('page')) || 1,
+            filter: params.get('filter') || ''
         };
     }
 
     // Function to update URL parameters
-    function updateUrlParams(query, page) {
+    function updateUrlParams(query, page, filter) {
         const url = new URL(window.location.href);
         if (query) {
             url.searchParams.set('query', query);
@@ -26,7 +30,50 @@ document.addEventListener('DOMContentLoaded', function() {
             url.searchParams.delete('query');
         }
         url.searchParams.set('page', page);
+        if (filter) {
+            url.searchParams.set('filter', filter);
+        } else {
+            url.searchParams.delete('filter');
+        }
         window.history.pushState({}, '', url);
+    }
+
+    // Initialize filter buttons
+    if (orderFilterButton && serviceFilterButton) {
+        orderFilterButton.addEventListener('click', () => {
+            if (currentFilter === 'order') {
+                currentFilter = '';
+                orderFilterButton.classList.remove('active');
+            } else {
+                currentFilter = 'order';
+                orderFilterButton.classList.add('active');
+                serviceFilterButton.classList.remove('active');
+            }
+            performSearch(searchInput.value.trim(), 1, currentFilter);
+        });
+
+        serviceFilterButton.addEventListener('click', () => {
+            if (currentFilter === 'service') {
+                currentFilter = '';
+                serviceFilterButton.classList.remove('active');
+            } else {
+                currentFilter = 'service';
+                serviceFilterButton.classList.add('active');
+                orderFilterButton.classList.remove('active');
+            }
+            performSearch(searchInput.value.trim(), 1, currentFilter);
+        });
+
+        // Set initial filter based on URL parameter
+        const params = getUrlParams();
+        if (params.filter) {
+            currentFilter = params.filter;
+            if (currentFilter === 'order') {
+                orderFilterButton.classList.add('active');
+            } else if (currentFilter === 'service') {
+                serviceFilterButton.classList.add('active');
+            }
+        }
     }
 
     // Initialize view buttons
@@ -100,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const prevButton = document.createElement('button');
         prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
         prevButton.disabled = currentPage === 1;
-        prevButton.addEventListener('click', () => performSearch(searchInput.value.trim(), currentPage - 1));
+        prevButton.addEventListener('click', () => performSearch(searchInput.value.trim(), currentPage - 1, currentFilter));
         prevLi.appendChild(prevButton);
         pagination.appendChild(prevLi);
         
@@ -117,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (i === currentPage) {
                     button.classList.add('active');
                 }
-                button.addEventListener('click', () => performSearch(searchInput.value.trim(), i));
+                button.addEventListener('click', () => performSearch(searchInput.value.trim(), i, currentFilter));
                 li.appendChild(button);
                 pagination.appendChild(li);
             } else if (
@@ -138,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const nextButton = document.createElement('button');
         nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
         nextButton.disabled = currentPage === totalPages;
-        nextButton.addEventListener('click', () => performSearch(searchInput.value.trim(), currentPage + 1));
+        nextButton.addEventListener('click', () => performSearch(searchInput.value.trim(), currentPage + 1, currentFilter));
         nextLi.appendChild(nextButton);
         pagination.appendChild(nextLi);
         
@@ -147,9 +194,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Function to perform search
-    function performSearch(query, page = 1) {
+    function performSearch(query, page = 1, filter = '') {
         // Update URL parameters
-        updateUrlParams(query, page);
+        updateUrlParams(query, page, filter);
 
         // Show loading state
         servicesContainer.innerHTML = `
@@ -167,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Fetch services from API
-        fetch(`/api/service/search?query=${encodeURIComponent(query)}&page=${page}&limit=${itemsPerPage}`, {
+        fetch(`/api/service/search?query=${encodeURIComponent(query)}&page=${page}&limit=${itemsPerPage}&filter=${filter}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -269,17 +316,17 @@ document.addEventListener('DOMContentLoaded', function() {
     if (searchButton && searchInput && servicesContainer) {
         // Check URL parameters immediately on page load
         const params = getUrlParams();
-        if (params.query || params.page > 1) {
+        if (params.query || params.page > 1 || params.filter) {
             searchInput.value = params.query;
-            performSearch(params.query, params.page);
+            performSearch(params.query, params.page, params.filter);
         }
 
-        searchButton.addEventListener('click', () => performSearch(searchInput.value.trim(), 1));
+        searchButton.addEventListener('click', () => performSearch(searchInput.value.trim(), 1, currentFilter));
         
         // Add enter key support
         searchInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                performSearch(searchInput.value.trim(), 1);
+                performSearch(searchInput.value.trim(), 1, currentFilter);
             }
         });
 
@@ -287,7 +334,8 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('popstate', function() {
             const params = getUrlParams();
             searchInput.value = params.query || '';
-            performSearch(params.query, params.page);
+            currentFilter = params.filter || '';
+            performSearch(params.query, params.page, currentFilter);
         });
     }
 });

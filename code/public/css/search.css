@@ -1,3 +1,49 @@
+/* Filter buttons */
+.filter-toggle {
+    margin: 0 auto;
+    padding: 0 15px;
+    max-width: 1200px;
+    text-align: left;
+    margin-top: 20px;
+    position: relative;
+    z-index: 1;
+    float: left;
+}
+
+.filter-toggle button {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    margin-right: 10px;
+    border: 1px solid var(--primary-orange);
+    background: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-orange);
+}
+
+.filter-toggle button:hover {
+    background-color: var(--secondary-orange);
+    border-color: var(--secondary-orange);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+}
+
+.filter-toggle button.active {
+    background-color: var(--primary-orange);
+    border-color: var(--primary-orange);
+    color: #fff;
+}
+
+.filter-toggle button i {
+    font-size: 1.2rem;
+}
+
 /* View toggle buttons */
 .view-toggle {
     margin: 0 auto;
