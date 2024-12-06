@@ -1,0 +1,34 @@
+<!-- Footer -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <p>&copy; {{ "now"|date("Y") }} {{ organization.name }}. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="/privacy">Privacy Policy</a>
+                    <a href="/terms">Terms of Service</a>
+                    <a href="/contact">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Schema.org Organization Markup -->
+{% block schema_org %}
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "name": "{{ organization.name }}",
+    "url": "{{ app.request.schemeAndHttpHost }}",
+    "logo": "{{ absolute_url('favicon.ico') }}",
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "{{ organization.phone }}",
+        "contactType": "customer service"
+    },
+    "sameAs": {{ organization.social_links|json_encode|raw }}
+}
+</script>
+{% endblock %}

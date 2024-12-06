@@ -1,0 +1,50 @@
+<!-- Security Headers -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:;">
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+
+<!-- Basic Meta Tags -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="{{ meta_description|default(organization.name ~ ' - Find and book professional services. Browse through our wide selection of verified service providers for all your needs.') }}">
+<meta name="keywords" content="{{ meta_keywords|default('services, booking, professional services, service providers, local services') }}">
+<meta name="robots" content="index, follow">
+<meta name="author" content="{{ organization.name }}">
+
+<!-- Open Graph / Social Media Meta Tags -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ page_title|default(organization.name) }}">
+<meta property="og:description" content="{{ meta_description|default('Find and book professional services. Browse through our wide selection of verified service providers.') }}">
+<meta property="og:image" content="{{ og_image|default(absolute_url('favicon.ico')) }}">
+<meta property="og:url" content="{{ app.request.uri }}">
+<meta property="og:site_name" content="{{ organization.name }}">
+
+<!-- Twitter Card Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page_title|default(organization.name) }}">
+<meta name="twitter:description" content="{{ meta_description|default('Find and book professional services. Browse through our wide selection of verified service providers.') }}">
+<meta name="twitter:image" content="{{ og_image|default(absolute_url('favicon.ico')) }}">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="{{ app.request.uri }}">
+
+<!-- Favicon -->
+<link rel="icon" href="{{ absolute_url('favicon.ico') }}">
+
+<!-- Schema.org WebSite Markup -->
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "{{ organization.name }}",
+    "url": "{{ app.request.schemeAndHttpHost }}",
+    "description": "{{ meta_description|default('Find and book professional services. Browse through our wide selection of verified service providers.') }}",
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ app.request.schemeAndHttpHost }}/search?q={search_term}",
+        "query-input": "required name=search_term"
+    }
+}
+</script>
