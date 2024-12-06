@@ -273,7 +273,6 @@ select:-moz-placeholder {
 
 /* Services Grid */
 .items-grid .container-fluid {
-    max-width: 960px;
     margin: 0 auto;
 }
 
