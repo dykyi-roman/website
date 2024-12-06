@@ -312,6 +312,29 @@
     background: rgba(255,255,255,1);
 }
 
+/* Search Section */
+.search-section {
+    background-color: #fff;
+    padding: 6rem 0 2rem 0;
+}
+
+.search-section .container-fluid {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+/* Filter container */
+.d-flex.justify-content-between.align-items-center {
+    margin-top: 0.5rem;
+}
+
+.search-section h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    padding-top: 3rem;
+}
+
 /* Responsive adjustments */
 @media (max-width: 991px) {
     .items-grid.list-view .item-content {
