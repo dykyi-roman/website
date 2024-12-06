@@ -335,7 +335,7 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 991px) {
+@media (max-width: 691px) {
     .items-grid.list-view .item-content {
         flex-direction: column;
     }
