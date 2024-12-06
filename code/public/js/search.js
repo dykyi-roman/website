@@ -40,15 +40,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize filter buttons
     if (orderFilterButton && serviceFilterButton) {
+        // Load saved filter state from localStorage
+        const savedFilter = localStorage.getItem('currentFilter') || '';
+        currentFilter = savedFilter;
+        
+        if (currentFilter === 'orders') {
+            orderFilterButton.classList.add('active');
+        } else if (currentFilter === 'services') {
+            serviceFilterButton.classList.add('active');
+        }
+
         orderFilterButton.addEventListener('click', () => {
             if (currentFilter === 'orders') {
                 currentFilter = '';
                 orderFilterButton.classList.remove('active');
+                localStorage.removeItem('currentFilter');
                 servicesSearch(searchInput.value.trim(), 1, currentFilter);
             } else {
                 currentFilter = 'orders';
                 orderFilterButton.classList.add('active');
                 serviceFilterButton.classList.remove('active');
+                localStorage.setItem('currentFilter', currentFilter);
                 ordersSearch(searchInput.value.trim(), 1);
             }
         });
@@ -57,16 +69,18 @@ document.addEventListener('DOMContentLoaded', function() {
             if (currentFilter === 'services') {
                 currentFilter = '';
                 serviceFilterButton.classList.remove('active');
+                localStorage.removeItem('currentFilter');
                 servicesSearch(searchInput.value.trim(), 1, currentFilter);
             } else {
                 currentFilter = 'services';
                 serviceFilterButton.classList.add('active');
                 orderFilterButton.classList.remove('active');
+                localStorage.setItem('currentFilter', currentFilter);
                 servicesSearch(searchInput.value.trim(), 1, currentFilter);
             }
         });
 
-        // Set initial filter based on URL parameter
+        // Set initial filter based on URL parameter or localStorage
         const params = getUrlParams();
         if (params.filter) {
             currentFilter = params.filter;
@@ -75,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (currentFilter === 'services') {
                 serviceFilterButton.classList.add('active');
             }
+            localStorage.setItem('currentFilter', currentFilter);
         }
     }
 
