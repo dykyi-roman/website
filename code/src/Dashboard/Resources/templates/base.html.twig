@@ -19,10 +19,7 @@
 
         {# Page-specific CSS #}
         {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset('css/page.css') }}">
-            <link rel="stylesheet" href="{{ asset('css/register-popup.css') }}">
-            <link rel="stylesheet" href="{{ asset('css/login-popup.css') }}">
-            <link rel="stylesheet" href="{{ asset('css/share-popup.css') }}">
+
         {% endblock %}
 
         {# Core JavaScript #}
@@ -39,10 +36,7 @@
 
         {# Page-specific JavaScript #}
         {% block javascripts %}
-            <script src="{{ asset('js/forgot-password-popup.js') }}" defer></script>
-            <script src="{{ asset('js/register-popup.js') }}" defer></script>
-            <script src="{{ asset('js/login-popup.js') }}" defer></script>
-            <script src="{{ asset('js/share-popup.js') }}" defer></script>
+
         {% endblock %}
     </head>
     <body itemscope itemtype="http://schema.org/WebPage" class="{% block body_class %}{% endblock %}">
@@ -75,10 +69,14 @@
 
         {# Modals #}
         {% block modals %}
-            {% include '@Dashboard/popup/login-popup.html.twig' %}
-            {% include '@Dashboard/popup/register-popup.html.twig' %}
-            {% include '@Dashboard/popup/forgot-password-popup.html.twig' %}
             {% include '@Dashboard/popup/share-popup.html.twig' %}
+            {% if app.user %}
+
+            {% else %}
+                {% include '@Dashboard/popup/login-popup.html.twig' %}
+                {% include '@Dashboard/popup/register-popup.html.twig' %}
+                {% include '@Dashboard/popup/forgot-password-popup.html.twig' %}
+            {% endif %}
         {% endblock %}
 
         {# Late-loaded JavaScript #}
