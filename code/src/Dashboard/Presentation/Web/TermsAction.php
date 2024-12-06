@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TermsAction extends AbstractController
 {
-    #[Route('/terms', name: 'terms_page')]
+    #[Route('/terms', name: 'terms')]
     public function __invoke(): Response
     {
         return $this->render('@Dashboard/terms.html.twig', [

@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PrivacyAction extends AbstractController
 {
-    #[Route('/privacy', name: 'privacy_page')]
+    #[Route('/privacy', name: 'privacy')]
     public function __invoke(): Response
     {
         return $this->render('@Dashboard/privacy.html.twig', [
