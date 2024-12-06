@@ -17,6 +17,36 @@
     --error-red: #dc3545;
 }
 
+/* Scroll to Top Button */
+.scroll-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-orange);
+    color: white;
+    border-radius: 50%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-speed) ease;
+    z-index: 1000;
+}
+
+.scroll-to-top:hover {
+    background-color: var(--secondary-orange);
+    transform: translateY(-3px);
+}
+
+.scroll-to-top.visible {
+    display: flex;
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Rest of the existing CSS */
 /* Link Styles */
 a {
     color: var(--primary-orange);
@@ -634,6 +664,11 @@ footer h5 {
         width: 100%;
         margin-top: 0.5rem;
         border-radius: 0;
+    }
+
+    .scroll-to-top {
+        bottom: 15px;
+        right: 15px;
     }
 }
 
