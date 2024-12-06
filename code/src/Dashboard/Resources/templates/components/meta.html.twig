@@ -17,7 +17,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{ page_title|default(organization.name) }}">
 <meta property="og:description" content="{{ meta_description|default('Find and book professional services. Browse through our wide selection of verified service providers.') }}">
-<meta property="og:image" content="{{ og_image|default(absolute_url('favicon.ico')) }}">
+<meta property="og:image" content="{{ og_image|default(absolute_url('favicon.svg')) }}">
 <meta property="og:url" content="{{ app.request.uri }}">
 <meta property="og:site_name" content="{{ organization.name }}">
 
@@ -25,13 +25,13 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ page_title|default(organization.name) }}">
 <meta name="twitter:description" content="{{ meta_description|default('Find and book professional services. Browse through our wide selection of verified service providers.') }}">
-<meta name="twitter:image" content="{{ og_image|default(absolute_url('favicon.ico')) }}">
+<meta name="twitter:image" content="{{ og_image|default(absolute_url('favicon.svg')) }}">
 
 <!-- Canonical URL -->
 <link rel="canonical" href="{{ app.request.uri }}">
 
 <!-- Favicon -->
-<link rel="icon" href="{{ absolute_url('favicon.ico') }}">
+<link rel="icon" href="{{ absolute_url('favicon.svg') }}">
 
 <!-- Schema.org WebSite Markup -->
 <script type="application/ld+json">
