@@ -18,6 +18,13 @@ framework:
     
     assets:
         enabled: true
+        version: '1.0.0'
+        version_format: '%s?v=%s'
+
+when@dev:
+    framework:
+        enabled: true
+        version: '%datetime%'
 
 when@test:
     framework:
