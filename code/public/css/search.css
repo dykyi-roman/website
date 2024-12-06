@@ -1,6 +1,5 @@
 /* Filter buttons */
 .filter-toggle {
-    padding: 0 15px;
     text-align: left;
     position: relative;
     z-index: 1;
@@ -42,7 +41,6 @@
 
 /* View toggle buttons */
 .view-toggle {
-    padding: 0 15px;
     text-align: right;
     position: relative;
     z-index: 1;

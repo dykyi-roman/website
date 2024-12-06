@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Infrastructure\ElasticSearch;
+namespace App\Order\Infrastructure\ElasticSearch;
 
-use App\Service\DomainModel\Service\ServiceInterface;
+use App\Order\DomainModel\Service\OrderInterface;
 
-final readonly class MockClient implements ServiceInterface
+final readonly class MockClient implements OrderInterface
 {
-    private const int COUNT = 25;
+    private const int COUNT = 10;
 
     public function search(string $query, int $page = 1, int $limit = 20): array
     {
@@ -16,12 +16,12 @@ final readonly class MockClient implements ServiceInterface
         for ($i = 0; $i < self::COUNT; $i++) {
             $items[] = [
                 'id' => $i,
-                'title' => 'Sample Service Title 1',
+                'title' => 'Sample Order Title 1',
                 'description' => 'This is a sample description for the first service offering. This is a sample description for the first service offering. This is a sample description for the first service offering. This is a sample description for the first service offering.',
                 'category' => 'Phone',
-                'url' => '/services/item/' . $i,
+                'url' => '/orders/item/' . $i,
                 'feedback_count' => '42',
-                'image_url' => 'https://scontent.xx.fbcdn.net/v/t39.30808-6/240122781_4417691381658687_1314923864255434509_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=f727a1&_nc_ohc=AizUbMWXODkQ7kNvgHOyNUW&_nc_zt=23&_nc_ht=scontent.xx&_nc_gid=AGO1PYGFi2Kud1mgLl1oJRW&oh=00_AYBpD2G0pjh2J3Cq_ef0bV4jsboOEHmzmwl3BrZkECdSow&oe=67585939',
+                'image_url' => 'https://scontent.xx.fbcdn.net/v/t39.30808-6/240452626_4417691464992012_8238282600430963777_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=f727a1&_nc_ohc=vXW6bc2sCH8Q7kNvgFLod1B&_nc_zt=23&_nc_ht=scontent.xx&_nc_gid=AcYcaCRfcsc7DbKeuVOTgWg&oh=00_AYAGh8YvfOWrtHN_3NyfVIKD4uN03R0RrJaGVejjYBNrNA&oe=67586285',
                 'features' => [
                     'Super-premium',
                     'Master-freelancer',

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Presentation\Api\Request;
+namespace App\Order\Presentation\Api\Request;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class SearchRequestDTO
+final class OrdersSearchRequestDTO
 {
     #[Assert\Type('string')]
     #[Assert\Length(max: 255)]

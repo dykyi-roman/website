@@ -40,82 +40,52 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize filter buttons
     if (orderFilterButton && serviceFilterButton) {
-        // Get saved filter from localStorage or default to 'service'
-        currentFilter = localStorage.getItem('filterMode') || 'service';
-        
-        // Set initial filter based on saved preference
-        if (currentFilter === 'order') {
-            orderFilterButton.classList.add('active');
-            serviceFilterButton.classList.remove('active');
-        } else if (currentFilter === 'service') {
-            serviceFilterButton.classList.add('active');
-            orderFilterButton.classList.remove('active');
-        }
-
         orderFilterButton.addEventListener('click', () => {
-            if (currentFilter === 'order') {
+            if (currentFilter === 'orders') {
                 currentFilter = '';
                 orderFilterButton.classList.remove('active');
+                servicesSearch(searchInput.value.trim(), 1, currentFilter);
             } else {
-                currentFilter = 'order';
+                currentFilter = 'orders';
                 orderFilterButton.classList.add('active');
                 serviceFilterButton.classList.remove('active');
+                ordersSearch(searchInput.value.trim(), 1);
             }
-            localStorage.setItem('filterMode', currentFilter);
-            performSearch(searchInput.value.trim(), 1, currentFilter);
         });
 
         serviceFilterButton.addEventListener('click', () => {
-            if (currentFilter === 'service') {
+            if (currentFilter === 'services') {
                 currentFilter = '';
                 serviceFilterButton.classList.remove('active');
+                servicesSearch(searchInput.value.trim(), 1, currentFilter);
             } else {
-                currentFilter = 'service';
+                currentFilter = 'services';
                 serviceFilterButton.classList.add('active');
                 orderFilterButton.classList.remove('active');
+                servicesSearch(searchInput.value.trim(), 1, currentFilter);
             }
-            localStorage.setItem('filterMode', currentFilter);
-            performSearch(searchInput.value.trim(), 1, currentFilter);
         });
 
-        // Set initial filter based on URL parameter or localStorage
+        // Set initial filter based on URL parameter
         const params = getUrlParams();
         if (params.filter) {
             currentFilter = params.filter;
-            if (currentFilter === 'order') {
+            if (currentFilter === 'orders') {
                 orderFilterButton.classList.add('active');
-                serviceFilterButton.classList.remove('active');
-            } else if (currentFilter === 'service') {
+            } else if (currentFilter === 'services') {
                 serviceFilterButton.classList.add('active');
-                orderFilterButton.classList.remove('active');
             }
         }
     }
 
     // Initialize view buttons
     if (listViewButton && gridViewButton) {
-        // Get saved view from localStorage or default to 'list'
-        const savedView = localStorage.getItem('viewMode') || 'list';
-        
-        // Set initial view based on saved preference
-        if (savedView === 'grid') {
-            servicesGrid.classList.add('grid-view');
-            servicesGrid.classList.remove('list-view');
-            gridViewButton.classList.add('active');
-            listViewButton.classList.remove('active');
-        } else {
-            servicesGrid.classList.add('list-view');
-            servicesGrid.classList.remove('grid-view');
-            listViewButton.classList.add('active');
-            gridViewButton.classList.remove('active');
-        }
-        
         listViewButton.addEventListener('click', () => {
             servicesGrid.classList.remove('grid-view');
             servicesGrid.classList.add('list-view');
             listViewButton.classList.add('active');
             gridViewButton.classList.remove('active');
-            localStorage.setItem('viewMode', 'list');
+            localStorage.setItem('viewPreference', 'list');
         });
 
         gridViewButton.addEventListener('click', () => {
@@ -123,8 +93,18 @@ document.addEventListener('DOMContentLoaded', function() {
             servicesGrid.classList.add('grid-view');
             gridViewButton.classList.add('active');
             listViewButton.classList.remove('active');
-            localStorage.setItem('viewMode', 'grid');
+            localStorage.setItem('viewPreference', 'grid');
         });
+
+        // Set initial view based on stored preference or default to list
+        const viewPreference = localStorage.getItem('viewPreference') || 'list';
+        if (viewPreference === 'grid') {
+            servicesGrid.classList.add('grid-view');
+            gridViewButton.classList.add('active');
+        } else {
+            servicesGrid.classList.add('list-view');
+            listViewButton.classList.add('active');
+        }
     }
 
     // Utility function to safely render features
@@ -169,7 +149,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const prevButton = document.createElement('button');
         prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
         prevButton.disabled = currentPage === 1;
-        prevButton.addEventListener('click', () => performSearch(searchInput.value.trim(), currentPage - 1, currentFilter));
+        prevButton.addEventListener('click', () => {
+            if (currentFilter === 'orders') {
+                ordersSearch(searchInput.value.trim(), currentPage - 1);
+            } else {
+                servicesSearch(searchInput.value.trim(), currentPage - 1, currentFilter);
+            }
+        });
         prevLi.appendChild(prevButton);
         pagination.appendChild(prevLi);
         
@@ -186,7 +172,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (i === currentPage) {
                     button.classList.add('active');
                 }
-                button.addEventListener('click', () => performSearch(searchInput.value.trim(), i, currentFilter));
+                button.addEventListener('click', () => {
+                    if (currentFilter === 'orders') {
+                        ordersSearch(searchInput.value.trim(), i);
+                    } else {
+                        servicesSearch(searchInput.value.trim(), i, currentFilter);
+                    }
+                });
                 li.appendChild(button);
                 pagination.appendChild(li);
             } else if (
@@ -207,7 +199,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const nextButton = document.createElement('button');
         nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
         nextButton.disabled = currentPage === totalPages;
-        nextButton.addEventListener('click', () => performSearch(searchInput.value.trim(), currentPage + 1, currentFilter));
+        nextButton.addEventListener('click', () => {
+            if (currentFilter === 'orders') {
+                ordersSearch(searchInput.value.trim(), currentPage + 1);
+            } else {
+                servicesSearch(searchInput.value.trim(), currentPage + 1, currentFilter);
+            }
+        });
         nextLi.appendChild(nextButton);
         pagination.appendChild(nextLi);
         
@@ -215,8 +213,8 @@ document.addEventListener('DOMContentLoaded', function() {
         return paginationContainer;
     }
 
-    // Function to perform search
-    function performSearch(query, page = 1, filter = '') {
+    // Function to perform services search
+    function servicesSearch(query, page = 1, filter = '') {
         // Update URL parameters
         updateUrlParams(query, page, filter);
 
@@ -236,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Fetch services from API
-        fetch(`/api/service/search?query=${encodeURIComponent(query)}&page=${page}&limit=${itemsPerPage}&filter=${filter}`, {
+        fetch(`/api/services/search?query=${encodeURIComponent(query)}&page=${page}&limit=${itemsPerPage}&filter=${filter}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -335,20 +333,155 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Function to perform orders search
+    function ordersSearch(query, page = 1) {
+        // Update URL parameters
+        updateUrlParams(query, page, 'orders');
+
+        // Show loading state
+        servicesContainer.innerHTML = `
+            <div class="col-12 text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        `;
+
+        // Remove existing pagination if any
+        const existingPagination = document.querySelector('.pagination-container');
+        if (existingPagination) {
+            existingPagination.remove();
+        }
+
+        // Fetch orders from API
+        fetch(`/api/orders/search?query=${encodeURIComponent(query)}&page=${page}&limit=${itemsPerPage}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Clear previous results
+            servicesContainer.innerHTML = '';
+
+            // Check if orders exist
+            if (!data.items || data.items.length === 0) {
+                servicesContainer.innerHTML = `
+                    <div class="col-12 text-center">
+                        <p class="text-muted">No orders found matching your search.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Populate orders
+            // Populate services
+            data.items.forEach(service => {
+                const {filledStars, emptyStars} = renderStarRating(service.rating);
+                const serviceCard = `
+                    <div class="col-6 col-md-6 col-lg-3 item-item">
+                        <div class="card item-card h-100">
+                            <div class="card-body">
+                                <div class="item-content">
+                                    <!-- Image and Reviews -->
+                                    <div class="item-image-section">
+                                        <div class="item-image-container position-relative">
+                                            <img src="${getImageUrl(service.image_url)}" 
+                                                 class="img-fluid rounded item-image" 
+                                                 alt="${service.title || 'Service Image'}">
+                                        </div>
+                                        <div class="item-reviews mt-2 text-center">
+                                            <span class="text-warning">
+                                                ${filledStars}${emptyStars}
+                                            </span>
+                                            <small class="d-block">(${getReviewCount(service.review_count)} reviews)</small>
+                                        </div>
+                                    </div>
+
+                                    <!-- Service Details -->
+                                    <div class="item-details">
+                                        <h3 class="card-title"><a href="${service.url}" target="_blank">${service.title || 'Unnamed Service'}</a></h3>
+                                        <p class="card-text">${service.description || 'No description available'}</p>
+                                        <div class="item-meta mt-3">
+                                            <span class="badge bg-secondary me-2">${service.category || 'Uncategorized'}</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Features and Price -->
+                                    <div class="item-footer">
+                                        ${window.appUser === 'true'
+                    ? ''
+                    : '<button class="btn-favorite" data-item-id="" data-action="register"><i class="far fa-heart"></i></button>'}
+                                        <div class="item-features mb-3">
+                                            ${renderFeatures(service.features)}
+                                        </div>
+                                        <div class="price-booking">
+                                            <div class="item-price mb-2">
+                                                <span class="price">${service.price}</span>
+                                            </div>
+                                            <button class="btn btn-primary">Book Now</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-share" data-item-id="${service.id}">
+                                     <i class="fas fa-share-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                servicesContainer.insertAdjacentHTML('beforeend', serviceCard);
+            });
+
+            // Add pagination after the orders grid
+            const paginationElement = renderPagination(data.page, data.total_pages);
+            servicesGrid.parentNode.insertBefore(paginationElement, servicesGrid.nextSibling);
+        })
+        .catch(error => {
+            console.error('Search Error:', error);
+            servicesContainer.innerHTML = `
+                <div class="col-12 text-center">
+                    <p class="text-danger">An error occurred while searching. Please try again later.</p>
+                </div>
+            `;
+        });
+    }
+
     if (searchButton && searchInput && servicesContainer) {
         // Check URL parameters immediately on page load
         const params = getUrlParams();
         if (params.query || params.page > 1 || params.filter) {
             searchInput.value = params.query;
-            performSearch(params.query, params.page, params.filter);
+            if (params.filter === 'orders') {
+                ordersSearch(params.query, params.page);
+            } else {
+                servicesSearch(params.query, params.page, params.filter);
+            }
         }
 
-        searchButton.addEventListener('click', () => performSearch(searchInput.value.trim(), 1, currentFilter));
+        searchButton.addEventListener('click', () => {
+            if (currentFilter === 'orders') {
+                ordersSearch(searchInput.value.trim(), 1);
+            } else {
+                servicesSearch(searchInput.value.trim(), 1, currentFilter);
+            }
+        });
         
         // Add enter key support
         searchInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                performSearch(searchInput.value.trim(), 1, currentFilter);
+                if (currentFilter === 'orders') {
+                    ordersSearch(searchInput.value.trim(), 1);
+                } else {
+                    servicesSearch(searchInput.value.trim(), 1, currentFilter);
+                }
             }
         });
 
@@ -357,7 +490,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const params = getUrlParams();
             searchInput.value = params.query || '';
             currentFilter = params.filter || '';
-            performSearch(params.query, params.page, currentFilter);
+            if (currentFilter === 'orders') {
+                ordersSearch(params.query, params.page);
+            } else {
+                servicesSearch(params.query, params.page, currentFilter);
+            }
         });
     }
 });

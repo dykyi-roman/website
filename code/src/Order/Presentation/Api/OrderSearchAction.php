@@ -2,21 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Presentation\Api;
+namespace App\Order\Presentation\Api;
 
+use App\Order\DomainModel\Service\OrderInterface;
+use App\Order\Presentation\Api\Request\OrdersSearchRequestDTO;
 use OpenApi\Attributes as OA;
-use App\Service\DomainModel\Service\ServiceInterface;
-use App\Service\Presentation\Api\Request\ServicesSearchRequestDTO;
+use App\Order\Presentation\Api\Request\OrderRequestDTO;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class ServiceSearchAction extends AbstractApiAction
+final class OrderSearchAction extends AbstractApiAction
 {
     #[OA\Get(
-        path: '/api/services/search',
-        summary: 'Search services with pagination',
+        path: '/api/orders/search',
+        summary: 'Search orders with pagination',
         tags: ['Service']
     )]
     #[OA\Parameter(
@@ -70,13 +71,13 @@ final class ServiceSearchAction extends AbstractApiAction
             type: 'object'
         )
     )]
-    #[Route('/services/search', name: 'api_services_search', methods: ['GET'])]
+    #[Route('/orders/search', name: 'api_orders_search', methods: ['GET'])]
     public function __invoke(
         Request $request,
-        #[MapQueryString] ServicesSearchRequestDTO $searchRequest,
-        ServiceInterface $service,
+        #[MapQueryString] OrdersSearchRequestDTO $searchRequest,
+        OrderInterface $orders,
     ): JsonResponse {
-        $result = $service->search(
+        $result = $orders->search(
             $searchRequest->query,
             $searchRequest->page,
             $searchRequest->limit,
