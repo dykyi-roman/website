@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const gridViewButton = document.getElementById('grid-view-button');
     const orderFilterButton = document.getElementById('order-filter-button');
     const serviceFilterButton = document.getElementById('service-filter-button');
+    const searchTitle = document.querySelector('.search-section h1');
 
     const itemsPerPage = 10;
     let currentFilter = '';
@@ -38,6 +39,17 @@ document.addEventListener('DOMContentLoaded', function() {
         window.history.pushState({}, '', url);
     }
 
+    // Function to update search interface text
+    function updateSearchInterface(isOrder) {
+        if (isOrder) {
+            searchTitle.textContent = 'Find Your Order';
+            searchInput.placeholder = 'What order are you looking for?';
+        } else {
+            searchTitle.textContent = 'Find Your Service';
+            searchInput.placeholder = 'What service are you looking for?';
+        }
+    }
+
     // Initialize filter buttons
     if (orderFilterButton && serviceFilterButton) {
         // Check if filter-toggle exists in localStorage
@@ -46,13 +58,16 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('filter-toggle', 'services');
             currentFilter = 'services';
             serviceFilterButton.classList.add('active');
+            updateSearchInterface(false);
         } else {
             // Load saved filter state from localStorage
             currentFilter = localStorage.getItem('filter-toggle');
             if (currentFilter === 'orders') {
                 orderFilterButton.classList.add('active');
+                updateSearchInterface(true);
             } else if (currentFilter === 'services') {
                 serviceFilterButton.classList.add('active');
+                updateSearchInterface(false);
             }
         }
 
@@ -61,12 +76,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentFilter = '';
                 orderFilterButton.classList.remove('active');
                 localStorage.removeItem('filter-toggle');
+                updateSearchInterface(false);
                 servicesSearch(searchInput.value.trim(), 1, currentFilter);
             } else {
                 currentFilter = 'orders';
                 orderFilterButton.classList.add('active');
                 serviceFilterButton.classList.remove('active');
                 localStorage.setItem('filter-toggle', currentFilter);
+                updateSearchInterface(true);
                 ordersSearch(searchInput.value.trim(), 1);
             }
         });
@@ -76,12 +93,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentFilter = '';
                 serviceFilterButton.classList.remove('active');
                 localStorage.removeItem('filter-toggle');
+                updateSearchInterface(false);
                 servicesSearch(searchInput.value.trim(), 1, currentFilter);
             } else {
                 currentFilter = 'services';
                 serviceFilterButton.classList.add('active');
                 orderFilterButton.classList.remove('active');
                 localStorage.setItem('filter-toggle', currentFilter);
+                updateSearchInterface(false);
                 servicesSearch(searchInput.value.trim(), 1, currentFilter);
             }
         });
@@ -92,8 +111,10 @@ document.addEventListener('DOMContentLoaded', function() {
             currentFilter = params.filter;
             if (currentFilter === 'orders') {
                 orderFilterButton.classList.add('active');
+                updateSearchInterface(true);
             } else if (currentFilter === 'services') {
                 serviceFilterButton.classList.add('active');
+                updateSearchInterface(false);
             }
             localStorage.setItem('filter-toggle', currentFilter);
         }
