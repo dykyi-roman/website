@@ -22,13 +22,30 @@ final class GlobalExtension extends AbstractExtension implements GlobalsInterfac
     {
         $response = [];
         $user = $this->security->getUser();
-        $countries = [
-            ['code' => 'ua', 'name' => 'Ukraine'],
-            ['code' => 'es', 'name' => 'Spain'],
+
+        // Social media defaults
+        $response['social'] = [
+            'facebook' => 'https://www.facebook.com/servicehub',
+            'twitter' => 'https://twitter.com/servicehub',
+            'linkedin' => 'https://www.linkedin.com/company/servicehub',
+        ];
+
+        // Organization data
+        $response['organization'] = [
+            'name' => 'ServiceHub',
+            'phone' => '+1-XXX-XXX-XXXX',
+            'social_links' => [
+                'https://www.facebook.com/servicehub',
+                'https://twitter.com/servicehub',
+                'https://www.linkedin.com/company/servicehub',
+            ],
         ];
 
         if (!$user) {
-            $response['countries'] = $countries;
+            $response['countries'] = [
+                ['code' => 'ua', 'name' => 'Ukraine'],
+                ['code' => 'es', 'name' => 'Spain'],
+            ];
         }
 
         return $response;

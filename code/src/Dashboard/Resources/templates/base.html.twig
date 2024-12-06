@@ -80,19 +80,15 @@
         {
             "@context": "http://schema.org",
             "@type": "Organization",
-            "name": "ServiceHub",
+            "name": "{{ organization.name }}",
             "url": "{{ app.request.schemeAndHttpHost }}",
             "logo": "{{ absolute_url('favicon.ico') }}",
             "contactPoint": {
                 "@type": "ContactPoint",
-                "telephone": "+1-XXX-XXX-XXXX",
+                "telephone": "{{ organization.phone }}",
                 "contactType": "customer service"
             },
-            "sameAs": [
-                "https://www.facebook.com/servicehub",
-                "https://twitter.com/servicehub",
-                "https://www.linkedin.com/company/servicehub"
-            ]
+            "sameAs": {{ organization.social_links|json_encode|raw }}
         }
         </script>
     </body>
