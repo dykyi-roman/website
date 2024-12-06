@@ -25,19 +25,19 @@ final class GlobalExtension extends AbstractExtension implements GlobalsInterfac
 
         // Social media defaults
         $response['social'] = [
-            'facebook' => 'https://www.facebook.com/servicehub',
-            'twitter' => 'https://twitter.com/servicehub',
-            'linkedin' => 'https://www.linkedin.com/company/servicehub',
+            'facebook' => 'https://www.facebook.com/easy-order',
+            'twitter' => 'https://twitter.com/easy-order',
+            'linkedin' => 'https://www.linkedin.com/company/easy-order',
         ];
 
         // Organization data
         $response['organization'] = [
-            'name' => 'ServiceHub',
+            'name' => 'EasyOrder',
             'phone' => '+1-XXX-XXX-XXXX',
             'social_links' => [
-                'https://www.facebook.com/servicehub',
-                'https://twitter.com/servicehub',
-                'https://www.linkedin.com/company/servicehub',
+                'https://www.facebook.com/easy-order',
+                'https://twitter.com/easy-order',
+                'https://www.linkedin.com/company/easy-order',
             ],
         ];
 

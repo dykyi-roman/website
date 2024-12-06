@@ -1,6 +1,6 @@
 {% extends '@Dashboard/base.html.twig' %}
 
-{% block title %}{{ page_title }} - ServiceHub{% endblock %}
+{% block title %}{{ page_title }} - {{ organization.name }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -9,48 +9,6 @@
 {% endblock %}
 
 {% block body %}
-    <!-- Header/Navbar -->
-    <nav class="navbar navbar-light bg-light fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <i class="fas fa-tasks"></i> ServiceHub
-            </a>
-            <div class="ms-auto d-flex align-items-center">
-                <div class="nav-item dropdown language-dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-globe"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
-                        <li><a class="dropdown-item" href="?lang=en">English</a></li>
-                        <li><a class="dropdown-item" href="?lang=uk">Українська</a></li>
-                    </ul>
-                </div>
-                <div class="nav-item dropdown profile-dropdown ms-3">
-                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        {% if app.user %}
-                            <div class="profile-image-container">
-                                <img src="{{ app.user.avatar }}" alt="Profile" class="rounded-circle">
-                            </div>
-                        {% else %}
-                            <i class="fas fa-user"></i>
-                        {% endif %}
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                        {% if app.user %}
-                            <li><a class="dropdown-item" href="/profile"><i class="fas fa-user"></i> Profile</a></li>
-                            <li><a class="dropdown-item" href="/settings"><i class="fas fa-cog"></i> Settings</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                        {% else %}
-                            <li><a class="dropdown-item" data-action="login" href="javascript:void(0);"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-                            <li><a class="dropdown-item" data-action="register" href="javascript:void(0);"><i class="fas fa-user-plus"></i> Register</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav>
-
     <!-- Main Content -->
     <main class="container-fluid p-0">
         <!-- Search Section -->
@@ -101,23 +59,6 @@
             </div>
         </section>
     </main>
-
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <p>&copy; {{ "now"|date("Y") }} ServiceHub. All rights reserved.</p>
-                    <div class="footer-links">
-                        <a href="/privacy">Privacy Policy</a>
-                        <a href="/terms">Terms of Service</a>
-                        <a href="/contact">Contact Us</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
 {% endblock %}
 
 {% block javascripts %}
