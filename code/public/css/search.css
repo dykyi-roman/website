@@ -1,13 +1,9 @@
 /* Filter buttons */
 .filter-toggle {
-    margin: 0 auto;
     padding: 0 15px;
-    max-width: 1200px;
     text-align: left;
-    margin-top: 20px;
     position: relative;
     z-index: 1;
-    float: left;
 }
 
 .filter-toggle button {
@@ -46,11 +42,8 @@
 
 /* View toggle buttons */
 .view-toggle {
-    margin: 0 auto;
     padding: 0 15px;
-    max-width: 1200px;
     text-align: right;
-    margin-top: 20px;
     position: relative;
     z-index: 1;
 }
