@@ -40,6 +40,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize filter buttons
     if (orderFilterButton && serviceFilterButton) {
+        // Get saved filter from localStorage or default to 'service'
+        currentFilter = localStorage.getItem('filterMode') || 'service';
+        
+        // Set initial filter based on saved preference
+        if (currentFilter === 'order') {
+            orderFilterButton.classList.add('active');
+            serviceFilterButton.classList.remove('active');
+        } else if (currentFilter === 'service') {
+            serviceFilterButton.classList.add('active');
+            orderFilterButton.classList.remove('active');
+        }
+
         orderFilterButton.addEventListener('click', () => {
             if (currentFilter === 'order') {
                 currentFilter = '';
@@ -49,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 orderFilterButton.classList.add('active');
                 serviceFilterButton.classList.remove('active');
             }
+            localStorage.setItem('filterMode', currentFilter);
             performSearch(searchInput.value.trim(), 1, currentFilter);
         });
 
@@ -61,29 +74,48 @@ document.addEventListener('DOMContentLoaded', function() {
                 serviceFilterButton.classList.add('active');
                 orderFilterButton.classList.remove('active');
             }
+            localStorage.setItem('filterMode', currentFilter);
             performSearch(searchInput.value.trim(), 1, currentFilter);
         });
 
-        // Set initial filter based on URL parameter
+        // Set initial filter based on URL parameter or localStorage
         const params = getUrlParams();
         if (params.filter) {
             currentFilter = params.filter;
             if (currentFilter === 'order') {
                 orderFilterButton.classList.add('active');
+                serviceFilterButton.classList.remove('active');
             } else if (currentFilter === 'service') {
                 serviceFilterButton.classList.add('active');
+                orderFilterButton.classList.remove('active');
             }
         }
     }
 
     // Initialize view buttons
     if (listViewButton && gridViewButton) {
+        // Get saved view from localStorage or default to 'list'
+        const savedView = localStorage.getItem('viewMode') || 'list';
+        
+        // Set initial view based on saved preference
+        if (savedView === 'grid') {
+            servicesGrid.classList.add('grid-view');
+            servicesGrid.classList.remove('list-view');
+            gridViewButton.classList.add('active');
+            listViewButton.classList.remove('active');
+        } else {
+            servicesGrid.classList.add('list-view');
+            servicesGrid.classList.remove('grid-view');
+            listViewButton.classList.add('active');
+            gridViewButton.classList.remove('active');
+        }
+        
         listViewButton.addEventListener('click', () => {
             servicesGrid.classList.remove('grid-view');
             servicesGrid.classList.add('list-view');
             listViewButton.classList.add('active');
             gridViewButton.classList.remove('active');
-            localStorage.setItem('viewPreference', 'list');
+            localStorage.setItem('viewMode', 'list');
         });
 
         gridViewButton.addEventListener('click', () => {
@@ -91,18 +123,8 @@ document.addEventListener('DOMContentLoaded', function() {
             servicesGrid.classList.add('grid-view');
             gridViewButton.classList.add('active');
             listViewButton.classList.remove('active');
-            localStorage.setItem('viewPreference', 'grid');
+            localStorage.setItem('viewMode', 'grid');
         });
-
-        // Set initial view based on stored preference or default to list
-        const viewPreference = localStorage.getItem('viewPreference') || 'list';
-        if (viewPreference === 'grid') {
-            servicesGrid.classList.add('grid-view');
-            gridViewButton.classList.add('active');
-        } else {
-            servicesGrid.classList.add('list-view');
-            listViewButton.classList.add('active');
-        }
     }
 
     // Utility function to safely render features
