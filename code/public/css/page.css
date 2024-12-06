@@ -119,8 +119,9 @@ footer {
 
 .site-footer {
     background-color: var(--background-light);
-    padding-top: 2rem;
+    padding: 0;
     flex-shrink: 0;
+    margin-top: auto;
 }
 
 .footer-links a {
