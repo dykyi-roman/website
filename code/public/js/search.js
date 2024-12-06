@@ -326,7 +326,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <div class="item-footer">
                                         ${window.appUser === 'true'
                                             ? ''
-                                            : '<button class="btn-favorite" data-item-id="" data-action="register"><i class="far fa-heart"></i></button>'}
+                                            : '<button class="btn-favorite" title="Add to favorite" data-item-id="" data-action="register"><i class="far fa-heart"></i></button>'}
                                         <div class="item-features mb-3">
                                             ${renderFeatures(service.features)}
                                         </div>
@@ -338,7 +338,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         </div>
                                     </div>
                                 </div>
-                                <button class="btn btn-share" data-item-id="${service.id}">
+                                <button class="btn btn-share" title="Share" data-item-id="${service.id}">
                                      <i class="fas fa-share-alt"></i>
                                 </button>
                             </div>
@@ -445,8 +445,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <!-- Features and Price -->
                                     <div class="item-footer">
                                         ${window.appUser === 'true'
-                    ? ''
-                    : '<button class="btn-favorite" data-item-id="" data-action="register"><i class="far fa-heart"></i></button>'}
+                                        ? ''
+                                        : '<button class="btn-favorite" title="Add to favorite" data-item-id="" data-action="register"><i class="far fa-heart"></i></button>'}
                                         <div class="item-features mb-3">
                                             ${renderFeatures(service.features)}
                                         </div>
@@ -458,7 +458,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         </div>
                                     </div>
                                 </div>
-                                <button class="btn btn-share" data-item-id="${service.id}">
+                                <button class="btn btn-share" title="Share" data-item-id="${service.id}">
                                      <i class="fas fa-share-alt"></i>
                                 </button>
                             </div>
