@@ -40,27 +40,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize filter buttons
     if (orderFilterButton && serviceFilterButton) {
-        // Load saved filter state from localStorage
-        const savedFilter = localStorage.getItem('currentFilter') || '';
-        currentFilter = savedFilter;
-        
-        if (currentFilter === 'orders') {
-            orderFilterButton.classList.add('active');
-        } else if (currentFilter === 'services') {
+        // Check if filter-toggle exists in localStorage
+        if (!localStorage.getItem('filter-toggle')) {
+            // Set default to service filter
+            localStorage.setItem('filter-toggle', 'services');
+            currentFilter = 'services';
             serviceFilterButton.classList.add('active');
+        } else {
+            // Load saved filter state from localStorage
+            currentFilter = localStorage.getItem('filter-toggle');
+            if (currentFilter === 'orders') {
+                orderFilterButton.classList.add('active');
+            } else if (currentFilter === 'services') {
+                serviceFilterButton.classList.add('active');
+            }
         }
 
         orderFilterButton.addEventListener('click', () => {
             if (currentFilter === 'orders') {
                 currentFilter = '';
                 orderFilterButton.classList.remove('active');
-                localStorage.removeItem('currentFilter');
+                localStorage.removeItem('filter-toggle');
                 servicesSearch(searchInput.value.trim(), 1, currentFilter);
             } else {
                 currentFilter = 'orders';
                 orderFilterButton.classList.add('active');
                 serviceFilterButton.classList.remove('active');
-                localStorage.setItem('currentFilter', currentFilter);
+                localStorage.setItem('filter-toggle', currentFilter);
                 ordersSearch(searchInput.value.trim(), 1);
             }
         });
@@ -69,13 +75,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (currentFilter === 'services') {
                 currentFilter = '';
                 serviceFilterButton.classList.remove('active');
-                localStorage.removeItem('currentFilter');
+                localStorage.removeItem('filter-toggle');
                 servicesSearch(searchInput.value.trim(), 1, currentFilter);
             } else {
                 currentFilter = 'services';
                 serviceFilterButton.classList.add('active');
                 orderFilterButton.classList.remove('active');
-                localStorage.setItem('currentFilter', currentFilter);
+                localStorage.setItem('filter-toggle', currentFilter);
                 servicesSearch(searchInput.value.trim(), 1, currentFilter);
             }
         });
@@ -89,18 +95,26 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (currentFilter === 'services') {
                 serviceFilterButton.classList.add('active');
             }
-            localStorage.setItem('currentFilter', currentFilter);
+            localStorage.setItem('filter-toggle', currentFilter);
         }
     }
 
     // Initialize view buttons
     if (listViewButton && gridViewButton) {
+        // Check if view-toggle exists in localStorage
+        if (!localStorage.getItem('view-toggle')) {
+            // Set default to list view
+            localStorage.setItem('view-toggle', 'list');
+            servicesGrid.classList.add('list-view');
+            listViewButton.classList.add('active');
+        }
+
         listViewButton.addEventListener('click', () => {
             servicesGrid.classList.remove('grid-view');
             servicesGrid.classList.add('list-view');
             listViewButton.classList.add('active');
             gridViewButton.classList.remove('active');
-            localStorage.setItem('viewPreference', 'list');
+            localStorage.setItem('view-toggle', 'list');
         });
 
         gridViewButton.addEventListener('click', () => {
@@ -108,11 +122,11 @@ document.addEventListener('DOMContentLoaded', function() {
             servicesGrid.classList.add('grid-view');
             gridViewButton.classList.add('active');
             listViewButton.classList.remove('active');
-            localStorage.setItem('viewPreference', 'grid');
+            localStorage.setItem('view-toggle', 'grid');
         });
 
-        // Set initial view based on stored preference or default to list
-        const viewPreference = localStorage.getItem('viewPreference') || 'list';
+        // Set initial view based on stored preference
+        const viewPreference = localStorage.getItem('view-toggle');
         if (viewPreference === 'grid') {
             servicesGrid.classList.add('grid-view');
             gridViewButton.classList.add('active');
@@ -397,7 +411,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Populate orders
-            // Populate services
             data.items.forEach(service => {
                 const {filledStars, emptyStars} = renderStarRating(service.rating);
                 const serviceCard = `
