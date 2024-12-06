@@ -38,8 +38,11 @@ body {
     color: var(--primary-color);
 }
 
-.content-wrapper {
+main {
     flex: 1 0 auto;
+}
+
+.content-wrapper {
     padding: 80px 0 30px; /* Adjusted for fixed navbar */
 }
 
@@ -111,10 +114,41 @@ a:active {
 
 /* Footer styles */
 footer {
+    margin-top: auto;
+}
+
+.site-footer {
+    background-color: var(--background-light);
+    padding-top: 2rem;
     flex-shrink: 0;
-    background-color: #f8f9fa;
-    padding: 20px 0;
-    border-top: 1px solid #dee2e6;
+}
+
+.footer-links a {
+    color: var(--text-dark);
+    margin-right: 1.5rem;
+    text-decoration: none;
+    transition: color var(--transition-speed);
+}
+
+.footer-links a:hover {
+    color: var(--primary-color);
+}
+
+.social-links {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.social-link {
+    color: var(--text-dark);
+    font-size: 1.2rem;
+    transition: color var(--transition-speed);
+}
+
+.social-link:hover {
+    color: var(--primary-color);
+    text-decoration: none;
 }
 
 /* Page content styles */
@@ -203,14 +237,6 @@ footer {
 footer h5 {
     font-weight: 600;
     margin-bottom: 1.2rem;
-}
-
-.site-footer {
-    flex-shrink: 0;
-    background-color: var(--background-light);
-    padding: 2rem 0;
-    margin-top: auto;
-    width: 100%;
 }
 
 /* Navbar Styles */
