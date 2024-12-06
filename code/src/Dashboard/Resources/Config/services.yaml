@@ -15,6 +15,9 @@ services:
             - '../../**/Tests/'
         tags: ['controller.service_arguments']
 
+    App\Dashboard\Presentation\Web\Twig\CountriesExtension:
+        tags: ['twig.extension']
+
 twig:
     paths:
         '%kernel.project_dir%/src/Dashboard/Resources/templates': Dashboard

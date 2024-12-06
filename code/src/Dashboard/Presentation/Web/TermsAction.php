@@ -13,15 +13,9 @@ class TermsAction extends AbstractController
     #[Route('/terms', name: 'terms_page')]
     public function __invoke(): Response
     {
-        $countries = [
-            ['code' => 'ua', 'name' => 'Ukraine'],
-            ['code' => 'es', 'name' => 'Spain']
-        ];
-
         return $this->render('@Dashboard/terms.html.twig', [
             'page_title' => 'Terms',
             'content' => 'Some terms text',
-            'countries' => $countries
         ]);
     }
 }

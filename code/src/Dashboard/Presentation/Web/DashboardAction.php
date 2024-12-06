@@ -13,16 +13,10 @@ class DashboardAction extends AbstractController
     #[Route('/', name: 'dashboard_page')]
     public function __invoke(): Response
     {
-        $countries = [
-            ['code' => 'ua', 'name' => 'Ukraine'],
-            ['code' => 'es', 'name' => 'Spain']
-        ];
-
         return $this->render('@Dashboard/dashboard.html.twig', [
             'page_title' => 'Dashboard',
             'current_language' => 'UA',
             'search_results' => [],
-            'countries' => $countries
         ]);
     }
 }

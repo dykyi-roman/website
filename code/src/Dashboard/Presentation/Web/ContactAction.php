@@ -13,15 +13,9 @@ class ContactAction extends AbstractController
     #[Route('/contact', name: 'contact_page')]
     public function __invoke(): Response
     {
-        $countries = [
-            ['code' => 'ua', 'name' => 'Ukraine'],
-            ['code' => 'es', 'name' => 'Spain']
-        ];
-
         return $this->render('@Dashboard/contact.html.twig', [
             'page_title' => 'Contact Us',
             'content' => 'Some text',
-            'countries' => $countries
         ]);
     }
 }
