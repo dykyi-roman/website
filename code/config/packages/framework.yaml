@@ -18,13 +18,19 @@ framework:
     
     assets:
         enabled: true
-        version: '1.0.0'
-        version_format: '%s?v=%s'
+        json_manifest_path: null
+
+when@prod:
+    framework:
+        assets:
+            version: '%env(APP_VERSION)%'
+            version_strategy: null
 
 when@dev:
     framework:
-        enabled: true
-        version: '%datetime%'
+        assets:
+            version: null
+            version_strategy: App\Dashboard\Infrastructure\Asset\TimestampVersionStrategy
 
 when@test:
     framework:
