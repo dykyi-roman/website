@@ -72,13 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         orderFilterButton.addEventListener('click', () => {
-            if (currentFilter === 'orders') {
-                currentFilter = '';
-                orderFilterButton.classList.remove('active');
-                localStorage.removeItem('filter-toggle');
-                updateSearchInterface(false);
-                servicesSearch(searchInput.value.trim(), 1, currentFilter);
-            } else {
+            if (!orderFilterButton.classList.contains('active')) {
                 currentFilter = 'orders';
                 orderFilterButton.classList.add('active');
                 serviceFilterButton.classList.remove('active');
@@ -89,13 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         serviceFilterButton.addEventListener('click', () => {
-            if (currentFilter === 'services') {
-                currentFilter = '';
-                serviceFilterButton.classList.remove('active');
-                localStorage.removeItem('filter-toggle');
-                updateSearchInterface(false);
-                servicesSearch(searchInput.value.trim(), 1, currentFilter);
-            } else {
+            if (!serviceFilterButton.classList.contains('active')) {
                 currentFilter = 'services';
                 serviceFilterButton.classList.add('active');
                 orderFilterButton.classList.remove('active');
