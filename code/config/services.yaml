@@ -13,3 +13,9 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+
+    App\Shared\Infrastructure\Symfony\EventSubscriber\LocaleSubscriber:
+        arguments:
+            $defaultLocale: '%env(DEFAULT_LOCALE)%'
+        tags:
+            - { name: kernel.event_subscriber }
