@@ -2,13 +2,13 @@
     "Welcome!": "Welcome!",
     "Close": "Close",
     "Email": "Email",
-    "Phone": "Phone", 
+    "Phone": "Phone",
     "Address": "Address",
     "Business Hours": "Business Hours",
     "Find Your Services": "Find Your Services",
     "What service are you looking for?": "What service are you looking for?",
     "Search": "Search",
-    "Orders Search": "Orders Search", 
+    "Orders Search": "Orders Search",
     "Services Search": "Services Search",
     "List View": "List View",
     "Grid View": "Grid View",
@@ -29,7 +29,7 @@
 
     "find_your_orders": "Find Your Orders",
     "what_order_looking_for": "What order are you looking for?",
-    
+
     "no_services_found": "No services found matching your search.",
     "no_orders_found": "No orders found matching your search.",
     "book_now": "Book Now",

@@ -1,20 +1,6 @@
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('Login popup script loaded');
 
-    // Function to load translations
-    async function loadTranslations(lang) {
-        try {
-            const response = await fetch(`/translations/messages.${lang}.json`);
-            if (!response.ok) {
-                const fallbackResponse = await fetch('/translations/messages.en.json');
-                return await fallbackResponse.json();
-            }
-            return await response.json();
-        } catch (error) {
-            console.error('Translation loading error:', error);
-        }
-    }
-
     // Get current language or default to English
     const currentLang = document.documentElement.lang || 'en';
     const t = await loadTranslations(currentLang);
