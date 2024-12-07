@@ -4,8 +4,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     const t = await loadTranslations(currentLang);
     // Mapping specific keys for search page
     const searchTranslations = {
-        find_your_services: t['Find Your Services'] || 'Find Your Services',
-        find_your_orders: t.find_your_orders || 'Find Your Orders',
         what_service_looking_for: t['What service are you looking for?'] || 'What service are you looking for?',
         what_order_looking_for: t.what_order_looking_for || 'What order are you looking for?',
         no_services_found: t.no_services_found || 'No services found matching your search.',
@@ -56,17 +54,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         window.history.pushState({}, '', url);
     }
 
-    // Function to update search interface text
-    function updateSearchInterface(isOrder) {
-        if (isOrder) {
-            searchTitle.textContent = searchTranslations.find_your_orders;
-            searchInput.placeholder = searchTranslations.what_order_looking_for;
-        } else {
-            searchTitle.textContent = searchTranslations.find_your_services;
-            searchInput.placeholder = searchTranslations.what_service_looking_for;
-        }
-    }
-
     // Initialize filter buttons
     if (orderFilterButton && serviceFilterButton) {
         // Check if filter-toggle exists in localStorage
@@ -75,16 +62,13 @@ document.addEventListener('DOMContentLoaded', async function() {
             localStorage.setItem('filter-toggle', 'services');
             currentFilter = 'services';
             serviceFilterButton.classList.add('active');
-            updateSearchInterface(false);
         } else {
             // Load saved filter state from localStorage
             currentFilter = localStorage.getItem('filter-toggle');
             if (currentFilter === 'orders') {
                 orderFilterButton.classList.add('active');
-                updateSearchInterface(true);
             } else if (currentFilter === 'services') {
                 serviceFilterButton.classList.add('active');
-                updateSearchInterface(false);
             }
         }
 
@@ -94,7 +78,6 @@ document.addEventListener('DOMContentLoaded', async function() {
                 orderFilterButton.classList.add('active');
                 serviceFilterButton.classList.remove('active');
                 localStorage.setItem('filter-toggle', currentFilter);
-                updateSearchInterface(true);
                 ordersSearch(searchInput.value.trim(), 1);
             }
         });
@@ -105,7 +88,6 @@ document.addEventListener('DOMContentLoaded', async function() {
                 serviceFilterButton.classList.add('active');
                 orderFilterButton.classList.remove('active');
                 localStorage.setItem('filter-toggle', currentFilter);
-                updateSearchInterface(false);
                 servicesSearch(searchInput.value.trim(), 1, currentFilter);
             }
         });
@@ -116,10 +98,8 @@ document.addEventListener('DOMContentLoaded', async function() {
             currentFilter = params.filter;
             if (currentFilter === 'orders') {
                 orderFilterButton.classList.add('active');
-                updateSearchInterface(true);
             } else if (currentFilter === 'services') {
                 serviceFilterButton.classList.add('active');
-                updateSearchInterface(false);
             }
             localStorage.setItem('filter-toggle', currentFilter);
         }
