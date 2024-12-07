@@ -11,8 +11,9 @@
                     <span class="language-code">{{ app.request.locale|upper }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
-                    <li><a class="dropdown-item" href="#" data-lang="en">{{ 'language_english'|trans }}</a></li>
-                    <li><a class="dropdown-item" href="#" data-lang="uk">{{ 'language_ukrainian'|trans }}</a></li>
+                    {% for language in global_languages %}
+                        <li><a class="dropdown-item" href="#" data-lang="{{ language.code }}">{{ language.name }}</a></li>
+                    {% endfor %}
                 </ul>
             </div>
             <div class="nav-item dropdown profile-dropdown ms-3">
