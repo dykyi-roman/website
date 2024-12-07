@@ -1,18 +1,19 @@
 {% extends '@Dashboard/base.html.twig' %}
 
-{% block title %}{{ page_title }} - {{ organization.name }}{% endblock %}
+{% block title %}Політика конфіденційності - {{ organization.name }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('css/page.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/privacy.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
     <!-- Main Content -->
     <div class="content-wrapper">
         <div class="container">
-            <div class="page-content">
-                {{ content }}
+            <div class="page-content privacy-policy">
+                {{ content|raw }}
             </div>
         </div>
     </div>

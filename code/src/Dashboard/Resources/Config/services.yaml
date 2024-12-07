@@ -5,12 +5,15 @@ services:
         autowire: true
         autoconfigure: true
         public: false
+        bind:
+            $supportEmail: '%app.support_email%'
+            $appName: '%app.name%'
 
     App\Dashboard\:
         resource: '../../'
         exclude:
             - '../../Resources/'
-            - '../../DomainModel/Model/'
+            - '../../Entity/'
             - '../../Tests/'
             - '../../**/Tests/'
         tags: ['controller.service_arguments']
