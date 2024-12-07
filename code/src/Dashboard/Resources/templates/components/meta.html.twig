@@ -8,15 +8,15 @@
 <!-- Basic Meta Tags -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="{{ meta_description|default(organization.name ~ ' - Find and book professional services. Browse through our wide selection of verified service providers for all your needs.') }}">
-<meta name="keywords" content="{{ meta_keywords|default('services, booking, professional services, service providers, local services') }}">
+<meta name="description" content="{{ meta_description|default('meta_description'|trans({ '%organization%': organization.name })) }}">
+<meta name="keywords" content="{{ meta_keywords|default('meta_keywords'|trans) }}">
 <meta name="robots" content="index, follow">
 <meta name="author" content="{{ organization.name }}">
 
 <!-- Open Graph / Social Media Meta Tags -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{ page_title|default(organization.name) }}">
-<meta property="og:description" content="{{ meta_description|default('Find and book professional services. Browse through our wide selection of verified service providers.') }}">
+<meta property="og:description" content="{{ meta_description|default('meta_description'|trans({ '%organization%': organization.name })) }}">
 <meta property="og:image" content="{{ og_image|default(absolute_url('favicon.svg')) }}">
 <meta property="og:url" content="{{ app.request.uri }}">
 <meta property="og:site_name" content="{{ organization.name }}">
@@ -24,7 +24,7 @@
 <!-- Twitter Card Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ page_title|default(organization.name) }}">
-<meta name="twitter:description" content="{{ meta_description|default('Find and book professional services. Browse through our wide selection of verified service providers.') }}">
+<meta name="twitter:description" content="{{ meta_description|default('meta_description'|trans({ '%organization%': organization.name })) }}">
 <meta name="twitter:image" content="{{ og_image|default(absolute_url('favicon.svg')) }}">
 
 <!-- Canonical URL -->
@@ -40,7 +40,7 @@
     "@type": "WebSite",
     "name": "{{ organization.name }}",
     "url": "{{ app.request.schemeAndHttpHost }}",
-    "description": "{{ meta_description|default('Find and book professional services. Browse through our wide selection of verified service providers.') }}",
+    "description": "{{ meta_description|default('meta_description'|trans({ '%organization%': organization.name })) }}",
     "potentialAction": {
         "@type": "SearchAction",
         "target": "{{ app.request.schemeAndHttpHost }}/search?q={search_term}",

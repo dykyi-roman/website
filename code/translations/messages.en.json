@@ -38,5 +38,18 @@
 
     "share_link_copied": "Copied!",
     "share_email_subject": "Check out this service",
-    "share_email_body": "I found this interesting service: "
+    "share_email_body": "I found this interesting service: ",
+
+    "Terms of Service": "Terms of Service",
+    "Contact Us": "Contact Us",
+    "copyright_text": " %year% %organization%. All rights reserved.",
+
+    "meta_description": "%organization% - Find and book professional services. Browse through our wide selection of verified service providers for all your needs.",
+    "meta_keywords": "services, booking, professional services, service providers, local services",
+
+    "Profile": "Profile",
+    "Settings": "Settings",
+    "Logout": "Logout",
+    "Login": "Login",
+    "Register": "Register"
 }

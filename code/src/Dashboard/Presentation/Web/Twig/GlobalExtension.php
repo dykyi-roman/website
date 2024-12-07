@@ -49,6 +49,11 @@ final class GlobalExtension extends AbstractExtension implements GlobalsInterfac
             ];
         }
 
+        $response['languages'] = [
+            ['code' => 'en', 'name' => 'English'],
+            ['code' => 'uk', 'name' => 'Українська'],
+        ];
+
         return $response;
     }
 }

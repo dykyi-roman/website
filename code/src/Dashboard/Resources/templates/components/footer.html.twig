@@ -4,9 +4,9 @@
         <div class="row align-items-center">
             <div class="col-md-6 text-left">
                 <div class="footer-links">
-                    <a href="{{ path('privacy') }}" class="footer-link">Privacy Policy</a>
-                    <a href="{{ path('terms') }}" class="footer-link">Terms of Service</a>
-                    <a href="{{ path('contact') }}" class="footer-link">Contact Us</a>
+                    <a href="{{ path('privacy') }}" class="footer-link">{{ 'Privacy Policy'|trans }}</a>
+                    <a href="{{ path('terms') }}" class="footer-link">{{ 'Terms of Service'|trans }}</a>
+                    <a href="{{ path('contact') }}" class="footer-link">{{ 'Contact Us'|trans }}</a>
                 </div>
             </div>
             <div class="col-md-6">
@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="col-12 text-center mt-3">
-                <p class="mb-0">&copy; {{ "now"|date("Y") }} {{ organization.name }}. All rights reserved.</p>
+                <p class="mb-0">{{ 'copyright_text'|trans({ '%year%': "now"|date("Y"), '%organization%': organization.name }) }}</p>
             </div>
         </div>
     </div>

@@ -38,5 +38,21 @@
 
     "share_link_copied": "Скопійовано!",
     "share_email_subject": "Погляньте на цю послугу",
-    "share_email_body": "Я знайшов цікаву послугу: "
+    "share_email_body": "Я знайшов цікаву послугу: ",
+
+    "Terms of Service": "Умови використання",
+    "Contact Us": "Зв'яжіться з нами",
+    "copyright_text": "© %year% %organization%. Усі права захищені.",
+
+    "meta_description": "%organization% - Знайдіть та замовте професійні послуги. Перегляньте наш широкий вибір перевірених постачальників послуг.",
+    "meta_keywords": "послуги, замовлення, професійні послуги, постачальники послуг, локальні послуги",
+
+    "Profile": "Профіль",
+    "Settings": "Налаштування",
+    "Logout": "Вийти",
+    "Login": "Увійти",
+    "Register": "Реєстрація",
+
+    "language_english": "English",
+    "language_ukrainian": "Українська"
 }
