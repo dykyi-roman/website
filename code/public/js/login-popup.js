@@ -7,10 +7,10 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Mapping specific keys for login popup
     const loginTranslations = {
-        placeholder_email: t['placeholder_email'] || 'Please enter a valid email address',
-        label_password: t['label_password'] || 'Password must be at least 8 characters long',
-        error_invalid_credentials: t['error_invalid_credentials'] || 'Invalid email or password',
-        error_network: t['error_network'] || 'An error occurred. Please try again.'
+        placeholder_email: t['js.placeholder_email'] || 'Please enter a valid email address',
+        label_password: t['js.label_password'] || 'Password must be at least 8 characters long',
+        error_invalid_credentials: t['js.error_invalid_credentials'] || 'Invalid email or password',
+        error_network: t['js.error_network'] || 'An error occurred. Please try again.'
     };
 
     // DOM Elements

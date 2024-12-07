@@ -7,14 +7,20 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Mapping specific keys for register popup
     const registerTranslations = {
-        error_email_required: t['error_email_required'] || 'Email is required',
-        error_invalid_email: t['error_invalid_email'] || 'Please enter a valid email address',
-        error_password_length: t['error_password_length'] || 'Password must be at least 8 characters long',
-        error_passwords_match: t['error_passwords_match'] || 'Passwords must match',
-        error_network: t['error_network'] || 'Network error. Please try again.',
-        label_email: t['label_email'] || 'Email Address',
-        label_password: t['label_password'] || 'Password',
-        label_confirm_password: t['label_confirm_password'] || 'Confirm Password'
+        error_email_required: t['js.error_email_required'] || 'Email is required',
+        error_invalid_email: t['js.error_invalid_email'] || 'Please enter a valid email address',
+        error_password_length: t['js.error_password_length'] || 'Password must be at least 8 characters long',
+        error_passwords_match: t['js.error_passwords_match'] || 'Passwords must match',
+        error_network: t['js.error_network'] || 'Network error. Please try again.',
+        label_email: t['js.label_email'] || 'Email Address',
+        label_password: t['js.label_password'] || 'Password',
+        label_confirm_password: t['js.label_confirm_password'] || 'Confirm Password',
+        name_validation: t['js.name_validation'] || 'Please enter a valid name (2-50 characters, letters only)',
+        partner_name_validation: t['js.partner_name_validation'] || 'Name must be between 2 and 100 characters',
+        phone_validation: t['js.phone_validation'] || 'Please enter a valid phone number',
+        selection_validation: t['js.selection_validation'] || 'Please make a selection',
+        registration_successful: t['js.registration_successful'] || 'Registration successful!',
+        registration_error: t['js.registration_error'] || 'Registration failed. Please try again.'
     };
 
     // Update labels
@@ -53,11 +59,11 @@ document.addEventListener('DOMContentLoaded', async function() {
     const validationRules = {
         name: {
             validate: (value) => nameRegex.test(value.trim()),
-            message: 'Please enter a valid name (2-50 characters, letters only)'
+            message: registerTranslations.name_validation
         },
         partner_name: {
-            validate: (value) => value.trim().length >= 2 && value.trim().length <= 100,
-            message: 'Name must be between 2 and 100 characters'
+            validate: (value) => nameRegex.test(value.trim()),
+            message: registerTranslations.partner_name_validation
         },
         email: {
             validate: (value) => emailRegex.test(value.trim()),
@@ -65,11 +71,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         },
         tel: {
             validate: (value) => phoneRegex.test(value.trim()),
-            message: 'Please enter a valid phone number'
+            message: registerTranslations.phone_validation
         },
         select: {
             validate: (value) => value && value.trim() !== '',
-            message: 'Please make a selection'
+            message: registerTranslations.selection_validation
         }
     };
 
@@ -168,7 +174,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
             if (data.success) {
                 registerModal.hide();
-                alert('Registration successful!');
+                alert(registerTranslations.registration_successful);
             } else {
                 const emailInput = form.querySelector('input[type="email"]');
                 if (emailInput) {
@@ -183,6 +189,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 emailInput.setCustomValidity(registerTranslations.error_network);
                 emailInput.reportValidity();
             }
+            alert(registerTranslations.registration_error);
         }
     }
 

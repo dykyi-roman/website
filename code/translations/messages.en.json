@@ -52,7 +52,7 @@
   "Register Name Placeholder": "Full Name",
   "Register Email Placeholder": "Email address",
   "Register Phone Placeholder": "Phone number",
-  "Register Country Placeholder": "Select Country",
+  "Register CountryPlaceholder": "Select Country",
   "Register CityPlaceholder": "Select City",
   "Register Field Required": "This field is required",
   "Register Phone Invalid": "Please enter a valid phone number",
@@ -99,6 +99,12 @@
     "share_email_body": "I found this interesting service: ",
     "copyright_text": " %year% %organization%. All rights reserved.",
     "meta_description": "%organization% - Find and book professional services. Browse through our wide selection of verified service providers for all your needs.",
-    "meta_keywords": "services, booking, professional services, service providers, local services"
+    "meta_keywords": "services, booking, professional services, service providers, local services",
+    "name_validation": "Please enter a valid name (2-50 characters, letters only)",
+    "partner_name_validation": "Name must be between 2 and 100 characters",
+    "phone_validation": "Please enter a valid phone number",
+    "selection_validation": "Please make a selection",
+    "registration_successful": "Registration successful!",
+    "registration_error": "Registration failed. Please try again."
   }
 }
