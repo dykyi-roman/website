@@ -334,6 +334,24 @@ footer h5 {
     color: var(--primary-color);
 }
 
+.language-dropdown .language-code {
+    margin-left: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.language-dropdown .dropdown-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.language-dropdown .dropdown-item::after {
+    content: attr(data-lang);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
 .profile-image-container {
     width: 32px;
     height: 32px;

@@ -7,11 +7,12 @@
         <div class="ms-auto d-flex align-items-center">
             <div class="nav-item dropdown language-dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-globe"></i>
+                    <i class="fas fa-globe"></i> 
+                    <span class="language-code">{{ app.request.locale|upper }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
-                    <li><a class="dropdown-item" href="?lang=en">English</a></li>
-                    <li><a class="dropdown-item" href="?lang=uk">Українська</a></li>
+                    <li><a class="dropdown-item" href="#" data-lang="en">English</a></li>
+                    <li><a class="dropdown-item" href="#" data-lang="uk">Українська</a></li>
                 </ul>
             </div>
             <div class="nav-item dropdown profile-dropdown ms-3">
