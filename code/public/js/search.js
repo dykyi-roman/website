@@ -42,10 +42,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to update search interface text
     function updateSearchInterface(isOrder) {
         if (isOrder) {
-            searchTitle.textContent = 'Find Your Order';
+            searchTitle.textContent = 'Find Your Orders';
             searchInput.placeholder = 'What order are you looking for?';
         } else {
-            searchTitle.textContent = 'Find Your Service';
+            searchTitle.textContent = 'Find Your Services';
             searchInput.placeholder = 'What service are you looking for?';
         }
     }

@@ -1,6 +1,6 @@
 {% extends '@Dashboard/base.html.twig' %}
 
-{% block title %}Політика конфіденційності - {{ organization.name }}{% endblock %}
+{% block title %}{{ 'Privacy Policy'|trans }} - {{ organization.name }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -12,7 +12,7 @@
     <!-- Main Content -->
     <div class="content-wrapper">
         <div class="row page-title">
-            <h1 class="text-center mb-5">{{ page_title }}</h1>
+            <h1 class="text-center mb-5">{{ page_title|trans }}</h1>
         </div>
         <div class="container">
             <div class="page-content privacy-policy">

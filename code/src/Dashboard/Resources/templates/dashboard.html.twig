@@ -14,31 +14,31 @@
         <!-- Search Section -->
         <section class="search-section text-center py-5">
             <div class="container-fluid container-md">
-                <h1 class="mb-4">Find Your Service</h1>
+                <h1 class="mb-4">{{ 'Find Your Services'|trans }}</h1>
                 <div class="row justify-content-center">
                     <div class="col-12">
                         <div class="input-group">
-                            <input type="text" class="form-control form-control-lg" placeholder="What service are you looking for?">
-                            <button class="btn btn-primary btn-lg search-button" title="Search" type="button">
-                                <i class="fas fa-search"></i> Search
+                            <input type="text" class="form-control form-control-lg" placeholder="{{ 'What service are you looking for?'|trans }}">
+                            <button class="btn btn-primary btn-lg search-button" title="{{ 'Search'|trans }}" type="button">
+                                <i class="fas fa-search"></i> {{ 'Search'|trans }}
                             </button>
                         </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="filter-toggle">
-                        <button id="order-filter-button" title="Orders Search">
+                        <button id="order-filter-button" title="{{ 'Orders Search'|trans }}">
                             <i class="fas fa-shopping-cart fs-2"></i>
                         </button>
-                        <button id="service-filter-button" title="Services Search">
+                        <button id="service-filter-button" title="{{ 'Services Search'|trans }}">
                             <i class="fas fa-tools fs-2"></i>
                         </button>
                     </div>
                     <div class="view-toggle">
-                        <button id="list-view-button" title="List View">
+                        <button id="list-view-button" title="{{ 'List View'|trans }}">
                             <i class="fas fa-list"></i>
                         </button>
-                        <button id="grid-view-button" title="Grid View">
+                        <button id="grid-view-button" title="{{ 'Grid View'|trans }}">
                             <i class="fas fa-th-large"></i>
                         </button>
                     </div>
