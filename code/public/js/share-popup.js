@@ -1,7 +1,17 @@
+// Facebook App ID for sharing functionality
+const FB_APP_ID = 'YOUR_FB_APP_ID';
+
 document.addEventListener('DOMContentLoaded', async function() {
     // Get current language or default to English
     const currentLang = document.documentElement.lang || 'en';
     const t = await loadTranslations(currentLang);
+
+    // Mapping specific keys for register popup
+    const sharedTranslations = {
+        share_email_subject: t['share_email_subject'] || 'Check out this service',
+        share_email_body: t['share_email_body'] || 'I found this interesting service: ',
+        share_link_copied: t['share_link_copied'] || 'Copied!',
+    };
 
     let currentShareUrl = '';
 
@@ -39,7 +49,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         navigator.clipboard.writeText(currentShareUrl).then(() => {
             // Change button text temporarily to show success
             const originalText = this.innerHTML;
-            this.innerHTML = `<i class="fas fa-check"></i><span>${t.share_link_copied || 'Copied!'}</span>`;
+            this.innerHTML = `<i class="fas fa-check"></i><span>${sharedTranslations.share_link_copied || 'Copied!'}</span>`;
             setTimeout(() => {
                 this.innerHTML = originalText;
             }, 2000);
@@ -48,8 +58,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Email share handler
     document.querySelector('.share-button.email').addEventListener('click', function() {
-        const subject = encodeURIComponent(t.share_email_subject || 'Check out this service');
-        const body = encodeURIComponent(`${t.share_email_body || 'I found this interesting service: '}${currentShareUrl}`);
+        const subject = encodeURIComponent(sharedTranslations.share_email_subject || 'Check out this service');
+        const body = encodeURIComponent(`${sharedTranslations.share_email_body || 'I found this interesting service: '}${currentShareUrl}`);
         window.open(`mailto:?subject=${subject}&body=${body}`);
     });
 
@@ -66,7 +76,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Messenger share handler
     document.querySelector('.share-button.messenger').addEventListener('click', function() {
-        window.open(`https://www.facebook.com/dialog/send?link=${encodeURIComponent(currentShareUrl)}&app_id=YOUR_FB_APP_ID`);
+        window.open(`https://www.facebook.com/dialog/send?link=${encodeURIComponent(currentShareUrl)}&app_id=${FB_APP_ID}`);
     });
 
     // Facebook share handler

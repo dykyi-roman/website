@@ -2,6 +2,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Get current language or default to English
     const currentLang = document.documentElement.lang || 'en';
     const t = await loadTranslations(currentLang);
+    // Mapping specific keys for register popup
+    const searchTranslations = {
+        share_email_subject: t['share_email_subject'] || 'Check out this service',
+    };
 
     const searchButton = document.querySelector('.btn-primary.btn-lg');
     const searchInput = document.querySelector('.form-control.form-control-lg');
