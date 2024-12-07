@@ -2,9 +2,18 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Get current language or default to English
     const currentLang = document.documentElement.lang || 'en';
     const t = await loadTranslations(currentLang);
-    // Mapping specific keys for register popup
+    // Mapping specific keys for search page
     const searchTranslations = {
-        share_email_subject: t['share_email_subject'] || 'Check out this service',
+        find_your_services: t['Find Your Services'] || 'Find Your Services',
+        find_your_orders: t.find_your_orders || 'Find Your Orders',
+        what_service_looking_for: t['What service are you looking for?'] || 'What service are you looking for?',
+        what_order_looking_for: t.what_order_looking_for || 'What order are you looking for?',
+        no_services_found: t.no_services_found || 'No services found matching your search.',
+        no_orders_found: t.no_orders_found || 'No orders found matching your search.',
+        book_now: t.book_now || 'Book Now',
+        share: t.share || 'Share',
+        error_occurred: t.error_occurred || 'An error occurred while searching. Please try again later.',
+        share_email_body: t['share_email_body'] || 'I found this interesting service: ',
     };
 
     const searchButton = document.querySelector('.btn-primary.btn-lg');
@@ -50,11 +59,11 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Function to update search interface text
     function updateSearchInterface(isOrder) {
         if (isOrder) {
-            searchTitle.textContent = t.find_your_orders || 'Find Your Orders';
-            searchInput.placeholder = t.what_order_looking_for || 'What order are you looking for?';
+            searchTitle.textContent = searchTranslations.find_your_orders;
+            searchInput.placeholder = searchTranslations.what_order_looking_for;
         } else {
-            searchTitle.textContent = t['Find Your Services'] || 'Find Your Services';
-            searchInput.placeholder = t['What service are you looking for?'] || 'What service are you looking for?';
+            searchTitle.textContent = searchTranslations.find_your_services;
+            searchInput.placeholder = searchTranslations.what_service_looking_for;
         }
     }
 
@@ -301,7 +310,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (!data.items || data.items.length === 0) {
                 servicesContainer.innerHTML = `
                     <div class="col-12 text-center">
-                        <p class="text-muted">${t.no_services_found || 'No services found matching your search.'}</p>
+                        <p class="text-muted">${searchTranslations.no_services_found}</p>
                     </div>
                 `;
                 return;
@@ -351,11 +360,11 @@ document.addEventListener('DOMContentLoaded', async function() {
                                             <div class="item-price mb-2">
                                                 <span class="price">${service.price}</span>
                                             </div>
-                                            <button class="btn btn-primary">${t.book_now || 'Book Now'}</button>
+                                            <button class="btn btn-primary">${searchTranslations.book_now}</button>
                                         </div>
                                     </div>
                                 </div>
-                                <button class="btn btn-share" title="${t.share || 'Share'}" data-item-id="${service.id}">
+                                <button class="btn btn-share" title="${searchTranslations.share}" data-item-id="${service.id}">
                                      <i class="fas fa-share-alt"></i>
                                 </button>
                             </div>
@@ -373,7 +382,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             console.error('Search Error:', error);
             servicesContainer.innerHTML = `
                 <div class="col-12 text-center">
-                    <p class="text-danger">${t.error_occurred || 'An error occurred while searching. Please try again later.'}</p>
+                    <p class="text-danger">${searchTranslations.error_occurred}</p>
                 </div>
             `;
         });
@@ -421,7 +430,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (!data.items || data.items.length === 0) {
                 servicesContainer.innerHTML = `
                     <div class="col-12 text-center">
-                        <p class="text-muted">${t.no_orders_found || 'No orders found matching your search.'}</p>
+                        <p class="text-muted">${searchTranslations.no_orders_found}</p>
                     </div>
                 `;
                 return;
@@ -471,11 +480,11 @@ document.addEventListener('DOMContentLoaded', async function() {
                                             <div class="item-price mb-2">
                                                 <span class="price">${service.price}</span>
                                             </div>
-                                            <button class="btn btn-primary">${t.book_now || 'Book Now'}</button>
+                                            <button class="btn btn-primary">${searchTranslations.book_now}</button>
                                         </div>
                                     </div>
                                 </div>
-                                <button class="btn btn-share" title="${t.share || 'Share'}" data-item-id="${service.id}">
+                                <button class="btn btn-share" title="${searchTranslations.share}" data-item-id="${service.id}">
                                      <i class="fas fa-share-alt"></i>
                                 </button>
                             </div>
@@ -493,7 +502,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             console.error('Search Error:', error);
             servicesContainer.innerHTML = `
                 <div class="col-12 text-center">
-                    <p class="text-danger">${t.error_occurred || 'An error occurred while searching. Please try again later.'}</p>
+                    <p class="text-danger">${searchTranslations.error_occurred}</p>
                 </div>
             `;
         });
