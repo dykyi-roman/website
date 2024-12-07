@@ -7,6 +7,7 @@ namespace App\Dashboard\Presentation\Web;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class PrivacyAction extends AbstractController
 {
@@ -17,13 +18,13 @@ final class PrivacyAction extends AbstractController
     }
 
     #[Route('/privacy', name: 'privacy')]
-    public function __invoke(): Response
+    public function __invoke(UrlGeneratorInterface $generator): Response
     {
         $content = " <h1>Політика конфіденційності</h1>
 
                 <p>Користувачі можуть надавати Дані самостійно шляхом розміщення таких даних на Порталі або повідомляючи через канали телефонного зв'язку та/або на електронну та/або поштову адресу Товариства, або Дані можуть надаватися із інших джерел (у відповідності з п. 3 даної Політики) наприклад, з відгуків Користувачів (оцінка, коментарі, підтвердження інформації) або інша інформація від третіх осіб надана в ході направлення претензій, скарг та/або при розгляді спорів, та/або інформація із загальновідомих джерел в мережі Інтернет.</p>
 
-                <p>Користувач не має права використовувати сайт {app_name}, якщо він не погоджується з умовами даної Політики.</p>
+                <p>Користувач не має права використовувати сайт {company_name}, якщо він не погоджується з умовами даної Політики.</p>
 
                 <p>Користувач визнає, що у випадку його недбалого ставлення до безпеки і захисту своїх Даних і даних по авторизації (пароль, логін) треті особи можуть отримати несанкціонований доступ до облікового запису і Даних Користувача. Компанія не несе відповідальності за збитки, завдані таким Доступом.</p>
 
@@ -56,7 +57,7 @@ final class PrivacyAction extends AbstractController
                 </ul>
 
                 <h2>Умови надання доступу до Даних</h2>
-                <p>Розкриття Даних відбувається при розміщенні Виконавцем Оголошення, розміщенні Виконавцем пропозиції на адресу Замовника, розміщенні Завдання Замовником, акцепту пропозиції Виконавця Замовником Завдання або програмою Сайту автоматично на сайті {app_name}, але тільки в об'ємі необхідному для ідентифікації Користувача та завдання.</p>
+                <p>Розкриття Даних відбувається при розміщенні Виконавцем Оголошення, розміщенні Виконавцем пропозиції на адресу Замовника, розміщенні Завдання Замовником, акцепту пропозиції Виконавця Замовником Завдання або програмою Сайту автоматично на сайті {company_name}, але тільки в об'ємі необхідному для ідентифікації Користувача та завдання.</p>
 
                 <h2>Як змінити/видалити Дані або відкликати згоду</h2>
                 <p>Користувачі в будь-який момент можуть змінити/видалити особисту інформацію або відмовитися від розсилки, або відкликати згоду на обробку Даних через свій Особистий кабінет або, відправивши повідомлення на електронну адресу: {support_email} або поштову адресу {company_address}.</p>
@@ -71,7 +72,7 @@ final class PrivacyAction extends AbstractController
         return $this->render('@Dashboard/privacy.html.twig', [
             'content' => str_replace(
                 [
-                    '{app_name}',
+                    '{company_name}',
                     '{support_email}',
                     '{company_address}',
                     '{privacy_url}',
@@ -80,7 +81,7 @@ final class PrivacyAction extends AbstractController
                     $this->appName,
                     $this->supportEmail,
                     'м.Золотоноша, вул. Пушкина 11',
-                    'privacy-url',
+                    $generator->generate('privacy', [], UrlGeneratorInterface::ABSOLUTE_URL),
                 ],
                 $content,
             ),
