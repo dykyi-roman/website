@@ -1,5 +1,31 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     console.log('Login popup script loaded');
+
+    // Function to load translations
+    async function loadTranslations(lang) {
+        try {
+            const response = await fetch(`/translations/js/login-popup.${lang}.json`);
+            if (!response.ok) {
+                // Fallback to English if translation not found
+                const fallbackResponse = await fetch('/translations/js/login-popup.en.json');
+                return await fallbackResponse.json();
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Translation loading error:', error);
+            // Fallback to hardcoded English translations
+            return {
+                placeholder_email: 'Please enter a valid email address',
+                label_password: 'Password must be at least 8 characters long',
+                error_invalid_credentials: 'Invalid email or password',
+                error_network: 'An error occurred. Please try again.'
+            };
+        }
+    }
+
+    // Get current language or default to English
+    const currentLang = document.documentElement.lang || 'en';
+    const t = await loadTranslations(currentLang);
 
     // DOM Elements
     const loginModal = document.getElementById('loginModal');
@@ -11,11 +37,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const validationRules = {
         email: {
             validate: (value) => emailRegex.test(value.trim()),
-            message: 'Please enter a valid email address'
+            message: t.placeholder_email
         },
         password: {
             validate: (value) => value.trim().length >= 8,
-            message: 'Password must be at least 8 characters long'
+            message: t.label_password
         }
     };
 
@@ -85,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupFormValidation(loginForm);
 
     // Form submission handler
-    function submitLogin(form) {
+    async function submitLogin(form) {
         let isValid = true;
         const inputs = form.querySelectorAll('input');
         inputs.forEach(input => {
@@ -95,8 +121,37 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         if (isValid) {
-            // Form is valid, proceed with submission
-            submitForm(form);
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    body: new FormData(form)
+                });
+
+                if (!response.ok) {
+                    throw new Error(t.error_invalid_credentials);
+                }
+                // Successful login logic
+                const data = await response.json();
+
+                if (data.success) {
+                    // Handle successful login
+                    const modal = new bootstrap.Modal(loginModal);
+                    modal.hide();
+
+                    // Redirect or show success message
+                    window.location.href = data.redirectUrl || '/dashboard';
+                } else {
+                    // Handle login errors
+                    const emailInput = form.querySelector('input[type="email"]');
+                    if (emailInput) {
+                        emailInput.setCustomValidity(data.message || 'Login failed');
+                        emailInput.reportValidity();
+                    }
+                }
+            } catch (error) {
+                console.error(error);
+                showErrorMessage(t.error_network);
+            }
         }
     }
 
@@ -195,5 +250,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('An error occurred. Please try again.');
             });
         });
+    }
+
+    function showErrorMessage(message) {
+        const errorElement = document.getElementById('error-message');
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.classList.add('alert', 'alert-danger');
+        }
     }
 });

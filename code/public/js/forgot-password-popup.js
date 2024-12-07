@@ -1,5 +1,30 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     console.log('Forgot password popup script loaded');
+
+    // Function to load translations
+    async function loadTranslations(lang) {
+        try {
+            const response = await fetch(`/translations/js/forgot-password-popup.${lang}.json`);
+            if (!response.ok) {
+                const fallbackResponse = await fetch('/translations/js/forgot-password-popup.en.json');
+                return await fallbackResponse.json();
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Translation loading error:', error);
+            return {
+                error_email_required: 'Email is required',
+                error_invalid_email: 'Please enter a valid email address',
+                error_network: 'Network error. Please try again.',
+                success_reset_link: 'Password reset link sent to your email',
+                label_email: 'Email Address'
+            };
+        }
+    }
+
+    // Get current language or default to English
+    const currentLang = document.documentElement.lang || 'en';
+    const t = await loadTranslations(currentLang);
 
     // DOM Elements
     const forgotPasswordModal = document.getElementById('forgotPasswordModal');
@@ -12,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const validationRules = {
         email: {
             validate: (value) => emailRegex.test(value.trim()),
-            message: 'Please enter a valid email address'
+            message: t.error_invalid_email
         }
     };
 
@@ -29,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Default validation for required fields
             rule = {
                 validate: (value) => value.trim() !== '',
-                message: 'This field is required'
+                message: t.error_email_required
             };
         }
 
@@ -146,14 +171,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Show success message
                 const successMessage = document.getElementById('forgot-password-success');
                 if (successMessage) {
-                    successMessage.textContent = result.message;
+                    successMessage.textContent = t.success_reset_link;
                     successMessage.style.display = 'block';
                 }
             } else {
                 // Show error message
                 const emailInput = form.querySelector('input[type="email"]');
                 if (emailInput) {
-                    emailInput.setCustomValidity(result.message || 'Password reset failed');
+                    emailInput.setCustomValidity(result.message || t.error_network);
                     emailInput.reportValidity();
                 }
             }
@@ -161,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error:', error);
             const emailInput = form.querySelector('input[type="email"]');
             if (emailInput) {
-                emailInput.setCustomValidity('An unexpected error occurred. Please try again.');
+                emailInput.setCustomValidity(t.error_network);
                 emailInput.reportValidity();
             }
         }
@@ -206,4 +231,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize form
     setupForm();
+
+    // Update label with translation
+    const emailLabel = document.querySelector('label[for="forgotPasswordEmail"]');
+    if (emailLabel) {
+        emailLabel.textContent = t.label_email;
+    }
 });

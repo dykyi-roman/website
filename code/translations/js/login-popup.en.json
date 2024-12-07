@@ -1,0 +1,7 @@
+{
+    "error_invalid_credentials": "Invalid email or password",
+    "error_network": "Network error. Please try again.",
+    "label_login": "Login",
+    "label_password": "Password",
+    "placeholder_email": "Enter your email"
+}

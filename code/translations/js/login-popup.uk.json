@@ -1,0 +1,7 @@
+{
+    "error_invalid_credentials": "Невірний email або пароль",
+    "error_network": "Помилка мережі. Спробуйте знову.",
+    "label_login": "Увійти",
+    "label_password": "Пароль",
+    "placeholder_email": "Введіть ваш email"
+}
