@@ -1,0 +1,42 @@
+{
+    "Welcome!": "Ласкаво просимо!",
+    "Close": "Закрити",
+    "Email": "Електронна пошта",
+    "Phone": "Телефон", 
+    "Address": "Адреса",
+    "Business Hours": "Години роботи",
+    "Find Your Services": "Знайдіть свої послуги",
+    "What service are you looking for?": "Яку послугу ви шукаєте?",
+    "Search": "Пошук",
+    "Orders Search": "Пошук замовлень", 
+    "Services Search": "Пошук послуг",
+    "List View": "Список",
+    "Grid View": "Сітка",
+    "Privacy Policy": "Політика конфіденційності",
+
+    "error_email_required": "Email є обов'язковим",
+    "error_invalid_email": "Введіть коректну адресу електронної пошти",
+    "error_network": "Помилка мережі. Спробуйте знову.",
+    "success_reset_link": "Посилання для скидання пароля надіслано на вашу електронну пошту",
+    "label_email": "Адреса електронної пошти",
+    "error_invalid_credentials": "Невірний email або пароль",
+    "label_login": "Увійти",
+    "placeholder_email": "Введіть ваш email",
+    "error_password_length": "Пароль повинен містити не менше 8 символів",
+    "error_passwords_match": "Паролі повинні збігатися",
+    "label_password": "Пароль",
+    "label_confirm_password": "Підтвердіть пароль",
+
+    "find_your_orders": "Знайдіть свої замовлення",
+    "what_order_looking_for": "Яке замовлення ви шукаєте?",
+    
+    "no_services_found": "Не знайдено послуг за вашим запитом.",
+    "no_orders_found": "Не знайдено замовлень за вашим запитом.",
+    "book_now": "Замовити",
+    "share": "Поділитися",
+    "error_occurred": "Під час пошуку сталася помилка. Будь ласка, спробуйте пізніше.",
+
+    "share_link_copied": "Скопійовано!",
+    "share_email_subject": "Погляньте на цю послугу",
+    "share_email_body": "Я знайшов цікаву послугу: "
+}

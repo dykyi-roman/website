@@ -1,0 +1,42 @@
+{
+    "Welcome!": "Welcome!",
+    "Close": "Close",
+    "Email": "Email",
+    "Phone": "Phone", 
+    "Address": "Address",
+    "Business Hours": "Business Hours",
+    "Find Your Services": "Find Your Services",
+    "What service are you looking for?": "What service are you looking for?",
+    "Search": "Search",
+    "Orders Search": "Orders Search", 
+    "Services Search": "Services Search",
+    "List View": "List View",
+    "Grid View": "Grid View",
+    "Privacy Policy": "Privacy Policy",
+
+    "error_email_required": "Email is required",
+    "error_invalid_email": "Please enter a valid email address",
+    "error_network": "Network error. Please try again.",
+    "success_reset_link": "Password reset link sent to your email",
+    "label_email": "Email Address",
+    "error_invalid_credentials": "Invalid email or password",
+    "label_login": "Login",
+    "placeholder_email": "Enter your email",
+    "error_password_length": "Password must be at least 8 characters long",
+    "error_passwords_match": "Passwords must match",
+    "label_password": "Password",
+    "label_confirm_password": "Confirm Password",
+
+    "find_your_orders": "Find Your Orders",
+    "what_order_looking_for": "What order are you looking for?",
+    
+    "no_services_found": "No services found matching your search.",
+    "no_orders_found": "No orders found matching your search.",
+    "book_now": "Book Now",
+    "share": "Share",
+    "error_occurred": "An error occurred while searching. Please try again later.",
+
+    "share_link_copied": "Copied!",
+    "share_email_subject": "Check out this service",
+    "share_email_body": "I found this interesting service: "
+}

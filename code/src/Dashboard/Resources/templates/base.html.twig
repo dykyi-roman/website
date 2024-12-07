@@ -19,7 +19,7 @@
 
         {# Page-specific CSS #}
         {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset('css/page.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/base.css') }}">
         {% endblock %}
 
         {# Core JavaScript #}
@@ -81,7 +81,7 @@
 
         {# Late-loaded JavaScript #}
         {% block late_javascripts %}
-            <script src="{{ asset('js/page.js') }}" defer></script>
+            <script src="{{ asset('js/base.js') }}" defer></script>
         {% endblock %}
     </body>
 </html>

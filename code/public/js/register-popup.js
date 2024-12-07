@@ -1,5 +1,44 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     console.log('Register popup script loaded');
+
+    // Function to load translations
+    async function loadTranslations(lang) {
+        try {
+            const response = await fetch(`/translations/messages.${lang}.json`);
+            if (!response.ok) {
+                const fallbackResponse = await fetch('/translations/messages.en.json');
+                return await fallbackResponse.json();
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Translation loading error:', error);
+        }
+    }
+
+    // Get current language or default to English
+    const currentLang = document.documentElement.lang || 'en';
+    const t = await loadTranslations(currentLang);
+
+    // Mapping specific keys for register popup
+    const registerTranslations = {
+        error_email_required: t['error_email_required'] || 'Email is required',
+        error_invalid_email: t['error_invalid_email'] || 'Please enter a valid email address',
+        error_password_length: t['error_password_length'] || 'Password must be at least 8 characters long',
+        error_passwords_match: t['error_passwords_match'] || 'Passwords must match',
+        error_network: t['error_network'] || 'Network error. Please try again.',
+        label_email: t['label_email'] || 'Email Address',
+        label_password: t['label_password'] || 'Password',
+        label_confirm_password: t['label_confirm_password'] || 'Confirm Password'
+    };
+
+    // Update labels
+    const emailLabel = document.querySelector('label[for="registerEmail"]');
+    const passwordLabel = document.querySelector('label[for="registerPassword"]');
+    const confirmPasswordLabel = document.querySelector('label[for="registerConfirmPassword"]');
+
+    if (emailLabel) emailLabel.textContent = registerTranslations.label_email;
+    if (passwordLabel) passwordLabel.textContent = registerTranslations.label_password;
+    if (confirmPasswordLabel) confirmPasswordLabel.textContent = registerTranslations.label_confirm_password;
 
     // DOM Elements
     const popup = document.getElementById('register-popup');
@@ -19,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    // Form validation setup
+    // Validation rules
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^\+?[\d\s-()]{10,}$/;
     const nameRegex = /^[a-zA-Z\s'-]{2,50}$/;
@@ -36,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         email: {
             validate: (value) => emailRegex.test(value.trim()),
-            message: 'Please enter a valid email address'
+            message: registerTranslations.error_invalid_email
         },
         tel: {
             validate: (value) => phoneRegex.test(value.trim()),
@@ -49,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // Field validation function
-    function validateField(field) {
+    function validateField(field, form) {
         const value = field.value;
         const fieldName = field.name;
         let rule;
@@ -69,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Default validation for required fields
             rule = {
                 validate: (value) => value.trim() !== '',
-                message: 'This field is required'
+                message: registerTranslations.error_email_required
             };
         }
 
@@ -79,13 +118,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!isValid) {
             field.classList.add('is-invalid');
             field.classList.remove('is-valid');
-            if (feedback && feedback.classList.contains('invalid-feedback')) {
+            if (feedback && feedback.classList.contains('invalid-feedback') && field.type !== 'checkbox') {
                 feedback.textContent = rule.message;
             }
         } else {
             field.classList.remove('is-invalid');
             field.classList.add('is-valid');
-            if (feedback) {
+            if (feedback && feedback.classList.contains('invalid-feedback')) {
                 feedback.textContent = '';
             }
         }
@@ -101,12 +140,12 @@ document.addEventListener('DOMContentLoaded', function() {
         inputs.forEach(input => {
             // Validate on input
             input.addEventListener('input', function() {
-                validateField(this);
+                validateField(this, form);
             });
 
             // Validate on blur
             input.addEventListener('blur', function() {
-                validateField(this);
+                validateField(this, form);
             });
         });
     }
@@ -116,11 +155,11 @@ document.addEventListener('DOMContentLoaded', function() {
     setupFormValidation(partnerForm);
 
     // Form submission handler
-    function submitRegistration(form) {
+    async function submitRegistration(form) {
         let isValid = true;
         const inputs = form.querySelectorAll('input, select');
         inputs.forEach(input => {
-            if (!validateField(input)) {
+            if (!validateField(input, form)) {
                 isValid = false;
             }
         });
@@ -147,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 const emailInput = form.querySelector('input[type="email"]');
                 if (emailInput) {
-                    emailInput.setCustomValidity(data.message || 'Registration failed');
+                    emailInput.setCustomValidity(data.message || registerTranslations.error_network);
                     emailInput.reportValidity();
                 }
             }
@@ -155,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Registration error:', error);
             const emailInput = form.querySelector('input[type="email"]');
             if (emailInput) {
-                emailInput.setCustomValidity('An error occurred. Please try again.');
+                emailInput.setCustomValidity(registerTranslations.error_network);
                 emailInput.reportValidity();
             }
         }

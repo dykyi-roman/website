@@ -1,4 +1,23 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    // Function to load translations
+    async function loadTranslations(lang) {
+        try {
+            const response = await fetch(`/translations/messages.${lang}.json`);
+            if (!response.ok) {
+                const fallbackResponse = await fetch('/translations/messages.en.json');
+                return await fallbackResponse.json();
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Translation loading error:', error);
+            return {};
+        }
+    }
+
+    // Get current language or default to English
+    const currentLang = document.documentElement.lang || 'en';
+    const t = await loadTranslations(currentLang);
+
     let currentShareUrl = '';
 
     // Function to properly combine base URL and path
@@ -35,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
         navigator.clipboard.writeText(currentShareUrl).then(() => {
             // Change button text temporarily to show success
             const originalText = this.innerHTML;
-            this.innerHTML = '<i class="fas fa-check"></i><span>Copied!</span>';
+            this.innerHTML = `<i class="fas fa-check"></i><span>${t.share_link_copied || 'Copied!'}</span>`;
             setTimeout(() => {
                 this.innerHTML = originalText;
             }, 2000);
@@ -44,8 +63,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Email share handler
     document.querySelector('.share-button.email').addEventListener('click', function() {
-        const subject = encodeURIComponent('Check out this service');
-        const body = encodeURIComponent(`I found this interesting service: ${currentShareUrl}`);
+        const subject = encodeURIComponent(t.share_email_subject || 'Check out this service');
+        const body = encodeURIComponent(`${t.share_email_body || 'I found this interesting service: '}${currentShareUrl}`);
         window.open(`mailto:?subject=${subject}&body=${body}`);
     });
 
