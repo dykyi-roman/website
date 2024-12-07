@@ -80,6 +80,8 @@
         {% endblock %}
 
         {# Late-loaded JavaScript #}
-        {% block late_javascripts %}{% endblock %}
+        {% block late_javascripts %}
+            <script src="{{ asset('js/page.js') }}" defer></script>
+        {% endblock %}
     </body>
 </html>
