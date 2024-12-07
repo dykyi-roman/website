@@ -5,14 +5,81 @@
 {% block stylesheets %}
     {{ parent() }}
     <link href="{{ asset('css/page.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/contact.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 {% endblock %}
 
 {% block body %}
     <!-- Main Content -->
     <div class="content-wrapper">
-        <div class="container">
-            <div class="page-content">
-                {{ content }}
+        <h1 class="text-center mb-5">{{ page_title }}</h1>
+        <div class="container page-content">
+            <div class="contact-section">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="contact-info">
+                            {% if contact.email %}
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="contact-details">
+                                    <h3>Email</h3>
+                                    <p><a href="mailto:{{ contact.email }}">{{ contact.email }}</a></p>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if contact.phone %}
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="contact-details">
+                                    <h3>Phone</h3>
+                                    <p><a href="tel:{{ contact.phone }}">{{ contact.phone }}</a></p>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if contact.address %}
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-location-dot"></i>
+                                </div>
+                                <div class="contact-details">
+                                    <h3>Address</h3>
+                                    <p>{{ contact.address }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if contact.hours %}
+                            <div class="contact-item">
+                                <div class="contact-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="contact-details">
+                                    <h3>Business Hours</h3>
+                                    <p>{{ contact.hours }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="contact-map">
+                            {{ contact.map|raw }}
+                        </div>
+                    </div>
+                </div>
+
+                {% if content %}
+                <div class="additional-content mt-5">
+                    {{ content|raw }}
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>

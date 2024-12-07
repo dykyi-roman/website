@@ -1,7 +1,6 @@
 parameters:
     app.name: 'EasyOrder'
     app.host: '%env(APP_HOST)%'
-    app.support_email: 'support@easyorder.com'
 
 services:
     _defaults:

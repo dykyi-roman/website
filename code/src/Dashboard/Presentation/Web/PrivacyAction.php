@@ -14,6 +14,7 @@ final class PrivacyAction extends AbstractController
     public function __construct(
         private readonly string $appName,
         private readonly string $supportEmail,
+        private readonly string $supportAddress,
     ) {
     }
 
@@ -80,7 +81,7 @@ final class PrivacyAction extends AbstractController
                 [
                     $this->appName,
                     $this->supportEmail,
-                    'м.Золотоноша, вул. Пушкина 11',
+                    $this->supportAddress,
                     $generator->generate('privacy', [], UrlGeneratorInterface::ABSOLUTE_URL),
                 ],
                 $content,

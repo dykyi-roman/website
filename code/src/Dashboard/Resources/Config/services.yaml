@@ -1,13 +1,19 @@
 parameters:
-
+    app.support_email: 'support@easyorder.com'
+    app.support_phone: '+38 (093) 067 08 92'
+    app.support_working_time: 'Monday - Friday: 9:00 AM - 6:00 PM'
+    app.support_address: 'Ukraine, Zolotonosha'
 services:
     _defaults:
         autowire: true
         autoconfigure: true
         public: false
         bind:
-            $supportEmail: '%app.support_email%'
             $appName: '%app.name%'
+            $supportEmail: '%app.support_email%'
+            $supportPhone: '%app.support_phone%'
+            $supportAddress: '%app.support_address%'
+            $supportWorkingTime: '%app.support_working_time%'
 
     App\Dashboard\:
         resource: '../../'
