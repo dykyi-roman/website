@@ -7,35 +7,48 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title text-center w-100" id="shareModalLabel">Share</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title w-100 text-center" id="shareModalLabel">{{ 'Share Title'|trans }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'Close'|trans }}"></button>
             </div>
             <div class="modal-body">
-                <div class="share-buttons">
-                    <button class="share-button copy-link">
+                <div class="share-options d-flex justify-content-around mb-4">
+                    <button class="btn btn-outline-primary share-option" data-platform="link">
                         <i class="fas fa-link"></i>
-                        <span>Copy Link</span>
+                        <span>{{ 'Share Copy Link'|trans }}</span>
                     </button>
-                    <button class="share-button email">
+                    <button class="btn btn-outline-primary share-option" data-platform="email">
                         <i class="fas fa-envelope"></i>
-                        <span>Email</span>
+                        <span>{{ 'Share Email'|trans }}</span>
                     </button>
-                    <button class="share-button twitter">
-                        <i class="fab fa-twitter"></i>
-                        <span>Twitter</span>
-                    </button>
-                    <button class="share-button whatsapp">
+                    <button class="btn btn-outline-primary share-option" data-platform="whatsapp">
                         <i class="fab fa-whatsapp"></i>
-                        <span>WhatsApp</span>
+                        <span>{{ 'Share WhatsApp'|trans }}</span>
                     </button>
-                    <button class="share-button messenger">
-                        <i class="fab fa-facebook-messenger"></i>
-                        <span>Messenger</span>
-                    </button>
-                    <button class="share-button facebook">
-                        <i class="fab fa-facebook"></i>
-                        <span>Facebook</span>
-                    </button>
+                </div>
+
+                <div id="share-link-section" class="d-none">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="share-link-input" readonly>
+                        <button class="btn btn-secondary" type="button" id="copy-link-btn">
+                            <i class="fas fa-copy"></i> {{ 'Share Copy Button'|trans }}
+                        </button>
+                    </div>
+                    <div class="alert alert-success d-none" id="link-copied-alert">
+                        {{ 'Share Link Copied'|trans }}
+                    </div>
+                </div>
+
+                <div id="share-email-section" class="d-none">
+                    <form id="share-email-form">
+                        <div class="mb-3">
+                            <input type="email" class="form-control" id="recipient-email" placeholder="{{ 'Share Email Placeholder'|trans }}" required>
+                            <div class="invalid-feedback">{{ 'Share Email Invalid'|trans }}</div>
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control" id="share-message" rows="3" placeholder="{{ 'Share Message Placeholder'|trans }}"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">{{ 'Share Send Button'|trans }}</button>
+                    </form>
                 </div>
             </div>
         </div>

@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                     modal.hide();
 
                     // Redirect or show success message
-                    window.location.href = data.redirectUrl || '/dashboard';
+                    window.location.href = data.redirectUrl || '/';
                 } else {
                     // Handle login errors
                     const emailInput = form.querySelector('input[type="email"]');
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 modal.hide();
 
                 // Redirect or show success message
-                window.location.href = data.redirectUrl || '/dashboard';
+                window.location.href = data.redirectUrl || '/';
             } else {
                 // Handle login errors
                 const emailInput = form.querySelector('input[type="email"]');

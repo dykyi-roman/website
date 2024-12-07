@@ -7,8 +7,8 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header border-0">
-                <h5 class="modal-title w-100 text-center" id="registrationModalLabel">Registration</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title w-100 text-center" id="registrationModalLabel">{{ 'Register Title'|trans }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'Close'|trans }}"></button>
             </div>
             
             <div class="modal-body p-4">
@@ -17,15 +17,15 @@
                     <div class="d-flex justify-content-center gap-3 w-100 mb-4">
                         <button class="register-type-btn btn flex-grow-1 p-3 d-flex flex-column align-items-center" data-type="client">
                             <i class="fas fa-user fs-2 mb-2"></i>
-                            <span>Client</span>
+                            <span>{{ 'Register Client Type'|trans }}</span>
                         </button>
                         <button class="register-type-btn btn flex-grow-1 p-3 d-flex flex-column align-items-center" data-type="partner">
                             <i class="fas fa-briefcase fs-2 mb-2"></i>
-                            <span>Partner</span>
+                            <span>{{ 'Register Partner Type'|trans }}</span>
                         </button>
                     </div>
                     <div class="text-center mb-3">
-                        <a href="#" id="switch-to-login" class="text-orange text-decoration-none">Already have an account? Log in</a>
+                        <a href="#" id="switch-to-login" class="text-orange text-decoration-none">{{ 'Register Already Have Account'|trans }}</a>
                     </div>
                 </div>
 
@@ -33,53 +33,53 @@
                 <form id="clientRegistrationForm" class="needs-validation d-none" novalidate>
                     <div class="register-form-section">
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="client-name" name="name" placeholder="Enter your full name" required>
-                            <div class="invalid-feedback">This field is required</div>
+                            <input type="text" class="form-control" id="client-name" name="name" placeholder="{{ 'Register Name Placeholder'|trans }}" required>
+                            <div class="invalid-feedback">{{ 'Register Field Required'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <input type="email" class="form-control" id="client-email" name="email" placeholder="Enter your email address" required>
-                            <div class="invalid-feedback">Please enter a valid email address</div>
+                            <input type="email" class="form-control" id="client-email" name="email" placeholder="{{ 'Register Email Placeholder'|trans }}" required>
+                            <div class="invalid-feedback">{{ 'Register Field Required'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <input type="tel" class="form-control" id="client-phone" name="phone" placeholder="Enter your phone number" required>
-                            <div class="invalid-feedback">Please enter a valid phone number</div>
+                            <input type="tel" class="form-control" id="client-phone" name="phone" placeholder="{{ 'Register Phone Placeholder'|trans }}" required>
+                            <div class="invalid-feedback">{{ 'Register Phone Invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
                             <select class="form-select" id="client-country" name="country" required>
-                                <option value="">Select Country</option>
+                                <option value="">{{ 'Register Country Placeholder'|trans }}</option>
                                 {% for country in countries %}
                                     <option value="{{ country.code }}">{{ country.name }}</option>
                                 {% endfor %}
                             </select>
-                            <div class="invalid-feedback">Please select a country</div>
+                            <div class="invalid-feedback">{{ 'Register Country Invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
                             <select class="form-select" id="client-city" name="city" required>
-                                <option value="">Select City</option>
+                                <option value="">{{ 'Register City Placeholder'|trans }}</option>
                             </select>
-                            <div class="invalid-feedback">Please select a city</div>
+                            <div class="invalid-feedback">{{ 'Register City Invalid'|trans }}</div>
                         </div>
                         
                         <div class="mb-3">
-                            <button type="submit" class="btn btn-orange w-100">Register as Client</button>
+                            <button type="submit" class="btn btn-orange w-100">{{ 'Register Client Button'|trans }}</button>
                             <div class="text-muted text-center small mt-2">
-                                Нажимая «Зарегистрироваться», вы принимаете «Правила использования сайта».
+                                {{ 'Register Terms Agreement'|trans }}
                             </div>
                         </div>
 
                         <div class="position-relative my-4">
                             <hr>
                             <div class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted">
-                                or
+                                {{ 'Register Or'|trans }}
                             </div>
                         </div>
 
                         <div class="d-flex justify-content-center gap-2">
                             <button type="button" class="btn btn-danger d-flex align-items-center justify-content-center gap-2 px-4">
-                                <i class="fab fa-google"></i> Google
+                                <i class="fab fa-google"></i> {{ 'Register Google Login'|trans }}
                             </button>
                             <button type="button" class="btn btn-primary d-flex align-items-center justify-content-center gap-2 px-4">
-                                <i class="fab fa-facebook-f"></i> Facebook
+                                <i class="fab fa-facebook-f"></i> {{ 'Register Facebook Login'|trans }}
                             </button>
                         </div>
                     </div>
@@ -90,53 +90,53 @@
                 <form id="partnerRegistrationForm" class="needs-validation d-none" novalidate>
                     <div class="register-form-section">
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="partner-name" name="partner_name" placeholder="Enter your name" required>
-                            <div class="invalid-feedback">This field is required</div>
+                            <input type="text" class="form-control" id="partner-name" name="partner_name" placeholder="{{ 'Register Name Placeholder'|trans }}" required>
+                            <div class="invalid-feedback">{{ 'Register Field Required'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <input type="email" class="form-control" id="partner-email" name="partner_email" placeholder="Enter email address" required>
-                            <div class="invalid-feedback">Please enter a valid email address</div>
+                            <input type="email" class="form-control" id="partner-email" name="partner_email" placeholder="{{ 'Register Email Placeholder'|trans }}" required>
+                            <div class="invalid-feedback">{{ 'Register Field Required'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <input type="tel" class="form-control" id="partner-phone" name="partner_phone" placeholder="Enter phone number" required>
-                            <div class="invalid-feedback">Please enter a valid phone number</div>
+                            <input type="tel" class="form-control" id="partner-phone" name="partner_phone" placeholder="{{ 'Register Phone Placeholder'|trans }}" required>
+                            <div class="invalid-feedback">{{ 'Register Phone Invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
                             <select class="form-select" id="partner-country" name="country" required>
-                                <option value="">Select Country</option>
+                                <option value="">{{ 'Register Country Placeholder'|trans }}</option>
                                 {% for country in countries %}
                                     <option value="{{ country.code }}">{{ country.name }}</option>
                                 {% endfor %}
                             </select>
-                            <div class="invalid-feedback">Please select a country</div>
+                            <div class="invalid-feedback">{{ 'Register Country Invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
                             <select class="form-select" id="partner-city" name="city" required>
-                                <option value="">Select City</option>
+                                <option value="">{{ 'Register City Placeholder'|trans }}</option>
                             </select>
-                            <div class="invalid-feedback">Please select a city</div>
+                            <div class="invalid-feedback">{{ 'Register City Invalid'|trans }}</div>
                         </div>
 
                         <div class="mb-3">
-                            <button type="submit" class="btn btn-orange w-100">Register as Partner</button>
+                            <button type="submit" class="btn btn-orange w-100">{{ 'Register Partner Button'|trans }}</button>
                             <div class="text-muted text-center small mt-2">
-                                Нажимая «Зарегистрироваться», вы принимаете «Правила использования сайта».
+                                {{ 'Register Terms Agreement'|trans }}
                             </div>
                         </div>
 
                         <div class="position-relative my-4">
                             <hr>
                             <div class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted">
-                                or
+                                {{ 'Register Or'|trans }}
                             </div>
                         </div>
 
                         <div class="d-flex justify-content-center gap-2">
                             <button type="button" class="btn btn-danger d-flex align-items-center justify-content-center gap-2 px-4">
-                                <i class="fab fa-google"></i> Google
+                                <i class="fab fa-google"></i> {{ 'Register Google Login'|trans }}
                             </button>
                             <button type="button" class="btn btn-primary d-flex align-items-center justify-content-center gap-2 px-4">
-                                <i class="fab fa-facebook-f"></i> Facebook
+                                <i class="fab fa-facebook-f"></i> {{ 'Register Facebook Login'|trans }}
                             </button>
                         </div>
                     </div>
