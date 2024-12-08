@@ -126,6 +126,10 @@ swagger-generate: ## Generate OpenAPI/Swagger documentation
 	docker exec -it $(php) bash -c "php vendor/bin/openapi src --output docs/api/openapi.yaml --format yaml"
 	@echo "OpenAPI documentation generated in code/docs/api/openapi.yaml"
 
+js-translations: ## Generate JavaScript translations
+	docker exec -it $(php) bash -c "php bin/console app:generate:js-translations"
+	@echo "JavaScript translations generated"
+
 ## -- Database Migrations --
 
 migration-create: ## Create a new migration (usage: make migration-create)

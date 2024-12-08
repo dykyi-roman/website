@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to set language
     function setLanguage(selectedLang) {
         // Save language to localStorage
-        localStorage.setItem('appLanguage', selectedLang);
+        localStorage.setItem('locale', selectedLang);
 
         // Save language to cookie
         setCookie('locale', selectedLang);
@@ -100,8 +100,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // 5. Default to 'en'
         const urlParams = new URLSearchParams(window.location.search);
         const urlLang = urlParams.get('lang');
-        const storedLang = localStorage.getItem('appLanguage');
-        const cookieLang = getCookie('appLanguage');
+        const storedLang = localStorage.getItem('locale');
+        const cookieLang = getCookie('locale');
         const browserLang = navigator.language.split('-')[0];
 
         let finalLang = 'en'; // default
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (cookieLang && ['en', 'uk'].includes(cookieLang)) {
             finalLang = cookieLang;
             // Sync localStorage with cookie
-            localStorage.setItem('appLanguage', finalLang);
+            localStorage.setItem('locale', finalLang);
         } else if (urlLang && ['en', 'uk'].includes(urlLang)) {
             finalLang = urlLang;
         } else if (['en', 'uk'].includes(browserLang)) {
@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Ensure cookie is set
-        setCookie('appLanguage', finalLang);
+        setCookie('locale', finalLang);
     }
 
     // Initialize language on page load

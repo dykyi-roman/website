@@ -3,7 +3,7 @@ const FB_APP_ID = 'YOUR_FB_APP_ID';
 
 document.addEventListener('DOMContentLoaded', async function() {
     // Get current language or default to English
-    const currentLang = document.documentElement.lang || 'en';
+    const currentLang = localStorage.getItem('locale') || 'en';
     const t = await loadTranslations(currentLang);
 
     // Mapping specific keys for register popup

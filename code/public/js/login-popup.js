@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     console.log('Login popup script loaded');
 
     // Get current language or default to English
-    const currentLang = document.documentElement.lang || 'en';
+    const currentLang = localStorage.getItem('locale') || 'en';
     const t = await loadTranslations(currentLang);
 
     // Mapping specific keys for login popup
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         error_invalid_credentials: t['js.error_invalid_credentials'] || 'Invalid email or password',
         error_network: t['js.error_network'] || 'An error occurred. Please try again.'
     };
-
+console.log(loginTranslations);
     // DOM Elements
     const loginModal = document.getElementById('loginModal');
     const loginForm = document.getElementById('loginForm');

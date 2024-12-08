@@ -1,14 +1,29 @@
 // Global translation loading utility
 async function loadTranslations(lang) {
+    const translationPath = (language) => `/js/translations/messages.${language}.json`;
+
     try {
-        const response = await fetch(`/translations/messages.${lang}.json`);
+        const response = await fetch(translationPath(lang));
         if (!response.ok) {
-            const fallbackResponse = await fetch('/translations/messages.en.json');
-            return await fallbackResponse.json();
+            console.warn(`Failed to load translations for language: ${lang}. Falling back to default.`);
+            return await fetchFallbackTranslation();
         }
         return await response.json();
     } catch (error) {
-        console.error('Translation loading error:', error);
+        console.error('Error loading translations:', error);
+        return await fetchFallbackTranslation();
+    }
+}
+
+async function fetchFallbackTranslation() {
+    try {
+        const fallbackResponse = await fetch('/js/translations/messages.en.json');
+        if (!fallbackResponse.ok) {
+            throw new Error('Failed to load fallback translations.');
+        }
+        return await fallbackResponse.json();
+    } catch (error) {
+        console.error('Critical error loading fallback translations:', error);
         return {};
     }
 }
