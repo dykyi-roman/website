@@ -114,7 +114,7 @@
   "contact": {
     "page_title": "Contact Us",
     "content": "<h2>Get in Touch</h2><p>We'd love to hear from you! Please use the contact information provided or visit us during business hours.</p>",
-    "business_hours": "Monday - Friday: 9:00 AM - 6:00 PM"
+    "business_hours": "Monday - Friday"
   },
   "dashboard": {
     "page_title": "Dashboard",
