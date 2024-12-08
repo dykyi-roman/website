@@ -44,8 +44,7 @@ final class GlobalExtension extends AbstractExtension implements GlobalsInterfac
 
         if (!$user) {
             $response['countries'] = [
-                ['code' => 'ua', 'name' => 'Ukraine'],
-                ['code' => 'es', 'name' => 'Spain'],
+                ['code' => 'ua', 'name' => 'Україна'],
             ];
         }
 
