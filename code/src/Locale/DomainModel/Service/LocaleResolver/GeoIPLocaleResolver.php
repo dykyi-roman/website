@@ -7,7 +7,6 @@ namespace App\Locale\DomainModel\Service\LocaleResolver;
 use App\Locale\DomainModel\Service\LocaleResolverInterface;
 use GeoIp2\ProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
-use GeoIp2\Database\Reader;
 
 final readonly class GeoIPLocaleResolver implements LocaleResolverInterface
 {
@@ -25,7 +24,7 @@ final readonly class GeoIPLocaleResolver implements LocaleResolverInterface
         if (!$ip || $ip === self::LOCAL_HOST) {
             return null;
         }
-        dump($this->geoIpReader); die();
+
         try {
             $record = $this->geoIpReader->country($ip);
             $countryCode = $record->country->isoCode;

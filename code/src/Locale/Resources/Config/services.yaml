@@ -1,6 +1,6 @@
 parameters:
     default_locale: '%env(DEFAULT_LOCALE)%'
-    supported_locales: 'uk,en,es'
+    supported_locales: ['uk','en','es']
 
 services:
     _defaults:
