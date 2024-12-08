@@ -14,9 +14,12 @@ class TermsAction extends AbstractController
     #[Route('/terms', name: 'terms')]
     public function __invoke(TranslatorInterface $translator): Response
     {
+        $termsContent = $translator->trans('terms.content');
+        $termsContent = str_replace('%last_updated_date%', date('Y-m-d'), $termsContent);
+
         return $this->render('@Dashboard/terms.html.twig', [
             'page_title' => $translator->trans('terms.page_title'),
-            'content' => $translator->trans('terms.content'),
+            'content' => $termsContent,
         ]);
     }
 }
