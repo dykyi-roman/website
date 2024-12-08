@@ -7,7 +7,6 @@ namespace App\Dashboard\Presentation\Web;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class PrivacyAction extends AbstractController
@@ -21,13 +20,17 @@ final class PrivacyAction extends AbstractController
 
     #[Route('/privacy', name: 'privacy')]
     public function __invoke(
-        UrlGeneratorInterface $generator,
         TranslatorInterface $translator,
     ): Response {
-        $url = $generator->generate('privacy', [], UrlGeneratorInterface::ABSOLUTE_URL);
-        $content = $translator->trans('privacy.content');
+        $content = $translator->trans('privacy.content', [
+            '%app_name%' => $this->appName,
+            '%support_email%' => $this->supportEmail,
+            '%support_address%' => $this->supportAddress,
+            '%last_updated_date%' => date('Y-m-d'),
+        ]);
 
         return $this->render('@Dashboard/privacy.html.twig', [
+            'page_title' => $translator->trans('Privacy Policy'),
             'content' => $content,
         ]);
     }
