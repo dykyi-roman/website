@@ -8,16 +8,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DashboardAction extends AbstractController
 {
     #[Route('/', name: 'dashboard_page')]
-    public function __invoke(Request $request): Response
-    {
+    public function __invoke(
+        Request $request,
+        TranslatorInterface $translator,
+    ): Response {
         return $this->render('@Dashboard/dashboard.html.twig', [
-            'page_title' => 'Dashboard',
-            'current_language' => 'UA',
-            'search_results' => [],
+            'page_title' => $translator->trans('dashboard.page_title'),
         ]);
     }
 }

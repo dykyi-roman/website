@@ -57,7 +57,7 @@
   "Register Field Required": "This field is required",
   "Register Phone Invalid": "Please enter a valid phone number",
   "Register Country Invalid": "Please select a country",
-  "Register City Invalid": "Please select a city",
+  "Register CityInvalid": "Please select a city",
   "Register Client Button": "Register as Client",
   "Register Partner Button": "Register as Partner",
   "Register Terms Agreement": "By registering, you agree to our Terms of Service and Privacy Policy",
@@ -74,6 +74,9 @@
   "Share Email Invalid": "Please enter a valid email address",
   "Share Message Placeholder": "Add a message (optional)",
   "Share Send Button": "Send",
+  "copyright_text": " %year% %organization%. All rights reserved.",
+  "meta_description": "%organization% - Find and book professional services. Browse through our wide selection of verified service providers for all your needs.",
+  "meta_keywords": "services, booking, professional services, service providers, local services",
   "js": {
     "error_email_required": "Email is required",
     "error_invalid_email": "Please enter a valid email address",
@@ -97,9 +100,6 @@
     "share_link_copied": "Copied!",
     "share_email_subject": "Check out this service",
     "share_email_body": "I found this interesting service: ",
-    "copyright_text": " %year% %organization%. All rights reserved.",
-    "meta_description": "%organization% - Find and book professional services. Browse through our wide selection of verified service providers for all your needs.",
-    "meta_keywords": "services, booking, professional services, service providers, local services",
     "name_validation": "Please enter a valid name (2-50 characters, letters only)",
     "partner_name_validation": "Name must be between 2 and 100 characters",
     "phone_validation": "Please enter a valid phone number",
@@ -110,5 +110,14 @@
   "terms": {
     "page_title": "Terms of Service",
     "content": "<p>Welcome to our platform, a comprehensive marketplace connecting clients and service partners.</p><h2>1. Platform Overview</h2><p>Our platform provides a unique ecosystem where:</p><ul><li>Clients can publish diverse advertisements for services they require</li><li>Partners can offer their professional services and respond to client needs</li></ul><h2>2. User Responsibilities</h2><p>All users must:</p><ul><li>Provide accurate and truthful information</li><li>Maintain professional communication</li><li>Respect the platform's guidelines and legal requirements</li></ul><h2>3. Client Responsibilities</h2><p>Clients using the platform to publish advertisements must:</p><ul><li>Clearly describe service requirements</li><li>Provide realistic expectations</li><li>Communicate transparently with potential service partners</li></ul><h2>4. Partner Responsibilities</h2><p>Service partners must:</p><ul><li>Possess necessary qualifications for offered services</li><li>Respond promptly to client inquiries</li><li>Deliver services with professionalism and integrity</li></ul><h2>5. Transaction and Communication</h2><p>The platform facilitates connections but is not directly responsible for:</p><ul><li>Service quality</li><li>Pricing negotiations</li><li>Final agreements between clients and partners</li></ul><h2>6. Intellectual Property and Privacy</h2><p>All content on the platform is protected. Users must respect intellectual property rights and adhere to privacy policies.</p><h2>7. Limitation of Liability</h2><p>Our platform provides a service marketplace and is not liable for direct or indirect damages arising from user interactions.</p><h2>8. Modifications to Terms</h2><p>We reserve the right to update these terms. Continued platform use constitutes acceptance of updated terms.</p><p class='last-updated'>Last Updated: %last_updated_date%</p>"
+  },
+  "contact": {
+    "page_title": "Contact Us",
+    "content": "<h2>Get in Touch</h2><p>We'd love to hear from you! Please use the contact information provided or visit us during business hours.</p>",
+    "business_hours": "Monday - Friday: 9:00 AM - 6:00 PM"
+  },
+  "dashboard": {
+    "page_title": "Dashboard",
+    "search_placeholder": "Search services, partners, and more"
   }
 }
