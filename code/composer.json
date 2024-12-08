@@ -30,7 +30,6 @@
         "symfony/uid": "7.0.*",
         "symfony/validator": "7.0.*",
         "symfony/yaml": "7.0.*",
-        "willdurand/js-translation-bundle": "^6.1",
         "zircote/swagger-php": "^4.11"
     },
     "config": {
