@@ -1,0 +1,49 @@
+parameters:
+    default_locale: '%env(DEFAULT_LOCALE)%'
+    supported_locales: 'uk,en,es'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $defaultLocale: '%default_locale%'
+            $supportedLocales: '%supported_locales%'
+
+    App\Locale\:
+        resource: '../../'
+        exclude:
+            - '../../Resources/'
+            - '../../DomainModel/Model/'
+            - '../../Tests/'
+            - '../../**/Tests/'
+        tags: ['controller.service_arguments']
+
+    geoIp2.reader:
+        class: GeoIp2\Database\Reader
+        arguments:
+            - '%kernel.project_dir%/var/GeoLite2-Country.mmdb'
+
+    App\Locale\DomainModel\Service\LocaleResolver\AcceptLanguageLocaleResolver: ~
+    App\Locale\DomainModel\Service\LocaleResolver\CookieLocaleResolver: ~
+    App\Locale\DomainModel\Service\LocaleResolver\GeoIPLocaleResolver:
+        arguments:
+            $geoIpReader: '@geoIp2.reader'
+            $countryToLocaleMap:
+                US: 'en'
+                UA: 'uk'
+                ES: 'es'
+
+    App\Locale\DomainModel\Service\LocaleResolverInterface: '@App\Locale\DomainModel\Service\ChainLocaleResolver'
+    App\Locale\DomainModel\Service\ChainLocaleResolver:
+        arguments:
+            $resolvers:
+                - '@App\Locale\DomainModel\Service\LocaleResolver\QueryParameterLocaleResolver'
+                - '@App\Locale\DomainModel\Service\LocaleResolver\CookieLocaleResolver'
+                - '@App\Locale\DomainModel\Service\LocaleResolver\GeoIPLocaleResolver'
+                - '@App\Locale\DomainModel\Service\LocaleResolver\AcceptLanguageLocaleResolver'
+
+    App\Locale\Infrastructure\Symfony\EventSubscriber\LocaleSubscriber:
+        tags:
+            - { name: kernel.event_subscriber }
