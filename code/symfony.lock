@@ -218,5 +218,17 @@
         "files": [
             "config/packages/validator.yaml"
         ]
+    },
+    "willdurand/js-translation-bundle": {
+        "version": "6.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.0",
+            "ref": "02b720a49f6d36b44d557e0b18e48bf09e0a8e07"
+        },
+        "files": [
+            "config/routes/js_translation.yaml"
+        ]
     }
 }
