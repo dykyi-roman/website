@@ -7,15 +7,16 @@ namespace App\Dashboard\Presentation\Web;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TermsAction extends AbstractController
 {
     #[Route('/terms', name: 'terms')]
-    public function __invoke(): Response
+    public function __invoke(TranslatorInterface $translator): Response
     {
         return $this->render('@Dashboard/terms.html.twig', [
-            'page_title' => 'Terms',
-            'content' => 'Some terms text',
+            'page_title' => $translator->trans('terms.page_title'),
+            'content' => $translator->trans('terms.content'),
         ]);
     }
 }
