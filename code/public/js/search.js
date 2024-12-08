@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     const gridViewButton = document.getElementById('grid-view-button');
     const orderFilterButton = document.getElementById('order-filter-button');
     const serviceFilterButton = document.getElementById('service-filter-button');
-    const searchTitle = document.querySelector('.search-section h1');
 
     const itemsPerPage = 10;
     let currentFilter = '';
@@ -152,7 +151,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Utility function to safely get image URL
     function getImageUrl(imageUrl) {
-        return imageUrl || '/path/to/default-image.jpg';
+        return imageUrl || 'default-image.webp';
     }
 
     // Utility function to safely get review count
