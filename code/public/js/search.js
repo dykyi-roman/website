@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Utility function to safely get image URL
     function getImageUrl(imageUrl) {
-        return imageUrl || 'default-image.webp';
+        return imageUrl || 'images/default-item-image.webp';
     }
 
     // Utility function to safely get review count
