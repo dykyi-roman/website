@@ -105,16 +105,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const browserLang = navigator.language.split('-')[0];
 
         let finalLang = 'en'; // default
-
-        if (storedLang && ['en', 'uk'].includes(storedLang)) {
+        if (storedLang) {
             finalLang = storedLang;
-        } else if (cookieLang && ['en', 'uk'].includes(cookieLang)) {
+        } else if (cookieLang) {
             finalLang = cookieLang;
             // Sync localStorage with cookie
             localStorage.setItem('locale', finalLang);
-        } else if (urlLang && ['en', 'uk'].includes(urlLang)) {
+        } else if (urlLang) {
             finalLang = urlLang;
-        } else if (['en', 'uk'].includes(browserLang)) {
+        } else if (browserLang) {
             finalLang = browserLang;
         }
 
