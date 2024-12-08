@@ -5,14 +5,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     const currentLang = localStorage.getItem('locale') || 'en';
     const t = await loadTranslations(currentLang);
 
-    // Mapping specific keys for login popup
-    const loginTranslations = {
-        placeholder_email: t['js.placeholder_email'] || 'Please enter a valid email address',
-        label_password: t['js.label_password'] || 'Password must be at least 8 characters long',
-        error_invalid_credentials: t['js.error_invalid_credentials'] || 'Invalid email or password',
-        error_network: t['js.error_network'] || 'An error occurred. Please try again.'
-    };
-console.log(loginTranslations);
     // DOM Elements
     const loginModal = document.getElementById('loginModal');
     const loginForm = document.getElementById('loginForm');
@@ -23,11 +15,11 @@ console.log(loginTranslations);
     const validationRules = {
         email: {
             validate: (value) => emailRegex.test(value.trim()),
-            message: loginTranslations.placeholder_email
+            message: t.placeholder_email
         },
         password: {
             validate: (value) => value.trim().length >= 8,
-            message: loginTranslations.label_password
+            message: t.label_password
         }
     };
 
@@ -114,7 +106,7 @@ console.log(loginTranslations);
                 });
 
                 if (!response.ok) {
-                    throw new Error(loginTranslations.error_invalid_credentials);
+                    throw new Error(t.error_invalid_credentials);
                 }
                 // Successful login logic
                 const data = await response.json();
@@ -136,7 +128,7 @@ console.log(loginTranslations);
                 }
             } catch (error) {
                 console.error(error);
-                showErrorMessage(loginTranslations.error_network);
+                showErrorMessage(t.error_network);
             }
         }
     }

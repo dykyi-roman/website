@@ -6,13 +6,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     const currentLang = localStorage.getItem('locale') || 'en';
     const t = await loadTranslations(currentLang);
 
-    // Mapping specific keys for register popup
-    const sharedTranslations = {
-        share_email_subject: t['share_email_subject'] || 'Check out this service',
-        share_email_body: t['share_email_body'] || 'I found this interesting service: ',
-        share_link_copied: t['share_link_copied'] || 'Copied!',
-    };
-
     let currentShareUrl = '';
 
     // Function to properly combine base URL and path
@@ -49,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         navigator.clipboard.writeText(currentShareUrl).then(() => {
             // Change button text temporarily to show success
             const originalText = this.innerHTML;
-            this.innerHTML = `<i class="fas fa-check"></i><span>${sharedTranslations.share_link_copied || 'Copied!'}</span>`;
+            this.innerHTML = `<i class="fas fa-check"></i><span>${t.share_link_copied || 'Copied!'}</span>`;
             setTimeout(() => {
                 this.innerHTML = originalText;
             }, 2000);
@@ -58,8 +51,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Email share handler
     document.querySelector('.share-button.email').addEventListener('click', function() {
-        const subject = encodeURIComponent(sharedTranslations.share_email_subject || 'Check out this service');
-        const body = encodeURIComponent(`${sharedTranslations.share_email_body || 'I found this interesting service: '}${currentShareUrl}`);
+        const subject = encodeURIComponent(t.share_email_subject || 'Check out this service');
+        const body = encodeURIComponent(`${t.share_email_body || 'I found this interesting service: '}${currentShareUrl}`);
         window.open(`mailto:?subject=${subject}&body=${body}`);
     });
 

@@ -5,32 +5,14 @@ document.addEventListener('DOMContentLoaded', async function() {
     const currentLang = localStorage.getItem('locale') || 'en';
     const t = await loadTranslations(currentLang);
 
-    // Mapping specific keys for register popup
-    const registerTranslations = {
-        error_email_required: t['js.error_email_required'] || 'Email is required',
-        error_invalid_email: t['js.error_invalid_email'] || 'Please enter a valid email address',
-        error_password_length: t['js.error_password_length'] || 'Password must be at least 8 characters long',
-        error_passwords_match: t['js.error_passwords_match'] || 'Passwords must match',
-        error_network: t['js.error_network'] || 'Network error. Please try again.',
-        label_email: t['js.label_email'] || 'Email Address',
-        label_password: t['js.label_password'] || 'Password',
-        label_confirm_password: t['js.label_confirm_password'] || 'Confirm Password',
-        name_validation: t['js.name_validation'] || 'Please enter a valid name (2-50 characters, letters only)',
-        partner_name_validation: t['js.partner_name_validation'] || 'Name must be between 2 and 100 characters',
-        phone_validation: t['js.phone_validation'] || 'Please enter a valid phone number',
-        selection_validation: t['js.selection_validation'] || 'Please make a selection',
-        registration_successful: t['js.registration_successful'] || 'Registration successful!',
-        registration_error: t['js.registration_error'] || 'Registration failed. Please try again.'
-    };
-
     // Update labels
     const emailLabel = document.querySelector('label[for="registerEmail"]');
     const passwordLabel = document.querySelector('label[for="registerPassword"]');
     const confirmPasswordLabel = document.querySelector('label[for="registerConfirmPassword"]');
 
-    if (emailLabel) emailLabel.textContent = registerTranslations.label_email;
-    if (passwordLabel) passwordLabel.textContent = registerTranslations.label_password;
-    if (confirmPasswordLabel) confirmPasswordLabel.textContent = registerTranslations.label_confirm_password;
+    if (emailLabel) emailLabel.textContent = t.label_email;
+    if (passwordLabel) passwordLabel.textContent = t.label_password;
+    if (confirmPasswordLabel) confirmPasswordLabel.textContent = t.label_confirm_password;
 
     // DOM Elements
     const popup = document.getElementById('register-popup');
@@ -59,23 +41,23 @@ document.addEventListener('DOMContentLoaded', async function() {
     const validationRules = {
         name: {
             validate: (value) => nameRegex.test(value.trim()),
-            message: registerTranslations.name_validation
+            message: t.name_validation
         },
         partner_name: {
             validate: (value) => nameRegex.test(value.trim()),
-            message: registerTranslations.partner_name_validation
+            message: t.partner_name_validation
         },
         email: {
             validate: (value) => emailRegex.test(value.trim()),
-            message: registerTranslations.error_invalid_email
+            message: t.error_invalid_email
         },
         tel: {
             validate: (value) => phoneRegex.test(value.trim()),
-            message: registerTranslations.phone_validation
+            message: t.phone_validation
         },
         select: {
             validate: (value) => value && value.trim() !== '',
-            message: registerTranslations.selection_validation
+            message: t.selection_validation
         }
     };
 
@@ -100,7 +82,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             // Default validation for required fields
             rule = {
                 validate: (value) => value.trim() !== '',
-                message: registerTranslations.error_email_required
+                message: t.error_email_required
             };
         }
 
@@ -174,11 +156,11 @@ document.addEventListener('DOMContentLoaded', async function() {
 
             if (data.success) {
                 registerModal.hide();
-                alert(registerTranslations.registration_successful);
+                alert(t.registration_successful);
             } else {
                 const emailInput = form.querySelector('input[type="email"]');
                 if (emailInput) {
-                    emailInput.setCustomValidity(data.message || registerTranslations.error_network);
+                    emailInput.setCustomValidity(data.message || t.error_network);
                     emailInput.reportValidity();
                 }
             }
@@ -186,10 +168,10 @@ document.addEventListener('DOMContentLoaded', async function() {
             console.error('Registration error:', error);
             const emailInput = form.querySelector('input[type="email"]');
             if (emailInput) {
-                emailInput.setCustomValidity(registerTranslations.error_network);
+                emailInput.setCustomValidity(t.error_network);
                 emailInput.reportValidity();
             }
-            alert(registerTranslations.registration_error);
+            alert(t.registration_error);
         }
     }
 

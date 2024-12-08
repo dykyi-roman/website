@@ -2,17 +2,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Get current language or default to English
     const currentLang = localStorage.getItem('locale') || 'en';
     const t = await loadTranslations(currentLang);
-    // Mapping specific keys for search page
-    const searchTranslations = {
-        what_service_looking_for: t['What service are you looking for?'] || 'What service are you looking for?',
-        what_order_looking_for: t.what_order_looking_for || 'What order are you looking for?',
-        no_services_found: t.no_services_found || 'No services found matching your search.',
-        no_orders_found: t.no_orders_found || 'No orders found matching your search.',
-        book_now: t.book_now || 'Book Now',
-        share: t.share || 'Share',
-        error_occurred: t.error_occurred || 'An error occurred while searching. Please try again later.',
-        share_email_body: t['share_email_body'] || 'I found this interesting service: ',
-    };
 
     const searchButton = document.querySelector('.btn-primary.btn-lg');
     const searchInput = document.querySelector('.form-control.form-control-lg');
@@ -290,7 +279,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (!data.items || data.items.length === 0) {
                 servicesContainer.innerHTML = `
                     <div class="col-12 text-center">
-                        <p class="text-muted">${searchTranslations.no_services_found}</p>
+                        <p class="text-muted">${t.no_services_found}</p>
                     </div>
                 `;
                 return;
@@ -340,11 +329,11 @@ document.addEventListener('DOMContentLoaded', async function() {
                                             <div class="item-price mb-2">
                                                 <span class="price">${service.price}</span>
                                             </div>
-                                            <button class="btn btn-primary">${searchTranslations.book_now}</button>
+                                            <button class="btn btn-primary">${t.book_now}</button>
                                         </div>
                                     </div>
                                 </div>
-                                <button class="btn btn-share" title="${searchTranslations.share}" data-item-id="${service.id}">
+                                <button class="btn btn-share" title="${t.share}" data-item-id="${service.id}">
                                      <i class="fas fa-share-alt"></i>
                                 </button>
                             </div>
@@ -362,7 +351,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             console.error('Search Error:', error);
             servicesContainer.innerHTML = `
                 <div class="col-12 text-center">
-                    <p class="text-danger">${searchTranslations.error_occurred}</p>
+                    <p class="text-danger">${t.error_occurred}</p>
                 </div>
             `;
         });
@@ -410,7 +399,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (!data.items || data.items.length === 0) {
                 servicesContainer.innerHTML = `
                     <div class="col-12 text-center">
-                        <p class="text-muted">${searchTranslations.no_orders_found}</p>
+                        <p class="text-muted">${t.no_orders_found}</p>
                     </div>
                 `;
                 return;
@@ -460,11 +449,11 @@ document.addEventListener('DOMContentLoaded', async function() {
                                             <div class="item-price mb-2">
                                                 <span class="price">${service.price}</span>
                                             </div>
-                                            <button class="btn btn-primary">${searchTranslations.book_now}</button>
+                                            <button class="btn btn-primary">${t.book_now}</button>
                                         </div>
                                     </div>
                                 </div>
-                                <button class="btn btn-share" title="${searchTranslations.share}" data-item-id="${service.id}">
+                                <button class="btn btn-share" title="${t.share}" data-item-id="${service.id}">
                                      <i class="fas fa-share-alt"></i>
                                 </button>
                             </div>
@@ -482,7 +471,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             console.error('Search Error:', error);
             servicesContainer.innerHTML = `
                 <div class="col-12 text-center">
-                    <p class="text-danger">${searchTranslations.error_occurred}</p>
+                    <p class="text-danger">${t.error_occurred}</p>
                 </div>
             `;
         });
