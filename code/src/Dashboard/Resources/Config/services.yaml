@@ -11,6 +11,7 @@ services:
         public: false
         bind:
             $appName: '%app.name%'
+            $appSocial: '%app.social%'
             $supportEmail: '%app.support_email%'
             $supportPhone: '%app.support_phone%'
             $supportAddress: '%app.support_address%'

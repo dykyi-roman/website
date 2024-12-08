@@ -1,6 +1,10 @@
 parameters:
     app.name: 'EasyOrder'
     app.host: '%env(APP_HOST)%'
+    app.social: [ 'https://www.facebook.com/easy-order',
+                  'https://twitter.com/easy-order',
+                  'https://www.linkedin.com/company/easy-order',
+    ]
 
 services:
     _defaults:

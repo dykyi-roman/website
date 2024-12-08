@@ -12,6 +12,8 @@ final class GlobalExtension extends AbstractExtension implements GlobalsInterfac
 {
     public function __construct(
         private readonly string $appName,
+        private readonly array $appSocial,
+        private readonly string $supportPhone,
         private readonly Security $security,
     ) {
     }
@@ -25,21 +27,13 @@ final class GlobalExtension extends AbstractExtension implements GlobalsInterfac
         $user = $this->security->getUser();
 
         // Social media defaults
-        $response['social'] = [
-            'facebook' => 'https://www.facebook.com/easy-order',
-            'twitter' => 'https://twitter.com/easy-order',
-            'linkedin' => 'https://www.linkedin.com/company/easy-order',
-        ];
+        $response['social'] = $this->appSocial;
 
         // Organization data
         $response['organization'] = [
             'name' => $this->appName,
-            'phone' => '+1-XXX-XXX-XXXX',
-            'social_links' => [
-                'https://www.facebook.com/easy-order',
-                'https://twitter.com/easy-order',
-                'https://www.linkedin.com/company/easy-order',
-            ],
+            'phone' => $this->supportPhone,
+            'social_links' => $this->appSocial,
         ];
 
         if (!$user) {
