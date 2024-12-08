@@ -11,6 +11,6 @@ final readonly class QueryParameterLocaleResolver implements LocaleResolverInter
 {
     public function resolve(Request $request): ?string
     {
-        return $request->query->get('locale');
+        return $request->query->get('lang');
     }
 }
