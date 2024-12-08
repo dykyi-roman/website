@@ -29,26 +29,54 @@ document.addEventListener('DOMContentLoaded', function() {
     const languageDropdownItems = document.querySelectorAll('.language-dropdown .dropdown-item');
     const languageCodeSpan = document.querySelector('.language-code');
 
+    // Function to set cookie
+    function setCookie(name, value, days = 30) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        const expires = "expires=" + date.toUTCString();
+        document.cookie = `${name}=${value};${expires};path=/;SameSite=Strict`;
+    }
+
+    // Function to get cookie
+    function getCookie(name) {
+        const cookieName = name + "=";
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const cookieArray = decodedCookie.split(';');
+        for(let i = 0; i < cookieArray.length; i++) {
+            let cookie = cookieArray[i];
+            while (cookie.charAt(0) === ' ') {
+                cookie = cookie.substring(1);
+            }
+            if (cookie.indexOf(cookieName) === 0) {
+                return cookie.substring(cookieName.length, cookie.length);
+            }
+        }
+        return "";
+    }
+
     // Function to set language
     function setLanguage(selectedLang) {
         // Save language to localStorage
         localStorage.setItem('appLanguage', selectedLang);
 
+        // Save language to cookie
+        setCookie('locale', selectedLang);
+
         // Update URL without losing existing parameters
         const url = new URL(window.location.href);
         const searchParams = url.searchParams;
-        
+
         // Set or update lang parameter
         searchParams.set('lang', selectedLang);
-        
+
         // Update document language attribute
         document.documentElement.lang = selectedLang;
-        
+
         // Update language code in dropdown
         if (languageCodeSpan) {
             languageCodeSpan.textContent = selectedLang.toUpperCase();
         }
-        
+
         // Reload page with new language
         window.location.href = url.toString();
     }
@@ -64,27 +92,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Set initial language on page load
     function initializeLanguage() {
-        // Priority: 
+        // Priority:
         // 1. localStorage
-        // 2. URL parameter
-        // 3. Browser language
-        // 4. Default to 'en'
+        // 2. Cookie
+        // 3. URL parameter
+        // 4. Browser language
+        // 5. Default to 'en'
         const urlParams = new URLSearchParams(window.location.search);
         const urlLang = urlParams.get('lang');
         const storedLang = localStorage.getItem('appLanguage');
+        const cookieLang = getCookie('appLanguage');
         const browserLang = navigator.language.split('-')[0];
 
         let finalLang = 'en'; // default
 
         if (storedLang && ['en', 'uk'].includes(storedLang)) {
             finalLang = storedLang;
-            
-            // If no lang in URL, add stored language
-            if (!urlLang) {
-                const url = new URL(window.location.href);
-                url.searchParams.set('lang', finalLang);
-                window.history.replaceState({}, '', url);
-            }
+        } else if (cookieLang && ['en', 'uk'].includes(cookieLang)) {
+            finalLang = cookieLang;
+            // Sync localStorage with cookie
+            localStorage.setItem('appLanguage', finalLang);
         } else if (urlLang && ['en', 'uk'].includes(urlLang)) {
             finalLang = urlLang;
         } else if (['en', 'uk'].includes(browserLang)) {
@@ -98,6 +125,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (languageCodeSpan) {
             languageCodeSpan.textContent = finalLang.toUpperCase();
         }
+
+        // Ensure cookie is set
+        setCookie('appLanguage', finalLang);
     }
 
     // Initialize language on page load
