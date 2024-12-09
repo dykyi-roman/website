@@ -28,10 +28,6 @@ async function fetchFallbackTranslation() {
     }
 }
 
-// Export for module systems or global use
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { loadTranslations };
-}
 if (typeof window !== 'undefined') {
     window.loadTranslations = loadTranslations;
 }

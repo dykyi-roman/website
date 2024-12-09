@@ -313,8 +313,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Initialize social login buttons
     function initSocialLogin() {
-        const googleLoginBtns = document.querySelectorAll('.btn-danger');
-        const facebookLoginBtns = document.querySelectorAll('.btn-primary');
+        const googleLoginBtns = document.querySelectorAll('.social-btn-google');
+        const facebookLoginBtns = document.querySelectorAll('.social-btn-facebook');
 
         googleLoginBtns.forEach(btn => {
             btn.addEventListener('click', () => {

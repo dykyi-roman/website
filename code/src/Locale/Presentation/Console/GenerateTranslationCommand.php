@@ -22,7 +22,7 @@ final class GenerateTranslationCommand extends Command
     private const string JS_TRANSLATIONS_OUTPUT_DIR = '/code/public/translations';
 
     public function __construct(
-        private readonly Filesystem $filesystem
+        private readonly Filesystem $filesystem,
     ) {
         parent::__construct();
     }
@@ -34,9 +34,11 @@ final class GenerateTranslationCommand extends Command
         try {
             $this->generateJsTranslationFiles($io);
             $io->success('JavaScript translation files generated');
+
             return Command::SUCCESS;
-        } catch (\Exception $e) {
-            $io->error(sprintf('Error generating JS translation files: %s', $e->getMessage()));
+        } catch (\Throwable $exception) {
+            $io->error(sprintf('Error generating JS translation files: %s', $exception->getMessage()));
+
             return Command::FAILURE;
         }
     }
@@ -58,26 +60,16 @@ final class GenerateTranslationCommand extends Command
             $filename = $file->getFilename();
             $jsonContent = json_decode($file->getContents(), true);
 
-            // Extract only 'js' translations
             $jsTranslations = $jsonContent['js'] ?? [];
-
-            // Skip if no JS translations
             if (empty($jsTranslations)) {
                 $io->note(sprintf('No JS translations found in %s', $filename));
                 continue;
             }
 
-            // Generate JS file
-            $outputFilename = $filename;
-            $outputFile = $outputPath . '/' . $outputFilename;
-
-            // Convert to JSON, preserving only JS translations
             $jsContent = json_encode($jsTranslations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            $this->filesystem->dumpFile($outputPath . '/' . $filename, $jsContent);
 
-            // Write JS file
-            $this->filesystem->dumpFile($outputFile, $jsContent);
-
-            $io->note(sprintf('Generated: %s', $outputFilename));
+            $io->note(sprintf('Generated: %s', $filename));
         }
     }
 }
