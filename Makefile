@@ -130,6 +130,10 @@ js-translations: ## Generate JavaScript translations
 	docker exec -it $(php) bash -c "php bin/console app:generate:js-translations"
 	@echo "JavaScript translations generated"
 
+assets: ## Compiling and writing asset files to public
+	docker exec -it $(php) bash -c "php bin/console asset-map:compile"
+	@echo "Build assets"
+
 ## -- Database Migrations --
 
 migration-create: ## Create a new migration (usage: make migration-create)

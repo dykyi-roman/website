@@ -1,6 +1,6 @@
 // Global translation loading utility
 async function loadTranslations(lang) {
-    const translationPath = (language) => `/js/translations/messages.${language}.json`;
+    const translationPath = (language) => `/translations/messages.${language}.json`;
 
     try {
         const response = await fetch(translationPath(lang));
