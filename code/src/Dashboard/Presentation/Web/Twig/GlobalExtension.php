@@ -10,11 +10,15 @@ use Twig\Extension\GlobalsInterface;
 
 final class GlobalExtension extends AbstractExtension implements GlobalsInterface
 {
+    /**
+     * @param array<string, string> $supportedCountries
+     */
     public function __construct(
         private readonly string $appName,
         private readonly array $appSocial,
         private readonly string $supportPhone,
         private readonly Security $security,
+        private readonly array $supportedCountries,
     ) {
     }
 
@@ -37,15 +41,12 @@ final class GlobalExtension extends AbstractExtension implements GlobalsInterfac
         ];
 
         if (!$user) {
-            $response['countries'] = [
-                ['code' => 'ua', 'name' => 'Україна'],
-            ];
+            $countries = [];
+            foreach ($this->supportedCountries as $code => $name) {
+                $countries[] = ['code' => $code, 'name' => $name];
+            }
+            $response['countries'] = $countries;
         }
-
-        $response['global_languages'] = [
-            ['code' => 'en', 'name' => 'English'],
-            ['code' => 'uk', 'name' => 'Українська'],
-        ];
 
         return $response;
     }

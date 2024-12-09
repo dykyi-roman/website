@@ -11,7 +11,7 @@
                     <span class="language-code">{{ app.request.locale|upper }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
-                    {% for language in global_languages %}
+                    {% for language in supported_languages %}
                         <li><a class="dropdown-item" href="#" data-lang="{{ language.code }}">{{ language.name }}</a></li>
                     {% endfor %}
                 </ul>

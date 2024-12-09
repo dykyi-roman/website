@@ -1,6 +1,8 @@
 parameters:
     default_locale: '%env(DEFAULT_LOCALE)%'
     supported_locales: '%env(json:SUPPORTED_LOCALES)%'
+    country_locale: '%env(json:COUNTRY_LOCALE)%'
+    supported_languages: '%env(json:SUPPORTED_LANGUAGES)%'
 
 services:
     _defaults:
@@ -10,6 +12,7 @@ services:
         bind:
             $defaultLocale: '%default_locale%'
             $supportedLocales: '%supported_locales%'
+            $supportedLanguages: '%supported_languages%'
 
     App\Locale\:
         resource: '../../'
@@ -25,15 +28,13 @@ services:
         arguments:
             - '%kernel.project_dir%/var/GeoLite2-Country.mmdb'
 
+    # Service
     App\Locale\DomainModel\Service\LocaleResolver\AcceptLanguageLocaleResolver: ~
     App\Locale\DomainModel\Service\LocaleResolver\CookieLocaleResolver: ~
     App\Locale\DomainModel\Service\LocaleResolver\GeoIPLocaleResolver:
         arguments:
             $geoIpReader: '@geoIp2.reader'
-            $countryToLocaleMap:
-                US: 'en'
-                UA: 'uk'
-                ES: 'es'
+            $countryToLocaleMap: '%country_locale%'
 
     App\Locale\DomainModel\Service\LocaleResolverInterface: '@App\Locale\DomainModel\Service\ChainLocaleResolver'
     App\Locale\DomainModel\Service\ChainLocaleResolver:
@@ -44,6 +45,11 @@ services:
                 - '@App\Locale\DomainModel\Service\LocaleResolver\GeoIPLocaleResolver'
                 - '@App\Locale\DomainModel\Service\LocaleResolver\AcceptLanguageLocaleResolver'
 
+    # EventSubscriber
     App\Locale\Infrastructure\Symfony\EventSubscriber\LocaleSubscriber:
         tags:
             - { name: kernel.event_subscriber }
+
+    # Twig
+    App\Locale\Presentation\Web\Twig\LocaleExtension:
+        tags: [ 'twig.extension' ]

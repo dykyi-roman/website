@@ -7,13 +7,12 @@ namespace App\Order\Presentation\Api;
 use App\Order\DomainModel\Service\OrderInterface;
 use App\Order\Presentation\Api\Request\OrdersSearchRequestDTO;
 use OpenApi\Attributes as OA;
-use App\Order\Presentation\Api\Request\OrderRequestDTO;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class OrderSearchAction extends AbstractApiAction
+final class OrderSearchAction
 {
     #[OA\Get(
         path: '/api/orders/search',

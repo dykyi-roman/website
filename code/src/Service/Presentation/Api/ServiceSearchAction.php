@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class ServiceSearchAction extends AbstractApiAction
+final class ServiceSearchAction
 {
     #[OA\Get(
         path: '/api/services/search',

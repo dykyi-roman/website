@@ -1,9 +1,12 @@
 parameters:
+    supported_countries: '%env(json:SUPPORTED_COUNTRIES)%'
+    #
     app.support_email: 'support@easyorder.com'
     app.support_phone: '+38 (093) 067 08 92'
     app.support_business_time_from: '9:00 AM'
     app.support_business_time_to: '6:00 PM'
     app.support_address: 'Ukraine, Zolotonosha'
+    app.support_map: 'Zolotonosha+pushkina+11'
 services:
     _defaults:
         autowire: true
@@ -12,11 +15,15 @@ services:
         bind:
             $appName: '%app.name%'
             $appSocial: '%app.social%'
+            #
+            $supportedCountries: '%supported_countries%'
+            #
             $supportEmail: '%app.support_email%'
             $supportPhone: '%app.support_phone%'
             $supportAddress: '%app.support_address%'
-            $businessTimeFrom: '%app.support_business_time_from%'
-            $businessTimeTo: '%app.support_business_time_to%'
+            $supportMap: '%app.support_map%'
+            $supportBusinessTimeFrom: '%app.support_business_time_from%'
+            $supportBusinessTimeTo: '%app.support_business_time_to%'
 
     App\Dashboard\:
         resource: '../../'
@@ -27,6 +34,7 @@ services:
             - '../../**/Tests/'
         tags: ['controller.service_arguments']
 
+    # Twig
     App\Dashboard\Presentation\Web\Twig\GlobalExtension:
         tags: ['twig.extension']
 

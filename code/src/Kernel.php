@@ -11,7 +11,9 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
+use OpenApi\Attributes as OA;
 
+#[OA\Info(version: '1.0.0', title: 'REST API')]
 class Kernel extends BaseKernel
 {
     use MicroKernelTrait;

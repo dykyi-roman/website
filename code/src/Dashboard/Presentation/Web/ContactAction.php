@@ -15,8 +15,9 @@ class ContactAction extends AbstractController
         private readonly string $supportEmail,
         private readonly string $supportPhone,
         private readonly string $supportAddress,
-        private readonly string $businessTimeFrom,
-        private readonly string $businessTimeTo,
+        private readonly string $supportMap,
+        private readonly string $supportBusinessTimeFrom,
+        private readonly string $supportBusinessTimeTo,
     ) {
     }
 
@@ -30,10 +31,10 @@ class ContactAction extends AbstractController
             'hours' => sprintf(
                 '%s: %s - %s', 
                 $translator->trans('contact.business_hours'), 
-                $this->businessTimeFrom, 
-                $this->businessTimeTo
+                $this->supportBusinessTimeFrom,
+                $this->supportBusinessTimeTo
             ),
-            'map' => '<iframe src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Pushkina%20St,%2011+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+            'map' => '<iframe src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=' . $this->supportMap . '&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
         ];
 
         return $this->render('@Dashboard/contact.html.twig', [
