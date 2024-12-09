@@ -19,19 +19,11 @@ framework:
     
     assets:
         enabled: true
-        json_manifest_path: null
 
 when@prod:
     framework:
         assets:
             version: '%env(APP_VERSION)%'
-            version_strategy: null
-
-when@dev:
-    framework:
-        assets:
-            version: null
-            version_strategy: App\Dashboard\Infrastructure\Asset\TimestampVersionStrategy
 
 when@test:
     framework:
