@@ -1,23 +1,103 @@
 openapi: 3.0.0
 info:
-  title: 'Enterprise Skeleton API'
+  title: 'Order API'
   version: 1.0.0
 paths:
-  /api/test:
+  /api/orders/search:
     get:
       tags:
-        - Test
-      summary: 'Test route message'
-      operationId: 563b292f621ded0a96c6774840eaf5d3
+        - Service
+      summary: 'Search orders with pagination'
+      operationId: ab0d094db537f2564dd8fb549e09f7e5
+      parameters:
+        -
+          name: query
+          in: query
+          description: 'Search query string'
+          required: false
+          schema:
+            type: string
+            maxLength: 255
+        -
+          name: page
+          in: query
+          description: 'Page number (zero-based)'
+          required: false
+          schema:
+            type: integer
+            default: 1
+            minimum: 0
+        -
+          name: limit
+          in: query
+          description: 'Number of items per page'
+          required: false
+          schema:
+            type: integer
+            default: 10
+            maximum: 100
+            minimum: 1
       responses:
         '200':
           description: Success
           content:
             application/json:
               schema:
-                type: string
-              example: Test
+                properties:
+                  items: { type: array, items: { type: object } }
+                  total: { type: integer }
+                  page: { type: integer }
+                  limit: { type: integer }
+                  total_pages: { type: integer }
+                type: object
+  /api/services/search:
+    get:
+      tags:
+        - Service
+      summary: 'Search services with pagination'
+      operationId: cd32b297d77030d258078538a57fa352
+      parameters:
+        -
+          name: query
+          in: query
+          description: 'Search query string'
+          required: false
+          schema:
+            type: string
+            maxLength: 255
+        -
+          name: page
+          in: query
+          description: 'Page number (zero-based)'
+          required: false
+          schema:
+            type: integer
+            default: 1
+            minimum: 0
+        -
+          name: limit
+          in: query
+          description: 'Number of items per page'
+          required: false
+          schema:
+            type: integer
+            default: 10
+            maximum: 100
+            minimum: 1
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  items: { type: array, items: { type: object } }
+                  total: { type: integer }
+                  page: { type: integer }
+                  limit: { type: integer }
+                  total_pages: { type: integer }
+                type: object
 tags:
   -
-    name: Test
-    description: Test
+    name: Service
+    description: Service
