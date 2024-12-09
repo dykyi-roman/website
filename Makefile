@@ -126,11 +126,20 @@ swagger-generate: ## Generate OpenAPI/Swagger documentation
 	docker exec -it $(php) bash -c "php vendor/bin/openapi src --output docs/api/openapi.yaml --format yaml"
 	@echo "OpenAPI documentation generated in code/docs/api/openapi.yaml"
 
+## -- Front --
+
 js-translations: ## Generate JavaScript translations
 	docker exec -it $(php) bash -c "php bin/console app:generate:js-translations"
 	@echo "JavaScript translations generated"
 
-assets: ## Compiling and writing asset files to public
+assets-watch: ## Watch and compile assets automatically
+	docker exec -it $(php) bash -c 'while true; do \
+		php bin/console asset-map:compile; \
+		inotifywait -r -e modify,create,delete src/; \
+		sleep 2; \
+	done'
+
+assets-copy: ## Compiling and writing asset files to public
 	docker exec -it $(php) bash -c "php bin/console asset-map:compile"
 	@echo "Build assets"
 
