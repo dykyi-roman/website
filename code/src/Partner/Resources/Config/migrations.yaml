@@ -1,0 +1,5 @@
+migrations_paths:
+    'App\Migration\Partner': './migrations/partner'
+
+connection: partner
+em: partner

@@ -1,0 +1,5 @@
+migrations_paths:
+    'App\Migration\Client': './migrations/client'
+
+connection: client
+em: client

@@ -145,11 +145,17 @@ assets-copy: ## Compiling and writing asset files to public
 
 ## -- Database Migrations --
 
-migration-create: ## Create a new migration (usage: make migration-create)
-	docker exec -it $(php) bash -c "php bin/console doctrine:migrations:diff --em=$(filter-out $@,$(MAKECMDGOALS));"
+migration-client-create: ## Create a new migration for client database
+	docker exec -it $(php) bash -c "php bin/console doctrine:migrations:diff --configuration=src/Client/Resources/Config/migrations.yaml --em=client"
 
-migration-run: ## Run all pending migrations
-	docker exec -it $(php) bash -c "php bin/console doctrine:migrations:migrate --no-interaction --em=$(filter-out $@,$(MAKECMDGOALS));"
+migration-client-run: ## Run migrations for client database
+	docker exec -it $(php) bash -c "php bin/console doctrine:migrations:migrate --configuration=src/Client/Resources/Config/migrations.yaml --no-interaction --em=client"
+
+migration-partner-create: ## Create a new migration for partner database
+	docker exec -it $(php) bash -c "php bin/console doctrine:migrations:diff --configuration=src/Partner/Resources/Config/migrations.yaml --em=partner"
+
+migration-partner-run: ## Run migrations for partner database
+	docker exec -it $(php) bash -c "php bin/console doctrine:migrations:migrate --configuration=src/Partner/Resources/Config/migrations.yaml --no-interaction --em=partner"
 
 # This is required to handle arguments in make commands
 %:

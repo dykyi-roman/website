@@ -1,5 +1,0 @@
-doctrine_migrations:
-    migrations_paths:
-        'App\Migration\Client': '%kernel.project_dir%/migrations/client'
-        'App\Migration\Partner': '%kernel.project_dir%/migrations/partner'
-    enable_profiler: false
