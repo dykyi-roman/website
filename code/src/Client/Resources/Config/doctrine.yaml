@@ -5,6 +5,7 @@ doctrine:
             client:
                 url: '%env(resolve:DATABASE_CLIENT_URL)%'
     orm:
+        default_entity_manager: client
         entity_managers:
             client:
                 connection: client

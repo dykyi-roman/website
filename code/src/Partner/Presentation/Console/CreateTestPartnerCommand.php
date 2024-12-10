@@ -31,26 +31,58 @@ class CreateTestPartnerCommand extends Command
 
         try {
             $partner = new Partner();
-            $partner->setId(Uuid::v4());
+            
+            // Ensure all required fields are set before saving
+            $partnerId = Uuid::v4();
+            $partner->setId($partnerId);
             $partner->setName('Test Partner');
-            $partner->setEmail('partner@example.com');
+            $partner->setEmail('partner_' . uniqid() . '@example.com');
             $partner->setPhone('+0987654321');
             $partner->setCountry('Test Partner Country');
             $partner->setCity('Test Partner City');
+            $partner->setStatus(1);
+
+            // Explicitly set nullable fields
             $partner->setPhoneVerifiedAt(null);
             $partner->setEmailVerifiedAt(null);
             $partner->setActivatedAt(null);
             $partner->setDeactivatedAt(null);
 
+            // Validate the partner object before saving
+            $this->validatePartner($partner);
+
             $this->partnerRepository->save($partner);
 
-            $io->success(sprintf('Test partner created with ID: %s', $partner->getId()));
+            $io->success(sprintf('Test partner created with ID: %s', $partnerId));
 
             return Command::SUCCESS;
         } catch (\Exception $e) {
             $io->error(sprintf('Failed to create test partner: %s', $e->getMessage()));
-
+            $io->error('Trace: ' . $e->getTraceAsString());
             return Command::FAILURE;
+        }
+    }
+
+    private function validatePartner(Partner $partner): void
+    {
+        // Perform additional validation
+        if (empty($partner->getName())) {
+            throw new \InvalidArgumentException('Partner name cannot be empty');
+        }
+
+        if (empty($partner->getEmail())) {
+            throw new \InvalidArgumentException('Partner email cannot be empty');
+        }
+
+        // Validate UserInterface methods
+        $roles = $partner->getRoles();
+        if (!is_array($roles)) {
+            throw new \InvalidArgumentException('getRoles() must return an array');
+        }
+
+        $identifier = $partner->getUserIdentifier();
+        if (empty($identifier)) {
+            throw new \InvalidArgumentException('getUserIdentifier() cannot return an empty string');
         }
     }
 }
