@@ -1,4 +1,8 @@
 doctrine:
+    dbal:
+        connections:
+            partner:
+                url: '%env(resolve:DATABASE_PARTNER_URL)%'
     orm:
         entity_managers:
             partner:

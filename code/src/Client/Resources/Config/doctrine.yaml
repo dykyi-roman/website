@@ -1,4 +1,9 @@
 doctrine:
+    dbal:
+        default_connection: client
+        connections:
+            client:
+                url: '%env(resolve:DATABASE_CLIENT_URL)%'
     orm:
         entity_managers:
             client:

@@ -1,11 +1,4 @@
 doctrine:
-    dbal:
-        default_connection: client
-        connections:
-            client:
-                url: '%env(resolve:DATABASE_CLIENT_URL)%'
-            partner:
-                url: '%env(resolve:DATABASE_PARTNER_URL)%'
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
