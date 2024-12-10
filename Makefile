@@ -146,10 +146,10 @@ assets-copy: ## Compiling and writing asset files to public
 ## -- Database Migrations --
 
 migration-create: ## Create a new migration (usage: make migration-create)
-	docker exec -it $(php) bash -c "php bin/console doctrine:migrations:diff"
+	docker exec -it $(php) bash -c "php bin/console doctrine:migrations:diff --em=$(filter-out $@,$(MAKECMDGOALS));"
 
 migration-run: ## Run all pending migrations
-	docker exec -it $(php) bash -c "php bin/console doctrine:migrations:migrate --no-interaction"
+	docker exec -it $(php) bash -c "php bin/console doctrine:migrations:migrate --no-interaction --em=$(filter-out $@,$(MAKECMDGOALS));"
 
 # This is required to handle arguments in make commands
 %:
