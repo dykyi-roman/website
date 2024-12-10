@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Migration\Client;
+namespace App\Partner\Resources\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
@@ -11,14 +11,14 @@ final class Version20241210084422 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Create client table';
+        return 'Create partner table';
     }
 
     public function up(Schema $schema): void
     {
-        $this->addSql('DROP TABLE IF EXISTS client');
+        $this->addSql('DROP TABLE IF EXISTS partner');
 
-        $this->addSql('CREATE TABLE client (
+        $this->addSql('CREATE TABLE partner (
             id BINARY(16) NOT NULL,
             name VARCHAR(100) NOT NULL,
             email VARCHAR(64) NOT NULL,
@@ -38,6 +38,6 @@ final class Version20241210084422 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        $this->addSql('DROP TABLE IF EXISTS client');
+        $this->addSql('DROP TABLE IF EXISTS partner');
     }
 }

@@ -1,5 +1,5 @@
 migrations_paths:
-    'App\Migration\Client': './migrations/client'
+    'App\Client\Resources\Migrations': './src/Client/Resources/Migrations'
 
 connection: client
 em: client

@@ -1,5 +1,5 @@
 migrations_paths:
-    'App\Migration\Partner': './migrations/partner'
+    'App\Partner\Resources\Migrations': './src/Partner/Resources/Migrations'
 
 connection: partner
 em: partner
