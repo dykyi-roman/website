@@ -1,9 +1,12 @@
-    #doctrine:
-    #    orm:
-    #        mappings:
-    #            Partner:
-    #                type: attribute
-    #                is_bundle: false
-    #                dir: '%kernel.project_dir%/src/Partner/DomainModel/Model'
-    #                prefix: 'App\Partner\DomainModel\Model'
-    #                alias: Partner
+doctrine:
+    orm:
+        entity_managers:
+            partner:
+                connection: partner
+                mappings:
+                    Partner:
+                        type: attribute
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/Partner/DomainModel/Model'
+                        prefix: 'App\Partner\DomainModel\Model'
+                        alias: Partner
