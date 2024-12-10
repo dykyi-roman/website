@@ -14,3 +14,10 @@ services:
             - '../../Tests/'
             - '../../**/Tests/'
         tags: ['controller.service_arguments']
+
+    App\Partner\Infrastructure\Repository\PartnerRepository:
+        arguments:
+            $entityManager: '@doctrine.orm.partner_entity_manager'
+
+    App\Partner\DomainModel\Repository\PartnerRepositoryInterface:
+        alias: App\Partner\Infrastructure\Repository\PartnerRepository

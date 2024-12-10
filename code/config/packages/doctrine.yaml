@@ -1,3 +1,7 @@
+imports:
+    - { resource: '../../src/Partner/Resources/Config/doctrine.yaml' }
+    - { resource: '../../src/Client/Resources/Config/doctrine.yaml' }
+
 doctrine:
     orm:
         auto_generate_proxy_classes: true
