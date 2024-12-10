@@ -35,22 +35,22 @@ class Client implements UserInterface
     #[ORM\Column(type: 'smallint', options: ['default' => 1])]
     private int $status = 1;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(name: 'phone_verified_at', type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $phoneVerifiedAt = null;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(name: 'email_verified_at', type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $emailVerifiedAt = null;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(name: 'activated_at', type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $activatedAt = null;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(name: 'deactivated_at', type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $deactivatedAt = null;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(name: 'created_at', type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(name: 'updated_at', type: 'datetime_immutable')]
     private \DateTimeImmutable $updatedAt;
 
     public function __construct()
@@ -139,7 +139,7 @@ class Client implements UserInterface
         $this->phoneVerifiedAt = $phoneVerifiedAt;
     }
 
-    public function getEmailVerified(): ?\DateTimeImmutable
+    public function getEmailVerifiedAt(): ?\DateTimeImmutable
     {
         return $this->emailVerifiedAt;
     }
