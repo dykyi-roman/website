@@ -6,6 +6,7 @@ namespace App\Healthcheck\Presentation\Console;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -15,20 +16,54 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 final class MysqlHealthcheckCommand extends Command
 {
+    public function __construct(
+        private readonly string $clientDatabaseUrl,
+        private readonly string $partnerDatabaseUrl,
+    ) {
+        parent::__construct();
+    }
+
+    protected function configure(): void
+    {
+        $this->addArgument(
+            'db-name',
+            InputArgument::REQUIRED,
+            'Database name (client or partner)'
+        );
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
+            $dbName = $input->getArgument('db-name');
+            
+            if (!in_array($dbName, ['client', 'partner'])) {
+                $output->writeln('<error>Invalid db-name. Must be either "client" or "partner"</error>');
+                return Command::INVALID;
+            }
+
+            $databaseUrl = match($dbName) {
+                'client' => $this->clientDatabaseUrl,
+                'partner' => $this->partnerDatabaseUrl,
+            };
+
+            $dbParams = parse_url($databaseUrl);
+            if (!$dbParams) {
+                $output->writeln(sprintf('<error>Invalid database URL format for %s</error>', $dbName));
+                return Command::FAILURE;
+            }
+
             $dsn = sprintf(
                 'mysql:host=%s;port=%s;dbname=%s',
-                getenv('MYSQL_HOST') ?: 'es-mysql',
-                getenv('MYSQL_PORT') ?: '3306',
-                getenv('MYSQL_DB') ?: 'app'
+                $dbParams['host'],
+                $dbParams['port'] ?? '3306',
+                trim($dbParams['path'], '/')
             );
 
             $pdo = new \PDO(
                 $dsn,
-                getenv('MYSQL_USER') ?: 'app',
-                getenv('MYSQL_PASSWORD') ?: 'password'
+                $dbParams['user'],
+                $dbParams['pass']
             );
             $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
@@ -38,16 +73,13 @@ final class MysqlHealthcheckCommand extends Command
 
             if ($result && 1 === $result['1']) {
                 $output->writeln('<info>MySQL connection test successful!</info>');
-
                 return Command::SUCCESS;
             }
 
             $output->writeln('<error>MySQL connection test failed: Unexpected result</error>');
-
             return Command::FAILURE;
         } catch (\PDOException $exception) {
             $output->writeln(sprintf('<error>MySQL connection test failed: %s</error>', $exception->getMessage()));
-
             return Command::FAILURE;
         }
     }
