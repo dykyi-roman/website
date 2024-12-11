@@ -1,0 +1,10 @@
+security:
+    password_hashers:
+        App\Partner\DomainModel\Model\Partner: 'auto'
+
+    providers:
+        partner_provider:
+            entity:
+                class: App\Partner\DomainModel\Model\Partner
+                property: email
+                manager_name: partner

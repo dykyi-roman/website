@@ -1,20 +1,12 @@
+imports:
+    - { resource: '../../src/Partner/Resources/Config/security.yaml' }
+    - { resource: '../../src/Client/Resources/Config/security.yaml' }
+
 security:
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-        App\Partner\DomainModel\Model\Partner: 'auto'
-        App\Client\DomainModel\Model\Client: 'auto'
 
     providers:
-        partner_provider:
-            entity:
-                class: App\Partner\DomainModel\Model\Partner
-                property: email
-                manager_name: partner
-        client_provider:
-            entity:
-                class: App\Client\DomainModel\Model\Client
-                property: email
-                manager_name: client
         all_users:
             chain:
                 providers: ['partner_provider', 'client_provider']
