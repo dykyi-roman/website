@@ -151,8 +151,12 @@ document.addEventListener('DOMContentLoaded', async function () {
     async function submitForm(form) {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
+        const modal = form.closest('.modal-content');
 
         try {
+            // Show spinner
+            showModalSpinner(modal);
+
             const response = await fetch('/register', {
                 method: 'POST',
                 headers: {
@@ -164,6 +168,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             const result = await response.json();
 
             if (!response.ok) {
+                // Hide spinner before showing error
+                hideModalSpinner(modal);
+                
                 console.error('Registration error:', result);
                 
                 // Handle specific field errors
@@ -187,12 +194,18 @@ document.addEventListener('DOMContentLoaded', async function () {
                 return false;
             }
 
+            // Hide spinner on success
+            hideModalSpinner(modal);
+
             setTimeout(() => {
                 window.location.href = '/';
             }, 1000);
 
             return true;
         } catch (error) {
+            // Hide spinner on error
+            hideModalSpinner(modal);
+            
             console.error('Global Registration error:', error);
             alert(t.error_generic_message);
 

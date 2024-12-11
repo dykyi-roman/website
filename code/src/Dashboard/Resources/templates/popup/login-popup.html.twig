@@ -11,7 +11,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'Close'|trans }}"></button>
             </div>
             <div class="modal-body">
-                <form id="loginForm">
+                <form id="loginForm" class="needs-validation" novalidate data-ajax="true">
                     <div class="form-group">
                         <label for="loginEmail"></label>
                         <input type="email" class="form-control" id="loginEmail" name="email" placeholder="{{ 'Login Email Placeholder'|trans }}" required>

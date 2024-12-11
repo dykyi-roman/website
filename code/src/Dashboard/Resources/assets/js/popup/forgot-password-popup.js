@@ -139,7 +139,12 @@ document.addEventListener('DOMContentLoaded', async function() {
         // If not valid, stop submission
         if (!isValid) return;
 
+        const modal = form.closest('.modal-content');
+
         try {
+            // Show spinner
+            showModalSpinner(modal);
+
             const formData = new FormData(form);
             const response = await fetch('/forgot-password', {
                 method: 'POST',
@@ -150,6 +155,9 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
 
             const result = await response.json();
+
+            // Hide spinner before showing any messages
+            hideModalSpinner(modal);
 
             // Handle success
             if (result.success) {
@@ -168,6 +176,9 @@ document.addEventListener('DOMContentLoaded', async function() {
                 }
             }
         } catch (error) {
+            // Hide spinner on error
+            hideModalSpinner(modal);
+
             console.error('Error:', error);
             const emailInput = form.querySelector('input[type="email"]');
             if (emailInput) {

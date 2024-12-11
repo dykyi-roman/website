@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const cookieName = name + "=";
         const decodedCookie = decodeURIComponent(document.cookie);
         const cookieArray = decodedCookie.split(';');
-        for(let i = 0; i < cookieArray.length; i++) {
+        for(let i = 0; i <cookieArray.length; i++) {
             let cookie = cookieArray[i];
             while (cookie.charAt(0) === ' ') {
                 cookie = cookie.substring(1);
@@ -131,4 +131,108 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize language on page load
     initializeLanguage();
+});
+
+// Global error handling with spinner management
+document.addEventListener('DOMContentLoaded', function() {
+    // Add spinner overlay to all modals
+    document.querySelectorAll('.modal .modal-content').forEach(modalContent => {
+        const spinnerOverlay = document.createElement('div');
+        spinnerOverlay.className = 'spinner-overlay';
+        spinnerOverlay.innerHTML = '<div class="spinner"></div>';
+        modalContent.appendChild(spinnerOverlay);
+    });
+
+    // Global function to hide spinner for any modal
+    window.hideModalSpinner = function(modalElement) {
+        const spinnerOverlay = modalElement 
+            ? modalElement.querySelector('.spinner-overlay')
+            : document.querySelector('.modal.show .spinner-overlay');
+            
+        if (spinnerOverlay) {
+            spinnerOverlay.classList.remove('active');
+        }
+    };
+
+    // Global function to show spinner for any modal
+    window.showModalSpinner = function(modalElement) {
+        const spinnerOverlay = modalElement 
+            ? modalElement.querySelector('.spinner-overlay')
+            : document.querySelector('.modal.show .spinner-overlay');
+            
+        if (spinnerOverlay) {
+            spinnerOverlay.classList.add('active');
+        }
+    };
+
+    // Global error handler
+    window.addEventListener('error', function(event) {
+        hideModalSpinner();
+        return false;
+    });
+
+    // Handle unhandled promise rejections
+    window.addEventListener('unhandledrejection', function(event) {
+        hideModalSpinner();
+        return false;
+    });
+
+    // Global AJAX error handler for jQuery
+    if (typeof jQuery !== 'undefined') {
+        jQuery(document).ajaxError(function() {
+            hideModalSpinner();
+        });
+    }
+
+    // Intercept all form submissions
+    document.addEventListener('submit', function(e) {
+        const form = e.target;
+        const modal = form.closest('.modal-content');
+        
+        if (modal) {
+            if (form.dataset.ajax === 'true') {
+                e.preventDefault();
+                showModalSpinner(modal);
+            }
+        }
+    }, true);
+
+    // Intercept alert function
+    const originalAlert = window.alert;
+    window.alert = function() {
+        hideModalSpinner();
+        return originalAlert.apply(this, arguments);
+    };
+
+    // Intercept fetch API
+    const originalFetch = window.fetch;
+    window.fetch = function() {
+        const fetchPromise = originalFetch.apply(this, arguments);
+        fetchPromise.catch(() => hideModalSpinner());
+        return fetchPromise;
+    };
+
+    // Intercept XMLHttpRequest
+    const originalXHROpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function() {
+        this.addEventListener('error', () => hideModalSpinner());
+        this.addEventListener('abort', () => hideModalSpinner());
+        return originalXHROpen.apply(this, arguments);
+    };
+});
+
+// Form submission handling with loading spinner
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle form submissions in modals
+    document.querySelectorAll('.modal form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            // If the form is submitted via AJAX
+            if (this.dataset.ajax === 'true') {
+                e.preventDefault();
+                const modal = this.closest('.modal-content');
+                showModalSpinner(modal);
+            }
+            // For regular form submissions, the spinner will be hidden when the page reloads
+        });
+    });
 });

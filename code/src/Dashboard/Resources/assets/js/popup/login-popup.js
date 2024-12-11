@@ -147,8 +147,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     async function submitForm(form) {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
+        const modal = form.closest('.modal-content');
 
         try {
+            // Show spinner
+            showModalSpinner(modal);
+
             const response = await fetch('/login', {
                 method: 'POST',
                 headers: {
@@ -160,6 +164,9 @@ document.addEventListener('DOMContentLoaded', async function() {
             const result = await response.json();
 
             if (!response.ok) {
+                // Hide spinner before showing error
+                hideModalSpinner(modal);
+                
                 console.error('Login error:', result);
                 
                 // Check if errors.message exists, otherwise use generic message
@@ -168,18 +175,21 @@ document.addEventListener('DOMContentLoaded', async function() {
                     : t.error_generic_message;
                 
                 alert(errorMessage);
-
                 return false;
             }
 
+            // Hide spinner on success
+            hideModalSpinner(modal);
+
             // Handle success
             window.location.href = '/';
-
             return true;
         } catch (error) {
+            // Hide spinner on error
+            hideModalSpinner(modal);
+            
             console.error('Global Login error:', error);
             alert(t.error_generic_message);
-
             return false;
         }
     }
