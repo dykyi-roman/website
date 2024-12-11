@@ -11,6 +11,8 @@
     "error_passwords_match": "Паролі повинні співпадати",
     "label_password": "Пароль",
     "label_confirm_password": "Підтвердити пароль",
+    "password_length_validation": "Пароль повинен містити щонайменше 8 символів",
+    "password_complexity_validation": "Пароль повинен містити принаймні одну літеру та одну цифру",
     "find_your_orders": "Знайдіть свої замовлення",
     "what_order_looking_for": "Яке замовлення ви шукаєте?",
     "no_services_found": "Не знайдено послуг, що відповідають вашому запиту.",

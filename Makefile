@@ -128,7 +128,7 @@ swagger-generate: ## Generate OpenAPI/Swagger documentation
 
 ## -- Front --
 
-js-translations: ## Generate JavaScript translations
+translations-copy: ## Generate JavaScript translations
 	docker exec -it $(php) bash -c "php bin/console app:generate:js-translations"
 	@echo "JavaScript translations generated"
 

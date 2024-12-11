@@ -21,7 +21,7 @@ final readonly class MockClient implements OrderInterface
                 'category' => 'Phone',
                 'url' => '/orders/item/' . $i,
                 'feedback_count' => '42',
-                'image_url' => 'https://scontent.xx.fbcdn.net/v/t39.30808-6/240452626_4417691464992012_8238282600430963777_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=f727a1&_nc_ohc=vXW6bc2sCH8Q7kNvgFLod1B&_nc_zt=23&_nc_ht=scontent.xx&_nc_gid=AcYcaCRfcsc7DbKeuVOTgWg&oh=00_AYAGh8YvfOWrtHN_3NyfVIKD4uN03R0RrJaGVejjYBNrNA&oe=67586285',
+                'image_url' => '',
                 'features' => [
                     'Super-premium',
                     'Master-freelancer',

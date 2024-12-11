@@ -6,12 +6,13 @@ namespace App\Client\DomainModel\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'client')]
 #[ORM\HasLifecycleCallbacks]
-class Client implements UserInterface
+class Client implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
@@ -34,6 +35,12 @@ class Client implements UserInterface
 
     #[ORM\Column(type: 'smallint', options: ['default' => 1])]
     private int $status = 1;
+
+    #[ORM\Column(type: 'json')]
+    private array $roles = ['ROLE_CLIENT'];
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $password;
 
     #[ORM\Column(name: 'phone_verified_at', type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $phoneVerifiedAt = null;
@@ -129,6 +136,28 @@ class Client implements UserInterface
         $this->status = $status;
     }
 
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        $roles[] = 'ROLE_CLIENT';
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
+
     public function getPhoneVerifiedAt(): ?\DateTimeImmutable
     {
         return $this->phoneVerifiedAt;
@@ -183,11 +212,6 @@ class Client implements UserInterface
     public function updateTimestamp(): void
     {
         $this->updatedAt = new \DateTimeImmutable();
-    }
-
-    public function getRoles(): array
-    {
-        return ['ROLE_CLIENT'];
     }
 
     public function eraseCredentials(): void

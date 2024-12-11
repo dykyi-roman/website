@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Dashboard\Presentation\Web;
+namespace App\Registration\Presentation\Web;
 
 use App\Client\DomainModel\Model\Client;
 use App\Partner\DomainModel\Model\Partner;
@@ -27,7 +27,6 @@ class SecurityController extends AbstractController
     #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        dump(33); die();
         if ($this->getUser()) {
             return $this->redirectToRoute('app_dashboard');
         }
@@ -50,9 +49,8 @@ class SecurityController extends AbstractController
     #[Route('/register', name: 'app_register', methods: ['POST'])]
     public function register(Request $request): JsonResponse
     {
-        dump(222); die();
         $data = json_decode($request->getContent(), true);
-        
+
         // Determine user type based on hidden field
         $isPartner = isset($data['partner-id']);
         

@@ -6,12 +6,13 @@ namespace App\Partner\DomainModel\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'partner')]
 #[ORM\HasLifecycleCallbacks]
-class Partner implements UserInterface
+class Partner implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
@@ -35,6 +36,11 @@ class Partner implements UserInterface
     #[ORM\Column(type: 'smallint', options: ['default' => 1])]
     private int $status = 1;
 
+    #[ORM\Column(type: 'json')]
+    private array $roles = ['ROLE_PARTNER'];
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $password;
 
     #[ORM\Column(name: 'phone_verified_at', type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $phoneVerifiedAt = null;
@@ -130,6 +136,28 @@ class Partner implements UserInterface
         $this->status = $status;
     }
 
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        $roles[] = 'ROLE_PARTNER';
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
+
     public function getPhoneVerifiedAt(): ?\DateTimeImmutable
     {
         return $this->phoneVerifiedAt;
@@ -186,17 +214,12 @@ class Partner implements UserInterface
         $this->updatedAt = new \DateTimeImmutable();
     }
 
-    public function getRoles(): array
+    public function getUserIdentifier(): string
     {
-        return ['ROLE_PARTNER'];
+        return $this->email;
     }
 
     public function eraseCredentials(): void
     {
-    }
-
-    public function getUserIdentifier(): string
-    {
-        return $this->email;
     }
 }

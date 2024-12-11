@@ -21,7 +21,7 @@ final readonly class MockClient implements ServiceInterface
                 'category' => 'Phone',
                 'url' => '/services/item/' . $i,
                 'feedback_count' => '42',
-                'image_url' => 'https://scontent.xx.fbcdn.net/v/t39.30808-6/240122781_4417691381658687_1314923864255434509_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=f727a1&_nc_ohc=AizUbMWXODkQ7kNvgHOyNUW&_nc_zt=23&_nc_ht=scontent.xx&_nc_gid=AGO1PYGFi2Kud1mgLl1oJRW&oh=00_AYBpD2G0pjh2J3Cq_ef0bV4jsboOEHmzmwl3BrZkECdSow&oe=67585939',
+                'image_url' => '',
                 'features' => [
                     'Super-premium',
                     'Master-freelancer',
