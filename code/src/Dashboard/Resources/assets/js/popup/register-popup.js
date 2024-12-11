@@ -307,7 +307,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const cityByCountry = {
         'us': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Miami'],
         'ca': ['Toronto', 'Vancouver', 'Montreal', 'Calgary', 'Ottawa'],
-        'uk': ['London', 'Manchester', 'Birmingham', 'Liverpool', 'Edinburgh']
+        'ua': ['London', 'Manchester', 'Birmingham', 'Liverpool', 'Edinburgh']
     };
 
     // Update city options based on selected country

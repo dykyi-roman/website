@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace App\Client\Infrastructure\Repository;
 
+use App\Client\DomainModel\Enum\ClientId;
 use App\Client\DomainModel\Model\Client;
 use App\Client\DomainModel\Repository\ClientRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
-class ClientRepository implements ClientRepositoryInterface
+final class ClientRepository implements ClientRepositoryInterface
 {
     private EntityRepository $repository;
 
     public function __construct(
-        private readonly EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager,
     ) {
         $this->repository = $this->entityManager->getRepository(Client::class);
     }
@@ -25,8 +26,13 @@ class ClientRepository implements ClientRepositoryInterface
         $this->entityManager->flush();
     }
 
-    public function findById(string $id): ?Client
+    public function findById(ClientId $id): ?Client
     {
-        return $this->repository->find($id);
+        return $this->repository->find($id->toRfc4122());
+    }
+
+    public function findByEmail(string $email): ?Client
+    {
+        return $this->repository->findOneBy(['email' => $email]);
     }
 }

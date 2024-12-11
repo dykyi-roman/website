@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Partner\Infrastructure\Repository;
 
+use App\Partner\DomainModel\Enum\PartnerId;
 use App\Partner\DomainModel\Model\Partner;
 use App\Partner\DomainModel\Repository\PartnerRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
-class PartnerRepository implements PartnerRepositoryInterface
+final class PartnerRepository implements PartnerRepositoryInterface
 {
     private EntityRepository $repository;
 
@@ -25,8 +26,13 @@ class PartnerRepository implements PartnerRepositoryInterface
         $this->entityManager->flush();
     }
 
-    public function findById(string $id): ?Partner
+    public function findById(PartnerId $id): ?Partner
     {
-        return $this->repository->find($id);
+        return $this->repository->find($id->toRfc4122());
+    }
+
+    public function findByEmail(string $email): ?Partner
+    {
+        return $this->repository->findOneBy(['email' => $email]);
     }
 }
