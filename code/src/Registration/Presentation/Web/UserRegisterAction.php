@@ -16,6 +16,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 final readonly class UserRegisterAction
 {
@@ -24,6 +27,8 @@ final readonly class UserRegisterAction
         private PartnerRepositoryInterface $partnerRepository,
         private UserPasswordHasherInterface $passwordHasher,
         private LoggerInterface $logger,
+        private TokenStorageInterface $tokenStorage,
+        private AuthenticationUtils $authenticationUtils,
     ) {
     }
 
@@ -32,7 +37,21 @@ final readonly class UserRegisterAction
     {
         $data = json_decode($request->getContent(), true);
         try {
-            $isPartner = isset($data['partner-id']);
+            // Check if email already exists in both repositories
+            $clientExists = $this->clientRepository->findByEmail($data['email']);
+            $partnerExists = $this->partnerRepository->findByEmail($data['email']);
+
+            if ($clientExists || $partnerExists) {
+                return new JsonResponse([
+                    'success' => false,
+                    'errors' => [
+                        'message' => 'Email already exists',
+                        'field' => 'email'
+                    ]
+                ], Response::HTTP_BAD_REQUEST);
+            }
+
+            $isPartner = isset($data['type']) && $data['type'] === 'partner';
             if ($isPartner) {
                 $user = new Partner(
                     new PartnerId(),
@@ -55,6 +74,10 @@ final readonly class UserRegisterAction
 
             $user->setPassword($this->passwordHasher->hashPassword($user, $data['password']));
             $isPartner ? $this->partnerRepository->save($user) : $this->clientRepository->save($user);
+
+            // Automatically log in the user after registration
+            $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
+            $this->tokenStorage->setToken($token);
 
             return new JsonResponse([
                 'success' => true,

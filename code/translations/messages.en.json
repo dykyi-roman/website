@@ -103,6 +103,7 @@
     "label_confirm_password": "Confirm Password",
     "password_length_validation": "Password must be at least 8 characters long",
     "password_complexity_validation": "Password must contain at least one letter and one number",
+    "email_already_exists": "This email is already registered",
     "find_your_orders": "Find Your Orders",
     "what_order_looking_for": "What order are you looking for?",
     "no_services_found": "No services found matching your search.",

@@ -10,13 +10,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
+use function Symfony\Component\Translation\t;
+
 #[ORM\Entity]
 #[ORM\Table(name: 'partner')]
 #[ORM\HasLifecycleCallbacks]
 class Partner implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\Column(type: 'partner_id', unique: true)]
     private PartnerId $id;
 
     #[ORM\Column(type: 'string', length: 100)]
@@ -27,6 +29,9 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 20, nullable: true)]
     private ?string $phone;
+
+    #[ORM\Column(type: 'text')]
+    private ?string $avatar;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private ?string $country;
@@ -95,6 +100,16 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): void
     {
         $this->password = $password;
+    }
+
+    public function setAvatar(string $avatar): void
+    {
+        $this->avatar = $avatar;
+    }
+
+    public function getAvatar(): string
+    {
+        return $this->avatar;
     }
 
     #[ORM\PreUpdate]

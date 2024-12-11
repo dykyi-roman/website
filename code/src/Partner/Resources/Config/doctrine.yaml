@@ -1,6 +1,7 @@
 doctrine:
     dbal:
         types:
+            partner_id: App\Partner\Infrastructure\Doctrine\DoctrineType\PartnerIdType
             partner_status: App\Partner\Infrastructure\Doctrine\DoctrineType\PartnerStatusType
         connections:
             partner:

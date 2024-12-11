@@ -166,13 +166,24 @@ document.addEventListener('DOMContentLoaded', async function () {
             if (!response.ok) {
                 console.error('Registration error:', result);
                 
-                // Check if errors.message exists, otherwise use generic message
+                // Handle specific field errors
+                if (result.errors && result.errors.field) {
+                    const field = form.querySelector(`[name="${result.errors.field}"]`);
+                    const fieldFeedback = field.nextElementSibling;
+                    
+                    field.classList.add('is-invalid');
+                    if (fieldFeedback && fieldFeedback.classList.contains('invalid-feedback')) {
+                        fieldFeedback.textContent = result.errors.message;
+                    }
+                    return false;
+                }
+
+                // Generic error handling
                 const errorMessage = result.errors && result.errors.message 
                     ? result.errors.message 
                     : t.error_generic_message;
                 
                 alert(errorMessage);
-
                 return false;
             }
 

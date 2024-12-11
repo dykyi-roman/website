@@ -31,7 +31,7 @@
 
                 <!-- Client Registration Form -->
                 <form id="clientRegistrationForm" class="needs-validation d-none" novalidate>
-                    <input type="hidden" name="client-id" value="1">
+                    <input type="hidden" name="type" value="client">
                     <div class="register-form-section">
                         <div class="mb-3">
                             <input type="text" class="form-control" id="client-name" name="name" placeholder="{{ 'Register Name Placeholder'|trans }}" required>
@@ -89,7 +89,7 @@
 
                 <!-- Partner Registration Form -->
                 <form id="partnerRegistrationForm" class="needs-validation d-none" novalidate>
-                    <input type="hidden" name="partner-id" value="1">
+                    <input type="hidden" name="type" value="partner">
                     <div class="register-form-section">
                         <div class="mb-3">
                             <input type="text" class="form-control" id="partner-name" name="name" placeholder="{{ 'Register Name Placeholder'|trans }}" required>

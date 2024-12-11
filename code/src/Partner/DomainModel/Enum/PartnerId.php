@@ -8,8 +8,8 @@ use Symfony\Component\Uid\Uuid;
 
 final class PartnerId extends Uuid
 {
-    public function __construct()
+    public function __construct(string $uuid = null, bool $checkVariant = false)
     {
-        parent::__construct(Uuid::v4()->toRfc4122());
+        parent::__construct($uuid ?? Uuid::v4()->toRfc4122(), $checkVariant);
     }
 }

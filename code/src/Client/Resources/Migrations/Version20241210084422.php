@@ -23,6 +23,7 @@ final class Version20241210084422 extends AbstractMigration
             name VARCHAR(100) NOT NULL,
             email VARCHAR(64) NOT NULL,
             phone VARCHAR(20) DEFAULT NULL,
+            avatar TEXT DEFAULT NULL,
             password VARCHAR(255) NOT NULL,
             country VARCHAR(100) DEFAULT NULL,
             city VARCHAR(255) DEFAULT NULL,
@@ -34,7 +35,8 @@ final class Version20241210084422 extends AbstractMigration
             deactivated_at DATETIME DEFAULT NULL,
             created_at DATETIME NOT NULL,
             updated_at DATETIME NOT NULL,
-            PRIMARY KEY(id)
+            PRIMARY KEY(id),
+            UNIQUE INDEX UNIQ_EMAIL (email)
         ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
     }
 
