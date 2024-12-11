@@ -145,39 +145,46 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Submit form data
     async function submitForm(form) {
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
         try {
-            const formData = new FormData(form);
             const response = await fetch('/login', {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
             });
 
-            const data = await response.json();
+            const result = await response.json();
 
-            if (data.success) {
-                // Handle successful login
-                const modal = new bootstrap.Modal(loginModal);
-                modal.hide();
-
-                // Redirect or show success message
-                window.location.href = data.redirectUrl || '/';
-            } else {
-                // Handle login errors
-                const emailInput = form.querySelector('input[type="email"]');
-                if (emailInput) {
-                    emailInput.setCustomValidity(data.message || 'Login failed');
-                    emailInput.reportValidity();
-                }
+            if (!response.ok) {
+                console.error('Login error:', result);
+                alert(t.error_generic_message);
+                return false;
             }
+
+            // Handle success
+            window.location.href = '/';
+            return true;
         } catch (error) {
-            console.error('Login error:', error);
-            // Handle network or other errors
-            const emailInput = form.querySelector('input[type="email"]');
-            if (emailInput) {
-                emailInput.setCustomValidity('An error occurred. Please try again.');
-                emailInput.reportValidity();
-            }
+            console.error('Global Login error:', error);
+            alert(t.error_generic_message);
+            return false;
         }
+    }
+
+    function showErrorMessage(message) {
+        // Find or create error message container
+        let errorContainer = document.querySelector('.login-error-message');
+        if (!errorContainer) {
+            errorContainer = document.createElement('div');
+            errorContainer.className = 'alert alert-danger login-error-message mt-3';
+            loginForm.insertBefore(errorContainer, loginForm.firstChild);
+        }
+        errorContainer.textContent = message;
+        errorContainer.style.display = 'block';
     }
 
     // Event listener for login buttons
@@ -205,7 +212,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            submitLogin(this);
+            submitForm(this);
         });
     }
 
@@ -238,13 +245,5 @@ document.addEventListener('DOMContentLoaded', async function() {
                 alert('An error occurred. Please try again.');
             });
         });
-    }
-
-    function showErrorMessage(message) {
-        const errorElement = document.getElementById('error-message');
-        if (errorElement) {
-            errorElement.textContent = message;
-            errorElement.classList.add('alert', 'alert-danger');
-        }
     }
 });

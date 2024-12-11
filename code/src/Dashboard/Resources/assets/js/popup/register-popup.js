@@ -158,82 +158,53 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Submit form data
     async function submitForm(form) {
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
         try {
-            const formData = new FormData(form);
-            const formDataObject = Object.fromEntries(formData.entries());
-            
-            // Convert FormData to JSON and ensure proper data structure
-            const requestData = {
-                name: formDataObject.name || formDataObject.partner_name,
-                email: formDataObject.email,
-                password: formDataObject.password,
-                phone: formDataObject.phone || null,
-                country: formDataObject.country || null,
-                city: formDataObject.city || null
-            };
-
-            // Add the identification field
-            if (formDataObject['partner-id']) {
-                requestData['partner-id'] = formDataObject['partner-id'];
-            } else if (formDataObject['client-id']) {
-                requestData['client-id'] = formDataObject['client-id'];
-            }
-
             const response = await fetch('/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
                 },
-                body: JSON.stringify(requestData),
-                credentials: 'same-origin'
+                body: JSON.stringify(data)
             });
 
+            const result = await response.json();
+
             if (!response.ok) {
-                const data = await response.json();
-                throw new Error(data.message || t.error_registration_failed);
+                console.error('Registration error:', result);
+                alert(t.error_generic_message);
+                return false;
             }
 
-            const data = await response.json();
-            if (data.success) {
-                const modal = bootstrap.Modal.getInstance(registerModal);
-                if (modal) {
-                    modal.hide();
-                }
-                showSuccessMessage(t.registration_successful);
-                // Redirect to login
-                setTimeout(() => {
-                    const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-                    loginModal.show();
-                }, 1500);
-            } else {
-                if (data.errors) {
-                    Object.keys(data.errors).forEach(field => {
-                        const input = form.querySelector(`[name="${field}"]`);
-                        if (input) {
-                            input.setCustomValidity(data.errors[field]);
-                            input.reportValidity();
-                        }
-                    });
-                } else {
-                    showErrorMessage(data.message || t.error_registration_failed);
-                }
-            }
+            // Handle success
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 2000);
+            return true;
         } catch (error) {
-            console.error('Registration error:', error);
-            showErrorMessage(error.message || t.error_network);
+            console.error('Global Registration error:', error);
+            alert(t.error_generic_message);
+            return false;
         }
     }
 
-    function showSuccessMessage(message) {
-        const alertDiv = document.createElement('div');
-        alertDiv.className = 'alert alert-success alert-dismissible fade show';
-        alertDiv.setAttribute('role', 'alert');
-        alertDiv.innerHTML = `
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        `;
-        document.querySelector('.modal-body').prepend(alertDiv);
+    function clearErrors(form) {
+        // Clear general error message
+        const errorContainer = form.querySelector('.register-error-message');
+        if (errorContainer) {
+            errorContainer.style.display = 'none';
+        }
+
+        // Clear field-specific errors
+        form.querySelectorAll('.is-invalid').forEach(field => {
+            field.classList.remove('is-invalid');
+            const feedback = field.nextElementSibling;
+            if (feedback && feedback.classList.contains('invalid-feedback')) {
+                feedback.style.display = 'none';
+            }
+        });
     }
 
     // Event listeners for form submission
@@ -323,6 +294,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 input.classList.remove('is-invalid', 'is-valid');
                 input.setCustomValidity('');
             });
+            clearErrors(form);
         });
     }
 

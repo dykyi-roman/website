@@ -1,4 +1,5 @@
 {
+    "error_generic_message": "Something went wrong. Our team is working on it. Please try again later.",
     "error_email_required": "Email is required",
     "error_invalid_email": "Please enter a valid email address",
     "error_network": "Network error. Please try again.",
