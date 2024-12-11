@@ -23,7 +23,7 @@ final class Version20241210084422 extends AbstractMigration
             name VARCHAR(100) NOT NULL,
             email VARCHAR(64) NOT NULL,
             phone VARCHAR(20) DEFAULT NULL,
-            password VARCHAR(32) NOT NULL,
+            password VARCHAR(100) NOT NULL,
             country VARCHAR(100) DEFAULT NULL,
             city VARCHAR(255) DEFAULT NULL,
             status SMALLINT DEFAULT 1,

@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             this.innerHTML = `<i class="fas fa-check"></i><span>${t.share_link_copied || 'Copied!'}</span>`;
             setTimeout(() => {
                 this.innerHTML = originalText;
-            }, 2000);
+            }, 1000);
         });
     });
 

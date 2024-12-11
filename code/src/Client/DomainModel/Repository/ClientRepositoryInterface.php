@@ -11,4 +11,6 @@ interface ClientRepositoryInterface
     public function save(Client $client): void;
     
     public function findById(string $id): ?Client;
+    
+    public function findByEmail(string $email): ?Client;
 }

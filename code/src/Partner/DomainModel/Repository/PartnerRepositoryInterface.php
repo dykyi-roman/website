@@ -11,4 +11,6 @@ interface PartnerRepositoryInterface
     public function save(Partner $partner): void;
     
     public function findById(string $id): ?Partner;
+    
+    public function findByEmail(string $email): ?Partner;
 }

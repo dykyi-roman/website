@@ -165,14 +165,20 @@ document.addEventListener('DOMContentLoaded', async function () {
 
             if (!response.ok) {
                 console.error('Registration error:', result);
-                alert(t.error_generic_message);
+                
+                // Check if errors.message exists, otherwise use generic message
+                const errorMessage = result.errors && result.errors.message 
+                    ? result.errors.message 
+                    : t.error_generic_message;
+                
+                alert(errorMessage);
 
                 return false;
             }
 
             setTimeout(() => {
                 window.location.href = '/';
-            }, 2000);
+            }, 1000);
 
             return true;
         } catch (error) {

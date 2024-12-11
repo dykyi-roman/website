@@ -9,39 +9,88 @@ use App\Client\DomainModel\Repository\ClientRepositoryInterface;
 use App\Partner\DomainModel\Model\Partner;
 use App\Partner\DomainModel\Repository\PartnerRepositoryInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Uid\Uuid;
+use Twig\Environment as TwigEnvironment;
 
-final class SecurityController extends AbstractController
+final readonly class SecurityController
 {
     public function __construct(
-        private readonly ClientRepositoryInterface $clientRepository,
-        private readonly PartnerRepositoryInterface $partnerRepository,
-        private readonly UserPasswordHasherInterface $passwordHasher,
-        private readonly LoggerInterface $logger,
+        private ClientRepositoryInterface $clientRepository,
+        private PartnerRepositoryInterface $partnerRepository,
+        private UserPasswordHasherInterface $passwordHasher,
+        private LoggerInterface $logger,
+        private UrlGeneratorInterface $urlGenerator,
+        private TwigEnvironment $twig,
     ) {
     }
 
     #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
-        if ($this->getUser()) {
-            return $this->redirectToRoute('app_dashboard');
-        }
-
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('@Dashboard/popup/login-popup.html.twig', [
+        // If this is a POST request, attempt to authenticate
+        if ($request->isMethod('POST')) {
+            $credentials = json_decode($request->getContent(), true);
+            $email = $credentials['email'] ?? '';
+            $password = $credentials['password'] ?? '';
+
+            try {
+                // First, try to find user in ClientRepositoryInterface
+                $user = $this->clientRepository->findByEmail($email);
+                
+                // If not found in client, try PartnerRepositoryInterface
+                if (!$user) {
+                    $user = $this->partnerRepository->findByEmail($email);
+                }
+
+                // If no user found, return error
+                if (!$user) {
+                    return new JsonResponse([
+                        'success' => false,
+                        'message' => 'User not found'
+                    ], Response::HTTP_UNAUTHORIZED);
+                }
+
+                // Verify password
+                $isValidPassword = $this->passwordHasher->isPasswordValid($user, $password);
+                
+                if (!$isValidPassword) {
+                    return new JsonResponse([
+                        'success' => false,
+                        'message' => 'Invalid credentials'
+                    ], Response::HTTP_UNAUTHORIZED);
+                }
+
+                // If password is valid, return success with dashboard URL
+                return new JsonResponse([
+                    'success' => true,
+                    'message' => 'Login successful',
+                    'redirect' => $this->urlGenerator->generate('app_dashboard')
+                ]);
+
+            } catch (\Exception $e) {
+                $this->logger->error('Login error: ' . $e->getMessage());
+                return new JsonResponse([
+                    'success' => false,
+                    'message' => 'An unexpected error occurred'
+                ], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+        }
+
+        // For GET requests, render the login page
+        return new Response($this->twig->render('@Dashboard/popup/login-popup.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
-        ]);
+        ]));
     }
 
     #[Route('/logout', name: 'app_logout', methods: ['GET'])]
@@ -86,8 +135,7 @@ final class SecurityController extends AbstractController
 
             return new JsonResponse([
                 'success' => false,
-                'message' => $exception->getMessage(),
-//                'message' => 'Registration failed',
+                'message' => 'Registration failed',
                 'errors' => [
                     'message' => 'An error occurred during registration. Please try again.'
                 ]
