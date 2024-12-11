@@ -1,5 +1,7 @@
 doctrine:
     dbal:
+        types:
+            client_status: App\Client\Infrastructure\Doctrine\DoctrineType\ClientStatusType
         connections:
             client:
                 url: '%env(resolve:DATABASE_CLIENT_URL)%'

@@ -34,8 +34,8 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $city;
 
-    #[ORM\Column(type: 'smallint', options: ['default' => 1])]
-    private int $status;
+    #[ORM\Column(type: 'client_status', options: ['default' => ClientStatus::ACTIVE])]
+    private ClientStatus $status;
 
     #[ORM\Column(type: 'json')]
     private array $roles;
@@ -75,7 +75,7 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
         $this->phone = $phone;
         $this->country = $country;
         $this->city = $city;
-        $this->status = ClientStatus::ACTIVE->value;
+        $this->status = ClientStatus::ACTIVE;
         $this->roles = ['ROLE_CLIENT'];
         $this->activatedAt = new \DateTimeImmutable();
         $this->createdAt = new \DateTimeImmutable();
@@ -133,7 +133,7 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->city;
     }
 
-    public function getStatus(): int
+    public function getStatus(): ClientStatus
     {
         return $this->status;
     }

@@ -46,6 +46,10 @@
                             <div class="invalid-feedback">{{ 'Register Phone Invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
+                            <input type="password" class="form-control" id="client-password" name="password" placeholder="{{ 'Register Password Placeholder'|trans }}" required minlength="8">
+                            <div class="invalid-feedback">{{ 'Register Password Invalid'|trans }}</div>
+                        </div>
+                        <div class="mb-3">
                             <select class="form-select" id="client-country" name="country" required>
                                 <option value="">{{ 'Register Country Placeholder'|trans }}</option>
                                 {% for country in countries %}
@@ -55,14 +59,8 @@
                             <div class="invalid-feedback">{{ 'Register Country Invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <select class="form-select" id="client-city" name="city" required>
-                                <option value="">{{ 'Register City Placeholder'|trans }}</option>
-                            </select>
+                            <input type="text" class="form-control" id="client-city" name="city" placeholder="{{ 'Register City Placeholder'|trans }}" required>
                             <div class="invalid-feedback">{{ 'Register City Invalid'|trans }}</div>
-                        </div>
-                        <div class="mb-3">
-                            <input type="password" class="form-control" id="client-password" name="password" placeholder="{{ 'Register Password Placeholder'|trans }}" required minlength="8">
-                            <div class="invalid-feedback">{{ 'Register Password Invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
                             <button type="submit" class="btn btn-orange w-100">{{ 'Register Client Button'|trans }}</button>
@@ -106,6 +104,10 @@
                             <div class="invalid-feedback">{{ 'Register Phone Invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
+                            <input type="password" class="form-control" id="partner-password" name="password" placeholder="{{ 'Register Password Placeholder'|trans }}" required minlength="8">
+                            <div class="invalid-feedback">{{ 'Register Password Invalid'|trans }}</div>
+                        </div>
+                        <div class="mb-3">
                             <select class="form-select" id="partner-country" name="country" required>
                                 <option value="">{{ 'Register Country Placeholder'|trans }}</option>
                                 {% for country in countries %}
@@ -115,14 +117,8 @@
                             <div class="invalid-feedback">{{ 'Register Country Invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <select class="form-select" id="partner-city" name="city" required>
-                                <option value="">{{ 'Register City Placeholder'|trans }}</option>
-                            </select>
+                            <input type="text" class="form-control" id="partner-city" name="city" placeholder="{{ 'Register City Placeholder'|trans }}" required>
                             <div class="invalid-feedback">{{ 'Register City Invalid'|trans }}</div>
-                        </div>
-                        <div class="mb-3">
-                            <input type="password" class="form-control" id="partner-password" name="password" placeholder="{{ 'Register Password Placeholder'|trans }}" required minlength="8">
-                            <div class="invalid-feedback">{{ 'Register Password Invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
                             <button type="submit" class="btn btn-orange w-100">{{ 'Register Partner Button'|trans }}</button>

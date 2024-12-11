@@ -1,5 +1,7 @@
 doctrine:
     dbal:
+        types:
+            partner_status: App\Partner\Infrastructure\Doctrine\DoctrineType\PartnerStatusType
         connections:
             partner:
                 url: '%env(resolve:DATABASE_PARTNER_URL)%'

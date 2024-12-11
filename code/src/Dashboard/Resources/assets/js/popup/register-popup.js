@@ -303,46 +303,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         showRegistrationTypeSelection();
     });
 
-    // City-Country relationship data
-    const cityByCountry = {
-        'us': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Miami'],
-        'ca': ['Toronto', 'Vancouver', 'Montreal', 'Calgary', 'Ottawa'],
-        'ua': ['London', 'Manchester', 'Birmingham', 'Liverpool', 'Edinburgh']
-    };
-
-    // Update city options based on selected country
-    function updateCityOptions(countrySelect, citySelect) {
-        const country = countrySelect.value;
-        citySelect.innerHTML = '<option value="">Select City</option>';
-
-        if (country && cityByCountry[country]) {
-            cityByCountry[country].forEach(city => {
-                const option = document.createElement('option');
-                option.value = city.toLowerCase().replace(/\s+/g, '-');
-                option.textContent = city;
-                citySelect.appendChild(option);
-            });
-        }
-    }
-
-    // Add event listeners for country selects
-    const clientCountrySelect = document.getElementById('client-country');
-    const clientCitySelect = document.getElementById('client-city');
-    const partnerCountrySelect = document.getElementById('partner-country');
-    const partnerCitySelect = document.getElementById('partner-city');
-
-    if (clientCountrySelect && clientCitySelect) {
-        clientCountrySelect.addEventListener('change', () => {
-            updateCityOptions(clientCountrySelect, clientCitySelect);
-        });
-    }
-
-    if (partnerCountrySelect && partnerCitySelect) {
-        partnerCountrySelect.addEventListener('change', () => {
-            updateCityOptions(partnerCountrySelect, partnerCitySelect);
-        });
-    }
-
     // Initialize social login buttons
     function initSocialLogin() {
         const googleLoginBtns = document.querySelectorAll('.social-btn-google');

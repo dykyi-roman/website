@@ -34,8 +34,8 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $city;
 
-    #[ORM\Column(type: 'smallint', options: ['default' => 1])]
-    private int $status;
+    #[ORM\Column(type: 'partner_status', options: ['default' => PartnerStatus::ACTIVE])]
+    private PartnerStatus $status;
 
     #[ORM\Column(type: 'json')]
     private array $roles;
@@ -67,7 +67,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
         string $email,
         ?string $phone = null,
         ?string $country = null,
-        ?string $city = null,
+        ?string $city = null
     ) {
         $this->id = $id;
         $this->name = $name;
@@ -75,7 +75,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
         $this->phone = $phone;
         $this->country = $country;
         $this->city = $city;
-        $this->status = PartnerStatus::ACTIVE->value;
+        $this->status = PartnerStatus::ACTIVE;
         $this->roles = ['ROLE_PARTNER'];
         $this->activatedAt = new \DateTimeImmutable();
         $this->createdAt = new \DateTimeImmutable();
@@ -133,7 +133,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->city;
     }
 
-    public function getStatus(): int
+    public function getStatus(): PartnerStatus
     {
         return $this->status;
     }
