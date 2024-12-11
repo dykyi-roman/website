@@ -9,16 +9,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
-class DashboardAction extends AbstractController
+final readonly class DashboardAction
 {
-    #[Route('/', name: 'dashboard_page')]
-    public function __invoke(
-        Request $request,
-        TranslatorInterface $translator,
-    ): Response {
-        return $this->render('@Dashboard/dashboard.html.twig', [
-            'page_title' => $translator->trans('dashboard.page_title'),
-        ]);
+    public function __construct(
+        private Environment $twig,
+        private TranslatorInterface $translator,
+    ) {
+    }
+
+    #[Route('/', name: 'dashboard')]
+    public function __invoke(Request $request): Response
+    {
+        return new Response(
+            $this->twig->render('@Dashboard/dashboard.html.twig', [
+                'page_title' => $this->translator->trans('dashboard.page_title'),
+            ])
+        );
     }
 }

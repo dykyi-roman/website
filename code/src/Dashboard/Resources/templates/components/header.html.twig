@@ -40,8 +40,7 @@
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i> {{ 'Logout'|trans }}</a></li>
                     {% else %}
-                        <li><a class="dropdown-item" data-action="login" href="javascript:void(0);"><i class="fas fa-sign-in-alt"></i> {{ 'Login'|trans }}</a></li>
-                        <li><a class="dropdown-item" data-action="register" href="javascript:void(0);"><i class="fas fa-user-plus"></i> {{ 'Register'|trans }}</a></li>
+                        {% include '@Registration/component/auth_menu.html.twig' %}
                     {% endif %}
                 </ul>
             </div>

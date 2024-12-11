@@ -76,7 +76,7 @@ final readonly class UserLoginAction
             return new JsonResponse([
                 'success' => true,
                 'message' => 'Login successful',
-                'redirect' => $this->urlGenerator->generate('dashboard_page')
+                'redirect' => $this->urlGenerator->generate('dashboard')
             ]);
         } catch (\Exception $e) {
             $this->logger->error('Login error: ' . $e->getMessage());

@@ -29,7 +29,6 @@ services:
         resource: '../../'
         exclude:
             - '../../Resources/'
-            - '../../Entity/'
             - '../../Tests/'
             - '../../**/Tests/'
         tags: ['controller.service_arguments']

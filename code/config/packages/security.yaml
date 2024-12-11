@@ -22,10 +22,10 @@ security:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
-                default_target_path: dashboard_page
+                default_target_path: dashboard
             logout:
                 path: app_logout
-                target: dashboard_page
+                target: dashboard
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800 # 1 week
