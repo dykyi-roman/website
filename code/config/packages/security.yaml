@@ -9,10 +9,12 @@ security:
             entity:
                 class: App\Partner\DomainModel\Model\Partner
                 property: email
+                manager_name: partner
         client_provider:
             entity:
                 class: App\Client\DomainModel\Model\Client
                 property: email
+                manager_name: client
         all_users:
             chain:
                 providers: ['partner_provider', 'client_provider']

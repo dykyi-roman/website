@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 class Client implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\Column(type: 'client_id', unique: true)]
     private ClientId $id;
 
     #[ORM\Column(type: 'string', length: 100)]

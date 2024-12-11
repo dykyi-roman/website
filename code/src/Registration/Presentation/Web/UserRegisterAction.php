@@ -16,9 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Bundle\SecurityBundle\Security;
 
 final readonly class UserRegisterAction
 {
@@ -27,8 +25,7 @@ final readonly class UserRegisterAction
         private PartnerRepositoryInterface $partnerRepository,
         private UserPasswordHasherInterface $passwordHasher,
         private LoggerInterface $logger,
-        private TokenStorageInterface $tokenStorage,
-        private AuthenticationUtils $authenticationUtils,
+        private Security $security,
     ) {
     }
 
@@ -75,9 +72,8 @@ final readonly class UserRegisterAction
             $user->setPassword($this->passwordHasher->hashPassword($user, $data['password']));
             $isPartner ? $this->partnerRepository->save($user) : $this->clientRepository->save($user);
 
-            // Automatically log in the user after registration
-            $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
-            $this->tokenStorage->setToken($token);
+            // Login the user after registration using the form login authenticator
+            $this->security->login($user, 'security.authenticator.form_login.main');
 
             return new JsonResponse([
                 'success' => true,
@@ -90,7 +86,7 @@ final readonly class UserRegisterAction
 
             return new JsonResponse([
                 'success' => false,
-                'message' => 'Registration failed',
+                'message' => 'Registration failed - ' . $exception->getMessage(),
                 'errors' => [
                     'message' => 'An error occurred during registration. Please try again.'
                 ]
