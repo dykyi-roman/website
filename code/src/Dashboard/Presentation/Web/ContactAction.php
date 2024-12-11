@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Dashboard\Presentation\Web;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -13,8 +12,6 @@ use Twig\Environment;
 final readonly class ContactAction
 {
     public function __construct(
-        private Environment $twig,
-        private TranslatorInterface $translator,
         private string $supportEmail,
         private string $supportPhone,
         private string $supportAddress,
@@ -25,15 +22,17 @@ final readonly class ContactAction
     }
 
     #[Route('/contact', name: 'contact')]
-    public function __invoke(Request $request): Response
-    {
+    public function __invoke(
+        Environment $twig,
+        TranslatorInterface $translator,
+    ): Response {
         $contactInfo = [
             'email' => $this->supportEmail,
             'phone' => $this->supportPhone,
             'address' => $this->supportAddress,
             'hours' => sprintf(
-                '%s: %s - %s', 
-                $this->translator->trans('contact.business_hours'), 
+                '%s: %s - %s',
+                $translator->trans('contact.business_hours'),
                 $this->supportBusinessTimeFrom,
                 $this->supportBusinessTimeTo
             ),
@@ -41,9 +40,9 @@ final readonly class ContactAction
         ];
 
         return new Response(
-            $this->twig->render('@Dashboard/page/contact.html.twig', [
-                'page_title' => $this->translator->trans('contact.page_title'),
-                'content' => $this->translator->trans('contact.content'),
+            $twig->render('@Dashboard/page/contact.html.twig', [
+                'page_title' => $translator->trans('contact.page_title'),
+                'content' => $translator->trans('contact.content'),
                 'contact' => $contactInfo,
             ])
         );

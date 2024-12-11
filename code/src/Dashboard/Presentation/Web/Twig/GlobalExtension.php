@@ -14,10 +14,10 @@ final class GlobalExtension extends AbstractExtension implements GlobalsInterfac
      * @param array<string, string> $supportedCountries
      */
     public function __construct(
+        private readonly Security $security,
         private readonly string $appName,
         private readonly array $appSocial,
         private readonly string $supportPhone,
-        private readonly Security $security,
         private readonly array $supportedCountries,
     ) {
     }

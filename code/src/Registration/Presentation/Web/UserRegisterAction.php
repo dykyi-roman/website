@@ -16,7 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 final readonly class UserRegisterAction
 {
@@ -24,8 +25,8 @@ final readonly class UserRegisterAction
         private ClientRepositoryInterface $clientRepository,
         private PartnerRepositoryInterface $partnerRepository,
         private UserPasswordHasherInterface $passwordHasher,
+        private TokenStorageInterface $tokenStorage,
         private LoggerInterface $logger,
-        private Security $security,
     ) {
     }
 
@@ -72,21 +73,21 @@ final readonly class UserRegisterAction
             $user->setPassword($this->passwordHasher->hashPassword($user, $data['password']));
             $isPartner ? $this->partnerRepository->save($user) : $this->clientRepository->save($user);
 
-            // Login the user after registration using the form login authenticator
-            $this->security->login($user, 'security.authenticator.form_login.main');
+            // Or - Login the user after registration using the form login authenticator
+            $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
+            $this->tokenStorage->setToken($token);
 
             return new JsonResponse([
                 'success' => true,
                 'message' => 'Registration successful',
                 'user_type' => $isPartner ? 'partner' : 'client'
             ], Response::HTTP_CREATED);
-
         } catch (\Throwable $exception) {
             $this->logger->error($exception->getMessage());
 
             return new JsonResponse([
                 'success' => false,
-                'message' => 'Registration failed - ' . $exception->getMessage(),
+                'message' => 'Registration failed',
                 'errors' => [
                     'message' => 'An error occurred during registration. Please try again.'
                 ]

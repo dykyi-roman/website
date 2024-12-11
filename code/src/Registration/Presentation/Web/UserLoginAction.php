@@ -24,15 +24,16 @@ final readonly class UserLoginAction
         private UserPasswordHasherInterface $passwordHasher,
         private LoggerInterface $logger,
         private UrlGeneratorInterface $urlGenerator,
+        private AuthenticationUtils $authenticationUtils,
         private TwigEnvironment $twig,
     ) {
     }
 
     #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
-    public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
+    public function login(Request $request): Response
     {
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
+        $error = $this->authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $this->authenticationUtils->getLastUsername();
 
         // If this is a POST request, attempt to authenticate
         if (!$request->isMethod('POST')) {
@@ -78,8 +79,8 @@ final readonly class UserLoginAction
                 'message' => 'Login successful',
                 'redirect' => $this->urlGenerator->generate('dashboard')
             ]);
-        } catch (\Exception $e) {
-            $this->logger->error('Login error: ' . $e->getMessage());
+        } catch (\Throwable $exception) {
+            $this->logger->error('Login error: ' . $exception->getMessage());
 
             return new JsonResponse([
                 'success' => false,
