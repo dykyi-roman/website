@@ -22,6 +22,9 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 100)]
     private string $name;
 
+    #[ORM\Column(type: 'text')]
+    private ?string $avatar;
+
     #[ORM\Column(type: 'string', length: 64)]
     private string $email;
 
@@ -148,6 +151,16 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
     public function getPassword(): string
     {
         return $this->password;
+    }
+
+    public function setAvatar(string $avatar): void
+    {
+        $this->avatar = $avatar;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
     }
 
     public function getPhoneVerifiedAt(): ?\DateTimeImmutable

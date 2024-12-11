@@ -107,7 +107,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
         $this->avatar = $avatar;
     }
 
-    public function getAvatar(): string
+    public function getAvatar(): ?string
     {
         return $this->avatar;
     }

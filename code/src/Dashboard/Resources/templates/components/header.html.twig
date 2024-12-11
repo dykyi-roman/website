@@ -19,8 +19,15 @@
             <div class="nav-item dropdown profile-dropdown ms-3">
                 <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {% if app.user %}
-                        <div class="profile-image-container">
-                            <img src="{{ app.user.avatar }}" alt="Profile" class="rounded-circle">
+                        {% if app.user.avatar %}
+                            <div class="profile-image-container">
+                                <img src="{{ app.user.avatar }}" alt="Profile" class="rounded-circle">
+                            </div>
+                        {% else %}
+                            <i class="fas fa-user"></i>
+                        {% endif %}
+                        <div class="profile-name fw-semibold text-truncate ms-2">
+                            {{ app.user.name }}
                         </div>
                     {% else %}
                         <i class="fas fa-user"></i>

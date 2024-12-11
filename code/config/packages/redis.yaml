@@ -1,0 +1,14 @@
+services:
+    redis.client:
+        class: Redis
+        calls:
+            - method: connect
+              arguments:
+                - '%env(REDIS_HOST)%'
+                - '%env(REDIS_PORT)%'
+
+    redis.session.handler:
+        class: Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler
+        arguments:
+            - '@redis.client'
+            - { prefix: 'session:', ttl: 3600 }
