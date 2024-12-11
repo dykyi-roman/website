@@ -1,12 +1,9 @@
-document.addEventListener('DOMContentLoaded', async function() {
+document.addEventListener('DOMContentLoaded', async function () {
     console.log('Register popup script loaded');
 
     // Get current language or default to English
     const currentLang = localStorage.getItem('locale') || 'en';
     const t = await loadTranslations(currentLang);
-
-    // Update labels
-    const emailLabel = document.querySelector('label[for="registerEmail"]');
 
     // DOM Elements
     const popup = document.getElementById('register-popup');
@@ -58,12 +55,12 @@ document.addEventListener('DOMContentLoaded', async function() {
             validate: (value) => {
                 const password = value.trim();
                 if (password.length < 8) {
-                    return { isValid: false, message: t.password_length_validation };
+                    return {isValid: false, message: t.password_length_validation};
                 }
                 if (!passwordRegex.test(password)) {
-                    return { isValid: false, message: t.password_complexity_validation };
+                    return {isValid: false, message: t.password_complexity_validation};
                 }
-                return { isValid: true };
+                return {isValid: true};
             },
             message: t.password_validation
         }
@@ -91,7 +88,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         } else {
             // Default validation for required fields
             rule = {
-                validate: (value) => ({ isValid: value.trim() !== '', message: t.field_required }),
+                validate: (value) => ({isValid: value.trim() !== '', message: t.field_required}),
                 message: t.field_required
             };
         }
@@ -99,7 +96,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         const validationResult = rule.validate(value);
         const isValid = typeof validationResult === 'boolean' ? validationResult : validationResult.isValid;
         const message = typeof validationResult === 'boolean' ? rule.message : validationResult.message;
-        
+
         const feedback = field.nextElementSibling;
 
         if (!isValid) {
@@ -126,12 +123,12 @@ document.addEventListener('DOMContentLoaded', async function() {
         const inputs = form.querySelectorAll('input, select');
         inputs.forEach(input => {
             // Validate on input
-            input.addEventListener('input', function() {
+            input.addEventListener('input', function () {
                 validateField(this, form);
             });
 
             // Validate on blur
-            input.addEventListener('blur', function() {
+            input.addEventListener('blur', function () {
                 validateField(this, form);
             });
         });
@@ -153,6 +150,10 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         if (isValid) {
             submitForm(form);
+
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 2000);
         }
     }
 
@@ -175,17 +176,15 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (!response.ok) {
                 console.error('Registration error:', result);
                 alert(t.error_generic_message);
+
                 return false;
             }
 
-            // Handle success
-            setTimeout(() => {
-                window.location.href = '/';
-            }, 2000);
             return true;
         } catch (error) {
             console.error('Global Registration error:', error);
             alert(t.error_generic_message);
+
             return false;
         }
     }
@@ -208,12 +207,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     // Event listeners for form submission
-    clientForm.addEventListener('submit', function(e) {
+    clientForm.addEventListener('submit', function (e) {
         e.preventDefault();
         submitRegistration(this);
     });
 
-    partnerForm.addEventListener('submit', function(e) {
+    partnerForm.addEventListener('submit', function (e) {
         e.preventDefault();
         submitRegistration(this);
     });
@@ -225,7 +224,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     });
 
     // Add event delegation for favorite buttons
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         if (e.target.closest('.btn-favorite')) {
             console.log('Favorite button clicked');
             showRegistrationModal();
@@ -235,7 +234,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Registration type selection
     const registerTypeButtons = document.querySelectorAll('.register-type-btn');
     registerTypeButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const type = this.dataset.type;
             showRegistrationForm(type);
         });
@@ -244,12 +243,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Switch to login popup
     const switchToLoginLink = document.getElementById('switch-to-login');
     if (switchToLoginLink) {
-        switchToLoginLink.addEventListener('click', function(e) {
+        switchToLoginLink.addEventListener('click', function (e) {
             e.preventDefault();
-            
+
             // Hide registration modal
             registerModal.hide();
-            
+
             // Show login modal
             const loginModal = document.getElementById('loginModal');
             if (loginModal) {
@@ -275,7 +274,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     function showRegistrationForm(type) {
         registrationTypeSelection.classList.add('d-none');
-        
+
         if (type === 'client') {
             clientForm.classList.remove('d-none');
             partnerForm.classList.add('d-none');
@@ -315,7 +314,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     function updateCityOptions(countrySelect, citySelect) {
         const country = countrySelect.value;
         citySelect.innerHTML = '<option value="">Select City</option>';
-        
+
         if (country && cityByCountry[country]) {
             cityByCountry[country].forEach(city => {
                 const option = document.createElement('option');

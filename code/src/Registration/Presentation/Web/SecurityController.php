@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Registration\Presentation\Web;
 
 use App\Client\DomainModel\Model\Client;
+use App\Client\DomainModel\Repository\ClientRepositoryInterface;
 use App\Partner\DomainModel\Model\Partner;
+use App\Partner\DomainModel\Repository\PartnerRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,10 +18,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Uid\Uuid;
 
-class SecurityController extends AbstractController
+final class SecurityController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        private readonly ClientRepositoryInterface $clientRepository,
+        private readonly PartnerRepositoryInterface $partnerRepository,
         private readonly UserPasswordHasherInterface $passwordHasher
     ) {
     }
@@ -51,9 +54,7 @@ class SecurityController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
-        // Determine user type based on hidden field
         $isPartner = isset($data['partner-id']);
-        
         if ($isPartner) {
             $user = new Partner();
             $user->setRoles(['ROLE_PARTNER']);
@@ -66,15 +67,16 @@ class SecurityController extends AbstractController
             $user->setId(Uuid::v4());
             $user->setEmail($data['email']);
             $user->setName($data['name']);
-            $user->setPassword(
-                $this->passwordHasher->hashPassword($user, $data['password'])
-            );
+            $user->setPassword($this->passwordHasher->hashPassword($user, $data['password']));
             $user->setPhone($data['phone'] ?? null);
             $user->setCountry($data['country'] ?? null);
             $user->setCity($data['city'] ?? null);
 
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
+            if ($isPartner) {
+                $this->clientRepository->save($user);
+            } else {
+                $this->partnerRepository->save($user);
+            }
 
             return new JsonResponse([
                 'success' => true,
@@ -82,11 +84,13 @@ class SecurityController extends AbstractController
                 'user_type' => $isPartner ? 'partner' : 'client'
             ], Response::HTTP_CREATED);
 
-        } catch (\Exception $e) {
+        } catch (\Throwable) {
             return new JsonResponse([
                 'success' => false,
                 'message' => 'Registration failed',
-                'errors' => ['email' => 'An error occurred during registration. Please try again.']
+                'errors' => [
+                    'message' => 'An error occurred during registration. Please try again.'
+                ]
             ], Response::HTTP_BAD_REQUEST);
         }
     }

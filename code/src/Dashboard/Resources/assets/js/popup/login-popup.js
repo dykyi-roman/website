@@ -162,15 +162,15 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (!response.ok) {
                 console.error('Login error:', result);
                 alert(t.error_generic_message);
+
                 return false;
             }
 
-            // Handle success
-            window.location.href = '/';
             return true;
         } catch (error) {
             console.error('Global Login error:', error);
             alert(t.error_generic_message);
+
             return false;
         }
     }
@@ -212,7 +212,11 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
+
             submitForm(this);
+
+            // Handle success
+            window.location.href = '/';
         });
     }
 
