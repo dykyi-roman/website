@@ -35,10 +35,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             validate: (value) => nameRegex.test(value.trim()),
             message: t.name_validation
         },
-        partner_name: {
-            validate: (value) => nameRegex.test(value.trim()),
-            message: t.partner_name_validation
-        },
         email: {
             validate: (value) => emailRegex.test(value.trim()),
             message: t.error_invalid_email
@@ -83,8 +79,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             rule = validationRules.select;
         } else if (fieldName === 'name') {
             rule = validationRules.name;
-        } else if (fieldName === 'partner_name') {
-            rule = validationRules.partner_name;
         } else {
             // Default validation for required fields
             rule = {
@@ -150,10 +144,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         if (isValid) {
             submitForm(form);
-
-            setTimeout(() => {
-                window.location.href = '/';
-            }, 2000);
         }
     }
 
@@ -179,6 +169,10 @@ document.addEventListener('DOMContentLoaded', async function () {
 
                 return false;
             }
+
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 2000);
 
             return true;
         } catch (error) {

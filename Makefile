@@ -145,17 +145,11 @@ assets-copy: ## Compiling and writing asset files to public
 
 ## -- Database Migrations --
 
-migration-client-create: ## Create a new migration for client database
-	docker exec -it $(php) bash -c "php bin/console doctrine:migrations:diff --configuration=src/Client/Resources/Config/migrations.yaml --em=client"
+migration-create: ## Create a new migration for specified database
+	docker exec -it $(php) bash -c "php bin/console doctrine:migrations:diff --configuration=src/$(shell echo $(filter-out $@,$(MAKECMDGOALS)) | awk '{print toupper(substr($$0,1,1)) substr($$0,2)}')/Resources/Config/migrations.yaml --no-interaction --em=$(filter-out $@,$(MAKECMDGOALS))"
 
-migration-client-run: ## Run migrations for client database
-	docker exec -it $(php) bash -c "php bin/console doctrine:migrations:migrate --configuration=src/Client/Resources/Config/migrations.yaml --no-interaction --em=client"
-
-migration-partner-create: ## Create a new migration for partner database
-	docker exec -it $(php) bash -c "php bin/console doctrine:migrations:diff --configuration=src/Partner/Resources/Config/migrations.yaml --em=partner"
-
-migration-partner-run: ## Run migrations for partner database
-	docker exec -it $(php) bash -c "php bin/console doctrine:migrations:migrate --configuration=src/Partner/Resources/Config/migrations.yaml --no-interaction --em=partner"
+migration-run: ## Run migrations for specified database
+	docker exec -it $(php) bash -c "php bin/console doctrine:migrations:migrate --configuration=src/$(shell echo $(filter-out $@,$(MAKECMDGOALS)) | awk '{print toupper(substr($$0,1,1)) substr($$0,2)}')/Resources/Config/migrations.yaml --no-interaction --em=$(filter-out $@,$(MAKECMDGOALS))"
 
 # This is required to handle arguments in make commands
 %:

@@ -8,7 +8,7 @@ use App\Client\DomainModel\Model\Client;
 use App\Client\DomainModel\Repository\ClientRepositoryInterface;
 use App\Partner\DomainModel\Model\Partner;
 use App\Partner\DomainModel\Repository\PartnerRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +23,8 @@ final class SecurityController extends AbstractController
     public function __construct(
         private readonly ClientRepositoryInterface $clientRepository,
         private readonly PartnerRepositoryInterface $partnerRepository,
-        private readonly UserPasswordHasherInterface $passwordHasher
+        private readonly UserPasswordHasherInterface $passwordHasher,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -72,11 +73,7 @@ final class SecurityController extends AbstractController
             $user->setCountry($data['country'] ?? null);
             $user->setCity($data['city'] ?? null);
 
-            if ($isPartner) {
-                $this->clientRepository->save($user);
-            } else {
-                $this->partnerRepository->save($user);
-            }
+            $isPartner ? $this->partnerRepository->save($user) : $this->clientRepository->save($user);
 
             return new JsonResponse([
                 'success' => true,
@@ -84,10 +81,13 @@ final class SecurityController extends AbstractController
                 'user_type' => $isPartner ? 'partner' : 'client'
             ], Response::HTTP_CREATED);
 
-        } catch (\Throwable) {
+        } catch (\Throwable $exception) {
+            $this->logger->error($exception->getMessage());
+
             return new JsonResponse([
                 'success' => false,
-                'message' => 'Registration failed',
+                'message' => $exception->getMessage(),
+//                'message' => 'Registration failed',
                 'errors' => [
                     'message' => 'An error occurred during registration. Please try again.'
                 ]

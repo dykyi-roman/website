@@ -166,6 +166,9 @@ document.addEventListener('DOMContentLoaded', async function() {
                 return false;
             }
 
+            // Handle success
+            window.location.href = '/';
+
             return true;
         } catch (error) {
             console.error('Global Login error:', error);
@@ -214,9 +217,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             e.preventDefault();
 
             submitForm(this);
-
-            // Handle success
-            window.location.href = '/';
         });
     }
 

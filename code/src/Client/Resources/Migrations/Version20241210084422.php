@@ -27,6 +27,7 @@ final class Version20241210084422 extends AbstractMigration
             country VARCHAR(100) DEFAULT NULL,
             city VARCHAR(255) DEFAULT NULL,
             status SMALLINT DEFAULT 1,
+            roles JSON DEFAULT NULL,
             phone_verified_at DATETIME DEFAULT NULL,
             email_verified_at DATETIME DEFAULT NULL,
             activated_at DATETIME DEFAULT NULL,

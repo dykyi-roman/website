@@ -25,7 +25,6 @@
     "share_email_subject": "Check out this service",
     "share_email_body": "I found this interesting service: ",
     "name_validation": "Please enter a valid name (2-50 characters, letters only)",
-    "partner_name_validation": "Name must be between 2 and 100 characters",
     "phone_validation": "Please enter a valid phone number",
     "selection_validation": "Please make a selection",
     "registration_successful": "Registration successful!",
