@@ -7,12 +7,6 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Update labels
     const emailLabel = document.querySelector('label[for="registerEmail"]');
-    const passwordLabel = document.querySelector('label[for="registerPassword"]');
-    const confirmPasswordLabel = document.querySelector('label[for="registerConfirmPassword"]');
-
-    if (emailLabel) emailLabel.textContent = t.label_email;
-    if (passwordLabel) passwordLabel.textContent = t.label_password;
-    if (confirmPasswordLabel) confirmPasswordLabel.textContent = t.label_confirm_password;
 
     // DOM Elements
     const popup = document.getElementById('register-popup');
@@ -36,6 +30,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^\+?[\d\s-()]{10,}$/;
     const nameRegex = /^[a-zA-Z\s'-]{2,50}$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/;
 
     // Validation rules for different field types
     const validationRules = {
@@ -56,8 +51,21 @@ document.addEventListener('DOMContentLoaded', async function() {
             message: t.phone_validation
         },
         select: {
-            validate: (value) => value && value.trim() !== '',
+            validate: (value) => value.trim() !== '',
             message: t.selection_validation
+        },
+        password: {
+            validate: (value) => {
+                const password = value.trim();
+                if (password.length < 8) {
+                    return { isValid: false, message: t.password_length_validation };
+                }
+                if (!passwordRegex.test(password)) {
+                    return { isValid: false, message: t.password_complexity_validation };
+                }
+                return { isValid: true };
+            },
+            message: t.password_validation
         }
     };
 
@@ -68,32 +76,37 @@ document.addEventListener('DOMContentLoaded', async function() {
         let rule;
 
         // Determine which validation rule to use
-        if (fieldName === 'name') {
-            rule = validationRules.name;
-        } else if (fieldName === 'partner_name') {
-            rule = validationRules.partner_name;
-        } else if (field.type === 'email') {
+        if (field.type === 'email') {
             rule = validationRules.email;
         } else if (field.type === 'tel') {
             rule = validationRules.tel;
+        } else if (field.type === 'password') {
+            rule = validationRules.password;
         } else if (field.tagName.toLowerCase() === 'select') {
             rule = validationRules.select;
+        } else if (fieldName === 'name') {
+            rule = validationRules.name;
+        } else if (fieldName === 'partner_name') {
+            rule = validationRules.partner_name;
         } else {
             // Default validation for required fields
             rule = {
-                validate: (value) => value.trim() !== '',
-                message: t.error_email_required
+                validate: (value) => ({ isValid: value.trim() !== '', message: t.field_required }),
+                message: t.field_required
             };
         }
 
-        const isValid = rule.validate(value);
+        const validationResult = rule.validate(value);
+        const isValid = typeof validationResult === 'boolean' ? validationResult : validationResult.isValid;
+        const message = typeof validationResult === 'boolean' ? rule.message : validationResult.message;
+        
         const feedback = field.nextElementSibling;
 
         if (!isValid) {
             field.classList.add('is-invalid');
             field.classList.remove('is-valid');
-            if (feedback && feedback.classList.contains('invalid-feedback') && field.type !== 'checkbox') {
-                feedback.textContent = rule.message;
+            if (feedback && feedback.classList.contains('invalid-feedback')) {
+                feedback.textContent = message;
             }
         } else {
             field.classList.remove('is-invalid');
@@ -147,32 +160,80 @@ document.addEventListener('DOMContentLoaded', async function() {
     async function submitForm(form) {
         try {
             const formData = new FormData(form);
-            const response = await fetch('/api/register', {
+            const formDataObject = Object.fromEntries(formData.entries());
+            
+            // Convert FormData to JSON and ensure proper data structure
+            const requestData = {
+                name: formDataObject.name || formDataObject.partner_name,
+                email: formDataObject.email,
+                password: formDataObject.password,
+                phone: formDataObject.phone || null,
+                country: formDataObject.country || null,
+                city: formDataObject.city || null
+            };
+
+            // Add the identification field
+            if (formDataObject['partner-id']) {
+                requestData['partner-id'] = formDataObject['partner-id'];
+            } else if (formDataObject['client-id']) {
+                requestData['client-id'] = formDataObject['client-id'];
+            }
+
+            const response = await fetch('/register', {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(requestData),
+                credentials: 'same-origin'
             });
 
-            const data = await response.json();
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.message || t.error_registration_failed);
+            }
 
+            const data = await response.json();
             if (data.success) {
-                registerModal.hide();
-                alert(t.registration_successful);
+                const modal = bootstrap.Modal.getInstance(registerModal);
+                if (modal) {
+                    modal.hide();
+                }
+                showSuccessMessage(t.registration_successful);
+                // Redirect to login
+                setTimeout(() => {
+                    const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                    loginModal.show();
+                }, 1500);
             } else {
-                const emailInput = form.querySelector('input[type="email"]');
-                if (emailInput) {
-                    emailInput.setCustomValidity(data.message || t.error_network);
-                    emailInput.reportValidity();
+                if (data.errors) {
+                    Object.keys(data.errors).forEach(field => {
+                        const input = form.querySelector(`[name="${field}"]`);
+                        if (input) {
+                            input.setCustomValidity(data.errors[field]);
+                            input.reportValidity();
+                        }
+                    });
+                } else {
+                    showErrorMessage(data.message || t.error_registration_failed);
                 }
             }
         } catch (error) {
             console.error('Registration error:', error);
-            const emailInput = form.querySelector('input[type="email"]');
-            if (emailInput) {
-                emailInput.setCustomValidity(t.error_network);
-                emailInput.reportValidity();
-            }
-            alert(t.registration_error);
+            showErrorMessage(error.message || t.error_network);
         }
+    }
+
+    function showSuccessMessage(message) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'alert alert-success alert-dismissible fade show';
+        alertDiv.setAttribute('role', 'alert');
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        `;
+        document.querySelector('.modal-body').prepend(alertDiv);
     }
 
     // Event listeners for form submission

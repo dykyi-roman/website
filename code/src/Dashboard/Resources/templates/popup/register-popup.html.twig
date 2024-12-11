@@ -31,6 +31,7 @@
 
                 <!-- Client Registration Form -->
                 <form id="clientRegistrationForm" class="needs-validation d-none" novalidate>
+                    <input type="hidden" name="client-id" value="1">
                     <div class="register-form-section">
                         <div class="mb-3">
                             <input type="text" class="form-control" id="client-name" name="name" placeholder="{{ 'Register Name Placeholder'|trans }}" required>
@@ -59,7 +60,10 @@
                             </select>
                             <div class="invalid-feedback">{{ 'Register City Invalid'|trans }}</div>
                         </div>
-                        
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="client-password" name="password" placeholder="{{ 'Register Password Placeholder'|trans }}" required minlength="8">
+                            <div class="invalid-feedback">{{ 'Register Password Invalid'|trans }}</div>
+                        </div>
                         <div class="mb-3">
                             <button type="submit" class="btn btn-orange w-100">{{ 'Register Client Button'|trans }}</button>
                             <div class="text-muted text-center small mt-2">
@@ -83,22 +87,22 @@
                             </button>
                         </div>
                     </div>
-                    <input type="hidden" name="client-id" value="client">
                 </form>
 
                 <!-- Partner Registration Form -->
                 <form id="partnerRegistrationForm" class="needs-validation d-none" novalidate>
+                    <input type="hidden" name="partner-id" value="1">
                     <div class="register-form-section">
                         <div class="mb-3">
                             <input type="text" class="form-control" id="partner-name" name="partner_name" placeholder="{{ 'Register Name Placeholder'|trans }}" required>
                             <div class="invalid-feedback">{{ 'Register Field Required'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <input type="email" class="form-control" id="partner-email" name="partner_email" placeholder="{{ 'Register Email Placeholder'|trans }}" required>
+                            <input type="email" class="form-control" id="partner-email" name="email" placeholder="{{ 'Register Email Placeholder'|trans }}" required>
                             <div class="invalid-feedback">{{ 'Register Field Required'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <input type="tel" class="form-control" id="partner-phone" name="partner_phone" placeholder="{{ 'Register Phone Placeholder'|trans }}" required>
+                            <input type="tel" class="form-control" id="partner-phone" name="phone" placeholder="{{ 'Register Phone Placeholder'|trans }}" required>
                             <div class="invalid-feedback">{{ 'Register Phone Invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
@@ -116,7 +120,10 @@
                             </select>
                             <div class="invalid-feedback">{{ 'Register City Invalid'|trans }}</div>
                         </div>
-
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="partner-password" name="password" placeholder="{{ 'Register Password Placeholder'|trans }}" required minlength="8">
+                            <div class="invalid-feedback">{{ 'Register Password Invalid'|trans }}</div>
+                        </div>
                         <div class="mb-3">
                             <button type="submit" class="btn btn-orange w-100">{{ 'Register Partner Button'|trans }}</button>
                             <div class="text-muted text-center small mt-2">
@@ -140,7 +147,6 @@
                             </button>
                         </div>
                     </div>
-                    <input type="hidden" name="partner-id" value="partner">
                 </form>
             </div>
         </div>

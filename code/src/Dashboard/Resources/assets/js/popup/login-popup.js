@@ -100,35 +100,45 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         if (isValid) {
             try {
+                const formData = new FormData(form);
                 const response = await fetch('/login', {
                     method: 'POST',
-                    body: new FormData(form)
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: formData,
+                    credentials: 'same-origin'
                 });
 
                 if (!response.ok) {
-                    throw new Error(t.error_invalid_credentials);
+                    const data = await response.json();
+                    throw new Error(data.message || t.error_invalid_credentials);
                 }
-                // Successful login logic
+
                 const data = await response.json();
-
                 if (data.success) {
-                    // Handle successful login
-                    const modal = new bootstrap.Modal(loginModal);
-                    modal.hide();
-
-                    // Redirect or show success message
+                    const modal = bootstrap.Modal.getInstance(loginModal);
+                    if (modal) {
+                        modal.hide();
+                    }
                     window.location.href = data.redirectUrl || '/';
                 } else {
-                    // Handle login errors
-                    const emailInput = form.querySelector('input[type="email"]');
-                    if (emailInput) {
-                        emailInput.setCustomValidity(data.message || 'Login failed');
-                        emailInput.reportValidity();
+                    // Handle specific error messages
+                    if (data.errors) {
+                        Object.keys(data.errors).forEach(field => {
+                            const input = form.querySelector(`[name="${field}"]`);
+                            if (input) {
+                                input.setCustomValidity(data.errors[field]);
+                                input.reportValidity();
+                            }
+                        });
+                    } else {
+                        showErrorMessage(data.message || t.error_login_failed);
                     }
                 }
             } catch (error) {
-                console.error(error);
-                showErrorMessage(t.error_network);
+                console.error('Login error:', error);
+                showErrorMessage(error.message || t.error_network);
             }
         }
     }
@@ -137,7 +147,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     async function submitForm(form) {
         try {
             const formData = new FormData(form);
-            const response = await fetch('/api/login', {
+            const response = await fetch('/login', {
                 method: 'POST',
                 body: formData
             });
