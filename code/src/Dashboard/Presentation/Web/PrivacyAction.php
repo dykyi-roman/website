@@ -32,7 +32,7 @@ final readonly class PrivacyAction
         ]);
 
         return new Response(
-            $this->twig->render('@Dashboard/privacy.html.twig', [
+            $this->twig->render('@Dashboard/page/privacy.html.twig', [
                 'page_title' => $this->translator->trans('privacy.page_title'),
                 'content' => $content,
             ])

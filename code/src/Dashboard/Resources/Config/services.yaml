@@ -39,4 +39,4 @@ services:
 
 twig:
     paths:
-        '%kernel.project_dir%/src/Dashboard/Resources/templates': Dashboard
+        '%kernel.project_dir%/src/Dashboard/Resources/Templates': Dashboard

@@ -7,7 +7,7 @@
         {% set og_image = block('og_image') is defined ? block('og_image') : null %}
 
         {# Include meta tags component #}
-        {% include '@Dashboard/components/meta.html.twig' %}
+        {% include '@Dashboard/component/meta.html.twig' %}
 
         <title>{{ page_title }} | {{ organization.name }}</title>
 
@@ -56,7 +56,7 @@
 
         {# Header #}
         {% block header %}
-            {% include '@Dashboard/components/header.html.twig' %}
+            {% include '@Dashboard/component/header.html.twig' %}
         {% endblock %}
 
         {# Main Content #}
@@ -64,7 +64,7 @@
 
         {# Footer #}
         {% block footer %}
-            {% include '@Dashboard/components/footer.html.twig' %}
+            {% include '@Dashboard/component/footer.html.twig' %}
         {% endblock %}
 
         {# Modals #}

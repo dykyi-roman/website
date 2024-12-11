@@ -23,7 +23,7 @@ final readonly class DashboardAction
     public function __invoke(Request $request): Response
     {
         return new Response(
-            $this->twig->render('@Dashboard/dashboard.html.twig', [
+            $this->twig->render('@Dashboard/page/dashboard.html.twig', [
                 'page_title' => $this->translator->trans('dashboard.page_title'),
             ])
         );

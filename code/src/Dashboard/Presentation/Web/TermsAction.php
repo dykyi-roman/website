@@ -25,7 +25,7 @@ final readonly class TermsAction
         $termsContent = str_replace('%last_updated_date%', date('Y-m-d'), $termsContent);
 
         return new Response(
-            $this->twig->render('@Dashboard/terms.html.twig', [
+            $this->twig->render('@Dashboard/page/terms.html.twig', [
                 'page_title' => $this->translator->trans('terms.page_title'),
                 'content' => $termsContent,
             ])

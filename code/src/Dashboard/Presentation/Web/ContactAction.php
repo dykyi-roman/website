@@ -41,7 +41,7 @@ final readonly class ContactAction
         ];
 
         return new Response(
-            $this->twig->render('@Dashboard/contact.html.twig', [
+            $this->twig->render('@Dashboard/page/contact.html.twig', [
                 'page_title' => $this->translator->trans('contact.page_title'),
                 'content' => $this->translator->trans('contact.content'),
                 'contact' => $contactInfo,

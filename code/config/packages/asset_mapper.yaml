@@ -4,6 +4,7 @@ framework:
         paths:
             - src/Locale/Resources/Assets/
             - src/Dashboard/Resources/Assets/
+            - src/Registration/Resources/Assets/
         missing_import_mode: strict
 
 when@prod:
