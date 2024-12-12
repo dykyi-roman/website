@@ -11,15 +11,8 @@ framework:
 
         transports:
             async: '%env(MESSENGER_TRANSPORT_DSN)%'
-            sync: 'in-memory://'
+            sync: 'in-memory://default'
 
+        # Убираем явную маршрутизацию, чтобы использовать дефолтную синхронную обработку
         routing:
-            'App\Registration\Application\Command\RegisterUserCommand': sync
 
-# when@test:
-#    framework:
-#        messenger:
-#            transports:
-#                # replace with your transport name here (e.g., my_transport: 'in-memory://')
-#                # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
-#                async: 'in-memory://'

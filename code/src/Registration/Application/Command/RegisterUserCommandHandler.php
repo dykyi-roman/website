@@ -10,7 +10,6 @@ use App\Client\DomainModel\Repository\ClientRepositoryInterface;
 use App\Partner\DomainModel\Enum\PartnerId;
 use App\Partner\DomainModel\Model\Partner;
 use App\Partner\DomainModel\Repository\PartnerRepositoryInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -25,14 +24,11 @@ final readonly class RegisterUserCommandHandler
         private PartnerRepositoryInterface $partnerRepository,
         private UserPasswordHasherInterface $passwordHasher,
         private TokenStorageInterface $tokenStorage,
-        private LoggerInterface $logger,
     ) {
     }
 
     public function __invoke(RegisterUserCommand $command): void
     {
-        $this->logger->error('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-
         $this->checkIfEmailAlreadyExists($command->email);
 
         $user = $this->createUser($command);
