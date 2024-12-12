@@ -30,7 +30,7 @@ final readonly class UserRegisterAction
     ) {
     }
 
-    #[Route('/register', name: 'app_register', methods: ['POST'])]
+    #[Route('/register', name: 'register', methods: ['POST'])]
     public function register(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);

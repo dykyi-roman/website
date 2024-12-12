@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final readonly class UserLogoutAction
 {
-    #[Route('/logout', name: 'app_logout', methods: ['GET'])]
+    #[Route('/logout', name: 'logout', methods: ['GET'])]
     public function logout(): void
     {
         // Controller can be empty - it will be intercepted by the logout key on your firewall

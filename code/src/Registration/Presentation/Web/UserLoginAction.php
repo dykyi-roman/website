@@ -13,8 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Twig\Environment as TwigEnvironment;
 
 final readonly class UserLoginAction
 {
@@ -24,28 +22,12 @@ final readonly class UserLoginAction
         private UserPasswordHasherInterface $passwordHasher,
         private LoggerInterface $logger,
         private UrlGeneratorInterface $urlGenerator,
-        private AuthenticationUtils $authenticationUtils,
-        private TwigEnvironment $twig,
     ) {
     }
 
-    #[Route('/login', name: 'app_login', methods: ['GET', 'POST'])]
+    #[Route('/login', name: 'login', methods: ['POST'])]
     public function login(Request $request): Response
     {
-        $error = $this->authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $this->authenticationUtils->getLastUsername();
-
-        // If this is a POST request, attempt to authenticate
-        if (!$request->isMethod('POST')) {
-            // For GET requests, render the login page
-            return new Response(
-                $this->twig->render('@Dashboard/popup/login-popup.html.twig', [
-                    'last_username' => $lastUsername,
-                    'error' => $error,
-                ])
-            );
-        }
-
         $credentials = json_decode($request->getContent(), true);
         $email = $credentials['email'] ?? '';
         $password = $credentials['password'] ?? '';

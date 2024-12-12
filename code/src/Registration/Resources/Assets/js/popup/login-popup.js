@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     // DOM Elements
     const loginModal = document.getElementById('loginModal');
     const loginForm = document.getElementById('loginForm');
-    const forgotPasswordForm = document.getElementById('forgotPasswordForm');
 
     // Validation rules
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -99,7 +98,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
 
         if (isValid) {
+            console.log('eeee 33333');
             try {
+                // Show spinner
+                showModalSpinner(loginForm);
+
                 const formData = new FormData(form);
                 const response = await fetch('/login', {
                     method: 'POST',
@@ -111,6 +114,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                 });
 
                 if (!response.ok) {
+                    hideModalSpinner(loginForm);
+
                     const data = await response.json();
                     throw new Error(data.message || t.error_invalid_credentials);
                 }
@@ -121,8 +126,13 @@ document.addEventListener('DOMContentLoaded', async function() {
                     if (modal) {
                         modal.hide();
                     }
+
+                    hideModalSpinner(loginForm);
+
                     window.location.href = data.redirectUrl || '/';
                 } else {
+                    hideModalSpinner(loginForm);
+
                     // Handle specific error messages
                     if (data.errors) {
                         Object.keys(data.errors).forEach(field => {
@@ -137,60 +147,11 @@ document.addEventListener('DOMContentLoaded', async function() {
                     }
                 }
             } catch (error) {
+                hideModalSpinner(loginForm);
+
                 console.error('Login error:', error);
                 showErrorMessage(error.message || t.error_network);
             }
-        }
-    }
-
-    // Submit form data
-    async function submitForm(form) {
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
-        const modal = form.closest('.modal-content');
-
-        try {
-            // Show spinner
-            showModalSpinner(modal);
-
-            const response = await fetch('/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            });
-
-            const result = await response.json();
-
-            if (!response.ok) {
-                // Hide spinner before showing error
-                hideModalSpinner(modal);
-                
-                console.error('Login error:', result);
-                
-                // Check if errors.message exists, otherwise use generic message
-                const errorMessage = result.errors && result.errors.message 
-                    ? result.errors.message 
-                    : t.error_generic_message;
-                
-                alert(errorMessage);
-                return false;
-            }
-
-            // Hide spinner on success
-            hideModalSpinner(modal);
-
-            // Handle success
-            window.location.href = '/';
-            return true;
-        } catch (error) {
-            // Hide spinner on error
-            hideModalSpinner(modal);
-            
-            console.error('Global Login error:', error);
-            alert(t.error_generic_message);
-            return false;
         }
     }
 
@@ -232,38 +193,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            submitForm(this);
-        });
-    }
-
-    // Handle forgot password form submission
-    if (forgotPasswordForm) {
-        forgotPasswordForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('forgotPasswordEmail').value;
-
-            fetch('/forgot-password', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: JSON.stringify({ email })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Password reset link sent to your email.');
-                    const modal = new bootstrap.Modal(loginModal);
-                    modal.hide();
-                } else {
-                    alert(data.message || 'Failed to send reset link. Please try again.');
-                }
-            })
-            .catch(error => {
-                console.error('Forgot password error:', error);
-                alert('An error occurred. Please try again.');
-            });
+            submitLogin(this);
         });
     }
 });

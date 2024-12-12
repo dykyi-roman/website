@@ -192,7 +192,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (modal) {
             if (form.dataset.ajax === 'true') {
                 e.preventDefault();
-                showModalSpinner(modal);
             }
         }
     }, true);
@@ -222,17 +221,17 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Form submission handling with loading spinner
-document.addEventListener('DOMContentLoaded', function() {
-    // Handle form submissions in modals
-    document.querySelectorAll('.modal form').forEach(form => {
-        form.addEventListener('submit', function(e) {
-            // If the form is submitted via AJAX
-            if (this.dataset.ajax === 'true') {
-                e.preventDefault();
-                const modal = this.closest('.modal-content');
-                showModalSpinner(modal);
-            }
-            // For regular form submissions, the spinner will be hidden when the page reloads
-        });
-    });
-});
+// document.addEventListener('DOMContentLoaded', function() {
+//     // Handle form submissions in modals
+//     document.querySelectorAll('.modal form').forEach(form => {
+//         form.addEventListener('submit', function(e) {
+//             // If the form is submitted via AJAX
+//             if (this.dataset.ajax === 'true') {
+//                 e.preventDefault();
+//                 const modal = this.closest('.modal-content');
+//                 showModalSpinner(modal);
+//             }
+//             // For regular form submissions, the spinner will be hidden when the page reloads
+//         });
+//     });
+// });
