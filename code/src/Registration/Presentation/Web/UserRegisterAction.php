@@ -51,7 +51,11 @@ final readonly class UserRegisterAction
                 ]
             ], Response::HTTP_BAD_REQUEST);
         } catch (\Throwable $exception) {
-            $this->logger->error($exception->getMessage());
+            $this->logger->error($exception->getMessage(), [
+                'exception' => get_class($exception),
+                'file' => $exception->getFile(),
+                'line' => $exception->getLine(),
+            ]);
 
             return new JsonResponse([
                 'success' => false,

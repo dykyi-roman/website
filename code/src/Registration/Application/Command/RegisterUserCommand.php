@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Registration\Application\Command;
 
 /**
- * @see \App\Registration\Application\CommandHandler\RegisterUserCommandHandler
+ * @see \App\Registration\Application\Command\RegisterUserCommandHandler
  */
 final readonly class RegisterUserCommand
 {

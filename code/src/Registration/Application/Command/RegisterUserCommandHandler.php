@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Registration\Application\CommandHandler;
+namespace App\Registration\Application\Command;
 
 use App\Client\DomainModel\Enum\ClientId;
 use App\Client\DomainModel\Model\Client;
@@ -10,7 +10,6 @@ use App\Client\DomainModel\Repository\ClientRepositoryInterface;
 use App\Partner\DomainModel\Enum\PartnerId;
 use App\Partner\DomainModel\Model\Partner;
 use App\Partner\DomainModel\Repository\PartnerRepositoryInterface;
-use App\Registration\Application\Command\RegisterUserCommand;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;

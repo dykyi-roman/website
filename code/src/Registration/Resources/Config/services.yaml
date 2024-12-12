@@ -10,8 +10,8 @@ services:
         resource: '../../'
         exclude:
             - '../../Resources/'
-            - '../../Application/Command/'
-            - '../../Application/Query/'
+            - '../../Application/**/*Command.php'
+            - '../../Application/**/*Query.php'
             - '../../DomainModel/Event/'
             - '../../DomainModel/Model/'
             - '../../Tests/'
