@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace App\Registration\Presentation\Web;
 
 use App\Registration\Application\Command\RegisterUserCommand;
-use App\Registration\Application\Handler\RegisterUserHandler;
 use App\Registration\Presentation\Web\Request\UserRegisterRequestDTO;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 final readonly class UserRegisterAction
 {
     public function __construct(
-        private RegisterUserHandler $registerUserHandler,
+        private MessageBusInterface $commandBus,
         private LoggerInterface $logger,
     ) {
     }
@@ -36,7 +36,7 @@ final readonly class UserRegisterAction
                 $request->isPartner()
             );
 
-            $this->registerUserHandler->handle($command);
+            $this->commandBus->dispatch($command);
 
             return new JsonResponse([
                 'success' => true,

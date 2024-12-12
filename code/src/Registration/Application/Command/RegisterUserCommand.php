@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Registration\Application\Command;
 
+/**
+ * @see \App\Registration\Application\CommandHandler\RegisterUserCommandHandler
+ */
 final readonly class RegisterUserCommand
 {
     public function __construct(

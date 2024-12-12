@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Registration\Application\Handler;
+namespace App\Registration\Application\CommandHandler;
 
 use App\Client\DomainModel\Enum\ClientId;
 use App\Client\DomainModel\Model\Client;
@@ -11,53 +11,57 @@ use App\Partner\DomainModel\Enum\PartnerId;
 use App\Partner\DomainModel\Model\Partner;
 use App\Partner\DomainModel\Repository\PartnerRepositoryInterface;
 use App\Registration\Application\Command\RegisterUserCommand;
-use App\Registration\DomainModel\Event\UserRegistered;
-use App\Registration\DomainModel\Service\RegistrationService;
-use App\Registration\DomainModel\ValueObject\Email;
-use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * @see RegisterUserCommand
- */
-final readonly class RegisterUserHandler
+#[AsMessageHandler]
+final readonly class RegisterUserCommandHandler
 {
     public function __construct(
-        private RegistrationService $registrationService,
         private ClientRepositoryInterface $clientRepository,
         private PartnerRepositoryInterface $partnerRepository,
         private UserPasswordHasherInterface $passwordHasher,
         private TokenStorageInterface $tokenStorage,
-        private EventDispatcherInterface $eventDispatcher
+        private LoggerInterface $logger,
     ) {
     }
 
-    public function handle(RegisterUserCommand $command): void
+    public function __invoke(RegisterUserCommand $command): void
     {
-        $email = Email::fromString($command->email);
+        $this->logger->error('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
 
-        if (!$this->registrationService->isEmailUnique($email)) {
-            throw new \DomainException('Email already exists');
-        }
+        $this->checkIfEmailAlreadyExists($command->email);
 
         $user = $this->createUser($command);
         $user->setPassword($this->passwordHasher->hashPassword($user, $command->password));
 
-        $command->isPartner ? $this->partnerRepository->save($user) : $this->clientRepository->save($user);
+        if ($command->isPartner) {
+            $this->partnerRepository->save($user);
+        } else {
+            $this->clientRepository->save($user);
+        }
 
+        $this->loginUserAfterRegistration($user);
+    }
+
+    private function checkIfEmailAlreadyExists(string $email): void
+    {
+        $clientExists = $this->clientRepository->findByEmail($email);
+        $partnerExists = $this->partnerRepository->findByEmail($email);
+
+        if ($clientExists || $partnerExists) {
+            throw new \DomainException('Email already exists');
+        }
+    }
+
+    private function loginUserAfterRegistration(UserInterface $user): void
+    {
         $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
         $this->tokenStorage->setToken($token);
-
-        $this->eventDispatcher->dispatch(
-            new UserRegistered(
-                $user->getId()->toRfc4122(),
-                $email->value(),
-                $command->isPartner ? 'partner' : 'client',
-                new \DateTimeImmutable()
-            ),
-        );
     }
 
     private function createUser(RegisterUserCommand $command): Client|Partner
