@@ -87,7 +87,6 @@ final readonly class UserRegisterAction
 
             return new JsonResponse([
                 'success' => false,
-                'message' => 'Registration failed',
                 'errors' => [
                     'message' => 'An error occurred during registration. Please try again.'
                 ]

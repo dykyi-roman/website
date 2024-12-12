@@ -28,7 +28,6 @@ final readonly class UserLoginAction
     #[Route('/login', name: 'login', methods: ['POST'])]
     public function login(Request $request): Response
     {
-       sleep(3);
         $credentials = json_decode($request->getContent(), true);
         $email = $credentials['email'] ?? '';
         $password = $credentials['password'] ?? '';
@@ -47,7 +46,6 @@ final readonly class UserLoginAction
                         'message' => 'Invalid username or password',
                         'field' => 'email',
                     ]
-
                 ], Response::HTTP_UNAUTHORIZED);
             }
 
@@ -56,7 +54,10 @@ final readonly class UserLoginAction
             if (!$isValidPassword) {
                 return new JsonResponse([
                     'success' => false,
-                    'message' => 'Invalid credentials'
+                    'errors' => [
+                        'message' => 'Invalid username or password',
+                        'field' => 'email',
+                    ]
                 ], Response::HTTP_UNAUTHORIZED);
             }
 
@@ -71,7 +72,9 @@ final readonly class UserLoginAction
 
             return new JsonResponse([
                 'success' => false,
-                'message' => 'An unexpected error occurred'
+                'errors' => [
+                    'message' => 'An unexpected error occurred'
+                ],
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

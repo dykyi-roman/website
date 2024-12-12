@@ -190,8 +190,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                     ? result.errors.message 
                     : t.error_generic_message;
                 
-                alert(errorMessage);
-                return false;
+                throw new Error(errorMessage);
             }
 
             // Hide spinner on success
@@ -207,7 +206,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             hideModalSpinner(modal);
             
             console.error('Global Registration error:', error);
-            alert(t.error_generic_message);
+            showErrorMessage(error.message || t.error_network);
 
             return false;
         }
@@ -228,6 +227,22 @@ document.addEventListener('DOMContentLoaded', async function () {
                 feedback.style.display = 'none';
             }
         });
+    }
+
+    // Function to show error messages
+    function showErrorMessage(message) {
+        // Find or create error message container
+        let errorContainer = document.querySelector('.registration-error-message');
+        if (!errorContainer) {
+            errorContainer = document.createElement('div');
+            errorContainer.className = 'alert alert-danger registration-error-message mt-3';
+            const form = document.querySelector('#clientRegistrationForm, #partnerRegistrationForm');
+            if (form) {
+                form.insertBefore(errorContainer, form.firstChild);
+            }
+        }
+        errorContainer.textContent = message;
+        errorContainer.style.display = 'block';
     }
 
     // Event listeners for form submission
