@@ -1,4 +1,45 @@
 document.addEventListener('DOMContentLoaded', async function() {
+    // Function to show search spinner
+    function showSearchSpinner() {
+        const searchItemsSection = document.getElementById('search-items');
+        if (searchItemsSection) {
+            // Remove any existing spinner
+            const existingSpinner = searchItemsSection.querySelector('.spinner-overlay');
+            if (existingSpinner) {
+                existingSpinner.remove();
+            }
+
+            // Create spinner overlay
+            const spinnerOverlay = document.createElement('div');
+            spinnerOverlay.classList.add('spinner-overlay');
+            spinnerOverlay.innerHTML = `
+                <div class="spinner-container">
+                    <div class="spinner"></div>
+                </div>
+            `;
+            
+            // Position the spinner within the search items section
+            searchItemsSection.style.position = 'relative';
+            searchItemsSection.appendChild(spinnerOverlay);
+        }
+    }
+
+    // Function to hide search spinner
+    function hideSearchSpinner() {
+        const searchItemsSection = document.getElementById('search-items');
+        if (searchItemsSection) {
+            const spinnerOverlay = searchItemsSection.querySelector('.spinner-overlay');
+            if (spinnerOverlay) {
+                spinnerOverlay.remove();
+            }
+        }
+    }
+
+    // Function to simulate network delay
+    function simulateDelay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     // Get current language or default to English
     const currentLang = localStorage.getItem('locale') || 'en';
     const t = await loadTranslations(currentLang);
@@ -241,20 +282,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Update URL parameters
         updateUrlParams(query, page, filter);
 
-        // Show loading state
-        servicesContainer.innerHTML = `
-            <div class="col-12 text-center">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </div>
-        `;
-
-        // Remove existing pagination if any
-        const existingPagination = document.querySelector('.pagination-container');
-        if (existingPagination) {
-            existingPagination.remove();
-        }
+        // Show spinner
+        showSearchSpinner();
 
         // Fetch services from API
         fetch(`/api/services/search?query=${encodeURIComponent(query)}&page=${page}&limit=${itemsPerPage}&filter=${filter}`, {
@@ -270,7 +299,10 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
             return response.json();
         })
-        .then(data => {
+        .then(async data => {
+            // Simulate 3-second delay
+            await simulateDelay(3000);
+
             // Clear previous results
             servicesContainer.innerHTML = '';
 
@@ -353,6 +385,10 @@ document.addEventListener('DOMContentLoaded', async function() {
                     <p class="text-danger">${t.error_occurred}</p>
                 </div>
             `;
+        })
+        .finally(() => {
+            // Hide spinner
+            hideSearchSpinner();
         });
     }
 
@@ -361,20 +397,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Update URL parameters
         updateUrlParams(query, page, 'orders');
 
-        // Show loading state
-        servicesContainer.innerHTML = `
-            <div class="col-12 text-center">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </div>
-        `;
-
-        // Remove existing pagination if any
-        const existingPagination = document.querySelector('.pagination-container');
-        if (existingPagination) {
-            existingPagination.remove();
-        }
+        // Show spinner
+        showSearchSpinner();
 
         // Fetch orders from API
         fetch(`/api/orders/search?query=${encodeURIComponent(query)}&page=${page}&limit=${itemsPerPage}`, {
@@ -390,7 +414,10 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
             return response.json();
         })
-        .then(data => {
+        .then(async data => {
+            // Simulate 3-second delay
+            await simulateDelay(3000);
+
             // Clear previous results
             servicesContainer.innerHTML = '';
 
@@ -473,6 +500,10 @@ document.addEventListener('DOMContentLoaded', async function() {
                     <p class="text-danger">${t.error_occurred}</p>
                 </div>
             `;
+        })
+        .finally(() => {
+            // Hide spinner
+            hideSearchSpinner();
         });
     }
 
