@@ -26,25 +26,31 @@ document.addEventListener('DOMContentLoaded', async function() {
     function validateField(field) {
         const value = field.value;
         const fieldName = field.name;
+        console.log(`Validating field: ${fieldName}, value: ${value}`);
         let rule;
 
         // Determine which validation rule to use
         if (field.type === 'email') {
             rule = validationRules.email;
+            console.log('Applying email validation rule');
         } else if (field.type === 'password') {
             rule = validationRules.password;
+            console.log('Applying password validation rule');
         } else {
             // Default validation for required fields
             rule = {
                 validate: (value) => value.trim() !== '',
                 message: 'This field is required'
             };
+            console.log('Applying default validation rule');
         }
 
         const isValid = rule.validate(value);
+        console.log(`Validation result for ${fieldName}: ${isValid}`);
         const feedback = field.nextElementSibling;
 
         if (!isValid) {
+            console.log(`Validation failed for ${fieldName}: ${rule.message}`);
             field.classList.add('is-invalid');
             field.classList.remove('is-valid');
             if (feedback && feedback.classList.contains('invalid-feedback') && field.type !== 'checkbox') {
@@ -89,15 +95,19 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Form submission handler
     async function submitLogin(form) {
+        console.log('Starting form submission validation');
         let isValid = true;
         const inputs = form.querySelectorAll('input');
         inputs.forEach(input => {
+            console.log(`Checking input: ${input.name}`);
             if (!validateField(input)) {
+                console.log(`Validation failed for: ${input.name}`);
                 isValid = false;
             }
         });
 
         if (isValid) {
+            console.log('All validations passed, proceeding with form submission');
             console.log('eeee 33333');
             try {
                 // Show spinner
