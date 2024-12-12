@@ -237,18 +237,30 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 });
 
-// Form submission handling with loading spinner
-// document.addEventListener('DOMContentLoaded', function() {
-//     // Handle form submissions in modals
-//     document.querySelectorAll('.modal form').forEach(form => {
-//         form.addEventListener('submit', function(e) {
-//             // If the form is submitted via AJAX
-//             if (this.dataset.ajax === 'true') {
-//                 e.preventDefault();
-//                 const modal = this.closest('.modal-content');
-//                 showModalSpinner(modal);
-//             }
-//             // For regular form submissions, the spinner will be hidden when the page reloads
-//         });
-//     });
-// });
+// Add back button functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Create the back button element
+    const backButton = document.createElement('div');
+    backButton.className = 'back-button';
+    backButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
+    backButton.title = 'Go Back';
+    document.body.appendChild(backButton);
+    
+    // Show/hide back button based on page history
+    backButton.addEventListener('click', function() {
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            // Fallback to homepage if no previous page
+            window.location.href = '/';
+        }
+    });
+
+    // Only show back button on specific pages
+    const backButtonPages = ['/contact', '/privacy', '/terms'];
+    const currentPath = window.location.pathname;
+    
+    if (backButtonPages.some(page => currentPath.includes(page))) {
+        backButton.classList.add('visible');
+    }
+});

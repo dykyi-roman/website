@@ -1,6 +1,6 @@
-{% extends '@Dashboard/base.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title %}{{ page_title }} - {{ organization.name }}{% endblock %}
+{% block title %}{{ 'Contact Us' | trans }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -9,78 +9,85 @@
 {% endblock %}
 
 {% block body %}
-    <!-- Main Content -->
-    <div class="content-wrapper">
-        <div class="row page-title">
-            <h1 class="text-center mb-5">{{ page_title }}</h1>
-        </div>
-        <div class="container page-content">
-            <div class="contact-section">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="contact-info">
-                            {% if contact.email %}
-                            <div class="contact-item">
-                                <div class="contact-icon">
-                                    <i class="fas fa-envelope"></i>
-                                </div>
-                                <div class="contact-details">
-                                    <h3>{{ 'Email'|trans }}</h3>
-                                    <p><a href="mailto:{{ contact.email }}">{{ contact.email }}</a></p>
-                                </div>
-                            </div>
-                            {% endif %}
+    <div class="container contact-page">
+        <h1>{{ 'Contact Us' | trans }}</h1>
+        
+        <!-- Contact form content -->
+        <div class="contact-form">
+            <!-- Main Content -->
+            <div class="content-wrapper">
+                <div class="row page-title">
+                    <h1 class="text-center mb-5">{{ page_title }}</h1>
+                </div>
+                <div class="container page-content">
+                    <div class="contact-section">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="contact-info">
+                                    {% if contact.email %}
+                                    <div class="contact-item">
+                                        <div class="contact-icon">
+                                            <i class="fas fa-envelope"></i>
+                                        </div>
+                                        <div class="contact-details">
+                                            <h3>{{ 'Email'|trans }}</h3>
+                                            <p><a href="mailto:{{ contact.email }}">{{ contact.email }}</a></p>
+                                        </div>
+                                    </div>
+                                    {% endif %}
 
-                            {% if contact.phone %}
-                            <div class="contact-item">
-                                <div class="contact-icon">
-                                    <i class="fas fa-phone"></i>
-                                </div>
-                                <div class="contact-details">
-                                    <h3>{{ 'Phone'|trans }}</h3>
-                                    <p><a href="tel:{{ contact.phone }}">{{ contact.phone }}</a></p>
-                                </div>
-                            </div>
-                            {% endif %}
+                                    {% if contact.phone %}
+                                    <div class="contact-item">
+                                        <div class="contact-icon">
+                                            <i class="fas fa-phone"></i>
+                                        </div>
+                                        <div class="contact-details">
+                                            <h3>{{ 'Phone'|trans }}</h3>
+                                            <p><a href="tel:{{ contact.phone }}">{{ contact.phone }}</a></p>
+                                        </div>
+                                    </div>
+                                    {% endif %}
 
-                            {% if contact.address %}
-                            <div class="contact-item">
-                                <div class="contact-icon">
-                                    <i class="fas fa-location-dot"></i>
-                                </div>
-                                <div class="contact-details">
-                                    <h3>{{ 'Address'|trans }}</h3>
-                                    <p>{{ contact.address }}</p>
-                                </div>
-                            </div>
-                            {% endif %}
+                                    {% if contact.address %}
+                                    <div class="contact-item">
+                                        <div class="contact-icon">
+                                            <i class="fas fa-location-dot"></i>
+                                        </div>
+                                        <div class="contact-details">
+                                            <h3>{{ 'Address'|trans }}</h3>
+                                            <p>{{ contact.address }}</p>
+                                        </div>
+                                    </div>
+                                    {% endif %}
 
-                            {% if contact.hours %}
-                            <div class="contact-item">
-                                <div class="contact-icon">
-                                    <i class="fas fa-clock"></i>
-                                </div>
-                                <div class="contact-details">
-                                    <h3>{{ 'Business Hours'|trans }}</h3>
-                                    <p>{{ contact.hours }}</p>
+                                    {% if contact.hours %}
+                                    <div class="contact-item">
+                                        <div class="contact-icon">
+                                            <i class="fas fa-clock"></i>
+                                        </div>
+                                        <div class="contact-details">
+                                            <h3>{{ 'Business Hours'|trans }}</h3>
+                                            <p>{{ contact.hours }}</p>
+                                        </div>
+                                    </div>
+                                    {% endif %}
                                 </div>
                             </div>
-                            {% endif %}
+                            
+                            <div class="col-md-6">
+                                <div class="contact-map">
+                                    {{ contact.map|raw }}
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <div class="contact-map">
-                            {{ contact.map|raw }}
+
+                        {% if content %}
+                        <div class="additional-content mt-5">
+                            {{ content|raw }}
                         </div>
+                        {% endif %}
                     </div>
                 </div>
-
-                {% if content %}
-                <div class="additional-content mt-5">
-                    {{ content|raw }}
-                </div>
-                {% endif %}
             </div>
         </div>
     </div>

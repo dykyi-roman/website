@@ -1,19 +1,22 @@
-{% extends '@Dashboard/base.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title %}{{ page_title }} - {{ organization.name }}{% endblock %}
+{% block title %}{{ 'Terms of Service' | trans }}{% endblock %}
 
 {% block body %}
-    <!-- Main Content -->
-    <div class="content-wrapper">
-        <div class="row page-title">
-            <h1 class="text-center mb-5">{{ page_title|trans }}</h1>
-        </div>
-        <div class="container">
-            <div class="page-content">
+<div class="container terms-page">
+    <h1>{{ 'Terms of Service' | trans }}</h1>
+    
+    <div class="terms-content">
+        <!-- Your terms of service content -->
+        <div class="terms-sections">
+            {% if content %}
                 {{ content|raw }}
-            </div>
+            {% else %}
+                <p>{{ 'Terms of service content will be added soon.' | trans }}</p>
+            {% endif %}
         </div>
     </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}

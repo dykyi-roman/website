@@ -280,6 +280,40 @@ footer h5 {
     animation: fadeIn 0.3s ease-out;
 }
 
+/* Back Button Styles */
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    z-index: 1000;
+    transition: 
+        background-color var(--transition-speed) ease,
+        transform var(--transition-speed) ease;
+}
+
+.back-button.visible {
+    display: flex;
+}
+
+.back-button:hover {
+    background-color: var(--primary-hover);
+    transform: scale(1.1);
+}
+
+.back-button i {
+    font-size: 1.2rem;
+}
+
 /* Navbar Styles */
 .navbar {
     box-shadow: var(--shadow-sm);
