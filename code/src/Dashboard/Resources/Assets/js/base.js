@@ -1,3 +1,25 @@
+// Language menu selected
+document.addEventListener('DOMContentLoaded', function() {
+    const languageDropdown = document.getElementById('languageDropdown');
+    const dropdownMenu = languageDropdown.nextElementSibling;
+
+    languageDropdown.addEventListener('click', function() {
+        // Get the current language
+        const currentLanguage = this.querySelector('.language-code').textContent.toLowerCase();
+
+        // Remove active class from all dropdown items
+        dropdownMenu.querySelectorAll('.dropdown-item').forEach(item => {
+            item.classList.remove('active');
+        });
+
+        // Add active class to the current language item
+        const activeLanguageItem = dropdownMenu.querySelector(`[data-lang="${currentLanguage}"]`);
+        if (activeLanguageItem) {
+            activeLanguageItem.classList.add('active');
+        }
+    });
+});
+
 // Language Selection Handling
 document.addEventListener('DOMContentLoaded', function() {
     const languageDropdownItems = document.querySelectorAll('.language-dropdown .dropdown-item');

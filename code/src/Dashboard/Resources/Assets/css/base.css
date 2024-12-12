@@ -446,6 +446,13 @@ footer h5 {
     position: relative;
 }
 
+/* Language Dropdown Active State */
+.dropdown-item.active {
+    background-color: #e9ecef;
+    color: #212529;
+    font-weight: bold;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .scroll-to-top {
