@@ -10,9 +10,10 @@ services:
         resource: '../../'
         exclude:
             - '../../Resources/'
+            - '../../Application/Command/'
+            - '../../DomainModel/Event/'
             - '../../DomainModel/Model/'
             - '../../Tests/'
-            - '../../**/Tests/'
         tags: ['controller.service_arguments']
 
 twig:
