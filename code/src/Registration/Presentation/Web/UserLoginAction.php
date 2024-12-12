@@ -42,7 +42,11 @@ final readonly class UserLoginAction
             if (!$user) {
                 return new JsonResponse([
                     'success' => false,
-                    'message' => 'User not found'
+                    'errors' => [
+                        'message' => 'Invalid username or password',
+                        'field' => 'email',
+                    ]
+
                 ], Response::HTTP_UNAUTHORIZED);
             }
 

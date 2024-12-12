@@ -165,9 +165,9 @@ document.addEventListener('DOMContentLoaded', async function () {
                 body: JSON.stringify(data)
             });
 
-            const result = await response.json();
-
             if (!response.ok) {
+                const result = await response.json();
+
                 // Hide spinner before showing error
                 hideModalSpinner(modal);
                 

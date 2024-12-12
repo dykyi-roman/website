@@ -1,6 +1,4 @@
-document.addEventListener('DOMContentLoaded', async function() {
-    console.log('Login popup script loaded');
-
+document.addEventListener('DOMContentLoaded', async function () {
     // Get current language or default to English
     const currentLang = localStorage.getItem('locale') || 'en';
     const t = await loadTranslations(currentLang);
@@ -26,31 +24,30 @@ document.addEventListener('DOMContentLoaded', async function() {
     function validateField(field) {
         const value = field.value;
         const fieldName = field.name;
-        console.log(`Validating field: ${fieldName}, value: ${value}`);
         let rule;
+
+        // Skip validation for remember_me field
+        if (fieldName === 'remember_me') {
+            return true;
+        }
 
         // Determine which validation rule to use
         if (field.type === 'email') {
             rule = validationRules.email;
-            console.log('Applying email validation rule');
         } else if (field.type === 'password') {
             rule = validationRules.password;
-            console.log('Applying password validation rule');
         } else {
             // Default validation for required fields
             rule = {
                 validate: (value) => value.trim() !== '',
                 message: 'This field is required'
             };
-            console.log('Applying default validation rule');
         }
 
         const isValid = rule.validate(value);
-        console.log(`Validation result for ${fieldName}: ${isValid}`);
         const feedback = field.nextElementSibling;
 
         if (!isValid) {
-            console.log(`Validation failed for ${fieldName}: ${rule.message}`);
             field.classList.add('is-invalid');
             field.classList.remove('is-valid');
             if (feedback && feedback.classList.contains('invalid-feedback') && field.type !== 'checkbox') {
@@ -74,12 +71,12 @@ document.addEventListener('DOMContentLoaded', async function() {
         const inputs = form.querySelectorAll('input');
         inputs.forEach(input => {
             // Validate on input
-            input.addEventListener('input', function() {
+            input.addEventListener('input', function () {
                 validateField(this);
             });
 
             // Validate on blur
-            input.addEventListener('blur', function() {
+            input.addEventListener('blur', function () {
                 validateField(this);
             });
 
@@ -95,20 +92,16 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Form submission handler
     async function submitLogin(form) {
-        console.log('Starting form submission validation');
         let isValid = true;
         const inputs = form.querySelectorAll('input');
+
         inputs.forEach(input => {
-            console.log(`Checking input: ${input.name}`);
             if (!validateField(input)) {
-                console.log(`Validation failed for: ${input.name}`);
                 isValid = false;
             }
         });
 
         if (isValid) {
-            console.log('All validations passed, proceeding with form submission');
-            console.log('eeee 33333');
             try {
                 // Show spinner
                 showModalSpinner(loginForm);
@@ -123,28 +116,40 @@ document.addEventListener('DOMContentLoaded', async function() {
                     credentials: 'same-origin'
                 });
 
+                const result = await response.json();
                 if (!response.ok) {
                     hideModalSpinner(loginForm);
 
-                    const data = await response.json();
-                    throw new Error(data.message || t.error_invalid_credentials);
+                    // Handle specific field errors
+                    if (result.errors && result.errors.field) {
+                        const field = form.querySelector(`[name="${result.errors.field}"]`);
+                        const fieldFeedback = field.nextElementSibling;
+
+                        field.classList.add('is-invalid');
+                        if (fieldFeedback && fieldFeedback.classList.contains('invalid-feedback')) {
+                            fieldFeedback.textContent = result.errors.message;
+                        }
+
+                        return false;
+                    }
+
+                    throw new Error(result.errors.message || t.error_invalid_credentials);
                 }
 
-                const data = await response.json();
-                if (data.success) {
+                if (result.success) {
+                    hideModalSpinner(loginForm);
+
                     const modal = bootstrap.Modal.getInstance(loginModal);
                     if (modal) {
                         modal.hide();
                     }
 
-                    hideModalSpinner(loginForm);
-
-                    window.location.href = data.redirectUrl || '/';
+                    window.location.href = result.redirectUrl || '/';
                 } else {
                     hideModalSpinner(loginForm);
 
                     // Handle specific error messages
-                    if (data.errors) {
+                    if (result.errors) {
                         Object.keys(data.errors).forEach(field => {
                             const input = form.querySelector(`[name="${field}"]`);
                             if (input) {
@@ -153,13 +158,11 @@ document.addEventListener('DOMContentLoaded', async function() {
                             }
                         });
                     } else {
-                        showErrorMessage(data.message || t.error_login_failed);
+                        showErrorMessage(result.message || t.error_login_failed);
                     }
                 }
             } catch (error) {
                 hideModalSpinner(loginForm);
-
-                console.error('Login error:', error);
                 showErrorMessage(error.message || t.error_network);
             }
         }
@@ -180,7 +183,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Event listener for login buttons
     const loginButtons = document.querySelectorAll('[data-action="login"]');
     loginButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
             e.preventDefault();
             const modal = new bootstrap.Modal(loginModal);
             modal.show();
@@ -189,7 +192,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             inputs.forEach(input => {
                 input.value = '';
                 input.classList.remove('is-invalid', 'is-valid');
-                
+
                 // Uncheck the "Remember me" checkbox
                 if (input.type === 'checkbox' && input.id === 'rememberMe') {
                     input.checked = false;
@@ -200,7 +203,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Form submission event
     if (loginForm) {
-        loginForm.addEventListener('submit', function(e) {
+        loginForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
             submitLogin(this);
