@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         if (isValid) {
             try {
                 // Show spinner
-                showModalSpinner(loginForm);
+                showModalSpinner(loginModal);
 
                 const formData = new FormData(form);
                 const response = await fetch('/login', {
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
                 const result = await response.json();
                 if (!response.ok) {
-                    hideModalSpinner(loginForm);
+                    hideModalSpinner(loginModal);
 
                     // Handle specific field errors
                     if (result.errors && result.errors.field) {
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 }
 
                 if (result.success) {
-                    hideModalSpinner(loginForm);
+                    hideModalSpinner(loginModal);
 
                     const modal = bootstrap.Modal.getInstance(loginModal);
                     if (modal) {
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
                     window.location.href = result.redirectUrl || '/';
                 } else {
-                    hideModalSpinner(loginForm);
+                    hideModalSpinner(loginModal);
 
                     // Handle specific error messages
                     if (result.errors) {
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                     }
                 }
             } catch (error) {
-                hideModalSpinner(loginForm);
+                hideModalSpinner(loginModal);
                 showErrorMessage(error.message || t.error_network);
             }
         }

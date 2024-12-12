@@ -28,6 +28,7 @@ final readonly class UserLoginAction
     #[Route('/login', name: 'login', methods: ['POST'])]
     public function login(Request $request): Response
     {
+       sleep(3);
         $credentials = json_decode($request->getContent(), true);
         $email = $credentials['email'] ?? '';
         $password = $credentials['password'] ?? '';

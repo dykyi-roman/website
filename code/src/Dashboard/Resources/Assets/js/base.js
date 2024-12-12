@@ -143,25 +143,42 @@ document.addEventListener('DOMContentLoaded', function() {
         modalContent.appendChild(spinnerOverlay);
     });
 
-    // Global function to hide spinner for any modal
-    window.hideModalSpinner = function(modalElement) {
-        const spinnerOverlay = modalElement 
-            ? modalElement.querySelector('.spinner-overlay')
-            : document.querySelector('.modal.show .spinner-overlay');
-            
-        if (spinnerOverlay) {
-            spinnerOverlay.classList.remove('active');
-        }
-    };
+    // Helper function to create spinner overlay if not exists
+    function createSpinnerOverlay(element) {
+        const spinnerOverlay = document.createElement('div');
+        spinnerOverlay.className = 'spinner-overlay';
+        spinnerOverlay.innerHTML = '<div class="spinner"></div>';
+        
+        const targetElement = element.closest('.modal-content') || element.closest('.modal') || element;
+        targetElement.appendChild(spinnerOverlay);
+        
+        return spinnerOverlay;
+    }
 
     // Global function to show spinner for any modal
     window.showModalSpinner = function(modalElement) {
         const spinnerOverlay = modalElement 
-            ? modalElement.querySelector('.spinner-overlay')
+            ? modalElement.querySelector('.spinner-overlay') || 
+              modalElement.closest('.modal')?.querySelector('.spinner-overlay') || 
+              modalElement.closest('.modal-content')?.querySelector('.spinner-overlay') ||
+              createSpinnerOverlay(modalElement)
             : document.querySelector('.modal.show .spinner-overlay');
             
         if (spinnerOverlay) {
             spinnerOverlay.classList.add('active');
+        }
+    };
+
+    // Global function to hide spinner for any modal
+    window.hideModalSpinner = function(modalElement) {
+        const spinnerOverlay = modalElement 
+            ? modalElement.querySelector('.spinner-overlay') || 
+              modalElement.closest('.modal')?.querySelector('.spinner-overlay') || 
+              modalElement.closest('.modal-content')?.querySelector('.spinner-overlay')
+            : document.querySelector('.modal.show .spinner-overlay');
+            
+        if (spinnerOverlay) {
+            spinnerOverlay.classList.remove('active');
         }
     };
 
