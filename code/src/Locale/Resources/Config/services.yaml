@@ -42,8 +42,8 @@ services:
             $resolvers:
                 - '@App\Locale\DomainModel\Service\LocaleResolver\QueryParameterLocaleResolver'
                 - '@App\Locale\DomainModel\Service\LocaleResolver\CookieLocaleResolver'
-                - '@App\Locale\DomainModel\Service\LocaleResolver\GeoIPLocaleResolver'
                 - '@App\Locale\DomainModel\Service\LocaleResolver\AcceptLanguageLocaleResolver'
+                - '@App\Locale\DomainModel\Service\LocaleResolver\GeoIPLocaleResolver'
 
     # EventSubscriber
     App\Locale\Infrastructure\Symfony\EventSubscriber\LocaleSubscriber:
@@ -53,3 +53,7 @@ services:
     # Twig
     App\Locale\Presentation\Web\Twig\LocaleExtension:
         tags: [ 'twig.extension' ]
+
+twig:
+    paths:
+        '%kernel.project_dir%/src/Locale/Resources/Templates': Locale

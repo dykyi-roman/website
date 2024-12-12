@@ -1,0 +1,11 @@
+<div class="nav-item dropdown language-dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-globe"></i>
+        <span class="language-code">{{ app.request.locale|upper }}</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+        {% for language in supported_languages %}
+            <li><a class="dropdown-item {{ language.code == app.request.locale ? 'active' : '' }}" href="#" data-lang="{{ language.code }}">{{ language.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>

@@ -11,6 +11,38 @@ document.addEventListener('DOMContentLoaded', async function () {
     const clientForm = document.getElementById('clientRegistrationForm');
     const partnerForm = document.getElementById('partnerRegistrationForm');
 
+    // Initialize city fields as disabled
+    const clientCity = document.getElementById('client-city');
+    const partnerCity = document.getElementById('partner-city');
+    if (clientCity) clientCity.disabled = true;
+    if (partnerCity) partnerCity.disabled = true;
+
+    // Add event listeners for country selects
+    const clientCountry = document.getElementById('client-country');
+    const partnerCountry = document.getElementById('partner-country');
+
+    if (clientCountry) {
+        clientCountry.addEventListener('change', function() {
+            if (clientCity) {
+                clientCity.disabled = !this.value;
+                if (this.value) {
+                    clientCity.focus();
+                }
+            }
+        });
+    }
+
+    if (partnerCountry) {
+        partnerCountry.addEventListener('change', function() {
+            if (partnerCity) {
+                partnerCity.disabled = !this.value;
+                if (this.value) {
+                    partnerCity.focus();
+                }
+            }
+        });
+    }
+
     // Initialize Bootstrap modal
     const registerModal = new bootstrap.Modal(popup, {
         backdrop: 'static',
@@ -212,20 +244,20 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     function clearErrors(form) {
-        // Clear general error message
-        const errorContainer = form.querySelector('.register-error-message');
-        if (errorContainer) {
-            errorContainer.style.display = 'none';
-        }
-
-        // Clear field-specific errors
-        form.querySelectorAll('.is-invalid').forEach(field => {
-            field.classList.remove('is-invalid');
-            const feedback = field.nextElementSibling;
+        const inputs = form.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.classList.remove('is-invalid', 'is-valid');
+            const feedback = input.nextElementSibling;
             if (feedback && feedback.classList.contains('invalid-feedback')) {
-                feedback.style.display = 'none';
+                feedback.textContent = '';
             }
         });
+
+        // Reset city fields to disabled state
+        const clientCity = document.getElementById('client-city');
+        const partnerCity = document.getElementById('partner-city');
+        if (clientCity) clientCity.disabled = true;
+        if (partnerCity) partnerCity.disabled = true;
     }
 
     // Function to show error messages

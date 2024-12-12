@@ -35,6 +35,7 @@ final readonly class LocaleSubscriber implements EventSubscriberInterface
         $locale = in_array($locale, $this->supportedLocales, true) ? $locale : $this->defaultLocale;
 
         $this->localeSwitcher->setLocale($locale);
+        $request->cookies->set('locale', $locale);
         $request->setLocale($locale);
     }
 }
