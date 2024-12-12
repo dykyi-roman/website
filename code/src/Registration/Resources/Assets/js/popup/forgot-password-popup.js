@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             hideModalSpinner(modal);
 
             console.error('Forgot Password Error:', error);
-            showSuccessMessage(error.message || t.error_network);
+            showErrorMessage(error.message || t.error_network);
         }
     }
 
