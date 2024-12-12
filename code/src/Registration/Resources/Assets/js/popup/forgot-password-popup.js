@@ -125,6 +125,41 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
 
+    // Function to show error messages
+    function showErrorMessage(message) {
+        // Find or create error message container
+        let errorContainer = document.querySelector('.forgot-password-error-message');
+        if (!errorContainer) {
+            errorContainer = document.createElement('div');
+            errorContainer.className = 'alert alert-danger forgot-password-error-message mt-3';
+            if (forgotPasswordForm) {
+                forgotPasswordForm.insertBefore(errorContainer, forgotPasswordForm.firstChild);
+            }
+        }
+        errorContainer.textContent = message;
+        errorContainer.style.display = 'block';
+    }
+
+    // Function to show success messages
+    function showSuccessMessage(message) {
+        // Find or create success message container
+        let successContainer = document.querySelector('.forgot-password-success-message');
+        if (!successContainer) {
+            successContainer = document.createElement('div');
+            successContainer.className = 'alert alert-success forgot-password-success-message mt-3';
+            if (forgotPasswordForm) {
+                forgotPasswordForm.insertBefore(successContainer, forgotPasswordForm.firstChild);
+            }
+        }
+        successContainer.textContent = message;
+        successContainer.style.display = 'block';
+
+        // Automatically hide after 3 seconds
+        setTimeout(() => {
+            successContainer.style.display = 'none';
+        }, 3000);
+    }
+
     // Submit form data
     async function submitForgotPassword(form) {
         // Validate all inputs first
@@ -155,6 +190,25 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
 
             const result = await response.json();
+            if (!response.ok) {
+                // Handle specific field errors
+                if (result.errors && result.errors.field) {
+                    const field = form.querySelector(`[name="${result.errors.field}"]`);
+                    const fieldFeedback = field.nextElementSibling;
+
+                    field.classList.add('is-invalid');
+                    if (fieldFeedback && fieldFeedback.classList.contains('invalid-feedback')) {
+                        fieldFeedback.textContent = result.errors.message;
+                    }
+                    return false;
+                }
+
+                const errorMessage = result.errors && result.errors.message 
+                    ? result.errors.message 
+                    : t.error_generic_message;
+
+                throw new Error(errorMessage);
+            }
 
             // Hide spinner before showing any messages
             hideModalSpinner(modal);
@@ -162,29 +216,19 @@ document.addEventListener('DOMContentLoaded', async function() {
             // Handle success
             if (result.success) {
                 // Show success message
-                const successMessage = document.getElementById('forgot-password-success');
-                if (successMessage) {
-                    successMessage.textContent = t.success_reset_link;
-                    successMessage.style.display = 'block';
-                }
+                const successMessage = result.message || t.success_reset_link;
+                showSuccessMessage(successMessage);
             } else {
                 // Show error message
-                const emailInput = form.querySelector('input[type="email"]');
-                if (emailInput) {
-                    emailInput.setCustomValidity(result.message || t.error_network);
-                    emailInput.reportValidity();
-                }
+                const errorMessage = result.message || t.error_generic_message;
+                showErrorMessage(errorMessage);
             }
         } catch (error) {
             // Hide spinner on error
             hideModalSpinner(modal);
 
-            console.error('Error:', error);
-            const emailInput = form.querySelector('input[type="email"]');
-            if (emailInput) {
-                emailInput.setCustomValidity(t.error_network);
-                emailInput.reportValidity();
-            }
+            console.error('Forgot Password Error:', error);
+            showSuccessMessage(error.message || t.error_network);
         }
     }
 

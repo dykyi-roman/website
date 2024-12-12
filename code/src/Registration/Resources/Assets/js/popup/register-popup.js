@@ -196,9 +196,33 @@ document.addEventListener('DOMContentLoaded', async function () {
             // Hide spinner on success
             hideModalSpinner(modal);
 
+            // Function to show success messages
+            function showSuccessMessage(message) {
+                // Find or create success message container
+                let successContainer = document.querySelector('.registration-success-message');
+                if (!successContainer) {
+                    successContainer = document.createElement('div');
+                    successContainer.className = 'alert alert-success registration-success-message mt-3';
+                    const form = document.querySelector('#clientRegistrationForm, #partnerRegistrationForm');
+                    if (form) {
+                        form.insertBefore(successContainer, form.firstChild);
+                    }
+                }
+                successContainer.textContent = message;
+                successContainer.style.display = 'block';
+
+                // Automatically hide after 3 seconds
+                setTimeout(() => {
+                    successContainer.style.display = 'none';
+                }, 3000);
+            }
+
+            // Show success message before redirecting
+            showSuccessMessage(t.success_registration);
+
             setTimeout(() => {
                 window.location.href = '/';
-            }, 1000);
+            }, 3000);
 
             return true;
         } catch (error) {

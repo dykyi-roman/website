@@ -137,12 +137,10 @@ document.addEventListener('DOMContentLoaded', async function () {
                 }
 
                 if (result.success) {
-                    hideModalSpinner(loginModal);
+                    hideModalSpinner(loginForm);
 
-                    const modal = bootstrap.Modal.getInstance(loginModal);
-                    if (modal) {
-                        modal.hide();
-                    }
+                    // Show success message before redirecting
+                    showSuccessMessage(result.message || t.success_login);
 
                     window.location.href = result.redirectUrl || '/';
                 } else {
@@ -168,6 +166,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
     }
 
+    // Function to show error messages
     function showErrorMessage(message) {
         // Find or create error message container
         let errorContainer = document.querySelector('.login-error-message');
@@ -178,6 +177,26 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
         errorContainer.textContent = message;
         errorContainer.style.display = 'block';
+    }
+
+    // Function to show success messages
+    function showSuccessMessage(message) {
+        // Find or create success message container
+        let successContainer = document.querySelector('.login-success-message');
+        if (!successContainer) {
+            successContainer = document.createElement('div');
+            successContainer.className = 'alert alert-success login-success-message mt-3';
+            if (loginForm) {
+                loginForm.insertBefore(successContainer, loginForm.firstChild);
+            }
+        }
+        successContainer.textContent = message;
+        successContainer.style.display = 'block';
+
+        // Automatically hide after 3 seconds
+        setTimeout(() => {
+            successContainer.style.display = 'none';
+        }, 3000);
     }
 
     // Event listener for login buttons
