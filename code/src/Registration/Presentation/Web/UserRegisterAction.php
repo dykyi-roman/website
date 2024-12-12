@@ -33,6 +33,7 @@ final readonly class UserRegisterAction
     #[Route('/register', name: 'register', methods: ['POST'])]
     public function register(Request $request): JsonResponse
     {
+        sleep(3);
         $data = json_decode($request->getContent(), true);
         try {
             // Check if email already exists in both repositories
