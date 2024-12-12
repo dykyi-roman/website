@@ -251,42 +251,13 @@ footer h5 {
     margin-bottom: 1.2rem;
 }
 
-/* Scroll to Top Button */
+/* Scroll to Top Button Styles */
 .scroll-to-top {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 40px;
-    height: 40px;
-    background-color: var(--primary-orange);
-    color: white;
-    border-radius: 50%;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    box-shadow: var(--shadow-md);
-    transition: all var(--transition-speed) ease;
-    z-index: 1000;
-}
-
-.scroll-to-top:hover {
-    background-color: var(--secondary-orange);
-    transform: translateY(-3px);
-}
-
-.scroll-to-top.visible {
-    display: flex;
-    animation: fadeIn 0.3s ease-out;
-}
-
-/* Back Button Styles */
-.back-button {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     background-color: var(--primary-color);
     color: white;
     border-radius: 50%;
@@ -294,11 +265,45 @@ footer h5 {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     z-index: 1000;
     transition: 
-        background-color var(--transition-speed) ease,
-        transform var(--transition-speed) ease;
+        background-color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.scroll-to-top.visible {
+    display: flex;
+}
+
+.scroll-to-top:hover {
+    background-color: var(--primary-hover);
+    transform: scale(1.1);
+}
+
+.scroll-to-top i {
+    font-size: 1.5rem;
+}
+
+/* Back Button Styles */
+.back-button {
+    position: fixed;
+    top: 80px; /* Adjusted to be below the header */
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 1000;
+    transition: 
+        background-color 0.3s ease,
+        transform 0.3s ease;
 }
 
 .back-button.visible {
@@ -311,7 +316,7 @@ footer h5 {
 }
 
 .back-button i {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
 }
 
 /* Navbar Styles */

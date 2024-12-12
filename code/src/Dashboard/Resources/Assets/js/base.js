@@ -1,29 +1,3 @@
-// Create scroll to top button
-document.addEventListener('DOMContentLoaded', function() {
-    // Create the button element
-    const scrollButton = document.createElement('div');
-    scrollButton.className = 'scroll-to-top';
-    scrollButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
-    document.body.appendChild(scrollButton);
-    
-    // Show/hide button based on scroll position
-    window.addEventListener('scroll', function() {
-        if (window.pageYOffset > 300) {
-            scrollButton.classList.add('visible');
-        } else {
-            scrollButton.classList.remove('visible');
-        }
-    });
-
-    // Smooth scroll to top when button is clicked
-    scrollButton.addEventListener('click', function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-});
-
 // Language Selection Handling
 document.addEventListener('DOMContentLoaded', function() {
     const languageDropdownItems = document.querySelectorAll('.language-dropdown .dropdown-item');
@@ -237,16 +211,63 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 });
 
+// Create scroll to top button
+document.addEventListener('DOMContentLoaded', function() {
+    // Create the button element
+    const scrollButton = document.createElement('div');
+    scrollButton.className = 'scroll-to-top';
+    scrollButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
+    document.body.appendChild(scrollButton);
+
+    // Show/hide button based on scroll position
+    window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+            scrollButton.classList.add('visible');
+        } else {
+            scrollButton.classList.remove('visible');
+        }
+    });
+
+    // Smooth scroll to top when button is clicked
+    scrollButton.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+});
+
 // Add back button functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Create the back button element
     const backButton = document.createElement('div');
+    backButton.id = 'back-button';
     backButton.className = 'back-button';
     backButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
     backButton.title = 'Go Back';
+    
+    // Append to body
     document.body.appendChild(backButton);
     
-    // Show/hide back button based on page history
+    // Log for debugging
+    console.log('Back button created');
+    console.log('Current pathname:', window.location.pathname);
+    
+    // Show/hide back button based on page history and current path
+    const backButtonPages = ['/contact', '/privacy', '/terms'];
+    const currentPath = window.location.pathname;
+    
+    // Check if current path matches any of the specified pages
+    const shouldShowBackButton = backButtonPages.some(page => currentPath.includes(page));
+    
+    if (shouldShowBackButton) {
+        backButton.classList.add('visible');
+        console.log('Back button should be visible');
+    } else {
+        console.log('Back button should be hidden');
+    }
+    
+    // Add click event listener
     backButton.addEventListener('click', function() {
         if (window.history.length > 1) {
             window.history.back();
@@ -255,12 +276,4 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = '/';
         }
     });
-
-    // Only show back button on specific pages
-    const backButtonPages = ['/contact', '/privacy', '/terms'];
-    const currentPath = window.location.pathname;
-    
-    if (backButtonPages.some(page => currentPath.includes(page))) {
-        backButton.classList.add('visible');
-    }
 });

@@ -1,32 +1,21 @@
-{% extends 'base.html.twig' %}
+{% extends '@Dashboard/base.html.twig' %}
 
-{% block title %}{{ 'Privacy Policy' | trans }}{% endblock %}
+{% block title %}{{ page_title }} - {{ organization.name }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    <link href="{{ asset('css/privacy.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
     <!-- Main Content -->
     <div class="content-wrapper">
-        <div class="container privacy-page">
-            <h1>{{ 'Privacy Policy' | trans }}</h1>
-            
-            <div class="privacy-content">
-                <!-- Your privacy policy content -->
-                <div class="policy-sections">
-                    {% if content %}
-                        {{ content|raw }}
-                    {% else %}
-                        <p>{{ 'Privacy policy content will be added soon.' | trans }}</p>
-                    {% endif %}
-                </div>
+        <div class="row page-title">
+            <h1 class="text-center mb-5">{{ page_title|trans }}</h1>
+        </div>
+        <div class="container">
+            <div class="page-content privacy-policy">
+                {{ content|raw }}
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
 {% endblock %}
