@@ -10,10 +10,11 @@ use App\Client\DomainModel\Repository\ClientRepositoryInterface;
 use App\Partner\DomainModel\Enum\PartnerId;
 use App\Partner\DomainModel\Model\Partner;
 use App\Partner\DomainModel\Repository\PartnerRepositoryInterface;
+use App\Registration\Presentation\Web\Request\UserRegisterRequestDTO;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -31,14 +32,13 @@ final readonly class UserRegisterAction
     }
 
     #[Route('/register', name: 'register', methods: ['POST'])]
-    public function register(Request $request): JsonResponse
-    {
-        sleep(3);
-        $data = json_decode($request->getContent(), true);
+    public function register(
+        #[MapRequestPayload] UserRegisterRequestDTO $request,
+    ): JsonResponse {
         try {
             // Check if email already exists in both repositories
-            $clientExists = $this->clientRepository->findByEmail($data['email']);
-            $partnerExists = $this->partnerRepository->findByEmail($data['email']);
+            $clientExists = $this->clientRepository->findByEmail($request->email);
+            $partnerExists = $this->partnerRepository->findByEmail($request->email);
 
             if ($clientExists || $partnerExists) {
                 return new JsonResponse([
@@ -50,29 +50,28 @@ final readonly class UserRegisterAction
                 ], Response::HTTP_BAD_REQUEST);
             }
 
-            $isPartner = isset($data['type']) && $data['type'] === 'partner';
-            if ($isPartner) {
+            if ($request->isPartner()) {
                 $user = new Partner(
                     new PartnerId(),
-                    $data['name'],
-                    $data['email'],
-                    $data['phone'] ?? null,
-                    $data['country'] ?? null,
-                    $data['city'] ?? null,
+                    $request->name,
+                    $request->email,
+                    $request->phone,
+                    $request->country,
+                    $request->city,
                 );
             } else {
                 $user = new Client(
                     new ClientId(),
-                    $data['name'],
-                    $data['email'],
-                    $data['phone'] ?? null,
-                    $data['country'] ?? null,
-                    $data['city'] ?? null,
+                    $request->name,
+                    $request->email,
+                    $request->phone,
+                    $request->country,
+                    $request->city,
                 );
             }
 
-            $user->setPassword($this->passwordHasher->hashPassword($user, $data['password']));
-            $isPartner ? $this->partnerRepository->save($user) : $this->clientRepository->save($user);
+            $user->setPassword($this->passwordHasher->hashPassword($user, $request->password));
+            $request->isPartner() ? $this->partnerRepository->save($user) : $this->clientRepository->save($user);
 
             // Or - Login the user after registration using the form login authenticator
             $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
@@ -81,7 +80,6 @@ final readonly class UserRegisterAction
             return new JsonResponse([
                 'success' => true,
                 'message' => 'Registration successful',
-                'user_type' => $isPartner ? 'partner' : 'client'
             ], Response::HTTP_CREATED);
         } catch (\Throwable $exception) {
             $this->logger->error($exception->getMessage());
