@@ -202,23 +202,37 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Function to render pagination
     function renderPagination(currentPage, totalPages) {
+        // Prevent multiple pagination renders
+        const existingPaginationContainer = servicesGrid.parentNode.querySelector('.pagination-container');
+        if (existingPaginationContainer) {
+            existingPaginationContainer.remove();
+        }
+        
         const paginationContainer = document.createElement('div');
         paginationContainer.className = 'pagination-container';
         
         const pagination = document.createElement('ul');
         pagination.className = 'pagination';
         
+        // Prevent multiple search calls
+        let isSearching = false;
+
         // Previous button
         const prevLi = document.createElement('li');
         const prevButton = document.createElement('button');
         prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
         prevButton.disabled = currentPage === 1;
         prevButton.addEventListener('click', () => {
+            if (isSearching) return;
+            isSearching = true;
+            
             if (currentFilter === 'orders') {
                 ordersSearch(searchInput.value.trim(), currentPage - 1);
             } else {
                 servicesSearch(searchInput.value.trim(), currentPage - 1, currentFilter);
             }
+            
+            setTimeout(() => { isSearching = false; }, 1000);
         });
         prevLi.appendChild(prevButton);
         pagination.appendChild(prevLi);
@@ -237,11 +251,16 @@ document.addEventListener('DOMContentLoaded', async function() {
                     button.classList.add('active');
                 }
                 button.addEventListener('click', () => {
+                    if (isSearching) return;
+                    isSearching = true;
+                    
                     if (currentFilter === 'orders') {
                         ordersSearch(searchInput.value.trim(), i);
                     } else {
                         servicesSearch(searchInput.value.trim(), i, currentFilter);
                     }
+                    
+                    setTimeout(() => { isSearching = false; }, 1000);
                 });
                 li.appendChild(button);
                 pagination.appendChild(li);
@@ -264,11 +283,16 @@ document.addEventListener('DOMContentLoaded', async function() {
         nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
         nextButton.disabled = currentPage === totalPages;
         nextButton.addEventListener('click', () => {
+            if (isSearching) return;
+            isSearching = true;
+            
             if (currentFilter === 'orders') {
                 ordersSearch(searchInput.value.trim(), currentPage + 1);
             } else {
                 servicesSearch(searchInput.value.trim(), currentPage + 1, currentFilter);
             }
+            
+            setTimeout(() => { isSearching = false; }, 1000);
         });
         nextLi.appendChild(nextButton);
         pagination.appendChild(nextLi);
@@ -374,9 +398,17 @@ document.addEventListener('DOMContentLoaded', async function() {
                 servicesContainer.insertAdjacentHTML('beforeend', serviceCard);
             });
 
-            // Add pagination after the services grid
-            const paginationElement = renderPagination(data.page, data.total_pages);
-            servicesGrid.parentNode.insertBefore(paginationElement, servicesGrid.nextSibling);
+            // Remove any existing pagination
+            const existingPaginationContainer = servicesGrid.parentNode.querySelector('.pagination-container');
+            if (existingPaginationContainer) {
+                existingPaginationContainer.remove();
+            }
+
+            // Add pagination after the services grid if there are multiple pages
+            if (data.total_pages > 1) {
+                const paginationElement = renderPagination(data.page, data.total_pages);
+                servicesGrid.parentNode.insertBefore(paginationElement, servicesGrid.nextSibling);
+            }
         })
         .catch(error => {
             console.error('Search Error:', error);
@@ -489,9 +521,17 @@ document.addEventListener('DOMContentLoaded', async function() {
                 servicesContainer.insertAdjacentHTML('beforeend', serviceCard);
             });
 
-            // Add pagination after the orders grid
-            const paginationElement = renderPagination(data.page, data.total_pages);
-            servicesGrid.parentNode.insertBefore(paginationElement, servicesGrid.nextSibling);
+            // Remove any existing pagination
+            const existingPaginationContainer = servicesGrid.parentNode.querySelector('.pagination-container');
+            if (existingPaginationContainer) {
+                existingPaginationContainer.remove();
+            }
+
+            // Add pagination after the orders grid if there are multiple pages
+            if (data.total_pages > 1) {
+                const paginationElement = renderPagination(data.page, data.total_pages);
+                servicesGrid.parentNode.insertBefore(paginationElement, servicesGrid.nextSibling);
+            }
         })
         .catch(error => {
             console.error('Search Error:', error);
