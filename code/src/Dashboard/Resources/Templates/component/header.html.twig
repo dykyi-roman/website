@@ -27,7 +27,7 @@
                             <i class="fas fa-user"></i>
                         {% endif %}
                         <div class="profile-name fw-semibold text-truncate ms-2">
-                            {{ app.user.name }}
+                            {{ app.user.name|length > 20 ? app.user.name|slice(0, 20) ~ '...' : app.user.name }}
                         </div>
                     {% else %}
                         <i class="fas fa-user"></i>
