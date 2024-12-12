@@ -20,6 +20,7 @@
         {# Page-specific CSS #}
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('css/base.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/language.css') }}">
         {% endblock %}
 
         {# Core JavaScript #}
@@ -82,7 +83,7 @@
         {# Late-loaded JavaScript #}
         {% block late_javascripts %}
             <script src="{{ asset('js/base.js') }}" defer></script>
-            <script src="{{ asset('js/translations.js') }}" defer></script>
+            <script src="{{ asset('js/language.js') }}" defer></script>
         {% endblock %}
     </body>
 </html>

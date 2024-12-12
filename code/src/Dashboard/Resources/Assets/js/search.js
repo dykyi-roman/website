@@ -35,11 +35,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     }
 
-    // Function to simulate network delay
-    function simulateDelay(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
     // Get current language or default to English
     const currentLang = localStorage.getItem('locale') || 'en';
     const t = await loadTranslations(currentLang);
@@ -324,9 +319,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             return response.json();
         })
         .then(async data => {
-            // Simulate 3-second delay
-            await simulateDelay(3000);
-
             // Clear previous results
             servicesContainer.innerHTML = '';
 
@@ -447,9 +439,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             return response.json();
         })
         .then(async data => {
-            // Simulate 3-second delay
-            await simulateDelay(3000);
-
             // Clear previous results
             servicesContainer.innerHTML = '';
 

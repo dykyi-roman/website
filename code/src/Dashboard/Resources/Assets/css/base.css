@@ -358,8 +358,7 @@ footer h5 {
     align-items: center;
 }
 
-/* Profile and Language Dropdowns */
-.language-dropdown .nav-link,
+/* Profile Dropdowns */
 .profile-dropdown .nav-link {
     padding: 0.4rem;
     display: flex;
@@ -367,28 +366,9 @@ footer h5 {
     height: 40px;
 }
 
-.language-dropdown .fa-globe,
 .profile-dropdown .fa-bars {
     font-size: 1.25rem;
     color: var(--primary-color);
-}
-
-.language-dropdown .language-code {
-    margin-left: 5px;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.language-dropdown .dropdown-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.language-dropdown .dropdown-item::after {
-    content: attr(data-lang);
-    font-weight: bold;
-    text-transform: uppercase;
 }
 
 .profile-image-container {
@@ -444,13 +424,6 @@ footer h5 {
 /* Make sure modal content is relative for spinner positioning */
 .modal-content {
     position: relative;
-}
-
-/* Language Dropdown Active State */
-.dropdown-item.active {
-    background-color: #e9ecef;
-    color: #212529;
-    font-weight: bold;
 }
 
 /* Responsive Adjustments */
