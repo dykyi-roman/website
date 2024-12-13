@@ -15,6 +15,7 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 final readonly class UserLoginAction
 {
@@ -25,7 +26,7 @@ final readonly class UserLoginAction
     ) {
     }
 
-    #[Route('/login', name: 'login', methods: ['POST'])]
+    #[Route('/login', name: 'login_process', methods: ['GET', 'POST'])]
     public function login(
         #[MapRequestPayload] UserLoginRequestDTO $request
     ): JsonResponse {
@@ -42,7 +43,7 @@ final readonly class UserLoginAction
                 'message' => 'Login successful',
                 'redirect' => $this->urlGenerator->generate('dashboard')
             ]);
-        } catch (InvalidCredentialsException $exception) {
+        } catch (\DomainException $exception) {
             return new JsonResponse([
                 'success' => false,
                 'errors' => [

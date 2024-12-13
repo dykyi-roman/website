@@ -18,11 +18,6 @@ security:
         main:
             lazy: true
             provider: all_users
-            form_login:
-                login_path: login
-                check_path: login
-                enable_csrf: true
-                default_target_path: dashboard
             logout:
                 path: logout
                 target: dashboard

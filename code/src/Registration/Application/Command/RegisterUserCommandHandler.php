@@ -41,9 +41,8 @@ final readonly class RegisterUserCommandHandler
 
         $this->eventBus->dispatch(
             new UserRegisteredEvent(
-                $user->getId()->toRfc4122(),
+                $user->getId(),
                 $user->getEmail(),
-                $user->getName(),
                 new \DateTimeImmutable(),
             ),
         );

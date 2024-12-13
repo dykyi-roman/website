@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Registration\DomainModel\Event;
 
+use Symfony\Component\Uid\Uuid;
+
 final readonly class UserRegisteredEvent
 {
     public function __construct(
-        public string $id,
+        public Uuid $id,
         public string $email,
-        public bool $isPartner,
         public \DateTimeImmutable $registeredAt,
     ) {
     }
