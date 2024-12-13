@@ -21,3 +21,14 @@
 .social-btn i {
     font-size: 1.2rem;
 }
+
+/* Social buttons */
+.btn.btn-primary.d-flex.align-items-center.justify-content-center.gap-2.px-4 {
+    background-color: var(--facebook-blue) !important;
+    border-color: var(--facebook-blue) !important;
+}
+
+.btn.btn-primary.d-flex.align-items-center.justify-content-center.gap-2.px-4:hover {
+    background-color: var(--facebook-blue-hover) !important;
+    border-color: var(--facebook-blue-hover) !important;
+}
