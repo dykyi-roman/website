@@ -389,41 +389,26 @@ footer h5 {
     display: block;
 }
 
-/* Dropdown hover effects */
-.language-dropdown .nav-link,
-.profile-dropdown .nav-link {
+/* Dropdown icon hover effects */
+.language-dropdown .nav-link i,
+.profile-dropdown .nav-link i {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    transition: background-color 0.3s;
-    padding: 0;
-}
-
-.language-dropdown .nav-link:hover,
-.profile-dropdown .nav-link:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-.language-dropdown .nav-link i,
-.profile-dropdown .nav-link i,
-.language-dropdown .nav-link .language-code,
-.profile-dropdown .nav-link .profile-name {
-    transition: transform 0.3s;
+    transition: all 0.3s;
 }
 
 .language-dropdown .nav-link:hover i,
-.profile-dropdown .nav-link:hover i,
-.language-dropdown .nav-link:hover .language-code,
-.profile-dropdown .nav-link:hover .profile-name {
+.profile-dropdown .nav-link:hover i {
+    background-color: rgba(0, 0, 0, 0.1);
     transform: scale(1.1);
 }
 
-/* Adjust profile dropdown for wider content */
+/* Adjust profile icon spacing */
 .profile-dropdown .nav-link {
-    width: auto;
     padding: 0 0.5rem;
 }
 
