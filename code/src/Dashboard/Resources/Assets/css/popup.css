@@ -1,0 +1,84 @@
+/* Common Modal Styles */
+.modal-header {
+    border-bottom: none;
+    padding: 1.5rem 1.5rem 0.5rem;
+}
+
+.modal-title {
+    color: var(--primary-orange);
+    font-weight: 600;
+}
+
+.btn-close {
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+.btn-close:hover {
+    opacity: 1;
+}
+
+/* Grid Button Layout */
+.popup-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+}
+
+/* Action Button Styles */
+.popup-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1rem;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-dark);
+    font-size: 1rem;
+    width: 100%;
+}
+
+.popup-action-btn:hover {
+    background-color: var(--primary-orange);
+    border-color: var(--primary-orange);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+}
+
+.popup-action-btn i {
+    font-size: 1.25rem;
+    margin-right: 1rem;
+    width: 24px;
+    text-align: center;
+}
+
+.popup-action-btn span {
+    font-weight: 500;
+}
+
+/* Primary Action Button */
+.popup-action-btn.primary {
+    border-color: var(--primary-orange);
+    color: var(--primary-orange);
+}
+
+.popup-action-btn.primary:hover {
+    background-color: var(--primary-orange);
+    color: white;
+}
+
+/* Responsive styles */
+@media (max-width: 576px) {
+    .popup-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .popup-action-btn {
+        padding: 0.75rem;
+    }
+}

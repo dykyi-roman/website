@@ -1,7 +1,3 @@
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/popup/share-popup.css') }}">
-{% endblock %}
-
 <!-- Share Popup -->
 <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -11,28 +7,28 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'Close'|trans }}"></button>
             </div>
             <div class="modal-body">
-                <div class="share-buttons">
-                    <button class="share-button copy-link">
+                <div class="popup-grid">
+                    <button class="popup-action-btn primary" data-action="copy-link">
                         <i class="fas fa-link"></i>
                         <span>{{ 'Share Copy Link'|trans }}</span>
                     </button>
-                    <button class="share-button email">
+                    <button class="popup-action-btn" data-action="email">
                         <i class="fas fa-envelope"></i>
                         <span>{{ 'Share Email Button'|trans }}</span>
                     </button>
-                    <button class="share-button twitter">
+                    <button class="popup-action-btn" data-action="twitter">
                         <i class="fab fa-twitter"></i>
                         <span>{{ 'Share Twitter'|trans }}</span>
                     </button>
-                    <button class="share-button whatsapp">
+                    <button class="popup-action-btn" data-action="whatsapp">
                         <i class="fab fa-whatsapp"></i>
                         <span>{{ 'Share WhatsApp'|trans }}</span>
                     </button>
-                    <button class="share-button messenger">
+                    <button class="popup-action-btn" data-action="messenger">
                         <i class="fab fa-facebook-messenger"></i>
                         <span>{{ 'Share Messenger'|trans }}</span>
                     </button>
-                    <button class="share-button facebook">
+                    <button class="popup-action-btn" data-action="facebook">
                         <i class="fab fa-facebook"></i>
                         <span>{{ 'Share Facebook'|trans }}</span>
                     </button>
