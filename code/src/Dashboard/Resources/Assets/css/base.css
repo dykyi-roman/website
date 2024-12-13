@@ -389,6 +389,44 @@ footer h5 {
     display: block;
 }
 
+/* Dropdown hover effects */
+.language-dropdown .nav-link,
+.profile-dropdown .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+    padding: 0;
+}
+
+.language-dropdown .nav-link:hover,
+.profile-dropdown .nav-link:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.language-dropdown .nav-link i,
+.profile-dropdown .nav-link i,
+.language-dropdown .nav-link .language-code,
+.profile-dropdown .nav-link .profile-name {
+    transition: transform 0.3s;
+}
+
+.language-dropdown .nav-link:hover i,
+.profile-dropdown .nav-link:hover i,
+.language-dropdown .nav-link:hover .language-code,
+.profile-dropdown .nav-link:hover .profile-name {
+    transform: scale(1.1);
+}
+
+/* Adjust profile dropdown for wider content */
+.profile-dropdown .nav-link {
+    width: auto;
+    padding: 0 0.5rem;
+}
+
 /* Spinner Overlay Styles */
 .spinner-overlay {
     position: absolute;
