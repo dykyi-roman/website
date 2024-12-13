@@ -5,6 +5,9 @@
             <i class="fas fa-hand"></i> {{ organization.name }}
         </a>
         <div class="ms-auto d-flex align-items-center">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <i class="fas fa-sun" id="themeIcon"></i>
+            </button>
             {% include '@Locale/component/language_menu.html.twig' %}
             <div class="nav-item dropdown profile-dropdown ms-3">
                 <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
