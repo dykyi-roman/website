@@ -22,6 +22,7 @@
             <link rel="stylesheet" href="{{ asset('css/base.css') }}">
             <link rel="stylesheet" href="{{ asset('css/language.css') }}">
             <link rel="stylesheet" href="{{ asset('css/popup.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/dark-theme.css') }}">
         {% endblock %}
 
         {# Core JavaScript #}
@@ -38,7 +39,7 @@
 
         {# Page-specific JavaScript #}
         {% block javascripts %}
-
+            <script src="{{ asset('js/base.js') }}" defer></script>
         {% endblock %}
     </head>
     <body itemscope itemtype="http://schema.org/WebPage" class="{% block body_class %}{% endblock %}">
@@ -83,7 +84,6 @@
 
         {# Late-loaded JavaScript #}
         {% block late_javascripts %}
-            <script src="{{ asset('js/base.js') }}" defer></script>
             <script src="{{ asset('js/language.js') }}" defer></script>
         {% endblock %}
     </body>
