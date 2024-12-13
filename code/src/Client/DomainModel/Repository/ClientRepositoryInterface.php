@@ -11,7 +11,7 @@ use App\Shared\Domain\ValueObject\Email;
 interface ClientRepositoryInterface
 {
     public function save(Client $client): void;
-    
+
     public function findById(ClientId $id): ?Client;
 
     public function findByEmail(Email $email): ?Client;

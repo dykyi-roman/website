@@ -15,7 +15,7 @@ abstract class IntEnumType extends AbstractType
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?int
     {
-        if ($value === null) {
+        if (null === $value) {
             return null;
         }
 
@@ -26,10 +26,10 @@ abstract class IntEnumType extends AbstractType
 
     public function convertToPHPValue($value, AbstractPlatform $platform): mixed
     {
-        if ($value === null) {
+        if (null === $value) {
             return null;
         }
 
-        return ($this->getIdClassName())::tryFrom((int)$value);
+        return ($this->getIdClassName())::tryFrom((int) $value);
     }
 }

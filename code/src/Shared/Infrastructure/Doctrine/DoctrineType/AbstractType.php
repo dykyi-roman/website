@@ -19,9 +19,7 @@ abstract class AbstractType extends Type
     protected function getDbIdTypeName(): string
     {
         if (is_null(static::TYPE_NAME)) {
-            throw new \LogicException(
-                'Please overwrite constant \'MY_TYPE\', with proper value, in class ' . static::class
-            );
+            throw new \LogicException('Please overwrite constant \'MY_TYPE\', with proper value, in class '.static::class);
         }
 
         return static::TYPE_NAME;
@@ -30,9 +28,7 @@ abstract class AbstractType extends Type
     protected function getIdClassName(): string
     {
         if (is_null(static::CLASS_NAME)) {
-            throw new \LogicException(
-                'Please overwrite constant \'MY_UUID_CLASSNAME\', with proper value, in class ' . static::class
-            );
+            throw new \LogicException('Please overwrite constant \'MY_UUID_CLASSNAME\', with proper value, in class '.static::class);
         }
 
         return static::CLASS_NAME;

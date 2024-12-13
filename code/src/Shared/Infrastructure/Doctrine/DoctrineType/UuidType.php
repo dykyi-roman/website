@@ -4,7 +4,6 @@ namespace App\Shared\Infrastructure\Doctrine\DoctrineType;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
-use Doctrine\DBAL\Types\Type;
 
 abstract class UuidType extends AbstractType
 {
@@ -29,6 +28,7 @@ abstract class UuidType extends AbstractType
         if ($platform instanceof MySQLPlatform) {
             // Convert binary to UUID string
             $uuid = $this->binaryToUuid($value);
+
             return ($this->getIdClassName())::fromString($uuid);
         }
 
@@ -53,6 +53,7 @@ abstract class UuidType extends AbstractType
     {
         // Remove hyphens and convert to binary
         $uuid = str_replace('-', '', $uuid);
+
         return hex2bin($uuid);
     }
 
@@ -60,6 +61,7 @@ abstract class UuidType extends AbstractType
     {
         // Convert binary to UUID string with hyphens
         $hex = bin2hex($binary);
+
         return sprintf(
             '%s-%s-%s-%s-%s',
             substr($hex, 0, 8),

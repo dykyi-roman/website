@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Partner\Infrastructure\Doctrine\DoctrineType;
 
-use App\Shared\Infrastructure\Doctrine\DoctrineType\IntEnumType;
 use App\Partner\DomainModel\Enum\PartnerStatus;
+use App\Shared\Infrastructure\Doctrine\DoctrineType\IntEnumType;
 
 final class PartnerStatusType extends IntEnumType
 {

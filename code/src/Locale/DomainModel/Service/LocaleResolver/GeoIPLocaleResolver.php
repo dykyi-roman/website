@@ -21,7 +21,7 @@ final readonly class GeoIPLocaleResolver implements LocaleResolverInterface
     public function resolve(Request $request): ?string
     {
         $ip = $request->getClientIp();
-        if (!$ip || $ip === self::LOCAL_HOST) {
+        if (!$ip || self::LOCAL_HOST === $ip) {
             return null;
         }
 

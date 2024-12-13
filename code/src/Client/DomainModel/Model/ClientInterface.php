@@ -6,5 +6,4 @@ namespace App\Client\DomainModel\Model;
 
 interface ClientInterface
 {
-
 }

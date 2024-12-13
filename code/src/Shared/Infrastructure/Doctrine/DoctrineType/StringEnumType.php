@@ -15,7 +15,7 @@ abstract class StringEnumType extends AbstractType
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
-        if ($value === null) {
+        if (null === $value) {
             return null;
         }
 
@@ -26,10 +26,10 @@ abstract class StringEnumType extends AbstractType
 
     public function convertToPHPValue($value, AbstractPlatform $platform): mixed
     {
-        if ($value === null) {
+        if (null === $value) {
             return null;
         }
 
-        return ($this->getIdClassName())::tryFrom((string)$value);
+        return ($this->getIdClassName())::tryFrom((string) $value);
     }
 }

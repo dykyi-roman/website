@@ -13,13 +13,13 @@ final readonly class MockClient implements OrderInterface
     public function search(string $query, int $page = 1, int $limit = 20): array
     {
         $items = [];
-        for ($i = 0; $i < self::COUNT; $i++) {
+        for ($i = 0; $i < self::COUNT; ++$i) {
             $items[] = [
                 'id' => $i,
                 'title' => 'Sample Order Title 1',
                 'description' => 'This is a sample description for the first service offering. This is a sample description for the first service offering. This is a sample description for the first service offering. This is a sample description for the first service offering.',
                 'category' => 'Phone',
-                'url' => '/orders/item/' . $i,
+                'url' => '/orders/item/'.$i,
                 'feedback_count' => '42',
                 'image_url' => '',
                 'features' => [
@@ -27,11 +27,11 @@ final readonly class MockClient implements OrderInterface
                     'Master-freelancer',
                     '95% positive reviews',
                     'Online 4 hours ago',
-                    'Response time: 2 hours'
+                    'Response time: 2 hours',
                 ],
                 'rating' => 4,
                 'review_count' => 34,
-                'price' => '500'
+                'price' => '500',
             ];
         }
 
@@ -44,7 +44,7 @@ final readonly class MockClient implements OrderInterface
             'total' => count($items),
             'page' => $page,
             'limit' => $limit,
-            'total_pages' => ceil(count($items) / $limit)
+            'total_pages' => ceil(count($items) / $limit),
         ];
     }
 }

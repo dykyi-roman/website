@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Registration\Application\Command;
 
 /**
- * @see \App\Registration\Application\Command\RegisterUserCommandHandler
+ * @see RegisterUserCommandHandler
  */
 final readonly class RegisterUserCommand
 {
@@ -16,7 +16,7 @@ final readonly class RegisterUserCommand
         public ?string $phone,
         public string $country,
         public string $city,
-        public bool $isPartner
+        public bool $isPartner,
     ) {
     }
 }

@@ -29,7 +29,7 @@ final class UserLoginAuthenticator extends AbstractAuthenticator
 
     public function supports(Request $request): ?bool
     {
-        return $request->getPathInfo() === '/login' && $request->isMethod('POST');
+        return '/login' === $request->getPathInfo() && $request->isMethod('POST');
     }
 
     public function authenticate(Request $request): Passport
@@ -38,7 +38,7 @@ final class UserLoginAuthenticator extends AbstractAuthenticator
         $password = $request->request->get('password', '');
         $rememberMe = $request->request->getBoolean('remember_me');
 
-        $userBadge = new UserBadge($email, function(string $email) {
+        $userBadge = new UserBadge($email, function (string $email) {
             $user = $this->userRepository->findByEmail(Email::fromString($email));
             if (!$user) {
                 throw new AuthenticationException('Invalid username or password');
@@ -82,7 +82,7 @@ final class UserLoginAuthenticator extends AbstractAuthenticator
             'errors' => [
                 'message' => 'Invalid username or password',
                 'field' => 'email',
-            ]
+            ],
         ], Response::HTTP_UNAUTHORIZED);
     }
 }

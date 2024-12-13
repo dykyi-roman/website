@@ -16,7 +16,7 @@ final class PartnerRepository implements PartnerRepositoryInterface
     private EntityRepository $repository;
 
     public function __construct(
-        private readonly EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager,
     ) {
         $this->repository = $this->entityManager->getRepository(Partner::class);
     }

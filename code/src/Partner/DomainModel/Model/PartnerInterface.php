@@ -6,5 +6,4 @@ namespace App\Partner\DomainModel\Model;
 
 interface PartnerInterface
 {
-
 }

@@ -6,5 +6,4 @@ namespace App\Registration\DomainModel\Service\CityNames;
 
 interface CityNamesInterface
 {
-
 }

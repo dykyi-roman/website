@@ -17,7 +17,7 @@ final readonly class ChainLocaleResolver implements LocaleResolverInterface
     {
         foreach ($this->resolvers as $resolver) {
             $locale = $resolver->resolve($request);
-            if ($locale !== null) {
+            if (null !== $locale) {
                 return $locale;
             }
         }

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service\Presentation\Api;
 
-use OpenApi\Attributes as OA;
 use App\Service\DomainModel\Service\ServiceInterface;
 use App\Service\Presentation\Api\Request\ServicesSearchRequestDTO;
+use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
@@ -65,7 +65,7 @@ final class ServiceSearchAction
                 new OA\Property(property: 'total', type: 'integer'),
                 new OA\Property(property: 'page', type: 'integer'),
                 new OA\Property(property: 'limit', type: 'integer'),
-                new OA\Property(property: 'total_pages', type: 'integer')
+                new OA\Property(property: 'total_pages', type: 'integer'),
             ],
             type: 'object'
         )
@@ -81,7 +81,7 @@ final class ServiceSearchAction
             $searchRequest->page,
             $searchRequest->limit,
         );
-        
+
         return new JsonResponse($result);
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Registration\Presentation\Web\Request;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 
 final readonly class UserRegisterRequestDTO
 {
@@ -38,6 +37,6 @@ final readonly class UserRegisterRequestDTO
 
     public function isPartner(): bool
     {
-        return $this->type === 'partner';
+        return 'partner' === $this->type;
     }
 }

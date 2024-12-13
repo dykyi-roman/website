@@ -11,8 +11,8 @@ use App\Shared\Domain\ValueObject\Email;
 interface PartnerRepositoryInterface
 {
     public function save(Partner $partner): void;
-    
+
     public function findById(PartnerId $id): ?Partner;
-    
+
     public function findByEmail(Email $email): ?Partner;
 }

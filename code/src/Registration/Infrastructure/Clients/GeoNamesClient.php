@@ -8,5 +8,4 @@ use App\Registration\DomainModel\Service\CityNames\CityNamesInterface;
 
 final class GeoNamesClient implements CityNamesInterface
 {
-
 }

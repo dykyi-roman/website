@@ -46,8 +46,8 @@ final class GenerateTranslationCommand extends Command
     private function generateJsTranslationFiles(SymfonyStyle $io): void
     {
         $projectDir = dirname(__DIR__, 5);
-        $sourcePath = $projectDir . self::TRANSLATIONS_SOURCE_DIR;
-        $outputPath = $projectDir . self::JS_TRANSLATIONS_OUTPUT_DIR;
+        $sourcePath = $projectDir.self::TRANSLATIONS_SOURCE_DIR;
+        $outputPath = $projectDir.self::JS_TRANSLATIONS_OUTPUT_DIR;
 
         // Ensure output directory exists
         $this->filesystem->mkdir($outputPath);
@@ -67,7 +67,7 @@ final class GenerateTranslationCommand extends Command
             }
 
             $jsContent = json_encode($jsTranslations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-            $this->filesystem->dumpFile($outputPath . '/' . $filename, $jsContent);
+            $this->filesystem->dumpFile($outputPath.'/'.$filename, $jsContent);
 
             $io->note(sprintf('Generated: %s', $filename));
         }

@@ -36,13 +36,14 @@ final class MysqlHealthcheckCommand extends Command
     {
         try {
             $dbName = $input->getArgument('db-name');
-            
+
             if (!in_array($dbName, ['client', 'partner'])) {
                 $output->writeln('<error>Invalid db-name. Must be either "client" or "partner"</error>');
+
                 return Command::INVALID;
             }
 
-            $databaseUrl = match($dbName) {
+            $databaseUrl = match ($dbName) {
                 'client' => $this->clientDatabaseUrl,
                 'partner' => $this->partnerDatabaseUrl,
             };
@@ -50,6 +51,7 @@ final class MysqlHealthcheckCommand extends Command
             $dbParams = parse_url($databaseUrl);
             if (!$dbParams) {
                 $output->writeln(sprintf('<error>Invalid database URL format for %s</error>', $dbName));
+
                 return Command::FAILURE;
             }
 
@@ -73,13 +75,16 @@ final class MysqlHealthcheckCommand extends Command
 
             if ($result && 1 === $result['1']) {
                 $output->writeln('<info>MySQL connection test successful!</info>');
+
                 return Command::SUCCESS;
             }
 
             $output->writeln('<error>MySQL connection test failed: Unexpected result</error>');
+
             return Command::FAILURE;
         } catch (\PDOException $exception) {
             $output->writeln(sprintf('<error>MySQL connection test failed: %s</error>', $exception->getMessage()));
+
             return Command::FAILURE;
         }
     }

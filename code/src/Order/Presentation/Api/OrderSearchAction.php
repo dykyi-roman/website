@@ -65,7 +65,7 @@ final class OrderSearchAction
                 new OA\Property(property: 'total', type: 'integer'),
                 new OA\Property(property: 'page', type: 'integer'),
                 new OA\Property(property: 'limit', type: 'integer'),
-                new OA\Property(property: 'total_pages', type: 'integer')
+                new OA\Property(property: 'total_pages', type: 'integer'),
             ],
             type: 'object'
         )
@@ -81,7 +81,7 @@ final class OrderSearchAction
             $searchRequest->page,
             $searchRequest->limit,
         );
-        
+
         return new JsonResponse($result);
     }
 }

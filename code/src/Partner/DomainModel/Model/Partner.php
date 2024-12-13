@@ -8,8 +8,8 @@ use App\Partner\DomainModel\Enum\PartnerId;
 use App\Partner\DomainModel\Enum\PartnerStatus;
 use App\Shared\Domain\Enum\Roles;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'partner')]
@@ -71,7 +71,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface, Part
         string $email,
         ?string $phone = null,
         ?string $country = null,
-        ?string $city = null
+        ?string $city = null,
     ) {
         $this->id = $id;
         $this->name = $name;

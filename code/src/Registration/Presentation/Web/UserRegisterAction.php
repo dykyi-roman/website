@@ -10,8 +10,8 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 final readonly class UserRegisterAction
 {
@@ -57,8 +57,8 @@ final readonly class UserRegisterAction
                 'success' => false,
                 'errors' => [
                     'message' => $exception->getMessage(),
-                    'field' => 'email'
-                ]
+                    'field' => 'email',
+                ],
             ], Response::HTTP_BAD_REQUEST);
         } catch (\Throwable $exception) {
             $this->logger->error($exception->getMessage(), [
@@ -71,7 +71,7 @@ final readonly class UserRegisterAction
                 'success' => false,
                 'errors' => [
                     'message' => $exception->getMessage(),
-                ]
+                ],
             ], Response::HTTP_BAD_REQUEST);
         }
     }
