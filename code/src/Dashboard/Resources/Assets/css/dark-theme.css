@@ -8,6 +8,8 @@
     --success-color: #2EA043;
     --background-light: #1A1A1A;
     --text-dark: #E0E0E0;
+    --text-lighter: #F5F5F5;
+    --text-muted: #CCCCCC;
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
     --primary-orange: #FF8B60;
@@ -42,7 +44,7 @@
 
 [data-theme="dark"] .navbar-brand,
 [data-theme="dark"] .nav-link {
-    color: var(--text-dark) !important;
+    color: var(--text-lighter) !important;
 }
 
 /* Toggle buttons */
@@ -96,7 +98,7 @@
 }
 
 [data-theme="dark"] .dropdown-item {
-    color: var(--text-dark);
+    color: var(--text-lighter);
 }
 
 [data-theme="dark"] .dropdown-item:hover {
@@ -128,7 +130,7 @@
 [data-theme="dark"] .list-group-item {
     background-color: var(--dark-surface);
     border-color: var(--dark-border);
-    color: var(--text-dark);
+    color: var(--text-lighter);
 }
 
 [data-theme="dark"] .table {
@@ -197,7 +199,7 @@
 [data-theme="dark"] .pagination li span {
     background-color: var(--dark-surface);
     border-color: var(--dark-border);
-    color: var(--text-dark);
+    color: var(--text-lighter);
 }
 
 [data-theme="dark"] .pagination li.active a,
@@ -210,7 +212,7 @@
 [data-theme="dark"] .pagination li a:hover:not(.active) {
     background-color: var(--primary-light);
     border-color: var(--dark-border);
-    color: var(--text-dark);
+    color: var(--text-lighter);
 }
 
 [data-theme="dark"] .pagination li.disabled a,
@@ -221,7 +223,7 @@
 }
 
 [data-theme="dark"] .pagination-info {
-    color: var(--text-dark);
+    color: var(--text-lighter);
 }
 
 /* Item cards in search results */
@@ -235,9 +237,69 @@
 }
 
 [data-theme="dark"] .item-card .card-title {
-    color: var(--text-dark);
+    color: var(--text-lighter);
 }
 
 [data-theme="dark"] .item-card .card-text {
     color: var(--secondary-color);
+}
+
+/* Labels and form elements */
+[data-theme="dark"] label {
+    color: var(--text-lighter);
+}
+
+[data-theme="dark"] .form-label {
+    color: var(--text-lighter);
+}
+
+/* Placeholders */
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder,
+[data-theme="dark"] select::placeholder {
+    color: var(--text-muted) !important;
+}
+
+/* Menu items */
+[data-theme="dark"] .dropdown-menu li {
+    color: var(--text-lighter);
+}
+
+[data-theme="dark"] .nav-link {
+    color: var(--text-lighter) !important;
+}
+
+[data-theme="dark"] .navbar-nav .nav-link {
+    color: var(--text-lighter) !important;
+}
+
+[data-theme="dark"] .navbar-brand {
+    color: var(--text-lighter) !important;
+}
+
+/* List items in general */
+[data-theme="dark"] li {
+    color: var(--text-lighter);
+}
+
+/* Form elements focus state */
+[data-theme="dark"] .form-control:focus::placeholder {
+    color: var(--text-muted) !important;
+}
+
+/* Additional text elements that might need to be lighter */
+[data-theme="dark"] .text-muted {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] small {
+    color: var(--text-muted);
+}
+
+[data-theme="dark"] .card-title {
+    color: var(--text-lighter);
+}
+
+[data-theme="dark"] .modal-title {
+    color: var(--text-lighter);
 }
