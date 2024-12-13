@@ -4,44 +4,11 @@ declare(strict_types=1);
 
 namespace App\Partner\Infrastructure\Doctrine\DoctrineType;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\Type;
+use App\Shared\Infrastructure\Doctrine\DoctrineType\IntEnumType;
 use App\Partner\DomainModel\Enum\PartnerStatus;
-use InvalidArgumentException;
 
-final class PartnerStatusType extends Type
+final class PartnerStatusType extends IntEnumType
 {
-    public function getName(): string
-    {
-        return 'partner_status';
-    }
-
-    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
-    {
-        return $platform->getSmallIntTypeDeclarationSQL($column);
-    }
-
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): int
-    {
-        if ($value === null) {
-            return PartnerStatus::ACTIVE->value;
-        }
-
-        if (!$value instanceof PartnerStatus) {
-            throw new InvalidArgumentException(
-                sprintf('Value must be an instance of %s', PartnerStatus::class)
-            );
-        }
-
-        return $value->value;
-    }
-
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?PartnerStatus
-    {
-        if ($value === null) {
-            return null;
-        }
-
-        return PartnerStatus::tryFrom((int)$value);
-    }
+    protected const string ID_TYPE = 'partner_status';
+    protected const string ID_CLASSNAME = PartnerStatus::class;
 }

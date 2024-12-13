@@ -60,7 +60,7 @@ final readonly class UserRegisterAction
             return new JsonResponse([
                 'success' => false,
                 'errors' => [
-                    'message' => 'An error occurred during registration. Please try again.'
+                    'message' => $exception->getMessage(),
                 ]
             ], Response::HTTP_BAD_REQUEST);
         }
