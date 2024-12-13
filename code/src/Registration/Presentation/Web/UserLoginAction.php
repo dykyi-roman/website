@@ -36,7 +36,17 @@ final readonly class UserLoginAction
                 $request->password,
             );
 
-            $this->commandBus->dispatch($command);
+            try {
+                $this->commandBus->dispatch($command);
+            } catch (\Throwable $busException) {
+                $originalException = $busException->getPrevious() ?? $busException;
+
+                if ($originalException instanceof \DomainException) {
+                    throw $originalException;
+                }
+
+                throw $busException;
+            }
 
             return new JsonResponse([
                 'success' => true,
