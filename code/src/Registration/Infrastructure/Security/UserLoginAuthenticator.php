@@ -6,7 +6,6 @@ namespace App\Registration\Infrastructure\Security;
 
 use App\Registration\DomainModel\Event\UserLoggedInEvent;
 use App\Registration\DomainModel\Repository\UserRepositoryInterface;
-use App\Registration\DomainModel\Service\AuthenticationService;
 use App\Shared\Domain\ValueObject\Email;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,12 +19,11 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 
-class UserLoginAuthenticator extends AbstractAuthenticator
+final class UserLoginAuthenticator extends AbstractAuthenticator
 {
     public function __construct(
-        private UserRepositoryInterface $userRepository,
-        private MessageBusInterface $eventBus,
-        private AuthenticationService $authenticationService,
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly MessageBusInterface $eventBus,
     ) {
     }
 
@@ -40,7 +38,7 @@ class UserLoginAuthenticator extends AbstractAuthenticator
         $password = $request->request->get('password', '');
         $rememberMe = $request->request->getBoolean('remember_me');
 
-        $userBadge = new UserBadge($email, function($email) {
+        $userBadge = new UserBadge($email, function(string $email) {
             $user = $this->userRepository->findByEmail(Email::fromString($email));
             if (!$user) {
                 throw new AuthenticationException('Invalid username or password');

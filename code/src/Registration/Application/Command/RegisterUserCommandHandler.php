@@ -10,10 +10,10 @@ use App\Partner\DomainModel\Enum\PartnerId;
 use App\Partner\DomainModel\Model\Partner;
 use App\Registration\DomainModel\Event\UserRegisteredEvent;
 use App\Registration\DomainModel\Repository\UserRepositoryInterface;
-use App\Registration\DomainModel\Service\AuthenticationService;
 use App\Shared\Domain\ValueObject\Email;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 final readonly class RegisterUserCommandHandler
 {
     public function __construct(
-        private AuthenticationService $authenticationService,
+        private UserPasswordHasherInterface $passwordHasher,
         private TokenStorageInterface $tokenStorage,
         private UserRepositoryInterface $userRepository,
         private MessageBusInterface $eventBus,
@@ -35,8 +35,7 @@ final readonly class RegisterUserCommandHandler
         $this->checkIfEmailAlreadyExists($command->email);
 
         $user = $this->createUser($command);
-        $user->setPassword($this->authenticationService->hashPassword($user, $command->password));
-
+        $user->setPassword($this->passwordHasher->hashPassword($user, $command->password));
         $this->saveUser($user);
 
         $this->eventBus->dispatch(
