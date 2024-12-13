@@ -203,15 +203,19 @@ document.addEventListener('DOMContentLoaded', async function () {
             const modal = new bootstrap.Modal(loginModal);
             modal.show();
 
+            // Clear any previous errors
+            clearErrors(loginForm);
+
+            // Ensure Remember Me checkbox is checked
+            const rememberMeCheckbox = document.getElementById('rememberMe');
+            if (rememberMeCheckbox) {
+                rememberMeCheckbox.checked = true;
+            }
+
             const inputs = loginModal.querySelectorAll('input');
             inputs.forEach(input => {
                 input.value = '';
                 input.classList.remove('is-invalid', 'is-valid');
-
-                // Uncheck the "Remember me" checkbox
-                if (input.type === 'checkbox' && input.id === 'rememberMe') {
-                    input.checked = false;
-                }
             });
         });
     });
