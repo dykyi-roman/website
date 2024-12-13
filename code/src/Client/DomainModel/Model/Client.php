@@ -6,6 +6,7 @@ namespace App\Client\DomainModel\Model;
 
 use App\Client\DomainModel\Enum\ClientId;
 use App\Client\DomainModel\Enum\ClientStatus;
+use App\Shared\Domain\Enum\Roles;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -13,7 +14,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[ORM\Entity]
 #[ORM\Table(name: 'client')]
 #[ORM\HasLifecycleCallbacks]
-class Client implements UserInterface, PasswordAuthenticatedUserInterface
+class Client implements UserInterface, PasswordAuthenticatedUserInterface, ClientInterface
 {
     #[ORM\Id]
     #[ORM\Column(type: 'client_id', unique: true)]
@@ -79,7 +80,7 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
         $this->country = $country;
         $this->city = $city;
         $this->status = ClientStatus::ACTIVE;
-        $this->roles = ['ROLE_CLIENT'];
+        $this->roles = [Roles::ROLE_CLIENT->value];
         $this->activatedAt = new \DateTimeImmutable();
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();

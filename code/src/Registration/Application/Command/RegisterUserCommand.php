@@ -13,7 +13,7 @@ final readonly class RegisterUserCommand
         public string $name,
         public string $email,
         public string $password,
-        public string $phone,
+        public ?string $phone,
         public string $country,
         public string $city,
         public bool $isPartner

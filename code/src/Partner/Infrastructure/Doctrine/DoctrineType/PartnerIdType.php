@@ -9,6 +9,6 @@ use App\Shared\Infrastructure\Doctrine\DoctrineType\UuidType;
 
 final class PartnerIdType extends UuidType
 {
-    protected const string ID_TYPE = 'partner_id';
-    protected const string ID_CLASSNAME = PartnerId::class;
+    protected const string TYPE_NAME = 'partner_id';
+    protected const string CLASS_NAME = PartnerId::class;
 }

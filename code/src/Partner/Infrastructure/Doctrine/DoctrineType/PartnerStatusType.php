@@ -9,6 +9,6 @@ use App\Partner\DomainModel\Enum\PartnerStatus;
 
 final class PartnerStatusType extends IntEnumType
 {
-    protected const string ID_TYPE = 'partner_status';
-    protected const string ID_CLASSNAME = PartnerStatus::class;
+    protected const string TYPE_NAME = 'partner_status';
+    protected const string CLASS_NAME = PartnerStatus::class;
 }

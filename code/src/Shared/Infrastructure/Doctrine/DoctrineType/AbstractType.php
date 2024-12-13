@@ -8,8 +8,8 @@ use Doctrine\DBAL\Types\Type;
 
 abstract class AbstractType extends Type
 {
-    protected const ?string ID_TYPE = null;
-    protected const ?string ID_CLASSNAME = null;
+    protected const ?string TYPE_NAME = null;
+    protected const ?string CLASS_NAME = null;
 
     public function getName(): string
     {
@@ -18,24 +18,24 @@ abstract class AbstractType extends Type
 
     protected function getDbIdTypeName(): string
     {
-        if (is_null(static::ID_TYPE)) {
+        if (is_null(static::TYPE_NAME)) {
             throw new \LogicException(
                 'Please overwrite constant \'MY_TYPE\', with proper value, in class ' . static::class
             );
         }
 
-        return static::ID_TYPE;
+        return static::TYPE_NAME;
     }
 
     protected function getIdClassName(): string
     {
-        if (is_null(static::ID_CLASSNAME)) {
+        if (is_null(static::CLASS_NAME)) {
             throw new \LogicException(
                 'Please overwrite constant \'MY_UUID_CLASSNAME\', with proper value, in class ' . static::class
             );
         }
 
-        return static::ID_CLASSNAME;
+        return static::CLASS_NAME;
     }
 
     protected function ensureEnum($value): void

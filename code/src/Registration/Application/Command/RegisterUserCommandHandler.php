@@ -6,24 +6,24 @@ namespace App\Registration\Application\Command;
 
 use App\Client\DomainModel\Enum\ClientId;
 use App\Client\DomainModel\Model\Client;
-use App\Client\DomainModel\Repository\ClientRepositoryInterface;
 use App\Partner\DomainModel\Enum\PartnerId;
 use App\Partner\DomainModel\Model\Partner;
-use App\Partner\DomainModel\Repository\PartnerRepositoryInterface;
+use App\Registration\DomainModel\Service\RegistrationService;
+use App\Registration\DomainModel\ValueObject\Email;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[AsMessageHandler]
 final readonly class RegisterUserCommandHandler
 {
     public function __construct(
-        private ClientRepositoryInterface $clientRepository,
-        private PartnerRepositoryInterface $partnerRepository,
         private UserPasswordHasherInterface $passwordHasher,
         private TokenStorageInterface $tokenStorage,
+        private RegistrationService $registrationService,
     ) {
     }
 
@@ -34,22 +34,24 @@ final readonly class RegisterUserCommandHandler
         $user = $this->createUser($command);
         $user->setPassword($this->passwordHasher->hashPassword($user, $command->password));
 
-        if ($command->isPartner) {
-            $this->partnerRepository->save($user);
-        } else {
-            $this->clientRepository->save($user);
-        }
+        $this->saveUser($user);
 
         $this->loginUserAfterRegistration($user);
     }
 
+    private function saveUser(UserInterface $user): void
+    {
+        try {
+            $this->registrationService->save($user);
+        } catch (\Throwable $exception) {
+            throw new \DomainException(sprintf('Failed to register user: %s', $exception->getMessage()));
+        }
+    }
+
     private function checkIfEmailAlreadyExists(string $email): void
     {
-        $clientExists = $this->clientRepository->findByEmail($email);
-        $partnerExists = $this->partnerRepository->findByEmail($email);
-
-        if ($clientExists || $partnerExists) {
-            throw new \DomainException('Email already exists');
+        if (!$this->registrationService->isEmailUnique(Email::fromString($email))) {
+            throw new \DomainException(sprintf('Email "%s" already exists', $email));
         }
     }
 
@@ -59,7 +61,7 @@ final readonly class RegisterUserCommandHandler
         $this->tokenStorage->setToken($token);
     }
 
-    private function createUser(RegisterUserCommand $command): Client|Partner
+    private function createUser(RegisterUserCommand $command): UserInterface|PasswordAuthenticatedUserInterface
     {
         return $command->isPartner
             ? new Partner(

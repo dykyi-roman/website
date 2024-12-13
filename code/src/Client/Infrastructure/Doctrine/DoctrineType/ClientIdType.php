@@ -9,6 +9,6 @@ use App\Shared\Infrastructure\Doctrine\DoctrineType\UuidType;
 
 final class ClientIdType extends UuidType
 {
-    protected const string ID_TYPE = 'client_id';
-    protected const string ID_CLASSNAME = ClientId::class;
+    protected const string TYPE_NAME = 'client_id';
+    protected const string CLASS_NAME = ClientId::class;
 }

@@ -6,16 +6,15 @@ namespace App\Partner\DomainModel\Model;
 
 use App\Partner\DomainModel\Enum\PartnerId;
 use App\Partner\DomainModel\Enum\PartnerStatus;
+use App\Shared\Domain\Enum\Roles;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
-use function Symfony\Component\Translation\t;
-
 #[ORM\Entity]
 #[ORM\Table(name: 'partner')]
 #[ORM\HasLifecycleCallbacks]
-class Partner implements UserInterface, PasswordAuthenticatedUserInterface
+class Partner implements UserInterface, PasswordAuthenticatedUserInterface, PartnerInterface
 {
     #[ORM\Id]
     #[ORM\Column(type: 'partner_id', unique: true)]
@@ -81,7 +80,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface
         $this->country = $country;
         $this->city = $city;
         $this->status = PartnerStatus::ACTIVE;
-        $this->roles = ['ROLE_PARTNER'];
+        $this->roles = [Roles::ROLE_PARTNER->value];
         $this->activatedAt = new \DateTimeImmutable();
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();

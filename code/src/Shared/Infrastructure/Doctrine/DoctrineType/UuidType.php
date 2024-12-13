@@ -8,8 +8,8 @@ use Doctrine\DBAL\Types\Type;
 
 abstract class UuidType extends AbstractType
 {
-    protected const ?string ID_TYPE = null;
-    protected const ?string ID_CLASSNAME = null;
+    protected const ?string TYPE_NAME = null;
+    protected const ?string CLASS_NAME = null;
 
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
