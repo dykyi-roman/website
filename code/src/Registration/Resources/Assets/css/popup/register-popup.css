@@ -1,29 +1,6 @@
-/* Custom styles for register popup that extend Bootstrap */
 :root {
-    --secondary-orange: #FF8B68;
     --facebook-blue: #1877F2;
     --facebook-blue-hover: #0d6efd;
-}
-
-/* Orange theme styles */
-.btn-orange {
-    background-color: var(--primary-orange);
-    border-color: var(--primary-orange);
-    color: white;
-}
-
-.btn-orange:hover {
-    background-color: var(--secondary-orange);
-    border-color: var(--secondary-orange);
-    color: white;
-}
-
-.text-orange {
-    color: var(--primary-orange) !important;
-}
-
-.text-orange:hover {
-    color: var(--secondary-orange) !important;
 }
 
 /* Registration type buttons */
