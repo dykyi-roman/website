@@ -7,6 +7,7 @@ namespace App\Client\Infrastructure\Repository;
 use App\Client\DomainModel\Enum\ClientId;
 use App\Client\DomainModel\Model\Client;
 use App\Client\DomainModel\Repository\ClientRepositoryInterface;
+use App\Shared\Domain\ValueObject\Email;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
@@ -31,8 +32,8 @@ final class ClientRepository implements ClientRepositoryInterface
         return $this->repository->find($id->toRfc4122());
     }
 
-    public function findByEmail(string $email): ?Client
+    public function findByEmail(Email $email): ?Client
     {
-        return $this->repository->findOneBy(['email' => $email]);
+        return $this->repository->findOneBy(['email' => $email->value()]);
     }
 }

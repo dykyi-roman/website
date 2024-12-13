@@ -2,26 +2,37 @@
 
 declare(strict_types=1);
 
-namespace App\Registration\DomainModel\Service;
+namespace App\Registration\Infrastructure\Repository;
 
 use App\Client\DomainModel\Repository\ClientRepositoryInterface;
 use App\Partner\DomainModel\Repository\PartnerRepositoryInterface;
-use App\Registration\DomainModel\ValueObject\Email;
+use App\Registration\DomainModel\Repository\UserRepositoryInterface;
 use App\Shared\Domain\Enum\Roles;
+use App\Shared\Domain\ValueObject\Email;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-final readonly class RegistrationService
+final readonly class UserRepository implements UserRepositoryInterface
 {
     public function __construct(
         private ClientRepositoryInterface $clientRepository,
-        private PartnerRepositoryInterface $partnerRepository
+        private PartnerRepositoryInterface $partnerRepository,
     ) {
+    }
+
+    public function findByEmail(Email $email): ?UserInterface
+    {
+        $user = $this->clientRepository->findByEmail($email);
+        if (!$user) {
+            $user = $this->partnerRepository->findByEmail($email);
+        }
+
+        return $user;
     }
 
     public function isEmailUnique(Email $email): bool
     {
-        $clientExists = $this->clientRepository->findByEmail($email->value());
-        $partnerExists = $this->partnerRepository->findByEmail($email->value());
+        $clientExists = $this->clientRepository->findByEmail($email);
+        $partnerExists = $this->partnerRepository->findByEmail($email);
 
         return !($clientExists || $partnerExists);
     }

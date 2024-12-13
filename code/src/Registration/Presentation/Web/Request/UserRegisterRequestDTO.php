@@ -12,7 +12,7 @@ final readonly class UserRegisterRequestDTO
 {
     public function __construct(
         #[Assert\NotBlank]
-        #[Assert\Length(min: 2, max: 255)]
+        #[Assert\Length(min: 2, max: 100)]
         public string $name,
 
         #[Assert\NotBlank]
@@ -20,8 +20,11 @@ final readonly class UserRegisterRequestDTO
         public string $email,
 
         #[Assert\NotBlank]
-        #[Assert\Length(min: 6)]
+        #[Assert\Length(min: 8)]
         public string $password,
+
+        #[Assert\NotBlank]
+        public string $type,
 
         #[Assert\Length(max: 20)]
         public ?string $phone = null,
@@ -29,10 +32,8 @@ final readonly class UserRegisterRequestDTO
         #[Assert\Length(max: 100)]
         public ?string $country = null,
 
-        #[Assert\Length(max: 100)]
+        #[Assert\Length(max: 255)]
         public ?string $city = null,
-
-        public ?string $type = null,
     ) {
     }
 

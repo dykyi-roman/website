@@ -13,6 +13,7 @@ framework:
             async: '%env(MESSENGER_TRANSPORT_DSN)%'
             sync: 'in-memory://default'
 
-        # Убираем явную маршрутизацию, чтобы использовать дефолтную синхронную обработку
         routing:
+            App\Registration\DomainModel\Even\UserLoggedInEvent: async
+            App\Registration\DomainModel\Even\UserRegisteredEvent: async
 

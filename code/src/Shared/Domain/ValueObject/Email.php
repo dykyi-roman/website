@@ -2,13 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Registration\DomainModel\ValueObject;
+namespace App\Shared\Domain\ValueObject;
 
-final readonly class Email
+final readonly class Email implements \Stringable
 {
     private function __construct(private string $value)
     {
         $this->validate($value);
+    }
+
+    public function __toString(): string
+    {
+        return $this->value();
     }
 
     public static function fromString(string $email): self

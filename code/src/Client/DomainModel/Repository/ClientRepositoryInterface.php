@@ -6,6 +6,7 @@ namespace App\Client\DomainModel\Repository;
 
 use App\Client\DomainModel\Enum\ClientId;
 use App\Client\DomainModel\Model\Client;
+use App\Shared\Domain\ValueObject\Email;
 
 interface ClientRepositoryInterface
 {
@@ -13,5 +14,5 @@ interface ClientRepositoryInterface
     
     public function findById(ClientId $id): ?Client;
 
-    public function findByEmail(string $email): ?Client;
+    public function findByEmail(Email $email): ?Client;
 }

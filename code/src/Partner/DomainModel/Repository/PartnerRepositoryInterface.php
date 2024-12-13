@@ -6,6 +6,7 @@ namespace App\Partner\DomainModel\Repository;
 
 use App\Partner\DomainModel\Enum\PartnerId;
 use App\Partner\DomainModel\Model\Partner;
+use App\Shared\Domain\ValueObject\Email;
 
 interface PartnerRepositoryInterface
 {
@@ -13,5 +14,5 @@ interface PartnerRepositoryInterface
     
     public function findById(PartnerId $id): ?Partner;
     
-    public function findByEmail(string $email): ?Partner;
+    public function findByEmail(Email $email): ?Partner;
 }

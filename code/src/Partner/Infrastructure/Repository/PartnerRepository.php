@@ -7,6 +7,7 @@ namespace App\Partner\Infrastructure\Repository;
 use App\Partner\DomainModel\Enum\PartnerId;
 use App\Partner\DomainModel\Model\Partner;
 use App\Partner\DomainModel\Repository\PartnerRepositoryInterface;
+use App\Shared\Domain\ValueObject\Email;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
@@ -31,8 +32,8 @@ final class PartnerRepository implements PartnerRepositoryInterface
         return $this->repository->find($id->toRfc4122());
     }
 
-    public function findByEmail(string $email): ?Partner
+    public function findByEmail(Email $email): ?Partner
     {
-        return $this->repository->findOneBy(['email' => $email]);
+        return $this->repository->findOneBy(['email' => $email->value()]);
     }
 }
