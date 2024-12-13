@@ -7,7 +7,6 @@ namespace App\Registration\Presentation\Web\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 
-#[MapRequestPayload]
 final readonly class UserRegisterRequestDTO
 {
     public function __construct(
