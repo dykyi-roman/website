@@ -56,7 +56,7 @@ final readonly class UserLoginAction
                 'success' => false,
                 'errors' => [
                     'message' => $exception->getMessage(),
-//                    'field' => 'email',
+                    'field' => 'email',
                 ]
             ], Response::HTTP_UNAUTHORIZED);
         } catch (\Throwable $exception) {
