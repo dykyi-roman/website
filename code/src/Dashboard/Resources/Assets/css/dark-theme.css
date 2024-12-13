@@ -9,6 +9,7 @@
     --background-light: #1A1A1A;
     --text-dark: #E0E0E0;
     --text-lighter: #F5F5F5;
+    --text-brightest: #FFFFFF;
     --text-muted: #CCCCCC;
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
@@ -18,6 +19,7 @@
     --error-red: #F85149;
     --dark-bg: #121212;
     --dark-surface: #1E1E1E;
+    --dark-surface-lighter: #2A2A2A;
     --dark-border: #2D2D2D;
 }
 
@@ -301,5 +303,134 @@
 }
 
 [data-theme="dark"] .modal-title {
+    color: var(--text-lighter);
+}
+
+/* Input text color */
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="email"],
+[data-theme="dark"] input[type="password"],
+[data-theme="dark"] input[type="number"],
+[data-theme="dark"] input[type="search"],
+[data-theme="dark"] input[type="tel"],
+[data-theme="dark"] input[type="url"],
+[data-theme="dark"] textarea,
+[data-theme="dark"] .form-control {
+    color: var(--text-lighter) !important;
+    background-color: var(--dark-surface);
+    border-color: var(--dark-border);
+}
+
+/* Checkbox and radio styles */
+[data-theme="dark"] .form-check-label {
+    color: var(--text-lighter);
+}
+
+[data-theme="dark"] .form-check-input {
+    background-color: var(--dark-surface);
+    border-color: var(--text-muted);
+}
+
+[data-theme="dark"] .form-check-input:checked {
+    background-color: var(--primary-orange);
+    border-color: var(--primary-orange);
+}
+
+/* Container page-content styles */
+[data-theme="dark"] .container.page-content,
+[data-theme="dark"] .page-content {
+    background-color: var(--dark-surface);
+    color: var(--text-lighter);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: var(--shadow-md);
+}
+
+[data-theme="dark"] .container.page-content h1,
+[data-theme="dark"] .container.page-content h2,
+[data-theme="dark"] .container.page-content h3,
+[data-theme="dark"] .container.page-content h4,
+[data-theme="dark"] .container.page-content h5,
+[data-theme="dark"] .container.page-content h6 {
+    color: var(--text-lighter);
+}
+
+[data-theme="dark"] .container.page-content h2 {
+    color: var(--text-brightest);
+    font-weight: 500;
+}
+
+[data-theme="dark"] .container.page-content p,
+[data-theme="dark"] .container.page-content span,
+[data-theme="dark"] .container.page-content div {
+    color: var(--text-lighter);
+}
+
+/* Make sure links inside page-content are visible */
+[data-theme="dark"] .container.page-content a:not(.btn) {
+    color: var(--primary-orange);
+}
+
+[data-theme="dark"] .container.page-content a:not(.btn):hover {
+    color: var(--secondary-orange);
+}
+
+/* Style tables inside page-content */
+[data-theme="dark"] .container.page-content table {
+    background-color: var(--dark-surface);
+    color: var(--text-lighter);
+}
+
+[data-theme="dark"] .container.page-content table th,
+[data-theme="dark"] .container.page-content table td {
+    border-color: var(--dark-border);
+}
+
+/* Style lists inside page-content */
+[data-theme="dark"] .container.page-content ul,
+[data-theme="dark"] .container.page-content ol {
+    color: var(--text-lighter);
+}
+
+/* Input focus states */
+[data-theme="dark"] input:focus,
+[data-theme="dark"] textarea:focus,
+[data-theme="dark"] .form-control:focus {
+    background-color: var(--dark-surface);
+    border-color: var(--primary-orange);
+    color: var(--text-lighter) !important;
+    box-shadow: 0 0 0 0.25rem rgba(255, 107, 53, 0.25);
+}
+
+/* Contact item styles */
+[data-theme="dark"] .contact-item {
+    background-color: var(--dark-surface-lighter);
+    border-color: var(--dark-border);
+}
+
+[data-theme="dark"] .contact-item:hover {
+    background-color: var(--primary-light);
+}
+
+[data-theme="dark"] .contact-item .contact-name,
+[data-theme="dark"] .contact-item .contact-email,
+[data-theme="dark"] .contact-item .contact-phone,
+[data-theme="dark"] .contact-item .contact-details {
+    color: var(--text-brightest);
+}
+
+[data-theme="dark"] .contact-item .contact-meta {
+    color: var(--text-muted);
+}
+
+/* Dropdown active state */
+[data-theme="dark"] .dropdown-item.active,
+[data-theme="dark"] .dropdown-item:active {
+    background-color: var(--primary-orange);
+    color: var(--dark-bg);
+}
+
+[data-theme="dark"] .dropdown-item:hover {
+    background-color: var(--primary-light);
     color: var(--text-lighter);
 }
