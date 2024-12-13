@@ -459,3 +459,37 @@
 [data-theme="dark"] .bg-white {
     background-color: transparent !important;
 }
+
+/* Scroll to top button */
+[data-theme="dark"] .scroll-to-top {
+    background-color: var(--dark-surface);
+    color: var(--primary-orange);
+    border: 1px solid var(--primary-orange);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .scroll-to-top:hover {
+    background-color: var(--primary-orange);
+    color: var(--dark-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 139, 96, 0.3);
+}
+
+/* Back button */
+[data-theme="dark"] .back-button {
+    background-color: var(--dark-surface);
+    color: var(--primary-orange);
+    border: 1px solid var(--primary-orange);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .back-button:hover {
+    background-color: var(--primary-orange);
+    color: var(--dark-bg);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(255, 139, 96, 0.3);
+}
+
+[data-theme="dark"] .back-button i {
+    color: inherit;
+}
