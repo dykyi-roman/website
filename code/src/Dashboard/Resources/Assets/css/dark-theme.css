@@ -373,8 +373,10 @@
     color: var(--text-lighter);
 }
 
-[data-theme="dark"] .container.page-content h2 {
-    color: var(--text-brightest);
+[data-theme="dark"] .item-price .price,
+[data-theme="dark"] .item-features .feature-item,
+[data-theme="dark"] h2 {
+    color: var(--secondary-color);
     font-weight: 500;
 }
 
@@ -451,4 +453,9 @@
 [data-theme="dark"] .dropdown-item:hover {
     background-color: var(--primary-light);
     color: var(--text-lighter);
+}
+
+/* Override white background */
+[data-theme="dark"] .bg-white {
+    background-color: transparent !important;
 }
