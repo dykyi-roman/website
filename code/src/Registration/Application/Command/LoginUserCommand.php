@@ -14,6 +14,7 @@ final readonly class LoginUserCommand
     public function __construct(
         public Email $email,
         public string $password,
+        public bool $rememberMe = false,
     ) {
     }
 }

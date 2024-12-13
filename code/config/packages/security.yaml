@@ -18,12 +18,14 @@ security:
         main:
             lazy: true
             provider: all_users
+            custom_authenticator:
+                - App\Registration\Infrastructure\Security\UserLoginAuthenticator
             logout:
                 path: logout
                 target: dashboard
             remember_me:
                 secret: '%kernel.secret%'
-                lifetime: 604800 # 1 week
+                lifetime: 2592000 # 30 days
                 path: /
                 always_remember_me: true
 
