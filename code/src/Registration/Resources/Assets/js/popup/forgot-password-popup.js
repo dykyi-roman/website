@@ -160,6 +160,25 @@ document.addEventListener('DOMContentLoaded', async function() {
         }, 3000);
     }
 
+    // Function to clear form errors and alerts
+    function clearErrors(form) {
+        const inputs = form.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.classList.remove('is-invalid', 'is-valid');
+            const feedback = input.nextElementSibling;
+            if (feedback && feedback.classList.contains('invalid-feedback')) {
+                feedback.textContent = '';
+            }
+        });
+
+        // Remove alert classes and hide alert elements
+        const alertElements = form.querySelectorAll('.alert-danger, .alert-success');
+        alertElements.forEach(alert => {
+            alert.textContent = '';
+            alert.style.display = 'none';
+        });
+    }
+
     // Submit form data
     async function submitForgotPassword(form) {
         // Validate all inputs first
@@ -267,6 +286,12 @@ document.addEventListener('DOMContentLoaded', async function() {
                 input.classList.remove('is-invalid', 'is-valid');
             });
         });
+    });
+
+    // Modal events
+    forgotPasswordModal.addEventListener('hidden.bs.modal', function () {
+        forgotPasswordForm.reset();
+        clearErrors(forgotPasswordForm);
     });
 
     // Initialize form

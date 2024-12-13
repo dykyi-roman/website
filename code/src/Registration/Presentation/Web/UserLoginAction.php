@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Registration\Presentation\Web;
 
 use App\Registration\Application\Command\LoginUserCommand;
-use App\Registration\DomainModel\Exception\InvalidCredentialsException;
 use App\Registration\Presentation\Web\Request\UserLoginRequestDTO;
 use App\Shared\Domain\ValueObject\Email;
 use Psr\Log\LoggerInterface;
@@ -15,7 +14,6 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 final readonly class UserLoginAction
 {
@@ -58,7 +56,7 @@ final readonly class UserLoginAction
                 'success' => false,
                 'errors' => [
                     'message' => $exception->getMessage(),
-                    'field' => 'email',
+//                    'field' => 'email',
                 ]
             ], Response::HTTP_UNAUTHORIZED);
         } catch (\Throwable $exception) {

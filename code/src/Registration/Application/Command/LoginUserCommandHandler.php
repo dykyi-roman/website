@@ -8,7 +8,6 @@ use App\Registration\DomainModel\Event\UserLoggedInEvent;
 use App\Registration\DomainModel\Exception\InvalidCredentialsException;
 use App\Registration\DomainModel\Repository\UserRepositoryInterface;
 use App\Registration\DomainModel\Service\AuthenticationService;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;

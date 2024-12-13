@@ -176,6 +176,25 @@ document.addEventListener('DOMContentLoaded', async function () {
         errorContainer.style.display = 'block';
     }
 
+    // Function to clear form errors and alerts
+    function clearErrors(form) {
+        const inputs = form.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.classList.remove('is-invalid', 'is-valid');
+            const feedback = input.nextElementSibling;
+            if (feedback && feedback.classList.contains('invalid-feedback')) {
+                feedback.textContent = '';
+            }
+        });
+
+        // Remove alert classes and hide alert elements
+        const alertElements = form.querySelectorAll('.alert-danger, .alert-success');
+        alertElements.forEach(alert => {
+            alert.textContent = '';
+            alert.style.display = 'none';
+        });
+    }
+
     // Event listener for login buttons
     const loginButtons = document.querySelectorAll('[data-action="login"]');
     loginButtons.forEach(button => {
@@ -195,6 +214,12 @@ document.addEventListener('DOMContentLoaded', async function () {
                 }
             });
         });
+    });
+
+    // Modal events
+    loginModal.addEventListener('hidden.bs.modal', function () {
+        loginForm.reset();
+        clearErrors(loginForm);
     });
 
     // Form submission event

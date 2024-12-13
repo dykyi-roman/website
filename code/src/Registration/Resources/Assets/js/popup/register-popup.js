@@ -253,6 +253,14 @@ document.addEventListener('DOMContentLoaded', async function () {
             }
         });
 
+        // Remove alert classes and hide alert elements
+        const alertElements = form.querySelectorAll('.alert-danger, .alert-success');
+        alertElements.forEach(alert => {
+            alert.classList.remove('alert-danger', 'alert-success');
+            alert.textContent = '';
+            alert.style.display = 'none';
+        });
+
         // Reset city fields to disabled state
         const clientCity = document.getElementById('client-city');
         const partnerCity = document.getElementById('partner-city');
