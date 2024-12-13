@@ -57,8 +57,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Validation rules
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^\+?[\d\s-()]{10,}$/;
-    const nameRegex = /^[a-zA-Z\s'-]{2,50}$/;
+    const phoneRegex = /^\+\d{10,15}$/; // + followed by 10-15 digits
+    const nameRegex = /^[a-zA-Z\s'-]{2,100}$/;
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/;
 
     // Validation rules for different field types
@@ -72,8 +72,17 @@ document.addEventListener('DOMContentLoaded', async function () {
             message: t.error_invalid_email
         },
         tel: {
-            validate: (value) => phoneRegex.test(value.trim()),
-            message: t.phone_validation
+            validate: (value) => {
+                // Check if the phone number matches the regex (starts with +, 10-15 digits)
+                const isValidFormat = phoneRegex.test(value.trim());
+                
+                // Additional length check
+                const cleanedValue = value.replace(/\D/g, '');
+                const isValidLength = cleanedValue.length >= 10 && cleanedValue.length <= 15;
+                
+                return isValidFormat && isValidLength;
+            },
+            message: t.phone_validation || 'Please enter a valid phone number (10-15 digits including country code)'
         },
         select: {
             validate: (value) => value.trim() !== '',
@@ -93,6 +102,22 @@ document.addEventListener('DOMContentLoaded', async function () {
             message: t.password_validation
         }
     };
+
+    // Add phone input validation to enforce rules
+    function setupPhoneInputValidation(input) {
+        input.addEventListener('input', function(e) {
+            // Remove any characters that are not + or digits
+            let value = e.target.value.replace(/[^+\d]/g, '');
+            
+            // Ensure the first character is always +
+            if (!value.startsWith('+')) {
+                value = '+' + value.replace(/\+/g, '');
+            }
+            
+            // Limit to first character being + and rest being digits
+            e.target.value = value;
+        });
+    }
 
     // Field validation function
     function validateField(field, form) {
@@ -148,6 +173,11 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         const inputs = form.querySelectorAll('input, select');
         inputs.forEach(input => {
+            // Add special handling for phone inputs
+            if (input.type === 'tel') {
+                setupPhoneInputValidation(input);
+            }
+
             // Validate on input
             input.addEventListener('input', function () {
                 validateField(this, form);
