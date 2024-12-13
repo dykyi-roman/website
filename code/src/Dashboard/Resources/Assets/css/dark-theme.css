@@ -49,23 +49,41 @@
     color: var(--text-lighter) !important;
 }
 
-/* Toggle buttons */
-[data-theme="dark"] .view-toggle,
-[data-theme="dark"] .filter-toggle {
+/* Toggle buttons (view-toggle and filter-toggle) */
+[data-theme="dark"] .view-toggle button,
+[data-theme="dark"] .filter-toggle button {
+    background-color: var(--dark-surface);
+    border-color: var(--primary-orange);
+    color: var(--primary-orange);
+}
+
+[data-theme="dark"] .view-toggle button:hover,
+[data-theme="dark"] .filter-toggle button:hover {
+    background-color: var(--primary-orange);
+    border-color: var(--primary-orange);
+    color: var(--dark-bg);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(255, 139, 96, 0.3);
+}
+
+[data-theme="dark"] .view-toggle button.active,
+[data-theme="dark"] .filter-toggle button.active {
+    background-color: var(--primary-orange);
+    border-color: var(--primary-orange);
+    color: var(--dark-bg);
+}
+
+[data-theme="dark"] .view-toggle button i,
+[data-theme="dark"] .filter-toggle button i {
+    color: inherit;
+}
+
+[data-theme="dark"] .view-toggle button:disabled,
+[data-theme="dark"] .filter-toggle button:disabled {
     background-color: var(--dark-surface);
     border-color: var(--dark-border);
-    color: var(--text-dark);
-}
-
-[data-theme="dark"] .view-toggle:hover,
-[data-theme="dark"] .filter-toggle:hover {
-    background-color: var(--primary-light);
-}
-
-[data-theme="dark"] .view-toggle.active,
-[data-theme="dark"] .filter-toggle.active {
-    background-color: var(--primary-orange);
-    color: var(--dark-bg);
+    color: var(--text-muted);
+    opacity: 0.5;
 }
 
 /* HR text background fix */
