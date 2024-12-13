@@ -14,34 +14,120 @@
     --secondary-orange: #FF7A45;
     --light-orange: #B38F35;
     --error-red: #F85149;
+    --dark-bg: #121212;
+    --dark-surface: #1E1E1E;
+    --dark-border: #2D2D2D;
 }
 
 /* Dark theme specific styles */
 [data-theme="dark"] body {
-    background-color: #121212;
+    background-color: var(--dark-bg);
     color: var(--text-dark);
 }
 
-[data-theme="dark"] .navbar,
-[data-theme="dark"] .footer {
-    background-color: #1E1E1E;
-    border-color: #2D2D2D;
+/* Container styles */
+[data-theme="dark"] .container-fluid {
+    background-color: var(--dark-bg);
 }
 
+/* Navbar styles */
+[data-theme="dark"] .navbar {
+    background-color: var(--dark-surface) !important;
+    border-color: var(--dark-border);
+}
+
+[data-theme="dark"] .navbar-light {
+    background-color: var(--dark-surface) !important;
+}
+
+[data-theme="dark"] .navbar-brand,
+[data-theme="dark"] .nav-link {
+    color: var(--text-dark) !important;
+}
+
+/* Toggle buttons */
+[data-theme="dark"] .view-toggle,
+[data-theme="dark"] .filter-toggle {
+    background-color: var(--dark-surface);
+    border-color: var(--dark-border);
+    color: var(--text-dark);
+}
+
+[data-theme="dark"] .view-toggle:hover,
+[data-theme="dark"] .filter-toggle:hover {
+    background-color: var(--primary-light);
+}
+
+[data-theme="dark"] .view-toggle.active,
+[data-theme="dark"] .filter-toggle.active {
+    background-color: var(--primary-orange);
+    color: var(--dark-bg);
+}
+
+/* HR text background fix */
+[data-theme="dark"] hr {
+    border-color: var(--dark-border);
+    background-color: var(--dark-bg);
+}
+
+[data-theme="dark"] .hr-text {
+    background-color: var(--dark-bg);
+    color: var(--text-dark);
+}
+
+[data-theme="dark"] .hr-text::before {
+    background-color: var(--dark-border);
+}
+
+/* Close button */
+[data-theme="dark"] .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Additional common elements */
 [data-theme="dark"] .card {
-    background-color: #1E1E1E;
-    border-color: #2D2D2D;
+    background-color: var(--dark-surface);
+    border-color: var(--dark-border);
+}
+
+[data-theme="dark"] .dropdown-menu {
+    background-color: var(--dark-surface);
+    border-color: var(--dark-border);
+}
+
+[data-theme="dark"] .dropdown-item {
+    color: var(--text-dark);
+}
+
+[data-theme="dark"] .dropdown-item:hover {
+    background-color: var(--primary-light);
 }
 
 [data-theme="dark"] .form-control {
-    background-color: #2D2D2D;
-    border-color: #3D3D3D;
+    background-color: var(--dark-surface);
+    border-color: var(--dark-border);
     color: var(--text-dark);
 }
 
 [data-theme="dark"] .form-control:focus {
-    background-color: #333333;
+    background-color: var(--dark-surface);
     border-color: var(--primary-orange);
+    color: var(--text-dark);
+}
+
+[data-theme="dark"] .modal-content {
+    background-color: var(--dark-surface);
+    border-color: var(--dark-border);
+}
+
+[data-theme="dark"] .modal-header,
+[data-theme="dark"] .modal-footer {
+    border-color: var(--dark-border);
+}
+
+[data-theme="dark"] .list-group-item {
+    background-color: var(--dark-surface);
+    border-color: var(--dark-border);
     color: var(--text-dark);
 }
 
@@ -49,27 +135,13 @@
     color: var(--text-dark);
 }
 
-[data-theme="dark"] .table thead th {
-    border-bottom-color: #2D2D2D;
-}
-
 [data-theme="dark"] .table td,
 [data-theme="dark"] .table th {
-    border-top-color: #2D2D2D;
+    border-color: var(--dark-border);
 }
 
-[data-theme="dark"] .modal-content {
-    background-color: #1E1E1E;
-    border-color: #2D2D2D;
-}
-
-[data-theme="dark"] .modal-header,
-[data-theme="dark"] .modal-footer {
-    border-color: #2D2D2D;
-}
-
-[data-theme="dark"] .close {
-    color: var(--text-dark);
+[data-theme="dark"] .border {
+    border-color: var(--dark-border) !important;
 }
 
 [data-theme="dark"] a {
@@ -87,32 +159,85 @@
 
 [data-theme="dark"] .btn-outline-primary:hover {
     background-color: var(--primary-orange);
-    color: #121212;
+    color: var(--dark-bg);
 }
 
-[data-theme="dark"] .dropdown-menu {
-    background-color: #1E1E1E;
-    border-color: #2D2D2D;
+/* Search section */
+[data-theme="dark"] .search-section {
+    background-color: var(--dark-bg);
 }
 
-[data-theme="dark"] .dropdown-item {
+/* Form select */
+[data-theme="dark"] .form-select {
+    background-color: var(--dark-surface);
+    border-color: var(--dark-border);
     color: var(--text-dark);
 }
 
-[data-theme="dark"] .dropdown-item:hover {
-    background-color: #2D2D2D;
+[data-theme="dark"] .form-select:focus {
+    border-color: var(--primary-orange);
+    box-shadow: 0 0 0 0.25rem rgba(255, 107, 53, 0.25);
 }
 
-[data-theme="dark"] .list-group-item {
-    background-color: #1E1E1E;
-    border-color: #2D2D2D;
+[data-theme="dark"] .form-select option {
+    background-color: var(--dark-surface);
     color: var(--text-dark);
 }
 
-[data-theme="dark"] .border {
-    border-color: #2D2D2D !important;
+/* Pagination */
+[data-theme="dark"] .pagination-container {
+    background-color: var(--dark-bg);
 }
 
-[data-theme="dark"] hr {
-    border-color: #2D2D2D;
+[data-theme="dark"] .pagination {
+    background-color: var(--dark-surface);
+}
+
+[data-theme="dark"] .pagination li a,
+[data-theme="dark"] .pagination li span {
+    background-color: var(--dark-surface);
+    border-color: var(--dark-border);
+    color: var(--text-dark);
+}
+
+[data-theme="dark"] .pagination li.active a,
+[data-theme="dark"] .pagination li.active span {
+    background-color: var(--primary-orange);
+    border-color: var(--primary-orange);
+    color: var(--dark-bg);
+}
+
+[data-theme="dark"] .pagination li a:hover:not(.active) {
+    background-color: var(--primary-light);
+    border-color: var(--dark-border);
+    color: var(--text-dark);
+}
+
+[data-theme="dark"] .pagination li.disabled a,
+[data-theme="dark"] .pagination li.disabled span {
+    background-color: var(--dark-surface);
+    border-color: var(--dark-border);
+    color: var(--secondary-color);
+}
+
+[data-theme="dark"] .pagination-info {
+    color: var(--text-dark);
+}
+
+/* Item cards in search results */
+[data-theme="dark"] .item-card {
+    background-color: var(--dark-surface);
+    border-color: var(--dark-border);
+}
+
+[data-theme="dark"] .item-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+[data-theme="dark"] .item-card .card-title {
+    color: var(--text-dark);
+}
+
+[data-theme="dark"] .item-card .card-text {
+    color: var(--secondary-color);
 }
