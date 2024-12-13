@@ -1,0 +1,25 @@
+parameters:
+    validation_routes:
+        - 'register'
+        - 'login'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+           $validationRoutes: '%validation_routes%'
+
+    App\Shared\:
+        resource: '../../'
+        exclude:
+            - '../../Resources/'
+            - '../../DomainModel/Event/'
+            - '../../DomainModel/Model/'
+            - '../../Tests/'
+
+    # Global Assert Validation Error Handler
+    App\Shared\Infrastructure\ErrorHandler\GlobalErrorHandler:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }

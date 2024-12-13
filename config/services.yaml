@@ -1,0 +1,5 @@
+services:
+    # Global Assert Validation Error Handler
+    App\Shared\Infrastructure\ErrorHandler\AssertValidationErrorHandler:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
