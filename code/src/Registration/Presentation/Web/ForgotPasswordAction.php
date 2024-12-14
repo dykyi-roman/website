@@ -18,7 +18,7 @@ final readonly class ForgotPasswordAction
         try {
             //
 
-            return $responder->success($this->translator->trans('Letter sent. Check your email.'))->respond();
+            return $responder->success($translator->trans('Letter sent. Check your email.'))->respond();
         } catch (\Throwable $exception) {
             return $responder->error($exception)->respond();
         }
