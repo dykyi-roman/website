@@ -592,3 +592,51 @@
 [data-theme="dark"] .password-toggle:hover::before {
     opacity: 1;
 }
+
+/* Button classes */
+[data-theme="dark"] .popup-action-btn {
+    background-color: #2c2c2c;
+    color: #fff5eb;
+    border: 1px solid #393939;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .popup-action-btn:hover {
+    background-color: #393939;
+    border-color: #ff9966;
+    color: #ff9966;
+    box-shadow: 0 2px 4px rgba(255, 153, 102, 0.2);
+}
+
+[data-theme="dark"] .btn-primary {
+    background-color: #ff9966;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .btn-primary:hover {
+    background-color: #ff8547;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .register-type-btn {
+    background-color: #2c2c2c;
+    color: #fff5eb;
+    border: 1px solid #393939;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    margin: 5px;
+}
+
+[data-theme="dark"] .register-type-btn:hover {
+    background-color: #393939;
+    color: #ff9966;
+    border-color: #ff9966;
+}
