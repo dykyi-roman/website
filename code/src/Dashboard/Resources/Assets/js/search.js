@@ -297,7 +297,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     // Function to perform services search
-    function servicesSearch(query, page = 1, filter = '') {
+    async function servicesSearch(query, page = 1, filter = '') {
         // Update URL parameters
         updateUrlParams(query, page, filter);
 
@@ -376,7 +376,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                                             <div class="item-price mb-2">
                                                 <span class="price">${service.price}</span>
                                             </div>
-                                            <button class="btn btn-primary">${t.book_now}</button>
+                                            <button class="btn btn-primary w-100">${t.book_now}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -417,7 +417,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     // Function to perform orders search
-    function ordersSearch(query, page = 1) {
+    async function ordersSearch(query, page = 1) {
         // Update URL parameters
         updateUrlParams(query, page, 'orders');
 
@@ -496,7 +496,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                                             <div class="item-price mb-2">
                                                 <span class="price">${service.price}</span>
                                             </div>
-                                            <button class="btn btn-primary">${t.book_now}</button>
+                                            <button class="btn btn-primary w-100">${t.book_now}</button>
                                         </div>
                                     </div>
                                 </div>
