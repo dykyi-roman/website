@@ -1,6 +1,7 @@
 parameters:
     validation_routes:
         - 'register'
+        - 'forgot-password'
         - 'login'
 
 services:
@@ -22,7 +23,7 @@ services:
     # Global Assert Validation Error Handler
     App\Shared\Infrastructure\ErrorHandler\GlobalErrorHandler:
         tags:
-            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+            - { name: kernel.event_subscriber }
 
     App\Shared\Presentation\Responder\JsonResponder:
         tags:

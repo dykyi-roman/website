@@ -87,8 +87,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Intercept fetch API
     const originalFetch = window.fetch;
-    window.fetch = function() {
-        const fetchPromise = originalFetch.apply(this, arguments);
+    window.fetch = function(input, init = {}) {
+        // Add Accept header if not present
+        init.headers = init.headers || {};
+        if (typeof init.headers === 'object' && !(init.headers instanceof Headers)) {
+            init.headers = new Headers(init.headers);
+        }
+        if (!init.headers.has('Accept')) {
+            init.headers.set('Accept', 'application/json');
+        }
+        
+        const fetchPromise = originalFetch.call(this, input, init);
         fetchPromise.catch(() => hideModalSpinner());
         return fetchPromise;
     };

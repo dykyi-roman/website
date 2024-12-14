@@ -7,11 +7,13 @@ namespace App\Shared\Infrastructure\ErrorHandler;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 
-final class GlobalErrorHandler
+final readonly class GlobalErrorHandler implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly array $validationRoutes,
+        private array $validationRoutes,
     ) {
     }
 
@@ -34,5 +36,12 @@ final class GlobalErrorHandler
 
         $response = new JsonResponse($errorResponse, Response::HTTP_UNPROCESSABLE_ENTITY);
         $event->setResponse($response);
+    }
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            KernelEvents::EXCEPTION => 'onKernelException',
+        ];
     }
 }

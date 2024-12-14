@@ -140,7 +140,8 @@ document.addEventListener('DOMContentLoaded', async function () {
                 const response = await fetch('/login', {
                     method: 'POST',
                     headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
                     },
                     body: formData,
                     credentials: 'same-origin'
