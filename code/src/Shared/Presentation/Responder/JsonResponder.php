@@ -20,9 +20,9 @@ final class JsonResponder implements EventSubscriberInterface
     {
         $request = $viewEvent->getRequest();
 
-//        if (!in_array('application/json', $request->getAcceptableContentTypes(), true)) {
-//            return;
-//        }
+        //        if (!in_array('application/json', $request->getAcceptableContentTypes(), true)) {
+        //            return;
+        //        }
 
         $result = $viewEvent->getControllerResult();
         if (!$result instanceof ResponderInterface) {

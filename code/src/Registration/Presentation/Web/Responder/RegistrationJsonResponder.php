@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Registration\Presentation\Responder;
+namespace App\Registration\Presentation\Web\Responder;
 
 use App\Shared\Presentation\Responder\ResponderInterface;
 
-final class ForgotPasswordJsonResponder implements ResponderInterface
+final class RegistrationJsonResponder implements ResponderInterface
 {
     private array $data = [];
     private int $statusCode = 200;
@@ -17,7 +17,21 @@ final class ForgotPasswordJsonResponder implements ResponderInterface
             'success' => true,
             'message' => $message,
         ];
-        $this->statusCode = 200;
+        $this->statusCode = 201;
+
+        return $this;
+    }
+
+    public function validationError(string $message, string $field = ''): self
+    {
+        $this->data = [
+            'success' => false,
+            'errors' => [
+                'message' => $message,
+                'field' => $field,
+            ],
+        ];
+        $this->statusCode = 400;
 
         return $this;
     }
@@ -45,13 +59,13 @@ final class ForgotPasswordJsonResponder implements ResponderInterface
         return $this->data;
     }
 
-    public function template(): string
-    {
-        return '';
-    }
-
     public function statusCode(): int
     {
         return $this->statusCode;
+    }
+
+    public function template(): string
+    {
+        return '';
     }
 }

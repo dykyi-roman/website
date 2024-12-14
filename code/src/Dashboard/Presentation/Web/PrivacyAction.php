@@ -22,7 +22,6 @@ final readonly class PrivacyAction
         PrivacyHtmlResponder $responder,
         TranslatorInterface $translator,
     ): PrivacyHtmlResponder {
-
         return $responder->respond([
             'page_title' => $translator->trans('privacy.page_title'),
             'content' => $translator->trans('privacy.content', [

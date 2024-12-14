@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Registration\Presentation\Web;
 
 use App\Registration\Application\Command\RegisterUserCommand;
-use App\Registration\Presentation\Responder\RegistrationJsonResponder;
 use App\Registration\Presentation\Web\Request\UserRegisterRequestDTO;
+use App\Registration\Presentation\Web\Responder\RegistrationJsonResponder;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class UserRegisterAction
 {
@@ -18,8 +19,9 @@ final readonly class UserRegisterAction
     public function register(
         #[MapRequestPayload] UserRegisterRequestDTO $request,
         MessageBusInterface $commandBus,
-        RegistrationJsonResponder $responder,
         LoggerInterface $logger,
+        TranslatorInterface $translator,
+        RegistrationJsonResponder $responder,
     ): RegistrationJsonResponder {
         try {
             $command = new RegisterUserCommand(
@@ -44,7 +46,7 @@ final readonly class UserRegisterAction
                 throw $busException;
             }
 
-            return $responder->success()->respond();
+            return $responder->success($translator->trans('registration_successful'))->respond();
         } catch (\DomainException $exception) {
             return $responder->validationError($exception->getMessage(), 'email')->respond();
         } catch (\Throwable $exception) {

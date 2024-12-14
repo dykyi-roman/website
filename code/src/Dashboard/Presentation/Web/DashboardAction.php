@@ -13,7 +13,7 @@ final readonly class DashboardAction
     #[Route('/', name: 'dashboard')]
     public function dashboard(
         TranslatorInterface $translator,
-        DashboardHtmlResponder $responder
+        DashboardHtmlResponder $responder,
     ): DashboardHtmlResponder {
         return $responder->respond([
             'page_title' => $translator->trans('Welcome!'),

@@ -35,7 +35,7 @@ final readonly class HtmlResponder implements EventSubscriberInterface
         $result = $viewEvent->getControllerResult();
         $content = $this->twig->render($result->template(), $result->payload());
 
-        $response = new Response($content, );
+        $response = new Response($content);
         $response->headers->set('Content-Type', 'text/html');
 
         $viewEvent->setResponse($response);
