@@ -558,7 +558,7 @@
 /*!* Spinner styles for dark theme *!*/
 [data-theme="dark"] .spinner-container {
     background-color: var(--dark-surface);
-    border: 1px solid var(--dark-border);
+    border: 1px solid var(--dark-surface);
 }
 
 [data-theme="dark"] .spinner-container .spinner {
