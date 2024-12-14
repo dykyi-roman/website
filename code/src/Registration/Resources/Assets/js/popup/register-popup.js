@@ -194,6 +194,36 @@ document.addEventListener('DOMContentLoaded', async function () {
     setupFormValidation(clientForm);
     setupFormValidation(partnerForm);
 
+    // Setup password toggle functionality
+    const passwordInputs = document.querySelectorAll('input[type="password"]');
+    passwordInputs.forEach(input => {
+        // Create wrapper div
+        const wrapper = document.createElement('div');
+        wrapper.className = 'password-wrapper';
+        input.parentNode.insertBefore(wrapper, input);
+        
+        // Move the input and its feedback to the wrapper
+        const feedback = input.nextElementSibling;
+        wrapper.appendChild(input);
+        if (feedback && feedback.classList.contains('invalid-feedback')) {
+            wrapper.appendChild(feedback);
+        }
+
+        // Create toggle button
+        const toggleButton = document.createElement('button');
+        toggleButton.type = 'button';
+        toggleButton.className = 'password-toggle';
+        toggleButton.setAttribute('aria-label', 'Toggle password visibility');
+        wrapper.appendChild(toggleButton);
+
+        // Add click event
+        toggleButton.addEventListener('click', function() {
+            const type = input.type === 'password' ? 'text' : 'password';
+            input.type = type;
+            toggleButton.classList.toggle('hide');
+        });
+    });
+
     // Form submission handler
     async function submitRegistration(form) {
         let isValid = true;
