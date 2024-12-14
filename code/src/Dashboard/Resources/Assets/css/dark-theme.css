@@ -555,8 +555,9 @@
     color: var(--text-lighter) !important;
 }
 
-/* Spinner styles for dark theme */
+/*!* Spinner styles for dark theme *!*/
 [data-theme="dark"] .spinner-container {
+    background-color: var(--dark-surface);
     border: 1px solid var(--dark-border);
 }
 
