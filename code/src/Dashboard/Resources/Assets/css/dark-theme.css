@@ -557,7 +557,13 @@
 
 /* Spinner styles for dark theme */
 [data-theme="dark"] .spinner-container {
-    background-color: rgba(18, 18, 18, 0.9);
+    background-color: var(--dark-surface);
+    border: 1px solid var(--dark-border);
+}
+
+[data-theme="dark"] .spinner-container .spinner {
+    border-color: var(--dark-border);
+    border-top-color: var(--primary-orange);
 }
 
 [data-theme="dark"] .spinner-overlay {
