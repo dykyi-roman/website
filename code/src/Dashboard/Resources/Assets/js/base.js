@@ -154,11 +154,8 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Current pathname:', window.location.pathname);
     
     // Show/hide back button based on page history and current path
-    const backButtonPages = ['/contact', '/privacy', '/terms'];
     const currentPath = window.location.pathname;
-    
-    // Check if current path matches any of the specified pages
-    const shouldShowBackButton = backButtonPages.some(page => currentPath.includes(page));
+    const shouldShowBackButton = currentPath !== '/';
     
     if (shouldShowBackButton) {
         backButton.classList.add('visible');
@@ -175,6 +172,26 @@ document.addEventListener('DOMContentLoaded', function() {
             // Fallback to homepage if no previous page
             window.location.href = '/';
         }
+    });
+});
+
+// Password toggle functionality
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.password-toggle').forEach(button => {
+        button.addEventListener('click', function() {
+            const input = this.closest('.input-group').querySelector('input');
+            const icon = this.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            }
+        });
     });
 });
 

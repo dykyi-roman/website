@@ -89,9 +89,9 @@ services:
             timeout: 5s
             retries: 5
 
-    mysql-client:
+    mysql:
         image: mysql:${MYSQL_CLIENT_VERSION:-8.0}
-        container_name: es-mysql-client
+        container_name: es-mysql
         profiles: ["mysql"]
         environment:
             MYSQL_DATABASE: ${MYSQL_CLIENT_DB:-client}
@@ -107,28 +107,6 @@ services:
             - es-network
         healthcheck:
             test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u${MYSQL_CLIENT_USER:-app}", "-p${MYSQL_CLIENT_ROOT_PASSWORD:-!ChangeMe!}"]
-            interval: 10s
-            timeout: 5s
-            retries: 5
-
-    mysql-partner:
-        image: mysql:${MYSQL_PARTNER_VERSION:-8.0}
-        container_name: es-mysql-partner
-        profiles: ["mysql"]
-        environment:
-            MYSQL_DATABASE: ${MYSQL_PARTNER_DB:-app}
-            MYSQL_PASSWORD: ${MYSQL_PARTNER_PASSWORD:-!ChangeMe!}
-            MYSQL_USER: ${MYSQL_PARTNER_USER:-app}
-            MYSQL_ROOT_PASSWORD: ${MYSQL_PARTNER_ROOT_PASSWORD:-!ChangeMe!}
-        volumes:
-            - ./data/mysql_partner:/var/lib/mysql:rw
-            - ./containers/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
-        ports:
-            - "${MYSQL_PARTNER_PORT}:3306"
-        networks:
-            - es-network
-        healthcheck:
-            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u${MYSQL_PARTNER_USER:-app}", "-p${MYSQL_PARTNER_PASSWORD:-!ChangeMe!}"]
             interval: 10s
             timeout: 5s
             retries: 5
