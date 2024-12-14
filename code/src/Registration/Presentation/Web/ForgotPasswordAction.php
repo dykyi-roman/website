@@ -5,25 +5,22 @@ declare(strict_types=1);
 namespace App\Registration\Presentation\Web;
 
 use App\Registration\Presentation\Responder\ForgotPasswordJsonResponder;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class ForgotPasswordAction
 {
-    public function __construct(
-        private ForgotPasswordJsonResponder $responder,
-    ) {
-    }
-
     #[Route('/forgot-password', name: 'forgot-password', methods: ['POST'])]
-    public function login(): Response
-    {
+    public function login(
+        TranslatorInterface $translator,
+        ForgotPasswordJsonResponder $responder,
+    ): ForgotPasswordJsonResponder {
         try {
             //
 
-            return $this->responder->success()->respond();
+            return $responder->success($this->translator->trans('Letter sent. Check your email.'))->respond();
         } catch (\Throwable $exception) {
-            return $this->responder->error($exception)->respond();
+            return $responder->error($exception)->respond();
         }
     }
 }

@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace App\Registration\Presentation\Responder;
 
 use App\Shared\Presentation\Responder\ResponderInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 final class RegistrationJsonResponder implements ResponderInterface
 {
     private array $data = [];
-    private int $statusCode = Response::HTTP_OK;
-    private array $headers = [];
+    private int $statusCode = 200;
 
     public function success(string $message = 'Registration successful'): self
     {
@@ -20,7 +17,7 @@ final class RegistrationJsonResponder implements ResponderInterface
             'success' => true,
             'message' => $message,
         ];
-        $this->statusCode = Response::HTTP_CREATED;
+        $this->statusCode = 201;
 
         return $this;
     }
@@ -34,7 +31,7 @@ final class RegistrationJsonResponder implements ResponderInterface
                 'field' => $field,
             ],
         ];
-        $this->statusCode = Response::HTTP_BAD_REQUEST;
+        $this->statusCode = 400;
 
         return $this;
     }
@@ -47,13 +44,28 @@ final class RegistrationJsonResponder implements ResponderInterface
                 'message' => $exception->getMessage(),
             ],
         ];
-        $this->statusCode = Response::HTTP_BAD_REQUEST;
+        $this->statusCode = 400;
 
         return $this;
     }
 
-    public function respond(): Response
+    public function respond(): self
     {
-        return new JsonResponse($this->data, $this->statusCode, $this->headers);
+        return $this;
+    }
+
+    public function payload(): array
+    {
+        return $this->data;
+    }
+
+    public function statusCode(): int
+    {
+        return $this->statusCode;
+    }
+
+    public function template(): string
+    {
+        return '';
     }
 }

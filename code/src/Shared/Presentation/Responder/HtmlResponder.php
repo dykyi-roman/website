@@ -4,44 +4,40 @@ declare(strict_types=1);
 
 namespace App\Shared\Presentation\Responder;
 
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Twig\Environment;
 
-abstract class HtmlResponder implements ResponderInterface
+final readonly class HtmlResponder implements EventSubscriberInterface
 {
-    protected Environment $twig;
-    protected array $data = [];
-    protected string $template;
-    protected int $statusCode = Response::HTTP_OK;
-
-    public function __construct(Environment $twig)
-    {
-        $this->twig = $twig;
+    public function __construct(
+        protected Environment $twig,
+    ) {
     }
 
-    public function withTemplate(string $template): self
+    public static function getSubscribedEvents(): array
     {
-        $this->template = $template;
-        return $this;
+        return [
+            KernelEvents::VIEW => ['onKernelView'],
+        ];
     }
 
-    public function withData(array $data): self
+    public function onKernelView(ViewEvent $viewEvent): void
     {
-        $this->data = $data;
-        return $this;
-    }
+        $request = $viewEvent->getRequest();
 
-    public function withStatusCode(int $statusCode): self
-    {
-        $this->statusCode = $statusCode;
+        if (!in_array('text/html', $request->getAcceptableContentTypes(), true)) {
+            return;
+        }
 
-        return $this;
-    }
+        $result = $viewEvent->getControllerResult();
+        $content = $this->twig->render($result->template(), $result->payload());
 
-    public function respond(): Response
-    {
-        $content = $this->twig->render($this->template, $this->data);
+        $response = new Response($content, );
+        $response->headers->set('Content-Type', 'text/html');
 
-        return new Response($content, $this->statusCode);
+        $viewEvent->setResponse($response);
     }
 }

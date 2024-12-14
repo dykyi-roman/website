@@ -18,6 +18,7 @@ final class GlobalExtension extends AbstractExtension implements GlobalsInterfac
         private readonly string $appName,
         private readonly array $appSocial,
         private readonly string $supportPhone,
+        private readonly string $supportEmail,
         private readonly array $supportedCountries,
     ) {
     }

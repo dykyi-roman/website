@@ -3,8 +3,6 @@ parameters:
     #
     app.support_email: 'support@easyorder.com'
     app.support_phone: '+38 (093) 067 08 92'
-    app.support_business_time_from: '9:00 AM'
-    app.support_business_time_to: '6:00 PM'
     app.support_address: 'Ukraine, Zolotonosha'
     app.support_map: 'Zolotonosha+pushkina+11'
 services:
@@ -22,8 +20,6 @@ services:
             $supportPhone: '%app.support_phone%'
             $supportAddress: '%app.support_address%'
             $supportMap: '%app.support_map%'
-            $supportBusinessTimeFrom: '%app.support_business_time_from%'
-            $supportBusinessTimeTo: '%app.support_business_time_to%'
 
     App\Dashboard\:
         resource: '../../'

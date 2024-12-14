@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Shared\Presentation\Responder;
 
-use Symfony\Component\HttpFoundation\Response;
-
 interface ResponderInterface
 {
-    public function respond(): Response;
+    public function respond(): mixed;
+
+    public function payload(): array;
+
+    public function template(): string;
+
+    public function statusCode(): int;
 }
