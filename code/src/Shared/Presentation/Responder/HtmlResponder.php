@@ -4,40 +4,28 @@ declare(strict_types=1);
 
 namespace App\Shared\Presentation\Responder;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\ViewEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Twig\Environment;
 
-final readonly class HtmlResponder implements EventSubscriberInterface
+final class HtmlResponder extends AbstractResponder
 {
     public function __construct(
-        protected Environment $twig,
+        private readonly Environment $twig,
     ) {
     }
 
-    public static function getSubscribedEvents(): array
+    protected function supportsContentType(array $contentTypes): bool
     {
-        return [
-            KernelEvents::VIEW => ['onKernelView'],
-        ];
+        return in_array('text/html', $contentTypes, true);
     }
 
-    public function onKernelView(ViewEvent $viewEvent): void
+    protected function createResponse(ResponderInterface $result): Response
     {
-        $request = $viewEvent->getRequest();
-
-        if (!in_array('text/html', $request->getAcceptableContentTypes(), true)) {
-            return;
-        }
-
-        $result = $viewEvent->getControllerResult();
         $content = $this->twig->render($result->template(), $result->payload());
-
-        $response = new Response($content);
+        
+        $response = new Response($content, $result->statusCode());
         $response->headers->set('Content-Type', 'text/html');
-
-        $viewEvent->setResponse($response);
+        
+        return $response;
     }
 }
