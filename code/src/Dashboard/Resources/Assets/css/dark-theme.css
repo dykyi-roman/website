@@ -582,3 +582,13 @@
 [data-theme="dark"] .spinner-text {
     color: var(--text-lighter);
 }
+
+/* Password toggle eye icon in dark theme */
+[data-theme="dark"] .password-toggle::before {
+    filter: invert(1);
+    opacity: 0.7;
+}
+
+[data-theme="dark"] .password-toggle:hover::before {
+    opacity: 1;
+}
