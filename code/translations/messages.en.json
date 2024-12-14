@@ -100,7 +100,7 @@
     "placeholder_email": "Enter your email",
     "error_password_length": "Password must be at least 8 characters long",
     "error_passwords_match": "Passwords must match",
-    "label_password": "Password",
+    "label_password": "Enter your password",
     "label_confirm_password": "Confirm Password",
     "password_length_validation": "Password must be at least 8 characters long",
     "password_complexity_validation": "Password must contain at least one letter and one number",
