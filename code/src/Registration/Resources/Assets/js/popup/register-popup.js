@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         // Create toggle button
         const toggleButton = document.createElement('button');
         toggleButton.type = 'button';
-        toggleButton.className = 'password-toggle';
+        toggleButton.className = 'password-toggle hide';
         toggleButton.setAttribute('aria-label', 'Toggle password visibility');
         wrapper.appendChild(toggleButton);
 
