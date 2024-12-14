@@ -202,8 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Check for saved theme preference, otherwise use system preference
     const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const defaultTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+    const defaultTheme = savedTheme || 'light';
 
     // Set initial theme
     document.documentElement.setAttribute('data-theme', defaultTheme);
