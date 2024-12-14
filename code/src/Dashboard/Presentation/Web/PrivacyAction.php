@@ -4,37 +4,25 @@ declare(strict_types=1);
 
 namespace App\Dashboard\Presentation\Web;
 
+use App\Dashboard\Presentation\Responder\PrivacyHtmlResponder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Twig\Environment;
 
 final readonly class PrivacyAction
 {
-    public function __construct(
-        private string $appName,
-        private string $supportEmail,
-        private string $supportAddress,
-    ) {
-    }
-
     #[Route('/privacy', name: 'privacy')]
-    public function __invoke(
-        Environment $twig,
+    public function privacy(
+        PrivacyHtmlResponder $responder,
         TranslatorInterface $translator,
     ): Response {
-        $content = $translator->trans('privacy.content', [
-            '%app_name%' => $this->appName,
-            '%support_email%' => $this->supportEmail,
-            '%support_address%' => $this->supportAddress,
-            '%last_updated_date%' => date('Y-m-d'),
-        ]);
-
-        return new Response(
-            $twig->render('@Dashboard/page/privacy.html.twig', [
+        return $responder
+            ->withPrivacyData([
                 'page_title' => $translator->trans('privacy.page_title'),
-                'content' => $content,
+                'page_description' => $translator->trans('privacy.page_description'),
+                'page_keywords' => $translator->trans('privacy.page_keywords'),
+                'content' => $translator->trans('privacy.content'),
             ])
-        );
+            ->respond();
     }
 }
