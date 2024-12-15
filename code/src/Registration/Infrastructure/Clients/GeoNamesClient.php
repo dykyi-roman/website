@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Registration\Infrastructure\Clients;
 
+use App\Registration\DomainModel\Dto\CityDto;
 use App\Registration\DomainModel\Service\DictionaryOfCitiesInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -23,6 +24,9 @@ final readonly class GeoNamesClient implements DictionaryOfCitiesInterface
     ) {
     }
 
+    /**
+     * @return CityDto[]
+     */
     public function cityByCountryAndLocale(string $countryCode, string $lang, string $city): array
     {
         try {
@@ -49,34 +53,32 @@ final readonly class GeoNamesClient implements DictionaryOfCitiesInterface
                 return [];
             }
 
-            $content = $response->getBody()->getContents();
-            if (empty($content)) {
-                $this->logger->warning('Empty response from GeoNames API', [
-                    'country' => $countryCode,
-                    'lang' => $lang,
-                    'city' => $city,
-                ]);
-                return [];
-            }
+            $data = json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR);
 
-            return json_decode($content, true, 512, JSON_THROW_ON_ERROR);
-        } catch (JsonException $exception) {
-            $this->logger->error('Failed to decode GeoNames API response', [
-                'error' => $exception->getMessage(),
+            return array_map(
+                static fn (array $city): CityDto => new CityDto(
+                    countryCode: $city['countryCode'],
+                    name: $city['name'],
+                    transcription: $city['toponymName'] ?? '',
+                    area: $city['adminName1'] ?? '',
+                ),
+                $data['geonames'] ?? []
+            );
+        } catch (JsonException $e) {
+            $this->logger->error('Failed to parse GeoNames API response', [
+                'error' => $e->getMessage(),
                 'country' => $countryCode,
                 'lang' => $lang,
                 'city' => $city,
             ]);
-
             return [];
-        } catch (\Throwable $exception) {
-            $this->logger->error('GeoNames API request error', [
-                'error' => $exception->getMessage(),
+        } catch (\Throwable $e) {
+            $this->logger->error('GeoNames API request failed', [
+                'error' => $e->getMessage(),
                 'country' => $countryCode,
                 'lang' => $lang,
                 'city' => $city,
             ]);
-
             return [];
         }
     }

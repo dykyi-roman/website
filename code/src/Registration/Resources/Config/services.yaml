@@ -15,11 +15,8 @@ services:
         exclude:
             - '../../Resources/'
             - '../../Presentation/**/Response'
-            - '../../Presentation/**/Response'
-            - '../../Application/**/*Command.php'
-            - '../../Application/**/*Query.php'
-            - '../../DomainModel/Event/'
-            - '../../DomainModel/Model/'
+            - '../../Application/**/*{Command,Query}.php'
+            - '../../DomainModel/{Dto,Event,Model}/'
             - '../../Tests/'
         tags: ['controller.service_arguments']
 
