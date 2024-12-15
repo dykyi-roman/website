@@ -58,49 +58,73 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // City search functionality
     async function searchCities(input, countrySelect) {
-        const cityValue = input.value.trim();
-        const countryCode = countrySelect.value;
-        const lang = localStorage.getItem('locale') || 'en';
-        const citiesListId = `${input.id}-list`;
-        let citiesList = document.getElementById(citiesListId);
+        const minLength = 3;
+        const searchInterval = 2; // Search after every 2 characters
+        let lastLength = 0;
+        let citiesDropdown = null;
 
-        // Create cities list if it doesn't exist
-        if (!citiesList) {
-            citiesList = document.createElement('ul');
-            citiesList.id = citiesListId;
-            citiesList.className = 'cities-dropdown-list';
-            input.parentNode.appendChild(citiesList);
-        }
+        input.addEventListener('input', debounce(async (e) => {
+            const cityValue = e.target.value.trim();
+            const countryCode = countrySelect.value;
+            const lang = localStorage.getItem('locale') || 'en';
 
-        // Clear list if input is empty or too short
-        if (cityValue.length < 3) {
-            citiesList.innerHTML = '';
-            citiesList.style.display = 'none';
-            return;
-        }
+            // Create or get dropdown element
+            if (!citiesDropdown) {
+                citiesDropdown = document.createElement('ul');
+                citiesDropdown.className = 'cities-dropdown';
+                e.target.parentNode.appendChild(citiesDropdown);
+            }
 
-        try {
-            const response = await fetch(`/api/v1/registration/cities/search?countryCode=${countryCode}&lang=${lang}&city=${encodeURIComponent(cityValue)}`);
-            if (!response.ok) throw new Error('Failed to fetch cities');
-            
-            const cities = await response.json();
-            
-            citiesList.innerHTML = '';
-            cities.forEach(city => {
-                const li = document.createElement('li');
-                li.textContent = city.name;
-                li.addEventListener('click', () => {
-                    input.value = city.name;
-                    citiesList.style.display = 'none';
-                });
-                citiesList.appendChild(li);
-            });
-            
-            citiesList.style.display = cities.length ? 'block' : 'none';
-        } catch (error) {
-            console.error('Error fetching cities:', error);
-            citiesList.style.display = 'none';
-        }
+            // Hide dropdown if input is empty
+            if (!cityValue) {
+                citiesDropdown.style.display = 'none';
+                lastLength = 0;
+                return;
+            }
+
+            // Check if we should perform search
+            const currentLength = cityValue.length;
+            if (currentLength < minLength || 
+                (currentLength > minLength && Math.abs(currentLength - lastLength) < searchInterval)) {
+                return;
+            }
+
+            lastLength = currentLength;
+
+            try {
+                const response = await fetch(`/api/v1/registration/cities/search?countryCode=${countryCode}&lang=${lang}&city=${encodeURIComponent(cityValue)}`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const data = await response.json();
+
+                // Clear previous results
+                citiesDropdown.innerHTML = '';
+                if (data.cities && data.cities.length > 0) {
+                    citiesDropdown.style.display = 'block';
+                    data.cities.forEach(city => {
+                        const li = document.createElement('li');
+                        li.textContent = city.name;
+                        li.addEventListener('click', () => {
+                            input.value = city.name;
+                            citiesDropdown.style.display = 'none';
+                        });
+                        citiesDropdown.appendChild(li);
+                    });
+                } else {
+                    citiesDropdown.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error fetching cities:', error);
+                citiesDropdown.style.display = 'none';
+            }
+        }, 300));
+
+        // Hide dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (citiesDropdown && !input.contains(e.target) && !citiesDropdown.contains(e.target)) {
+                citiesDropdown.style.display = 'none';
+            }
+        });
     }
 
     // Initialize Bootstrap modal
@@ -286,28 +310,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Add city search functionality
     if (partnerCity) {
-        const debouncedSearch = debounce((input, countrySelect) => {
-            if (input.value.trim().length >= 3 && countrySelect.value) {
-                searchCities(input, countrySelect);
-            }
-        }, 300);
-
-        partnerCity.addEventListener('input', function() {
-            const currentLength = this.value.trim().length;
-            if (currentLength === 0 || currentLength >= 3) {
-                if (currentLength === 0 || (currentLength > 3 && currentLength % 2 === 1)) {
-                    debouncedSearch(this, partnerCountry);
-                }
-            }
-        });
-
-        // Close cities list when clicking outside
-        document.addEventListener('click', function(e) {
-            const citiesList = document.getElementById(`${partnerCity.id}-list`);
-            if (citiesList && !partnerCity.contains(e.target) && !citiesList.contains(e.target)) {
-                citiesList.style.display = 'none';
-            }
-        });
+        searchCities(partnerCity, partnerCountry);
     }
 
     // Form submission handler
