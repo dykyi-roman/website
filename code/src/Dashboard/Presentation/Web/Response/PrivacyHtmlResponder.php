@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Dashboard\Presentation\Web\Responder;
+namespace App\Dashboard\Presentation\Web\Response;
 
 use App\Shared\Presentation\Responder\ResponderInterface;
 
-final readonly class DashboardHtmlResponder implements ResponderInterface
+final readonly class PrivacyHtmlResponder implements ResponderInterface
 {
     private array $data;
-    private const string TEMPLATE = '@Dashboard/page/dashboard.html.twig';
+    private const string TEMPLATE = '@Dashboard/page/privacy.html.twig';
 
     public function template(): string
     {

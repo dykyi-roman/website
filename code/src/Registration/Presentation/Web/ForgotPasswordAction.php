@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Registration\Presentation\Web;
 
-use App\Registration\Presentation\Web\Responder\ForgotPasswordJsonResponder;
+use App\Registration\Presentation\Web\Response\ForgotPasswordJsonResponder;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 

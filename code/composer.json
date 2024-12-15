@@ -12,6 +12,8 @@
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.3",
         "geoip2/geoip2": "^3.1",
+        "guzzlehttp/guzzle": "*",
+        "php-http/discovery": "^1.19",
         "psr/http-client": "^1.0",
         "sentry/sentry": "^4.0",
         "symfony/asset": "7.0.*",

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Dashboard\Presentation\Web\Responder;
+namespace App\Dashboard\Presentation\Web\Response;
 
 use App\Shared\Presentation\Responder\ResponderInterface;
 

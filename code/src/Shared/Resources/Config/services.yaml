@@ -20,6 +20,18 @@ services:
             - '../../DomainModel/Model/'
             - '../../Tests/'
 
+    # Define the HTTP client service
+    GuzzleHttp\Client:
+        class: GuzzleHttp\Client
+
+    Psr\Http\Client\ClientInterface: '@GuzzleHttp\Client'
+
+    GuzzleHttp\Psr7\HttpFactory:
+        class: GuzzleHttp\Psr7\HttpFactory
+
+    Psr\Http\Message\RequestFactoryInterface: '@GuzzleHttp\Psr7\HttpFactory'
+    Psr\Http\Message\UriFactoryInterface: '@GuzzleHttp\Psr7\HttpFactory'
+
     # Global Assert Validation Error Handler
     App\Shared\Infrastructure\ErrorHandler\GlobalErrorHandler:
         tags:

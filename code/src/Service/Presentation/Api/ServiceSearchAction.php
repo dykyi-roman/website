@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 final class ServiceSearchAction
 {
     #[OA\Get(
-        path: '/api/services/search',
+        path: '/api/v1/services/search',
         summary: 'Search services with pagination',
         tags: ['Service']
     )]
@@ -70,7 +70,7 @@ final class ServiceSearchAction
             type: 'object'
         )
     )]
-    #[Route('/services/search', name: 'api_services_search', methods: ['GET'])]
+    #[Route('/v1/services/search', name: 'api_services_search', methods: ['GET'])]
     public function __invoke(
         Request $request,
         #[MapQueryString] ServicesSearchRequestDTO $searchRequest,

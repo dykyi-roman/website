@@ -6,7 +6,7 @@ namespace App\Registration\Presentation\Web;
 
 use App\Registration\Application\Command\RegisterUserCommand;
 use App\Registration\Presentation\Web\Request\UserRegisterRequestDTO;
-use App\Registration\Presentation\Web\Responder\RegistrationJsonResponder;
+use App\Registration\Presentation\Web\Response\RegistrationJsonResponder;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Messenger\MessageBusInterface;

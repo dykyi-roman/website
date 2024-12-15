@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Dashboard\Presentation\Web;
 
-use App\Dashboard\Presentation\Web\Responder\DashboardHtmlResponder;
+use App\Dashboard\Presentation\Web\Response\DashboardHtmlResponder;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
