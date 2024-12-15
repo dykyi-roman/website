@@ -313,6 +313,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         searchCities(partnerCity, partnerCountry);
     }
 
+    if (clientCity) {
+        searchCities(clientCity, clientCountry);
+    }
+
     // Form submission handler
     async function submitRegistration(form) {
         let isValid = true;
