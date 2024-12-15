@@ -43,6 +43,66 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     }
 
+    // Debounce function
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // City search functionality
+    async function searchCities(input, countrySelect) {
+        const cityValue = input.value.trim();
+        const countryCode = countrySelect.value;
+        const lang = localStorage.getItem('locale') || 'en';
+        const citiesListId = `${input.id}-list`;
+        let citiesList = document.getElementById(citiesListId);
+
+        // Create cities list if it doesn't exist
+        if (!citiesList) {
+            citiesList = document.createElement('ul');
+            citiesList.id = citiesListId;
+            citiesList.className = 'cities-dropdown-list';
+            input.parentNode.appendChild(citiesList);
+        }
+
+        // Clear list if input is empty or too short
+        if (cityValue.length < 3) {
+            citiesList.innerHTML = '';
+            citiesList.style.display = 'none';
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/v1/registration/cities/search?countryCode=${countryCode}&lang=${lang}&city=${encodeURIComponent(cityValue)}`);
+            if (!response.ok) throw new Error('Failed to fetch cities');
+            
+            const cities = await response.json();
+            
+            citiesList.innerHTML = '';
+            cities.forEach(city => {
+                const li = document.createElement('li');
+                li.textContent = city.name;
+                li.addEventListener('click', () => {
+                    input.value = city.name;
+                    citiesList.style.display = 'none';
+                });
+                citiesList.appendChild(li);
+            });
+            
+            citiesList.style.display = cities.length ? 'block' : 'none';
+        } catch (error) {
+            console.error('Error fetching cities:', error);
+            citiesList.style.display = 'none';
+        }
+    }
+
     // Initialize Bootstrap modal
     const registerModal = new bootstrap.Modal(popup, {
         backdrop: 'static',
@@ -223,6 +283,32 @@ document.addEventListener('DOMContentLoaded', async function () {
             toggleButton.classList.toggle('hide');
         });
     });
+
+    // Add city search functionality
+    if (partnerCity) {
+        const debouncedSearch = debounce((input, countrySelect) => {
+            if (input.value.trim().length >= 3 && countrySelect.value) {
+                searchCities(input, countrySelect);
+            }
+        }, 300);
+
+        partnerCity.addEventListener('input', function() {
+            const currentLength = this.value.trim().length;
+            if (currentLength === 0 || currentLength >= 3) {
+                if (currentLength === 0 || (currentLength > 3 && currentLength % 2 === 1)) {
+                    debouncedSearch(this, partnerCountry);
+                }
+            }
+        });
+
+        // Close cities list when clicking outside
+        document.addEventListener('click', function(e) {
+            const citiesList = document.getElementById(`${partnerCity.id}-list`);
+            if (citiesList && !partnerCity.contains(e.target) && !citiesList.contains(e.target)) {
+                citiesList.style.display = 'none';
+            }
+        });
+    }
 
     // Form submission handler
     async function submitRegistration(form) {
