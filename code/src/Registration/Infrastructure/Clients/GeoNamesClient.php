@@ -14,6 +14,8 @@ use Psr\Log\LoggerInterface;
 
 final readonly class GeoNamesClient implements DictionaryOfCitiesInterface
 {
+    private const int MAX_ROWS = 10;
+
     public function __construct(
         private string $apiGeoUserName,
         private string $apiGeoHost,
@@ -36,7 +38,7 @@ final readonly class GeoNamesClient implements DictionaryOfCitiesInterface
                     'lang' => $lang,
                     'name_startsWith' => $city,
                     'featureClass' => 'P',
-                    'maxRows' => 100,
+                    'maxRows' => self::MAX_ROWS,
                     'username' => $this->apiGeoUserName,
                 ]));
 
@@ -50,6 +52,7 @@ final readonly class GeoNamesClient implements DictionaryOfCitiesInterface
                     'lang' => $lang,
                     'city' => $city,
                 ]);
+
                 return [];
             }
 
@@ -64,21 +67,23 @@ final readonly class GeoNamesClient implements DictionaryOfCitiesInterface
                 ),
                 $data['geonames'] ?? []
             );
-        } catch (JsonException $e) {
+        } catch (JsonException $exception) {
             $this->logger->error('Failed to parse GeoNames API response', [
-                'error' => $e->getMessage(),
+                'error' => $exception->getMessage(),
                 'country' => $countryCode,
                 'lang' => $lang,
                 'city' => $city,
             ]);
+
             return [];
-        } catch (\Throwable $e) {
+        } catch (\Throwable $exception) {
             $this->logger->error('GeoNames API request failed', [
-                'error' => $e->getMessage(),
+                'error' => $exception->getMessage(),
                 'country' => $countryCode,
                 'lang' => $lang,
                 'city' => $city,
             ]);
+
             return [];
         }
     }
