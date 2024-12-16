@@ -1,6 +1,4 @@
 parameters:
-    supported_countries: '%env(json:SUPPORTED_COUNTRIES)%'
-    #
     app.support_email: 'support@easyorder.com'
     app.support_phone: '+38 (093) 067 08 92'
     app.support_address: 'Ukraine, Zolotonosha'
@@ -13,8 +11,6 @@ services:
         bind:
             $appName: '%app.name%'
             $appSocial: '%app.social%'
-            #
-            $supportedCountries: '%supported_countries%'
             #
             $supportEmail: '%app.support_email%'
             $supportPhone: '%app.support_phone%'
