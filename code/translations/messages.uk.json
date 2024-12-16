@@ -120,7 +120,8 @@
     "phone_validation": "Введіть коректний номер телефону",
     "selection_validation": "Зробіть вибір",
     "registration_successful": "Реєстрація успішна!",
-    "registration_error": "Не вдалося зареєструватися. Спробуйте знову."
+    "registration_error": "Не вдалося зареєструватися. Спробуйте знову.",
+    "city_select_from_list": "Please select a city from the list"
   },
   "terms": {
     "page_title": "Умови використання",

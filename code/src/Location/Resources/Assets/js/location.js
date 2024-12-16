@@ -64,7 +64,13 @@ document.addEventListener('DOMContentLoaded', async function () {
                         li.textContent = city.name;
                         li.addEventListener('click', () => {
                             input.value = city.name;
-                            input.dataset.transcription = city.transcription;
+                            
+                            // Set transcription based on input id
+                            const transcriptionField = input.id === 'partner-city' 
+                                ? 'partner-city-transcription' 
+                                : 'client-city-transcription';
+                            
+                            input.setAttribute('data-' + transcriptionField, city.transcription);
                             citiesDropdown.style.display = 'none';
                         });
                         citiesDropdown.appendChild(li);

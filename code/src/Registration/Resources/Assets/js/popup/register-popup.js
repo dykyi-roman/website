@@ -125,6 +125,22 @@ document.addEventListener('DOMContentLoaded', async function () {
         const fieldName = field.name;
         let rule;
 
+        // Special validation for city fields
+        if (fieldName === 'client-city' || fieldName === 'partner-city') {
+            const transcriptionAttr = `data-${fieldName}-transcription`;
+            const hasTranscription = field.getAttribute(transcriptionAttr) !== null;
+            
+            if (!hasTranscription && value.trim() !== '') {
+                field.classList.add('is-invalid');
+                field.classList.remove('is-valid');
+                const feedback = field.nextElementSibling;
+                if (feedback && feedback.classList.contains('invalid-feedback')) {
+                    feedback.textContent = t.city_select_from_list;
+                }
+                return false;
+            }
+        }
+
         // Determine which validation rule to use
         if (field.type === 'email') {
             rule = validationRules.email;
@@ -235,46 +251,25 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Form submission handler
     async function submitRegistration(form) {
-        console.log('Form submission started');
         let isValid = true;
         const inputs = form.querySelectorAll('input, select');
-        
         inputs.forEach(input => {
-            console.log('Validating field:', input.name, input.value);
             if (!validateField(input, form)) {
-                console.log('Field validation failed:', input.name);
                 isValid = false;
             }
         });
 
-        console.log('Form validation result:', isValid);
         if (isValid) {
-            await submitForm(form);
+            submitForm(form);
         }
     }
 
     // Submit form data
     async function submitForm(form) {
-        console.log('Submitting form data');
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
         const modal = form.closest('.modal-content');
 
-        // Add transcription data from city fields
-        const clientCity = form.querySelector('#client-city');
-        const partnerCity = form.querySelector('#partner-city');
-
-        if (clientCity && clientCity.dataset.transcription) {
-            data['client-transcription'] = clientCity.dataset.transcription;
-            console.log('Added client transcription:', clientCity.dataset.transcription);
-        }
-        
-        if (partnerCity && partnerCity.dataset.transcription) {
-            data['partner-transcription'] = partnerCity.dataset.transcription;
-            console.log('Added partner transcription:', partnerCity.dataset.transcription);
-        }
-
-        console.log('Form data to submit:', data);
         try {
             // Show spinner
             showModalSpinner(modal);
