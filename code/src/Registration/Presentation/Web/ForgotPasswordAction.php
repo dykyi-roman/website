@@ -6,10 +6,10 @@ namespace App\Registration\Presentation\Web;
 
 use App\Registration\Presentation\Web\Request\ForgotPasswordRequestDTO;
 use App\Registration\Presentation\Web\Response\ForgotPasswordJsonResponder;
-use App\Shared\DomainModel\Notification\EmailNotification;
-use App\Shared\DomainModel\Services\NotificationInterface;
-use App\Shared\DomainModel\ValueObject\Notification;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
+use Symfony\Component\Notifier\NotifierInterface;
+use Symfony\Component\Notifier\Notification\Notification;
+use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -20,15 +20,12 @@ final readonly class ForgotPasswordAction
         #[MapRequestPayload] ForgotPasswordRequestDTO $request,
         TranslatorInterface $translator,
         ForgotPasswordJsonResponder $responder,
-        NotificationInterface $notification,
+        NotifierInterface $notification,
     ): ForgotPasswordJsonResponder {
         try {
             $notification->send(
-                new Notification(
-                    subject: $translator->trans('Please reset your password'),
-                    channels: ['medium'],
-                ),
-                new EmailNotification($request->email()),
+                (new Notification($translator->trans('Please reset your password'))),
+                new Recipient($request->email()->value)
             );
 
             return $responder->success($translator->trans('Letter sent. Check your email.'))->respond();
