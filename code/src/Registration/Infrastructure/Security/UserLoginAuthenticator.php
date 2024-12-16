@@ -6,8 +6,8 @@ namespace App\Registration\Infrastructure\Security;
 
 use App\Registration\DomainModel\Event\UserLoggedInEvent;
 use App\Registration\DomainModel\Repository\UserRepositoryInterface;
-use App\Shared\DomainModel\ValueObject\Email;
 use App\Shared\DomainModel\Services\MessageBusInterface;
+use App\Shared\DomainModel\ValueObject\Email;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
