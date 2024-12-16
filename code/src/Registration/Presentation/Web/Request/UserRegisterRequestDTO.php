@@ -24,14 +24,18 @@ final readonly class UserRegisterRequestDTO
         #[Assert\NotBlank]
         public string $type,
 
+        #[Assert\NotBlank]
+        #[Assert\Length(max: 100)]
+        public string $countryCode,
+
         #[Assert\Length(max: 20)]
         public ?string $phone = null,
 
-        #[Assert\Length(max: 100)]
-        public ?string $country = null,
+        #[Assert\Length(max: 255)]
+        public ?string $cityName = null,
 
         #[Assert\Length(max: 255)]
-        public ?string $city = null,
+        public ?string $cityTranscription = null,
     ) {
     }
 

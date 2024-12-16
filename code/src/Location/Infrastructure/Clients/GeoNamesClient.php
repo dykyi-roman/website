@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Registration\Infrastructure\Clients;
+namespace App\Location\Infrastructure\Clients;
 
-use App\Registration\DomainModel\Dto\CityDto;
-use App\Registration\DomainModel\Service\DictionaryOfCitiesInterface;
+use App\Location\DomainModel\Dto\CityDto;
+use App\Location\DomainModel\Service\DictionaryOfCitiesInterface;
+use JsonException;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
-use JsonException;
 use Psr\Log\LoggerInterface;
 
 final readonly class GeoNamesClient implements DictionaryOfCitiesInterface
@@ -29,8 +29,12 @@ final readonly class GeoNamesClient implements DictionaryOfCitiesInterface
     /**
      * @return CityDto[]
      */
-    public function cityByCountryAndLocale(string $countryCode, string $lang, string $city): array
-    {
+    public function cityByCountryAndLocale(
+        string $countryCode,
+        string $lang,
+        string $city,
+        int $maxRows = self::MAX_ROWS,
+    ): array {
         try {
             $uri = $this->uriFactory->createUri($this->apiGeoHost)
                 ->withQuery(http_build_query([
@@ -38,7 +42,7 @@ final readonly class GeoNamesClient implements DictionaryOfCitiesInterface
                     'lang' => $lang,
                     'name_startsWith' => $city,
                     'featureClass' => 'P',
-                    'maxRows' => self::MAX_ROWS,
+                    'maxRows' => $maxRows,
                     'username' => $this->apiGeoUserName,
                 ]));
 

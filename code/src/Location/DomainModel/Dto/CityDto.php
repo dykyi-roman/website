@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Registration\DomainModel\Dto;
+namespace App\Location\DomainModel\Dto;
 
 final readonly class CityDto
 {

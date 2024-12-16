@@ -88,6 +88,11 @@
   "copyright_text": " %year% %organization%. All rights reserved.",
   "meta_description": "%organization% - Find and book professional services. Browse through our wide selection of verified service providers for all your needs.",
   "meta_keywords": "services, booking, professional services, service providers, local services",
+  "countries": {
+    "UA": "Ukraine",
+    "US": "United States",
+    "ES": "Spain"
+  },
   "js": {
     "error_generic_message": "Something went wrong. Our team is working on it. Please try again later.",
     "error_email_required": "Email is required",

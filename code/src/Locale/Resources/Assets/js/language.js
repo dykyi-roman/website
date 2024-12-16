@@ -1,5 +1,7 @@
 // Language menu selected
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Module::Locale::Created');
+
     const languageDropdown = document.getElementById('languageDropdown');
     const dropdownMenu = languageDropdown.nextElementSibling;
 

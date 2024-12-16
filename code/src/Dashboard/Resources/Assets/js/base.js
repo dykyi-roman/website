@@ -113,6 +113,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Create scroll to top button
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Scroll button created');
+
     // Create the button element
     const scrollButton = document.createElement('div');
     scrollButton.className = 'scroll-to-top';
@@ -159,9 +161,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (shouldShowBackButton) {
         backButton.classList.add('visible');
-        console.log('Back button should be visible');
-    } else {
-        console.log('Back button should be hidden');
     }
     
     // Add click event listener

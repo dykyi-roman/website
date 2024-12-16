@@ -40,6 +40,7 @@
         {# Page-specific JavaScript #}
         {% block javascripts %}
             <script src="{{ asset('js/base.js') }}" defer></script>
+            <script src="{{ asset('js/location.js') }}" defer></script>
         {% endblock %}
     </head>
     <body itemscope itemtype="http://schema.org/WebPage" class="{% block body_class %}{% endblock %}">

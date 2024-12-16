@@ -1,4 +1,6 @@
 async function toggleFavorite(button) {
+    console.log('Module::Dashboard::Created');
+
     const serviceId = button.getAttribute('data-item-id');
     const isFavorite = button.classList.contains('active');
     

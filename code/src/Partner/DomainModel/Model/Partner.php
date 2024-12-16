@@ -7,6 +7,8 @@ namespace App\Partner\DomainModel\Model;
 use App\Partner\DomainModel\Enum\PartnerId;
 use App\Partner\DomainModel\Enum\PartnerStatus;
 use App\Shared\Domain\Enum\Roles;
+use App\Shared\Domain\ValueObject\Email;
+use App\Shared\Domain\ValueObject\Location;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -23,8 +25,8 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface, Part
     #[ORM\Column(type: 'string', length: 100)]
     private string $name;
 
-    #[ORM\Column(type: 'string', length: 64)]
-    private string $email;
+    #[ORM\Column(type: 'email', length: 64)]
+    private Email $email;
 
     #[ORM\Column(type: 'string', length: 20, nullable: true)]
     private ?string $phone;
@@ -32,11 +34,8 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface, Part
     #[ORM\Column(type: 'text')]
     private ?string $avatar;
 
-    #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    private ?string $country;
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $city;
+    #[ORM\Column(type: 'location')]
+    private Location $location;
 
     #[ORM\Column(type: 'partner_status', options: ['default' => PartnerStatus::ACTIVE])]
     private PartnerStatus $status;
@@ -68,17 +67,15 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface, Part
     public function __construct(
         PartnerId $id,
         string $name,
-        string $email,
+        Email $email,
+        Location $location,
         ?string $phone = null,
-        ?string $country = null,
-        ?string $city = null,
     ) {
         $this->id = $id;
         $this->name = $name;
         $this->email = $email;
         $this->phone = $phone;
-        $this->country = $country;
-        $this->city = $city;
+        $this->location = $location;
         $this->status = PartnerStatus::ACTIVE;
         $this->roles = [Roles::ROLE_PARTNER->value];
         $this->activatedAt = new \DateTimeImmutable();
@@ -93,7 +90,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface, Part
 
     public function getUserIdentifier(): string
     {
-        return $this->email;
+        return $this->email->value();
     }
 
     public function setPassword(string $password): void
@@ -127,7 +124,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface, Part
         return $this->name;
     }
 
-    public function getEmail(): string
+    public function getEmail(): Email
     {
         return $this->email;
     }
@@ -137,14 +134,9 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface, Part
         return $this->phone;
     }
 
-    public function getCountry(): ?string
+    public function getLocation(): Location
     {
-        return $this->country;
-    }
-
-    public function getCity(): ?string
-    {
-        return $this->city;
+        return $this->location;
     }
 
     public function getStatus(): PartnerStatus

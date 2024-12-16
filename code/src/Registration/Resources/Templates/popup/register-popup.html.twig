@@ -50,7 +50,7 @@
                             <div class="invalid-feedback">{{ 'Register Password Invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <select class="form-select" id="client-country" name="country" required>
+                            <select class="form-select" id="client-country" name="countryCode" required>
                                 <option value="">{{ 'Register Country Placeholder'|trans }}</option>
                                 {% for country in countries %}
                                     <option value="{{ country.code }}">{{ country.name }}</option>
@@ -59,7 +59,8 @@
                             <div class="invalid-feedback">{{ 'Register Country Invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="client-city" name="city" placeholder="{{ 'Register City Placeholder'|trans }}" required>
+                            <input type="hidden" class="form-control" id="client-city-transcription" name="cityTranscription">
+                            <input type="text" class="form-control" id="client-city" name="cityName" placeholder="{{ 'Register City Placeholder'|trans }}" required>
                             <div class="invalid-feedback">{{ 'Register City Invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
@@ -108,7 +109,7 @@
                             <div class="invalid-feedback">{{ 'Register Password Invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <select class="form-select" id="partner-country" name="country" required>
+                            <select class="form-select" id="partner-country" name="countryCode" required>
                                 <option value="">{{ 'Register Country Placeholder'|trans }}</option>
                                 {% for country in countries %}
                                     <option value="{{ country.code }}">{{ country.name }}</option>
@@ -117,7 +118,8 @@
                             <div class="invalid-feedback">{{ 'Register Country Invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="partner-city" name="city" placeholder="{{ 'Register City Placeholder'|trans }}" required>
+                            <input type="hidden" class="form-control" id="partner-city-transcription" name="cityTranscription">
+                            <input type="text" class="form-control" id="partner-city" name="cityName" placeholder="{{ 'Register City Placeholder'|trans }}" required>
                             <div class="invalid-feedback">{{ 'Register City Invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">

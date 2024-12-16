@@ -1,0 +1,28 @@
+parameters:
+    api_geo_host: '%env(API_GEO_HOST)%'
+    api_geo_user_name: '%env(API_GEO_USER_NAME)%'
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $apiGeoHost: '%api_geo_host%'
+            $apiGeoUserName: '%api_geo_user_name%'
+
+    App\Location\:
+        resource: '../../'
+        exclude:
+            - '../../Resources/'
+            - '../../Presentation/**/Response'
+            - '../../Application/**/*{Command,Query}.php'
+            - '../../DomainModel/{Dto,Event,Model}/'
+            - '../../Tests/'
+        tags: ['controller.service_arguments']
+
+    # Services
+    App\Location\Infrastructure\Clients\GeoNamesClient:
+        arguments:
+            $client: '@Psr\Http\Client\ClientInterface'
+            $requestFactory: '@Psr\Http\Message\RequestFactoryInterface'
+            $uriFactory: '@Psr\Http\Message\UriFactoryInterface'

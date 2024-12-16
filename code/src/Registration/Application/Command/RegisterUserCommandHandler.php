@@ -58,10 +58,10 @@ final readonly class RegisterUserCommandHandler
         }
     }
 
-    private function checkIfEmailAlreadyExists(string $email): void
+    private function checkIfEmailAlreadyExists(Email $email): void
     {
-        if (!$this->userRepository->isEmailUnique(Email::fromString($email))) {
-            throw new \DomainException(sprintf('Email "%s" already exists', $email));
+        if (!$this->userRepository->isEmailUnique($email)) {
+            throw new \DomainException(sprintf('Email "%s" already exists', (string) $email));
         }
     }
 
@@ -78,17 +78,15 @@ final readonly class RegisterUserCommandHandler
                 new PartnerId(),
                 $command->name,
                 $command->email,
+                $command->location,
                 $command->phone,
-                $command->country,
-                $command->city,
             )
             : new Client(
                 new ClientId(),
                 $command->name,
                 $command->email,
+                $command->location,
                 $command->phone,
-                $command->country,
-                $command->city,
             );
     }
 }

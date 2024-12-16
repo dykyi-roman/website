@@ -7,6 +7,8 @@ namespace App\Client\DomainModel\Model;
 use App\Client\DomainModel\Enum\ClientId;
 use App\Client\DomainModel\Enum\ClientStatus;
 use App\Shared\Domain\Enum\Roles;
+use App\Shared\Domain\ValueObject\Email;
+use App\Shared\Domain\ValueObject\Location;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -26,17 +28,14 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface, Clien
     #[ORM\Column(type: 'text')]
     private ?string $avatar;
 
-    #[ORM\Column(type: 'string', length: 64)]
-    private string $email;
+    #[ORM\Column(type: 'email', length: 64)]
+    private Email $email;
 
     #[ORM\Column(type: 'string', length: 20, nullable: true)]
     private ?string $phone;
 
-    #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    private ?string $country;
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private ?string $city;
+    #[ORM\Column(type: 'location', nullable: true)]
+    private Location $location;
 
     #[ORM\Column(type: 'client_status', options: ['default' => ClientStatus::ACTIVE])]
     private ClientStatus $status;
@@ -68,17 +67,15 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface, Clien
     public function __construct(
         ClientId $id,
         string $name,
-        string $email,
+        Email $email,
+        Location $location,
         ?string $phone = null,
-        ?string $country = null,
-        ?string $city = null,
     ) {
         $this->id = $id;
         $this->name = $name;
         $this->email = $email;
         $this->phone = $phone;
-        $this->country = $country;
-        $this->city = $city;
+        $this->location = $location;
         $this->status = ClientStatus::ACTIVE;
         $this->roles = [Roles::ROLE_CLIENT->value];
         $this->activatedAt = new \DateTimeImmutable();
@@ -93,7 +90,7 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface, Clien
 
     public function getUserIdentifier(): string
     {
-        return $this->email;
+        return $this->email->value();
     }
 
     #[ORM\PreUpdate]
@@ -117,24 +114,14 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface, Clien
         return $this->name;
     }
 
-    public function getEmail(): string
+    public function getEmail(): Email
     {
         return $this->email;
     }
 
-    public function getPhone(): ?string
+    public function getLocation(): Location
     {
-        return $this->phone;
-    }
-
-    public function getCountry(): ?string
-    {
-        return $this->country;
-    }
-
-    public function getCity(): ?string
-    {
-        return $this->city;
+        return $this->location;
     }
 
     public function getStatus(): ClientStatus

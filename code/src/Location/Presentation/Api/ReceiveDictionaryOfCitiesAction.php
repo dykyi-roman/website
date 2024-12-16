@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Registration\Presentation\Api;
+namespace App\Location\Presentation\Api;
 
-use App\Registration\DomainModel\Service\DictionaryOfCitiesInterface;
-use App\Registration\Presentation\Api\Request\RegistrationCitiesRequest;
-use App\Registration\Presentation\Api\Response\RegistrationCitiesResponse;
+use App\Location\DomainModel\Service\DictionaryOfCitiesInterface;
+use App\Location\Presentation\Api\Request\DictionaryOfCitiesRequest;
+use App\Location\Presentation\Api\Response\DictionaryOfCitiesResponse;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/v1/registration/cities/search', name: 'api_cities_by_country_search', methods: ['GET'])]
-final readonly class RegistrationCitiesAction
+#[Route('/v1/location/cities', name: 'api_cities_by_country_search', methods: ['GET'])]
+final readonly class ReceiveDictionaryOfCitiesAction
 {
     public function __construct(
         private DictionaryOfCitiesInterface $dictionaryOfCities,
@@ -20,9 +20,9 @@ final readonly class RegistrationCitiesAction
     }
 
     #[OA\Get(
-        path: '/api/v1/registration/cities/search',
+        path: '/api/v1/location/cities',
         summary: 'Search cities by country and language',
-        tags: ['Registration']
+        tags: ['Location']
     )]
     #[OA\Parameter(
         name: 'countryCode',
@@ -80,14 +80,14 @@ final readonly class RegistrationCitiesAction
         )
     )]
     public function __invoke(
-        #[MapQueryString] RegistrationCitiesRequest $request
-    ): RegistrationCitiesResponse {
+        #[MapQueryString] DictionaryOfCitiesRequest $request
+    ): DictionaryOfCitiesResponse {
         $cities = $this->dictionaryOfCities->cityByCountryAndLocale(
             $request->countryCode,
             $request->lang,
             $request->city,
         );
 
-        return new RegistrationCitiesResponse($cities);
+        return new DictionaryOfCitiesResponse($cities);
     }
 }
