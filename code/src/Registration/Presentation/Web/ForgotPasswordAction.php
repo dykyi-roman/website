@@ -26,7 +26,7 @@ final readonly class ForgotPasswordAction
             $notification->send(
                 new Notification(
                     subject: $translator->trans('Please reset your password'),
-                    channels: ['email'],
+                    channels: ['medium'],
                 ),
                 new EmailNotification($request->email()),
             );
