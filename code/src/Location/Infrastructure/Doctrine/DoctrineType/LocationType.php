@@ -32,7 +32,6 @@ final class LocationType extends Type
         $data = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
 
         $country = new Country(
-            name: $data['country']['name'],
             code: $data['country']['code']
         );
 

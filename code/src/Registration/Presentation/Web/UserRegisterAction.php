@@ -34,7 +34,6 @@ final readonly class UserRegisterAction
                 $request->phone,
                 new Location(
                     new Country(
-                        $translator->trans('countries' . $request->countryCode),
                         $request->countryCode,
                     ),
                 ),

@@ -1,4 +1,6 @@
 imports:
+    - { resource: '../../src/Shared/Resources/Config/doctrine.yaml' }
+    - { resource: '../../src/Location/Resources/Config/doctrine.yaml' }
     - { resource: '../../src/Partner/Resources/Config/doctrine.yaml' }
     - { resource: '../../src/Client/Resources/Config/doctrine.yaml' }
 

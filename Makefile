@@ -116,7 +116,7 @@ framework: ## Switch to specific framework branch (usage: make framework symfony
 status: git status
 	git status
 
-commit: ## git commit
+save: ## git commit
 	git add .; \
 	git commit -am $(filter-out $@,$(MAKECMDGOALS)); \
 

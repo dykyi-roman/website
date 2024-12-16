@@ -9,7 +9,6 @@ use InvalidArgumentException;
 final readonly class Country implements \JsonSerializable
 {
     public function __construct(
-        public string $name,
         public string $code,
     ) {
         $this->validate();
@@ -17,10 +16,6 @@ final readonly class Country implements \JsonSerializable
 
     private function validate(): void
     {
-        if (empty(trim($this->name))) {
-            throw new InvalidArgumentException('Country name cannot be empty');
-        }
-
         if (empty(trim($this->code))) {
             throw new InvalidArgumentException('Country code cannot be empty');
         }
@@ -33,7 +28,6 @@ final readonly class Country implements \JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'name' => $this->name,
             'code' => $this->code,
         ];
     }

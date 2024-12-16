@@ -1,4 +1,4 @@
 doctrine:
     dbal:
         types:
-            client_id: App\Shared\Infrastructure\Doctrine\DoctrineType\EmailType
+            email: App\Shared\Infrastructure\Doctrine\DoctrineType\EmailType
