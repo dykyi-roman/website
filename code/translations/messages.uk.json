@@ -52,9 +52,9 @@
   "Register Name Placeholder": "Iм'я на сайті",
   "Register Email Placeholder": "Електронна пошта",
   "Register Phone Placeholder": "Номер телефону",
-  "Register Country Placeholder": "Виберіть країну",
+  "Register CountryPlaceholder": "Виберіть країну",
   "Register CityPlaceholder": "Виберіть місто",
-  "Register Password Placeholder": "Створiть пароль",
+  "Register PasswordPlaceholder": "Створiть пароль",
   "Register Field Required": "Це поле обов'язкове",
   "Register Phone Invalid": "Будь ласка, введіть дійсний номер телефону",
   "Register Country Invalid": "Будь ласка, оберіть країну",
@@ -72,18 +72,26 @@
   "Share WhatsApp": "WhatsApp",
   "Share Copy Button": "Копіювати",
   "Share Link Copied": "Посилання скопійовано до буферу обміну!",
-  "Share Email Placeholder": "Адреса електронної пошти одержувача",
-  "Share Email Invalid": "Будь ласка, введіть дійсну адресу електронної пошти",
-  "Share Message Placeholder": "Додати повідомлення (необов'язково)",
-  "Share Send Button": "Надіслати",
+  "Share EmailPlaceholder": "Адреса електронної пошти одержувача",
+  "Share EmailInvalid": "Будь ласка, введіть дійсну адресу електронної пошти",
+  "Share MessagePlaceholder": "Додати повідомлення (необов'язково)",
+  "Share SendButton": "Надіслати",
   "Share Twitter": "Твіттер",
   "Share Messenger": "Месенджер",
   "Share Facebook": "Фейсбук",
-  "Share Email Button": "Електронна пошта",
+  "Share EmailButton": "Електронна пошта",
   "Error Generic Message": "Щось пішло не так. Наша команда працює над цим. Будь ласка, спробуйте пізніше.",
   "copyright_text": " %year% %organization%. Усі права захищено.",
   "meta_description": "%organization% - Знаходьте та бронюйте професійні послуги. Перегляньте наш широкий вибір перевірених постачальників послуг для всіх ваших потреб.",
   "meta_keywords": "послуги, бронювання, професійні послуги, постачальники послуг, місцеві послуги",
+  "search_examples": {
+    "title": "Наприклад:",
+    "examples": {
+      "refrigerator": "Ремонт холодильника",
+      "english": "Курси англійської",
+      "dogs": "Вигул собак"
+    }
+  },
   "js": {
     "locales": {
       "uk": "Українська",

@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const t = await loadTranslations(currentLang);
 
     const searchButton = document.querySelector('.btn-primary.btn-lg');
-    const searchInput = document.querySelector('.form-control.form-control-lg');
+    const searchInput = document.querySelector('.search-input');
     const servicesGrid = document.querySelector('.items-grid');
     const servicesContainer = document.querySelector('.items-grid .row.g-4');
     const listViewButton = document.getElementById('list-view-button');
@@ -580,4 +580,15 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
         });
     }
+
+    // Handle search example clicks
+    const searchExamples = document.querySelectorAll('.search-example-link');
+
+    searchExamples.forEach(example => {
+        example.addEventListener('click', function(e) {
+            e.preventDefault();
+            searchInput.value = this.textContent.trim();
+            searchInput.focus();
+        });
+    });
 });

@@ -51,9 +51,9 @@
   "Register Already Have Account": "Already have an account? Login",
   "Register Name Placeholder": "Website Name",
   "Register Phone Placeholder": "Phone Number",
-  "Register Country Placeholder": "Select Country",
-  "Register City Placeholder": "Select City",
-  "Register Password Placeholder": "Create Password",
+  "Register CountryPlaceholder": "Select Country",
+  "Register CityPlaceholder": "Select City",
+  "Register PasswordPlaceholder": "Create Password",
   "Register Field Required": "This field is required",
   "Register Phone Invalid": "Please enter a valid phone number",
   "Register Country Invalid": "Please select a country",
@@ -88,10 +88,18 @@
   "copyright_text": " %year% %organization%. All rights reserved.",
   "meta_description": "%organization% - Find and book professional services. Browse through our wide selection of verified service providers for all your needs.",
   "meta_keywords": "services, booking, professional services, service providers, local services",
+  "search_examples": {
+    "title": "For example:",
+    "examples": {
+      "refrigerator": "Refrigerator repair",
+      "english": "English courses",
+      "dogs": "Dog walking"
+    }
+  },
   "js": {
     "locales": {
       "uk": "Українська",
-      "us": "English",
+      "en": "English",
       "es": "Spain"
     },
     "countries": {
