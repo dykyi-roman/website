@@ -7,12 +7,12 @@ namespace App\Registration\Presentation\Web;
 use App\Registration\Application\Command\RegisterUserCommand;
 use App\Registration\Presentation\Web\Request\UserRegisterRequestDTO;
 use App\Registration\Presentation\Web\Response\RegistrationJsonResponder;
-use App\Shared\Domain\ValueObject\Country;
-use App\Shared\Domain\ValueObject\Email;
-use App\Shared\Domain\ValueObject\Location;
+use App\Shared\DomainModel\ValueObject\Country;
+use App\Shared\DomainModel\ValueObject\Email;
+use App\Shared\DomainModel\ValueObject\Location;
+use App\Shared\DomainModel\Services\MessageBusInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 

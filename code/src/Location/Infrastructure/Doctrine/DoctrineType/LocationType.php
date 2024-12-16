@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Location\Infrastructure\Doctrine\DoctrineType;
 
-use App\Shared\Domain\ValueObject\City;
-use App\Shared\Domain\ValueObject\Country;
-use App\Shared\Domain\ValueObject\Location;
+use App\Shared\DomainModel\ValueObject\City;
+use App\Shared\DomainModel\ValueObject\Country;
+use App\Shared\DomainModel\ValueObject\Location;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 use JsonException;

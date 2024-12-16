@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Registration\Application\Command;
 
-use App\Shared\Domain\ValueObject\Email;
-use App\Shared\Domain\ValueObject\Location;
+use App\Shared\DomainModel\ValueObject\Email;
+use App\Shared\DomainModel\ValueObject\Location;
 
 /**
  * @see RegisterUserCommandHandler

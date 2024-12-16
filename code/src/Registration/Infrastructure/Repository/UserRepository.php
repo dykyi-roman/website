@@ -7,8 +7,8 @@ namespace App\Registration\Infrastructure\Repository;
 use App\Client\DomainModel\Repository\ClientRepositoryInterface;
 use App\Partner\DomainModel\Repository\PartnerRepositoryInterface;
 use App\Registration\DomainModel\Repository\UserRepositoryInterface;
-use App\Shared\Domain\Enum\Roles;
-use App\Shared\Domain\ValueObject\Email;
+use App\Shared\DomainModel\Enum\Roles;
+use App\Shared\DomainModel\ValueObject\Email;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 final readonly class UserRepository implements UserRepositoryInterface

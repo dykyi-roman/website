@@ -6,7 +6,7 @@ namespace App\Partner\DomainModel\Repository;
 
 use App\Partner\DomainModel\Enum\PartnerId;
 use App\Partner\DomainModel\Model\Partner;
-use App\Shared\Domain\ValueObject\Email;
+use App\Shared\DomainModel\ValueObject\Email;
 
 interface PartnerRepositoryInterface
 {

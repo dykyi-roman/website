@@ -6,11 +6,11 @@ namespace App\Registration\Infrastructure\Security;
 
 use App\Registration\DomainModel\Event\UserLoggedInEvent;
 use App\Registration\DomainModel\Repository\UserRepositoryInterface;
-use App\Shared\Domain\ValueObject\Email;
+use App\Shared\DomainModel\ValueObject\Email;
+use App\Shared\DomainModel\Services\MessageBusInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;

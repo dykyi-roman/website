@@ -7,7 +7,7 @@ namespace App\Client\Infrastructure\Repository;
 use App\Client\DomainModel\Enum\ClientId;
 use App\Client\DomainModel\Model\Client;
 use App\Client\DomainModel\Repository\ClientRepositoryInterface;
-use App\Shared\Domain\ValueObject\Email;
+use App\Shared\DomainModel\ValueObject\Email;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 

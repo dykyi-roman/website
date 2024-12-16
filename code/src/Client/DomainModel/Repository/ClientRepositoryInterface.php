@@ -6,7 +6,7 @@ namespace App\Client\DomainModel\Repository;
 
 use App\Client\DomainModel\Enum\ClientId;
 use App\Client\DomainModel\Model\Client;
-use App\Shared\Domain\ValueObject\Email;
+use App\Shared\DomainModel\ValueObject\Email;
 
 interface ClientRepositoryInterface
 {

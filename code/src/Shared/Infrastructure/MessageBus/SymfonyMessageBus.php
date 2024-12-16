@@ -1,0 +1,27 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Shared\Infrastructure\MessageBus;
+
+use App\Shared\DomainModel\Services\MessageBusInterface;
+use Symfony\Component\Messenger\MessageBusInterface as SymfonyMessageBusInterface;
+use Symfony\Component\Messenger\Stamp\HandledStamp;
+
+final readonly class SymfonyMessageBus implements MessageBusInterface
+{
+    public function __construct(
+        private SymfonyMessageBusInterface $messageBus,
+    ) {
+    }
+
+    public function dispatch(object $message): mixed
+    {
+        $envelope = $this->messageBus->dispatch($message);
+        
+        /** @var HandledStamp|null $stamp */
+        $stamp = $envelope->last(HandledStamp::class);
+        
+        return $stamp?->getResult();
+    }
+}
