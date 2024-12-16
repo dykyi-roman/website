@@ -345,7 +345,7 @@
 }
 
 .search-example-link {
-    color: #0d6efd;
+    color: var(--secondary-orange);
     text-decoration: none;
     cursor: pointer;
     margin: 0 3px;
@@ -353,7 +353,7 @@
 
 .search-example-link:hover {
     text-decoration: underline;
-    color: #0a58ca;
+    color: var(--primary-orange);
 }
 
 /* Responsive adjustments */
