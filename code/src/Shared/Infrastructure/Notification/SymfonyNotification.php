@@ -23,12 +23,12 @@ final readonly class SymfonyNotification implements NotificationInterface
             $symfonyRecipients[] = new SymfonyRecipient($recipient);
         }
 
-        $this->notifier->send(
-            new SymfonyNotificationClass(
-                $notification->subject,
-                $notification->channels,
-            ),
-            ...$symfonyRecipients
+        $symfonyNotification = new SymfonyNotificationClass(
+            $notification->subject,
+            $notification->channels,
         );
+        $symfonyNotification->content($notification->content);
+
+        $this->notifier->send($symfonyNotification, ...$symfonyRecipients);
     }
 }

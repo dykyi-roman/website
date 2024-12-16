@@ -9,3 +9,7 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+
+    App\Shared\EmailNotification:
+        arguments:
+            $mailer: '@mailer.mailer'

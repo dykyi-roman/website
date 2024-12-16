@@ -3,12 +3,55 @@ info:
   title: 'REST API'
   version: 1.0.0
 paths:
-  /api/orders/search:
+  /api/v1/location/cities:
+    get:
+      tags:
+        - Location
+      summary: 'Search cities by country and language'
+      operationId: 0dc9b8bf4e25983510c15182611ce22a
+      parameters:
+        -
+          name: countryCode
+          in: query
+          description: 'ISO 3166-1 alpha-2 country code'
+          required: true
+          schema:
+            type: string
+            maxLength: 2
+            minLength: 2
+        -
+          name: lang
+          in: query
+          description: 'Language code (e.g., en, uk, es)'
+          required: true
+          schema:
+            type: string
+            maxLength: 2
+            minLength: 2
+        -
+          name: city
+          in: query
+          description: 'City name to search for'
+          required: true
+          schema:
+            type: string
+            maxLength: 255
+            minLength: 1
+      responses:
+        '200':
+          description: 'List of cities matching the search criteria'
+          content:
+            application/json:
+              schema:
+                properties:
+                  cities: { type: array, items: { properties: { countryCode: { type: string, example: UA }, name: { type: string, example: Київ }, transcription: { type: string, example: Kyiv }, area: { type: string, example: 'Київська область' } }, type: object } }
+                type: object
+  /api/v1/orders/search:
     get:
       tags:
         - Service
       summary: 'Search orders with pagination'
-      operationId: ab0d094db537f2564dd8fb549e09f7e5
+      operationId: 34d723e0442ed85c0f491f6e854e694f
       parameters:
         -
           name: query
@@ -50,12 +93,12 @@ paths:
                   limit: { type: integer }
                   total_pages: { type: integer }
                 type: object
-  /api/services/search:
+  /api/v1/services/search:
     get:
       tags:
         - Service
       summary: 'Search services with pagination'
-      operationId: cd32b297d77030d258078538a57fa352
+      operationId: 72d27ed56adeb8ab57082ff29f47d828
       parameters:
         -
           name: query
@@ -98,6 +141,9 @@ paths:
                   total_pages: { type: integer }
                 type: object
 tags:
+  -
+    name: Location
+    description: Location
   -
     name: Service
     description: Service
