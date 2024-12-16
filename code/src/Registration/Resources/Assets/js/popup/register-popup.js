@@ -122,26 +122,46 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Field validation function
     function validateField(field, form) {
         const value = field.value;
-        const fieldName = field.name;
-        let rule;
+        const feedback = field.nextElementSibling;
+        
+        // Determine validation rule and message
+        const validationConfig = getValidationConfig(field, value);
+        const isValid = validationConfig.isValid;
+        const message = validationConfig.message || (feedback ? feedback.textContent : '');
 
-        // Special validation for city fields
-        if (fieldName === 'client-city' || fieldName === 'partner-city') {
-            const transcriptionAttr = `data-${fieldName}-transcription`;
+        // Update field UI state
+        updateFieldValidationState(field, feedback, isValid, message);
+
+        return isValid;
+    }
+
+    // Get validation configuration based on field type
+    function getValidationConfig(field, value) {
+        const fieldName = field.name;
+
+        // Special case for city field
+        if (fieldName === 'cityName' && value.trim() !== '') {
+            const transcriptionAttr = field.id === 'partner-city' 
+                ? 'data-partner-city-transcription' 
+                : 'data-client-city-transcription';
+            
             const hasTranscription = field.getAttribute(transcriptionAttr) !== null;
             
-            if (!hasTranscription && value.trim() !== '') {
-                field.classList.add('is-invalid');
-                field.classList.remove('is-valid');
-                const feedback = field.nextElementSibling;
-                if (feedback && feedback.classList.contains('invalid-feedback')) {
-                    feedback.textContent = t.city_select_from_list;
-                }
-                return false;
+            if (!hasTranscription) {
+                return {
+                    isValid: false,
+                    message: t.city_select_from_list || 'Please select a city from the list'
+                };
             }
+            
+            return {
+                isValid: true,
+                message: ''
+            };
         }
 
-        // Determine which validation rule to use
+        // Get validation rule based on field type
+        let rule;
         if (field.type === 'email') {
             rule = validationRules.email;
         } else if (field.type === 'tel') {
@@ -153,19 +173,22 @@ document.addEventListener('DOMContentLoaded', async function () {
         } else if (fieldName === 'name') {
             rule = validationRules.name;
         } else {
-            // Default validation for required fields
             rule = {
                 validate: (value) => ({isValid: value.trim() !== '', message: t.field_required}),
                 message: t.field_required
             };
         }
 
+        // Execute validation
         const validationResult = rule.validate(value);
-        const isValid = typeof validationResult === 'boolean' ? validationResult : validationResult.isValid;
-        const message = typeof validationResult === 'boolean' ? rule.message : validationResult.message;
+        return {
+            isValid: typeof validationResult === 'boolean' ? validationResult : validationResult.isValid,
+            message: typeof validationResult === 'boolean' ? rule.message : validationResult.message
+        };
+    }
 
-        const feedback = field.nextElementSibling;
-
+    // Update field UI based on validation state
+    function updateFieldValidationState(field, feedback, isValid, message) {
         if (!isValid) {
             field.classList.add('is-invalid');
             field.classList.remove('is-valid');
@@ -179,8 +202,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                 feedback.textContent = '';
             }
         }
-
-        return isValid;
     }
 
     // Add validation to form fields

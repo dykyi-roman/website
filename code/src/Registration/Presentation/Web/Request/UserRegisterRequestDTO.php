@@ -30,12 +30,6 @@ final readonly class UserRegisterRequestDTO
 
         #[Assert\Length(max: 20)]
         public ?string $phone = null,
-
-        #[Assert\Length(max: 255)]
-        public ?string $cityName = null,
-
-        #[Assert\Length(max: 255)]
-        public ?string $cityTranscription = null,
     ) {
     }
 

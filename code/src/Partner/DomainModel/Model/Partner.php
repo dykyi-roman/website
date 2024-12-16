@@ -90,7 +90,7 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface, Part
 
     public function getUserIdentifier(): string
     {
-        return $this->email->value();
+        return $this->email->value;
     }
 
     public function setPassword(string $password): void

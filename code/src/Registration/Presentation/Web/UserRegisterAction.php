@@ -7,7 +7,6 @@ namespace App\Registration\Presentation\Web;
 use App\Registration\Application\Command\RegisterUserCommand;
 use App\Registration\Presentation\Web\Request\UserRegisterRequestDTO;
 use App\Registration\Presentation\Web\Response\RegistrationJsonResponder;
-use App\Shared\Domain\ValueObject\City;
 use App\Shared\Domain\ValueObject\Country;
 use App\Shared\Domain\ValueObject\Email;
 use App\Shared\Domain\ValueObject\Location;
@@ -37,10 +36,6 @@ final readonly class UserRegisterAction
                     new Country(
                         $translator->trans('countries' . $request->countryCode),
                         $request->countryCode,
-                    ),
-                    null === $request->cityName ? null : new City(
-                        $request->cityName,
-                        $request->cityTranscription,
                     ),
                 ),
                 $request->isPartner()

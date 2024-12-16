@@ -1,0 +1,4 @@
+doctrine:
+    dbal:
+        types:
+            client_id: App\Shared\Infrastructure\Doctrine\DoctrineType\EmailType

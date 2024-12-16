@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Infrastructure\Doctrine\DoctrineType;
+namespace App\Location\Infrastructure\Doctrine\DoctrineType;
 
 use App\Shared\Domain\ValueObject\City;
 use App\Shared\Domain\ValueObject\Country;

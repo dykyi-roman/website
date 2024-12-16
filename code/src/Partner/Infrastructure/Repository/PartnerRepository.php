@@ -34,6 +34,6 @@ final class PartnerRepository implements PartnerRepositoryInterface
 
     public function findByEmail(Email $email): ?Partner
     {
-        return $this->repository->findOneBy(['email' => $email->value()]);
+        return $this->repository->findOneBy(['email' => $email->value]);
     }
 }

@@ -90,7 +90,7 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface, Clien
 
     public function getUserIdentifier(): string
     {
-        return $this->email->value();
+        return $this->email->value;
     }
 
     #[ORM\PreUpdate]
