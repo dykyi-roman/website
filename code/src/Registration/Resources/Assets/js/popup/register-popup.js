@@ -235,21 +235,27 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Form submission handler
     async function submitRegistration(form) {
+        console.log('Form submission started');
         let isValid = true;
         const inputs = form.querySelectorAll('input, select');
+        
         inputs.forEach(input => {
+            console.log('Validating field:', input.name, input.value);
             if (!validateField(input, form)) {
+                console.log('Field validation failed:', input.name);
                 isValid = false;
             }
         });
 
+        console.log('Form validation result:', isValid);
         if (isValid) {
-            submitForm(form);
+            await submitForm(form);
         }
     }
 
     // Submit form data
     async function submitForm(form) {
+        console.log('Submitting form data');
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
         const modal = form.closest('.modal-content');
@@ -260,12 +266,15 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         if (clientCity && clientCity.dataset.transcription) {
             data['client-transcription'] = clientCity.dataset.transcription;
+            console.log('Added client transcription:', clientCity.dataset.transcription);
         }
         
         if (partnerCity && partnerCity.dataset.transcription) {
             data['partner-transcription'] = partnerCity.dataset.transcription;
+            console.log('Added partner transcription:', partnerCity.dataset.transcription);
         }
 
+        console.log('Form data to submit:', data);
         try {
             // Show spinner
             showModalSpinner(modal);
