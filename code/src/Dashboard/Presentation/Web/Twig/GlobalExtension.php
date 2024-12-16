@@ -18,7 +18,6 @@ final class GlobalExtension extends AbstractExtension implements GlobalsInterfac
         private readonly string $appName,
         private readonly array $appSocial,
         private readonly string $supportPhone,
-        private readonly string $supportEmail,
         private readonly array $supportedCountries,
     ) {
     }
@@ -26,7 +25,8 @@ final class GlobalExtension extends AbstractExtension implements GlobalsInterfac
     /**
      * @return array<string, mixed>
      */
-    public function getGlobals(): array
+    public
+    function getGlobals(): array
     {
         $response = [];
         $user = $this->security->getUser();
@@ -43,8 +43,8 @@ final class GlobalExtension extends AbstractExtension implements GlobalsInterfac
 
         if (!$user) {
             $countries = [];
-            foreach ($this->supportedCountries as $code => $name) {
-                $countries[] = ['code' => $code, 'name' => $name];
+            foreach ($this->supportedCountries as $code) {
+                $countries[] = ['code' => $code];
             }
             $response['countries'] = $countries;
         }

@@ -53,7 +53,7 @@
   "Register Email Placeholder": "Електронна пошта",
   "Register Phone Placeholder": "Номер телефону",
   "Register Country Placeholder": "Виберіть країну",
-  "Register City Placeholder": "Виберіть місто",
+  "Register CityPlaceholder": "Виберіть місто",
   "Register Password Placeholder": "Створiть пароль",
   "Register Field Required": "Це поле обов'язкове",
   "Register Phone Invalid": "Будь ласка, введіть дійсний номер телефону",
@@ -84,12 +84,17 @@
   "copyright_text": " %year% %organization%. Усі права захищено.",
   "meta_description": "%organization% - Знаходьте та бронюйте професійні послуги. Перегляньте наш широкий вибір перевірених постачальників послуг для всіх ваших потреб.",
   "meta_keywords": "послуги, бронювання, професійні послуги, постачальники послуг, місцеві послуги",
-  "countries": {
-    "UA": "Україна",
-    "US": "США",
-    "ES": "Iспанiя"
-  },
   "js": {
+    "locales": {
+      "uk": "Українська",
+      "en": "Английский",
+      "es": "Испанский"
+    },
+    "countries": {
+      "UA": "Україна",
+      "US": "США",
+      "ES": "Iспанiя"
+    },
     "error_generic_message": "Щось пішло не так. Наша команда працює над цим. Будь ласка, спробуйте пізніше.",
     "error_email_required": "Електронна пошта обов'язкова",
     "error_invalid_email": "Введіть коректну електронну пошту",

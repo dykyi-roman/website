@@ -1,4 +1,14 @@
 {
+    "locales": {
+        "uk": "Українська",
+        "us": "English",
+        "es": "Spain"
+    },
+    "countries": {
+        "ua": "Ukraine",
+        "us": "United States",
+        "es": "Spain"
+    },
     "error_generic_message": "Something went wrong. Our team is working on it. Please try again later.",
     "error_email_required": "Email is required",
     "error_invalid_email": "Please enter a valid email address",
@@ -29,5 +39,6 @@
     "phone_validation": "Please enter a valid phone number",
     "selection_validation": "Please make a selection",
     "registration_successful": "Registration successful!",
-    "registration_error": "Registration failed. Please try again."
+    "registration_error": "Registration failed. Please try again.",
+    "city_select_from_list": "Please select a city from the list"
 }

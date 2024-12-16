@@ -4,8 +4,8 @@
         <span class="language-code">{{ app.request.locale|upper }}</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
-        {% for language in supported_languages %}
-            <li><a class="dropdown-item {{ language.code == app.request.locale ? 'active' : '' }}" href="#" data-lang="{{ language.code }}">{{ language.name }}</a></li>
+        {% for locale in locales %}
+            <li><a class="dropdown-item {{ locale.code == app.request.locale ? 'active' : '' }}" href="#" data-lang="{{ locale.code }}">{{ ('js.locales.' ~ locale.code)|trans }}</a></li>
         {% endfor %}
     </ul>
 </div>

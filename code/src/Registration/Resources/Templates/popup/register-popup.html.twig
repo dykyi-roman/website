@@ -53,7 +53,7 @@
                             <select class="form-select" id="client-country" name="countryCode" required>
                                 <option value="">{{ 'Register Country Placeholder'|trans }}</option>
                                 {% for country in countries %}
-                                    <option value="{{ country.code }}">{{ country.name }}</option>
+                                    <option value="{{ country.code }}">{{ ('js.countries.' ~ country.code)|trans }}</option>
                                 {% endfor %}
                             </select>
                             <div class="invalid-feedback">{{ 'Register Country Invalid'|trans }}</div>
@@ -107,7 +107,7 @@
                             <select class="form-select" id="partner-country" name="countryCode" required>
                                 <option value="">{{ 'Register Country Placeholder'|trans }}</option>
                                 {% for country in countries %}
-                                    <option value="{{ country.code }}">{{ country.name }}</option>
+                                    <option value="{{ country.code }}">{{ ('js.countries.' ~ country.code)|trans }}</option>
                                 {% endfor %}
                             </select>
                             <div class="invalid-feedback">{{ 'Register Country Invalid'|trans }}</div>

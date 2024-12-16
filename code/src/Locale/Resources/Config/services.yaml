@@ -1,8 +1,7 @@
 parameters:
     default_locale: '%env(DEFAULT_LOCALE)%'
     supported_locales: '%env(json:SUPPORTED_LOCALES)%'
-    country_locale: '%env(json:COUNTRY_LOCALE)%'
-    supported_languages: '%env(json:SUPPORTED_LANGUAGES)%'
+    country_locale: '%env(json:COUNTRY_LOCALE_MAPPER)%'
 
 services:
     _defaults:
@@ -12,7 +11,6 @@ services:
         bind:
             $defaultLocale: '%default_locale%'
             $supportedLocales: '%supported_locales%'
-            $supportedLanguages: '%supported_languages%'
 
     App\Locale\:
         resource: '../../'

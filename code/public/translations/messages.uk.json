@@ -1,4 +1,14 @@
 {
+    "locales": {
+        "uk": "Українська",
+        "en": "Английский",
+        "es": "Испанский"
+    },
+    "countries": {
+        "UA": "Україна",
+        "US": "США",
+        "ES": "Iспанiя"
+    },
     "error_generic_message": "Щось пішло не так. Наша команда працює над цим. Будь ласка, спробуйте пізніше.",
     "error_email_required": "Електронна пошта обов'язкова",
     "error_invalid_email": "Введіть коректну електронну пошту",
@@ -29,5 +39,6 @@
     "phone_validation": "Введіть коректний номер телефону",
     "selection_validation": "Зробіть вибір",
     "registration_successful": "Реєстрація успішна!",
-    "registration_error": "Не вдалося зареєструватися. Спробуйте знову."
+    "registration_error": "Не вдалося зареєструватися. Спробуйте знову.",
+    "city_select_from_list": "Please select a city from the list"
 }

@@ -10,10 +10,10 @@ use Twig\Extension\GlobalsInterface;
 final class LocaleExtension extends AbstractExtension implements GlobalsInterface
 {
     /**
-     * @param array<string, string> $supportedLanguages
+     * @param array<string, string> $supportedLocales
      */
     public function __construct(
-        private readonly array $supportedLanguages,
+        private readonly array $supportedLocales,
     ) {
     }
 
@@ -22,11 +22,11 @@ final class LocaleExtension extends AbstractExtension implements GlobalsInterfac
      */
     public function getGlobals(): array
     {
-        $languages = [];
-        foreach ($this->supportedLanguages as $code => $name) {
-            $languages[] = ['code' => $code, 'name' => $name];
+        $locales = [];
+        foreach ($this->supportedLocales as $code) {
+            $locales[] = ['code' => $code];
         }
 
-        return ['supported_languages' => $languages];
+        return ['locales' => $locales];
     }
 }
