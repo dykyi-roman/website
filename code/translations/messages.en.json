@@ -91,9 +91,9 @@
   "search_examples": {
     "title": "For example:",
     "examples": {
-      "refrigerator": "Refrigerator repair",
-      "english": "English courses",
-      "dogs": "Dog walking"
+      "1": "Refrigerator repair",
+      "2": "English courses",
+      "3": "Dog walking"
     }
   },
   "js": {
