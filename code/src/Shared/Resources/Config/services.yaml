@@ -8,20 +8,11 @@ parameters:
     ]
     app.mailer.from: '%env(MAILER_FROM)%'
 
-    validation_routes:
-        - 'register'
-        - 'forgot-password'
-        - 'reset-password'
-        - 'reset-password-page'
-        - 'login'
-
 services:
     _defaults:
         autowire: true
         autoconfigure: true
         public: false
-        bind:
-           $validationRoutes: '%validation_routes%'
 
     App\Shared\:
         resource: '../../'
