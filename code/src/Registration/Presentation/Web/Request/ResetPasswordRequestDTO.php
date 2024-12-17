@@ -16,6 +16,9 @@ final readonly class ResetPasswordRequestDTO
         #[Assert\NotBlank]
         #[Assert\Length(min: 8)]
         public string $confirmPassword,
+
+        #[Assert\NotBlank]
+        public string $token,
     ) {
     }
 }

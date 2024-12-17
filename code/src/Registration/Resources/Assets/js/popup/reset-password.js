@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', async function () {
+    console.log('Reset page script loaded');
     // Get current language or default to English
     const currentLang = localStorage.getItem('locale') || 'en';
     const t = await loadTranslations(currentLang);
@@ -7,21 +8,38 @@ document.addEventListener('DOMContentLoaded', async function () {
     const resetPasswordForm = document.getElementById('resetPasswordForm');
     const passwordInput = document.getElementById('password');
     const confirmPasswordInput = document.getElementById('confirm_password');
+    const tokenInput = document.getElementById('token');
+
+    console.log('Form elements:', {
+        resetPasswordForm: !!resetPasswordForm,
+        passwordInput: !!passwordInput,
+        confirmPasswordInput: !!confirmPasswordInput,
+        tokenInput: !!tokenInput
+    });
+
+    // Get token from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+
+    // Set token value in hidden input if token exists
+    if (token && tokenInput) {
+        tokenInput.value = token;
+    }
 
     // Validation rules
     const validationRules = {
         password: {
             validate: (value) => value.trim().length >= 8,
-            message: t.password_too_short
+            message: t.password_too_short || 'Password must be at least 8 characters'
         },
         confirm_password: {
             validate: (value, originalValue) => value.trim() === originalValue.trim(),
-            message: t.passwords_do_not_match
+            message: t.passwords_do_not_match || 'Passwords do not match'
         }
     };
 
     // Field validation function
-    function validateField(field, originalValue = null) {
+    function validateField(field) {
         const value = field.value;
         const fieldName = field.name;
         let rule;
@@ -30,11 +48,20 @@ document.addEventListener('DOMContentLoaded', async function () {
         if (fieldName === 'password') {
             rule = validationRules.password;
         } else if (fieldName === 'confirm_password') {
-            rule = validationRules.confirm_password;
-            originalValue = passwordInput.value;
+            const passwordInput = document.getElementById('password');
+            rule = {
+                validate: () => {
+                    const confirmValue = value.trim();
+                    const passwordValue = passwordInput.value.trim();
+                    return confirmValue === passwordValue && confirmValue.length >= 8;
+                },
+                message: validationRules.confirm_password.message
+            };
+        } else {
+            return true;
         }
 
-        const isValid = rule.validate(value, originalValue);
+        const isValid = rule.validate(value);
         const feedback = field.nextElementSibling;
 
         if (!isValid) {
@@ -65,6 +92,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 validateField(this);
                 // Cross-validate confirm password when password changes
                 if (this.name === 'password') {
+                    const confirmPasswordInput = document.getElementById('confirm_password');
                     validateField(confirmPasswordInput);
                 }
             });
@@ -74,22 +102,41 @@ document.addEventListener('DOMContentLoaded', async function () {
                 validateField(this);
                 // Cross-validate confirm password when password changes
                 if (this.name === 'password') {
+                    const confirmPasswordInput = document.getElementById('confirm_password');
                     validateField(confirmPasswordInput);
                 }
             });
+
+            // Initial validation state
+            if (input.value) {
+                validateField(input);
+            }
         });
     }
 
     // Form submission handler
     function submitResetPassword(form) {
         form.addEventListener('submit', function (e) {
+            // Prevent both default form submission and browser validation
             e.preventDefault();
+            e.stopPropagation();
 
-            // Validate all fields before submission
-            const passwordValid = validateField(passwordInput);
-            const confirmPasswordValid = validateField(confirmPasswordInput);
+            // Remove any browser-based validation attributes
+            const inputs = form.querySelectorAll('input[type="password"]');
+            inputs.forEach(input => {
+                input.removeAttribute('required');
+                input.removeAttribute('minlength');
+            });
 
-            if (passwordValid && confirmPasswordValid) {
+            // Validate all fields
+            let isValid = true;
+            inputs.forEach(input => {
+                if (!validateField(input)) {
+                    isValid = false;
+                }
+            });
+
+            if (isValid) {
                 // Prepare form data
                 const formData = new FormData(form);
 
@@ -120,21 +167,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     }
 
-    // Setup password toggle functionality
-    function setupPasswordToggle() {
-        const passwordInputs = document.querySelectorAll('input[type="password"]');
-        passwordInputs.forEach(input => {
-            const toggleButton = input.nextElementSibling.nextElementSibling;
-            
-            toggleButton.addEventListener('click', function() {
-                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-                input.setAttribute('type', type);
-                
-                this.classList.toggle('hide');
-            });
-        });
-    }
-
     // Function to show success messages
     function showSuccessMessage(message) {
         const alertContainer = document.getElementById('alertContainer') || createAlertContainer();
@@ -162,12 +194,13 @@ document.addEventListener('DOMContentLoaded', async function () {
         const container = document.createElement('div');
         container.id = 'alertContainer';
         container.className = 'container mt-3';
-        document.querySelector('.content-wrapper').insertBefore(container, document.querySelector('.container'));
+        document.body.insertBefore(container, document.body.firstChild);
         return container;
     }
 
     // Initialize
     setupFormValidation(resetPasswordForm);
     submitResetPassword(resetPasswordForm);
-    setupPasswordToggle();
+
+    console.log('Reset password script initialization complete');
 });
