@@ -152,7 +152,7 @@
     "confirm_password": "Confirm New Password", 
     "submit_button": "Reset Password",
     "success_message": "Password is changed!",
-    "error_message": "An error occurred while resetting password",
+    "error_message": "An error occurred while resetting password"
   },
   "terms": {
     "page_title": "Terms of Service",
