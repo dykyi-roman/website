@@ -20,7 +20,10 @@ final readonly class SymfonyNotification implements NotificationInterface
     {
         $symfonyRecipients = [];
         foreach ($recipients as $recipient) {
-            $symfonyRecipients[] = new SymfonyRecipient($recipient);
+            $symfonyRecipients[] = new \Symfony\Component\Notifier\Recipient\Recipient(
+                $recipient->getEmail(),
+                $recipient->getPhone(),
+            );
         }
 
         $symfonyNotification = new SymfonyNotificationClass(
