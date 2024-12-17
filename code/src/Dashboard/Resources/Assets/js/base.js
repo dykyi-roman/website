@@ -178,17 +178,12 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.password-toggle').forEach(button => {
         button.addEventListener('click', function() {
-            const input = this.closest('.input-group').querySelector('input');
-            const icon = this.querySelector('i');
+            const input = this.closest('.password-wrapper').querySelector('input');
             
             if (input.type === 'password') {
                 input.type = 'text';
-                icon.classList.remove('bi-eye-slash');
-                icon.classList.add('bi-eye');
             } else {
                 input.type = 'password';
-                icon.classList.remove('bi-eye');
-                icon.classList.add('bi-eye-slash');
             }
         });
     });
