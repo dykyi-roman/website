@@ -6,9 +6,9 @@ namespace App\Registration\Presentation\Web;
 
 use App\Registration\Presentation\Web\Request\ForgotPasswordRequestDTO;
 use App\Registration\Presentation\Web\Response\ForgotPasswordJsonResponder;
-use App\Shared\EmailNotification;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Notifier\Notification\Notification;
+use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -16,21 +16,21 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final readonly class ForgotPasswordAction
 {
     #[Route('/forgot-password', name: 'forgot-password', methods: ['POST'])]
-    public function login(
+    public function __invoke(
         #[MapRequestPayload] ForgotPasswordRequestDTO $request,
-        TranslatorInterface $translator,
         ForgotPasswordJsonResponder $responder,
-        EmailNotification $notification,
+        NotifierInterface $notifier,
+        TranslatorInterface $translator,
     ): ForgotPasswordJsonResponder {
         try {
-            $resetNotification = (new Notification($translator->trans('Please reset your password')))
-                ->content($translator->trans('Click the link below to reset your password:') . "\n" .
-                    'https://example.com/reset-password?token=your-token-here');  // Replace with actual token generation
+            $notification = (new Notification('Password Reset Request'))
+                ->content('Click the link below to reset your password.');
 
-            $notification->send(
-                $resetNotification,
-                new Recipient($request->email()->value)
+            $recipient = new Recipient(
+                (string) $request->email()
             );
+            
+            $notifier->send($notification, $recipient);
 
             return $responder->success($translator->trans('Letter sent. Check your email.'))->respond();
         } catch (\Throwable $exception) {

@@ -1,3 +1,6 @@
+parameters:
+    app.mailer.from: '%env(MAILER_FROM)%'
+
 services:
     _defaults:
         autowire: true
@@ -10,6 +13,12 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\Shared\EmailNotification:
+    App\Shared\Infrastructure\Notification\Transport\CustomEmailTransport:
         arguments:
             $mailer: '@mailer.mailer'
+
+    custom-email:
+        class: App\Shared\Infrastructure\Notification\Channel\CustomEmailChannel
+        arguments:
+            $transport: '@App\Shared\Infrastructure\Notification\Transport\CustomEmailTransport'
+        tags: ['notifier.channel']
