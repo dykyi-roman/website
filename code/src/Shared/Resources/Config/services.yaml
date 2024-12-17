@@ -11,6 +11,7 @@ parameters:
     validation_routes:
         - 'register'
         - 'forgot-password'
+        - 'reset-password'
         - 'login'
 
 services:
