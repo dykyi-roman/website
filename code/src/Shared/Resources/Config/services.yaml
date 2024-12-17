@@ -62,5 +62,5 @@ services:
         class: App\Shared\Infrastructure\Notification\Symfony\Channel\CustomEmailChannel
         arguments:
             $transport: '@App\Shared\Infrastructure\Notification\Symfony\Transport\CustomEmailTransport'
-            $from: '%app.mailer.from%'
+            $from: '%app.name% <%app.mailer.from%>'
         tags: [ 'notifier.channel' ]

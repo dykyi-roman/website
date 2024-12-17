@@ -42,7 +42,7 @@ final class CustomEmailTransport extends AbstractTransport
         }
 
         $notification = $message->getNotification();
-dump($notification); die();
+
         $email = (new Email())
             ->from($this->from)
             ->to($message->getRecipientId())

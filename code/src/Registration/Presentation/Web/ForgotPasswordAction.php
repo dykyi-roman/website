@@ -26,14 +26,14 @@ final readonly class ForgotPasswordAction
     ): ForgotPasswordJsonResponder {
         try {
             $note = new Notification(
-                'Password Reset Request', 'Click the link below to reset your password.'
+                'Password Reset Request',
+                'Click the link below to reset your password. <h1>Hi!</h1>>',
             );
 
-            $recipient = new Recipient(
-                (string) $request->email()
+            $notification->send(
+                $note,
+                new Recipient((string)$request->email()),
             );
-
-            $notification->send($note, $recipient);
 
             return $responder->success($translator->trans('Letter sent. Check your email.'))->respond();
         } catch (\Throwable $exception) {
