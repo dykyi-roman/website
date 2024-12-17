@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Infrastructure\Notification;
+namespace App\Shared\Infrastructure\Notification\Channel;
 
 use Symfony\Component\Notifier\Message\MessageOptionsInterface;
 

@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Shared\Infrastructure\Notification\Channel;
 
-use App\Shared\Infrastructure\Notification\CustomEmailOptions;
 use Symfony\Component\Notifier\Channel\ChannelInterface;
 use Symfony\Component\Notifier\Message\ChatMessage;
-use Symfony\Component\Notifier\Message\MessageInterface;
 use Symfony\Component\Notifier\Notification\ChatNotificationInterface;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\Recipient\EmailRecipientInterface;
@@ -18,6 +16,7 @@ final readonly class CustomEmailChannel implements ChannelInterface
 {
     public function __construct(
         private TransportInterface $transport,
+        private string $from,
     ) {
     }
 
@@ -36,6 +35,7 @@ final readonly class CustomEmailChannel implements ChannelInterface
 
         $message->options((new CustomEmailOptions())->recipientId($recipient->getEmail()));
 
+        $this->transport->from = $this->from;
         $this->transport->send($message);
     }
 

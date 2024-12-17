@@ -15,9 +15,10 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class CustomEmailTransport extends AbstractTransport
 {
+    public string $from = '';
+
     public function __construct(
         private readonly MailerInterface $mailer,
-        private readonly string $from,
         HttpClientInterface $client = null,
         EventDispatcherInterface $dispatcher = null
     ) {
@@ -43,7 +44,7 @@ final class CustomEmailTransport extends AbstractTransport
         $notification = $message->getNotification();
 
         $email = (new Email())
-            ->from('asasfasfa')
+            ->from($this->from)
             ->to($message->getRecipientId())
             ->subject($notification->getSubject())
             ->html($notification->getContent());

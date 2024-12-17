@@ -21,4 +21,5 @@ services:
         class: App\Shared\Infrastructure\Notification\Channel\CustomEmailChannel
         arguments:
             $transport: '@App\Shared\Infrastructure\Notification\Transport\CustomEmailTransport'
+            $from: '%app.mailer.from%'
         tags: ['notifier.channel']
