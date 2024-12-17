@@ -136,7 +136,19 @@
     "selection_validation": "Зробіть вибір",
     "registration_successful": "Реєстрація успішна!",
     "registration_error": "Не вдалося зареєструватися. Спробуйте знову.",
-    "city_select_from_list": "Please select a city from the list"
+    "city_select_from_list": "Please select a city from the list",
+    "success_message": "Пароль змінено!",
+    "error_message": "Під час скидання пароля сталася помилка",
+    "password_too_short": "Пароль повинен бути не менше 8 символів",
+    "passwords_do_not_match": "Паролі не збігаються"
+  },
+  "reset_password": {
+    "title": "Скинути пароль",
+    "new_password": "Новий пароль",
+    "confirm_password": "Підтвердіть новий пароль", 
+    "submit_button": "Скинути пароль",
+    "success_message": "Пароль змінено!",
+    "error_message": "Під час скидання пароля сталася помилка",
   },
   "terms": {
     "page_title": "Умови використання",

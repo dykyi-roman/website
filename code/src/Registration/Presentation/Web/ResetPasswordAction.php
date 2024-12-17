@@ -9,6 +9,7 @@ use App\Registration\Presentation\Web\Request\ResetPasswordRequestDTO;
 use App\Registration\Presentation\Web\Response\ResetPasswordHtmlResponder;
 use App\Registration\Presentation\Web\Response\ResetPasswordJsonResponder;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -23,7 +24,7 @@ final readonly class ResetPasswordAction
 
     #[Route('/reset-password', name: 'reset-password-page', methods: ['GET'])]
     public function showResetPasswordPage(
-        #[MapRequestPayload] ResetPasswordFormRequestDTO $request,
+        #[MapQueryString] ResetPasswordFormRequestDTO $request,
         ResetPasswordHtmlResponder $responder,
     ): ResetPasswordHtmlResponder {
         return $responder->respond([
@@ -37,20 +38,6 @@ final readonly class ResetPasswordAction
         #[MapRequestPayload] ResetPasswordRequestDTO $request,
         ResetPasswordJsonResponder $responder
     ): ResetPasswordJsonResponder {
-        if (empty($request->password) || strlen($request->password) < 8) {
-            return $responder->validationError(
-                $this->translator('Password must be at least 8 characters long'),
-                'password'
-            )->respond();
-        }
-
-        if ($request->password !== $request->confirmPassword) {
-            return $responder->validationError(
-                $this->translator('Passwords do not match'),
-                'password'
-            )->respond();
-        }
-
         try {
             // TODO: Implement actual password reset logic
             // This might involve:
@@ -65,7 +52,7 @@ final readonly class ResetPasswordAction
             $this->logger->error($exception->getMessage());
 
             return $responder->validationError(
-                $this->translator('An error occurred while resetting password'),
+                $this->translator->trans('An error occurred while resetting password'),
                 'password'
             )->respond();
         }

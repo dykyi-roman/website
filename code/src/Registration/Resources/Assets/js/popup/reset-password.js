@@ -12,11 +12,11 @@ document.addEventListener('DOMContentLoaded', async function () {
     const validationRules = {
         password: {
             validate: (value) => value.trim().length >= 8,
-            message: t.label_password || 'Password must be at least 8 characters long'
+            message: t.password_too_short
         },
         confirm_password: {
             validate: (value, originalValue) => value.trim() === originalValue.trim(),
-            message: 'Passwords do not match'
+            message: t.passwords_do_not_match
         }
     };
 
@@ -101,16 +101,20 @@ document.addEventListener('DOMContentLoaded', async function () {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // Redirect or show success message
-                        window.location.href = data.redirectUrl || '/login';
+                        // Show success message
+                        showSuccessMessage(t.success_message);
+                        // Redirect after a short delay
+                        setTimeout(() => {
+                            window.location.href = data.redirectUrl || '/login';
+                        }, 2000);
                     } else {
                         // Show error message
-                        showErrorMessage(data.message || 'Password reset failed');
+                        showErrorMessage(data.message || t.error_message);
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    showErrorMessage('An unexpected error occurred');
+                    showErrorMessage(t.error_message);
                 });
             }
         });
@@ -129,6 +133,17 @@ document.addEventListener('DOMContentLoaded', async function () {
                 this.classList.toggle('hide');
             });
         });
+    }
+
+    // Function to show success messages
+    function showSuccessMessage(message) {
+        const alertContainer = document.getElementById('alertContainer') || createAlertContainer();
+        alertContainer.innerHTML = `
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        `;
     }
 
     // Function to show error messages

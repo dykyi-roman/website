@@ -58,7 +58,7 @@
   "Register Field Required": "This field is required",
   "Register Phone Invalid": "Please enter a valid phone number",
   "Register Country Invalid": "Please select a country",
-  "Register City Invalid": "Please select a city",
+  "Register CityInvalid": "Please select a city",
   "Register Password Invalid": "Please enter a valid password",
   "Register Client Button": "Register as Client",
   "Register Partner Button": "Register as Partner",
@@ -140,7 +140,19 @@
     "selection_validation": "Please make a selection",
     "registration_successful": "Registration successful!",
     "registration_error": "Registration failed. Please try again.",
-    "city_select_from_list": "Please select a city from the list"
+    "city_select_from_list": "Please select a city from the list",
+    "success_message": "Password is changed!",
+    "error_message": "An error occurred while resetting password",
+    "password_too_short": "Password must be at least 8 characters long",
+    "passwords_do_not_match": "Passwords do not match"
+  },
+  "reset_password": {
+    "title": "Reset Password",
+    "new_password": "New Password",
+    "confirm_password": "Confirm New Password", 
+    "submit_button": "Reset Password",
+    "success_message": "Password is changed!",
+    "error_message": "An error occurred while resetting password",
   },
   "terms": {
     "page_title": "Terms of Service",
