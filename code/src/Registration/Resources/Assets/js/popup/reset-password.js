@@ -45,19 +45,21 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
 
         const isValid = rule.validate(value);
-        const feedback = field.nextElementSibling;
+        const feedback = field.closest('.form-group').querySelector('.invalid-feedback');
 
         if (!isValid) {
             field.classList.add('is-invalid');
             field.classList.remove('is-valid');
-            if (feedback && feedback.classList.contains('invalid-feedback')) {
+            if (feedback) {
+                feedback.style.color = '#dc3545';
                 feedback.textContent = rule.message;
             }
         } else {
             field.classList.remove('is-invalid');
             field.classList.add('is-valid');
             if (feedback) {
-                feedback.textContent = '';
+                feedback.style.color = 'transparent';
+                feedback.textContent = rule.message;
             }
         }
 
@@ -162,10 +164,11 @@ document.addEventListener('DOMContentLoaded', async function () {
                     // Handle specific field errors
                     if (result.errors && result.errors.field) {
                         const field = form.querySelector(`[name="${result.errors.field}"]`);
-                        const fieldFeedback = field.nextElementSibling;
+                        const fieldFeedback = field.closest('.form-group').querySelector('.invalid-feedback');
 
                         field.classList.add('is-invalid');
-                        if (fieldFeedback && fieldFeedback.classList.contains('invalid-feedback')) {
+                        if (fieldFeedback) {
+                            fieldFeedback.style.color = '#dc3545';
                             fieldFeedback.textContent = result.errors.message;
                         }
 
