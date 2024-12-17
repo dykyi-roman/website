@@ -29,6 +29,21 @@ final readonly class UserRepository implements UserRepositoryInterface
         return $user;
     }
 
+    public function findByToken(string $token): ?UserInterface
+    {
+        $client = $this->clientRepository->findByToken($token);
+        if ($client) {
+            return $client;
+        }
+
+        $partner = $this->partnerRepository->findByToken($token);
+        if ($partner) {
+            return $partner;
+        }
+
+        return null;
+    }
+
     public function isEmailUnique(Email $email): bool
     {
         $clientExists = $this->clientRepository->findByEmail($email);

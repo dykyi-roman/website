@@ -15,4 +15,6 @@ interface ClientRepositoryInterface
     public function findById(ClientId $id): ?Client;
 
     public function findByEmail(Email $email): ?Client;
+
+    public function findByToken(string $token): ?Client;
 }

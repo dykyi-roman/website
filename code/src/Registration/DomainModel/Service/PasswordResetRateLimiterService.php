@@ -31,6 +31,6 @@ final readonly class PasswordResetRateLimiterService
 
     private function generateCacheKey(string $email): string
     {
-        return self::CACHE_PREFIX . hash('sha256', $email);
+        return self::CACHE_PREFIX . $email;
     }
 }

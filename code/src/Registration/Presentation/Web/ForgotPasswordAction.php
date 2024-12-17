@@ -12,13 +12,11 @@ use App\Shared\DomainModel\Services\MessageBusInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class ForgotPasswordAction
 {
     public function __construct(
-        private TokenGeneratorInterface $tokenGenerator,
         private MessageBusInterface $messageBus,
         private PasswordResetRateLimiterService $rateLimiterService,
     ) {
@@ -37,10 +35,7 @@ final readonly class ForgotPasswordAction
                 $email,
                 function () use ($email) {
                     $this->messageBus->dispatch(
-                        new PasswordResetCommand(
-                            $email->value,
-                            $this->tokenGenerator->generateToken(),
-                        )
+                        new PasswordResetCommand($email->value)
                     );
                 }
             );

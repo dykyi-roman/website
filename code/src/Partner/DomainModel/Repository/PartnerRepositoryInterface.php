@@ -15,4 +15,6 @@ interface PartnerRepositoryInterface
     public function findById(PartnerId $id): ?Partner;
 
     public function findByEmail(Email $email): ?Partner;
+
+    public function findByToken(string $token): ?Partner;
 }

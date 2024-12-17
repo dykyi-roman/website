@@ -46,6 +46,9 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface, Clien
     #[ORM\Column(type: 'string', length: 255)]
     private string $password;
 
+    #[ORM\Column(type: 'string', length: 1024)]
+    private string $token;
+
     #[ORM\Column(name: 'phone_verified_at', type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $phoneVerifiedAt;
 
@@ -102,6 +105,16 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface, Clien
     public function setPassword(string $password): void
     {
         $this->password = $password;
+    }
+
+    public function setToken(string $token): void
+    {
+        $this->token = $token;
+    }
+
+    public function getToken(): string
+    {
+        return $this->token;
     }
 
     public function getId(): ClientId

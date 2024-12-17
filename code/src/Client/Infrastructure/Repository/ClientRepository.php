@@ -36,4 +36,9 @@ final class ClientRepository implements ClientRepositoryInterface
     {
         return $this->repository->findOneBy(['email' => $email->value]);
     }
+
+    public function findByToken(string $token): ?Client
+    {
+        return $this->repository->findOneBy(['token' => $token]);
+    }
 }

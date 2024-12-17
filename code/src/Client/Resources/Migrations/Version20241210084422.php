@@ -25,6 +25,7 @@ final class Version20241210084422 extends AbstractMigration
             phone VARCHAR(20) DEFAULT NULL,
             avatar TEXT DEFAULT NULL,
             password VARCHAR(255) NOT NULL,
+            token VARCHAR(1024) DEFAULT NULL,
             location JSON NOT NULL,
             status SMALLINT DEFAULT 1,
             roles JSON DEFAULT NULL,

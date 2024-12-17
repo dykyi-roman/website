@@ -11,7 +11,6 @@ final readonly class PasswordResetCommand
 {
     public function __construct(
         public string $email,
-        public string $token,
     ) {
     }
 }

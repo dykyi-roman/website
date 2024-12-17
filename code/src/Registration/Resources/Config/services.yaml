@@ -1,11 +1,13 @@
 parameters:
     supported_countries: '%env(json:SUPPORTED_COUNTRIES)%'
+    password_secret_key: '%env(PASSWORD_SECRET_KEY)%'
 services:
     _defaults:
         autowire: true
         autoconfigure: true
         public: false
         bind:
+            $passwordSecretKey: '%password_secret_key%'
             $supportedCountries: '%supported_countries%'
 
     App\Registration\:

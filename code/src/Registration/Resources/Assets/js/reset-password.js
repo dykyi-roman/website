@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     // DOM Elements
     const resetPasswordForm = document.getElementById('resetPasswordForm');
     const passwordInput = document.getElementById('password');
-    const confirmPasswordInput = document.getElementById('confirm_password');
     const tokenInput = document.getElementById('token');
 
     // Get token from URL parameters
@@ -101,57 +100,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Setup validation for reset password form
     setupFormValidation(resetPasswordForm);
 
-    // Password toggle functionality
-    // const passwordToggles = document.querySelectorAll('.password-toggle');
-    // passwordToggles.forEach(toggle => {
-    //     toggle.addEventListener('click', function() {
-    //         const passwordWrapper = this.closest('.reset-from-password-wrapper');
-    //         const passwordInput = passwordWrapper.querySelector('input');
-    //
-    //         if (passwordInput.type === 'password') {
-    //             passwordInput.type = 'text';
-    //             this.classList.add('hide');
-    //         } else {
-    //             passwordInput.type = 'password';
-    //             this.classList.remove('hide');
-    //         }
-    //     });
-    // });
-
-    // // Setup password toggle functionality
-    // const passwordInputs = document.querySelectorAll('input[type="password"]');
-    // passwordInputs.forEach(input => {
-    //     const wrapper = input.closest('.form-group') || input.closest('.reset-form-password-wrapper') || input.parentElement;
-    //
-    //     // Ensure wrapper has password-wrapper class
-    //     if (!wrapper.classList.contains('reset-form-password-wrapper')) {
-    //         wrapper.classList.add('reset-form-password-wrapper');
-    //     }
-    //
-    //     // Check if toggle already exists
-    //     if (wrapper.querySelector('.password-toggle')) return;
-    //
-    //     // Create toggle button
-    //     const toggleButton = document.createElement('button');
-    //     toggleButton.type = 'button';
-    //     toggleButton.className = 'password-toggle';
-    //     toggleButton.setAttribute('aria-label', 'Toggle password visibility');
-    //
-    //     // Insert toggle button after input
-    //     input.parentNode.insertBefore(toggleButton, input.nextSibling);
-    //
-    //     // Add click event
-    //     toggleButton.addEventListener('click', function() {
-    //         if (input.type === 'password') {
-    //             input.type = 'text';
-    //             toggleButton.classList.add('hide');
-    //         } else {
-    //             input.type = 'password';
-    //             toggleButton.classList.remove('hide');
-    //         }
-    //     });
-    // });
-
     // Form submission handler
     async function submitResetPassword(form) {
         let isValid = true;
@@ -202,7 +150,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
                 if (result.success) {
                     hideModalSpinner(resetPasswordForm.closest('.modal'));
-                    window.location.href = result.redirectUrl || '/login';
                 } else {
                     hideModalSpinner(resetPasswordForm.closest('.modal'));
 
