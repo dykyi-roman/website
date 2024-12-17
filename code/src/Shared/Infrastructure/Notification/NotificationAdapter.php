@@ -10,7 +10,7 @@ use Symfony\Component\Notifier\Notification\Notification as SymfonyNotificationC
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;
 
-final readonly class SymfonyNotification implements NotificationInterface
+final readonly class NotificationAdapter implements NotificationInterface
 {
     public function __construct(
         private NotifierInterface $notifier,
