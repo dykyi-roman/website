@@ -6,6 +6,7 @@ parameters:
         'https://twitter.com/easy-order',
         'https://www.linkedin.com/company/easy-order',
     ]
+    app.mailer.from: '%env(MAILER_FROM)%'
 
     validation_routes:
         - 'register'
@@ -52,3 +53,14 @@ services:
     App\Shared\Presentation\Responder\HtmlResponder:
         tags:
             - { name: kernel.event_subscriber }
+
+    App\Shared\Infrastructure\Notification\Symfony\Transport\CustomEmailTransport:
+        arguments:
+            $mailer: '@mailer.mailer'
+
+    custom-email:
+        class: App\Shared\Infrastructure\Notification\Symfony\Channel\CustomEmailChannel
+        arguments:
+            $transport: '@App\Shared\Infrastructure\Notification\Symfony\Transport\CustomEmailTransport'
+            $from: '%app.mailer.from%'
+        tags: [ 'notifier.channel' ]

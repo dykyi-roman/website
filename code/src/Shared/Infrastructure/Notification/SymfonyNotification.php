@@ -8,6 +8,7 @@ use App\Shared\DomainModel\Services\NotificationInterface;
 use App\Shared\DomainModel\ValueObject\Notification;
 use Symfony\Component\Notifier\Notification\Notification as SymfonyNotificationClass;
 use Symfony\Component\Notifier\NotifierInterface;
+use Symfony\Component\Notifier\Recipient\Recipient;
 
 final readonly class SymfonyNotification implements NotificationInterface
 {
@@ -20,7 +21,7 @@ final readonly class SymfonyNotification implements NotificationInterface
     {
         $symfonyRecipients = [];
         foreach ($recipients as $recipient) {
-            $symfonyRecipients[] = new \Symfony\Component\Notifier\Recipient\Recipient(
+            $symfonyRecipients[] = new Recipient(
                 $recipient->getEmail(),
                 $recipient->getPhone(),
             );
