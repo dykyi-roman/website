@@ -38,6 +38,7 @@ final readonly class ResetPasswordAction
         #[MapRequestPayload] ResetPasswordRequestDTO $request,
         ResetPasswordJsonResponder $responder
     ): ResetPasswordJsonResponder {
+        dump($request); die();
         try {
             // TODO: Implement actual password reset logic
             // This might involve:

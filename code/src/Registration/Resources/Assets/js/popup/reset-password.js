@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', async function () {
-    console.log('Reset page script loaded');
     // Get current language or default to English
     const currentLang = localStorage.getItem('locale') || 'en';
     const t = await loadTranslations(currentLang);
@@ -9,13 +8,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     const passwordInput = document.getElementById('password');
     const confirmPasswordInput = document.getElementById('confirm_password');
     const tokenInput = document.getElementById('token');
-
-    console.log('Form elements:', {
-        resetPasswordForm: !!resetPasswordForm,
-        passwordInput: !!passwordInput,
-        confirmPasswordInput: !!confirmPasswordInput,
-        tokenInput: !!tokenInput
-    });
 
     // Get token from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
@@ -30,11 +22,11 @@ document.addEventListener('DOMContentLoaded', async function () {
     const validationRules = {
         password: {
             validate: (value) => value.trim().length >= 8,
-            message: t.password_too_short || 'Password must be at least 8 characters'
+            message: t.label_password || 'Password must be at least 8 characters long'
         },
         confirm_password: {
-            validate: (value, originalValue) => value.trim() === originalValue.trim(),
-            message: t.passwords_do_not_match || 'Passwords do not match'
+            validate: (value) => value.trim() === passwordInput.value.trim(),
+            message: t.label_confirm_password || 'Passwords do not match'
         }
     };
 
@@ -42,23 +34,14 @@ document.addEventListener('DOMContentLoaded', async function () {
     function validateField(field) {
         const value = field.value;
         const fieldName = field.name;
-        let rule;
+        let rule = validationRules[fieldName];
 
-        // Determine which validation rule to use
-        if (fieldName === 'password') {
-            rule = validationRules.password;
-        } else if (fieldName === 'confirm_password') {
-            const passwordInput = document.getElementById('password');
+        if (!rule) {
+            // Default validation for required fields
             rule = {
-                validate: () => {
-                    const confirmValue = value.trim();
-                    const passwordValue = passwordInput.value.trim();
-                    return confirmValue === passwordValue && confirmValue.length >= 8;
-                },
-                message: validationRules.confirm_password.message
+                validate: (value) => value.trim() !== '',
+                message: 'This field is required'
             };
-        } else {
-            return true;
         }
 
         const isValid = rule.validate(value);
@@ -90,20 +73,18 @@ document.addEventListener('DOMContentLoaded', async function () {
             // Validate on input
             input.addEventListener('input', function () {
                 validateField(this);
-                // Cross-validate confirm password when password changes
-                if (this.name === 'password') {
-                    const confirmPasswordInput = document.getElementById('confirm_password');
-                    validateField(confirmPasswordInput);
+                // If confirm password is being typed, also validate password
+                if (this.name === 'confirm_password') {
+                    validateField(passwordInput);
                 }
             });
 
             // Validate on blur
             input.addEventListener('blur', function () {
                 validateField(this);
-                // Cross-validate confirm password when password changes
-                if (this.name === 'password') {
-                    const confirmPasswordInput = document.getElementById('confirm_password');
-                    validateField(confirmPasswordInput);
+                // If confirm password is being typed, also validate password
+                if (this.name === 'confirm_password') {
+                    validateField(passwordInput);
                 }
             });
 
@@ -114,93 +95,127 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     }
 
+    // Setup validation for reset password form
+    setupFormValidation(resetPasswordForm);
+
+    // Setup password toggle functionality
+    const passwordInputs = document.querySelectorAll('input[type="password"]');
+    passwordInputs.forEach(input => {
+        // Create wrapper div
+        const wrapper = document.createElement('div');
+        wrapper.className = 'password-wrapper';
+        input.parentNode.insertBefore(wrapper, input);
+        
+        // Move the input and its feedback to the wrapper
+        const feedback = input.nextElementSibling;
+        wrapper.appendChild(input);
+        if (feedback && feedback.classList.contains('invalid-feedback')) {
+            wrapper.appendChild(feedback);
+        }
+
+        // Create toggle button
+        const toggleButton = document.createElement('button');
+        toggleButton.type = 'button';
+        toggleButton.className = 'password-toggle hide';
+        toggleButton.setAttribute('aria-label', 'Toggle password visibility');
+        wrapper.appendChild(toggleButton);
+
+        // Add click event
+        toggleButton.addEventListener('click', function() {
+            const type = input.type === 'password' ? 'text' : 'password';
+            input.type = type;
+            toggleButton.classList.toggle('hide');
+        });
+    });
+
     // Form submission handler
-    function submitResetPassword(form) {
-        form.addEventListener('submit', function (e) {
-            // Prevent both default form submission and browser validation
-            e.preventDefault();
-            e.stopPropagation();
+    async function submitResetPassword(form) {
+        let isValid = true;
+        const inputs = form.querySelectorAll('input[type="password"]');
 
-            // Remove any browser-based validation attributes
-            const inputs = form.querySelectorAll('input[type="password"]');
-            inputs.forEach(input => {
-                input.removeAttribute('required');
-                input.removeAttribute('minlength');
-            });
-
-            // Validate all fields
-            let isValid = true;
-            inputs.forEach(input => {
-                if (!validateField(input)) {
-                    isValid = false;
-                }
-            });
-
-            if (isValid) {
-                // Prepare form data
-                const formData = new FormData(form);
-
-                // Send AJAX request
-                fetch(form.action, {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Show success message
-                        showSuccessMessage(t.success_message);
-                        // Redirect after a short delay
-                        setTimeout(() => {
-                            window.location.href = data.redirectUrl || '/login';
-                        }, 2000);
-                    } else {
-                        // Show error message
-                        showErrorMessage(data.message || t.error_message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showErrorMessage(t.error_message);
-                });
+        inputs.forEach(input => {
+            if (!validateField(input)) {
+                isValid = false;
             }
         });
-    }
 
-    // Function to show success messages
-    function showSuccessMessage(message) {
-        const alertContainer = document.getElementById('alertContainer') || createAlertContainer();
-        alertContainer.innerHTML = `
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        `;
+        if (isValid) {
+            try {
+                // Show spinner
+                showModalSpinner(resetPasswordForm.closest('.modal'));
+
+                const formData = new FormData(form);
+                const response = await fetch('/reset-password', {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    },
+                    body: formData,
+                    credentials: 'same-origin'
+                });
+
+                const result = await response.json();
+                if (!response.ok) {
+                    hideModalSpinner(resetPasswordForm.closest('.modal'));
+
+                    // Handle specific field errors
+                    if (result.errors && result.errors.field) {
+                        const field = form.querySelector(`[name="${result.errors.field}"]`);
+                        const fieldFeedback = field.nextElementSibling;
+
+                        field.classList.add('is-invalid');
+                        if (fieldFeedback && fieldFeedback.classList.contains('invalid-feedback')) {
+                            fieldFeedback.textContent = result.errors.message;
+                        }
+
+                        return false;
+                    }
+
+                    throw new Error(result.errors.message || t.error_reset_password);
+                }
+
+                if (result.success) {
+                    hideModalSpinner(resetPasswordForm.closest('.modal'));
+                    window.location.href = result.redirectUrl || '/login';
+                } else {
+                    hideModalSpinner(resetPasswordForm.closest('.modal'));
+
+                    // Handle specific error messages
+                    if (result.errors) {
+                        Object.keys(result.errors).forEach(field => {
+                            const input = form.querySelector(`[name="${field}"]`);
+                            if (input) {
+                                input.setCustomValidity(result.errors[field]);
+                                input.reportValidity();
+                            }
+                        });
+                    } else {
+                        showErrorMessage(result.message || t.error_reset_password);
+                    }
+                }
+            } catch (error) {
+                hideModalSpinner(resetPasswordForm.closest('.modal'));
+                showErrorMessage(error.message || t.error_network);
+            }
+        }
     }
 
     // Function to show error messages
     function showErrorMessage(message) {
-        const alertContainer = document.getElementById('alertContainer') || createAlertContainer();
-        alertContainer.innerHTML = `
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        `;
+        // Find or create error message container
+        let errorContainer = document.querySelector('.reset-password-error-message');
+        if (!errorContainer) {
+            errorContainer = document.createElement('div');
+            errorContainer.className = 'alert alert-danger reset-password-error-message';
+            resetPasswordForm.insertBefore(errorContainer, resetPasswordForm.firstChild);
+        }
+        errorContainer.textContent = message;
     }
 
-    // Function to create alert container if it doesn't exist
-    function createAlertContainer() {
-        const container = document.createElement('div');
-        container.id = 'alertContainer';
-        container.className = 'container mt-3';
-        document.body.insertBefore(container, document.body.firstChild);
-        return container;
-    }
-
-    // Initialize
-    setupFormValidation(resetPasswordForm);
-    submitResetPassword(resetPasswordForm);
-
-    console.log('Reset password script initialization complete');
+    // Event listener for reset password form submission
+    resetPasswordForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        submitResetPassword(this);
+    });
 });

@@ -12,6 +12,7 @@ parameters:
         - 'register'
         - 'forgot-password'
         - 'reset-password'
+        - 'reset-password-page'
         - 'login'
 
 services:
