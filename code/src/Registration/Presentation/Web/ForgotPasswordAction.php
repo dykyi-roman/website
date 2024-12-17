@@ -26,8 +26,8 @@ final readonly class ForgotPasswordAction
     ): ForgotPasswordJsonResponder {
         try {
             $note = new Notification(
-                'Password Reset Request',
-                'Click the link below to reset your password. <h1>Hi!</h1>>',
+                $translator->trans('Please reset your password'),
+                'Click the link below to reset your password. <h1>Hi!</h1>',
             );
 
             $notification->send(
