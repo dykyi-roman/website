@@ -33,7 +33,7 @@ security:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/forgot-password, roles: PUBLIC_ACCESS }
-        - { path: ^/reset_password, roles: PUBLIC_ACCESS }
+        - { path: ^/reset-password, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: PUBLIC_ACCESS }
         - { path: ^/partner, roles: ROLE_PARTNER }
         - { path: ^/client, roles: ROLE_CLIENT }

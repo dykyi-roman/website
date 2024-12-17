@@ -22,12 +22,13 @@ final class ResetPasswordJsonResponder implements ResponderInterface
         return $this;
     }
 
-    public function error(\Throwable $exception): self
+    public function validationError(string $message, string $field = ''): self
     {
         $this->data = [
             'success' => false,
             'errors' => [
-                'message' => $exception->getMessage(),
+                'message' => $message,
+                'field' => $field,
             ],
         ];
         $this->statusCode = 400;

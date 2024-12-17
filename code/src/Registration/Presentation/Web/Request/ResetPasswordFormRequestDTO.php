@@ -6,16 +6,11 @@ namespace App\Registration\Presentation\Web\Request;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final readonly class ResetPasswordRequestDTO
+final readonly class ResetPasswordFormRequestDTO
 {
     public function __construct(
         #[Assert\NotBlank]
-        #[Assert\Length(min: 8)]
-        public string $password,
-
-        #[Assert\NotBlank]
-        #[Assert\Length(min: 8)]
-        public string $confirmPassword,
+        public string $token,
     ) {
     }
 }
