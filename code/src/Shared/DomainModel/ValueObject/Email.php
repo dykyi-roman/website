@@ -21,6 +21,11 @@ final readonly class Email implements \Stringable
         return new self($email);
     }
 
+    public function hash(): string
+    {
+        return hash('sha256', $this->value);
+    }
+
     private function validate(string $email): void
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
