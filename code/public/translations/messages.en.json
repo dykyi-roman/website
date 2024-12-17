@@ -44,5 +44,6 @@
     "success_message": "Password is changed!",
     "error_message": "An error occurred while resetting password",
     "password_too_short": "Password must be at least 8 characters long",
-    "passwords_do_not_match": "Passwords do not match"
+    "passwords_do_not_match": "Passwords do not match",
+    "this_field_is_required": "This field is required"
 }

@@ -23,11 +23,11 @@ document.addEventListener('DOMContentLoaded', async function () {
     const validationRules = {
         password: {
             validate: (value) => value.trim().length >= 8,
-            message: t.label_password || 'Password must be at least 8 characters long'
+            message: t.password_too_short
         },
         confirm_password: {
             validate: (value) => value.trim() === passwordInput.value.trim(),
-            message: t.label_confirm_password || 'Passwords do not match'
+            message: t.passwords_do_not_match
         }
     };
 
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             // Default validation for required fields
             rule = {
                 validate: (value) => value.trim() !== '',
-                message: 'This field is required'
+                message: t.this_field_is_required
             };
         }
 

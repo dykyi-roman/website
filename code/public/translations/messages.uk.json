@@ -44,5 +44,6 @@
     "success_message": "Пароль змінено!",
     "error_message": "Під час скидання пароля сталася помилка",
     "password_too_short": "Пароль повинен бути не менше 8 символів",
-    "passwords_do_not_match": "Паролі не збігаються"
+    "passwords_do_not_match": "Паролі не збігаються",
+    "this_field_is_required": "This field is required"
 }
