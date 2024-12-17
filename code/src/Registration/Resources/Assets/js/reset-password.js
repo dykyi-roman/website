@@ -101,33 +101,54 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Setup validation for reset password form
     setupFormValidation(resetPasswordForm);
 
+    // Password toggle functionality
+    const passwordToggles = document.querySelectorAll('.password-toggle');
+    passwordToggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            const passwordWrapper = this.closest('.password-wrapper');
+            const passwordInput = passwordWrapper.querySelector('input');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                this.classList.add('hide');
+            } else {
+                passwordInput.type = 'password';
+                this.classList.remove('hide');
+            }
+        });
+    });
+
     // Setup password toggle functionality
     const passwordInputs = document.querySelectorAll('input[type="password"]');
     passwordInputs.forEach(input => {
-        // Create wrapper div
-        const wrapper = document.createElement('div');
-        wrapper.className = 'password-wrapper';
-        input.parentNode.insertBefore(wrapper, input);
+        const wrapper = input.closest('.form-group') || input.closest('.password-wrapper') || input.parentElement;
         
-        // Move the input and its feedback to the wrapper
-        const feedback = input.nextElementSibling;
-        wrapper.appendChild(input);
-        if (feedback && feedback.classList.contains('invalid-feedback')) {
-            wrapper.appendChild(feedback);
+        // Ensure wrapper has password-wrapper class
+        if (!wrapper.classList.contains('password-wrapper')) {
+            wrapper.classList.add('password-wrapper');
         }
+
+        // Check if toggle already exists
+        if (wrapper.querySelector('.password-toggle')) return;
 
         // Create toggle button
         const toggleButton = document.createElement('button');
         toggleButton.type = 'button';
-        toggleButton.className = 'password-toggle hide';
+        toggleButton.className = 'password-toggle';
         toggleButton.setAttribute('aria-label', 'Toggle password visibility');
-        wrapper.appendChild(toggleButton);
+        
+        // Insert toggle button after input
+        input.parentNode.insertBefore(toggleButton, input.nextSibling);
 
         // Add click event
         toggleButton.addEventListener('click', function() {
-            const type = input.type === 'password' ? 'text' : 'password';
-            input.type = type;
-            toggleButton.classList.toggle('hide');
+            if (input.type === 'password') {
+                input.type = 'text';
+                toggleButton.classList.add('hide');
+            } else {
+                input.type = 'password';
+                toggleButton.classList.remove('hide');
+            }
         });
     });
 
