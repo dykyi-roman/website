@@ -128,10 +128,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Function to show error messages
     function showErrorMessage(message) {
         // Find or create error message container
-        let errorContainer = document.querySelector('.forgot-password-error-message');
+        let errorContainer = document.querySelector('.alert-danger');
         if (!errorContainer) {
             errorContainer = document.createElement('div');
-            errorContainer.className = 'alert alert-danger forgot-password-error-message mt-3';
+            errorContainer.className = 'alert alert-danger mt-3';
             if (forgotPasswordForm) {
                 forgotPasswordForm.insertBefore(errorContainer, forgotPasswordForm.firstChild);
             }
@@ -143,10 +143,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Function to show success messages
     function showSuccessMessage(message) {
         // Find or create success message container
-        let successContainer = document.querySelector('.forgot-password-success-message');
+        let successContainer = document.querySelector('.alert-success');
         if (!successContainer) {
             successContainer = document.createElement('div');
-            successContainer.className = 'alert alert-success forgot-password-success-message mt-3';
+            successContainer.className = 'alert alert-success mt-3';
             if (forgotPasswordForm) {
                 forgotPasswordForm.insertBefore(successContainer, forgotPasswordForm.firstChild);
             }
@@ -297,4 +297,5 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Initialize form
     setupForm();
+    clearErrors(forgotPasswordForm);
 });
