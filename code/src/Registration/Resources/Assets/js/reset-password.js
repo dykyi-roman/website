@@ -24,15 +24,34 @@ document.addEventListener('DOMContentLoaded', async function () {
         tokenInput.value = token;
     }
 
+    // Password regex for complexity
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/;
+
     // Validation rules
     const validationRules = {
         password: {
-            validate: (value) => value.trim().length >= 8,
-            message: t.password_too_short
+            validate: (value) => {
+                const password = value.trim();
+                if (password.length < 8) {
+                    return {isValid: false, message: t.password_length_validation || 'Password must be at least 8 characters long'};
+                }
+                if (!passwordRegex.test(password)) {
+                    return {isValid: false, message: t.password_complexity_validation || 'Password must include uppercase, lowercase, number, and special character'};
+                }
+                return {isValid: true};
+            },
+            message: t.password_validation || 'Invalid password'
         },
         confirmPassword: {
-            validate: (value) => value.trim() === passwordInput.value.trim(),
-            message: t.passwords_do_not_match
+            validate: (value) => {
+                const password = passwordInput.value.trim();
+                const confirmPassword = value.trim();
+                if (confirmPassword !== password) {
+                    return {isValid: false, message: t.passwords_do_not_match || 'Passwords do not match'};
+                }
+                return {isValid: true};
+            },
+            message: t.passwords_do_not_match || 'Passwords do not match'
         }
     };
 
@@ -46,11 +65,12 @@ document.addEventListener('DOMContentLoaded', async function () {
             // Default validation for required fields
             rule = {
                 validate: (value) => value.trim() !== '',
-                message: t.this_field_is_required
+                message: t.this_field_is_required || 'This field is required'
             };
         }
 
-        const isValid = rule.validate(value);
+        const validationResult = rule.validate(value);
+        const isValid = validationResult.isValid !== false;
         const feedback = field.closest('.form-group').querySelector('.invalid-feedback');
 
         if (!isValid) {
@@ -58,14 +78,14 @@ document.addEventListener('DOMContentLoaded', async function () {
             field.classList.remove('is-valid');
             if (feedback) {
                 feedback.style.color = '#dc3545';
-                feedback.textContent = rule.message;
+                feedback.textContent = validationResult.message || rule.message;
             }
         } else {
             field.classList.remove('is-invalid');
             field.classList.add('is-valid');
             if (feedback) {
                 feedback.style.color = 'transparent';
-                feedback.textContent = rule.message;
+                feedback.textContent = '';
             }
         }
 
