@@ -11,6 +11,9 @@ use App\Registration\Presentation\Web\Request\ResetPasswordRequestDTO;
 use App\Registration\Presentation\Web\Response\ResetPasswordHtmlResponder;
 use App\Registration\Presentation\Web\Response\ResetPasswordJsonResponder;
 use App\Shared\DomainModel\Services\MessageBusInterface;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,7 +24,9 @@ final readonly class ResetPasswordAction
     public function __construct(
         private TokenGeneratorInterface $tokenGenerator,
         private MessageBusInterface $queryBus,
-        private TranslatorInterface $translator
+        private TranslatorInterface $translator,
+        private Security $security,
+        private RouterInterface $router
     ) {
     }
 
@@ -29,7 +34,13 @@ final readonly class ResetPasswordAction
     public function showResetPasswordPage(
         #[MapQueryString] ResetPasswordFormRequestDTO $request,
         ResetPasswordHtmlResponder $responder,
-    ): ResetPasswordHtmlResponder {
+    ): ResetPasswordHtmlResponder|RedirectResponse {
+        if ($this->security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return new RedirectResponse(
+                $this->router->generate('dashboard')
+            );
+        }
+
         return $responder->respond([
             'page_title' => $this->translator->trans('Reset Password'),
             'token' => $request->token,

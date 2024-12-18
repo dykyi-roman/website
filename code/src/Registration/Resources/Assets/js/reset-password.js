@@ -203,6 +203,18 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
         successContainer.textContent = message;
 
+        // Hide all form groups
+        const formGroups = resetPasswordForm.querySelectorAll('.form-group');
+        formGroups.forEach(group => {
+            group.style.display = 'none';
+        });
+
+        // Hide submit button
+        const submitButton = resetPasswordForm.querySelector('button[type="submit"]');
+        if (submitButton) {
+            submitButton.style.display = 'none';
+        }
+
         // Optional: Disable form after successful message
         resetPasswordForm.querySelectorAll('input, button').forEach(el => {
             el.disabled = true;
