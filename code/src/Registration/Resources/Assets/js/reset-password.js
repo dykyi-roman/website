@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 }
                 return {isValid: true};
             },
-            message: t.password_validation || 'Invalid password'
+            message: t.password_validation
         },
         confirmPassword: {
             validate: (value) => {

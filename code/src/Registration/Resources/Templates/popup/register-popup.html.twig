@@ -7,8 +7,8 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header border-0">
-                <h5 class="modal-title w-100 text-center" id="registrationModalLabel">{{ 'Register Title'|trans }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'Close'|trans }}"></button>
+                <h5 class="modal-title w-100 text-center" id="registrationModalLabel">{{ 'register_popup_title'|trans }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'register_popup_close'|trans }}"></button>
             </div>
             
             <div class="modal-body p-4">
@@ -17,15 +17,15 @@
                     <div class="d-flex justify-content-center gap-3 w-100 mb-4">
                         <button class="register-type-btn btn flex-grow-1 p-3 d-flex flex-column align-items-center" data-type="client">
                             <i class="fas fa-user fs-2 mb-2"></i>
-                            <span>{{ 'Register Client Type'|trans }}</span>
+                            <span>{{ 'register_client_type'|trans }}</span>
                         </button>
                         <button class="register-type-btn btn flex-grow-1 p-3 d-flex flex-column align-items-center" data-type="partner">
                             <i class="fas fa-briefcase fs-2 mb-2"></i>
-                            <span>{{ 'Register Partner Type'|trans }}</span>
+                            <span>{{ 'register_partner_type'|trans }}</span>
                         </button>
                     </div>
                     <div class="text-center mb-3">
-                        <a href="#" id="switch-to-login" class="text-orange text-decoration-none">{{ 'Register Already Have Account'|trans }}</a>
+                        <a href="#" id="switch-to-login" class="text-orange text-decoration-none">{{ 'register_already_have_account'|trans }}</a>
                     </div>
                 </div>
 
@@ -34,50 +34,50 @@
                     <input type="hidden" name="type" value="client">
                     <div class="register-form-section">
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="client-name" name="name" placeholder="{{ 'Register Name Placeholder'|trans }}" required>
-                            <div class="invalid-feedback">{{ 'Register Field Required'|trans }}</div>
+                            <input type="text" class="form-control" id="client-name" name="name" placeholder="{{ 'register_name_placeholder'|trans }}" required>
+                            <div class="invalid-feedback">{{ 'register_field_required'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <input type="email" class="form-control" id="client-email" name="email" placeholder="{{ 'Register Email Placeholder'|trans }}" required>
-                            <div class="invalid-feedback">{{ 'Register Field Required'|trans }}</div>
+                            <input type="email" class="form-control" id="client-email" name="email" placeholder="{{ 'register_email_placeholder'|trans }}" required>
+                            <div class="invalid-feedback">{{ 'register_field_required'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <input type="tel" class="form-control" id="client-phone" name="phone" placeholder="{{ 'Register Phone Placeholder'|trans }}" required>
-                            <div class="invalid-feedback">{{ 'Register Phone Invalid'|trans }}</div>
+                            <input type="tel" class="form-control" id="client-phone" name="phone" placeholder="{{ 'register_phone_placeholder'|trans }}" required>
+                            <div class="invalid-feedback">{{ 'register_phone_invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <input type="password" class="form-control" id="client-password" name="password" placeholder="{{ 'Register Password Placeholder'|trans }}" required minlength="8">
-                            <div class="invalid-feedback">{{ 'Register Password Invalid'|trans }}</div>
+                            <input type="password" class="form-control" id="client-password" name="password" placeholder="{{ 'register_password_placeholder'|trans }}" required minlength="8">
+                            <div class="invalid-feedback">{{ 'register_password_invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
                             <select class="form-select" id="client-country" name="countryCode" required>
-                                <option value="">{{ 'Register Country Placeholder'|trans }}</option>
+                                <option value="">{{ 'register_country_placeholder'|trans }}</option>
                                 {% for country in countries %}
                                     <option value="{{ country.code }}">{{ ('js.countries.' ~ country.code)|trans }}</option>
                                 {% endfor %}
                             </select>
-                            <div class="invalid-feedback">{{ 'Register Country Invalid'|trans }}</div>
+                            <div class="invalid-feedback">{{ 'register_country_invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <button type="submit" class="btn btn-primary w-100">{{ 'Register Client Button'|trans }}</button>
+                            <button type="submit" class="btn btn-primary w-100">{{ 'register_client_button'|trans }}</button>
                             <div class="text-muted text-center small mt-2">
-                                {{ 'Register Terms Agreement'|trans }}
+                                {{ 'register_terms_agreement'|trans }}
                             </div>
                         </div>
 
                         <div class="position-relative my-4">
                             <hr>
                             <div class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted">
-                                {{ 'Register Or'|trans }}
+                                {{ 'register_or'|trans }}
                             </div>
                         </div>
 
                         <div class="d-flex justify-content-center gap-2">
                             <button type="button" class="social-btn-google btn btn-danger d-flex align-items-center justify-content-center gap-2 px-4">
-                                <i class="fab fa-google"></i> {{ 'Register Google Login'|trans }}
+                                <i class="fab fa-google"></i> {{ 'register_google_login'|trans }}
                             </button>
                             <button type="button" class="social-btn-facebook btn btn-primary d-flex align-items-center justify-content-center gap-2 px-4">
-                                <i class="fab fa-facebook-f"></i> {{ 'Register Facebook Login'|trans }}
+                                <i class="fab fa-facebook-f"></i> {{ 'register_facebook_login'|trans }}
                             </button>
                         </div>
                     </div>
@@ -88,50 +88,50 @@
                     <input type="hidden" name="type" value="partner">
                     <div class="register-form-section">
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="partner-name" name="name" placeholder="{{ 'Register Name Placeholder'|trans }}" required>
-                            <div class="invalid-feedback">{{ 'Register Field Required'|trans }}</div>
+                            <input type="text" class="form-control" id="partner-name" name="name" placeholder="{{ 'register_name_placeholder'|trans }}" required>
+                            <div class="invalid-feedback">{{ 'register_field_required'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <input type="email" class="form-control" id="partner-email" name="email" placeholder="{{ 'Register Email Placeholder'|trans }}" required>
-                            <div class="invalid-feedback">{{ 'Register Field Required'|trans }}</div>
+                            <input type="email" class="form-control" id="partner-email" name="email" placeholder="{{ 'register_email_placeholder'|trans }}" required>
+                            <div class="invalid-feedback">{{ 'register_field_required'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <input type="tel" class="form-control" id="partner-phone" name="phone" placeholder="{{ 'Register Phone Placeholder'|trans }}" required>
-                            <div class="invalid-feedback">{{ 'Register Phone Invalid'|trans }}</div>
+                            <input type="tel" class="form-control" id="partner-phone" name="phone" placeholder="{{ 'register_phone_placeholder'|trans }}" required>
+                            <div class="invalid-feedback">{{ 'register_phone_invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <input type="password" class="form-control" id="partner-password" name="password" placeholder="{{ 'Register Password Placeholder'|trans }}" required minlength="8">
-                            <div class="invalid-feedback">{{ 'Register Password Invalid'|trans }}</div>
+                            <input type="password" class="form-control" id="partner-password" name="password" placeholder="{{ 'register_password_placeholder'|trans }}" required minlength="8">
+                            <div class="invalid-feedback">{{ 'register_password_invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
                             <select class="form-select" id="partner-country" name="countryCode" required>
-                                <option value="">{{ 'Register Country Placeholder'|trans }}</option>
+                                <option value="">{{ 'register_country_placeholder'|trans }}</option>
                                 {% for country in countries %}
                                     <option value="{{ country.code }}">{{ ('js.countries.' ~ country.code)|trans }}</option>
                                 {% endfor %}
                             </select>
-                            <div class="invalid-feedback">{{ 'Register Country Invalid'|trans }}</div>
+                            <div class="invalid-feedback">{{ 'register_country_invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
-                            <button type="submit" class="btn btn-primary w-100">{{ 'Register Partner Button'|trans }}</button>
+                            <button type="submit" class="btn btn-primary w-100">{{ 'register_partner_button'|trans }}</button>
                             <div class="text-muted text-center small mt-2">
-                                {{ 'Register Terms Agreement'|trans }}
+                                {{ 'register_terms_agreement'|trans }}
                             </div>
                         </div>
 
                         <div class="position-relative my-4">
                             <hr>
                             <div class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted">
-                                {{ 'Register Or'|trans }}
+                                {{ 'register_or'|trans }}
                             </div>
                         </div>
 
                         <div class="d-flex justify-content-center gap-2">
                             <button type="button" class="social-btn-google btn btn-danger d-flex align-items-center justify-content-center gap-2 px-4">
-                                <i class="fab fa-google"></i> {{ 'Register Google Login'|trans }}
+                                <i class="fab fa-google"></i> {{ 'register_google_login'|trans }}
                             </button>
                             <button type="button" class="social-btn-facebook btn btn-primary d-flex align-items-center justify-content-center gap-2 px-4">
-                                <i class="fab fa-facebook-f"></i> {{ 'Register Facebook Login'|trans }}
+                                <i class="fab fa-facebook-f"></i> {{ 'register_facebook_login'|trans }}
                             </button>
                         </div>
                     </div>

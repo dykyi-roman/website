@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 
                 return isValidFormat && isValidLength;
             },
-            message: t.phone_validation || 'Please enter a valid phone number (10-15 digits including country code)'
+            message: t.phone_validation
         },
         select: {
             validate: (value) => value.trim() !== '',
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             if (!hasTranscription) {
                 return {
                     isValid: false,
-                    message: t.city_select_from_list || 'Please select a city from the list'
+                    message: t.city_select_from_list
                 };
             }
             
