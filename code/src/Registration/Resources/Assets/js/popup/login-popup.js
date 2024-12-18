@@ -105,20 +105,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         if (feedback && feedback.classList.contains('invalid-feedback')) {
             wrapper.appendChild(feedback);
         }
-
-        // Create toggle button
-        const toggleButton = document.createElement('button');
-        toggleButton.type = 'button';
-        toggleButton.className = 'password-toggle hide';
-        toggleButton.setAttribute('aria-label', 'Toggle password visibility');
-        wrapper.appendChild(toggleButton);
-
-        // Add click event
-        toggleButton.addEventListener('click', function() {
-            const type = input.type === 'password' ? 'text' : 'password';
-            input.type = type;
-            toggleButton.classList.toggle('hide');
-        });
     });
 
     // Form submission handler
