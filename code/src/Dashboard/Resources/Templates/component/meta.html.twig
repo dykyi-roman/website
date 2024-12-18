@@ -13,10 +13,46 @@
     worker-src 'self' blob:;
     form-action 'self';
     base-uri 'self';
-    frame-ancestors 'self';">
+    frame-ancestors 'self';
+    report-uri /api/csp-report;
+    report-to csp-endpoint;">
+<meta http-equiv="Content-Security-Policy-Report-Only" content="
+    default-src 'self' https:;
+    script-src 'self' 'unsafe-inline' https: cdn.jsdelivr.net cdnjs.cloudflare.com;
+    style-src 'self' 'unsafe-inline' https: cdn.jsdelivr.net cdnjs.cloudflare.com;
+    report-uri /api/csp-report-only;
+    report-to csp-endpoint-report-only;">
 <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="
+    accelerometer=(),
+    ambient-light-sensor=(),
+    autoplay=(),
+    battery=(),
+    camera=(),
+    cross-origin-isolated=(),
+    display-capture=(),
+    document-domain=(),
+    encrypted-media=(),
+    execution-while-not-rendered=(),
+    execution-while-out-of-viewport=(),
+    fullscreen=(self),
+    geolocation=(),
+    gyroscope=(),
+    keyboard-map=(),
+    magnetometer=(),
+    microphone=(),
+    midi=(),
+    navigation-override=(),
+    payment=(),
+    picture-in-picture=(),
+    publickey-credentials-get=(),
+    screen-wake-lock=(),
+    sync-xhr=(self),
+    usb=(),
+    web-share=(),
+    xr-spatial-tracking=()">
 <meta http-equiv="Permissions-Policy" content="
     accelerometer=(),
     camera=(),
