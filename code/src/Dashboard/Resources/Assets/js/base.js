@@ -165,10 +165,36 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add click event listener
     backButton.addEventListener('click', function() {
+        // Get current site's hostname
+        const currentHostname = window.location.hostname;
+
+        // Check browser history
         if (window.history.length > 1) {
-            window.history.back();
+            // Try to find a previous page within the same domain
+            for (let i = window.history.length - 2; i >= 0; i--) {
+                try {
+                    // Use history.go with negative index to check previous pages
+                    const previousState = window.history.state;
+                    const previousUrl = previousState?.url || document.referrer;
+
+                    if (previousUrl) {
+                        const previousUrlObj = new URL(previousUrl, window.location.origin);
+                        
+                        // Check if previous URL is from the same domain
+                        if (previousUrlObj.hostname === currentHostname) {
+                            window.history.go(-1);
+                            return;
+                        }
+                    }
+                } catch (error) {
+                    console.warn('Error checking previous page:', error);
+                }
+            }
+
+            // If no same-domain page found, go to homepage
+            window.location.href = '/';
         } else {
-            // Fallback to homepage if no previous page
+            // If no history, go to homepage
             window.location.href = '/';
         }
     });

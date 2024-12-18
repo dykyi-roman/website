@@ -31,12 +31,9 @@ final readonly class JwtTokenGenerator implements TokenGeneratorInterface
     {
         try {
             $decoded = JWT::decode($token, new Key($this->passwordSecretKey, 'HS256'));
-            // Token has expired
-            if ($decoded->exp < time()) {
-                return false;
-            }
 
-            return true;
+            // Token has expired
+            return $decoded->exp >= time();
         } catch (ExpiredException $exception) {
             // Token has expired
             return false;

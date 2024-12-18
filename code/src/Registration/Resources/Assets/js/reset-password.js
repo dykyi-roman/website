@@ -9,6 +9,12 @@ document.addEventListener('DOMContentLoaded', async function () {
     const passwordInput = document.getElementById('password');
     const tokenInput = document.getElementById('token');
 
+    // Check if form exists (might not exist if token is invalid)
+    if (!resetPasswordForm) {
+        console.log('No reset password form - token might be invalid');
+        return;
+    }
+
     // Get token from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
@@ -150,6 +156,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
                 if (result.success) {
                     hideModalSpinner(resetPasswordForm.closest('.modal'));
+                    showSuccessMessage(t.success_reset_password);
                 } else {
                     hideModalSpinner(resetPasswordForm.closest('.modal'));
 
@@ -183,6 +190,23 @@ document.addEventListener('DOMContentLoaded', async function () {
             resetPasswordForm.insertBefore(errorContainer, resetPasswordForm.firstChild);
         }
         errorContainer.textContent = message;
+    }
+
+    // Function to show success messages
+    function showSuccessMessage(message) {
+        // Find or create success message container
+        let successContainer = document.querySelector('.reset-password-success-message');
+        if (!successContainer) {
+            successContainer = document.createElement('div');
+            successContainer.className = 'alert alert-success reset-password-success-message';
+            resetPasswordForm.insertBefore(successContainer, resetPasswordForm.firstChild);
+        }
+        successContainer.textContent = message;
+
+        // Optional: Disable form after successful message
+        resetPasswordForm.querySelectorAll('input, button').forEach(el => {
+            el.disabled = true;
+        });
     }
 
     // Event listener for reset password form submission
