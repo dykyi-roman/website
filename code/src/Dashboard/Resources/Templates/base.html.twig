@@ -1,20 +1,29 @@
 <!DOCTYPE html>
-<html lang="{{ app.request.locale|default('en') }}">
+<html lang="{{ app.request.locale|default('en') }}" 
+      dir="{{ app.request.locale in ['ar', 'he'] ? 'rtl' : 'ltr' }}"
+      prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
     <head>
         {# Set meta variables #}
         {% set page_title = block('title') is defined ? block('title') : 'Welcome!'|trans %}
         {% set meta_description = block('meta_description') is defined ? block('meta_description') : null %}
         {% set og_image = block('og_image') is defined ? block('og_image') : null %}
+        {% set og_type = block('og_type') is defined ? block('og_type') : 'website' %}
 
         {# Include meta tags component #}
         {% include '@Dashboard/component/meta.html.twig' %}
 
         <title>{{ page_title }} | {{ organization.name }}</title>
 
-        {# Core CSS #}
+        {# Core CSS with SRI #}
         {% block core_stylesheets %}
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
+                  rel="stylesheet" 
+                  integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" 
+                  crossorigin="anonymous">
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" 
+                  rel="stylesheet"
+                  integrity="sha384-3B6NwesSXE7YJlcLI9RpRqGf2p/EgVH8BgoKTaUrmKNDkHPStTQ3EyoYjCGXaOTS"
+                  crossorigin="anonymous">
         {% endblock %}
 
         {# Page-specific CSS #}
@@ -23,18 +32,27 @@
             <link rel="stylesheet" href="{{ asset('css/language.css') }}">
             <link rel="stylesheet" href="{{ asset('css/popup.css') }}">
             <link rel="stylesheet" href="{{ asset('css/dark-theme.css') }}">
+            {% if app.request.locale in ['ar', 'he'] %}
+                <link rel="stylesheet" href="{{ asset('css/rtl.css') }}">
+            {% endif %}
         {% endblock %}
 
-        {# Core JavaScript #}
+        {# Core JavaScript with SRI #}
         {% block core_javascripts %}
             <script>
-                window.appUser = {{ app.user ? 'true' : 'false' }};
+                // Global configuration
                 window.appConfig = {
                     locale: '{{ app.request.locale }}',
-                    baseUrl: '{{ app.request.schemeAndHttpHost }}'
+                    baseUrl: '{{ app.request.schemeAndHttpHost }}',
+                    isAuthenticated: {{ app.user ? 'true' : 'false' }},
+                    csrfToken: '{{ csrf_token('authenticate') }}',
+                    translations: {{ translations|default({})|json_encode|raw }}
                 };
             </script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous" defer></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" 
+                    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" 
+                    crossorigin="anonymous" 
+                    defer></script>
         {% endblock %}
 
         {# Page-specific JavaScript #}
@@ -43,40 +61,58 @@
             <script src="{{ asset('js/location.js') }}" defer></script>
         {% endblock %}
     </head>
-    <body itemscope itemtype="http://schema.org/WebPage" class="{% block body_class %}{% endblock %}">
+    <body itemscope itemtype="http://schema.org/WebPage" 
+          class="{% block body_class %}{% endblock %} {{ app.request.locale in ['ar', 'he'] ? 'rtl' : 'ltr' }}"
+          data-locale="{{ app.request.locale }}">
+        
+        {# Skip Navigation #}
+        <a href="#main-content" class="skip-link visually-hidden-focusable">
+            {{ 'Skip to main content'|trans }}
+        </a>
+
         {# Flash messages #}
         {% block flash_messages %}
             {% if app.session is defined and app.session %}
-                {% for label, messages in app.flashes %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
-                            {{ message|trans }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ 'Close'|trans }}">&times;</button>
-                        </div>
+                <div role="alert" aria-live="polite">
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ label }} alert-dismissible fade show">
+                                {{ message|trans }}
+                                <button type="button" 
+                                        class="btn-close" 
+                                        data-bs-dismiss="alert" 
+                                        aria-label="{{ 'Close'|trans }}">
+                                </button>
+                            </div>
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
+                </div>
             {% endif %}
         {% endblock %}
 
         {# Header #}
         {% block header %}
-            {% include '@Dashboard/component/header.html.twig' %}
+            <header role="banner">
+                {% include '@Dashboard/component/header.html.twig' %}
+            </header>
         {% endblock %}
 
         {# Main Content #}
-        {% block body %}{% endblock %}
+        <main id="main-content" role="main">
+            {% block body %}{% endblock %}
+        </main>
 
         {# Footer #}
         {% block footer %}
-            {% include '@Dashboard/component/footer.html.twig' %}
+            <footer role="contentinfo">
+                {% include '@Dashboard/component/footer.html.twig' %}
+            </footer>
         {% endblock %}
 
         {# Modals #}
         {% block modals %}
             {% include '@Dashboard/popup/share-popup.html.twig' %}
-            {% if app.user %}
-
-            {% else %}
+            {% if not app.user %}
                 {% include '@Registration/popup/login-popup.html.twig' %}
                 {% include '@Registration/popup/register-popup.html.twig' %}
                 {% include '@Registration/popup/forgot-password-popup.html.twig' %}
@@ -88,5 +124,4 @@
             <script src="{{ asset('js/language.js') }}" defer></script>
         {% endblock %}
     </body>
-    <script src="{{ asset('js/hello.js') }}" defer></script>
 </html>

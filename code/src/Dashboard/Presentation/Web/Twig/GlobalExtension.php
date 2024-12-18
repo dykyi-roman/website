@@ -19,8 +19,7 @@ final class GlobalExtension extends AbstractExtension implements GlobalsInterfac
     /**
      * @return array<string, mixed>
      */
-    public
-    function getGlobals(): array
+    public function getGlobals(): array
     {
         $response = [];
         // Social media defaults

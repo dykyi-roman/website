@@ -1,44 +1,118 @@
 <!-- Security Headers -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:;">
+<meta http-equiv="Content-Security-Policy" content="
+    default-src 'self' https:; 
+    script-src 'self' 'unsafe-inline' https: cdn.jsdelivr.net cdnjs.cloudflare.com; 
+    style-src 'self' 'unsafe-inline' https: cdn.jsdelivr.net cdnjs.cloudflare.com; 
+    img-src 'self' data: https: blob:;
+    font-src 'self' https: data:;
+    connect-src 'self' https:;
+    media-src 'self' https:;
+    object-src 'none';
+    frame-src 'self' https:;
+    worker-src 'self' blob:;
+    form-action 'self';
+    base-uri 'self';
+    frame-ancestors 'self';">
 <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="
+    accelerometer=(),
+    camera=(),
+    geolocation=(),
+    gyroscope=(),
+    magnetometer=(),
+    microphone=(),
+    payment=(),
+    usb=()">
 
 <!-- Basic Meta Tags -->
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="description" content="{{ meta_description|default('meta_description'|trans({ '%organization%': organization.name })) }}">
 <meta name="keywords" content="{{ meta_keywords|default('meta_keywords'|trans) }}">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="author" content="{{ organization.name }}">
+<meta name="generator" content="Symfony">
 
-<!-- Open Graph / Social Media Meta Tags -->
-<meta property="og:type" content="website">
+<!-- Mobile Specific -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="{{ organization.name }}">
+<meta name="application-name" content="{{ organization.name }}">
+<meta name="theme-color" content="#ffffff">
+<meta name="format-detection" content="telephone=no">
+<meta name="mobile-web-app-capable" content="yes">
+
+<!-- Language Alternates -->
+{% for locale in locales %}
+    <link rel="alternate" 
+          hreflang="{{ locale.code }}"
+          href="{{ url(app.request.attributes.get('_route'), 
+                app.request.attributes.get('_route_params')|merge({'lang': locale.code})) }}">
+{% endfor %}
+<link rel="alternate" 
+      hreflang="x-default" 
+      href="{{ url(app.request.attributes.get('_route'), 
+            app.request.attributes.get('_route_params')|merge({'_locale': 'en'})) }}">
+
+<!-- Open Graph Tags -->
+<meta property="og:site_name" content="{{ organization.name }}">
+<meta property="og:type" content="{% block og_type %}website{% endblock %}">
 <meta property="og:title" content="{{ page_title|default(organization.name) }}">
 <meta property="og:description" content="{{ meta_description|default('meta_description'|trans({ '%organization%': organization.name })) }}">
-<meta property="og:image" content="{{ og_image|default(absolute_url('favicon.svg')) }}">
 <meta property="og:url" content="{{ app.request.uri }}">
-<meta property="og:site_name" content="{{ organization.name }}">
+<meta property="og:locale" content="{{ app.request.locale }}">
+{% for locale in ['en', 'es', 'uk'] %}
+    {% if locale != app.request.locale %}
+        <meta property="og:locale:alternate" content="{{ locale }}">
+    {% endif %}
+{% endfor %}
+<meta property="og:image" content="{{ og_image|default(absolute_url('favicon.svg')) }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+{% if article is defined %}
+    <meta property="article:published_time" content="{{ article.publishedAt|date('c') }}">
+    <meta property="article:modified_time" content="{{ article.updatedAt|date('c') }}">
+    <meta property="article:author" content="{{ article.author }}">
+    {% if article.tags is defined %}
+        {% for tag in article.tags %}
+            <meta property="article:tag" content="{{ tag }}">
+        {% endfor %}
+    {% endif %}
+{% endif %}
 
-<!-- Twitter Card Meta Tags -->
+<!-- Twitter Card Tags -->
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@{{ organization.twitter|default(organization.name) }}">
+<meta name="twitter:creator" content="@{{ organization.twitter|default(organization.name) }}">
 <meta name="twitter:title" content="{{ page_title|default(organization.name) }}">
 <meta name="twitter:description" content="{{ meta_description|default('meta_description'|trans({ '%organization%': organization.name })) }}">
 <meta name="twitter:image" content="{{ og_image|default(absolute_url('favicon.svg')) }}">
+<meta name="twitter:image:alt" content="{{ page_title|default(organization.name) }}">
+<meta name="twitter:dnt" content="on">
 
 <!-- Canonical URL -->
 <link rel="canonical" href="{{ app.request.uri }}">
 
-<!-- Favicon -->
-<link rel="icon" href="{{ absolute_url('favicon.svg') }}">
+<!-- Preconnect to External Domains -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+<!-- Icons -->
+<link rel="icon" href="{{ absolute_url('favicon.ico') }}" sizes="any">
+<link rel="icon" href="{{ absolute_url('favicon.svg') }}" type="image/svg+xml">
+<link rel="apple-touch-icon" href="{{ absolute_url('apple-touch-icon.png') }}">
+<link rel="manifest" href="{{ absolute_url('manifest.json') }}">
 
 <!-- Schema.org WebSite Markup -->
 <script type="application/ld+json">
-{
-    "@context": "http://schema.org",
-    "@type": "WebSite",
-    "name": "{{ organization.name }}",
+    {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "name": "{{ organization.name }}",
     "url": "{{ app.request.schemeAndHttpHost }}",
     "description": "{{ meta_description|default('meta_description'|trans({ '%organization%': organization.name })) }}",
     "potentialAction": {
@@ -48,3 +122,7 @@
     }
 }
 </script>
+
+<!-- Feeds -->
+<link rel="alternate" type="application/rss+xml" title="{{ organization.name }} RSS Feed" href="#">
+<link rel="alternate" type="application/atom+xml" title="{{ organization.name }} Atom Feed" href="#">
