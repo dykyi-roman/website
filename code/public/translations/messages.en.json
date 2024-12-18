@@ -9,6 +9,7 @@
         "us": "United States",
         "es": "Spain"
     },
+    "password_validation": "Invalid password",
     "error_generic_message": "Something went wrong. Our team is working on it. Please try again later.",
     "error_email_required": "Email is required",
     "error_invalid_email": "Please enter a valid email address",
@@ -44,6 +45,5 @@
     "success_reset_password": "Password is changed!",
     "error_reset_password": "An error occurred while resetting password",
     "password_too_short": "Password must be at least 8 characters long",
-    "passwords_do_not_match": "Passwords do not match",
-    "this_field_is_required": "This field is required"
+    "passwords_do_not_match": "Passwords do not match"
 }

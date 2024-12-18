@@ -19,23 +19,22 @@ framework:
     assets:
         enabled: true
 
-    error_controller: App\Dashboard\Presentation\Web\ExceptionAction
-
-    exceptions:
-        Symfony\Component\HttpKernel\Exception\NotFoundHttpException:
-            log_level: error
-            status_code: 404
-        Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException:
-            log_level: error
-            status_code: 403
-        Symfony\Component\HttpKernel\Exception\HttpException:
-            log_level: error
-            status_code: 500
-
 when@prod:
     framework:
         assets:
             version: '%env(APP_VERSION)%'
+
+        error_controller: App\Dashboard\Presentation\Web\ExceptionAction
+        exceptions:
+            Symfony\Component\HttpKernel\Exception\NotFoundHttpException:
+                log_level: error
+                status_code: 404
+            Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException:
+                log_level: error
+                status_code: 403
+            Symfony\Component\HttpKernel\Exception\HttpException:
+                log_level: error
+                status_code: 500
 
 when@test:
     framework:
