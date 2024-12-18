@@ -47,7 +47,9 @@ final readonly class ForgotPasswordAction
                 'error' => $exception->getMessage(),
             ]);
 
-            return $responder->error($exception)->respond();
+            return $responder->validationError(
+                $translator->trans('Unexpected error during restore password')
+            )->respond();
         }
     }
 }

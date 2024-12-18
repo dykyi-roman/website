@@ -21,7 +21,6 @@ final readonly class ResetPasswordAction
     public function __construct(
         private TranslatorInterface $translator,
         private LoggerInterface $logger,
-        private UserRepositoryInterface $userRepository,
         private TokenGeneratorInterface $tokenGenerator,
     ) {
     }
@@ -44,24 +43,24 @@ final readonly class ResetPasswordAction
         UserRepositoryInterface $userRepository,
         ResetPasswordJsonResponder $responder
     ): ResetPasswordJsonResponder {
+        dump(333); die();
         try {
-            // Validate reset token
-            $this->validateResetToken($request->token);
-
-            // Find user by reset token
-            $user = $this->userRepository->findByResetToken($request->token);
-            if (!$user) {
-                throw new \InvalidArgumentException(
-                    $this->translator->trans('Invalid or expired reset token')
-                );
+            if (!$this->tokenGenerator->isValid($request->token)) {
+                throw new \InvalidArgumentException('Token is not valid.');
             }
 
+            // Find user by reset token
+            $user = $userRepository->findByToken($request->token);
+            if (!$user) {
+                throw new \InvalidArgumentException('Invalid or expired reset token');
+            }
+dump($user); die();
             // Validate password complexity
             $this->validatePasswordComplexity($request->password);
 
             // Reset password using domain service
             $this->passwordResetService->resetPassword(
-                $user, 
+                $user,
                 $request->password
             );
 
@@ -73,31 +72,20 @@ final readonly class ResetPasswordAction
 
             return $responder->success($this->translator->trans('Password successfully changed'))->respond();
         } catch (\InvalidArgumentException $exception) {
-            // Log validation errors
             $this->logger->warning('Password reset validation failed', [
                 'error' => $exception->getMessage()
             ]);
 
-            return $responder->error(
-                $exception->getMessage(), 
-                422 // Unprocessable Entity
-            )->respond();
+            return $responder->validationError($this->translator->trans('Password reset validation failed'))->respond();
         } catch (\Exception $exception) {
-            // Log unexpected errors
             $this->logger->error('Unexpected error during password reset', [
                 'error' => $exception->getMessage()
             ]);
 
-            return $responder->error(
-                $this->translator->trans('An unexpected error occurred'), 
-                500
+            return $responder->validationError(
+                $this->translator->trans('Unexpected error during password reset')
             )->respond();
         }
-    }
-
-    private function validateResetToken(string $token): void
-    {
-        // Implement reset token validation logic here
     }
 
     private function validatePasswordComplexity(string $password): void

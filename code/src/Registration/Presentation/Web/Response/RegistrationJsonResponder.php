@@ -36,19 +36,6 @@ final class RegistrationJsonResponder implements ResponderInterface
         return $this;
     }
 
-    public function error(\Throwable $exception): self
-    {
-        $this->data = [
-            'success' => false,
-            'errors' => [
-                'message' => $exception->getMessage(),
-            ],
-        ];
-        $this->statusCode = 400;
-
-        return $this;
-    }
-
     public function respond(): self
     {
         return $this;
