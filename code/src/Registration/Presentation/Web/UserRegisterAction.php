@@ -13,7 +13,7 @@ use App\Shared\DomainModel\ValueObject\Email;
 use App\Shared\DomainModel\ValueObject\Location;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class UserRegisterAction

@@ -11,6 +11,9 @@
   "Logout": "Logout",
   "Login": "Login",
   "Register": "Register",
+  "Internal Server Error": "Internal Server Error",
+  "Back to Dashboard": "Back to Dashboard",
+  "Sorry, something went wrong on our servers. We are working to fix the issue.": "Sorry, something went wrong on our servers. We are working to fix the issue.",
   "find_everything_placeholder": "Find everything you need",
   "services_and_orders_title": "Services and orders in one place",
   "terms_of_service": "Terms of Service",
@@ -87,6 +90,11 @@
   "reset_password_confirm_password": "Confirm New Password",
   "reset_password_token_expired": "Token has expired or invalid",
   "forgot_password": "Forgot password",
+  "access_denied": "Access Denied",
+  "you_not_have_permission_message": "Sorry, you don't have permission to access this page.",
+  "page_might_have_been_removed_message": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+  "back_to_dashboard": "Back to Dashboard",
+  "page_not_found": "Page Not Found",
   "search_examples": {
     "title": "For example:",
     "examples": {

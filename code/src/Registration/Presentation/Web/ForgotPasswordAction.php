@@ -11,7 +11,7 @@ use App\Registration\Presentation\Web\Response\ForgotPasswordJsonResponder;
 use App\Shared\DomainModel\Services\MessageBusInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class ForgotPasswordAction

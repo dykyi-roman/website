@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Registration\Presentation\Web;
 
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 final readonly class UserLogoutAction
 {

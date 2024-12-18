@@ -53,8 +53,9 @@ when@prod:
                 handler: grouped
                 excluded_http_codes: [404, 405]
             grouped:
+                members: [streamed]
                 type: group
-                members: [streamed, logstash]
+#                members: [streamed, logstash]
             streamed:
                 type: stream
                 path: "php://stdout"
