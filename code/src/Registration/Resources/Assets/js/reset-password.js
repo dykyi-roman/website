@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             validate: (value) => value.trim().length >= 8,
             message: t.password_too_short
         },
-        confirm_password: {
+        confirmPassword: {
             validate: (value) => value.trim() === passwordInput.value.trim(),
             message: t.passwords_do_not_match
         }
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             input.addEventListener('input', function () {
                 validateField(this);
                 // If confirm password is being typed, also validate password
-                if (this.name === 'confirm_password') {
+                if (this.name === 'confirmPassword') {
                     validateField(passwordInput);
                 }
             });
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             input.addEventListener('blur', function () {
                 validateField(this);
                 // If confirm password is being typed, also validate password
-                if (this.name === 'confirm_password') {
+                if (this.name === 'confirmPassword') {
                     validateField(passwordInput);
                 }
             });
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                         return false;
                     }
 
-                    throw new Error(result.errors.message || t.error_reset_password);
+                    throw new Error(result.errors?.message || t.error_reset_password);
                 }
 
                 if (result.success) {

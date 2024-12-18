@@ -43,7 +43,6 @@ final readonly class ResetPasswordAction
         UserRepositoryInterface $userRepository,
         ResetPasswordJsonResponder $responder
     ): ResetPasswordJsonResponder {
-        dump(333); die();
         try {
             if (!$this->tokenGenerator->isValid($request->token)) {
                 throw new \InvalidArgumentException('Token is not valid.');
@@ -54,42 +53,36 @@ final readonly class ResetPasswordAction
             if (!$user) {
                 throw new \InvalidArgumentException('Invalid or expired reset token');
             }
-dump($user); die();
+
             // Validate password complexity
-            $this->validatePasswordComplexity($request->password);
+            if ($request->password !== $request->confirmPassword) {
+                throw new \InvalidArgumentException('Passwords do not match');
+            }
 
             // Reset password using domain service
-            $this->passwordResetService->resetPassword(
-                $user,
-                $request->password
-            );
+            $this->passwordResetService->resetPassword($user, $request->password);
 
-            // Log successful password reset
             $this->logger->info('Password reset successful', [
                 'user_id' => $user->getId(),
-                'email' => $user->getEmail()
+                'email' => $user->getEmail(),
             ]);
 
             return $responder->success($this->translator->trans('Password successfully changed'))->respond();
         } catch (\InvalidArgumentException $exception) {
             $this->logger->warning('Password reset validation failed', [
-                'error' => $exception->getMessage()
+                'error' => $exception->getMessage(),
+                'password',
             ]);
 
             return $responder->validationError($this->translator->trans('Password reset validation failed'))->respond();
         } catch (\Exception $exception) {
             $this->logger->error('Unexpected error during password reset', [
-                'error' => $exception->getMessage()
+                'error' => $exception->getMessage(),
             ]);
 
             return $responder->validationError(
-                $this->translator->trans('Unexpected error during password reset')
+                $this->translator->trans('Unexpected error during password reset'),
             )->respond();
         }
-    }
-
-    private function validatePasswordComplexity(string $password): void
-    {
-        // Implement password complexity validation logic here
     }
 }
