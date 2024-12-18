@@ -18,6 +18,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AsMessageHandler]
 final readonly class RegisterUserCommandHandler
@@ -25,6 +26,7 @@ final readonly class RegisterUserCommandHandler
     public function __construct(
         private UserPasswordHasherInterface $passwordHasher,
         private TokenStorageInterface $tokenStorage,
+        private TranslatorInterface $translator,
         private UserRepositoryInterface $userRepository,
         private MessageBusInterface $eventBus,
     ) {
@@ -54,14 +56,16 @@ final readonly class RegisterUserCommandHandler
         try {
             $this->userRepository->save($user);
         } catch (\Throwable $exception) {
-            throw new \DomainException(sprintf('Failed to register user: %s', $exception->getMessage()));
+            throw new \DomainException(
+                sprintf($this->translator->trans('user_registration_save_error'), $exception->getMessage())
+            );
         }
     }
 
     private function checkIfEmailAlreadyExists(Email $email): void
     {
         if (!$this->userRepository->isEmailUnique($email)) {
-            throw new \DomainException(sprintf('Email "%s" already exists', (string) $email));
+            throw new \DomainException(sprintf($this->translator->trans('user_email_exists_error'), (string)$email));
         }
     }
 

@@ -34,18 +34,18 @@ final readonly class ResetPasswordQueryHandler
 
             return new ResetPasswordResponse(
                 success: true,
-                message: $this->translator->trans('Password successfully reset')
+                message: $this->translator->trans('password_reset_success')
             );
         } catch (TokenExpiredException $exception) {
             return new ResetPasswordResponse(
                 success: false,
-                message: $this->translator->trans('Reset token is invalid or has expired'),
+                message: $this->translator->trans('reset_token_expired'),
                 errors: ['token' => $exception->getMessage()]
             );
         } catch (InvalidPasswordException $exception) {
             return new ResetPasswordResponse(
                 success: false,
-                message: $this->translator->trans('Invalid password'),
+                message: $this->translator->trans('invalid_password'),
                 errors: ['password' => $exception->getMessage()]
             );
         } catch (\Throwable $exception) {
@@ -53,7 +53,7 @@ final readonly class ResetPasswordQueryHandler
 
             return new ResetPasswordResponse(
                 success: false,
-                message: $this->translator->trans('An unexpected error occurred'),
+                message: $this->translator->trans('unexpected_reset_error'),
                 errors: ['general' => $exception->getMessage()]
             );
         }

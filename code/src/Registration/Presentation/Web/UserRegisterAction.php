@@ -52,7 +52,7 @@ final readonly class UserRegisterAction
                 throw $busException;
             }
 
-            return $responder->success($translator->trans('Registration successful!'))->respond();
+            return $responder->success($translator->trans('registration_success'))->respond();
         } catch (\DomainException $exception) {
             return $responder->validationError($exception->getMessage(), 'email')->respond();
         } catch (\Throwable $exception) {
@@ -62,7 +62,7 @@ final readonly class UserRegisterAction
                 'line' => $exception->getLine(),
             ]);
 
-            return $responder->validationError($translator->trans('Unexpected error during registration'))->respond();
+            return $responder->validationError($translator->trans('unexpected_registration_error'))->respond();
         }
     }
 }

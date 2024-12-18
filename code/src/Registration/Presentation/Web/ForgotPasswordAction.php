@@ -40,7 +40,7 @@ final readonly class ForgotPasswordAction
                 }
             );
 
-            return $responder->success($translator->trans('Letter sent. Check your email.'))->respond();
+            return $responder->success($translator->trans('letter_sent_success'))->respond();
         } catch (\Throwable $exception) {
             $logger->error('Password send reset email failed', [
                 'email' => $request->email()->value,
@@ -48,7 +48,7 @@ final readonly class ForgotPasswordAction
             ]);
 
             return $responder->validationError(
-                $translator->trans('Unexpected error during restore password')
+                $translator->trans('forgot_password_error')
             )->respond();
         }
     }

@@ -42,7 +42,7 @@ final readonly class ResetPasswordAction
         }
 
         return $responder->respond([
-            'page_title' => $this->translator->trans('Reset Password'),
+            'page_title' => $this->translator->trans('reset_password_page_title'),
             'token' => $request->token,
             'isValid' => $this->tokenGenerator->isValid($request->token),
         ]);

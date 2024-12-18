@@ -16,7 +16,7 @@ final readonly class DashboardAction
         DashboardHtmlResponder $responder,
     ): DashboardHtmlResponder {
         return $responder->respond([
-            'page_title' => $translator->trans('Welcome!'),
+            'page_title' => $translator->trans('dashboard.dashboard_page_title'),
         ]);
     }
 }
