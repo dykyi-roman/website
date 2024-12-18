@@ -42,7 +42,7 @@ final readonly class ForgotPasswordAction
 
             return $responder->success($translator->trans('Letter sent. Check your email.'))->respond();
         } catch (\Throwable $exception) {
-            $logger->error('Password reset failed', [
+            $logger->error('Password send reset email failed', [
                 'email' => $request->email()->value,
                 'error' => $exception->getMessage(),
             ]);
