@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Registration\Presentation\Web;
 
-use App\Registration\Application\Command\PasswordResetCommand;
+use App\Registration\Application\ForgontPassword\Command\ForgotPasswordCommand;
 use App\Registration\DomainModel\Service\PasswordResetRateLimiterService;
 use App\Registration\Presentation\Web\Request\ForgotPasswordRequestDTO;
 use App\Registration\Presentation\Web\Response\ForgotPasswordJsonResponder;
@@ -35,7 +35,7 @@ final readonly class ForgotPasswordAction
                 $email,
                 function () use ($email) {
                     $this->messageBus->dispatch(
-                        new PasswordResetCommand($email->value)
+                        new ForgotPasswordCommand($email->value)
                     );
                 }
             );

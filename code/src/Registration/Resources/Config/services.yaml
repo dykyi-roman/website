@@ -16,7 +16,8 @@ services:
             - '../../Resources/'
             - '../../Presentation/**/Response'
             - '../../Application/**/*{Command,Query}.php'
-            - '../../DomainModel/{Dto,Event,Model}/'
+            - '../../DomainModel/{Dto,Event,Model,ValueObject}/'
+            - '../../Application/*/{Dto,Event,Model,ValueObject}/'
             - '../../Tests/'
         tags: ['controller.service_arguments']
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Registration\Application\Command;
+namespace App\Registration\Application\UserRegistration\Command;
 
 use App\Shared\DomainModel\ValueObject\Email;
 use App\Shared\DomainModel\ValueObject\Location;

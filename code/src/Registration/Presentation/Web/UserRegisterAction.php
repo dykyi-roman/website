@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Registration\Presentation\Web;
 
-use App\Registration\Application\Command\RegisterUserCommand;
+use App\Registration\Application\UserRegistration\Command\RegisterUserCommand;
 use App\Registration\Presentation\Web\Request\UserRegisterRequestDTO;
 use App\Registration\Presentation\Web\Response\RegistrationJsonResponder;
 use App\Shared\DomainModel\Services\MessageBusInterface;

@@ -91,6 +91,11 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface, Clien
         // If you store any temporary, sensitive data on the user, clear it here
     }
 
+    public function clearResetToken(): void
+    {
+        $this->token = null;
+    }
+
     public function getUserIdentifier(): string
     {
         return $this->email->value;
@@ -102,12 +107,12 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface, Clien
         $this->updatedAt = new \DateTimeImmutable();
     }
 
-    public function setPassword(string $password): void
+    public function updatePassword(string $password): void
     {
         $this->password = $password;
     }
 
-    public function setToken(?string $token): void
+    public function setToken(string $token): void
     {
         $this->token = $token;
     }

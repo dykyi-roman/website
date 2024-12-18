@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace App\Registration\Application\Command;
+namespace App\Registration\Application\ForgontPassword\Command;
 
 use App\Registration\DomainModel\Repository\UserRepositoryInterface;
-use App\Registration\DomainModel\Service\PasswordResetService;
+use App\Registration\DomainModel\Service\PasswordResetNotification;
 use App\Registration\DomainModel\Service\TokenGeneratorInterface;
 use App\Shared\DomainModel\ValueObject\Email;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final readonly class PasswordResetCommandHandler
+final readonly class ForgotPasswordCommandHandler
 {
     public function __construct(
         private UserRepositoryInterface $userRepository,
         private TokenGeneratorInterface $tokenGenerator,
-        private PasswordResetService $passwordResetService,
+        private PasswordResetNotification $passwordResetNotification,
         private LoggerInterface $logger,
     ) {
     }
 
-    public function __invoke(PasswordResetCommand $command): void
+    public function __invoke(ForgotPasswordCommand $command): void
     {
         $user = $this->userRepository->findByEmail(Email::fromString($command->email));
         if (!$user) {
@@ -34,7 +34,7 @@ final readonly class PasswordResetCommandHandler
             $user->setToken($token);
             $this->userRepository->save($user);
 
-            $this->passwordResetService->passwordReset($command->email, $token);
+            $this->passwordResetNotification->send($command->email, $user->getName(), $token);
         } catch (\Throwable $exception) {
             $this->logger->error('Password reset failed', [
                 'email' => $command->email,

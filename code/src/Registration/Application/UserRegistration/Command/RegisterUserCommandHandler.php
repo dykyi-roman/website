@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Registration\Application\Command;
+namespace App\Registration\Application\UserRegistration\Command;
 
 use App\Client\DomainModel\Enum\ClientId;
 use App\Client\DomainModel\Model\Client;
@@ -35,7 +35,7 @@ final readonly class RegisterUserCommandHandler
         $this->checkIfEmailAlreadyExists($command->email);
 
         $user = $this->createUser($command);
-        $user->setPassword($this->passwordHasher->hashPassword($user, $command->password));
+        $user->updatePassword($this->passwordHasher->hashPassword($user, $command->password));
         $this->saveUser($user);
 
         $this->eventBus->dispatch(

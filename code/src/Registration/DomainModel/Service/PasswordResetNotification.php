@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment as TwigEnvironment;
 
-final readonly class PasswordResetService
+final readonly class PasswordResetNotification
 {
     public function __construct(
         private NotificationInterface $notification,
@@ -22,13 +22,14 @@ final readonly class PasswordResetService
     ) {
     }
 
-    public function passwordReset(string $email, string $token): void
+    public function send(string $email, string $name, string $token): void
     {
         $resetPasswordUrl = $this->urlGenerator->generate('reset-password', [
             'token' => $token,
         ], UrlGeneratorInterface::ABSOLUTE_URL);
 
         $htmlContent = $this->twig->render('@Registration/email/forgot_password.html.twig', [
+            'user_name' => $name,
             'reset_url' => $resetPasswordUrl
         ]);
 
