@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Registration\Presentation\Web;
 
 use App\Registration\DomainModel\Repository\UserRepositoryInterface;
+use App\Registration\DomainModel\Service\TokenGeneratorInterface;
 use App\Registration\Presentation\Web\Request\ResetPasswordFormRequestDTO;
 use App\Registration\Presentation\Web\Request\ResetPasswordRequestDTO;
 use App\Registration\Presentation\Web\Response\ResetPasswordHtmlResponder;
@@ -13,8 +14,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class ResetPasswordAction
@@ -35,6 +34,7 @@ final readonly class ResetPasswordAction
         return $responder->respond([
             'page_title' => $this->translator->trans('Reset Password'),
             'token' => $request->token,
+            'isValid' => $this->tokenGenerator->isValid($request->token),
         ]);
     }
 
