@@ -46,8 +46,8 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface, Part
     #[ORM\Column(type: 'string', length: 255)]
     private string $password;
 
-    #[ORM\Column(type: 'string', length: 1024)]
-    private string $token;
+    #[ORM\Column(type: 'string', length: 1024, nullable: true)]
+    private ?string $token;
 
     #[ORM\Column(name: 'phone_verified_at', type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $phoneVerifiedAt;
@@ -101,12 +101,12 @@ class Partner implements UserInterface, PasswordAuthenticatedUserInterface, Part
         $this->password = $password;
     }
 
-    public function setToken(string $token): void
+    public function setToken(?string $token): void
     {
         $this->token = $token;
     }
 
-    public function getToken(): string
+    public function getToken(): ?string
     {
         return $this->token;
     }

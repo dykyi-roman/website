@@ -6,7 +6,6 @@ namespace App\Registration\DomainModel\Service;
 
 use App\Registration\DomainModel\ValueObject\ResetPasswordToken;
 use App\Shared\DomainModel\Services\NotificationInterface;
-use App\Shared\DomainModel\ValueObject\Email;
 use App\Shared\DomainModel\ValueObject\Notification;
 use App\Shared\Infrastructure\Notification\Recipient;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -23,10 +22,10 @@ final readonly class PasswordResetService
     ) {
     }
 
-    public function passwordReset(Email $email, ResetPasswordToken $token): void
+    public function passwordReset(string $email, string $token): void
     {
         $resetPasswordUrl = $this->urlGenerator->generate('reset-password', [
-            'token' => (string) $token,
+            'token' => $token,
         ], UrlGeneratorInterface::ABSOLUTE_URL);
 
         $htmlContent = $this->twig->render('@Registration/email/forgot_password.html.twig', [
@@ -38,7 +37,7 @@ final readonly class PasswordResetService
                 $this->translator->trans('email.forgot_password.title'),
                 $htmlContent
             ),
-            new Recipient((string) $email)
+            new Recipient($email)
         );
     }
 }

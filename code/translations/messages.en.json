@@ -91,6 +91,7 @@
   "Reset Password": "Reset Password",
   "New Password": "New Password",
   "Confirm New Password": "Confirm New Password",
+  "Password is changed!": "Password is changed!",
   "Registration successful!": "Registration successful!",
   "Unexpected error during registration": "Unexpected error during registration",
   "Unexpected error during restore password": "Unexpected error during restore password",
