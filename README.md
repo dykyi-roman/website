@@ -2,33 +2,56 @@
 
 ## Features
 
-### 1. Registration
+### Registration
 * Social network authentication
 * Two types of registration (Client or Partner)
 * reCAPTCHA protection against fraud and abuse
 * Password recovery with JWT token
 * Session management with Redis cache
 
-### 2. Localization
+### Localization
 * Multiple locale support
 * Backend language detection (4 strategies)
 * Frontend language detection (4 strategies)
 
-### 3. Error Handling
+### Location
+* Use API service for search city by name
+
+### Error Handling
 * User-friendly error pages
 * Helpful empty states
 * Inline error recovery suggestions
 * Improved form validation messaging
 
-### 4. Navigation and Information Architecture
+### Navigation and Information Architecture
 * Mobile-first approach
 * Previous page navigation
 * Back-to-top functionality
 
-### 5. UI/UX
-* Dark theme support
+### UI/UX
+ * Accessibility Features:
+  * Proper ARIA roles (banner, main, contentinfo)
+  * Skip navigation link for keyboard users
+  * Proper language attributes and RTL support
+  * ARIA live regions for flash messages
+  * Semantic HTML structure
+  
+* Performance Optimizations:
+  * Resource preloading for critical assets
+  * Deferred loading of non-critical JavaScript
+  * SRI (Subresource Integrity) for external resources
+  * Proper asset organization (CSS/JS)
+* Responsive Design:
+  * Bootstrap 5 integration
+  * Mobile-friendly structure
+  * RTL support for Arabic and Hebrew languages
+* User Experience:
+  * Flash message system
+  * Modal system for important interactions
+  * Dark theme support
+  * Multi-language support
 
-### 6. SEO
+### SEO
 * Security Headers
   * Comprehensive Content Security Policy (CSP)
   * X-Frame-Options
@@ -70,7 +93,7 @@
   * Schema.org markup for Website
   * Added preload directives for critical CSS and JavaScript
 
-### 7. Development
+### Development
   * Asset versioning system
   * CI tools integration
   * Console hello message
