@@ -9,6 +9,7 @@ services:
         bind:
             $passwordSecretKey: '%password_secret_key%'
             $supportedCountries: '%supported_countries%'
+            $noCaptchaEnabled: '%nocaptcha.enabled%'
 
     App\Registration\:
         resource: '../../'

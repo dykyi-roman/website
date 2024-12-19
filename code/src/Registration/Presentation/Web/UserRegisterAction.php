@@ -27,9 +27,10 @@ final readonly class UserRegisterAction
         LoggerInterface $logger,
         TranslatorInterface $translator,
         RegistrationJsonResponder $responder,
+        bool $noCaptchaEnabled = false,
     ): RegistrationJsonResponder {
         try {
-            if (!$captcha->verifyResponse($request->g_recaptcha_response)) {
+            if ($noCaptchaEnabled && !$captcha->verifyResponse($request->g_recaptcha_response)) {
                 return $responder->validationError($translator->trans('register_invalid_captcha'))->respond();
             }
 

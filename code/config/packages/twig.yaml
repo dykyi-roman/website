@@ -1,7 +1,9 @@
 twig:
     file_name_pattern: '*.twig'
+    default_path: '%kernel.project_dir%/templates'
     globals:
         nocaptcha: '@Anhskohbo\NoCaptcha\NoCaptcha'
+        nocaptcha_enabled: '%nocaptcha.enabled%'
 
 when@test:
     twig:
