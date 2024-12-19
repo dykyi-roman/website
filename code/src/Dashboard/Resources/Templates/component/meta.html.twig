@@ -71,6 +71,11 @@
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="author" content="{{ organization.name }}">
 
+<!-- Additional Meta Tags -->
+<meta name="google" content="nositelinkssearchbox">
+<meta name="google" content="notranslate">
+<meta name="rating" content="general">
+
 <!-- Mobile Specific -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -79,6 +84,10 @@
 <meta name="theme-color" content="#ffffff">
 <meta name="format-detection" content="telephone=no">
 <meta name="mobile-web-app-capable" content="yes">
+
+<!-- Performance Optimizations -->
+<link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+<link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
 
 <!-- Language Alternates -->
 {% for locale in locales %}
@@ -148,14 +157,14 @@
         "@context": "http://schema.org",
         "@type": "WebSite",
         "name": "{{ organization.name }}",
-    "url": "{{ app.request.schemeAndHttpHost }}",
-    "description": "{{ meta_description|default('meta_description'|trans({ '%organization%': organization.name })) }}",
-    "potentialAction": {
-        "@type": "SearchAction",
-        "target": "{{ app.request.schemeAndHttpHost }}/search?q={search_term}",
-        "query-input": "required name=search_term"
+        "url": "{{ app.request.schemeAndHttpHost }}",
+        "description": "{{ meta_description|default('meta_description'|trans({ '%organization%': organization.name })) }}",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "{{ app.request.schemeAndHttpHost }}/search?q={search_term}",
+            "query-input": "required name=search_term"
+        }
     }
-}
 </script>
 
 <!-- Feeds -->
