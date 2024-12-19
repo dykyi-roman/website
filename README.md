@@ -1,8 +1,32 @@
 # Web page
 
 ## Features
-1. Login, Registration, Forgot Password
-2. 
+1. Registration
+   * Support social network
+   * Two types of registration (Client or Partner)
+   * Integrate reCAPTCHA protects your website from fraud and abuse
+   * Forgot password by JWT token
+   * Session on the Cache storage (Redis)
+3. Locales
+   * Integrate 4 strategy lang detect on the backend 
+   * Integrate 4 strategy lang detect on the frontnd 
+4. Error Handling:
+   * Design user-friendly error pages
+   * Add helpful empty states
+   * Implement inline error recovery suggestions
+   * Improve form validation messaging
+3. Navigation and Information Architecture
+   - Implement a mobile-first approach
+   - Implement a return arrow to the previous page
+   - Implement a return arrow to the top of the page
+4. UI/UX
+   * Dark themes
+5. SEO
+6. DEV
+   - Asset versioning system
+   - Implement all all necessary CI tools
+   - Implement console hello message
+   - Support environment variables
 
 ## reCAPTCHA Integration
 
@@ -19,7 +43,6 @@ GOOGLE_RECAPTCHA_SECRET_KEY=your_site_key_here
 ```
 
 ## SEO
-
 Currently Implemented (Excellent Coverage):
 1. Security Headers:
 * Comprehensive Content Security Policy (CSP)
