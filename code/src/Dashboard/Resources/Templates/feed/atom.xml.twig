@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>{{ organization.name }}</title>
+    <subtitle>{{ organization.description }}</subtitle>
+    <link href="{{ website_url }}" rel="alternate" type="text/html"/>
+    <link href="{{ url('feed_atom') }}" rel="self" type="application/atom+xml"/>
+    <id>{{ website_url }}</id>
+    <updated>{{ 'now'|date('c') }}</updated>
+    <rights>Copyright © {{ 'now'|date('Y') }}, {{ organization.name }}</rights>
+    
+    {% for item in items %}
+    <entry>
+        <title>{{ item.title }}</title>
+        <link href="{{ url('article_show', {'slug': item.slug}) }}" rel="alternate" type="text/html"/>
+        <id>{{ url('article_show', {'slug': item.slug}) }}</id>
+        <published>{{ item.publishedAt|date('c') }}</published>
+        <updated>{{ item.updatedAt|date('c') }}</updated>
+        <summary type="html"><![CDATA[{{ item.description|raw }}]]></summary>
+        <content type="html"><![CDATA[{{ item.content|raw }}]]></content>
+        {% if item.author %}
+        <author>
+            <name>{{ item.author.name }}</name>
+            <email>{{ item.author.email }}</email>
+        </author>
+        {% endif %}
+        {% if item.categories %}
+        {% for category in item.categories %}
+        <category term="{{ category.slug }}" label="{{ category.name }}"/>
+        {% endfor %}
+        {% endif %}
+    </entry>
+    {% endfor %}
+</feed>

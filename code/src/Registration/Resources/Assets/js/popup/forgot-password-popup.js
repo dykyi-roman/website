@@ -138,6 +138,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
         errorContainer.textContent = message;
         errorContainer.style.display = 'block';
+
+        // Automatically hide the error message after 3 seconds
+        setTimeout(() => {
+            errorContainer.style.display = 'none';
+        }, 3000);
     }
 
     // Function to show success messages
