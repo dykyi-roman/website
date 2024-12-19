@@ -58,6 +58,11 @@
                             </select>
                             <div class="invalid-feedback">{{ 'register_country_invalid'|trans }}</div>
                         </div>
+                        <div class="mb-3 d-flex justify-content-center">
+                            {{ nocaptcha.display()|raw }}
+                            {{ nocaptcha.renderJs()|raw }}
+                            <div class="invalid-feedback text-center">{{ 'register_captcha_required'|trans }}</div>
+                        </div>
                         <div class="mb-3">
                             <button type="submit" class="btn btn-primary w-100">{{ 'register_client_button'|trans }}</button>
                             <div class="text-muted text-center small mt-2">
@@ -111,6 +116,11 @@
                                 {% endfor %}
                             </select>
                             <div class="invalid-feedback">{{ 'register_country_invalid'|trans }}</div>
+                        </div>
+                        <div class="mb-3 d-flex justify-content-center">
+                            {{ nocaptcha.display()|raw }}
+                            {{ nocaptcha.renderJs()|raw }}
+                            <div class="invalid-feedback text-center">{{ 'register_captcha_required'|trans }}</div>
                         </div>
                         <div class="mb-3">
                             <button type="submit" class="btn btn-primary w-100">{{ 'register_partner_button'|trans }}</button>

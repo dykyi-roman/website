@@ -69,6 +69,7 @@
   "register_client_button": "Create Client Account",
   "register_partner_button": "Create Partner Account",
   "register_terms_agreement": "By registering, you agree to our Terms of Service and Privacy Policy",
+  "register_invalid_captcha": "Invalid Captcha",
   "register_or": "or",
   "register_google_login": "Google Login",
   "register_facebook_login": "Facebook Login",

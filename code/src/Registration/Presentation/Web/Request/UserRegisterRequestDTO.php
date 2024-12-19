@@ -30,6 +30,9 @@ final readonly class UserRegisterRequestDTO
 
         #[Assert\Length(max: 20)]
         public ?string $phone = null,
+
+        #[Assert\NotBlank(message: 'The reCAPTCHA is required')]
+        public ?string $g_recaptcha_response = null,
     ) {
     }
 

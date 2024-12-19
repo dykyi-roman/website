@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Registration\Presentation\Web;
 
+use Anhskohbo\NoCaptcha\NoCaptcha;
 use App\Registration\Application\UserRegistration\Command\RegisterUserCommand;
 use App\Registration\Presentation\Web\Request\UserRegisterRequestDTO;
 use App\Registration\Presentation\Web\Response\RegistrationJsonResponder;
@@ -22,11 +23,16 @@ final readonly class UserRegisterAction
     public function register(
         #[MapRequestPayload] UserRegisterRequestDTO $request,
         MessageBusInterface $commandBus,
+        NoCaptcha $captcha,
         LoggerInterface $logger,
         TranslatorInterface $translator,
         RegistrationJsonResponder $responder,
     ): RegistrationJsonResponder {
         try {
+            if (!$captcha->verifyResponse($request->g_recaptcha_response)) {
+                return $responder->validationError($translator->trans('register_invalid_captcha'))->respond();
+            }
+
             $command = new RegisterUserCommand(
                 $request->name,
                 Email::fromString($request->email),
