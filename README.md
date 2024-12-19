@@ -76,6 +76,26 @@
   * Console hello message
   * Environment variables support
 
+## Geonames
+
+### Prerequisites
+1. Register for a GeoNames account:
+   - Go to [GeoNames](http://www.geonames.org/login)
+   - Click on "Click here to register for a new username"
+   - Fill in the registration form and submit
+   - Check your email to activate your account
+
+2. Enable free web services:
+   - After logging in, go to your account management page
+   - Click on "Click here to enable" in the Free Web Services section
+
+3. Set your GeoNames username in the `.env` file:
+```env
+API_GEO_USER_NAME=your_username_here
+```
+
+Note: The free web service allows up to 20,000 credits per day.
+
 ## reCAPTCHA Integration
 
 ### Prerequisites
