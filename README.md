@@ -1,6 +1,6 @@
 # Web page
 
-## Features
+# Features
 
 ### Registration
 * Social network authentication
@@ -29,7 +29,7 @@
 * Back-to-top functionality
 
 ### UI/UX
- * Accessibility Features:
+* Accessibility Features:
   * Proper ARIA roles (banner, main, contentinfo)
   * Skip navigation link for keyboard users
   * Proper language attributes and RTL support
@@ -41,14 +41,16 @@
   * Deferred loading of non-critical JavaScript
   * SRI (Subresource Integrity) for external resources
   * Proper asset organization (CSS/JS)
+
 * Responsive Design:
   * Bootstrap 5 integration
   * Mobile-friendly structure
   * RTL support for Arabic and Hebrew languages
+
 * User Experience:
   * Flash message system
   * Modal system for important interactions
-  * Dark theme support
+  * Dark/Light theme toggle
   * Multi-language support
 
 ### SEO
