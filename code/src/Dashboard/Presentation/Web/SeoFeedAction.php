@@ -4,52 +4,69 @@ declare(strict_types=1);
 
 namespace App\Dashboard\Presentation\Web;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use App\Dashboard\Presentation\Web\Response\FeedAtomResponder;
+use App\Dashboard\Presentation\Web\Response\FeedRssResponder;
+use App\Order\DomainModel\Service\OrdersInterface;
+use App\Service\DomainModel\Service\ServicesInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class SeoFeedAction extends AbstractController
+final readonly class SeoFeedAction
 {
+    public function __construct(
+        private OrdersInterface $orders,
+        private ServicesInterface $services,
+        private Security $security,
+    ) {
+    }
+
     #[Route('/feed/rss.xml', name: 'feed-rss', defaults: ['_format' => 'xml'])]
-    public function rss(): Response
+    public function rss(FeedRssResponder $responder): FeedRssResponder
     {
-        // We get the latest articles/posts
-        $items = [];
-
-//        organization:
-//           name: 'Название вашего сайта'
-//           description: 'Описание вашего сайта'
-//        website_url: 'https://your-domain.com'
-
-        $response = new Response(
-            $this->renderView('@Dashboard/feed/rss.xml.twig', [
-                'items' => $items,
-                'organization' => $this->getParameter('organization'),
-                'website_url' => $this->getParameter('website_url'),
-            ])
-        );
-
-        $response->headers->set('Content-Type', 'application/rss+xml; charset=UTF-8');
-
-        return $response;
+        return $responder
+            ->context([
+                'items' => $this->getItems(),
+                'organization' => 'organization',
+                'website_url' => 'website_url',
+            ])->respond();
     }
 
     #[Route('/feed/atom.xml', name: 'feed-atom', defaults: ['_format' => 'xml'])]
-    public function atom(): Response
+    public function atom(FeedAtomResponder $responder): FeedAtomResponder
     {
-        // We get the latest articles/posts
-        $items = [];
-
-        $response = new Response(
-            $this->renderView('@Dashboard/feed/atom.xml.twig', [
-                'items' => $items,
-                'organization' => $this->getParameter('organization'),
-                'website_url' => $this->getParameter('website_url'),
+        return $responder
+            ->context([
+                'items' => $this->getItems(),
+                'organization' => [
+                    'name' => 'sss',
+                    'description' => 'sss',
+                ],
+                'website_url' => 'website_url',
             ])
-        );
+            ->respond();
+    }
 
-        $response->headers->set('Content-Type', 'application/atom+xml; charset=UTF-8');
+    private function getItems(): array
+    {
+        $user = $this->security->getUser();
+        if (!$user) {
+            return [];
+        }
 
-        return $response;
+        $items = [];
+        if (in_array('ROLE_CLIENT', $user->getRoles(), true)) {
+            $items = $this->orders->last(20);
+        } elseif (in_array('ROLE_PARTNER', $user->getRoles(), true)) {
+            $items = $this->services->last(20);
+        }
+
+        if ($items === []) {
+            $items = [
+                ...$this->orders->last(10),
+                ...$this->services->last(10),
+            ];
+        }
+
+        return $items;
     }
 }

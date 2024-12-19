@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Shared\Presentation\Responder;
 
 use Symfony\Component\HttpFoundation\Response;
+use TheSeer\Tokenizer\Exception;
 use Twig\Environment;
 
 final class HtmlResponder extends AbstractResponder
@@ -19,13 +20,23 @@ final class HtmlResponder extends AbstractResponder
         return in_array('text/html', $contentTypes, true);
     }
 
+    /**
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\LoaderError
+     */
     protected function createResponse(ResponderInterface $result): Response
     {
-        $content = $this->twig->render($result->template(), $result->payload());
-        
-        $response = new Response($content, $result->statusCode());
-        $response->headers->set('Content-Type', 'text/html');
-        
-        return $response;
+        if ($result instanceof TemplateResponderInterface) {
+            $content = $this->twig->render($result->template(), $result->payload());
+            $response = new Response($content, $result->statusCode());
+            foreach ($result->headers() as $key => $value) {
+                $response->headers->set($key, $value);
+            }
+
+            return $response;
+        }
+
+        return new Response();
     }
 }

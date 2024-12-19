@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service\Infrastructure\ElasticSearch;
 
-use App\Service\DomainModel\Service\ServiceInterface;
+use App\Service\DomainModel\Service\ServicesInterface;
 
-final readonly class MockClient implements ServiceInterface
+final readonly class MockClient implements ServicesInterface
 {
     private const int COUNT = 25;
 
@@ -46,5 +46,10 @@ final readonly class MockClient implements ServiceInterface
             'limit' => $limit,
             'total_pages' => ceil(count($items) / $limit),
         ];
+    }
+
+    public function last(int $count): array
+    {
+        return [];
     }
 }

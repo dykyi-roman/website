@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Presentation\Api;
 
-use App\Service\DomainModel\Service\ServiceInterface;
+use App\Service\DomainModel\Service\ServicesInterface;
 use App\Service\Presentation\Api\Request\ServicesSearchRequestDTO;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -74,7 +74,7 @@ final class ServiceSearchAction
     public function __invoke(
         Request $request,
         #[MapQueryString] ServicesSearchRequestDTO $searchRequest,
-        ServiceInterface $service,
+        ServicesInterface $service,
     ): JsonResponse {
         $result = $service->search(
             $searchRequest->query,

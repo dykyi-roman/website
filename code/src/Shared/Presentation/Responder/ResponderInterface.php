@@ -6,11 +6,9 @@ namespace App\Shared\Presentation\Responder;
 
 interface ResponderInterface
 {
-    public function respond(): mixed;
+    public function respond(): self;
 
     public function payload(): array;
-
-    public function template(): string;
 
     public function statusCode(): int;
 }

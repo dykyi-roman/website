@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace App\Registration\Presentation\Web\Response;
 
-use App\Shared\Presentation\Responder\ResponderInterface;
+use App\Shared\Presentation\Responder\TemplateResponderInterface;
 
-final readonly class ResetPasswordHtmlResponder implements ResponderInterface
+final readonly class ResetPasswordHtmlResponder implements TemplateResponderInterface
 {
     private array $data;
-    private const string TEMPLATE = '@Registration/page/reset-password.html.twig';
 
     public function template(): string
     {
-        return self::TEMPLATE;
+        return '@Registration/page/reset-password.html.twig';
     }
 
     public function payload(): array
@@ -31,5 +30,10 @@ final readonly class ResetPasswordHtmlResponder implements ResponderInterface
     public function statusCode(): int
     {
         return 200;
+    }
+
+    public function headers(): array
+    {
+        return ['Content-Type' => 'text/html'];
     }
 }

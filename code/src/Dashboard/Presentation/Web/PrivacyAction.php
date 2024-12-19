@@ -22,14 +22,16 @@ final readonly class PrivacyAction
         PrivacyHtmlResponder $responder,
         TranslatorInterface $translator,
     ): PrivacyHtmlResponder {
-        return $responder->respond([
-            'page_title' => $translator->trans('privacy.page_title'),
-            'content' => $translator->trans('privacy.content', [
-                '%app_name%' => $this->appName,
-                '%support_email%' => $this->supportEmail,
-                '%support_address%' => $this->supportAddress,
-                '%last_updated_date%' => date('Y-m-d'),
-            ]),
-        ]);
+        return $responder
+            ->context([
+                'page_title' => $translator->trans('privacy.page_title'),
+                'content' => $translator->trans('privacy.content', [
+                    '%app_name%' => $this->appName,
+                    '%support_email%' => $this->supportEmail,
+                    '%support_address%' => $this->supportAddress,
+                    '%last_updated_date%' => date('Y-m-d'),
+                ]),
+            ])
+            ->respond();
     }
 }

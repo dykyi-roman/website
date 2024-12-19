@@ -25,11 +25,6 @@ final readonly class DictionaryOfCitiesResponse implements ResponderInterface
         ];
     }
 
-    public function template(): string
-    {
-        return '';
-    }
-
     public function statusCode(): int
     {
         return 200;

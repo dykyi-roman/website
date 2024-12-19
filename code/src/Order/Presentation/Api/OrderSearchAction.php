@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Order\Presentation\Api;
 
-use App\Order\DomainModel\Service\OrderInterface;
+use App\Order\DomainModel\Service\OrdersInterface;
 use App\Order\Presentation\Api\Request\OrdersSearchRequestDTO;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -74,7 +74,7 @@ final class OrderSearchAction
     public function __invoke(
         Request $request,
         #[MapQueryString] OrdersSearchRequestDTO $searchRequest,
-        OrderInterface $orders,
+        OrdersInterface $orders,
     ): JsonResponse {
         $result = $orders->search(
             $searchRequest->query,

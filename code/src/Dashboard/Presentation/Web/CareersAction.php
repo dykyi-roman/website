@@ -15,9 +15,9 @@ final readonly class CareersAction
         CareersHtmlResponder $responder,
         TranslatorInterface $translator,
     ): CareersHtmlResponder {
-        return $responder->respond([
+        return $responder->context([
             'page_title' => $translator->trans('careers.page_title'),
             'content' => [],
-        ]);
+        ])->respond();
     }
 }

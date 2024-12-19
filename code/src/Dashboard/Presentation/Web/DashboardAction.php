@@ -15,8 +15,8 @@ final readonly class DashboardAction
         TranslatorInterface $translator,
         DashboardHtmlResponder $responder,
     ): DashboardHtmlResponder {
-        return $responder->respond([
-            'page_title' => $translator->trans('dashboard.dashboard_page_title'),
-        ]);
+        return $responder
+            ->context(['page_title' => $translator->trans('dashboard.dashboard_page_title')])
+            ->respond();
     }
 }

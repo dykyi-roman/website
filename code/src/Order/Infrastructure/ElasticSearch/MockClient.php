@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Order\Infrastructure\ElasticSearch;
 
-use App\Order\DomainModel\Service\OrderInterface;
+use App\Order\DomainModel\Service\OrdersInterface;
 
-final readonly class MockClient implements OrderInterface
+final readonly class MockClient implements OrdersInterface
 {
     private const int COUNT = 10;
 
@@ -46,5 +46,10 @@ final readonly class MockClient implements OrderInterface
             'limit' => $limit,
             'total_pages' => ceil(count($items) / $limit),
         ];
+    }
+
+    public function last(int $count): array
+    {
+       return [];
     }
 }

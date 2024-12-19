@@ -50,9 +50,4 @@ final class RegistrationJsonResponder implements ResponderInterface
     {
         return $this->statusCode;
     }
-
-    public function template(): string
-    {
-        return '';
-    }
 }

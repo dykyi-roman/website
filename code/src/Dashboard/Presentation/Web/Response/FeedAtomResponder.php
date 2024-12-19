@@ -6,7 +6,7 @@ namespace App\Dashboard\Presentation\Web\Response;
 
 use App\Shared\Presentation\Responder\TemplateResponderInterface;
 
-final readonly class DashboardHtmlResponder implements TemplateResponderInterface
+final readonly class FeedAtomResponder implements TemplateResponderInterface
 {
     private array $data;
 
@@ -19,7 +19,12 @@ final readonly class DashboardHtmlResponder implements TemplateResponderInterfac
 
     public function template(): string
     {
-        return '@Dashboard/page/dashboard.html.twig';
+        return '@Dashboard/feed/atom.xml.twig';
+    }
+
+    public function headers(): array
+    {
+        return ['Content-Type' => 'application/atom+xml; charset=UTF-8'];
     }
 
     public function payload(): array
@@ -35,10 +40,5 @@ final readonly class DashboardHtmlResponder implements TemplateResponderInterfac
     public function statusCode(): int
     {
         return 200;
-    }
-
-    public function headers(): array
-    {
-        return ['Content-Type' => 'text/html'];
     }
 }

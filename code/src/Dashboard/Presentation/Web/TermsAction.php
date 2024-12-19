@@ -15,11 +15,13 @@ final readonly class TermsAction
         TermsHtmlResponder $responder,
         TranslatorInterface $translator,
     ): TermsHtmlResponder {
-        return $responder->respond([
-            'page_title' => $translator->trans('terms.page_title'),
-            'content' => $translator->trans('terms.content', [
-                '%last_updated_date%' => date('Y-m-d'),
-            ]),
-        ]);
+        return $responder
+            ->context([
+                'page_title' => $translator->trans('terms.page_title'),
+                'content' => $translator->trans('terms.content', [
+                    '%last_updated_date%' => date('Y-m-d'),
+                ]),
+            ])
+            ->respond();
     }
 }

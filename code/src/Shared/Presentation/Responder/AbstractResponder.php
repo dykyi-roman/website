@@ -20,7 +20,6 @@ abstract class AbstractResponder implements EventSubscriberInterface
     public function onKernelView(ViewEvent $viewEvent): void
     {
         $request = $viewEvent->getRequest();
-        
         if (!$this->supportsContentType($request->getAcceptableContentTypes())) {
             return;
         }

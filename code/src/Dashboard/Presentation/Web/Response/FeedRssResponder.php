@@ -6,7 +6,7 @@ namespace App\Dashboard\Presentation\Web\Response;
 
 use App\Shared\Presentation\Responder\TemplateResponderInterface;
 
-final readonly class DashboardHtmlResponder implements TemplateResponderInterface
+final readonly class FeedRssResponder implements TemplateResponderInterface
 {
     private array $data;
 
@@ -19,7 +19,7 @@ final readonly class DashboardHtmlResponder implements TemplateResponderInterfac
 
     public function template(): string
     {
-        return '@Dashboard/page/dashboard.html.twig';
+        return '@Dashboard/feed/rss.xml.twig';
     }
 
     public function payload(): array
@@ -39,6 +39,6 @@ final readonly class DashboardHtmlResponder implements TemplateResponderInterfac
 
     public function headers(): array
     {
-        return ['Content-Type' => 'text/html'];
+       return ['Content-Type' => 'application/rss+xml; charset=UTF-8'];
     }
 }

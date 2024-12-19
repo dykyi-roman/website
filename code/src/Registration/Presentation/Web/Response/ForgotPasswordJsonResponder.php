@@ -46,11 +46,6 @@ final class ForgotPasswordJsonResponder implements ResponderInterface
         return $this->data;
     }
 
-    public function template(): string
-    {
-        return '';
-    }
-
     public function statusCode(): int
     {
         return $this->statusCode;

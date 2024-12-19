@@ -7,23 +7,11 @@
         <language>{{ app.request.locale }}</language>
         <pubDate>{{ 'now'|date('r') }}</pubDate>
         <lastBuildDate>{{ 'now'|date('r') }}</lastBuildDate>
-        <atom:link href="{{ url('feed_rss') }}" rel="self" type="application/rss+xml" />
+        <atom:link href="{{ url('feed-rss') }}" rel="self" type="application/rss+xml" />
         
         {% for item in items %}
         <item>
-            <title>{{ item.title }}</title>
-            <link>{{ url('article_show', {'slug': item.slug}) }}</link>
-            <description><![CDATA[{{ item.description|raw }}]]></description>
-            <pubDate>{{ item.publishedAt|date('r') }}</pubDate>
-            <guid isPermaLink="true">{{ url('article_show', {'slug': item.slug}) }}</guid>
-            {% if item.author %}
-            <author>{{ item.author.email }} ({{ item.author.name }})</author>
-            {% endif %}
-            {% if item.categories %}
-            {% for category in item.categories %}
-            <category>{{ category.name }}</category>
-            {% endfor %}
-            {% endif %}
+            {# TODO: Add Entity fields #}
         </item>
         {% endfor %}
     </channel>

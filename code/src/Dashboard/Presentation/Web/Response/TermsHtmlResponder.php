@@ -4,16 +4,22 @@ declare(strict_types=1);
 
 namespace App\Dashboard\Presentation\Web\Response;
 
-use App\Shared\Presentation\Responder\ResponderInterface;
+use App\Shared\Presentation\Responder\TemplateResponderInterface;
 
-final readonly class TermsHtmlResponder implements ResponderInterface
+final readonly class TermsHtmlResponder implements TemplateResponderInterface
 {
     private array $data;
-    private const string TEMPLATE = '@Dashboard/page/terms.html.twig';
+
+    public function context(array $data = []): self
+    {
+        $this->data = $data;
+
+        return $this;
+    }
 
     public function template(): string
     {
-        return self::TEMPLATE;
+        return '@Dashboard/page/terms.html.twig';
     }
 
     public function payload(): array
@@ -21,15 +27,18 @@ final readonly class TermsHtmlResponder implements ResponderInterface
         return $this->data;
     }
 
-    public function respond(array $data = []): self
+    public function respond(): self
     {
-        $this->data = $data;
-
         return $this;
     }
 
     public function statusCode(): int
     {
         return 200;
+    }
+
+    public function headers(): array
+    {
+        return ['Content-Type' => 'text/html'];
     }
 }
