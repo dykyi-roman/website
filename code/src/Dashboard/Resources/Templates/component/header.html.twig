@@ -1,20 +1,39 @@
 <!-- Header/Navbar -->
 <nav class="navbar navbar-light bg-light fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="/">
-            <i class="fas fa-hand"></i> {{ organization.name }}
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <i class="fas fa-hand me-2"></i>
+            <span>{{ organization.name }}</span>
         </a>
-        <div class="ms-auto d-flex align-items-center">
-            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <div class="ms-auto d-flex align-items-center gap-3">
+            <!-- Theme Toggle Button with improved styling -->
+            <button class="theme-toggle d-flex align-items-center justify-content-center" 
+                    id="themeToggle" 
+                    aria-label="Toggle theme"
+                    title="{{ 'toggle_theme'|trans }}">
                 <i class="fas fa-moon" id="themeIcon"></i>
             </button>
+
+            <!-- Language Menu -->
             {% include '@Locale/component/language_menu.html.twig' %}
-            <div class="nav-item dropdown profile-dropdown ms-3">
-                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+            <!-- Profile Dropdown with improved interaction -->
+            <div class="nav-item dropdown profile-dropdown">
+                <a class="nav-link dropdown-toggle d-flex align-items-center" 
+                   href="#" 
+                   id="profileDropdown" 
+                   role="button" 
+                   data-bs-toggle="dropdown" 
+                   aria-expanded="false"
+                   title="{{ app.user ? app.user.name : 'account_menu'|trans }}">
                     {% if app.user %}
                         {% if app.user.avatar %}
                             <div class="profile-image-container">
-                                <img src="{{ app.user.avatar }}" alt="Profile" class="rounded-circle">
+                                <img src="{{ app.user.avatar }}" 
+                                     alt="{{ 'profile_picture'|trans }}" 
+                                     class="rounded-circle"
+                                     width="32" 
+                                     height="32">
                             </div>
                         {% else %}
                             <i class="fas fa-user"></i>
@@ -24,13 +43,25 @@
                         </div>
                     {% else %}
                         <i class="fas fa-user"></i>
+                        <span class="ms-2">{{ 'guest'|trans }}</span>
                     {% endif %}
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm" 
+                    aria-labelledby="profileDropdown">
                     {% if app.user %}
-                        <li><a class="dropdown-item" href="/profile"><i class="fas fa-user"></i> {{ 'profile_menu_item'|trans }}</a></li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="/profile">
+                                <i class="fas fa-user me-2"></i>
+                                <span>{{ 'profile_menu_item'|trans }}</span>
+                            </a>
+                        </li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i> {{ 'logout_menu_item'|trans }}</a></li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="/logout">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                <span>{{ 'logout_menu_item'|trans }}</span>
+                            </a>
+                        </li>
                     {% else %}
                         {% include '@Registration/component/auth_menu.html.twig' %}
                     {% endif %}

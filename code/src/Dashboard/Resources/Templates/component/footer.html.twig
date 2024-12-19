@@ -1,23 +1,64 @@
 <!-- Footer -->
-<footer class="site-footer">
+<footer class="site-footer py-4 mt-5">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-6 text-left">
-                <div class="footer-links">
-                    <a href="{{ path('privacy') }}" class="footer-link">{{ 'privacy_policy'|trans }}</a>
-                    <a href="{{ path('terms') }}" class="footer-link">{{ 'terms_of_service'|trans }}</a>
-                    <a href="{{ path('contact') }}" class="footer-link">{{ 'contact_us'|trans }}</a>
+        <div class="row align-items-center gy-3">
+            <div class="col-md-6">
+                <div class="footer-links d-flex flex-wrap gap-3">
+                    <a href="{{ path('privacy') }}" 
+                       class="footer-link text-decoration-none d-flex align-items-center">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        {{ 'privacy_policy'|trans }}
+                    </a>
+                    <a href="{{ path('terms') }}" 
+                       class="footer-link text-decoration-none d-flex align-items-center">
+                        <i class="fas fa-file-contract me-2"></i>
+                        {{ 'terms_of_service'|trans }}
+                    </a>
+                    <a href="{{ path('contact') }}" 
+                       class="footer-link text-decoration-none d-flex align-items-center">
+                        <i class="fas fa-envelope me-2"></i>
+                        {{ 'contact_us'|trans }}
+                    </a>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="social-links text-right">
-                    <a href="#" class="social-link" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-link" title="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <div class="social-links d-flex justify-content-md-end justify-content-center gap-2">
+                    <a href="#" 
+                       class="social-link" 
+                       title="Facebook"
+                       aria-label="Visit our Facebook page">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" 
+                       class="social-link" 
+                       title="Twitter"
+                       aria-label="Follow us on Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" 
+                       class="social-link" 
+                       title="Instagram"
+                       aria-label="Follow us on Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" 
+                       class="social-link" 
+                       title="LinkedIn"
+                       aria-label="Connect with us on LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
                 </div>
             </div>
-            <div class="col-12 text-center mt-3">
-                <p class="mb-0">{{ 'copyright_text'|trans({ '%year%': "now"|date("Y"), '%organization%': organization.name }) }}</p>
+            <div class="col-12">
+                <hr class="my-3">
+            </div>
+            <div class="col-12 text-center">
+                <p class="mb-0 text-muted">
+                    {{ 'copyright_text'|trans({ 
+                        '%year%': "now"|date("Y"), 
+                        '%organization%': organization.name 
+                    }) }}
+                </p>
             </div>
         </div>
     </div>

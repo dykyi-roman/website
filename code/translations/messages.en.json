@@ -96,6 +96,7 @@
   "page_might_have_been_removed_message": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
   "back_to_dashboard": "Back to Dashboard",
   "page_not_found": "Page Not Found",
+  "guest": "guest",
   "careers": {
       "page_title": "Careers",
       "content_head": "Build your career with us",
