@@ -27,15 +27,15 @@ final class UserLoginAuthenticator extends AbstractAuthenticator
     ) {
     }
 
-    public function supports(Request $request): ?bool
+    public function supports(Request $request): bool
     {
         return '/login' === $request->getPathInfo() && $request->isMethod('POST');
     }
 
     public function authenticate(Request $request): Passport
     {
-        $email = $request->request->get('email', '');
-        $password = $request->request->get('password', '');
+        $email = (string) $request->request->get('email', '');
+        $password = (string) $request->request->get('password', '');
         $rememberMe = $request->request->getBoolean('remember_me');
 
         $userBadge = new UserBadge($email, function (string $email) {
@@ -75,7 +75,7 @@ final class UserLoginAuthenticator extends AbstractAuthenticator
         ]);
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
         return new JsonResponse([
             'success' => false,
