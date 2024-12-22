@@ -16,7 +16,6 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AsMessageHandler]
@@ -74,7 +73,7 @@ final readonly class RegisterUserCommandHandler
         $this->tokenStorage->setToken($token);
     }
 
-    private function createUser(RegisterUserCommand $command): UserInterface|PasswordAuthenticatedUserInterface
+    private function createUser(RegisterUserCommand $command): UserInterface
     {
         return new User(
             new UserId(),

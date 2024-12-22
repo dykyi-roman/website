@@ -13,11 +13,11 @@ final readonly class ReferralReceiver
     ) {
     }
 
-    public function referral(string $name = 'reff'): ?string
+    public function referral(string $name = 'reff'): string
     {
         $request = $this->requestStack->getCurrentRequest();
         if (null === $request) {
-            return null;
+            return '';
         }
 
         return $request->cookies->get($name, $request->query->get($name, ''));

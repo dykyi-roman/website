@@ -46,7 +46,12 @@ class Profile
         $this->group = $property->group;
         $this->type = $property->type;
         $this->name = $property->name;
-        $this->value = $property->value;
+        $this->value = match ($property->type) {
+            PropertyType::STRING => $property->value,
+            PropertyType::INTEGER => (string) $property->value,
+            PropertyType::BOOL => $property->value ? '1' : '0',
+            PropertyType::DATE => $property->value instanceof \DateTimeInterface ? $property->value->format('Y-m-d H:i:s') : throw new \InvalidArgumentException('Invalid date value'),
+        };
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
     }

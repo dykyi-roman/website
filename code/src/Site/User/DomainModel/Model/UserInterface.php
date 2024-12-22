@@ -6,8 +6,9 @@ namespace Site\User\DomainModel\Model;
 
 use Shared\DomainModel\ValueObject\Email;
 use Site\User\DomainModel\Enum\UserId;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
-interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterface
+interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterface, PasswordAuthenticatedUserInterface
 {
     public function getId(): UserId;
 
@@ -16,4 +17,14 @@ interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterf
     public function isActive(): bool;
 
     public function isDeleted(): bool;
+
+    public function updatePassword(string $hashedPassword): void;
+
+    public function clearResetToken(): void;
+
+    public function withReferral(string $referral): void;
+
+    public function getName(): string;
+
+    public function setToken(string $token): void;
 }

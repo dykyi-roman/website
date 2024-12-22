@@ -8,6 +8,9 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * @extends Voter<string, mixed>
+ */
 final class ResetPasswordVoter extends Voter
 {
     protected const string RESET_PASSWORD = 'RESET_PASSWORD';
