@@ -14,6 +14,7 @@ use Site\User\DomainModel\Repository\UserRepositoryInterface;
 
 final class UserRepository implements UserRepositoryInterface
 {
+    /** @var EntityRepository<User> */
     private EntityRepository $repository;
 
     public function __construct(
@@ -30,16 +31,19 @@ final class UserRepository implements UserRepositoryInterface
 
     public function findById(UserId $id): ?UserInterface
     {
+        /** @var User|null */
         return $this->repository->find($id->toRfc4122());
     }
 
     public function findByEmail(Email $email): ?UserInterface
     {
+        /** @var User|null */
         return $this->repository->findOneBy(['email' => $email]);
     }
 
     public function findByToken(string $token): ?UserInterface
     {
+        /** @var User|null */
         return $this->repository->findOneBy(['token' => $token]);
     }
 
