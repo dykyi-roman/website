@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 final readonly class ChainLocaleResolver implements LocaleResolverInterface
 {
     public function __construct(
+        /** @var iterable<LocaleResolverInterface> */
         private iterable $resolvers,
     ) {
     }

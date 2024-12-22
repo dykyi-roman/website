@@ -14,6 +14,7 @@ final readonly class LocaleSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private string $defaultLocale,
+        /** @var string[] */
         private array $supportedLocales,
         private LocaleSwitcher $localeSwitcher,
         private LocaleResolverInterface $localeResolver,
@@ -31,9 +32,10 @@ final readonly class LocaleSubscriber implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
-        $locale = $this->localeResolver->resolve($request);
-        $locale = in_array($locale, $this->supportedLocales, true) ? $locale : $this->defaultLocale;
+        $resolvedLocale = $this->localeResolver->resolve($request) ?? $this->defaultLocale;
+        $locale = in_array($resolvedLocale, $this->supportedLocales, true) ? $resolvedLocale : $this->defaultLocale;
 
+        // At this point $locale is guaranteed to be a non-null string from $supportedLocales or $defaultLocale
         $this->localeSwitcher->setLocale($locale);
         $request->cookies->set('locale', $locale);
         $request->setLocale($locale);

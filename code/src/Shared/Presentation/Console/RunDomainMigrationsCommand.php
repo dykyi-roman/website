@@ -31,7 +31,11 @@ final class RunDomainMigrationsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $domain = strtolower($input->getArgument('domain'));
+        $domainArg = $input->getArgument('domain');
+        if (!is_string($domainArg)) {
+            throw new \InvalidArgumentException('Domain argument must be a string');
+        }
+        $domain = strtolower($domainArg);
         $domainPath = sprintf('%s/src/%s', $this->projectDir, ucfirst($domain));
 
         if (!is_dir($domainPath)) {
@@ -88,10 +92,16 @@ final class RunDomainMigrationsCommand extends Command
 
                 // Read output and error streams
                 while (!feof($pipes[1])) {
-                    $output->write(fread($pipes[1], 4096));
+                    $data = fread($pipes[1], 4096);
+                    if (is_string($data)) {
+                        $output->write($data);
+                    }
                 }
                 while (!feof($pipes[2])) {
-                    $output->write(fread($pipes[2], 4096));
+                    $data = fread($pipes[2], 4096);
+                    if (is_string($data)) {
+                        $output->write($data);
+                    }
                 }
 
                 // Close all pipes

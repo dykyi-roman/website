@@ -70,12 +70,18 @@ final readonly class GeoNamesClient implements DictionaryOfCitiesInterface
             }
 
             return array_map(
-                static fn (mixed $city): CityDto => new CityDto(
-                    countryCode: is_array($city) && isset($city['countryCode']) ? (string)$city['countryCode'] : '',
-                    name: is_array($city) && isset($city['name']) ? (string)$city['name'] : '',
-                    transcription: is_array($city) && isset($city['toponymName']) ? (string)$city['toponymName'] : '',
-                    area: is_array($city) && isset($city['adminName1']) ? (string)$city['adminName1'] : '',
-                ),
+                static function (mixed $city): CityDto {
+                    if (!is_array($city)) {
+                        return new CityDto('', '', '', '');
+                    }
+                    
+                    $countryCode = isset($city['countryCode']) && is_string($city['countryCode']) ? $city['countryCode'] : '';
+                    $name = isset($city['name']) && is_string($city['name']) ? $city['name'] : '';
+                    $transcription = isset($city['toponymName']) && is_string($city['toponymName']) ? $city['toponymName'] : '';
+                    $area = isset($city['adminName1']) && is_string($city['adminName1']) ? $city['adminName1'] : '';
+                    
+                    return new CityDto($countryCode, $name, $transcription, $area);
+                },
                 $geonames
             );
         } catch (\JsonException $exception) {

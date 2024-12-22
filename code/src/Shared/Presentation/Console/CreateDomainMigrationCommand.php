@@ -31,7 +31,11 @@ final class CreateDomainMigrationCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $domainPath = strtolower($input->getArgument('domain'));
+        $domainArg = $input->getArgument('domain');
+        if (!is_string($domainArg)) {
+            throw new \InvalidArgumentException('Domain argument must be a string');
+        }
+        $domainPath = strtolower($domainArg);
         $parts = explode('/', $domainPath);
 
         // Handle both formats: "site/user" and "shared"

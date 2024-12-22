@@ -11,6 +11,7 @@ final class GlobalExtension extends AbstractExtension implements GlobalsInterfac
 {
     public function __construct(
         private readonly string $appName,
+        /** @var array<string, string> */
         private readonly array $appSocial,
         private readonly string $supportPhone,
     ) {

@@ -59,14 +59,21 @@ final class GenerateTranslationCommand extends Command
         foreach ($finder as $file) {
             $filename = $file->getFilename();
             $jsonContent = json_decode($file->getContents(), true);
+            if (!is_array($jsonContent)) {
+                throw new \RuntimeException(sprintf('Invalid JSON content in file %s', $filename));
+            }
 
-            $jsTranslations = $jsonContent['js'] ?? [];
+            $jsTranslations = isset($jsonContent['js']) && is_array($jsonContent['js']) ? $jsonContent['js'] : [];
             if (empty($jsTranslations)) {
                 $io->note(sprintf('No JS translations found in %s', $filename));
                 continue;
             }
 
             $jsContent = json_encode($jsTranslations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            if (!is_string($jsContent)) {
+                throw new \RuntimeException(sprintf('Failed to encode JS translations in file %s', $filename));
+            }
+            
             $this->filesystem->dumpFile($outputPath.'/'.$filename, $jsContent);
 
             $io->note(sprintf('Generated: %s', $filename));

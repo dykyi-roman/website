@@ -22,7 +22,7 @@ final readonly class AppAction
         return $responder->context([
             'page_title' => $translator->trans('app.page_title'),
             'content' => $translator->trans('app.page_context'),
-            'app_current_votes' => $cache->get("app_votes_{$app}") ?? 0,
+            'app_current_votes' => $this->getVotesFromCache($cache, $app),
             'app_total_votes' => 10000,
             'type' => $app,
         ])->respond();
@@ -34,10 +34,22 @@ final readonly class AppAction
         CacheInterface $cache,
         string $app,
     ): AppJsonResponder {
-        $currentVotes = $cache->get("app_votes_{$app}") ?? 0;
+        $currentVotes = $this->getVotesFromCache($cache, $app);
         $newVotes = $currentVotes + 1;
         $cache->set("app_votes_{$app}", $newVotes);
 
         return $responder->success('Ok')->respond();
+    }
+    
+    private function getVotesFromCache(CacheInterface $cache, string $app): int 
+    {
+        $value = $cache->get("app_votes_{$app}");
+        if (is_int($value)) {
+            return $value;
+        }
+        if (is_string($value) && is_numeric($value)) {
+            return (int)$value;
+        }
+        return 0;
     }
 }

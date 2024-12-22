@@ -46,6 +46,7 @@ final readonly class SeoFeedAction
             ->respond();
     }
 
+    /** @return array<int, object> */
     private function getItems(): array
     {
         $user = $this->security->getUser();

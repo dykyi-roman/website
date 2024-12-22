@@ -14,6 +14,7 @@ final readonly class GeoIPLocaleResolver implements LocaleResolverInterface
 
     public function __construct(
         private ProviderInterface $geoIpReader,
+        /** @var array<string, string> */
         private array $countryToLocaleMap,
     ) {
     }

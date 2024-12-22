@@ -33,11 +33,4 @@ abstract class AbstractType extends Type
 
         return static::CLASS_NAME;
     }
-
-    protected function ensureEnum($value): void
-    {
-        if (!$value instanceof \UnitEnum) {
-            throw new \InvalidArgumentException('Provided value is not a valid enum.');
-        }
-    }
 }
