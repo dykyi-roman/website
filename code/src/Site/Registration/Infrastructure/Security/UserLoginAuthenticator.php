@@ -7,6 +7,7 @@ namespace Site\Registration\Infrastructure\Security;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Shared\DomainModel\ValueObject\Email;
 use Site\Registration\DomainModel\Event\UserLoggedInEvent;
+use Site\User\DomainModel\Model\UserInterface;
 use Site\User\DomainModel\Repository\UserRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,7 +58,7 @@ final class UserLoginAuthenticator extends AbstractAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         $user = $token->getUser();
-        if (null === $user) {
+        if (!$user instanceof UserInterface) {
             return null;
         }
 
