@@ -8,6 +8,7 @@ use Shared\DomainModel\Services\NotificationInterface;
 use Shared\DomainModel\ValueObject\Notification;
 use Symfony\Component\Notifier\Notification\Notification as SymfonyNotificationClass;
 use Symfony\Component\Notifier\NotifierInterface;
+use Symfony\Component\Notifier\Recipient\Recipient;
 
 final readonly class NotificationAdapter implements NotificationInterface
 {

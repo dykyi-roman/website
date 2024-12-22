@@ -19,8 +19,8 @@ final class CustomEmailTransport extends AbstractTransport
 
     public function __construct(
         private readonly MailerInterface $mailer,
-        HttpClientInterface $client = null,
-        EventDispatcherInterface $dispatcher = null
+        ?HttpClientInterface $client = null,
+        ?EventDispatcherInterface $dispatcher = null,
     ) {
         parent::__construct($client, $dispatcher);
     }
@@ -42,10 +42,18 @@ final class CustomEmailTransport extends AbstractTransport
         }
 
         $notification = $message->getNotification();
+        if (null === $notification) {
+            throw new \InvalidArgumentException('Notification cannot be null');
+        }
+
+        $recipientId = $message->getRecipientId();
+        if (null === $recipientId) {
+            throw new \InvalidArgumentException('Recipient ID cannot be null');
+        }
 
         $email = (new Email())
             ->from($this->from)
-            ->to($message->getRecipientId())
+            ->to($recipientId)
             ->subject($notification->getSubject())
             ->html($notification->getContent());
 
