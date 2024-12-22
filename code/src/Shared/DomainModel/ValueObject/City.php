@@ -29,6 +29,7 @@ final readonly class City implements \JsonSerializable
         }
     }
 
+    /** @return array{name: string, transcription: string, address: string|null} */
     public function jsonSerialize(): array
     {
         return [

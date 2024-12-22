@@ -23,6 +23,7 @@ final readonly class Country implements \JsonSerializable
         }
     }
 
+    /** @return array{code: string} */
     public function jsonSerialize(): array
     {
         return [

@@ -10,20 +10,11 @@ final readonly class Location implements \JsonSerializable
         public Country $country,
         public ?City $city = null,
     ) {
-        $this->validate();
     }
 
-    private function validate(): void
-    {
-        if (!$this->country instanceof Country) {
-            throw new \InvalidArgumentException('Invalid country object provided');
-        }
-
-        if (null !== $this->city && !$this->city instanceof City) {
-            throw new \InvalidArgumentException('Invalid city object provided');
-        }
-    }
-
+    /** 
+     * @return array{country: array{code: string}, city: array{name: string, transcription: string, address: string|null}|null} 
+     */
     public function jsonSerialize(): array
     {
         return [
