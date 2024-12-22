@@ -20,10 +20,10 @@ final readonly class PasswordResetRateLimiterService
     public function tryPasswordResetEmail(Email $email, callable $emailSendAction): void
     {
         $key = $this->generateCacheKey($email->hash());
-//        if (null === $this->cache->get($key)) {
+        if (null === $this->cache->get($key)) {
             $emailSendAction();
-//            $this->cache->set($key, 1, self::RATE_LIMIT_DURATION);
-//        }
+            $this->cache->set($key, 1, self::RATE_LIMIT_DURATION);
+        }
     }
 
     private function generateCacheKey(string $email): string

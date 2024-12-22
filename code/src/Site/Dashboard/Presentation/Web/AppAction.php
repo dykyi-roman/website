@@ -40,16 +40,17 @@ final readonly class AppAction
 
         return $responder->success('Ok')->respond();
     }
-    
-    private function getVotesFromCache(CacheInterface $cache, string $app): int 
+
+    private function getVotesFromCache(CacheInterface $cache, string $app): int
     {
         $value = $cache->get("app_votes_{$app}");
         if (is_int($value)) {
             return $value;
         }
         if (is_string($value) && is_numeric($value)) {
-            return (int)$value;
+            return (int) $value;
         }
+
         return 0;
     }
 }

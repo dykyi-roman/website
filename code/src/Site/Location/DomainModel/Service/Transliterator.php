@@ -76,6 +76,6 @@ final class Transliterator
         );
 
         // Remove any remaining non-ASCII characters
-        return (string)preg_replace('/[^\x20-\x7E]/u', '', $result);
+        return (string) preg_replace('/[^\x20-\x7E]/u', '', $result);
     }
 }

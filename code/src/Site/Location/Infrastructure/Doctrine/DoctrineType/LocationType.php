@@ -52,9 +52,9 @@ final class LocationType extends Type
             if (!isset($data['city']['transcription']) || !is_string($data['city']['transcription'])) {
                 throw new \InvalidArgumentException('Invalid city transcription');
             }
-            
-            $address = isset($data['city']['address']) ? (string)$data['city']['address'] : null;
-            
+
+            $address = isset($data['city']['address']) ? (string) $data['city']['address'] : null;
+
             $city = new City(
                 name: $data['city']['name'],
                 transcription: $data['city']['transcription'],

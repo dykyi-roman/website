@@ -31,19 +31,19 @@ final class UserRepository implements UserRepositoryInterface
 
     public function findById(UserId $id): ?UserInterface
     {
-        /** @var UserInterface|null */
+        /* @var UserInterface|null */
         return $this->repository->find($id->toRfc4122());
     }
 
     public function findByEmail(Email $email): ?UserInterface
     {
-        /** @var UserInterface|null */
+        /* @var UserInterface|null */
         return $this->repository->findOneBy(['email' => $email]);
     }
 
     public function findByToken(string $token): ?UserInterface
     {
-        /** @var UserInterface|null */
+        /* @var UserInterface|null */
         return $this->repository->findOneBy(['token' => $token]);
     }
 

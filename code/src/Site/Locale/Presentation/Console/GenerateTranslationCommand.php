@@ -73,7 +73,7 @@ final class GenerateTranslationCommand extends Command
             if (!is_string($jsContent)) {
                 throw new \RuntimeException(sprintf('Failed to encode JS translations in file %s', $filename));
             }
-            
+
             $this->filesystem->dumpFile($outputPath.'/'.$filename, $jsContent);
 
             $io->note(sprintf('Generated: %s', $filename));
