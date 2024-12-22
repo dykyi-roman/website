@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\DomainModel\ValueObject;
+namespace Shared\DomainModel\ValueObject;
 
 final readonly class Notification
 {
     public function __construct(
         public string $subject = '',
         public string $content = '',
-        public array $channels = []
+        public array $channels = [],
     ) {
     }
 }

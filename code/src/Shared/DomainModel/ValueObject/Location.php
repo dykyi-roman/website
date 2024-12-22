@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\DomainModel\ValueObject;
-
-use InvalidArgumentException;
+namespace Shared\DomainModel\ValueObject;
 
 final readonly class Location implements \JsonSerializable
 {
@@ -18,11 +16,11 @@ final readonly class Location implements \JsonSerializable
     private function validate(): void
     {
         if (!$this->country instanceof Country) {
-            throw new InvalidArgumentException('Invalid country object provided');
+            throw new \InvalidArgumentException('Invalid country object provided');
         }
 
-        if ($this->city !== null && !$this->city instanceof City) {
-            throw new InvalidArgumentException('Invalid city object provided');
+        if (null !== $this->city && !$this->city instanceof City) {
+            throw new \InvalidArgumentException('Invalid city object provided');
         }
     }
 

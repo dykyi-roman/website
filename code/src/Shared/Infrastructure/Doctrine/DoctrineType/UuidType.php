@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared\Infrastructure\Doctrine\DoctrineType;
+namespace Shared\Infrastructure\Doctrine\DoctrineType;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
@@ -26,6 +26,9 @@ abstract class UuidType extends AbstractType
         }
 
         if ($platform instanceof MySQLPlatform) {
+            if (!is_string($value)) {
+                throw new \InvalidArgumentException('Binary UUID value must be a string');
+            }
             // Convert binary to UUID string
             $uuid = $this->binaryToUuid($value);
 
@@ -43,7 +46,11 @@ abstract class UuidType extends AbstractType
 
         if ($platform instanceof MySQLPlatform) {
             // Convert UUID to binary
-            return $this->uuidToBinary((string) $value);
+            if (!is_object($value) || !method_exists($value, '__toString')) {
+                throw new \InvalidArgumentException('UUID value must be convertible to string');
+            }
+
+            return $this->uuidToBinary($value->__toString());
         }
 
         return $value;
@@ -54,7 +61,12 @@ abstract class UuidType extends AbstractType
         // Remove hyphens and convert to binary
         $uuid = str_replace('-', '', $uuid);
 
-        return hex2bin($uuid);
+        $binary = hex2bin($uuid);
+        if (false === $binary) {
+            throw new \InvalidArgumentException('Invalid UUID hex string');
+        }
+
+        return $binary;
     }
 
     private function binaryToUuid(string $binary): string

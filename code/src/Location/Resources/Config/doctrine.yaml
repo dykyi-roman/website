@@ -1,4 +1,0 @@
-doctrine:
-    dbal:
-        types:
-            location: App\Location\Infrastructure\Doctrine\DoctrineType\LocationType

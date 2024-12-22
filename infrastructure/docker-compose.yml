@@ -94,12 +94,12 @@ services:
         container_name: es-mysql
         profiles: ["mysql"]
         environment:
-            MYSQL_DATABASE: ${MYSQL_CLIENT_DB:-client}
+            MYSQL_DATABASE: ${MYSQL_CLIENT_DB:-app}
             MYSQL_PASSWORD: ${MYSQL_CLIENT_PASSWORD:-!ChangeMe!}
             MYSQL_USER: ${MYSQL_CLIENT_USER:-app}
             MYSQL_ROOT_PASSWORD: ${MYSQL_CLIENT_ROOT_PASSWORD:-!ChangeMe!}
         volumes:
-            - ./data/mysql_client:/var/lib/mysql:rw
+            - ./data/mysql_data:/var/lib/mysql:rw
             - ./containers/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
         ports:
             - "${MYSQL_CLIENT_PORT}:3306"

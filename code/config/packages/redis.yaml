@@ -12,3 +12,21 @@ services:
         arguments:
             - '@redis.client'
             - { prefix: 'session:', ttl: 3600 }
+
+    redis.cache:
+        class: Symfony\Component\Cache\Adapter\RedisAdapter
+        arguments:
+            - '@redis.client'
+            - 'app_cache'
+            - 3600
+
+    redis.cache.simple:
+        class: Symfony\Component\Cache\Psr16Cache
+        arguments:
+            - '@redis.cache'
+
+    Psr\SimpleCache\CacheInterface:
+        class: Symfony\Component\Cache\Psr16Cache
+        arguments:
+            - '@redis.cache'
+        public: true

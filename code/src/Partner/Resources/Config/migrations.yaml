@@ -1,5 +1,0 @@
-migrations_paths:
-    'App\Partner\Resources\Migrations': './src/Partner/Resources/Migrations'
-
-connection: partner
-em: partner

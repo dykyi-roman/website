@@ -1,0 +1,6 @@
+api_routes:
+    resource:
+        path: ../../Presentation/Api
+        namespace: Site\Location\Presentation\Api
+    type: attribute
+    prefix: '/api'

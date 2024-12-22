@@ -49,13 +49,22 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "Framework\\": "src/Framework/",
+            "Orders\\": "src/Orders/",
+            "Services\\": "src/Services/",
+            "Site\\": "src/Site/",
+            "Shared\\": "src/Shared/",
+            "Healthcheck\\": "src/Healthcheck/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\": "src/",
-            "App\\Tests\\": "tests/"
+            "Framework\\": "src/Framework/",
+            "Orders\\": "src/Orders/",
+            "Services\\": "src/Services/",
+            "Site\\": "src/Site/",
+            "Shared\\": "src/Shared/",
+            "Healthcheck\\": "src/Healthcheck/"
         }
     },
     "replace": {

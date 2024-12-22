@@ -24,7 +24,7 @@ when@prod:
         assets:
             version: '%env(APP_VERSION)%'
 
-        error_controller: App\Dashboard\Presentation\Web\ExceptionAction
+        error_controller: Site\Dashboard\Presentation\Web\ExceptionAction
         exceptions:
             Symfony\Component\HttpKernel\Exception\NotFoundHttpException:
                 log_level: error

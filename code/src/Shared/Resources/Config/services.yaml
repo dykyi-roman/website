@@ -13,8 +13,10 @@ services:
         autowire: true
         autoconfigure: true
         public: false
+        bind:
+            $projectDir: '%kernel.project_dir%'
 
-    App\Shared\:
+    Shared\:
         resource: '../../'
         exclude:
             - '../../Resources/'
@@ -22,9 +24,23 @@ services:
             - '../../DomainModel/Model/'
             - '../../Tests/'
 
+    # HTTP Client Logging Middleware
+    Shared\Infrastructure\HttpClient\HttpClientLoggingMiddleware:
+        arguments:
+            $logger: '@logger'
+
     # Define the HTTP client service
     GuzzleHttp\Client:
         class: GuzzleHttp\Client
+        arguments:
+            $config:
+                handler: '@guzzle.handler'
+
+    guzzle.handler:
+        class: GuzzleHttp\HandlerStack
+        factory: ['GuzzleHttp\HandlerStack', 'create']
+        calls:
+            - [push, ['@Shared\Infrastructure\HttpClient\HttpClientLoggingMiddleware']]
 
     Psr\Http\Client\ClientInterface: '@GuzzleHttp\Client'
 
@@ -35,25 +51,25 @@ services:
     Psr\Http\Message\UriFactoryInterface: '@GuzzleHttp\Psr7\HttpFactory'
 
     # Global Assert Validation Error Handler
-    App\Shared\Infrastructure\ErrorHandler\GlobalErrorHandler:
+    Shared\Infrastructure\ErrorHandler\GlobalErrorHandler:
         tags:
             - { name: kernel.event_subscriber }
 
-    App\Shared\Presentation\Responder\JsonResponder:
+    Shared\Presentation\Responder\JsonResponder:
         tags:
             - { name: kernel.event_subscriber }
 
-    App\Shared\Presentation\Responder\HtmlResponder:
+    Shared\Presentation\Responder\HtmlResponder:
         tags:
             - { name: kernel.event_subscriber }
 
-    App\Shared\Infrastructure\Notification\Symfony\Transport\CustomEmailTransport:
+    Shared\Infrastructure\Notification\Symfony\Transport\CustomEmailTransport:
         arguments:
             $mailer: '@mailer.mailer'
 
     custom-email:
-        class: App\Shared\Infrastructure\Notification\Symfony\Channel\CustomEmailChannel
+        class: Shared\Infrastructure\Notification\Symfony\Channel\CustomEmailChannel
         arguments:
-            $transport: '@App\Shared\Infrastructure\Notification\Symfony\Transport\CustomEmailTransport'
+            $transport: '@Shared\Infrastructure\Notification\Symfony\Transport\CustomEmailTransport'
             $from: '%app.name% <%app.mailer.from%>'
         tags: [ 'notifier.channel' ]

@@ -1,0 +1,51 @@
+{% extends '@Dashboard/base.html.twig' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/voting.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <div class="row page-title">
+            <h1 class="text-center mb-5">{{ 'app.page_head'|trans }}</h1>
+        </div>
+        <div class="container">
+            <div class="page-content d-flex justify-content-center">
+                <div class="voting-section w-100">
+                    <div class="text-center mt-4">
+                        <p>{{ 'app.page_context'|trans }}</p>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress w-100" id="votingProgress">
+                            <div class="progress-bar"
+                                 role="progressbar"
+                                 id="progressBar"
+                                 aria-valuenow="{{ app_current_votes }}"
+                                 aria-valuemin="0"
+                                 aria-valuemax="{{ app_total_votes }}">
+                            </div>
+                            <span class="progress-text" id="progressText">{{ app_current_votes|number_format }} {{ ' / ' }} {{ app_total_votes|number_format }}</span>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button id="voteButton"
+                            class="btn btn btn-primary mt-4"
+                            data-app="{{ type }}"
+                            data-total-votes="{{ app_total_votes }}">
+                        {{ 'app.vote_yes'|trans }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/votes.js') }}"></script>
+{% endblock %}

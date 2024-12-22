@@ -1,0 +1,57 @@
+parameters:
+    default_locale: '%env(DEFAULT_LOCALE)%'
+    supported_locales: '%env(json:SUPPORTED_LOCALES)%'
+    country_locale: '%env(json:COUNTRY_LOCALE_MAPPER)%'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $defaultLocale: '%default_locale%'
+            $supportedLocales: '%supported_locales%'
+
+    Site\Locale\:
+        resource: '../../'
+        exclude:
+            - '../../Resources/'
+            - '../../DomainModel/Model/'
+            - '../../Tests/'
+            - '../../**/Tests/'
+        tags: ['controller.service_arguments']
+
+    geoIp2.reader:
+        class: GeoIp2\Database\Reader
+        arguments:
+            - '%kernel.project_dir%/var/GeoLite2-Country.mmdb'
+
+    # Service
+    Site\Locale\DomainModel\Service\LocaleResolver\AcceptLanguageLocaleResolver: ~
+    Site\Locale\DomainModel\Service\LocaleResolver\CookieLocaleResolver: ~
+    Site\Locale\DomainModel\Service\LocaleResolver\GeoIPLocaleResolver:
+        arguments:
+            $geoIpReader: '@geoIp2.reader'
+            $countryToLocaleMap: '%country_locale%'
+
+    Site\Locale\DomainModel\Service\LocaleResolverInterface: '@Site\Locale\DomainModel\Service\ChainLocaleResolver'
+    Site\Locale\DomainModel\Service\ChainLocaleResolver:
+        arguments:
+            $resolvers:
+                - '@Site\Locale\DomainModel\Service\LocaleResolver\QueryParameterLocaleResolver'
+                - '@Site\Locale\DomainModel\Service\LocaleResolver\CookieLocaleResolver'
+                - '@Site\Locale\DomainModel\Service\LocaleResolver\AcceptLanguageLocaleResolver'
+                - '@Site\Locale\DomainModel\Service\LocaleResolver\GeoIPLocaleResolver'
+
+    # EventSubscriber
+    Site\Locale\Infrastructure\Symfony\EventSubscriber\LocaleSubscriber:
+        tags:
+            - { name: kernel.event_subscriber }
+
+    # Twig
+    Site\Locale\Presentation\Web\Twig\LocaleExtension:
+        tags: [ 'twig.extension' ]
+
+twig:
+    paths:
+        '%kernel.project_dir%/src/Site/Locale/Resources/Templates': Locale

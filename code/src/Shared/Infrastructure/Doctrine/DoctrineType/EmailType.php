@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Infrastructure\Doctrine\DoctrineType;
+namespace Shared\Infrastructure\Doctrine\DoctrineType;
 
-use App\Shared\DomainModel\ValueObject\Email;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
+use Shared\DomainModel\ValueObject\Email;
 
 final class EmailType extends Type
 {
@@ -19,20 +19,28 @@ final class EmailType extends Type
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?Email
     {
-        if ($value === null) {
+        if (null === $value) {
             return null;
         }
 
-        return Email::fromString($value);
+        if (!is_scalar($value)) {
+            throw new \InvalidArgumentException('Email value must be a scalar value');
+        }
+
+        return Email::fromString(strval($value));
     }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
-        if ($value === null) {
+        if (null === $value) {
             return null;
         }
 
-        return (string) $value;
+        if (!$value instanceof Email) {
+            throw new \InvalidArgumentException('Value must be an instance of Email');
+        }
+
+        return $value->__toString();
     }
 
     public function getName(): string

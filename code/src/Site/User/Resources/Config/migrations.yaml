@@ -1,0 +1,5 @@
+migrations_paths:
+    'Site\User\Resources\Migrations': './src/Site/User/Resources/Migrations'
+
+connection: site
+em: site

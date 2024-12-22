@@ -118,7 +118,7 @@ status: git status
 
 save: ## git commit
 	git add .; \
-	git commit -am $(filter-out $@,$(MAKECMDGOALS)); \
+	git commit -m "$(filter-out $@,$(MAKECMDGOALS));" \
 
 ## -- Documentation --
 
@@ -146,10 +146,10 @@ assets-copy: ## Compiling and writing asset files to public
 ## -- Database Migrations --
 
 migration-create: ## Create a new migration for specified database
-	docker exec -it $(php) bash -c "php bin/console doctrine:migrations:diff --configuration=src/$(shell echo $(filter-out $@,$(MAKECMDGOALS)) | awk '{print toupper(substr($$0,1,1)) substr($$0,2)}')/Resources/Config/migrations.yaml --no-interaction --em=$(filter-out $@,$(MAKECMDGOALS))"
+	docker exec -it $(php) bash -c "php bin/console app:migrations:create-domain $(filter-out $@,$(MAKECMDGOALS))"
 
-migration-run: ## Run migrations for specified database
-	docker exec -it $(php) bash -c "php bin/console doctrine:migrations:migrate --configuration=src/$(shell echo $(filter-out $@,$(MAKECMDGOALS)) | awk '{print toupper(substr($$0,1,1)) substr($$0,2)}')/Resources/Config/migrations.yaml --no-interaction --em=$(filter-out $@,$(MAKECMDGOALS))"
+migration-run: ## Run migrations for a specific domain (usage: make migration-run domain=site)
+	docker exec -it $(php) bash -c "php bin/console app:migrations:run-domain $(filter-out $@,$(MAKECMDGOALS))"
 
 # This is required to handle arguments in make commands
 %:

@@ -1,0 +1,24 @@
+doctrine:
+    dbal:
+        types:
+            property_group: Site\Profile\Infrastructure\Doctrine\DoctrineType\PropertyGroupType
+            property_type: Site\Profile\Infrastructure\Doctrine\DoctrineType\PropertyTypeType
+            property_name: Site\Profile\Infrastructure\Doctrine\DoctrineType\PropertyNameType
+        connections:
+            site:
+                url: '%env(resolve:DATABASE_SITE_URL)%'
+            services:
+                url: '%env(resolve:DATABASE_SERVICES_URL)%'
+            orders:
+                url: '%env(resolve:DATABASE_ORDERS_URL)%'
+    orm:
+        entity_managers:
+            site:
+                connection: site
+                mappings:
+                    Profile:
+                        type: attribute
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/Site/Profile/DomainModel/Model'
+                        prefix: 'Site\Profile\DomainModel\Model'
+                        alias: Profile

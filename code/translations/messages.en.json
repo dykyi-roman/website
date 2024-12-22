@@ -30,7 +30,7 @@
   "send_forgot_password_button": "Send",
   "letter_sent_success": "Letter sent. Check your email.",
   "forgot_password_error": "Unexpected error during restore password",
-  "copyright_text": " %year% %organization%. All rights reserved.",
+  "copyright_text": "© %year% %organization%. All rights reserved.",
   "meta_description": "%organization% - Find and book professional services. Browse through our wide selection of verified service providers for all your needs.",
   "meta_keywords": "services, booking, professional services, service providers, local services",
   "this_field_is_required": "This field is required",
@@ -51,11 +51,9 @@
   "profile_menu_item": "Profile",
   "forgot_password_email_instructions": "Enter the email address associated with your account, and we'll email you a link to reset your password.",
   "auth_menu_login": "Login",
-  "auth_menu_register": "Register",
-  "register_popup_title": "Register",
+  "auth_menu_register": "Registration",
+  "register_popup_title": "Registration",
   "register_popup_close": "Close",
-  "register_client_type": "Client Type",
-  "register_partner_type": "Partner Type",
   "register_already_have_account": "Already Have Account? Login.",
   "register_name_placeholder": "Name",
   "register_field_required": "Field Required",
@@ -66,13 +64,13 @@
   "register_password_invalid": "Password Invalid",
   "register_country_placeholder": "Country",
   "register_country_invalid": "Country Invalid",
-  "register_client_button": "Create Client Account",
-  "register_partner_button": "Create Partner Account",
+  "register_button": "Create Account",
   "register_terms_agreement": "By registering, you agree to our Terms of Service and Privacy Policy",
   "register_invalid_captcha": "Invalid Captcha",
   "register_or": "or",
-  "register_google_login": "Google Login",
-  "register_facebook_login": "Facebook Login",
+  "register_manual": "Manual",
+  "register_google_login": "Google",
+  "register_facebook_login": "Facebook",
   "login_popup_title": "Login",
   "login_email_placeholder": "Email",
   "login_password_placeholder": "Password",
@@ -97,10 +95,29 @@
   "back_to_dashboard": "Back to Dashboard",
   "page_not_found": "Page Not Found",
   "guest": "guest",
+  "toggle_theme": "Day/Night",
+  "notifications": "Notifications",
+  "unread_notifications": "Unread notifications",
+  "messages": "Messages",
+  "favorites": "Favorites",
+  "unread_messages": "Unread messages",
+  "account_menu": "Menu",
+  "profile_picture": "Profile picture",
+  "get_it_on_google_play": "Download on the Google play",
+  "download_on_app_store": "Download on the Apple store",
+  "profile": {
+    "page_title": "Profile"
+  },
+  "app": {
+    "page_title": "App votes",
+    "page_head": "Your vote is important! Help us create the mobile app of your dreams",
+    "page_context": "We plan to develop a mobile application to make your experience even more convenient and better. Vote now and tell us how important it is to you! Your vote determines the priority of our work and will help us create what you really need.",
+    "vote_yes": "Yes"
+  },
   "careers": {
-      "page_title": "Careers",
-      "content_head": "Build your career with us",
-      "no_open_positions": "There are no open positions"
+    "page_title": "Careers",
+    "content_head": "Build your career with us",
+    "no_open_positions": "There are no open positions"
   },
   "search_examples": {
     "title": "For example:",
@@ -121,6 +138,7 @@
       "us": "United States",
       "es": "Spain"
     },
+    "vote_thanks": "Thanks for your vote!",
     "password_validation": "Invalid password",
     "error_generic_message": "Something went wrong. Our team is working on it. Please try again later.",
     "error_email_required": "Email is required",
@@ -161,7 +179,7 @@
   },
   "terms": {
     "page_title": "Terms of Service",
-    "content": "<p>Welcome to our platform, a comprehensive marketplace connecting clients and service partners.</p><h2>1. Platform Overview</h2><p>Our platform provides a unique ecosystem where:</p><ul><li>Clients can publish diverse advertisements for services they require</li><li>Partners can offer their professional services and respond to client needs</li></ul><h2>2. User Responsibilities</h2><p>All users must:</p><ul><li>Provide accurate and truthful information</li><li>Maintain professional communication</li><li>Respect the platform's guidelines and legal requirements</li></ul><h2>3. Client Responsibilities</h2><p>Clients using the platform to publish advertisements must:</p><ul><li>Clearly describe service requirements</li><li>Provide realistic expectations</li><li>Communicate transparently with potential service partners</li></ul><h2>4. Partner Responsibilities</h2><p>Service partners must:</p><ul><li>Possess necessary qualifications for offered services</li><li>Respond promptly to client inquiries</li><li>Deliver services with professionalism and integrity</li></ul><h2>5. Transaction and Communication</h2><p>The platform facilitates connections but is not directly responsible for:</p><ul><li>Service quality</li><li>Pricing negotiations</li><li>Final agreements between clients and partners</li></ul><h2>6. Intellectual Property and Privacy</h2><p>All content on the platform is protected. Users must respect intellectual property rights and adhere to privacy policies.</p><h2>7. Limitation of Liability</h2><p>Our platform provides a service marketplace and is not liable for direct or indirect damages arising from user interactions.</p><h2>8. Modifications to Terms</h2><p>We reserve the right to update these terms. Continued platform use constitutes acceptance of updated terms.</p><p class='last-updated'>Last Updated: %last_updated_date%</p>"
+    "content": "<p>Welcome to our platform, a comprehensive marketplace connecting orders and services.</p><h2>1. Platform Overview</h2><p>Our platform provides a unique ecosystem where:</p><ul><li>Clients can publish diverse advertisements for services they require</li><li>Partners can offer their professional services and respond to client needs</li></ul><h2>2. User Responsibilities</h2><p>All users must:</p><ul><li>Provide accurate and truthful information</li><li>Maintain professional communication</li><li>Respect the platform's guidelines and legal requirements</li></ul><h2>3. Client Responsibilities</h2><p>Clients using the platform to publish advertisements must:</p><ul><li>Clearly describe service requirements</li><li>Provide realistic expectations</li><li>Communicate transparently with potential service partners</li></ul><h2>4. Partner Responsibilities</h2><p>Service partners must:</p><ul><li>Possess necessary qualifications for offered services</li><li>Respond promptly to client inquiries</li><li>Deliver services with professionalism and integrity</li></ul><h2>5. Transaction and Communication</h2><p>The platform facilitates connections but is not directly responsible for:</p><ul><li>Service quality</li><li>Pricing negotiations</li><li>Final agreements between clients and partners</li></ul><h2>6. Intellectual Property and Privacy</h2><p>All content on the platform is protected. Users must respect intellectual property rights and adhere to privacy policies.</p><h2>7. Limitation of Liability</h2><p>Our platform provides a service marketplace and is not liable for direct or indirect damages arising from user interactions.</p><h2>8. Modifications to Terms</h2><p>We reserve the right to update these terms. Continued platform use constitutes acceptance of updated terms.</p><p class='last-updated'>Last Updated: %last_updated_date%</p>"
   },
   "contact": {
     "page_title": "Contact Us",

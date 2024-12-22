@@ -30,7 +30,7 @@
   "send_forgot_password_button": "Enviar",
   "letter_sent_success": "Correo enviado. Revise su bandeja de entrada.",
   "forgot_password_error": "Error inesperado al restaurar la contraseña",
-  "copyright_text": " %year% %organization%. Todos los derechos reservados.",
+  "copyright_text": "© %year% %organization%. Todos los derechos reservados.",
   "meta_description": "%organization% - Encuentra y reserva servicios profesionales. Explora nuestra amplia selección de proveedores de servicios verificados para todas tus necesidades.",
   "meta_keywords": "servicios, reservas, servicios profesionales, proveedores de servicios, servicios locales",
   "this_field_is_required": "Este campo es obligatorio",

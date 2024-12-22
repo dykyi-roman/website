@@ -1,0 +1,21 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Site\Profile\:
+        resource: '../../'
+        exclude:
+            - '../../Resources/'
+            - '../../Application/**/*{Command,Query}.php'
+            - '../../DomainModel/{Dto,Event,Model,ValueObject}/'
+            - '../../Application/*/{Dto,Event,Model,ValueObject}/'
+            - '../../Tests/'
+        tags: ['controller.service_arguments']
+
+twig:
+    paths:
+        '%kernel.project_dir%/src/Site/Profile/Resources/Templates': Profile

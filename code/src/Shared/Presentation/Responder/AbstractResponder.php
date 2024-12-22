@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Presentation\Responder;
+namespace Shared\Presentation\Responder;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -32,7 +33,8 @@ abstract class AbstractResponder implements EventSubscriberInterface
         $viewEvent->setResponse($this->createResponse($result));
     }
 
+    /** @param array<string> $contentTypes */
     abstract protected function supportsContentType(array $contentTypes): bool;
-    
-    abstract protected function createResponse(ResponderInterface $result): mixed;
+
+    abstract protected function createResponse(ResponderInterface $result): Response;
 }

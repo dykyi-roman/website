@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared\Infrastructure\Notification;
+namespace Shared\Infrastructure\Notification;
 
 use Symfony\Component\Notifier\Exception\InvalidArgumentException;
 
@@ -8,12 +8,10 @@ readonly class Recipient implements EmailRecipientInterface, SmsRecipientInterfa
 {
     public function __construct(
         private string $email = '',
-        private string $phone = ''
+        private string $phone = '',
     ) {
         if ('' === $email && '' === $phone) {
-            throw new InvalidArgumentException(
-                sprintf('"%s" needs an email or a phone but both cannot be empty.', static::class)
-            );
+            throw new InvalidArgumentException(sprintf('"%s" needs an email or a phone but both cannot be empty.', static::class));
         }
     }
 

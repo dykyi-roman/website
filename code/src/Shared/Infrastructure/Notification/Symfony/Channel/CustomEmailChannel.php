@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Infrastructure\Notification\Symfony\Channel;
+namespace Shared\Infrastructure\Notification\Symfony\Channel;
 
 use Symfony\Component\Notifier\Channel\ChannelInterface;
 use Symfony\Component\Notifier\Message\ChatMessage;

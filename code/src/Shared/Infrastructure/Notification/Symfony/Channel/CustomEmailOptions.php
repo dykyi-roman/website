@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Infrastructure\Notification\Symfony\Channel;
+namespace Shared\Infrastructure\Notification\Symfony\Channel;
 
 use Symfony\Component\Notifier\Message\MessageOptionsInterface;
 
 final class CustomEmailOptions implements MessageOptionsInterface
 {
+    /** @var array<string, mixed> */
     private array $options;
 
     public function __construct(string $recipientId = '')
@@ -15,6 +16,7 @@ final class CustomEmailOptions implements MessageOptionsInterface
         $this->options = ['recipientId' => $recipientId];
     }
 
+    /** @return array<string, mixed> */
     public function toArray(): array
     {
         return $this->options;
@@ -32,7 +34,7 @@ final class CustomEmailOptions implements MessageOptionsInterface
         return $this;
     }
 
-    public function getTransport(): ?string
+    public function getTransport(): string
     {
         return 'custom-email';
     }

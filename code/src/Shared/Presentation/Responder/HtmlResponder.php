@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Presentation\Responder;
+namespace Shared\Presentation\Responder;
 
 use Symfony\Component\HttpFoundation\Response;
-use TheSeer\Tokenizer\Exception;
 use Twig\Environment;
 
 final class HtmlResponder extends AbstractResponder
@@ -15,6 +14,7 @@ final class HtmlResponder extends AbstractResponder
     ) {
     }
 
+    /** @param array<string> $contentTypes */
     protected function supportsContentType(array $contentTypes): bool
     {
         return in_array('text/html', $contentTypes, true);

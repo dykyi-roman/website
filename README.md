@@ -8,6 +8,7 @@
 * reCAPTCHA protection against fraud and abuse
 * Password recovery with JWT token
 * Session management with Redis cache
+* Referral registration
 
 ### Localization
 * Multiple locale support
@@ -16,6 +17,9 @@
 
 ### Location
 * Use API service for search city by name
+
+### App
+* Vote page
 
 ### Error Handling
 * User-friendly error pages

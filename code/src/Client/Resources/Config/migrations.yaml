@@ -1,5 +1,0 @@
-migrations_paths:
-    'App\Client\Resources\Migrations': './src/Client/Resources/Migrations'
-
-connection: client
-em: client

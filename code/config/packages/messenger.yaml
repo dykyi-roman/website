@@ -14,5 +14,5 @@ framework:
             sync: 'in-memory://default'
 
         routing:
-            App\Registration\DomainModel\Event\UserLoggedInEvent: sync
-            App\Registration\DomainModel\Event\UserRegisteredEvent: sync
+            Site\Registration\DomainModel\Event\UserLoggedInEvent: sync
+            Site\Registration\DomainModel\Event\UserRegisteredEvent: sync

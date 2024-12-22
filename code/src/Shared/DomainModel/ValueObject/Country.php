@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\DomainModel\ValueObject;
-
-use InvalidArgumentException;
+namespace Shared\DomainModel\ValueObject;
 
 final readonly class Country implements \JsonSerializable
 {
@@ -17,11 +15,11 @@ final readonly class Country implements \JsonSerializable
     private function validate(): void
     {
         if (empty(trim($this->code))) {
-            throw new InvalidArgumentException('Country code cannot be empty');
+            throw new \InvalidArgumentException('Country code cannot be empty');
         }
 
-        if (strlen($this->code) !== 2) {
-            throw new InvalidArgumentException('Country code must be exactly 2 characters long (ISO 3166-1 alpha-2)');
+        if (2 !== strlen($this->code)) {
+            throw new \InvalidArgumentException('Country code must be exactly 2 characters long (ISO 3166-1 alpha-2)');
         }
     }
 

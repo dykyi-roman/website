@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\DomainModel\Services;
+namespace Shared\DomainModel\Services;
 
-use App\Shared\DomainModel\ValueObject\Notification;
-use App\Shared\Infrastructure\Notification\RecipientInterface;
+use Shared\DomainModel\ValueObject\Notification;
+use Shared\Infrastructure\Notification\RecipientInterface;
 
 interface NotificationInterface
 {

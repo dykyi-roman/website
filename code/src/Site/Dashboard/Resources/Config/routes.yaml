@@ -1,0 +1,5 @@
+web_routes:
+    resource:
+        path: ../../Presentation/Web
+        namespace: Site\Dashboard\Presentation\Web
+    type: attribute

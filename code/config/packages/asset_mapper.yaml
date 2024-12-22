@@ -2,10 +2,10 @@ framework:
     asset_mapper:
         # The paths to make available to the asset mapper.
         paths:
-            - src/Locale/Resources/Assets/
-            - src/Location/Resources/Assets/
-            - src/Dashboard/Resources/Assets/
-            - src/Registration/Resources/Assets/
+            - src/Site/Locale/Resources/Assets/
+            - src/Site/Location/Resources/Assets/
+            - src/Site/Dashboard/Resources/Assets/
+            - src/Site/Registration/Resources/Assets/
         missing_import_mode: strict
 
 when@prod:

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Infrastructure\ErrorHandler;
+namespace Shared\Infrastructure\ErrorHandler;
 
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 final readonly class GlobalErrorHandler implements EventSubscriberInterface
@@ -32,6 +32,7 @@ final readonly class GlobalErrorHandler implements EventSubscriberInterface
         $event->setResponse($response);
     }
 
+    /** @param array<string> $contentTypes */
     protected function supportsContentType(array $contentTypes): bool
     {
         return in_array('application/json', $contentTypes, true);

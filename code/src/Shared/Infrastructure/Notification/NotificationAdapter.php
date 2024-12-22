@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Infrastructure\Notification;
+namespace Shared\Infrastructure\Notification;
 
-use App\Shared\DomainModel\Services\NotificationInterface;
-use App\Shared\DomainModel\ValueObject\Notification;
+use Shared\DomainModel\Services\NotificationInterface;
+use Shared\DomainModel\ValueObject\Notification;
 use Symfony\Component\Notifier\Notification\Notification as SymfonyNotificationClass;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;

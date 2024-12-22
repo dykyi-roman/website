@@ -1,6 +1,5 @@
 imports:
-    - { resource: '../../src/Partner/Resources/Config/security.yaml' }
-    - { resource: '../../src/Client/Resources/Config/security.yaml' }
+    - { resource: '../../src/Site/User/Resources/Config/security.yaml' }
 
 security:
     password_hashers:
@@ -9,7 +8,8 @@ security:
     providers:
         all_users:
             chain:
-                providers: ['partner_provider', 'client_provider']
+#                providers: ['site_provider', 'orders_provider', 'services_provider']
+                providers: ['site_provider']
 
     firewalls:
         dev:
@@ -19,7 +19,7 @@ security:
             lazy: true
             provider: all_users
             custom_authenticator:
-                - App\Registration\Infrastructure\Security\UserLoginAuthenticator
+                - Site\Registration\Infrastructure\Security\UserLoginAuthenticator
             logout:
                 path: logout
                 target: dashboard
@@ -35,8 +35,7 @@ security:
         - { path: ^/forgot-password, roles: PUBLIC_ACCESS }
         - { path: ^/reset-password, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: PUBLIC_ACCESS }
-        - { path: ^/partner, roles: ROLE_PARTNER }
-        - { path: ^/client, roles: ROLE_CLIENT }
+        - { path: ^/profile, roles: [ROLE_PARTNER,ROLE_CLIENT] }
 
 when@test:
     security:

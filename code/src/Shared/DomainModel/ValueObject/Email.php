@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\DomainModel\ValueObject;
+namespace Shared\DomainModel\ValueObject;
 
 final readonly class Email implements \Stringable
 {
