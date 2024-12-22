@@ -6,6 +6,7 @@ namespace Site\Location\DomainModel\Service;
 
 final class Transliterator
 {
+    /** @var array<string, string> */
     private static array $map = [
         // Cyrillic (Russian, Ukrainian, etc.)
         'а' => 'a',    'б' => 'b',    'в' => 'v',    'г' => 'g',    'д' => 'd',
@@ -75,6 +76,6 @@ final class Transliterator
         );
 
         // Remove any remaining non-ASCII characters
-        return preg_replace('/[^\x20-\x7E]/u', '', $result);
+        return (string)preg_replace('/[^\x20-\x7E]/u', '', $result);
     }
 }

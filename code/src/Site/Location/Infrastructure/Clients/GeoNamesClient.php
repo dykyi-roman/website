@@ -60,15 +60,23 @@ final readonly class GeoNamesClient implements DictionaryOfCitiesInterface
             }
 
             $data = json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR);
+            if (!is_array($data)) {
+                throw new \JsonException('Invalid JSON structure');
+            }
+
+            $geonames = $data['geonames'] ?? null;
+            if (!is_array($geonames)) {
+                return [];
+            }
 
             return array_map(
-                static fn (array $city): CityDto => new CityDto(
-                    countryCode: $city['countryCode'],
-                    name: $city['name'],
-                    transcription: $city['toponymName'] ?? '',
-                    area: $city['adminName1'] ?? '',
+                static fn (mixed $city): CityDto => new CityDto(
+                    countryCode: is_array($city) && isset($city['countryCode']) ? (string)$city['countryCode'] : '',
+                    name: is_array($city) && isset($city['name']) ? (string)$city['name'] : '',
+                    transcription: is_array($city) && isset($city['toponymName']) ? (string)$city['toponymName'] : '',
+                    area: is_array($city) && isset($city['adminName1']) ? (string)$city['adminName1'] : '',
                 ),
-                $data['geonames'] ?? []
+                $geonames
             );
         } catch (\JsonException $exception) {
             $this->logger->error('Failed to parse GeoNames API response', [
