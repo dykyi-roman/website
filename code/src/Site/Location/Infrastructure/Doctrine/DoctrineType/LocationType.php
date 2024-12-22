@@ -29,17 +29,33 @@ final class LocationType extends Type
         }
 
         $data = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
+        if (!is_array($data)) {
+            throw new \InvalidArgumentException('Invalid JSON data structure');
+        }
+
+        if (!isset($data['country']) || !is_array($data['country']) || !isset($data['country']['code']) || !is_string($data['country']['code'])) {
+            throw new \InvalidArgumentException('Invalid country data structure');
+        }
 
         $country = new Country(
             code: $data['country']['code']
         );
 
         $city = null;
-        if (isset($data['city'])) {
+        if (isset($data['city']) && is_array($data['city'])) {
+            if (!isset($data['city']['name']) || !is_string($data['city']['name'])) {
+                throw new \InvalidArgumentException('Invalid city name');
+            }
+            if (!isset($data['city']['transcription']) || !is_string($data['city']['transcription'])) {
+                throw new \InvalidArgumentException('Invalid city transcription');
+            }
+            
+            $address = isset($data['city']['address']) ? (string)$data['city']['address'] : null;
+            
             $city = new City(
                 name: $data['city']['name'],
                 transcription: $data['city']['transcription'],
-                address: $data['city']['address'] ?? null
+                address: $address
             );
         }
 
