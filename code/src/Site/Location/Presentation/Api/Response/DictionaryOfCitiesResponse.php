@@ -9,7 +9,11 @@ use Shared\Presentation\Responder\ResponderInterface;
 final readonly class DictionaryOfCitiesResponse implements ResponderInterface
 {
     public function __construct(
-        /** @var array<string, array> */
+        /** @var array<string, array{
+         *     name: string,
+         *     transcription: string,
+         *     address: string|null
+         * }> */
         private array $cities,
     ) {
     }

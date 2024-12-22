@@ -28,6 +28,9 @@ final class LocationType extends Type
             return null;
         }
 
+        if (!is_string($value)) {
+            throw new \InvalidArgumentException('Value must be a string');
+        }
         $data = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
         if (!is_array($data)) {
             throw new \InvalidArgumentException('Invalid JSON data structure');
