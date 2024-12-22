@@ -8,7 +8,8 @@ use Shared\Presentation\Responder\TemplateResponderInterface;
 
 final class ContactHtmlResponder implements TemplateResponderInterface
 {
-    private array $data;
+    /** @var array<string, mixed> */
+    private array $data = [];
 
     public function __construct(
         private readonly string $supportEmail,

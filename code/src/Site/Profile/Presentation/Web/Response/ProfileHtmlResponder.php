@@ -6,9 +6,10 @@ namespace Site\Profile\Presentation\Web\Response;
 
 use Shared\Presentation\Responder\TemplateResponderInterface;
 
-final readonly class ProfileHtmlResponder implements TemplateResponderInterface
+final class ProfileHtmlResponder implements TemplateResponderInterface
 {
-    private array $data;
+    /** @var array<string, mixed> */
+    private array $data = [];
 
     public function template(): string
     {

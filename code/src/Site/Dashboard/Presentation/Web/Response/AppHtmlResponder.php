@@ -6,9 +6,10 @@ namespace Site\Dashboard\Presentation\Web\Response;
 
 use Shared\Presentation\Responder\TemplateResponderInterface;
 
-final readonly class AppHtmlResponder implements TemplateResponderInterface
+final class AppHtmlResponder implements TemplateResponderInterface
 {
-    private array $data;
+    /** @var array<string, mixed> */
+    private array $data = [];
 
     public function template(): string
     {

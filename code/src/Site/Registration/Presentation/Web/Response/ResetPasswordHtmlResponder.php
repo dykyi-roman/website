@@ -6,9 +6,10 @@ namespace Site\Registration\Presentation\Web\Response;
 
 use Shared\Presentation\Responder\TemplateResponderInterface;
 
-final readonly class ResetPasswordHtmlResponder implements TemplateResponderInterface
+final class ResetPasswordHtmlResponder implements TemplateResponderInterface
 {
-    private array $data;
+    /** @var array<string, mixed> */
+    private array $data = [];
 
     public function template(): string
     {

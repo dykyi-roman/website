@@ -8,6 +8,7 @@ use Shared\Presentation\Responder\ResponderInterface;
 
 final class ForgotPasswordJsonResponder implements ResponderInterface
 {
+    /** @var array<string, mixed> */
     private array $data = [];
     private int $statusCode = 200;
 

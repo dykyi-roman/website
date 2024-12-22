@@ -6,9 +6,10 @@ namespace Site\Dashboard\Presentation\Web\Response;
 
 use Shared\Presentation\Responder\ResponderInterface;
 
-final readonly class AppJsonResponder implements ResponderInterface
+final class AppJsonResponder implements ResponderInterface
 {
-    private array $data;
+    /** @var array<string, mixed> */
+    private array $data = [];
     private int $statusCode;
 
     /** @return array<string, mixed> */
