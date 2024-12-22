@@ -6,6 +6,9 @@ namespace Shared\DomainModel\ValueObject;
 
 final readonly class Notification
 {
+    /**
+     * @param list<string> $channels
+     */
     public function __construct(
         public string $subject = '',
         public string $content = '',
