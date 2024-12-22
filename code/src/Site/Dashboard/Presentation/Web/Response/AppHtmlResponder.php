@@ -22,6 +22,7 @@ final class AppHtmlResponder implements TemplateResponderInterface
         return $this->data;
     }
 
+    /** @param array<string, mixed> $data */
     public function context(array $data = []): self
     {
         $this->data = $data;

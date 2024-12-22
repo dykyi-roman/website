@@ -11,6 +11,7 @@ final class FeedRssHtmlResponder implements TemplateResponderInterface
     /** @var array<string, mixed> */
     private array $data = [];
 
+    /** @param array<string, mixed> $data */
     public function context(array $data = []): self
     {
         $this->data = $data;

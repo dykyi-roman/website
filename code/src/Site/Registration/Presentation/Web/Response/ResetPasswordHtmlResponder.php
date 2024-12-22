@@ -11,6 +11,14 @@ final class ResetPasswordHtmlResponder implements TemplateResponderInterface
     /** @var array<string, mixed> */
     private array $data = [];
 
+    /** @param array<string, mixed> $data */
+    public function context(array $data = []): self
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
     public function template(): string
     {
         return '@Registration/page/reset-password.html.twig';
@@ -22,10 +30,8 @@ final class ResetPasswordHtmlResponder implements TemplateResponderInterface
         return $this->data;
     }
 
-    public function respond(array $data = []): self
+    public function respond(): self
     {
-        $this->data = $data;
-
         return $this;
     }
 

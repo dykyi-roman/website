@@ -24,8 +24,8 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(type: 'string', length: 100)]
     private string $name;
 
-    #[ORM\Column(type: 'text')]
-    private ?string $avatar;
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $avatar = null;
 
     #[ORM\Column(type: 'email', length: 64)]
     private Email $email;
@@ -39,6 +39,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(type: 'user_status', options: ['default' => UserStatus::ACTIVATED])]
     private UserStatus $status;
 
+    /** @var array<string> */
     #[ORM\Column(type: 'json')]
     private array $roles;
 
@@ -159,6 +160,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         return $this->status;
     }
 
+    /** @return array<string> */
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -184,6 +186,11 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     public function getPhone(): ?string
     {
         return $this->phone;
+    }
+
+    public function setDeletedAt(\DateTimeImmutable $deletedAt): void
+    {
+        $this->deletedAt = $deletedAt;
     }
 
     public function getDeletedAt(): ?\DateTimeImmutable

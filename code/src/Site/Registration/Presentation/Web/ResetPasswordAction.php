@@ -6,6 +6,7 @@ namespace Site\Registration\Presentation\Web;
 
 use Shared\DomainModel\Services\MessageBusInterface;
 use Site\Registration\Application\ResetPassword\Query\ResetPasswordQuery;
+use Site\Registration\Application\ResetPassword\ValueObject\ResetPasswordResponse;
 use Site\Registration\DomainModel\Service\TokenGeneratorInterface;
 use Site\Registration\Presentation\Web\Request\ResetPasswordFormRequestDTO;
 use Site\Registration\Presentation\Web\Request\ResetPasswordRequestDTO;
@@ -41,11 +42,11 @@ final readonly class ResetPasswordAction
             );
         }
 
-        return $responder->respond([
+        return $responder->context([
             'page_title' => $this->translator->trans('reset_password_page_title'),
             'token' => $request->token,
             'isValid' => $this->tokenGenerator->isValid($request->token),
-        ]);
+        ])->respond();
     }
 
     #[Route('/reset-password', name: 'reset-password', methods: ['POST'])]
@@ -53,6 +54,7 @@ final readonly class ResetPasswordAction
         #[MapRequestPayload] ResetPasswordRequestDTO $request,
         ResetPasswordJsonResponder $responder,
     ): ResetPasswordJsonResponder {
+        /** @var ResetPasswordResponse $response */
         $response = $this->queryBus->dispatch(
             new ResetPasswordQuery(
                 $request->password,
