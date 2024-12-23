@@ -26,5 +26,5 @@ interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterf
 
     public function getName(): string;
 
-    public function setToken(string $token): void;
+    public function setPasswordToken(string $token): void;
 }

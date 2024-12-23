@@ -31,7 +31,7 @@ final readonly class ForgotPasswordCommandHandler
 
         try {
             $token = $this->tokenGenerator->generate($user->getId()->toBase32());
-            $user->setToken($token);
+            $user->setPasswordToken($token);
             $this->userRepository->save($user);
 
             $this->passwordResetNotification->send($command->email, $user->getName(), $token);

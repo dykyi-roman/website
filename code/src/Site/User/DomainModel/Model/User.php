@@ -49,8 +49,14 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(type: 'string', length: 255)]
     private string $password;
 
-    #[ORM\Column(type: 'string', length: 1024, nullable: true)]
-    private ?string $token;
+    #[ORM\Column(name: 'password_token', type: 'string', length: 1024, nullable: true)]
+    private ?string $passwordToken = null;
+
+    #[ORM\Column(name: 'facebook_token', type: 'string', length: 1024, nullable: true)]
+    private ?string $facebookToken = null;
+
+    #[ORM\Column(type: 'google_token', length: 1024, nullable: true)]
+    private ?string $googleToken = null;
 
     #[ORM\Column(name: 'deleted_at', type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
@@ -86,7 +92,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
 
     public function clearResetToken(): void
     {
-        $this->token = null;
+        $this->passwordToken = null;
     }
 
     public function getUserIdentifier(): string
@@ -115,9 +121,9 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         $this->password = $password;
     }
 
-    public function setToken(string $token): void
+    public function setPasswordToken(string $passwordToken): void
     {
-        $this->token = $token;
+        $this->passwordToken = $passwordToken;
     }
 
     public function withReferral(string $referral): void
@@ -130,9 +136,9 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         return $this->referral;
     }
 
-    public function getToken(): ?string
+    public function getPasswordToken(): ?string
     {
-        return $this->token;
+        return $this->passwordToken;
     }
 
     public function getId(): UserId
