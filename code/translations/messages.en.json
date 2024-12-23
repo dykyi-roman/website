@@ -68,6 +68,7 @@
   "register_terms_agreement": "By registering, you agree to our Terms of Service and Privacy Policy",
   "register_invalid_captcha": "Invalid Captcha",
   "register_or": "or",
+  "register_current_country": "Your location:",
   "register_manual": "Manual",
   "register_google_login": "Google",
   "register_facebook_login": "Facebook",
@@ -138,7 +139,6 @@
       "us": "United States",
       "es": "Spain"
     },
-    "register_current_country": "Your location:",
     "vote_thanks": "Thanks for your vote!",
     "password_validation": "Invalid password",
     "error_generic_message": "Something went wrong. Our team is working on it. Please try again later.",

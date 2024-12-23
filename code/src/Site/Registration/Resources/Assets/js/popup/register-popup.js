@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             const data = await response.json();
             if (data.country_name && data.country_code) {
                 detectedCountryCode = data.country_code;
-                detectedCountrySpan.textContent = t.register_current_country + ' ' + data.country_name + '?';
+                detectedCountrySpan.textContent = data.country_name + '?';
                 detectedCountrySpan.style.cursor = 'pointer';
             }
         } catch (error) {
