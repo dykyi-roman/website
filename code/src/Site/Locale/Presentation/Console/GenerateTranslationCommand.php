@@ -18,8 +18,8 @@ use Symfony\Component\Finder\Finder;
 )]
 final class GenerateTranslationCommand extends Command
 {
-    private const string TRANSLATIONS_SOURCE_DIR = '/code/translations';
-    private const string JS_TRANSLATIONS_OUTPUT_DIR = '/code/public/translations';
+    private const string TRANSLATIONS_SOURCE_DIR = '/translations';
+    private const string JS_TRANSLATIONS_OUTPUT_DIR = '/public/translations';
 
     public function __construct(
         private readonly Filesystem $filesystem,
