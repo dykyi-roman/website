@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Orders\DomainModel\Service;
 
+use Orders\DomainModel\Enum\OrderType;
+
 interface OrdersInterface
 {
     /**
@@ -27,7 +29,12 @@ interface OrdersInterface
      *     total_pages: int
      * }
      */
-    public function search(string $query, int $page = 1, int $limit = 20): array;
+    public function search(
+        string $query,
+        OrderType $order,
+        int $page,
+        int $limit,
+    ): array;
 
     /**
      * @return array<int, array{

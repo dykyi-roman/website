@@ -78,6 +78,7 @@ final class ServiceSearchAction
     ): JsonResponse {
         $result = $service->search(
             $searchRequest->query,
+            $searchRequest->order(),
             $searchRequest->page,
             $searchRequest->limit,
         );

@@ -4,14 +4,19 @@ declare(strict_types=1);
 
 namespace Services\Infrastructure\ElasticSearch;
 
+use Services\DomainModel\Enum\OrderType;
 use Services\DomainModel\Service\ServicesInterface;
 
 final readonly class MockClient implements ServicesInterface
 {
     private const int COUNT = 25;
 
-    public function search(string $query, int $page = 1, int $limit = 20): array
-    {
+    public function search(
+        string $query,
+        OrderType $order,
+        int $page,
+        int $limit,
+    ): array {
         $items = [];
         for ($i = 0; $i < self::COUNT; ++$i) {
             $items[] = [
@@ -19,7 +24,7 @@ final readonly class MockClient implements ServicesInterface
                 'title' => 'Sample Service Title 1',
                 'description' => 'This is a sample description for the first service offering. This is a sample description for the first service offering. This is a sample description for the first service offering. This is a sample description for the first service offering.',
                 'category' => 'Phone',
-                'url' => '/services/item/'.$i,
+                'url' => '/services/item/' . $i,
                 'feedback_count' => '42',
                 'image_url' => '',
                 'features' => [
@@ -44,7 +49,7 @@ final readonly class MockClient implements ServicesInterface
             'total' => count($items),
             'page' => $page,
             'limit' => $limit,
-            'total_pages' => (int) ceil(count($items) / $limit),
+            'total_pages' => (int)ceil(count($items) / $limit),
         ];
     }
 

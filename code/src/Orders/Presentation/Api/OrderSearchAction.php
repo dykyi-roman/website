@@ -78,6 +78,7 @@ final class OrderSearchAction
     ): JsonResponse {
         $result = $orders->search(
             $searchRequest->query,
+            $searchRequest->order(),
             $searchRequest->page,
             $searchRequest->limit,
         );

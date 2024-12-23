@@ -58,12 +58,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         return {
             query: params.get('query') || '',
             page: parseInt(params.get('page')) || 1,
-            filter: params.get('filter') || ''
+            filter: params.get('filter') || '',
+            order: params.get('order') || ''
         };
     }
 
     // Function to update URL parameters
-    function updateUrlParams(query, page, filter) {
+    function updateUrlParams(query, page, filter, order) {
         const url = new URL(window.location.href);
         if (query) {
             url.searchParams.set('query', query);
@@ -75,6 +76,11 @@ document.addEventListener('DOMContentLoaded', async function() {
             url.searchParams.set('filter', filter);
         } else {
             url.searchParams.delete('filter');
+        }
+        if (order) {
+            url.searchParams.set('order', order);
+        } else {
+            url.searchParams.delete('order');
         }
         window.history.pushState({}, '', url);
     }
@@ -298,28 +304,31 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     // Function to perform services search
-    async function servicesSearch(query, page = 1, filter = '') {
+    async function servicesSearch(query, page = 1, filter = '', order = '') {
         // Update URL parameters
-        updateUrlParams(query, page, filter);
+        updateUrlParams(query, page, filter, order);
 
         // Show spinner
         showSearchSpinner();
 
         // Fetch services from API
-        fetch(`/api/v1/services/search?query=${encodeURIComponent(query)}&page=${page}&limit=${itemsPerPage}&filter=${filter}`, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(async data => {
+        try {
+            const response = await fetch('/api/services/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: query,
+                    page: page,
+                    itemsPerPage: itemsPerPage,
+                    filter: filter,
+                    order: order
+                })
+            });
+
+            const data = await response.json();
+
             // Clear previous results
             servicesContainer.innerHTML = '';
 
@@ -402,44 +411,44 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const paginationElement = renderPagination(data.page, data.total_pages);
                 servicesGrid.parentNode.insertBefore(paginationElement, servicesGrid.nextSibling);
             }
-        })
-        .catch(error => {
+        } catch (error) {
             console.error('Search Error:', error);
             servicesContainer.innerHTML = `
                 <div class="col-12 text-center">
                     <p class="text-danger">${t.error_occurred}</p>
                 </div>
             `;
-        })
-        .finally(() => {
+        } finally {
             // Hide spinner
             hideSearchSpinner();
-        });
+        }
     }
 
     // Function to perform orders search
-    async function ordersSearch(query, page = 1) {
+    async function ordersSearch(query, page = 1, order = '') {
         // Update URL parameters
-        updateUrlParams(query, page, 'orders');
+        updateUrlParams(query, page, 'orders', order);
 
         // Show spinner
         showSearchSpinner();
 
         // Fetch orders from API
-        fetch(`/api/v1/orders/search?query=${encodeURIComponent(query)}&page=${page}&limit=${itemsPerPage}`, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(async data => {
+        try {
+            const response = await fetch('/api/orders/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: query,
+                    page: page,
+                    itemsPerPage: itemsPerPage,
+                    order: order
+                })
+            });
+
+            const data = await response.json();
+
             // Clear previous results
             servicesContainer.innerHTML = '';
 
@@ -522,64 +531,68 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const paginationElement = renderPagination(data.page, data.total_pages);
                 servicesGrid.parentNode.insertBefore(paginationElement, servicesGrid.nextSibling);
             }
-        })
-        .catch(error => {
+        } catch (error) {
             console.error('Search Error:', error);
             servicesContainer.innerHTML = `
                 <div class="col-12 text-center">
                     <p class="text-danger">${t.error_occurred}</p>
                 </div>
             `;
-        })
-        .finally(() => {
+        } finally {
             // Hide spinner
             hideSearchSpinner();
-        });
+        }
     }
 
     if (searchButton && searchInput && servicesContainer) {
         // Check URL parameters immediately on page load
         const params = getUrlParams();
-        if (params.query || params.page > 1 || params.filter) {
+        if (params.query || params.page > 1 || params.filter || params.order) {
             searchInput.value = params.query;
-            if (params.filter === 'orders') {
-                ordersSearch(params.query, params.page);
-            } else {
-                servicesSearch(params.query, params.page, params.filter);
+            if (currentFilter === 'services') {
+                servicesSearch(params.query, params.page, params.filter, params.order);
+            } else if (currentFilter === 'orders') {
+                ordersSearch(params.query, params.page, params.order);
             }
         }
 
         searchButton.addEventListener('click', () => {
-            if (currentFilter === 'orders') {
-                ordersSearch(searchInput.value.trim(), 1);
-            } else {
-                servicesSearch(searchInput.value.trim(), 1, currentFilter);
-            }
-        });
-        
-        // Add enter key support
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                if (currentFilter === 'orders') {
-                    ordersSearch(searchInput.value.trim(), 1);
-                } else {
-                    servicesSearch(searchInput.value.trim(), 1, currentFilter);
-                }
+            const query = searchInput.value.trim();
+            if (currentFilter === 'services') {
+                servicesSearch(query, 1, currentFilter);
+                updateUrlParams(query, 1, currentFilter);
+            } else if (currentFilter === 'orders') {
+                ordersSearch(query, 1);
+                updateUrlParams(query, 1);
             }
         });
 
-        // Handle browser back/forward buttons
-        window.addEventListener('popstate', function() {
-            const params = getUrlParams();
-            searchInput.value = params.query || '';
-            currentFilter = params.filter || '';
-            if (currentFilter === 'orders') {
-                ordersSearch(params.query, params.page);
-            } else {
-                servicesSearch(params.query, params.page, currentFilter);
+        // Add event listener for 'Enter' key
+        searchInput.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                const query = searchInput.value.trim();
+                if (currentFilter === 'services') {
+                    servicesSearch(query, 1, currentFilter);
+                    updateUrlParams(query, 1, currentFilter);
+                } else if (currentFilter === 'orders') {
+                    ordersSearch(query, 1);
+                    updateUrlParams(query, 1);
+                }
             }
         });
     }
+
+    // Handle browser back/forward buttons
+    window.addEventListener('popstate', function() {
+        const params = getUrlParams();
+        searchInput.value = params.query || '';
+        currentFilter = params.filter || '';
+        if (currentFilter === 'orders') {
+            ordersSearch(params.query, params.page, params.order);
+        } else {
+            servicesSearch(params.query, params.page, currentFilter, params.order);
+        }
+    });
 
     // Handle search example clicks
     const searchExamples = document.querySelectorAll('.search-example-link');

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Orders\Infrastructure\ElasticSearch;
 
 use Orders\DomainModel\Service\OrdersInterface;
+use Orders\DomainModel\Enum\OrderType;
 
 final readonly class MockClient implements OrdersInterface
 {
@@ -31,8 +32,12 @@ final readonly class MockClient implements OrdersInterface
      *     total_pages: int
      * }
      */
-    public function search(string $query, int $page = 1, int $limit = 20): array
-    {
+    public function search(
+        string $query,
+        OrderType $order,
+        int $page,
+        int $limit,
+    ): array {
         $items = [];
         for ($i = 0; $i < self::COUNT; ++$i) {
             $items[] = [
@@ -40,7 +45,7 @@ final readonly class MockClient implements OrdersInterface
                 'title' => 'Sample Order Title 1',
                 'description' => 'This is a sample description for the first service offering. This is a sample description for the first service offering. This is a sample description for the first service offering. This is a sample description for the first service offering.',
                 'category' => 'Phone',
-                'url' => '/orders/item/'.$i,
+                'url' => '/orders/item/' . $i,
                 'feedback_count' => '42',
                 'image_url' => '',
                 'features' => [
@@ -65,7 +70,7 @@ final readonly class MockClient implements OrdersInterface
             'total' => count($items),
             'page' => $page,
             'limit' => $limit,
-            'total_pages' => (int) ceil(count($items) / $limit),
+            'total_pages' => (int)ceil(count($items) / $limit),
         ];
     }
 
