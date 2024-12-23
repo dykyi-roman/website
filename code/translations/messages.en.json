@@ -138,6 +138,7 @@
       "us": "United States",
       "es": "Spain"
     },
+    "register_current_country": "Your location:",
     "vote_thanks": "Thanks for your vote!",
     "password_validation": "Invalid password",
     "error_generic_message": "Something went wrong. Our team is working on it. Please try again later.",

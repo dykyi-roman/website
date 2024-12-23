@@ -9,6 +9,23 @@ document.addEventListener('DOMContentLoaded', async function () {
     const popup = document.getElementById('register-popup');
     const registrationTypeSelection = document.getElementById('registration-type-selection');
     const clientForm = document.getElementById('clientRegistrationForm');
+    const detectedCountrySpan = document.getElementById('detected-country');
+
+    // Fetch country data from ipapi.co
+    async function fetchCountryData() {
+        try {
+            const response = await fetch('https://ipapi.co/json/');
+            const data = await response.json();
+            if (data.country_name) {
+                detectedCountrySpan.textContent = t.register_current_country + ' '+ data.country_name + '?';
+            }
+        } catch (error) {
+            console.error('Error fetching country data:', error);
+        }
+    }
+
+    // Fetch country data when the form is shown
+    popup.addEventListener('shown.bs.modal', fetchCountryData);
 
     // Initialize city fields as disabled
     const clientCity = document.getElementById('client-city');

@@ -58,6 +58,9 @@
                             <div class="invalid-feedback">{{ 'register_password_invalid'|trans }}</div>
                         </div>
                         <div class="mb-3">
+                            <div class="d-flex justify-content-end mb-1">
+                                <span id="detected-country" class="text-muted small"></span>
+                            </div>
                             <select class="form-select" id="client-country" name="countryCode" required>
                                 <option value="">{{ 'register_country_placeholder'|trans }}</option>
                                 {% for country in countries %}
