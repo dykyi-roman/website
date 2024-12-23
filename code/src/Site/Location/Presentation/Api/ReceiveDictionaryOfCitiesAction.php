@@ -82,11 +82,20 @@ final readonly class ReceiveDictionaryOfCitiesAction
     public function __invoke(
         #[MapQueryString] DictionaryOfCitiesRequest $request,
     ): DictionaryOfCitiesResponse {
-        $cities = $this->dictionaryOfCities->cityByCountryAndLocale(
+        $citiesDto = $this->dictionaryOfCities->cityByCountryAndLocale(
             $request->countryCode,
             $request->lang,
             $request->city,
         );
+
+        $cities = [];
+        foreach ($citiesDto as $index => $cityDto) {
+            $cities[$index] = [
+                'name' => $cityDto->name,
+                'transcription' => $cityDto->transcription,
+                'address' => $cityDto->area,
+            ];
+        }
 
         return new DictionaryOfCitiesResponse($cities);
     }

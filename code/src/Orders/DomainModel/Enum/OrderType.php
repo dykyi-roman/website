@@ -8,7 +8,7 @@ enum OrderType: string
 {
     case DATE_ASC = 'date_asc';
     case DATE_DESC = 'date_desc';
-    
+
     case PRICE_ASC = 'price_asc';
     case PRICE_DESC = 'price_desc';
 

@@ -24,6 +24,7 @@ final readonly class HttpClientLoggingMiddleware
                 return $handler($request, $options)->then(
                     function (ResponseInterface $response) use ($request) {
                         $this->logResponse($request, $response);
+
                         return $response;
                     }
                 );

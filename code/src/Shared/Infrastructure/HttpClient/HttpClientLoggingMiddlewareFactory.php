@@ -7,7 +7,7 @@ namespace Shared\Infrastructure\HttpClient;
 class HttpClientLoggingMiddlewareFactory
 {
     public function __construct(
-        private HttpClientLoggingMiddleware $middleware
+        private HttpClientLoggingMiddleware $middleware,
     ) {
     }
 

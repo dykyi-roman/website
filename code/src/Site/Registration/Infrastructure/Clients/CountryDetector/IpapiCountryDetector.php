@@ -7,8 +7,8 @@ namespace Site\Registration\Infrastructure\Clients\CountryDetector;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Log\LoggerInterface;
-use Site\Registration\DomainModel\Service\CountryDetectorInterface;
 use Shared\DomainModel\ValueObject\Country;
+use Site\Registration\DomainModel\Service\CountryDetectorInterface;
 
 /** !!! Have a request limits !!! */
 final readonly class IpapiCountryDetector implements CountryDetectorInterface
@@ -30,8 +30,8 @@ final readonly class IpapiCountryDetector implements CountryDetectorInterface
                 return null;
             }
 
-            $data = json_decode((string)$response->getBody(), true);
-            if (!is_array($data) || !isset($data['country_code']) || empty($data['country_code'])) {
+            $data = json_decode((string) $response->getBody(), true);
+            if (!is_array($data) || !isset($data['country_code']) || empty($data['country_code']) || !is_string($data['country_code'])) {
                 return null;
             }
 

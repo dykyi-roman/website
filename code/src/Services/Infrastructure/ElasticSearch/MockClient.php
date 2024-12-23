@@ -24,7 +24,7 @@ final readonly class MockClient implements ServicesInterface
                 'title' => 'Sample Service Title 1',
                 'description' => 'This is a sample description for the first service offering. This is a sample description for the first service offering. This is a sample description for the first service offering. This is a sample description for the first service offering.',
                 'category' => 'Phone',
-                'url' => '/services/item/' . $i,
+                'url' => '/services/item/'.$i,
                 'feedback_count' => '42',
                 'image_url' => '',
                 'features' => [
@@ -49,7 +49,7 @@ final readonly class MockClient implements ServicesInterface
             'total' => count($items),
             'page' => $page,
             'limit' => $limit,
-            'total_pages' => (int)ceil(count($items) / $limit),
+            'total_pages' => (int) ceil(count($items) / $limit),
         ];
     }
 

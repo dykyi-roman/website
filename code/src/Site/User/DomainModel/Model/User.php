@@ -213,4 +213,24 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     {
         return $this->updatedAt;
     }
+
+    public function getFacebookToken(): ?string
+    {
+        return $this->facebookToken;
+    }
+
+    public function setFacebookToken(?string $facebookToken): void
+    {
+        $this->facebookToken = $facebookToken;
+    }
+
+    public function getGoogleToken(): ?string
+    {
+        return $this->googleToken;
+    }
+
+    public function setGoogleToken(?string $googleToken): void
+    {
+        $this->googleToken = $googleToken;
+    }
 }
