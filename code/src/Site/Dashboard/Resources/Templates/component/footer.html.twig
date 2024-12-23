@@ -101,7 +101,7 @@
     "logo": "{{ absolute_url('favicon.svg') }}",
     "contactPoint": {
         "@type": "ContactPoint",
-        "telephone": "{{ organization.phone }}",
+        "telephone": "{{ support.phone }}",
         "contactType": "customer service"
     },
     "sameAs": {{ organization.social_links|json_encode|raw }}

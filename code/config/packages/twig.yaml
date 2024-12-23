@@ -1,6 +1,17 @@
 twig:
     file_name_pattern: '*.twig'
     globals:
+        organization: {
+            "name":"%app.name%",
+            "description": "%app.description%",
+            "social_links": '%app.social%'
+        }
+        support: {
+            "phone": '%app.support_phone%',
+            "email": '%app.support_email%',
+            "address": '%app.support_address%',
+            "map": '%app.support_map%'
+        }
         nocaptcha: '@Anhskohbo\NoCaptcha\NoCaptcha'
         nocaptcha_enabled: '%nocaptcha.enabled%'
 

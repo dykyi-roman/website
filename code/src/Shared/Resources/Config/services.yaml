@@ -1,5 +1,6 @@
 parameters:
     app.name: 'EasyOrder'
+    app.description : 'EasyOrder'
     app.host: '%env(APP_HOST)%'
     app.social: [
         'https://www.facebook.com/easy-order',

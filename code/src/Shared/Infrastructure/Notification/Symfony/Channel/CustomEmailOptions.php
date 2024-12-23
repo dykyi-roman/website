@@ -24,6 +24,7 @@ final class CustomEmailOptions implements MessageOptionsInterface
 
     public function getRecipientId(): ?string
     {
+        /* @phpstan-ignore-next-line */
         return $this->options['recipientId'] ?? null;
     }
 

@@ -6,7 +6,7 @@ namespace Services\DomainModel\Service;
 
 interface ServicesInterface
 {
-    /** 
+    /**
      * @return array{
      *     items: array<int, array{
      *         id: int,
@@ -29,7 +29,7 @@ interface ServicesInterface
      */
     public function search(string $query, int $page = 1, int $limit = 10): array;
 
-    /** 
+    /**
      * @return array<int, array{
      *     id: int,
      *     title: string,

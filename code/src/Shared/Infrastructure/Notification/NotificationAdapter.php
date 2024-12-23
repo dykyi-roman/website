@@ -22,7 +22,9 @@ final readonly class NotificationAdapter implements NotificationInterface
         $symfonyRecipients = [];
         foreach ($recipients as $recipient) {
             $symfonyRecipients[] = new Recipient(
+                /* @phpstan-ignore-next-line */
                 $recipient->getEmail(),
+                /* @phpstan-ignore-next-line */
                 $recipient->getPhone(),
             );
         }

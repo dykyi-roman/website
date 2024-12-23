@@ -44,7 +44,7 @@ final readonly class MockClient implements ServicesInterface
             'total' => count($items),
             'page' => $page,
             'limit' => $limit,
-            'total_pages' => ceil(count($items) / $limit),
+            'total_pages' => (int) ceil(count($items) / $limit),
         ];
     }
 

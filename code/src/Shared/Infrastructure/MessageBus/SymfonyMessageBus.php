@@ -15,14 +15,13 @@ final readonly class SymfonyMessageBus implements MessageBusInterface
     ) {
     }
 
-    public function dispatch(object $message): object
+    public function dispatch(object $message): mixed
     {
         $envelope = $this->messageBus->dispatch($message);
 
         /** @var HandledStamp|null $stamp */
         $stamp = $envelope->last(HandledStamp::class);
 
-        /** @phpstan-ignore-next-line */
         return $stamp?->getResult();
     }
 }

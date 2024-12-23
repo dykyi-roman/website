@@ -10,6 +10,27 @@ final readonly class MockClient implements OrdersInterface
 {
     private const int COUNT = 10;
 
+    /**
+     * @return array{
+     *     items: array<int, array{
+     *         id: int,
+     *         title: string,
+     *         description: string,
+     *         category: string,
+     *         url: string,
+     *         feedback_count: string,
+     *         image_url: string,
+     *         features: array<string>,
+     *         rating: int,
+     *         review_count: int,
+     *         price: string
+     *     }>,
+     *     total: int,
+     *     page: int,
+     *     limit: int,
+     *     total_pages: int
+     * }
+     */
     public function search(string $query, int $page = 1, int $limit = 20): array
     {
         $items = [];
@@ -44,10 +65,25 @@ final readonly class MockClient implements OrdersInterface
             'total' => count($items),
             'page' => $page,
             'limit' => $limit,
-            'total_pages' => ceil(count($items) / $limit),
+            'total_pages' => (int) ceil(count($items) / $limit),
         ];
     }
 
+    /**
+     * @return array<int, array{
+     *     id: int,
+     *     title: string,
+     *     description: string,
+     *     category: string,
+     *     url: string,
+     *     feedback_count: string,
+     *     image_url: string,
+     *     features: array<string>,
+     *     rating: int,
+     *     review_count: int,
+     *     price: string
+     * }>
+     */
     public function last(int $count): array
     {
         return [];

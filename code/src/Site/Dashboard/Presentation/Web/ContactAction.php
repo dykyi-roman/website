@@ -19,8 +19,8 @@ final readonly class ContactAction
             ->context([
                 'page_title' => $translator->trans('contact.page_title'),
                 'content' => $translator->trans('contact.content'),
+                'working_hours' => $translator->trans('contact.business_hours'),
             ])
-            ->contacts($translator->trans('contact.business_hours'))
             ->respond();
     }
 }

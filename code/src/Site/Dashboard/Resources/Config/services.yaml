@@ -8,26 +8,17 @@ services:
         autowire: true
         autoconfigure: true
         public: false
-        bind:
-            $appName: '%app.name%'
-            $appSocial: '%app.social%'
-            #
-            $supportEmail: '%app.support_email%'
-            $supportPhone: '%app.support_phone%'
-            $supportAddress: '%app.support_address%'
-            $supportMap: '%app.support_map%'
 
     Site\Dashboard\:
         resource: '../../'
         exclude:
+            - '../../Application/**/*{Command,Query}.php'
+            - '../../DomainModel/{Dto,Event,Model,ValueObject}/'
+            - '../../Application/*/{Dto,Event,Model,ValueObject}/'
             - '../../Resources/'
             - '../../Tests/'
             - '../../**/Tests/'
         tags: ['controller.service_arguments']
-
-    # Twig
-    Site\Dashboard\Presentation\Web\Twig\GlobalExtension:
-        tags: ['twig.extension']
 
 twig:
     paths:

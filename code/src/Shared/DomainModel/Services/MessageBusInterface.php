@@ -6,5 +6,5 @@ namespace Shared\DomainModel\Services;
 
 interface MessageBusInterface
 {
-    public function dispatch(object $message): object;
+    public function dispatch(object $message): mixed;
 }

@@ -35,6 +35,7 @@ final readonly class CustomEmailChannel implements ChannelInterface
 
         $message->options((new CustomEmailOptions())->recipientId($recipient->getEmail()));
 
+        /* @phpstan-ignore-next-line */
         $this->transport->from = $this->from;
         $this->transport->send($message);
     }

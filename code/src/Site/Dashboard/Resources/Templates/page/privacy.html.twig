@@ -14,7 +14,7 @@
         </div>
         <div class="container">
             <div class="page-content privacy-policy">
-                {{ content|raw }}
+                {{ content|trans({'%app_name%': organization.name, '%support_email%': support.email, '%support_address%': support.address})|raw }}
             </div>
         </div>
     </div>
