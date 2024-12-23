@@ -10,19 +10,38 @@ document.addEventListener('DOMContentLoaded', async function () {
     const registrationTypeSelection = document.getElementById('registration-type-selection');
     const clientForm = document.getElementById('clientRegistrationForm');
     const detectedCountrySpan = document.getElementById('detected-country');
+    const clientCountry = document.getElementById('client-country');
+
+    let detectedCountryCode = ''; // Store detected country code
 
     // Fetch country data from ipapi.co
     async function fetchCountryData() {
         try {
             const response = await fetch('https://ipapi.co/json/');
             const data = await response.json();
-            if (data.country_name) {
-                detectedCountrySpan.textContent = t.register_current_country + ' '+ data.country_name + '?';
+            if (data.country_name && data.country_code) {
+                detectedCountryCode = data.country_code;
+                detectedCountrySpan.textContent = t.register_current_country + ' ' + data.country_name + '?';
+                detectedCountrySpan.style.cursor = 'pointer';
             }
         } catch (error) {
             console.error('Error fetching country data:', error);
         }
     }
+
+    // Handle country selection click
+    detectedCountrySpan.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (detectedCountryCode) {
+            // Find and select the option with matching country code
+            const option = Array.from(clientCountry.options).find(opt => opt.value.toLowerCase() === detectedCountryCode.toLowerCase());
+            if (option) {
+                clientCountry.value = option.value;
+                // Trigger change event to handle any dependent logic
+                clientCountry.dispatchEvent(new Event('change'));
+            }
+        }
+    });
 
     // Fetch country data when the form is shown
     popup.addEventListener('shown.bs.modal', fetchCountryData);
@@ -32,8 +51,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (clientCity) clientCity.disabled = true;
 
     // Add event listeners for country selects
-    const clientCountry = document.getElementById('client-country');
-
     if (clientCountry) {
         clientCountry.addEventListener('change', function() {
             if (clientCity) {
