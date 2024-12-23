@@ -10,6 +10,12 @@
     --primary-orange: #FF6B35;
     --secondary-orange: #F08A4B;
     --error-red: #dc3545;
+    --bg-secondary: #2a2a2a;
+    --bg-hover: #3a3a3a;
+    --text-primary: #ffffff;
+    --text-hover: #ffffff;
+    --border-color: #404040;
+    --text-secondary: #6c757d;
 }
 
 .search-section .input-group {
@@ -325,6 +331,78 @@ select:-moz-placeholder {
 
 .btn-share.active i {
     color: white;
+}
+
+/* Order Dropdown Styles */
+.order-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.order-button {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: var(--text-primary);
+}
+
+.order-button:hover {
+    background: var(--bg-hover);
+}
+
+.order-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    display: none;
+    z-index: 1000;
+    min-width: 160px;
+}
+
+.order-menu.show {
+    display: block;
+}
+
+.order-menu a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+}
+
+.order-menu a i {
+    width: 16px;
+    color: var(--text-secondary);
+}
+
+.order-menu a:hover {
+    background: var(--bg-hover);
+    color: var(--text-hover);
+}
+
+.order-menu a:hover i {
+    color: var(--text-hover);
+}
+
+.order-menu a[data-order="price_desc"],
+.order-menu a[data-order="date_desc"],
+.order-menu a[data-order="rating_desc"] {
+    border-top: 1px solid var(--border-color);
+    margin-top: 4px;
+    padding-top: 12px;
 }
 
 /* Responsive Adjustments */

@@ -43,6 +43,37 @@
                         </button>
                     </div>
                     <div class="view-toggle">
+                        <div class="order-dropdown">
+                            <button class="order-button" id="order-button" title="{{ 'Order'|trans }}">
+                                <i class="fas fa-sort"></i>
+                            </button>
+                            <div class="order-menu" id="order-menu">
+                                <a href="#" data-order="price_asc">
+                                    <i class="fas fa-sort-amount-up-alt"></i>
+                                    {{ 'order.price.asc'|trans }}
+                                </a>
+                                <a href="#" data-order="price_desc">
+                                    <i class="fas fa-sort-amount-down-alt"></i>
+                                    {{ 'order.price.desc'|trans }}
+                                </a>
+                                <a href="#" data-order="date_desc">
+                                    <i class="fas fa-sort-amount-down-alt"></i>
+                                    {{ 'order.date.desc'|trans }}
+                                </a>
+                                <a href="#" data-order="date_asc">
+                                    <i class="fas fa-sort-amount-up-alt"></i>
+                                    {{ 'order.date.asc'|trans }}
+                                </a>
+                                <a href="#" data-order="rating_desc">
+                                    <i class="fas fa-sort-amount-down-alt"></i>
+                                    {{ 'order.rating.desc'|trans }}
+                                </a>
+                                <a href="#" data-order="rating_asc">
+                                    <i class="fas fa-sort-amount-up-alt"></i>
+                                    {{ 'order.rating.asc'|trans }}
+                                </a>
+                            </div>
+                        </div>
                         <button id="list-view-button" title="{{ 'list_view_title'|trans }}">
                             <i class="fas fa-list"></i>
                         </button>

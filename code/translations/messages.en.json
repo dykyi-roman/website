@@ -30,7 +30,7 @@
   "send_forgot_password_button": "Send",
   "letter_sent_success": "Letter sent. Check your email.",
   "forgot_password_error": "Unexpected error during restore password",
-  "copyright_text": "© %year% %organization%. All rights reserved.",
+  "copyright_text": " %year% %organization%. All rights reserved.",
   "meta_description": "%organization% - Find and book professional services. Browse through our wide selection of verified service providers for all your needs.",
   "meta_keywords": "services, booking, professional services, service providers, local services",
   "this_field_is_required": "This field is required",
@@ -49,6 +49,20 @@
   "list_view_title": "List View",
   "grid_view_title": "Grid View",
   "profile_menu_item": "Profile",
+  "order": {
+    "price": {
+      "asc": "Price: Low to High",
+      "desc": "Price: High to Low"
+    },
+    "date": {
+      "desc": "Date: Newest First",
+      "asc": "Date: Oldest First"
+    },
+    "rating": {
+      "desc": "Rating: Highest First",
+      "asc": "Rating: Lowest First"
+    }
+  },
   "forgot_password_email_instructions": "Enter the email address associated with your account, and we'll email you a link to reset your password.",
   "auth_menu_login": "Login",
   "auth_menu_register": "Registration",
