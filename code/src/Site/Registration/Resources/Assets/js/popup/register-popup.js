@@ -9,47 +9,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const popup = document.getElementById('register-popup');
     const registrationTypeSelection = document.getElementById('registration-type-selection');
     const clientForm = document.getElementById('clientRegistrationForm');
-    const detectedCountrySpan = document.getElementById('detected-country');
-    const countryDetectElement = document.querySelector('.country-detect');
     const clientCountry = document.getElementById('client-country');
-
-    let detectedCountryCode = ''; // Store detected country code
-
-    // Fetch country data from ipapi.co
-    async function fetchCountryData() {
-        try {
-            const response = await fetch(window.apiapiHost);
-            const data = await response.json();
-            if (data.country_name && data.country_code) {
-                detectedCountryCode = data.country_code;
-                detectedCountrySpan.textContent = data.country_name + '?';
-                detectedCountrySpan.style.cursor = 'pointer';
-                countryDetectElement.style.display = 'block';
-            } else {
-                countryDetectElement.style.display = 'none';
-            }
-        } catch (error) {
-            console.error('Error fetching country data:', error);
-            countryDetectElement.style.display = 'none';
-        }
-    }
-
-    // Handle country selection click
-    detectedCountrySpan.addEventListener('click', function(e) {
-        e.preventDefault();
-        if (detectedCountryCode) {
-            // Find and select the option with matching country code
-            const option = Array.from(clientCountry.options).find(opt => opt.value.toLowerCase() === detectedCountryCode.toLowerCase());
-            if (option) {
-                clientCountry.value = option.value;
-                // Trigger change event to handle any dependent logic
-                clientCountry.dispatchEvent(new Event('change'));
-            }
-        }
-    });
-
-    // Fetch country data when the form is shown
-    popup.addEventListener('shown.bs.modal', fetchCountryData);
 
     // Initialize city fields as disabled
     const clientCity = document.getElementById('client-city');
