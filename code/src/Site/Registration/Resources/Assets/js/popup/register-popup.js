@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const registrationTypeSelection = document.getElementById('registration-type-selection');
     const clientForm = document.getElementById('clientRegistrationForm');
     const detectedCountrySpan = document.getElementById('detected-country');
+    const countryDetectElement = document.querySelector('.country-detect');
     const clientCountry = document.getElementById('client-country');
 
     let detectedCountryCode = ''; // Store detected country code
@@ -17,15 +18,19 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Fetch country data from ipapi.co
     async function fetchCountryData() {
         try {
-            const response = await fetch('https://ipapi.co/json/');
+            const response = await fetch(window.apiapiHost);
             const data = await response.json();
             if (data.country_name && data.country_code) {
                 detectedCountryCode = data.country_code;
                 detectedCountrySpan.textContent = data.country_name + '?';
                 detectedCountrySpan.style.cursor = 'pointer';
+                countryDetectElement.style.display = 'block';
+            } else {
+                countryDetectElement.style.display = 'none';
             }
         } catch (error) {
             console.error('Error fetching country data:', error);
+            countryDetectElement.style.display = 'none';
         }
     }
 

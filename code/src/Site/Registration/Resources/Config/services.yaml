@@ -1,4 +1,5 @@
 parameters:
+    apiapi_host: '%env(APIAPI_HOST)%'
     supported_countries: '%env(json:SUPPORTED_COUNTRIES)%'
     password_secret_key: '%env(PASSWORD_SECRET_KEY)%'
 services:
@@ -10,6 +11,7 @@ services:
             $passwordSecretKey: '%password_secret_key%'
             $supportedCountries: '%supported_countries%'
             $noCaptchaEnabled: '%nocaptcha.enabled%'
+            $apiapiHost: '%apiapi_host%'
 
     Site\Registration\:
         resource: '../../'

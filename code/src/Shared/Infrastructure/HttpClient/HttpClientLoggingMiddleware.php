@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Shared\Infrastructure\HttpClient;
 
-use GuzzleHttp\Middleware;
-use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -19,18 +17,18 @@ final readonly class HttpClientLoggingMiddleware
 
     public function __invoke(): callable
     {
-        return Middleware::tap(
-            function (RequestInterface $request) {
+        return function (callable $handler) {
+            return function (RequestInterface $request, array $options) use ($handler) {
                 $this->logRequest($request);
-            },
-            function (RequestInterface $request, array $options, PromiseInterface $response) {
-                $response->then(
+
+                return $handler($request, $options)->then(
                     function (ResponseInterface $response) use ($request) {
                         $this->logResponse($request, $response);
+                        return $response;
                     }
                 );
-            }
-        );
+            };
+        };
     }
 
     private function logRequest(RequestInterface $request): void
