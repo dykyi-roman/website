@@ -312,7 +312,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         showSearchSpinner();
 
         // Fetch services from API
-        fetch(`/api/v1/services/search?query=${encodeURIComponent(query)}&page=${page}&limit=${itemsPerPage}&filter=${filter}`, {
+        fetch(`/api/v1/services/search?query=${encodeURIComponent(query)}&page=${page}&limit=${itemsPerPage}&order=${order}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -432,7 +432,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         showSearchSpinner();
 
         // Fetch orders from API
-        fetch(`/api/v1/orders/search?query=${encodeURIComponent(query)}&page=${page}&limit=${itemsPerPage}`, {
+        fetch(`/api/v1/orders/search?query=${encodeURIComponent(query)}&order=${order}&page=${page}&limit=${itemsPerPage}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
