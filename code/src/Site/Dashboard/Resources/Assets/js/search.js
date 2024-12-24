@@ -312,40 +312,37 @@ document.addEventListener('DOMContentLoaded', async function() {
         showSearchSpinner();
 
         // Fetch services from API
-        try {
-            const response = await fetch('/api/services/search', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    query: query,
-                    page: page,
-                    itemsPerPage: itemsPerPage,
-                    filter: filter,
-                    order: order
-                })
-            });
+        fetch(`/api/v1/services/search?query=${encodeURIComponent(query)}&page=${page}&limit=${itemsPerPage}&filter=${filter}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(async data => {
+                // Clear previous results
+                servicesContainer.innerHTML = '';
 
-            const data = await response.json();
-
-            // Clear previous results
-            servicesContainer.innerHTML = '';
-
-            // Check if services exist
-            if (!data.items || data.items.length === 0) {
-                servicesContainer.innerHTML = `
+                // Check if services exist
+                if (!data.items || data.items.length === 0) {
+                    servicesContainer.innerHTML = `
                     <div class="col-12 text-center">
                         <p class="text-muted">${t.no_services_found}</p>
                     </div>
                 `;
-                return;
-            }
+                    return;
+                }
 
-            // Populate services
-            data.items.forEach(service => {
-                const {filledStars, emptyStars} = renderStarRating(service.rating);
-                const serviceCard = `
+                // Populate services
+                data.items.forEach(service => {
+                    const {filledStars, emptyStars} = renderStarRating(service.rating);
+                    const serviceCard = `
                     <div class="col-6 col-md-6 col-lg-3 item-item">
                         <div class="card item-card h-100">
                             <div class="card-body">
@@ -377,8 +374,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                                     <!-- Features and Price -->
                                     <div class="item-footer">
                                         ${window.appUser === 'true'
-                                            ? ''
-                                            : '<button class="btn-favorite" title="Add to favorite" data-item-id="" data-action="register"><i class="far fa-heart"></i></button>'}
+                        ? ''
+                        : '<button class="btn-favorite" title="Add to favorite" data-item-id="" data-action="register"><i class="far fa-heart"></i></button>'}
                                         <div class="item-features mb-3">
                                             ${renderFeatures(service.features)}
                                         </div>
@@ -397,31 +394,33 @@ document.addEventListener('DOMContentLoaded', async function() {
                         </div>
                     </div>
                 `;
-                servicesContainer.insertAdjacentHTML('beforeend', serviceCard);
-            });
+                    servicesContainer.insertAdjacentHTML('beforeend', serviceCard);
+                });
 
-            // Remove any existing pagination
-            const existingPaginationContainer = servicesGrid.parentNode.querySelector('.pagination-container');
-            if (existingPaginationContainer) {
-                existingPaginationContainer.remove();
-            }
+                // Remove any existing pagination
+                const existingPaginationContainer = servicesGrid.parentNode.querySelector('.pagination-container');
+                if (existingPaginationContainer) {
+                    existingPaginationContainer.remove();
+                }
 
-            // Add pagination after the services grid if there are multiple pages
-            if (data.total_pages > 1) {
-                const paginationElement = renderPagination(data.page, data.total_pages);
-                servicesGrid.parentNode.insertBefore(paginationElement, servicesGrid.nextSibling);
-            }
-        } catch (error) {
-            console.error('Search Error:', error);
-            servicesContainer.innerHTML = `
+                // Add pagination after the services grid if there are multiple pages
+                if (data.total_pages > 1) {
+                    const paginationElement = renderPagination(data.page, data.total_pages);
+                    servicesGrid.parentNode.insertBefore(paginationElement, servicesGrid.nextSibling);
+                }
+            })
+            .catch(error => {
+                console.error('Search Error:', error);
+                servicesContainer.innerHTML = `
                 <div class="col-12 text-center">
                     <p class="text-danger">${t.error_occurred}</p>
                 </div>
             `;
-        } finally {
-            // Hide spinner
-            hideSearchSpinner();
-        }
+            })
+            .finally(() => {
+                // Hide spinner
+                hideSearchSpinner();
+            });
     }
 
     // Function to perform orders search
@@ -433,39 +432,37 @@ document.addEventListener('DOMContentLoaded', async function() {
         showSearchSpinner();
 
         // Fetch orders from API
-        try {
-            const response = await fetch('/api/orders/search', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    query: query,
-                    page: page,
-                    itemsPerPage: itemsPerPage,
-                    order: order
-                })
-            });
+        fetch(`/api/v1/orders/search?query=${encodeURIComponent(query)}&page=${page}&limit=${itemsPerPage}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(async data => {
+                // Clear previous results
+                servicesContainer.innerHTML = '';
 
-            const data = await response.json();
-
-            // Clear previous results
-            servicesContainer.innerHTML = '';
-
-            // Check if orders exist
-            if (!data.items || data.items.length === 0) {
-                servicesContainer.innerHTML = `
+                // Check if orders exist
+                if (!data.items || data.items.length === 0) {
+                    servicesContainer.innerHTML = `
                     <div class="col-12 text-center">
                         <p class="text-muted">${t.no_orders_found}</p>
                     </div>
                 `;
-                return;
-            }
+                    return;
+                }
 
-            // Populate orders
-            data.items.forEach(service => {
-                const {filledStars, emptyStars} = renderStarRating(service.rating);
-                const serviceCard = `
+                // Populate orders
+                data.items.forEach(service => {
+                    const {filledStars, emptyStars} = renderStarRating(service.rating);
+                    const serviceCard = `
                     <div class="col-6 col-md-6 col-lg-3 item-item">
                         <div class="card item-card h-100">
                             <div class="card-body">
@@ -497,8 +494,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                                     <!-- Features and Price -->
                                     <div class="item-footer">
                                         ${window.appUser === 'true'
-                                        ? ''
-                                        : '<button class="btn-favorite" title="Add to favorite" data-item-id="" data-action="register"><i class="far fa-heart"></i></button>'}
+                        ? ''
+                        : '<button class="btn-favorite" title="Add to favorite" data-item-id="" data-action="register"><i class="far fa-heart"></i></button>'}
                                         <div class="item-features mb-3">
                                             ${renderFeatures(service.features)}
                                         </div>
@@ -517,31 +514,33 @@ document.addEventListener('DOMContentLoaded', async function() {
                         </div>
                     </div>
                 `;
-                servicesContainer.insertAdjacentHTML('beforeend', serviceCard);
-            });
+                    servicesContainer.insertAdjacentHTML('beforeend', serviceCard);
+                });
 
-            // Remove any existing pagination
-            const existingPaginationContainer = servicesGrid.parentNode.querySelector('.pagination-container');
-            if (existingPaginationContainer) {
-                existingPaginationContainer.remove();
-            }
+                // Remove any existing pagination
+                const existingPaginationContainer = servicesGrid.parentNode.querySelector('.pagination-container');
+                if (existingPaginationContainer) {
+                    existingPaginationContainer.remove();
+                }
 
-            // Add pagination after the orders grid if there are multiple pages
-            if (data.total_pages > 1) {
-                const paginationElement = renderPagination(data.page, data.total_pages);
-                servicesGrid.parentNode.insertBefore(paginationElement, servicesGrid.nextSibling);
-            }
-        } catch (error) {
-            console.error('Search Error:', error);
-            servicesContainer.innerHTML = `
+                // Add pagination after the orders grid if there are multiple pages
+                if (data.total_pages > 1) {
+                    const paginationElement = renderPagination(data.page, data.total_pages);
+                    servicesGrid.parentNode.insertBefore(paginationElement, servicesGrid.nextSibling);
+                }
+            })
+            .catch(error => {
+                console.error('Search Error:', error);
+                servicesContainer.innerHTML = `
                 <div class="col-12 text-center">
                     <p class="text-danger">${t.error_occurred}</p>
                 </div>
             `;
-        } finally {
-            // Hide spinner
-            hideSearchSpinner();
-        }
+            })
+            .finally(() => {
+                // Hide spinner
+                hideSearchSpinner();
+            });
     }
 
     if (searchButton && searchInput && servicesContainer) {
