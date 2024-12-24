@@ -28,6 +28,13 @@ security:
                 lifetime: 2592000 # 30 days
                 path: /
                 always_remember_me: true
+            oauth:
+                resource_owners:
+                    facebook: '/connect/facebook/check'
+                login_path: '/connect/facebook'
+                failure_path: '/login'
+                oauth_user_provider:
+                    service: Site\Registration\Infrastructure\Security\OAuthUserProvider
 
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
