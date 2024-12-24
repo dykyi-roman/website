@@ -52,7 +52,7 @@ final class FacebookAuthenticator extends OAuth2Authenticator implements Authent
         return new RedirectResponse($this->router->generate('dashboard'));
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
         $message = strtr($exception->getMessageKey(), $exception->getMessageData());
 
