@@ -6,7 +6,6 @@ namespace Site\Registration\Infrastructure\Security;
 
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
-use League\OAuth2\Client\Provider\FacebookUser;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +17,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 
-final class FacebookAuthenticator extends OAuth2Authenticator implements AuthenticationEntryPointInterface
+final class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationEntryPointInterface
 {
     public function __construct(
         private readonly ClientRegistry $clientRegistry,
@@ -29,20 +28,20 @@ final class FacebookAuthenticator extends OAuth2Authenticator implements Authent
 
     public function supports(Request $request): ?bool
     {
-        return $request->attributes->get('_route') === 'connect_facebook_check';
+        return $request->attributes->get('_route') === 'connect_google_check';
     }
 
     public function authenticate(Request $request): Passport
     {
-        $client = $this->clientRegistry->getClient('facebook');
+        $client = $this->clientRegistry->getClient('google');
         $accessToken = $this->fetchAccessToken($client);
 
         return new SelfValidatingPassport(
             new UserBadge($accessToken->getToken(), function() use ($accessToken, $client) {
-                /** @var FacebookUser $facebookUser */
-                $facebookUser = $client->fetchUserFromToken($accessToken);
+                /** @var \League\OAuth2\Client\Provider\GoogleUser $googleUser */
+                $googleUser = $client->fetchUserFromToken($accessToken);
                 
-                return $this->userProvider->loadUserByOAuth2UserFacebook($facebookUser);
+                return $this->userProvider->loadUserByOAuth2UserGoogle($googleUser);
             })
         );
     }
@@ -62,7 +61,7 @@ final class FacebookAuthenticator extends OAuth2Authenticator implements Authent
     public function start(Request $request, AuthenticationException $authException = null): Response
     {
         return new RedirectResponse(
-            $this->router->generate('connect_facebook_start'),
+            $this->router->generate('connect_google_start'),
             Response::HTTP_TEMPORARY_REDIRECT
         );
     }

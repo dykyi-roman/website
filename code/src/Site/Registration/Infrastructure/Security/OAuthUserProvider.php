@@ -7,6 +7,7 @@ namespace Site\Registration\Infrastructure\Security;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\User\OAuthUser;
 use League\OAuth2\Client\Provider\FacebookUser;
+use League\OAuth2\Client\Provider\GoogleUser;
 use Shared\DomainModel\ValueObject\Country;
 use Shared\DomainModel\ValueObject\Email;
 use Shared\DomainModel\ValueObject\Location;
@@ -40,7 +41,30 @@ final readonly class OAuthUserProvider implements UserProviderInterface
         );
     }
 
-    public function loadUserByOAuth2User(FacebookUser $oauthUser): UserRepositoryInterface
+    public function loadUserByOAuth2UserGoogle(GoogleUser $oauthUser): UserRepositoryInterface
+    {
+        $facebookId = $oauthUser->getId();
+        $name = $oauthUser->getName() ?? 'Anonymous';
+        $email = $oauthUser->getEmail();
+
+        $user = $this->userRepository->findByToken('googleToken', $facebookId);
+        if (!$user) {
+            $user = new User(
+                new UserId(),
+                $name,
+                Email::fromString($email),
+                new Location(
+                    new Country('UA'),
+                ),
+            );
+            $user->setFacebookToken($facebookId);
+            $this->userRepository->save($user);
+        }
+
+        return $user;
+    }
+
+    public function loadUserByOAuth2UserFacebook(FacebookUser $oauthUser): UserRepositoryInterface
     {
         $facebookId = $oauthUser->getId();
         $name = $oauthUser->getName() ?? 'Anonymous';

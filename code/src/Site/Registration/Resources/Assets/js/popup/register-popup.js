@@ -436,6 +436,31 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     }
 
+    // Add event listener for Google registration button
+    const registerGoogleBtn = document.querySelector('.register-google');
+    if (registerGoogleBtn) {
+        registerGoogleBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const width = 600;
+            const height = 600;
+            const left = (window.innerWidth - width) / 2;
+            const top = (window.innerHeight - height) / 2;
+            
+            // Open Google OAuth popup
+            const googleAuthWindow = window.open('/connect/google', 'Google Registration', 
+                `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`);
+
+            // Close the registration modal
+            registerModal.hide();
+
+            // Focus on the popup window
+            if (googleAuthWindow) {
+                googleAuthWindow.focus();
+            }
+        });
+    }
+
     // Switch to login popup
     const switchToLoginLink = document.getElementById('switch-to-login');
     if (switchToLoginLink) {
