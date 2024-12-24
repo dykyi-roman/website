@@ -20,6 +20,7 @@ security:
             provider: all_users
             custom_authenticator:
                 - Site\Registration\Infrastructure\Security\UserLoginAuthenticator
+                - Site\Registration\Infrastructure\Security\FacebookAuthenticator
             logout:
                 path: logout
                 target: dashboard
@@ -28,19 +29,13 @@ security:
                 lifetime: 2592000 # 30 days
                 path: /
                 always_remember_me: true
-            oauth:
-                resource_owners:
-                    facebook: '/connect/facebook/check'
-                login_path: '/connect/facebook'
-                failure_path: '/login'
-                oauth_user_provider:
-                    service: Site\Registration\Infrastructure\Security\OAuthUserProvider
 
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/forgot-password, roles: PUBLIC_ACCESS }
         - { path: ^/reset-password, roles: PUBLIC_ACCESS }
+        - { path: ^/connect, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: PUBLIC_ACCESS }
         - { path: ^/profile, roles: [ROLE_PARTNER,ROLE_CLIENT] }
 

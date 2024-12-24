@@ -1,6 +1,0 @@
-connect_facebook_start:
-  path: /connect/facebook
-  controller: Site\Registration\Presentation\Web::connect
-
-connect_facebook_check:
-  path: /connect/facebook/check
