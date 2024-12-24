@@ -243,6 +243,56 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     });
 
+    // Social login buttons
+    const loginGoogleBtn = document.getElementById('loginWithGoogleBtn');
+    const loginFacebookBtn = document.getElementById('loginWithFacebookBtn');
+
+    // Google Login
+    if (loginGoogleBtn) {
+        loginGoogleBtn.addEventListener('click', async function(e) {
+            e.preventDefault();
+            try {
+                const response = await fetch('/auth/google/login', {
+                    method: 'GET',
+                    credentials: 'same-origin'
+                });
+
+                if (response.ok) {
+                    window.location.href = response.url;
+                } else {
+                    const errorData = await response.json();
+                    showErrorMessage(errorData.message || t.error_social_login);
+                }
+            } catch (error) {
+                console.error('Google Login Error:', error);
+                showErrorMessage(t.error_social_login);
+            }
+        });
+    }
+
+    // Facebook Login
+    if (loginFacebookBtn) {
+        loginFacebookBtn.addEventListener('click', async function(e) {
+            e.preventDefault();
+            try {
+                const response = await fetch('/auth/facebook/login', {
+                    method: 'GET',
+                    credentials: 'same-origin'
+                });
+
+                if (response.ok) {
+                    window.location.href = response.url;
+                } else {
+                    const errorData = await response.json();
+                    showErrorMessage(errorData.message || t.error_social_login);
+                }
+            } catch (error) {
+                console.error('Facebook Login Error:', error);
+                showErrorMessage(t.error_social_login);
+            }
+        });
+    }
+
     // Modal events
     loginModal.addEventListener('hidden.bs.modal', function () {
         loginForm.reset();

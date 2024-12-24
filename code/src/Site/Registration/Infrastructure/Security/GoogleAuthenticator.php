@@ -22,13 +22,13 @@ final class GoogleAuthenticator extends OAuth2Authenticator implements Authentic
     public function __construct(
         private readonly ClientRegistry $clientRegistry,
         private readonly RouterInterface $router,
-        private readonly OAuthUserProvider $userProvider
+        private readonly OAuthUserProvider $userProvider,
     ) {
     }
 
-    public function supports(Request $request): ?bool
+    public function supports(Request $request): bool
     {
-        return $request->attributes->get('_route') === 'connect_google_check';
+        return 'connect_google_check' === $request->attributes->get('_route');
     }
 
     public function authenticate(Request $request): Passport
@@ -37,28 +37,28 @@ final class GoogleAuthenticator extends OAuth2Authenticator implements Authentic
         $accessToken = $this->fetchAccessToken($client);
 
         return new SelfValidatingPassport(
-            new UserBadge($accessToken->getToken(), function() use ($accessToken, $client) {
+            new UserBadge($accessToken->getToken(), function () use ($accessToken, $client) {
                 /** @var \League\OAuth2\Client\Provider\GoogleUser $googleUser */
                 $googleUser = $client->fetchUserFromToken($accessToken);
-                
+
                 return $this->userProvider->loadUserByOAuth2UserGoogle($googleUser);
             })
         );
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): Response
     {
         return new RedirectResponse($this->router->generate('dashboard'));
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
         $message = strtr($exception->getMessageKey(), $exception->getMessageData());
 
         return new Response($message, Response::HTTP_FORBIDDEN);
     }
 
-    public function start(Request $request, AuthenticationException $authException = null): Response
+    public function start(Request $request, ?AuthenticationException $authException = null): Response
     {
         return new RedirectResponse(
             $this->router->generate('connect_google_start'),
