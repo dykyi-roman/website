@@ -406,10 +406,33 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (registerFacebookBtn) {
         registerFacebookBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            // Close the modal before redirecting
+            
+            const width = 600;
+            const height = 600;
+            const left = (window.innerWidth - width) / 2;
+            const top = (window.innerHeight - height) / 2;
+            
+            const popup = window.open('/connect/facebook', 'facebook_login', 
+                `width=${width},height=${height},left=${left},top=${top},` +
+                'toolbar=no,menubar=no,scrollbars=yes,status=no,location=no'
+            );
+            
+            // Check if popup was blocked
+            if (!popup || popup.closed || typeof popup.closed == 'undefined') {
+                alert('Please enable popups for this site to use Facebook login');
+                return;
+            }
+            
+            // Close the registration modal
             registerModal.hide();
-            // Redirect to Facebook OAuth endpoint
-            window.location.href = '/connect/facebook';
+            
+            // Handle popup window close
+            const checkPopup = setInterval(() => {
+                if (popup.closed) {
+                    clearInterval(checkPopup);
+                    // You can add additional handling here if needed
+                }
+            }, 1000);
         });
     }
 
