@@ -399,6 +399,20 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     });
 
+    // Get registration type buttons
+    const registerFacebookBtn = document.querySelector('.register-type-btn.register-facebook');
+
+    // Facebook registration handler
+    if (registerFacebookBtn) {
+        registerFacebookBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Close the modal before redirecting
+            registerModal.hide();
+            // Redirect to Facebook OAuth endpoint
+            window.location.href = '/connect/facebook';
+        });
+    }
+
     // Switch to login popup
     const switchToLoginLink = document.getElementById('switch-to-login');
     if (switchToLoginLink) {
