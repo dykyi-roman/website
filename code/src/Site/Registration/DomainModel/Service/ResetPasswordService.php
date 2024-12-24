@@ -30,7 +30,7 @@ final readonly class ResetPasswordService
             throw new TokenExpiredException('Invalid or expired reset token');
         }
 
-        $user = $this->userRepository->findByToken($token);
+        $user = $this->userRepository->findByToken('passwordToken', $token);
         if (!$user || $user->isDeleted() || !$user->isActive()) {
             throw new TokenExpiredException('No user found for this reset token');
         }

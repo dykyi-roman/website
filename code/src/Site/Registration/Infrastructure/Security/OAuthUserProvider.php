@@ -7,7 +7,13 @@ namespace Site\Registration\Infrastructure\Security;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\User\OAuthUser;
 use League\OAuth2\Client\Provider\FacebookUser;
+use Shared\DomainModel\ValueObject\Country;
+use Shared\DomainModel\ValueObject\Email;
+use Shared\DomainModel\ValueObject\Location;
 use Site\User\DomainModel\Enum\Roles;
+use Site\User\DomainModel\Enum\UserId;
+use Site\User\DomainModel\Model\User;
+use Site\User\DomainModel\Repository\UserRepositoryInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -16,6 +22,7 @@ final readonly class OAuthUserProvider implements UserProviderInterface
 {
     public function __construct(
         private ClientRegistry $clientRegistry,
+        private UserRepositoryInterface $userRepository,
     ) {
     }
 
@@ -31,6 +38,29 @@ final readonly class OAuthUserProvider implements UserProviderInterface
             $facebookUser->getId(),
             [Roles::ROLE_CLIENT->value, Roles::ROLE_PARTNER->value]
         );
+    }
+
+    public function loadUserByOAuth2User(FacebookUser $oauthUser): UserRepositoryInterface
+    {
+        $facebookId = $oauthUser->getId();
+        $name = $oauthUser->getName() ?? 'Anonymous';
+        $email = $oauthUser->getEmail();
+
+        $user = $this->userRepository->findByToken('facebookToken', $facebookId);
+        if (!$user) {
+            $user = new User(
+                new UserId(),
+                $name,
+                Email::fromString($email),
+                new Location(
+                    new Country('UA'),
+                ),
+            );
+            $user->setFacebookToken($facebookId);
+            $this->userRepository->save($user);
+        }
+
+        return $user;
     }
 
     public function refreshUser(UserInterface $user): UserInterface
