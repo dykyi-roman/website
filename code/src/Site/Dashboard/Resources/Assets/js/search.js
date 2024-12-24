@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 orderFilterButton.classList.add('active');
                 serviceFilterButton.classList.remove('active');
                 localStorage.setItem('filter-toggle', currentFilter);
-                ordersSearch(searchInput.value.trim(), 1);
+                ordersSearch(searchInput.value.trim(), 1, currentFilter);
             }
         });
 
@@ -229,11 +229,11 @@ document.addEventListener('DOMContentLoaded', async function() {
             isSearching = true;
             
             if (currentFilter === 'orders') {
-                ordersSearch(searchInput.value.trim(), currentPage - 1);
+                ordersSearch(searchInput.value.trim(), currentPage - 1, currentFilter);
             } else {
                 servicesSearch(searchInput.value.trim(), currentPage - 1, currentFilter);
             }
-            
+
             setTimeout(() => { isSearching = false; }, 1000);
         });
         prevLi.appendChild(prevButton);
@@ -257,11 +257,11 @@ document.addEventListener('DOMContentLoaded', async function() {
                     isSearching = true;
                     
                     if (currentFilter === 'orders') {
-                        ordersSearch(searchInput.value.trim(), i);
+                        ordersSearch(searchInput.value.trim(), i, currentFilter);
                     } else {
                         servicesSearch(searchInput.value.trim(), i, currentFilter);
                     }
-                    
+
                     setTimeout(() => { isSearching = false; }, 1000);
                 });
                 li.appendChild(button);
@@ -289,7 +289,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             isSearching = true;
             
             if (currentFilter === 'orders') {
-                ordersSearch(searchInput.value.trim(), currentPage + 1);
+                ordersSearch(searchInput.value.trim(), currentPage + 1, currentFilter);
             } else {
                 servicesSearch(searchInput.value.trim(), currentPage + 1, currentFilter);
             }
@@ -424,7 +424,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     // Function to perform orders search
-    async function ordersSearch(query, page = 1, order = '') {
+    async function ordersSearch(query, page = 1, filter = '', order = '') {
         // Update URL parameters
         updateUrlParams(query, page, 'orders', order);
 
@@ -432,7 +432,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         showSearchSpinner();
 
         // Fetch orders from API
-        fetch(`/api/v1/orders/search?query=${encodeURIComponent(query)}&order=${order}&page=${page}&limit=${itemsPerPage}`, {
+        fetch(`/api/v1/orders/search?query=${encodeURIComponent(query)}&order=${order}&page=${page}&limit=${itemsPerPage}&filter=${filter}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -551,7 +551,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (currentFilter === 'services') {
                 servicesSearch(params.query, params.page, params.filter, params.order);
             } else if (currentFilter === 'orders') {
-                ordersSearch(params.query, params.page, params.order);
+                ordersSearch(params.query, params.page, params.filter, params.order);
             }
         }
 
@@ -561,8 +561,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                 servicesSearch(query, 1, currentFilter);
                 updateUrlParams(query, 1, currentFilter);
             } else if (currentFilter === 'orders') {
-                ordersSearch(query, 1);
-                updateUrlParams(query, 1);
+                ordersSearch(query, 1, currentFilter);
+                updateUrlParams(query, 1, currentFilter);
             }
         });
 
@@ -572,11 +572,10 @@ document.addEventListener('DOMContentLoaded', async function() {
                 const query = searchInput.value.trim();
                 if (currentFilter === 'services') {
                     servicesSearch(query, 1, currentFilter);
-                    updateUrlParams(query, 1, currentFilter);
                 } else if (currentFilter === 'orders') {
-                    ordersSearch(query, 1);
-                    updateUrlParams(query, 1);
+                    ordersSearch(query, 1, currentFilter);
                 }
+                updateUrlParams(query, 1, currentFilter);
             }
         });
     }
@@ -587,7 +586,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         searchInput.value = params.query || '';
         currentFilter = params.filter || '';
         if (currentFilter === 'orders') {
-            ordersSearch(params.query, params.page, params.order);
+            ordersSearch(params.query, params.page, currentFilter, params.order);
         } else {
             servicesSearch(params.query, params.page, currentFilter, params.order);
         }
