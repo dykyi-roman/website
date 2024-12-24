@@ -139,9 +139,9 @@ GOOGLE_RECAPTCHA_SITE_KEY=your_secret_key_here
 GOOGLE_RECAPTCHA_SECRET_KEY=your_site_key_here
 ```
 
-# Social Login Integration
+## Social Login Integration
 
-## Facebook Login
+### Facebook Login
 
 1. Create a Facebook App:
   - Go to [Facebook Developers](https://developers.facebook.com/)
@@ -159,7 +159,7 @@ GOOGLE_RECAPTCHA_SECRET_KEY=your_site_key_here
   - Login start: `/connect/facebook`
   - OAuth callback: `/connect/facebook/check`
 
-## Google Login
+### Google Login
 
 1. Create Google OAuth Credentials:
   - Go to [Google Cloud Console](https://console.cloud.google.com)
@@ -178,7 +178,7 @@ GOOGLE_RECAPTCHA_SECRET_KEY=your_site_key_here
   - Login start: `/connect/google`
   - OAuth callback: `/connect/google/check`
 
-## Notes
+### Notes
 
 - Both integrations use KnpUOAuth2ClientBundle
 - Ensure your domain is properly configured in the respective developer consoles
