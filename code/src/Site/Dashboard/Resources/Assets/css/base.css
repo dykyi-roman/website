@@ -33,7 +33,10 @@ body {
 }
 
 .fa-globe,
-.fa-user {
+.fa-user,
+.fa-heart,
+.fa-bell,
+.fa-comment-dots {
     font-size: 1.25rem;
     color: var(--primary-color);
 }
