@@ -20,6 +20,9 @@ security:
             provider: all_users
             custom_authenticator:
                 - Site\Registration\Infrastructure\Security\UserLoginAuthenticator
+                - Site\Registration\Infrastructure\Security\FacebookAuthenticator
+                - Site\Registration\Infrastructure\Security\GoogleAuthenticator
+            entry_point: Site\Registration\Infrastructure\Security\FacebookAuthenticator
             logout:
                 path: logout
                 target: dashboard
@@ -34,6 +37,7 @@ security:
         - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/forgot-password, roles: PUBLIC_ACCESS }
         - { path: ^/reset-password, roles: PUBLIC_ACCESS }
+        - { path: ^/connect, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: PUBLIC_ACCESS }
         - { path: ^/profile, roles: [ROLE_PARTNER,ROLE_CLIENT] }
 

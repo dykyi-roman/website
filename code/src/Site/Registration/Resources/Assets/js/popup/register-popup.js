@@ -399,6 +399,96 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     });
 
+    // Get registration type buttons
+    const registerFacebookBtn = document.querySelector('.register-type-btn.register-facebook');
+
+    // Facebook registration handler
+    if (registerFacebookBtn) {
+        registerFacebookBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const width = 600;
+            const height = 600;
+            const left = (window.innerWidth - width) / 2;
+            const top = (window.innerHeight - height) / 2;
+            
+            const popup = window.open('/connect/facebook', 'facebook_login', 
+                `width=${width},height=${height},left=${left},top=${top},` +
+                'toolbar=no,menubar=no,scrollbars=yes,status=no,location=no'
+            );
+            
+            // Check if popup was blocked
+            if (!popup || popup.closed || typeof popup.closed == 'undefined') {
+                alert('Please enable popups for this site to use Facebook login');
+                return;
+            }
+            
+            // Close the registration modal
+            registerModal.hide();
+            
+            // Handle popup window close
+            const checkPopup = setInterval(() => {
+                if (popup.closed) {
+                    clearInterval(checkPopup);
+                    window.location.reload(); // Refresh the parent window
+                }
+            }, 1000);
+
+            // Add message listener for successful auth
+            window.addEventListener('message', function(e) {
+                if (e.data === 'oauth-success') {
+                    popup.close();
+                    window.location.reload();
+                }
+            }, false);
+        });
+    }
+
+    // Add event listener for Google registration button
+    const registerGoogleBtn = document.querySelector('.register-google');
+    if (registerGoogleBtn) {
+        registerGoogleBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const width = 600;
+            const height = 600;
+            const left = (window.innerWidth - width) / 2;
+            const top = (window.innerHeight - height) / 2;
+
+            // Open Google OAuth popup
+            const googleAuthWindow = window.open('/connect/google', 'Google Registration',
+                `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`);
+
+            // Check if popup was blocked
+            if (!googleAuthWindow || googleAuthWindow.closed || typeof googleAuthWindow.closed == 'undefined') {
+                alert('Please enable popups for this site to use Google login');
+                return;
+            }
+
+            // Close the registration modal
+            registerModal.hide();
+
+            // Handle popup window close
+            const checkGooglePopup = setInterval(() => {
+                if (googleAuthWindow.closed) {
+                    clearInterval(checkGooglePopup);
+                    window.location.reload(); // Refresh the parent window
+                }
+            }, 1000);
+
+            // Add message listener for successful auth
+            window.addEventListener('message', function(e) {
+                if (e.data === 'oauth-success') {
+                    googleAuthWindow.close();
+                    window.location.reload();
+                }
+            }, false);
+
+            // Focus on the popup window
+            googleAuthWindow.focus();
+        });
+    }
+
     // Switch to login popup
     const switchToLoginLink = document.getElementById('switch-to-login');
     if (switchToLoginLink) {

@@ -16,7 +16,7 @@ interface UserRepositoryInterface
 
     public function findByEmail(Email $email): ?UserInterface;
 
-    public function findByToken(string $token): ?UserInterface;
+    public function findByToken(string $field, string $token): ?UserInterface;
 
     public function isEmailUnique(Email $email): bool;
 }

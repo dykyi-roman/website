@@ -9,6 +9,7 @@ use Services\DomainModel\Service\ServicesInterface;
 use Site\Dashboard\DomainModel\Dto\FeedItem;
 use Site\Dashboard\Presentation\Web\Response\FeedAtomHtmlResponder;
 use Site\Dashboard\Presentation\Web\Response\FeedRssHtmlResponder;
+use Site\User\DomainModel\Enum\Roles;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -51,10 +52,10 @@ final readonly class SeoFeedAction
         }
 
         $arrayItems = [];
-        if (in_array('ROLE_CLIENT', $user->getRoles(), true)) {
-            $arrayItems = $this->orders->last(20);
-        } elseif (in_array('ROLE_PARTNER', $user->getRoles(), true)) {
-            $arrayItems = $this->services->last(20);
+        if (in_array(Roles::ROLE_CLIENT->value, $user->getRoles(), true)) {
+            $arrayItems = $this->orders->last(10);
+        } elseif (in_array(Roles::ROLE_PARTNER->value, $user->getRoles(), true)) {
+            $arrayItems = $this->services->last(10);
         }
 
         if ([] === $arrayItems) {

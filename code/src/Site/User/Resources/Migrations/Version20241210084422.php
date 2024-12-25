@@ -24,7 +24,7 @@ final class Version20241210084422 extends AbstractMigration
             email VARCHAR(64) NOT NULL,
             phone VARCHAR(20) DEFAULT NULL,
             avatar TEXT DEFAULT NULL,
-            password VARCHAR(255) NOT NULL,
+            password VARCHAR(255) DEFAULT NULL,
             password_token VARCHAR(1024) DEFAULT NULL,
             facebook_token VARCHAR(1024) DEFAULT NULL,
             google_token VARCHAR(1024) DEFAULT NULL,

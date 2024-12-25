@@ -46,8 +46,8 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $referral = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $password;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $password = null;
 
     #[ORM\Column(name: 'password_token', type: 'string', length: 1024, nullable: true)]
     private ?string $passwordToken = null;
@@ -55,7 +55,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(name: 'facebook_token', type: 'string', length: 1024, nullable: true)]
     private ?string $facebookToken = null;
 
-    #[ORM\Column(type: 'google_token', length: 1024, nullable: true)]
+    #[ORM\Column(name: 'google_token', type: 'string', length: 1024, nullable: true)]
     private ?string $googleToken = null;
 
     #[ORM\Column(name: 'deleted_at', type: 'datetime_immutable', nullable: true)]
@@ -174,7 +174,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         return array_unique($roles);
     }
 
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -219,11 +219,6 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         return $this->facebookToken;
     }
 
-    public function setFacebookToken(?string $facebookToken): void
-    {
-        $this->facebookToken = $facebookToken;
-    }
-
     public function getGoogleToken(): ?string
     {
         return $this->googleToken;
@@ -232,5 +227,10 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     public function setGoogleToken(?string $googleToken): void
     {
         $this->googleToken = $googleToken;
+    }
+
+    public function setFacebookToken(?string $facebookToken): void
+    {
+        $this->facebookToken = $facebookToken;
     }
 }

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Authentication Successful</title>
+</head>
+<body>
+    <script>
+        if (window.opener) {
+            window.opener.postMessage('oauth-success', window.location.origin);
+            window.close();
+        } else {
+            window.location.href = '{{ path('dashboard') }}';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+knpu_oauth2_client:
+  clients:
+    facebook:
+      type: facebook
+      client_id: '%env(FACEBOOK_APP_ID)%'
+      client_secret: '%env(FACEBOOK_APP_SECRET)%'
+      redirect_route: connect_facebook_check
+      graph_api_version: 'v12.0'
+    google:
+      type: google
+      client_id: '%env(GOOGLE_CLIENT_ID)%'
+      client_secret: '%env(GOOGLE_CLIENT_SECRET)%'
+      redirect_route: connect_google_check

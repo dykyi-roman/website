@@ -11,6 +11,7 @@
   "Logout": "Logout",
   "Login": "Login",
   "Register": "Register",
+  "error_social_login": "Error social login",
   "Internal Server Error": "Internal Server Error",
   "Back to Dashboard": "Back to Dashboard",
   "Sorry, something went wrong on our servers. We are working to fix the issue.": "Sorry, something went wrong on our servers. We are working to fix the issue.",

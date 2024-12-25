@@ -41,10 +41,10 @@ final class UserRepository implements UserRepositoryInterface
         return $this->repository->findOneBy(['email' => $email]);
     }
 
-    public function findByToken(string $token): ?UserInterface
+    public function findByToken(string $field, string $token): ?UserInterface
     {
         /* @var UserInterface|null */
-        return $this->repository->findOneBy(['token' => $token]);
+        return $this->repository->findOneBy([$field => $token]);
     }
 
     public function isEmailUnique(Email $email): bool

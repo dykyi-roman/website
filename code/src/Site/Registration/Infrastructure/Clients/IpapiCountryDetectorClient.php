@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Site\Registration\Infrastructure\Clients\CountryDetector;
+namespace Site\Registration\Infrastructure\Clients;
 
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -10,8 +10,12 @@ use Psr\Log\LoggerInterface;
 use Shared\DomainModel\ValueObject\Country;
 use Site\Registration\DomainModel\Service\CountryDetectorInterface;
 
-/** !!! Have a request limits !!! */
-final readonly class IpapiCountryDetector implements CountryDetectorInterface
+/**
+ * !!! Have a request limits !!!
+ *
+ * Website: https://ipapi.co
+ */
+final readonly class IpapiCountryDetectorClient implements CountryDetectorInterface
 {
     public function __construct(
         private ClientInterface $client,
