@@ -331,6 +331,32 @@ footer h5 {
     align-items: center;
 }
 
+/* Ensure icons stay in one row on mobile */
+@media (max-width: 768px) {
+    .ms-auto.d-flex {
+        gap: 0.25rem !important;
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+    }
+    
+    .header-button {
+        margin-right: 0;
+        width: 36px;
+        height: 36px;
+    }
+    
+    .theme-toggle {
+        margin-right: 0;
+        width: 36px;
+        height: 36px;
+    }
+
+    .header-button i,
+    .theme-toggle i {
+        font-size: 1rem;
+    }
+}
+
 .navbar-brand {
     font-weight: 600;
     padding: 0.5rem 0;
