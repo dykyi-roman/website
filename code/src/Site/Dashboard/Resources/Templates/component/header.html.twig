@@ -14,9 +14,6 @@
                 <i class="fas fa-moon" id="themeIcon"></i>
             </button>
 
-            <!-- Language Menu -->
-            {% include '@Locale/component/language_menu.html.twig' %}
-
             {% if app.user %}
                 <!-- Notifications Icon -->
                 <button type="button"
@@ -47,15 +44,10 @@
                         {% endif %}
                     </i>
                 </button>
-
-                <!-- Favorites Icon -->
-                <button type="button"
-                        class="header-button d-flex align-items-center justify-content-center"
-                        aria-label="{{ 'favorites'|trans }}"
-                        title="{{ 'favorites'|trans }}">
-                    <i class="fas fa-heart position-relative"></i>
-                </button>
             {% endif %}
+
+            <!-- Language Menu -->
+            {% include '@Locale/component/language_menu.html.twig' %}
 
             <!-- Profile Dropdown with improved interaction -->
             <div class="nav-item dropdown profile-dropdown">
@@ -93,6 +85,12 @@
                             <a class="dropdown-item d-flex align-items-center" href="/profile">
                                 <i class="fas fa-user me-2"></i>
                                 <span>{{ 'profile_menu_item'|trans }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="/profile">
+                                <i class="fas fa-heart me-2"></i>
+                                <span>{{ 'favorites'|trans }}</span>
                             </a>
                         </li>
                         <li><hr class="dropdown-divider"></li>

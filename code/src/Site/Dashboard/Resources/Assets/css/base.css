@@ -338,6 +338,11 @@ footer h5 {
         flex-wrap: nowrap;
         justify-content: flex-end;
     }
+
+    .language-dropdown .fa-globe,
+    .fa-globe {
+        display: none !important;
+    }
     
     .header-button {
         margin-right: 0;
@@ -499,12 +504,6 @@ footer h5 {
     }
 }
 
-/* Organization Name Responsive Visibility */
-@media (max-width: 768px) {
-    .organization-name {
-        display: none;
-    }
-}
 
 /* Spinner Overlay Styles for items-grid section */
 .items-grid .spinner-overlay {
