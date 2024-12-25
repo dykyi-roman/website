@@ -1,5 +1,14 @@
 # Social Login Integration
 
+## Install
+
+* Update [.env](.env)
+* Update [manifest.json](public%2Fmanifest.json)
+* Update [sitemap.xml](public%2Fsitemap.xml)
+* Update [robots.txt](public%2Frobots.txt)
+* Call command: `make translations-copy`
+* Call command: `make assets-copy`
+
 ## Facebook Login
 
 1. Create a Facebook App:

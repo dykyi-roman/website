@@ -1,0 +1,32 @@
+User-agent: *
+Allow: /assets/css/
+Allow: /assets/js/
+Allow: /images/
+Allow: /icons/
+Allow: /translations/
+Allow: /
+Allow: /api/v1/orders
+Allow: /api/v1/services
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_profiler/
+Disallow: /_wdt/
+
+# Prevent access to development and system files
+Disallow: /.env
+Disallow: /.git/
+Disallow: /config/
+Disallow: /src/
+Disallow: /var/
+Disallow: /vendor/
+Disallow: /composer.
+Disallow: /symfony.
+
+# Crawl delay to prevent server overload
+Crawl-delay: 10
+
+# Host directive to prevent duplicate content
+Host: https://example.com
+
+# Sitemap location
+Sitemap: https://example.com/sitemap.xml
