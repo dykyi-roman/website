@@ -15,7 +15,6 @@ final readonly class FavoritesAction
         FavoritesHtmlResponder $responder,
         TranslatorInterface $translator,
     ): FavoritesHtmlResponder {
-
         return $responder->context([
             'page_title' => $translator->trans('favorites.page_title'),
             'content' => '',
