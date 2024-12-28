@@ -13,7 +13,7 @@ final class SettingsHtmlResponder implements TemplateResponderInterface
 
     public function template(): string
     {
-        return '@Profile/page/profile.html.twig';
+        return '@Profile/page/settings.html.twig';
     }
 
     /** @return array<string, mixed> */

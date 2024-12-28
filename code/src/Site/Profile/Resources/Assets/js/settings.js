@@ -27,15 +27,32 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Handle initial load and browser back/forward
-    function handleHashChange() {
+    function handleHashChange(isInitialLoad = false) {
         const hash = window.location.hash.slice(1) || 'account';
         const targetMenuItem = document.querySelector(`[data-content="${hash}"]`);
         if (targetMenuItem) {
-            // Trigger click without scrolling
-            targetMenuItem.dispatchEvent(new Event('click'));
+            // Remove active class from all menu items
+            menuItems.forEach(mi => mi.classList.remove('active'));
+            // Add active class to target menu item
+            targetMenuItem.classList.add('active');
+
+            // Hide all sections
+            sections.forEach(section => section.style.display = 'none');
+            
+            // Show selected section
+            const contentId = targetMenuItem.getAttribute('data-content');
+            const contentSection = document.getElementById(contentId);
+            if (contentSection) {
+                contentSection.style.display = 'block';
+            }
+
+            // Only update URL if it's not the initial load
+            if (!isInitialLoad) {
+                history.pushState(null, '', `#${contentId}`);
+            }
         }
     }
 
-    window.addEventListener('popstate', handleHashChange);
-    handleHashChange(); // Handle initial load
+    window.addEventListener('popstate', () => handleHashChange(false));
+    handleHashChange(true); // Handle initial load without scrolling
 });
