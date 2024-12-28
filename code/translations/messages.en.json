@@ -122,7 +122,52 @@
   "get_it_on_google_play": "Download on the Google play",
   "download_on_app_store": "Download on the Apple store",
   "settings": {
-    "page_title": "Settings"
+    "page_title": "Settings",
+    "menu": {
+      "account": "Account",
+      "general": "General",
+      "notifications": "Notifications",
+      "privacy": "Privacy"
+    },
+    "privacy": {
+      "deactivation": {
+        "title": "Account Deactivation",
+        "description": "Deactivating your account will temporarily hide your profile and all your content from other users. You can reactivate your account at any time by logging back in.",
+        "button": "Deactivate Account",
+        "modal": {
+          "title": "Confirm Account Deactivation",
+          "message": "Are you sure you want to deactivate your account? Your profile and content will be hidden until you reactivate.",
+          "effects": {
+            "profile_invisible": "Your profile will become invisible to other users",
+            "content_hidden": "Your content will be temporarily hidden",
+            "can_reactivate": "You can reactivate by logging back in"
+          },
+          "cancel": "No, Cancel",
+          "confirm": "Yes, Deactivate"
+        }
+      },
+      "activation": {
+        "title": "Account Activation",
+        "description": "Your account is currently deactivated. Activating your account will make your profile and content visible to other users again.",
+        "button": "Activate Account"
+      },
+      "deletion": {
+        "title": "Account Deletion",
+        "description": "Deleting your account is permanent. All your data, including profile information, history, and content will be permanently removed and cannot be recovered.",
+        "button": "Delete Account",
+        "modal": {
+          "title": "Confirm Account Deletion",
+          "message": "Are you sure you want to permanently delete your account? This action cannot be undone.",
+          "effects": {
+            "data_deleted": "All your personal data will be permanently deleted",
+            "profile_removed": "Your profile and content will be removed forever",
+            "no_recovery": "You cannot recover your account after deletion"
+          },
+          "cancel": "No, Cancel",
+          "confirm": "Yes, Delete"
+        }
+      }
+    }
   },
   "app": {
     "page_title": "App votes",

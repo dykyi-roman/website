@@ -20,19 +20,19 @@
                     <div class="settings-menu">
                         <a href="#account" class="settings-menu-item" data-content="account">
                             <i class="fas fa-user"></i>
-                            Account
+                            {{ 'settings.menu.account'|trans }}
                         </a>
                         <a href="#general" class="settings-menu-item" data-content="general">
                             <i class="fas fa-cog"></i>
-                            General
+                            {{ 'settings.menu.general'|trans }}
                         </a>
                         <a href="#notifications" class="settings-menu-item" data-content="notifications">
                             <i class="fas fa-bell"></i>
-                            Notifications
+                            {{ 'settings.menu.notifications'|trans }}
                         </a>
                         <a href="#privacy" class="settings-menu-item" data-content="privacy">
                             <i class="fas fa-lock"></i>
-                            Privacy
+                            {{ 'settings.menu.privacy'|trans }}
                         </a>
                     </div>
 
@@ -40,7 +40,7 @@
                     <div class="settings-content">
                         <!-- Account Settings -->
                         <div id="account" class="settings-section">
-                            <h2>Account</h2>
+                            <h2>{{ 'settings.menu.account'|trans }}</h2>
                             <div class="settings-form">
                                 <!-- Account settings content will go here -->
                             </div>
@@ -48,7 +48,7 @@
 
                         <!-- General Settings -->
                         <div id="general" class="settings-section" style="display: none;">
-                            <h2>General</h2>
+                            <h2>{{ 'settings.menu.general'|trans }}</h2>
                             <div class="settings-form">
                                 <!-- General settings content will go here -->
                             </div>
@@ -56,7 +56,7 @@
 
                         <!-- Notification Settings -->
                         <div id="notifications" class="settings-section" style="display: none;">
-                            <h2>Notification</h2>
+                            <h2>{{ 'settings.menu.notifications'|trans }}</h2>
                             <div class="settings-form">
                                 <!-- Notification settings content will go here -->
                             </div>
@@ -64,43 +64,40 @@
 
                         <!-- Privacy Settings -->
                         <div id="privacy" class="settings-section" style="display: none;">
-                            <h2>Privacy</h2>
+                            <h2>{{ 'settings.menu.privacy'|trans }}</h2>
                             <div class="settings-form">
                                 <div class="account-actions">
                                     <div class="action-block">
                                         {% if settings.privacy.user_status == 1 %}
                                             <div id="deactivate-block">
-                                                <h3>Account Deactivation</h3>
+                                                <h3>{{ 'settings.privacy.deactivation.title'|trans }}</h3>
                                                 <p class="action-description">
-                                                    Deactivating your account will temporarily hide your profile and all your content from other users. 
-                                                    You can reactivate your account at any time by logging back in.
+                                                    {{ 'settings.privacy.deactivation.description'|trans }}
                                                 </p>
                                                 <button class="btn btn-warning" data-toggle="modal" data-target="#deactivateModal">
-                                                    Deactivate Account
+                                                    {{ 'settings.privacy.deactivation.button'|trans }}
                                                 </button>
                                             </div>
                                         {% else %}
                                             <div id="activate-block">
-                                                <h3>Account Activation</h3>
+                                                <h3>{{ 'settings.privacy.activation.title'|trans }}</h3>
                                                 <p class="action-description">
-                                                    Your account is currently deactivated. Activating your account will make your profile 
-                                                    and content visible to other users again.
+                                                    {{ 'settings.privacy.activation.description'|trans }}
                                                 </p>
                                                 <button class="btn btn-success" id="activateAccount">
-                                                    Activate Account
+                                                    {{ 'settings.privacy.activation.button'|trans }}
                                                 </button>
                                             </div>
                                         {% endif %}
                                     </div>
 
                                     <div class="action-block mt-4">
-                                        <h3>Account Deletion</h3>
+                                        <h3>{{ 'settings.privacy.deletion.title'|trans }}</h3>
                                         <p class="action-description">
-                                            Deleting your account is permanent. All your data, including profile information, 
-                                            history, and content will be permanently removed and cannot be recovered.
+                                            {{ 'settings.privacy.deletion.description'|trans }}
                                         </p>
                                         <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
-                                            Delete Account
+                                            {{ 'settings.privacy.deletion.button'|trans }}
                                         </button>
                                     </div>
                                 </div>
@@ -112,21 +109,21 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="deactivateModalLabel">Confirm Account Deactivation</h5>
+                                        <h5 class="modal-title" id="deactivateModalLabel">{{ 'settings.privacy.deactivation.modal.title'|trans }}</h5>
                                         <button type="button" class="close btn-close" aria-label="Close">
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <p>Are you sure you want to deactivate your account? Your profile and content will be hidden until you reactivate.</p>
+                                        <p>{{ 'settings.privacy.deactivation.modal.message'|trans }}</p>
                                         <ul class="deactivation-effects">
-                                            <li>Your profile will become invisible to other users</li>
-                                            <li>Your content will be temporarily hidden</li>
-                                            <li>You can reactivate by logging back in</li>
+                                            <li>{{ 'settings.privacy.deactivation.modal.effects.profile_invisible'|trans }}</li>
+                                            <li>{{ 'settings.privacy.deactivation.modal.effects.content_hidden'|trans }}</li>
+                                            <li>{{ 'settings.privacy.deactivation.modal.effects.can_reactivate'|trans }}</li>
                                         </ul>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary">No, Cancel</button>
-                                        <button type="button" class="btn btn-warning" id="confirmDeactivate">Yes, Deactivate</button>
+                                        <button type="button" class="btn btn-secondary">{{ 'settings.privacy.deactivation.modal.cancel'|trans }}</button>
+                                        <button type="button" class="btn btn-warning" id="confirmDeactivate">{{ 'settings.privacy.deactivation.modal.confirm'|trans }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -137,21 +134,21 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="deleteModalLabel">Confirm Account Deletion</h5>
+                                        <h5 class="modal-title" id="deleteModalLabel">{{ 'settings.privacy.deletion.modal.title'|trans }}</h5>
                                         <button type="button" class="close btn-close" aria-label="Close">
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <p>Are you sure you want to permanently delete your account? This action cannot be undone.</p>
+                                        <p>{{ 'settings.privacy.deletion.modal.message'|trans }}</p>
                                         <ul class="deletion-effects">
-                                            <li>All your personal data will be permanently deleted</li>
-                                            <li>Your profile and content will be removed forever</li>
-                                            <li>You cannot recover your account after deletion</li>
+                                            <li>{{ 'settings.privacy.deletion.modal.effects.data_deleted'|trans }}</li>
+                                            <li>{{ 'settings.privacy.deletion.modal.effects.profile_removed'|trans }}</li>
+                                            <li>{{ 'settings.privacy.deletion.modal.effects.no_recovery'|trans }}</li>
                                         </ul>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary">No, Cancel</button>
-                                        <button type="button" class="btn btn-danger" id="confirmDelete">Yes, Delete</button>
+                                        <button type="button" class="btn btn-secondary">{{ 'settings.privacy.deletion.modal.cancel'|trans }}</button>
+                                        <button type="button" class="btn btn-danger" id="confirmDelete">{{ 'settings.privacy.deletion.modal.confirm'|trans }}</button>
                                     </div>
                                 </div>
                             </div>
