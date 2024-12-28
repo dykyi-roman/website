@@ -66,7 +66,81 @@
                         <div id="privacy" class="settings-section" style="display: none;">
                             <h2>Privacy</h2>
                             <div class="settings-form">
-                                <!-- Privacy settings content will go here -->
+                                <div class="account-actions">
+                                    <div class="action-block">
+                                        <h3>Account Deactivation</h3>
+                                        <p class="action-description">
+                                            Deactivating your account will temporarily hide your profile and all your content from other users. 
+                                            You can reactivate your account at any time by logging back in.
+                                        </p>
+                                        <button class="btn btn-warning" data-toggle="modal" data-target="#deactivateModal">
+                                            Deactivate Account
+                                        </button>
+                                    </div>
+
+                                    <div class="action-block mt-4">
+                                        <h3>Account Deletion</h3>
+                                        <p class="action-description">
+                                            Deleting your account is permanent. All your data, including profile information, 
+                                            history, and content will be permanently removed and cannot be recovered.
+                                        </p>
+                                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                                            Delete Account
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Deactivate Account Modal -->
+                        <div class="modal fade" id="deactivateModal" tabindex="-1" role="dialog" aria-labelledby="deactivateModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deactivateModalLabel">Confirm Account Deactivation</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to deactivate your account? Your profile and content will be hidden until you reactivate.</p>
+                                        <ul class="deactivation-effects">
+                                            <li>Your profile will become invisible to other users</li>
+                                            <li>Your content will be temporarily hidden</li>
+                                            <li>You can reactivate by logging back in</li>
+                                        </ul>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No, Cancel</button>
+                                        <button type="button" class="btn btn-warning" id="confirmDeactivate">Yes, Deactivate</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Delete Account Modal -->
+                        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel">Confirm Account Deletion</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to permanently delete your account? This action cannot be undone.</p>
+                                        <ul class="deletion-effects">
+                                            <li>All your personal data will be permanently deleted</li>
+                                            <li>Your profile and content will be removed forever</li>
+                                            <li>You cannot recover your account after deletion</li>
+                                        </ul>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No, Cancel</button>
+                                        <button type="button" class="btn btn-danger" id="confirmDelete">Yes, Delete</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -1,58 +1,39 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Menu item click handling
     const menuItems = document.querySelectorAll('.settings-menu-item');
     const sections = document.querySelectorAll('.settings-section');
 
     menuItems.forEach(item => {
         item.addEventListener('click', function(e) {
             e.preventDefault();
+            const targetId = this.getAttribute('data-content');
             
-            // Remove active class from all menu items
+            // Update active menu item
             menuItems.forEach(mi => mi.classList.remove('active'));
-            // Add active class to clicked menu item
             this.classList.add('active');
-
-            // Hide all sections
-            sections.forEach(section => section.style.display = 'none');
             
-            // Show selected section
-            const contentId = this.getAttribute('data-content');
-            const contentSection = document.getElementById(contentId);
-            if (contentSection) {
-                contentSection.style.display = 'block';
-            }
-
-            // Update URL hash without scrolling
-            history.pushState(null, '', `#${contentId}`);
+            // Show target section, hide others
+            sections.forEach(section => {
+                section.style.display = section.id === targetId ? 'block' : 'none';
+            });
         });
     });
 
-    // Handle initial load and browser back/forward
-    function handleHashChange(isInitialLoad = false) {
-        const hash = window.location.hash.slice(1) || 'account';
-        const targetMenuItem = document.querySelector(`[data-content="${hash}"]`);
-        if (targetMenuItem) {
-            // Remove active class from all menu items
-            menuItems.forEach(mi => mi.classList.remove('active'));
-            // Add active class to target menu item
-            targetMenuItem.classList.add('active');
+    // Account deactivation handling
+    document.getElementById('confirmDeactivate')?.addEventListener('click', function() {
+        // Add your deactivation API call here
+        console.log('Account deactivation confirmed');
+        // After successful API call:
+        $('#deactivateModal').modal('hide');
+        // You might want to show a success message or redirect
+    });
 
-            // Hide all sections
-            sections.forEach(section => section.style.display = 'none');
-            
-            // Show selected section
-            const contentId = targetMenuItem.getAttribute('data-content');
-            const contentSection = document.getElementById(contentId);
-            if (contentSection) {
-                contentSection.style.display = 'block';
-            }
-
-            // Only update URL if it's not the initial load
-            if (!isInitialLoad) {
-                history.pushState(null, '', `#${contentId}`);
-            }
-        }
-    }
-
-    window.addEventListener('popstate', () => handleHashChange(false));
-    handleHashChange(true); // Handle initial load without scrolling
+    // Account deletion handling
+    document.getElementById('confirmDelete')?.addEventListener('click', function() {
+        // Add your deletion API call here
+        console.log('Account deletion confirmed');
+        // After successful API call:
+        $('#deleteModal').modal('hide');
+        // You might want to show a success message or redirect
+    });
 });
