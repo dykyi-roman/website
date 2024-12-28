@@ -1,6 +1,6 @@
 $(document).ready(function() {
     // Function to switch active tab
-    function switchTab(tabId) {
+    function switchTab(tabId, updateHash = true) {
         // Update active menu item
         $('.settings-menu-item').removeClass('active');
         $(`[data-content="${tabId}"]`).addClass('active');
@@ -9,8 +9,10 @@ $(document).ready(function() {
         $('.settings-section').hide();
         $('#' + tabId).show();
         
-        // Update URL hash
-        window.location.hash = tabId;
+        // Update URL hash only if requested
+        if (updateHash) {
+            history.replaceState(null, null, '#' + tabId);
+        }
     }
 
     // Handle initial page load
@@ -19,7 +21,7 @@ $(document).ready(function() {
         if (!hash || !$('#' + hash).length) {
             hash = 'account'; // Default tab
         }
-        switchTab(hash);
+        switchTab(hash, false);
     }
 
     // Menu item click handling
@@ -39,7 +41,8 @@ $(document).ready(function() {
     // Handle modal backdrop cleanup
     $('#deactivateModal, #deleteModal').on('hidden.bs.modal', function () {
         $('.modal-backdrop').remove();
-        $('body').removeClass('modal-open');
+        // Don't remove modal-open class as it affects page scrolling
+        $('body').css('padding-right', '');
     });
 
     // Account deactivation button click
