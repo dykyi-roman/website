@@ -15,6 +15,11 @@ final readonly class UserFetcher
     ) {
     }
 
+    public function logined(): bool
+    {
+        return null !== $this->security->getToken();
+    }
+
     public function fetch(): UserInterface
     {
         $token = $this->security->getToken();

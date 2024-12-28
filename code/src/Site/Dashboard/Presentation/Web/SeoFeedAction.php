@@ -10,7 +10,8 @@ use Site\Dashboard\DomainModel\Dto\FeedItem;
 use Site\Dashboard\Presentation\Web\Response\FeedAtomHtmlResponder;
 use Site\Dashboard\Presentation\Web\Response\FeedRssHtmlResponder;
 use Site\User\DomainModel\Enum\Roles;
-use Symfony\Bundle\SecurityBundle\Security;
+use Site\User\DomainModel\Exception\AuthenticationException;
+use Site\User\DomainModel\Service\UserFetcher;
 use Symfony\Component\Routing\Annotation\Route;
 
 final readonly class SeoFeedAction
@@ -18,7 +19,7 @@ final readonly class SeoFeedAction
     public function __construct(
         private OrdersInterface $orders,
         private ServicesInterface $services,
-        private Security $security,
+        private UserFetcher $userFetcher,
     ) {
     }
 
@@ -46,8 +47,9 @@ final readonly class SeoFeedAction
     /** @return array<int, object> */
     private function getItems(): array
     {
-        $user = $this->security->getUser();
-        if (null === $user) {
+        try {
+            $user = $this->userFetcher->fetch();
+        } catch (AuthenticationException) {
             return [];
         }
 
