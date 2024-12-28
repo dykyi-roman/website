@@ -82,47 +82,103 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 
     // Use event delegation for dynamically added elements
-    $(document).on('click', '#activateAccount', function() {
-        // Add your activation API call here
-        console.log(t.settings.account_activation_requested);
-        // After successful API call, switch to deactivation view
-        $(this).closest('.action-block').html(`
-            <div id="deactivate-block">
-                <h3>${t.settings.deactivate_block.title}</h3>
-                <p class="action-description">
-                    ${t.settings.deactivate_block.description}
-                </p>
-                <button class="btn btn-warning" data-toggle="modal" data-target="#deactivateModal">
-                    ${t.settings.deactivate_block.button}
-                </button>
-            </div>
-        `);
+    $(document).on('click', '#activateAccount', async function() {
+        try {
+            const response = await fetch('/settings/privacy/account-activate?status=1', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            if (data.success) {
+                // After successful API call, switch to deactivation view
+                $(this).closest('.action-block').html(`
+                    <div id="deactivate-block">
+                        <h3>${t.settings.deactivate_block.title}</h3>
+                        <p class="action-description">
+                            ${t.settings.deactivate_block.description}
+                        </p>
+                        <button class="btn btn-warning" data-toggle="modal" data-target="#deactivateModal">
+                            ${t.settings.deactivate_block.button}
+                        </button>
+                    </div>
+                `);
+            } else {
+                console.error('Failed to activate account');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     });
 
     // Account deactivation confirmation
-    $('#confirmDeactivate').on('click', function() {
-        // Add your deactivation API call here
-        console.log(t.settings.account_deactivation_confirmed);
-        closeModal('#deactivateModal');
-        // After successful API call, switch to activation view
-        $('#deactivate-block').closest('.action-block').html(`
-            <div id="activate-block">
-                <h3>${t.settings.activate_block.title}</h3>
-                <p class="action-description">
-                    ${t.settings.activate_block.description}
-                </p>
-                <button class="btn btn-success" id="activateAccount">
-                    ${t.settings.activate_block.button}
-                </button>
-            </div>
-        `);
+    $('#confirmDeactivate').on('click', async function() {
+        try {
+            const response = await fetch('/settings/privacy/account-activate?status=0', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            if (data.success) {
+                closeModal('#deactivateModal');
+                // After successful API call, switch to activation view
+                $('#deactivate-block').closest('.action-block').html(`
+                    <div id="activate-block">
+                        <h3>${t.settings.activate_block.title}</h3>
+                        <p class="action-description">
+                            ${t.settings.activate_block.description}
+                        </p>
+                        <button class="btn btn-success" id="activateAccount">
+                            ${t.settings.activate_block.button}
+                        </button>
+                    </div>
+                `);
+            } else {
+                console.error('Failed to deactivate account');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     });
 
     // Account deletion confirmation
-    $('#confirmDelete').on('click', function() {
-        // Add your deletion API call here
-        console.log(t.settings.account_deletion_confirmed);
-        closeModal('#deleteModal');
+    $('#confirmDelete').on('click', async function() {
+        try {
+            const response = await fetch('/settings/privacy/account-delete', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            if (data.success) {
+                closeModal('#deleteModal');
+                // Redirect to logout or home page after successful deletion
+                window.location.href = '/';
+            } else {
+                console.error('Failed to delete account');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     });
 
     // Handle modal hidden event
