@@ -68,14 +68,29 @@
                             <div class="settings-form">
                                 <div class="account-actions">
                                     <div class="action-block">
-                                        <h3>Account Deactivation</h3>
-                                        <p class="action-description">
-                                            Deactivating your account will temporarily hide your profile and all your content from other users. 
-                                            You can reactivate your account at any time by logging back in.
-                                        </p>
-                                        <button class="btn btn-warning" data-toggle="modal" data-target="#deactivateModal">
-                                            Deactivate Account
-                                        </button>
+                                        {% if settings.privacy.user_status == 1 %}
+                                            <div id="deactivate-block">
+                                                <h3>Account Deactivation</h3>
+                                                <p class="action-description">
+                                                    Deactivating your account will temporarily hide your profile and all your content from other users. 
+                                                    You can reactivate your account at any time by logging back in.
+                                                </p>
+                                                <button class="btn btn-warning" data-toggle="modal" data-target="#deactivateModal">
+                                                    Deactivate Account
+                                                </button>
+                                            </div>
+                                        {% else %}
+                                            <div id="activate-block">
+                                                <h3>Account Activation</h3>
+                                                <p class="action-description">
+                                                    Your account is currently deactivated. Activating your account will make your profile 
+                                                    and content visible to other users again.
+                                                </p>
+                                                <button class="btn btn-success" id="activateAccount">
+                                                    Activate Account
+                                                </button>
+                                            </div>
+                                        {% endif %}
                                     </div>
 
                                     <div class="action-block mt-4">

@@ -62,18 +62,51 @@ $(document).ready(function() {
         }
     });
 
-    // Account deactivation button click
-    $('[data-target="#deactivateModal"]').on('click', function(e) {
+    // Use event delegation for modal trigger buttons
+    $(document).on('click', '[data-target="#deactivateModal"]', function(e) {
         e.preventDefault();
         closeModal('#deleteModal'); // Close other modal if open
         $('#deactivateModal').modal('show');
     });
 
-    // Account deletion button click
-    $('[data-target="#deleteModal"]').on('click', function(e) {
+    $(document).on('click', '[data-target="#deleteModal"]', function(e) {
         e.preventDefault();
         closeModal('#deactivateModal'); // Close other modal if open
         $('#deleteModal').modal('show');
+    });
+
+    const deactivateBlockHtml = `
+        <div id="deactivate-block">
+            <h3>Account Deactivation</h3>
+            <p class="action-description">
+                Deactivating your account will temporarily hide your profile and all your content from other users. 
+                You can reactivate your account at any time by logging back in.
+            </p>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#deactivateModal">
+                Deactivate Account
+            </button>
+        </div>
+    `;
+
+    const activateBlockHtml = `
+        <div id="activate-block">
+            <h3>Account Activation</h3>
+            <p class="action-description">
+                Your account is currently deactivated. Activating your account will make your profile 
+                and content visible to other users again.
+            </p>
+            <button class="btn btn-success" id="activateAccount">
+                Activate Account
+            </button>
+        </div>
+    `;
+
+    // Use event delegation for dynamically added elements
+    $(document).on('click', '#activateAccount', function() {
+        // Add your activation API call here
+        console.log('Account activation requested');
+        // After successful API call, switch to deactivation view
+        $(this).closest('.action-block').html(deactivateBlockHtml);
     });
 
     // Account deactivation confirmation
@@ -81,6 +114,8 @@ $(document).ready(function() {
         // Add your deactivation API call here
         console.log('Account deactivation confirmed');
         closeModal('#deactivateModal');
+        // After successful API call, switch to activation view
+        $('#deactivate-block').closest('.action-block').html(activateBlockHtml);
     });
 
     // Account deletion confirmation
