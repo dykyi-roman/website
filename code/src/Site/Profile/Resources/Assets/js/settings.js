@@ -31,29 +31,48 @@ $(document).ready(function() {
         switchTab(targetId);
     });
 
+    // Function to properly close modal
+    function closeModal(modalId) {
+        $(modalId).modal('hide');
+        $('.modal-backdrop').remove();
+        $('body').css('padding-right', '');
+    }
+
     // Initialize Bootstrap modals
-    $('#deactivateModal, #deleteModal').modal({
+    const modalOptions = {
         keyboard: true,
         backdrop: 'static',
         show: false
+    };
+    
+    $('#deactivateModal, #deleteModal').modal(modalOptions);
+
+    // Handle modal close buttons
+    $('.modal .close, .modal .btn-secondary').on('click', function(e) {
+        e.preventDefault();
+        const modalId = '#' + $(this).closest('.modal').attr('id');
+        closeModal(modalId);
     });
 
-    // Handle modal backdrop cleanup
-    $('#deactivateModal, #deleteModal').on('hidden.bs.modal', function () {
-        $('.modal-backdrop').remove();
-        // Don't remove modal-open class as it affects page scrolling
-        $('body').css('padding-right', '');
+    // Handle ESC key
+    $(document).on('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeModal('#deactivateModal');
+            closeModal('#deleteModal');
+        }
     });
 
     // Account deactivation button click
     $('[data-target="#deactivateModal"]').on('click', function(e) {
         e.preventDefault();
+        closeModal('#deleteModal'); // Close other modal if open
         $('#deactivateModal').modal('show');
     });
 
     // Account deletion button click
     $('[data-target="#deleteModal"]').on('click', function(e) {
         e.preventDefault();
+        closeModal('#deactivateModal'); // Close other modal if open
         $('#deleteModal').modal('show');
     });
 
@@ -61,18 +80,20 @@ $(document).ready(function() {
     $('#confirmDeactivate').on('click', function() {
         // Add your deactivation API call here
         console.log('Account deactivation confirmed');
-        // After successful API call:
-        $('#deactivateModal').modal('hide');
-        // You might want to show a success message or redirect
+        closeModal('#deactivateModal');
     });
 
     // Account deletion confirmation
     $('#confirmDelete').on('click', function() {
         // Add your deletion API call here
         console.log('Account deletion confirmed');
-        // After successful API call:
-        $('#deleteModal').modal('hide');
-        // You might want to show a success message or redirect
+        closeModal('#deleteModal');
+    });
+
+    // Handle modal hidden event
+    $('.modal').on('hidden.bs.modal', function() {
+        $('.modal-backdrop').remove();
+        $('body').css('padding-right', '');
     });
 
     // Handle URL hash changes

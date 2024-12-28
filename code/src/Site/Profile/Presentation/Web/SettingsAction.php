@@ -18,6 +18,11 @@ final readonly class SettingsAction
         return $responder->context([
             'page_title' => $translator->trans('settings.page_title'),
             'content' => '',
+            'settings' => [
+                'privacy' => [
+                    'status' => 1 // 0
+                ],
+            ],
         ])->respond();
     }
 }
