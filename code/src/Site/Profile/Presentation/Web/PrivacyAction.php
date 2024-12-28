@@ -9,9 +9,11 @@ use Site\Profile\Presentation\Web\Request\ActivateAccountRequestDTO;
 use Site\Profile\Presentation\Web\Response\PrivacyJsonResponder;
 use Site\User\DomainModel\Repository\UserRepositoryInterface;
 use Site\User\DomainModel\Service\UserFetcher;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 final readonly class PrivacyAction
 {
@@ -44,17 +46,24 @@ final readonly class PrivacyAction
     #[Route('/settings/privacy/account-delete', name: 'settings-privacy-account-delete', methods: ['GET'])]
     public function __invoke(
         PrivacyJsonResponder $responder,
+        TokenStorageInterface $tokenStorage,
+        SessionInterface $session,
     ): PrivacyJsonResponder {
         try {
             $user = $this->userFetcher->fetch();
             $user->delete();
             $this->userRepository->save($user);
+
+            $tokenStorage->setToken(null);
+            if ($session->isStarted()) {
+                $session->invalidate();
+            }
+
+            return $responder->success('Ok')->respond();
         } catch (\Throwable $exception) {
             $this->logger->error($exception->getMessage());
 
             return $responder->error($this->translator->trans('unexpected_registration_save_settings'))->respond();
         }
-
-        return $responder->success('Ok')->respond();
     }
 }
