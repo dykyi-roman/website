@@ -18,7 +18,7 @@
                 <div class="profile-settings">
                     <!-- Left Menu -->
                     <div class="settings-menu">
-                        <a href="#account" class="settings-menu-item active" data-content="account">
+                        <a href="#account" class="settings-menu-item" data-content="account">
                             <i class="fas fa-user"></i>
                             Account
                         </a>
@@ -39,7 +39,7 @@
                     <!-- Right Content Area -->
                     <div class="settings-content">
                         <!-- Account Settings -->
-                        <div id="account" class="settings-section active">
+                        <div id="account" class="settings-section">
                             <h2>Account</h2>
                             <div class="settings-form">
                                 <!-- Account settings content will go here -->
@@ -152,5 +152,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('js/settings.js') }}"></script>
 {% endblock %}
