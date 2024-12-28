@@ -38,6 +38,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Function to properly close modal
     function closeModal(modalId) {
+        // Remove error messages
+        $(modalId + ' .alert').remove();
         $(modalId).modal('hide');
         $('.modal-backdrop').remove();
         $('body').css('padding-right', '');
@@ -71,12 +73,16 @@ document.addEventListener('DOMContentLoaded', async function() {
     $(document).on('click', '[data-target="#deactivateModal"]', function(e) {
         e.preventDefault();
         closeModal('#deleteModal'); // Close other modal if open
+        // Clear any existing error messages
+        $('#deactivateModal .alert').remove();
         $('#deactivateModal').modal('show');
     });
 
     $(document).on('click', '[data-target="#deleteModal"]', function(e) {
         e.preventDefault();
         closeModal('#deactivateModal'); // Close other modal if open
+        // Clear any existing error messages
+        $('#deleteModal .alert').remove();
         $('#deleteModal').modal('show');
     });
 
@@ -91,11 +97,10 @@ document.addEventListener('DOMContentLoaded', async function() {
                 }
             });
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
             const data = await response.json();
+            if (!response.ok) {
+                throw data;
+            }
             if (data.success) {
                 // After successful API call, switch to deactivation view
                 $(this).closest('.action-block').html(`
@@ -113,7 +118,18 @@ document.addEventListener('DOMContentLoaded', async function() {
                 console.error('Failed to activate account');
             }
         } catch (error) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-danger mt-3';
+            alertDiv.textContent = error.errors?.message || 'An unexpected error occurred';
             console.error('Error:', error);
+            
+            const actionBlock = document.querySelector('.action-block');
+            // Remove any existing alerts
+            const existingAlert = actionBlock.querySelector('.alert');
+            if (existingAlert) {
+                existingAlert.remove();
+            }
+            actionBlock.insertBefore(alertDiv, actionBlock.firstChild);
         }
     });
 
@@ -127,11 +143,10 @@ document.addEventListener('DOMContentLoaded', async function() {
                 }
             });
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
             const data = await response.json();
+            if (!response.ok) {
+                throw data;
+            }
             if (data.success) {
                 closeModal('#deactivateModal');
                 // After successful API call, switch to activation view
@@ -150,7 +165,18 @@ document.addEventListener('DOMContentLoaded', async function() {
                 console.error('Failed to deactivate account');
             }
         } catch (error) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-danger';
+            alertDiv.textContent = error.errors?.message || 'An unexpected error occurred';
             console.error('Error:', error);
+            
+            const modalBody = document.querySelector('#deactivateModal .modal-body');
+            // Remove any existing alerts
+            const existingAlert = modalBody.querySelector('.alert');
+            if (existingAlert) {
+                existingAlert.remove();
+            }
+            modalBody.insertBefore(alertDiv, modalBody.firstChild);
         }
     });
 
@@ -164,11 +190,10 @@ document.addEventListener('DOMContentLoaded', async function() {
                 }
             });
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
             const data = await response.json();
+            if (!response.ok) {
+                throw data;
+            }
             if (data.success) {
                 closeModal('#deleteModal');
                 // Redirect to logout or home page after successful deletion
@@ -177,12 +202,25 @@ document.addEventListener('DOMContentLoaded', async function() {
                 console.error('Failed to delete account');
             }
         } catch (error) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-danger';
+            alertDiv.textContent = error.errors?.message || 'An unexpected error occurred';
             console.error('Error:', error);
+            
+            const modalBody = document.querySelector('#deleteModal .modal-body');
+            // Remove any existing alerts
+            const existingAlert = modalBody.querySelector('.alert');
+            if (existingAlert) {
+                existingAlert.remove();
+            }
+            modalBody.insertBefore(alertDiv, modalBody.firstChild);
         }
     });
 
     // Handle modal hidden event
     $('.modal').on('hidden.bs.modal', function() {
+        // Remove error messages when modal is hidden
+        $(this).find('.alert').remove();
         $('.modal-backdrop').remove();
         $('body').css('padding-right', '');
     });

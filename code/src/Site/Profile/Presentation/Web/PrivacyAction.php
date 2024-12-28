@@ -11,12 +11,14 @@ use Site\User\DomainModel\Repository\UserRepositoryInterface;
 use Site\User\DomainModel\Service\UserFetcher;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class PrivacyAction
 {
     public function __construct(
         private UserFetcher $userFetcher,
         private UserRepositoryInterface $userRepository,
+        private TranslatorInterface $translator,
         private LoggerInterface $logger,
     ) {
     }
@@ -35,7 +37,7 @@ final readonly class PrivacyAction
         } catch (\Throwable $exception) {
             $this->logger->error($exception->getMessage());
 
-            return $responder->error('Ok')->respond();
+            return $responder->error($this->translator->trans('unexpected_registration_save_settings'))->respond();
         }
     }
 
@@ -50,7 +52,7 @@ final readonly class PrivacyAction
         } catch (\Throwable $exception) {
             $this->logger->error($exception->getMessage());
 
-            return $responder->error('Ok')->respond();
+            return $responder->error($this->translator->trans('unexpected_registration_save_settings'))->respond();
         }
 
         return $responder->success('Ok')->respond();

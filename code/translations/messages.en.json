@@ -39,6 +39,7 @@
   "reset_password_button": "Reset Password",
   "registration_success": "Registration successful!",
   "unexpected_registration_error": "Unexpected error during registration",
+  "unexpected_registration_save_settings": "Unexpected error during registration",
   "password_reset_success": "Password successfully reset",
   "reset_token_expired": "Reset token is invalid or has expired",
   "invalid_password": "Invalid password",
