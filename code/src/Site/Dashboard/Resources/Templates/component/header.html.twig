@@ -81,9 +81,9 @@
                     aria-labelledby="profileDropdown">
                     {% if app.user %}
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
+                            <a class="dropdown-item d-flex align-items-center" href="{{ path('favorites') }}">
                                 <i class="fas fa-heart me-2"></i>
-                                <span>{{ 'favorites'|trans }}</span>
+                                <span>{{ 'menu_favorites'|trans }}</span>
                             </a>
                         </li>
                         <li>

@@ -116,12 +116,15 @@
   "notifications": "Notifications",
   "unread_notifications": "Unread notifications",
   "messages": "Messages",
-  "favorites": "Favorites",
+  "menu_favorites": "Favorites",
   "unread_messages": "Unread messages",
   "account_menu": "Menu",
   "profile_picture": "Profile picture",
   "get_it_on_google_play": "Download on the Google play",
   "download_on_app_store": "Download on the Apple store",
+  "favorites": {
+    "page_title": "Favorites"
+  },
   "settings": {
     "page_title": "Settings",
     "menu": {
