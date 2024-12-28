@@ -6,6 +6,7 @@ framework:
             - src/Site/Location/Resources/Assets/
             - src/Site/Dashboard/Resources/Assets/
             - src/Site/Registration/Resources/Assets/
+            - src/Site/Profile/Resources/Assets/
         missing_import_mode: strict
 
 when@prod:

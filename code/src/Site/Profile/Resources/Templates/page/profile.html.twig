@@ -4,6 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -14,8 +15,68 @@
         </div>
         <div class="container">
             <div class="page-content">
+                <div class="profile-settings">
+                    <!-- Left Menu -->
+                    <div class="settings-menu">
+                        <a href="#account" class="settings-menu-item active" data-content="account">
+                            <i class="fas fa-user"></i>
+                            Account
+                        </a>
+                        <a href="#general" class="settings-menu-item" data-content="general">
+                            <i class="fas fa-cog"></i>
+                            General
+                        </a>
+                        <a href="#notifications" class="settings-menu-item" data-content="notifications">
+                            <i class="fas fa-bell"></i>
+                            Notifications
+                        </a>
+                        <a href="#privacy" class="settings-menu-item" data-content="privacy">
+                            <i class="fas fa-lock"></i>
+                            Privacy
+                        </a>
+                    </div>
 
+                    <!-- Right Content Area -->
+                    <div class="settings-content">
+                        <!-- Account Settings -->
+                        <div id="account" class="settings-section active">
+                            <h2>Account Settings</h2>
+                            <div class="settings-form">
+                                <!-- Account settings content will go here -->
+                            </div>
+                        </div>
+
+                        <!-- General Settings -->
+                        <div id="general" class="settings-section" style="display: none;">
+                            <h2>General Settings</h2>
+                            <div class="settings-form">
+                                <!-- General settings content will go here -->
+                            </div>
+                        </div>
+
+                        <!-- Notification Settings -->
+                        <div id="notifications" class="settings-section" style="display: none;">
+                            <h2>Notification Settings</h2>
+                            <div class="settings-form">
+                                <!-- Notification settings content will go here -->
+                            </div>
+                        </div>
+
+                        <!-- Privacy Settings -->
+                        <div id="privacy" class="settings-section" style="display: none;">
+                            <h2>Privacy Settings</h2>
+                            <div class="settings-form">
+                                <!-- Privacy settings content will go here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/profile.js') }}"></script>
 {% endblock %}
