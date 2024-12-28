@@ -80,7 +80,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         $this->phone = $phone;
         $this->location = $location;
         $this->status = UserStatus::ACTIVATED;
-        $this->roles = [Roles::ROLE_CLIENT->value];
+        $this->roles = [Roles::ROLE_CLIENT->value, Roles::ROLE_PARTNER->value];
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
     }
