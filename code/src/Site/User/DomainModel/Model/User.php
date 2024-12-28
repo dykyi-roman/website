@@ -100,6 +100,10 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         $this->eraseCredentials();
         $this->deactivate();
 
+        $this->facebookToken = null;
+        $this->googleToken = null;
+        $this->password = null;
+        $this->passwordToken = null;
         $this->deletedAt = new \DateTimeImmutable();
     }
 

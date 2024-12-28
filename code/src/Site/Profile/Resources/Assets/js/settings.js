@@ -194,13 +194,10 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (!response.ok) {
                 throw data;
             }
-            if (data.success) {
-                closeModal('#deleteModal');
-                // Redirect to logout or home page after successful deletion
-                window.location.href = '/';
-            } else {
-                console.error('Failed to delete account');
-            }
+            
+            closeModal('#deleteModal');
+            // Redirect to home page after account deletion
+            window.location.href = '/';
         } catch (error) {
             const alertDiv = document.createElement('div');
             alertDiv.className = 'alert alert-danger';
