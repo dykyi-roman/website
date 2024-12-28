@@ -49,7 +49,7 @@
   "services_search_title": "Services Search",
   "list_view_title": "List View",
   "grid_view_title": "Grid View",
-  "profile_menu_item": "Profile",
+  "settings_menu_item": "Settings",
   "order": {
     "price": {
       "asc": "Price: Low to High",
@@ -121,8 +121,8 @@
   "profile_picture": "Profile picture",
   "get_it_on_google_play": "Download on the Google play",
   "download_on_app_store": "Download on the Apple store",
-  "profile": {
-    "page_title": "Profile"
+  "settings": {
+    "page_title": "Settings"
   },
   "app": {
     "page_title": "App votes",

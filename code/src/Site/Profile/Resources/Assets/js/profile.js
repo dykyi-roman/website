@@ -1,11 +1,11 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     const menuItems = document.querySelectorAll('.settings-menu-item');
     const sections = document.querySelectorAll('.settings-section');
 
     menuItems.forEach(item => {
-        item.addEventListener('click', function (e) {
+        item.addEventListener('click', function(e) {
             e.preventDefault();
-
+            
             // Remove active class from all menu items
             menuItems.forEach(mi => mi.classList.remove('active'));
             // Add active class to clicked menu item
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Hide all sections
             sections.forEach(section => section.style.display = 'none');
-
+            
             // Show selected section
             const contentId = this.getAttribute('data-content');
             const contentSection = document.getElementById(contentId);
@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 contentSection.style.display = 'block';
             }
 
-            // Update URL hash
-            window.location.hash = contentId;
+            // Update URL hash without scrolling
+            history.pushState(null, '', `#${contentId}`);
         });
     });
 
@@ -31,10 +31,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const hash = window.location.hash.slice(1) || 'account';
         const targetMenuItem = document.querySelector(`[data-content="${hash}"]`);
         if (targetMenuItem) {
-            targetMenuItem.click();
+            // Trigger click without scrolling
+            targetMenuItem.dispatchEvent(new Event('click'));
         }
     }
 
-    window.addEventListener('hashchange', handleHashChange);
+    window.addEventListener('popstate', handleHashChange);
     handleHashChange(); // Handle initial load
 });

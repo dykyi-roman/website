@@ -649,3 +649,64 @@
 [data-theme="dark"] p {
     color: var(--secondary-color);
 }
+
+/* Profile Settings Page Dark Theme */
+[data-theme="dark"] .profile-settings {
+    background-color: var(--dark-bg);
+}
+
+[data-theme="dark"] .settings-menu {
+    background-color: var(--dark-surface);
+    border-color: var(--dark-border);
+    box-shadow: var(--shadow-sm);
+}
+
+[data-theme="dark"] .settings-menu-item {
+    color: var(--text-lighter);
+}
+
+[data-theme="dark"] .settings-menu-item:hover {
+    background-color: var(--dark-surface-lighter);
+    color: var(--primary-orange);
+    border-left-color: var(--primary-orange);
+}
+
+[data-theme="dark"] .settings-menu-item.active {
+    background-color: var(--dark-surface-lighter);
+    color: var(--primary-orange);
+    border-left-color: var(--primary-orange);
+}
+
+[data-theme="dark"] .settings-menu-item i {
+    color: inherit;
+}
+
+[data-theme="dark"] .settings-content {
+    background-color: var(--dark-surface);
+    border-color: var(--dark-border);
+    box-shadow: var(--shadow-sm);
+}
+
+[data-theme="dark"] .settings-content h2 {
+    color: var(--text-lighter);
+    border-bottom-color: var(--dark-border);
+}
+
+[data-theme="dark"] .settings-form {
+    color: var(--text-lighter);
+}
+
+[data-theme="dark"] .settings-form input,
+[data-theme="dark"] .settings-form select,
+[data-theme="dark"] .settings-form textarea {
+    background-color: var(--dark-surface-lighter);
+    border-color: var(--dark-border);
+    color: var(--text-lighter);
+}
+
+[data-theme="dark"] .settings-form input:focus,
+[data-theme="dark"] .settings-form select:focus,
+[data-theme="dark"] .settings-form textarea:focus {
+    border-color: var(--primary-orange);
+    box-shadow: 0 0 0 0.25rem rgba(255, 139, 96, 0.25);
+}

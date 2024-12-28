@@ -6,7 +6,7 @@ namespace Site\Profile\Presentation\Web\Response;
 
 use Shared\Presentation\Responder\TemplateResponderInterface;
 
-final class ProfileHtmlResponder implements TemplateResponderInterface
+final class SettingsHtmlResponder implements TemplateResponderInterface
 {
     /** @var array<string, mixed> */
     private array $data = [];

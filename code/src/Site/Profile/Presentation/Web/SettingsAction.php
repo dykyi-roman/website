@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Site\Profile\Presentation\Web;
 
-use Site\Profile\Presentation\Web\Response\ProfileHtmlResponder;
+use Site\Profile\Presentation\Web\Response\SettingsHtmlResponder;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final readonly class ProfileAction
+final readonly class SettingsAction
 {
-    #[Route('/profile', name: 'profile')]
+    #[Route('/settings', name: 'settings')]
     public function __invoke(
-        ProfileHtmlResponder $responder,
+        SettingsHtmlResponder $responder,
         TranslatorInterface $translator,
-    ): ProfileHtmlResponder {
+    ): SettingsHtmlResponder {
         return $responder->context([
-            'page_title' => $translator->trans('profile.page_title'),
+            'page_title' => $translator->trans('settings.page_title'),
             'content' => '',
         ])->respond();
     }
