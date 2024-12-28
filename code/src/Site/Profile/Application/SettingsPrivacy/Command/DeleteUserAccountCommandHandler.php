@@ -7,7 +7,6 @@ namespace Site\Profile\Application\SettingsPrivacy\Command;
 use Psr\Log\LoggerInterface;
 use Site\User\DomainModel\Repository\UserRepositoryInterface;
 use Site\User\DomainModel\Service\UserFetcher;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -18,7 +17,6 @@ final readonly class DeleteUserAccountCommandHandler
         private UserFetcher $userFetcher,
         private UserRepositoryInterface $userRepository,
         private TokenStorageInterface $tokenStorage,
-        private SessionInterface $session,
         private LoggerInterface $logger,
     ) {
     }
@@ -34,9 +32,6 @@ final readonly class DeleteUserAccountCommandHandler
             $this->userRepository->save($user);
 
             $this->tokenStorage->setToken(null);
-            if ($this->session->isStarted()) {
-                $this->session->invalidate();
-            }
         } catch (\Throwable $exception) {
             $this->logger->error($exception->getMessage());
 
