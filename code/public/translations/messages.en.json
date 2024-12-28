@@ -1,4 +1,19 @@
 {
+    "settings": {
+        "account_activation_requested": "Account activation requested",
+        "account_deactivation_confirmed": "Account deactivation confirmed",
+        "account_deletion_confirmed": "Account deletion confirmed",
+        "deactivate_block": {
+            "title": "Account Deactivation",
+            "description": "Deactivating your account will temporarily hide your profile and all your content from other users. You can reactivate your account at any time by logging back in.",
+            "button": "Deactivate Account"
+        },
+        "activate_block": {
+            "title": "Account Activation",
+            "description": "Your account is currently deactivated. Activating your account will make your profile and content visible to other users again.",
+            "button": "Activate Account"
+        }
+    },
     "locales": {
         "uk": "Українська",
         "en": "English",

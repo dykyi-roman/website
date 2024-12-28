@@ -85,6 +85,24 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         $this->updatedAt = new \DateTimeImmutable();
     }
 
+    public function activate(): void
+    {
+        $this->status = UserStatus::ACTIVATED;
+    }
+
+    public function deactivate(): void
+    {
+        $this->status = UserStatus::DEACTIVATED;
+    }
+
+    public function delete(): void
+    {
+        $this->eraseCredentials();
+        $this->deactivate();
+
+        $this->deletedAt = new \DateTimeImmutable();
+    }
+
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here

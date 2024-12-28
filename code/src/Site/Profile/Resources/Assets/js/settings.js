@@ -1,4 +1,9 @@
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('Module::Settings::Created');
+    
+    // Get current language or default to English
+    const currentLang = localStorage.getItem('locale') || 'en';
+    const t = await loadTranslations(currentLang);
     // Function to switch active tab
     function switchTab(tabId, updateHash = true) {
         // Update active menu item
@@ -75,53 +80,48 @@ $(document).ready(function() {
         $('#deleteModal').modal('show');
     });
 
-    const deactivateBlockHtml = `
-        <div id="deactivate-block">
-            <h3>Account Deactivation</h3>
-            <p class="action-description">
-                Deactivating your account will temporarily hide your profile and all your content from other users. 
-                You can reactivate your account at any time by logging back in.
-            </p>
-            <button class="btn btn-warning" data-toggle="modal" data-target="#deactivateModal">
-                Deactivate Account
-            </button>
-        </div>
-    `;
-
-    const activateBlockHtml = `
-        <div id="activate-block">
-            <h3>Account Activation</h3>
-            <p class="action-description">
-                Your account is currently deactivated. Activating your account will make your profile 
-                and content visible to other users again.
-            </p>
-            <button class="btn btn-success" id="activateAccount">
-                Activate Account
-            </button>
-        </div>
-    `;
 
     // Use event delegation for dynamically added elements
     $(document).on('click', '#activateAccount', function() {
         // Add your activation API call here
-        console.log('Account activation requested');
+        console.log(t.settings.account_activation_requested);
         // After successful API call, switch to deactivation view
-        $(this).closest('.action-block').html(deactivateBlockHtml);
+        $(this).closest('.action-block').html(`
+            <div id="deactivate-block">
+                <h3>${t.settings.deactivate_block.title}</h3>
+                <p class="action-description">
+                    ${t.settings.deactivate_block.description}
+                </p>
+                <button class="btn btn-warning" data-toggle="modal" data-target="#deactivateModal">
+                    ${t.settings.deactivate_block.button}
+                </button>
+            </div>
+        `);
     });
 
     // Account deactivation confirmation
     $('#confirmDeactivate').on('click', function() {
         // Add your deactivation API call here
-        console.log('Account deactivation confirmed');
+        console.log(t.settings.account_deactivation_confirmed);
         closeModal('#deactivateModal');
         // After successful API call, switch to activation view
-        $('#deactivate-block').closest('.action-block').html(activateBlockHtml);
+        $('#deactivate-block').closest('.action-block').html(`
+            <div id="activate-block">
+                <h3>${t.settings.activate_block.title}</h3>
+                <p class="action-description">
+                    ${t.settings.activate_block.description}
+                </p>
+                <button class="btn btn-success" id="activateAccount">
+                    ${t.settings.activate_block.button}
+                </button>
+            </div>
+        `);
     });
 
     // Account deletion confirmation
     $('#confirmDelete').on('click', function() {
         // Add your deletion API call here
-        console.log('Account deletion confirmed');
+        console.log(t.settings.account_deletion_confirmed);
         closeModal('#deleteModal');
     });
 

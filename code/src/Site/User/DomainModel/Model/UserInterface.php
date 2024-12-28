@@ -18,6 +18,12 @@ interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterf
 
     public function isDeleted(): bool;
 
+    public function activate(): void;
+
+    public function deactivate(): void;
+
+    public function delete(): void;
+
     public function updatePassword(string $hashedPassword): void;
 
     public function clearResetToken(): void;
