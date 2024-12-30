@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Site\Dashboard\Presentation\Web;
 
 use Site\Dashboard\Presentation\Web\Response\ContactHtmlResponder;
+use Site\User\DomainModel\Service\UserFetcher;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
