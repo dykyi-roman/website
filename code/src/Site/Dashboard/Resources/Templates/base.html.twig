@@ -131,6 +131,11 @@
             </footer>
         {% endblock %}
 
+        {# Cookies #}
+        {% if agreement_with_cookies == 'display' %}
+            {% include '@Dashboard/popup/cookie-consent.html.twig' %}
+        {% endif %}
+
         {# Modals #}
         {% block modals %}
             {% include '@Dashboard/popup/share-popup.html.twig' %}

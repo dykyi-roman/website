@@ -12,6 +12,7 @@ twig:
             "address": '%app.support_address%',
             "map": '%app.support_map%'
         }
+        agreement_with_cookies: '%app.agreement_with_cookies%'
         nocaptcha: '@Anhskohbo\NoCaptcha\NoCaptcha'
         nocaptcha_enabled: '%nocaptcha.enabled%'
 

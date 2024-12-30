@@ -2,6 +2,9 @@
 
 # Features
 
+### General
+* Agreement with cookies popup
+
 ### Registration
 * Social network authentication
 * Two types of registration (Client or Partner)
