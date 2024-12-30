@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             query: params.get('query') || '',
             page: parseInt(params.get('page')) || 1,
             filter: params.get('filter') || '',
-            order: params.get('order') || ''
+            order: params.get('order') || 'date_desc'
         };
     }
 
@@ -109,7 +109,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                 orderFilterButton.classList.add('active');
                 serviceFilterButton.classList.remove('active');
                 localStorage.setItem('filter-toggle', currentFilter);
-                ordersSearch(searchInput.value.trim(), 1, currentFilter);
+                const params = getUrlParams();
+                ordersSearch(searchInput.value.trim(), 1, currentFilter, params.order);
             }
         });
 
@@ -119,7 +120,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                 serviceFilterButton.classList.add('active');
                 orderFilterButton.classList.remove('active');
                 localStorage.setItem('filter-toggle', currentFilter);
-                servicesSearch(searchInput.value.trim(), 1, currentFilter);
+                const params = getUrlParams();
+                servicesSearch(searchInput.value.trim(), 1, currentFilter, params.order);
             }
         });
 
@@ -228,10 +230,11 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (isSearching) return;
             isSearching = true;
             
+            const params = getUrlParams();
             if (currentFilter === 'orders') {
-                ordersSearch(searchInput.value.trim(), currentPage - 1, currentFilter);
+                ordersSearch(searchInput.value.trim(), currentPage - 1, currentFilter, params.order);
             } else {
-                servicesSearch(searchInput.value.trim(), currentPage - 1, currentFilter);
+                servicesSearch(searchInput.value.trim(), currentPage - 1, currentFilter, params.order);
             }
 
             setTimeout(() => { isSearching = false; }, 1000);
@@ -256,10 +259,11 @@ document.addEventListener('DOMContentLoaded', async function() {
                     if (isSearching) return;
                     isSearching = true;
                     
+                    const params = getUrlParams();
                     if (currentFilter === 'orders') {
-                        ordersSearch(searchInput.value.trim(), i, currentFilter);
+                        ordersSearch(searchInput.value.trim(), i, currentFilter, params.order);
                     } else {
-                        servicesSearch(searchInput.value.trim(), i, currentFilter);
+                        servicesSearch(searchInput.value.trim(), i, currentFilter, params.order);
                     }
 
                     setTimeout(() => { isSearching = false; }, 1000);
@@ -288,10 +292,11 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (isSearching) return;
             isSearching = true;
             
+            const params = getUrlParams();
             if (currentFilter === 'orders') {
-                ordersSearch(searchInput.value.trim(), currentPage + 1, currentFilter);
+                ordersSearch(searchInput.value.trim(), currentPage + 1, currentFilter, params.order);
             } else {
-                servicesSearch(searchInput.value.trim(), currentPage + 1, currentFilter);
+                servicesSearch(searchInput.value.trim(), currentPage + 1, currentFilter, params.order);
             }
             
             setTimeout(() => { isSearching = false; }, 1000);
@@ -557,12 +562,13 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         searchButton.addEventListener('click', () => {
             const query = searchInput.value.trim();
+            const params = getUrlParams();
             if (currentFilter === 'services') {
-                servicesSearch(query, 1, currentFilter);
-                updateUrlParams(query, 1, currentFilter);
+                servicesSearch(query, 1, currentFilter, params.order);
+                updateUrlParams(query, 1, currentFilter, params.order);
             } else if (currentFilter === 'orders') {
-                ordersSearch(query, 1, currentFilter);
-                updateUrlParams(query, 1, currentFilter);
+                ordersSearch(query, 1, currentFilter, params.order);
+                updateUrlParams(query, 1, currentFilter, params.order);
             }
         });
 
@@ -570,12 +576,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         searchInput.addEventListener('keyup', (event) => {
             if (event.key === 'Enter') {
                 const query = searchInput.value.trim();
+                const params = getUrlParams();
                 if (currentFilter === 'services') {
-                    servicesSearch(query, 1, currentFilter);
+                    servicesSearch(query, 1, currentFilter, params.order);
                 } else if (currentFilter === 'orders') {
-                    ordersSearch(query, 1, currentFilter);
+                    ordersSearch(query, 1, currentFilter, params.order);
                 }
-                updateUrlParams(query, 1, currentFilter);
+                updateUrlParams(query, 1, currentFilter, params.order);
             }
         });
     }
