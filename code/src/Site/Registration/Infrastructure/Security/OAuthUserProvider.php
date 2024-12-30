@@ -60,14 +60,14 @@ final readonly class OAuthUserProvider implements UserProviderInterface
         }
 
         if (null === $user) {
-            $country = $this->countryDetector->detect();
+            if ($country = $this->countryDetector->detect()) {
+                $country = new Country($country->code);
+            }
             $user = new User(
                 new UserId(),
                 $name,
                 Email::fromString($email),
-                new Location(
-                    new Country(null === $country ? '??' : $country->code),
-                ),
+                new Location($country),
             );
             $user->setGoogleToken($googleId);
             $this->userRepository->save($user);
@@ -101,14 +101,14 @@ final readonly class OAuthUserProvider implements UserProviderInterface
         }
 
         if (null === $user) {
-            $country = $this->countryDetector->detect();
+            if ($country = $this->countryDetector->detect()) {
+                $country = new Country($country->code);
+            }
             $user = new User(
                 new UserId(),
                 $name,
                 Email::fromString($email),
-                new Location(
-                    new Country(null === $country ? '??' : $country->code),
-                ),
+                new Location($country),
             );
             $user->setFacebookToken($facebookId);
             $this->userRepository->save($user);

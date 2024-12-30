@@ -81,6 +81,7 @@ final readonly class RegisterUserCommandHandler
             $command->email,
             $command->location,
             $command->phone,
+            $command->roles,
         );
     }
 }

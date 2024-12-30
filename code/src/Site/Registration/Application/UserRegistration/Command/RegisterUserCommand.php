@@ -18,6 +18,7 @@ final readonly class RegisterUserCommand
         public string $password,
         public ?string $phone,
         public Location $location,
+        public array $roles = [],
     ) {
     }
 }

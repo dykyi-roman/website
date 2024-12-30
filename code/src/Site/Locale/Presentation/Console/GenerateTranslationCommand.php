@@ -13,7 +13,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
 #[AsCommand(
-    name: 'app:generate:js-translations',
+    name: 'app:locale:generate:js-translations',
     description: 'Generate JavaScript translation files'
 )]
 final class GenerateTranslationCommand extends Command

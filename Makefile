@@ -128,10 +128,6 @@ swagger-generate: ## Generate OpenAPI/Swagger documentation
 
 ## -- Front --
 
-translations-copy: ## Generate JavaScript translations
-	docker exec -it $(php) bash -c "php bin/console app:generate:js-translations"
-	@echo "JavaScript translations generated"
-
 assets-watch: ## Watch and compile assets automatically
 	docker exec -it $(php) bash -c 'while true; do \
 		php bin/console asset-map:compile; \
@@ -139,9 +135,10 @@ assets-watch: ## Watch and compile assets automatically
 		sleep 5; \
 	done'
 
-assets-copy: ## Compiling and writing asset files to public
+copy: ## Compiling and writing asset files to public
+	docker exec -it $(php) bash -c "php bin/console app:locale:generate:js-translations"
 	docker exec -it $(php) bash -c "php bin/console asset-map:compile"
-	@echo "Build assets"
+	@echo "Build assets + copy js translations"
 
 ## -- Database Migrations --
 

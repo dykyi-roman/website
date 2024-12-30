@@ -72,8 +72,8 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         string $name,
         Email $email,
         Location $location,
-        array $roles = [Roles::ROLE_CLIENT->value, Roles::ROLE_PARTNER->value],
         ?string $phone = null,
+        array $roles = [],
     ) {
         $this->id = $id;
         $this->name = $name;
@@ -81,7 +81,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         $this->phone = $phone;
         $this->location = $location;
         $this->status = UserStatus::ACTIVATED;
-        $this->roles = $roles;
+        $this->roles = [] === $roles ? [Roles::ROLE_CLIENT->value, Roles::ROLE_PARTNER->value] : $roles;
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
     }
