@@ -92,15 +92,21 @@ final readonly class ServiceSearchAction
         #[MapQueryString] ServicesSearchRequestDTO $searchRequest,
         ServicesInterface $service,
     ): JsonResponse {
-        $currency = Currency::fromString($this->currency ?? $this->defaultCurrency);
+        $currency = Currency::fromString($searchRequest->currency ?? $this->defaultCurrency);
 
-        $result = $service->search(
+        $data = $service->search(
             $searchRequest->query,
             $searchRequest->order(),
             $searchRequest->page,
             $searchRequest->limit,
         );
 
-        return new JsonResponse($result);
+        $data['items'] = array_map(static function(array $item) use ($currency): array {
+            $item['price'] = $item['price'] . ' ' . $currency->symbol();
+
+            return $item;
+        }, $data['items']);
+
+        return new JsonResponse($data);
     }
 }

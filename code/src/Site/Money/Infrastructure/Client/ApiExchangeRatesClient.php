@@ -32,10 +32,10 @@ final readonly class ApiExchangeRatesClient implements ExchangeRatesClientInterf
         // Convert to base currency first if not base currency
         $baseAmount = ($money->getCurrency()->equals(Currency::fromString($this->exchangeRateBaseCurrency)))
             ? $money->getAmount()
-            : $money->getAmount() / $rates[$money->getCurrency()->getCode()];
+            : $money->getAmount() / $rates[$money->getCurrency()->code()];
 
         // Convert from base currency to target currency
-        $convertedAmount = $baseAmount * $rates[$toCurrency->getCode()];
+        $convertedAmount = $baseAmount * $rates[$toCurrency->code()];
 
         return Money::create(round($convertedAmount, 4), $toCurrency);
     }
@@ -48,7 +48,7 @@ final readonly class ApiExchangeRatesClient implements ExchangeRatesClientInterf
     private function validateCurrencies(array $rates, Currency ...$currencies): void
     {
         foreach ($currencies as $currency) {
-            if (!isset($rates[$currency->getCode()])) {
+            if (!isset($rates[$currency->code()])) {
                 throw new \InvalidArgumentException(sprintf('Unsupported currency: %s. Available currencies: %s', $currency, implode(', ', $this->getAvailableCurrencies($rates))));
             }
         }

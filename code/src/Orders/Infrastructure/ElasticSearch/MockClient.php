@@ -25,7 +25,7 @@ final readonly class MockClient implements OrdersInterface
      *         features: array<string>,
      *         rating: int,
      *         review_count: int,
-     *         price: string
+     *         price: float
      *     }>,
      *     total: int,
      *     page: int,
@@ -58,7 +58,7 @@ final readonly class MockClient implements OrdersInterface
                 ],
                 'rating' => 4,
                 'review_count' => 34,
-                'price' => '500',
+                'price' => 500.0,
             ];
         }
 
@@ -87,7 +87,7 @@ final readonly class MockClient implements OrdersInterface
      *     features: array<string>,
      *     rating: int,
      *     review_count: int,
-     *     price: string
+     *     price: float
      * }>
      */
     public function last(int $count): array

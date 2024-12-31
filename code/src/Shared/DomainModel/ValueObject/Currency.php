@@ -23,7 +23,7 @@ final readonly class Currency implements \Stringable
         return new self($code);
     }
 
-    public function getCode(): string
+    public function code(): string
     {
         return $this->code;
     }

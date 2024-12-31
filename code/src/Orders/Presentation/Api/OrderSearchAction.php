@@ -92,15 +92,21 @@ final readonly class OrderSearchAction
         #[MapQueryString] OrdersSearchRequestDTO $searchRequest,
         OrdersInterface $orders,
     ): JsonResponse {
-        $currency = Currency::fromString($this->currency ?? $this->defaultCurrency);
+        $currency = Currency::fromString($searchRequest->currency ?? $this->defaultCurrency);
 
-        $result = $orders->search(
+        $data = $orders->search(
             $searchRequest->query,
             $searchRequest->order(),
             $searchRequest->page,
             $searchRequest->limit,
         );
 
-        return new JsonResponse($result);
+        $data['items'] = array_map(static function(array $item) use ($currency): array {
+            $item['price'] = $item['price'] . ' ' . $currency->symbol();
+
+            return $item;
+        }, $data['items']);
+
+        return new JsonResponse($data);
     }
 }
