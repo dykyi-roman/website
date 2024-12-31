@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Site\Money\Domain\Services;
 
-use Site\Money\Domain\ValueObject\Currency;
-use Site\Money\Domain\ValueObject\Money;
+use Shared\DomainModel\ValueObject\Currency;
+use Shared\DomainModel\ValueObject\Money;
 
 interface ExchangeRatesClientInterface
 {

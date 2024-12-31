@@ -1,10 +1,12 @@
 parameters:
-
+    default_currency: '%env(DEFAULT_CURRENCY)%'
 services:
     _defaults:
         autowire: true
         autoconfigure: true
         public: false
+        bind:
+            $defaultCurrency: '%default_currency%'
 
     Orders\:
         resource: '../../'

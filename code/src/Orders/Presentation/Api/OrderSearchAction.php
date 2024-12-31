@@ -7,13 +7,19 @@ namespace Orders\Presentation\Api;
 use OpenApi\Attributes as OA;
 use Orders\DomainModel\Service\OrdersInterface;
 use Orders\Presentation\Api\Request\OrdersSearchRequestDTO;
+use Shared\DomainModel\ValueObject\Currency;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class OrderSearchAction
+final readonly class OrderSearchAction
 {
+    public function __construct(
+        private string $defaultCurrency,
+    ) {
+    }
+
     #[OA\Get(
         path: '/api/v1/orders/search',
         summary: 'Search orders with pagination',
@@ -27,6 +33,16 @@ final class OrderSearchAction
         schema: new OA\Schema(
             type: 'string',
             maxLength: 255
+        )
+    )]
+    #[OA\Parameter(
+        name: 'currency',
+        description: 'Currency',
+        in: 'query',
+        required: false,
+        schema: new OA\Schema(
+            type: 'string',
+            maxLength: 3
         )
     )]
     #[OA\Parameter(
@@ -76,6 +92,8 @@ final class OrderSearchAction
         #[MapQueryString] OrdersSearchRequestDTO $searchRequest,
         OrdersInterface $orders,
     ): JsonResponse {
+        $currency = Currency::fromString($this->currency ?? $this->defaultCurrency);
+
         $result = $orders->search(
             $searchRequest->query,
             $searchRequest->order(),

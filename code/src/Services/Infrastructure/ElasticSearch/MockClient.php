@@ -6,6 +6,7 @@ namespace Services\Infrastructure\ElasticSearch;
 
 use Services\DomainModel\Enum\OrderType;
 use Services\DomainModel\Service\ServicesInterface;
+use Shared\DomainModel\ValueObject\Currency;
 
 final readonly class MockClient implements ServicesInterface
 {

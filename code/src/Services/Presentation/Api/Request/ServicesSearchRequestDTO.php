@@ -14,6 +14,10 @@ final class ServicesSearchRequestDTO
     public string $query = '';
 
     #[Assert\Type('string')]
+    #[Assert\Length(max: 255)]
+    public ?string $currency = null;
+
+    #[Assert\Type('string')]
     #[Assert\Length(max: 32)]
     private string $order = OrderType::DATE_DESC->value;
 

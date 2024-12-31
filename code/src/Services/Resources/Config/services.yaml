@@ -1,11 +1,12 @@
 parameters:
-    app_host: '%env(APP_HOST)%'
-
+    default_currency: '%env(DEFAULT_CURRENCY)%'
 services:
     _defaults:
         autowire: true
         autoconfigure: true
         public: false
+        bind:
+            $defaultCurrency: '%default_currency%'
 
     Services\:
         resource: '../../'

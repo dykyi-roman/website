@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Site\Money\Domain\ValueObject;
+namespace Shared\DomainModel\ValueObject;
 
 final readonly class Currency implements \Stringable
 {
@@ -36,5 +36,13 @@ final readonly class Currency implements \Stringable
     public function __toString(): string
     {
         return $this->code;
+    }
+
+    public function symbol(): string
+    {
+        return match ($this->code) {
+            'USD' => '$',
+            'EUR' => '€',
+        };
     }
 }

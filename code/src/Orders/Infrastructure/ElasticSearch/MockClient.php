@@ -6,6 +6,7 @@ namespace Orders\Infrastructure\ElasticSearch;
 
 use Orders\DomainModel\Enum\OrderType;
 use Orders\DomainModel\Service\OrdersInterface;
+use Shared\DomainModel\ValueObject\Currency;
 
 final readonly class MockClient implements OrdersInterface
 {

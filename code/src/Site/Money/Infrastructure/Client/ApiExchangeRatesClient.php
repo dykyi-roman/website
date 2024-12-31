@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Site\Money\Infrastructure\Client;
 
+use Shared\DomainModel\ValueObject\Currency;
+use Shared\DomainModel\ValueObject\Money;
 use Site\Money\Domain\Services\ExchangeRatesClientInterface;
-use Site\Money\Domain\ValueObject\Currency;
-use Site\Money\Domain\ValueObject\Money;
 
 final readonly class ApiExchangeRatesClient implements ExchangeRatesClientInterface
 {

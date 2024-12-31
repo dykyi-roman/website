@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Orders\Presentation\Api\Request;
 
 use Orders\DomainModel\Enum\OrderType;
+use Shared\DomainModel\ValueObject\Currency;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final class OrdersSearchRequestDTO
@@ -12,6 +13,10 @@ final class OrdersSearchRequestDTO
     #[Assert\Type('string')]
     #[Assert\Length(max: 255)]
     public string $query = '';
+
+    #[Assert\Type('string')]
+    #[Assert\Length(max: 255)]
+    public ?string $currency = null;
 
     #[Assert\Type('string')]
     #[Assert\Length(max: 32)]

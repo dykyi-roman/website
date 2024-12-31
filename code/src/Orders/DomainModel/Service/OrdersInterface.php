@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Orders\DomainModel\Service;
 
 use Orders\DomainModel\Enum\OrderType;
+use Shared\DomainModel\ValueObject\Currency;
 
 interface OrdersInterface
 {

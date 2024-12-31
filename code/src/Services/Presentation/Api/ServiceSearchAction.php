@@ -7,13 +7,19 @@ namespace Services\Presentation\Api;
 use OpenApi\Attributes as OA;
 use Services\DomainModel\Service\ServicesInterface;
 use Services\Presentation\Api\Request\ServicesSearchRequestDTO;
+use Shared\DomainModel\ValueObject\Currency;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class ServiceSearchAction
+final readonly class ServiceSearchAction
 {
+    public function __construct(
+        private string $defaultCurrency,
+    ) {
+    }
+
     #[OA\Get(
         path: '/api/v1/services/search',
         summary: 'Search services with pagination',
@@ -27,6 +33,16 @@ final class ServiceSearchAction
         schema: new OA\Schema(
             type: 'string',
             maxLength: 255
+        )
+    )]
+    #[OA\Parameter(
+        name: 'currency',
+        description: 'Currency',
+        in: 'query',
+        required: false,
+        schema: new OA\Schema(
+            type: 'string',
+            maxLength: 3
         )
     )]
     #[OA\Parameter(
@@ -76,6 +92,8 @@ final class ServiceSearchAction
         #[MapQueryString] ServicesSearchRequestDTO $searchRequest,
         ServicesInterface $service,
     ): JsonResponse {
+        $currency = Currency::fromString($this->currency ?? $this->defaultCurrency);
+
         $result = $service->search(
             $searchRequest->query,
             $searchRequest->order(),

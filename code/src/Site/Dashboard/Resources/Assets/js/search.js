@@ -194,6 +194,14 @@ document.addEventListener('DOMContentLoaded', async function() {
         };
     }
 
+    // Utility function to get cookie value
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+    }
+
     // Utility function to safely get image URL
     function getImageUrl(imageUrl) {
         return imageUrl || 'images/default-item-image.webp';
@@ -316,8 +324,12 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Show spinner
         showSearchSpinner();
 
+        // Get currency from cookies if available
+        const appCurrency = getCookie('appCurrency');
+        const currencyParam = appCurrency ? `&currency=${encodeURIComponent(appCurrency)}` : '';
+
         // Fetch services from API
-        fetch(`/api/v1/services/search?query=${encodeURIComponent(query)}&page=${page}&limit=${itemsPerPage}&order=${order}`, {
+        fetch(`/api/v1/services/search?query=${encodeURIComponent(query)}&page=${page}&limit=${itemsPerPage}&order=${order}${currencyParam}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -436,8 +448,12 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Show spinner
         showSearchSpinner();
 
+        // Get currency from cookies if available
+        const appCurrency = getCookie('appCurrency');
+        const currencyParam = appCurrency ? `&currency=${encodeURIComponent(appCurrency)}` : '';
+
         // Fetch orders from API
-        fetch(`/api/v1/orders/search?query=${encodeURIComponent(query)}&order=${order}&page=${page}&limit=${itemsPerPage}&filter=${filter}`, {
+        fetch(`/api/v1/orders/search?query=${encodeURIComponent(query)}&order=${order}&page=${page}&limit=${itemsPerPage}&filter=${filter}${currencyParam}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
