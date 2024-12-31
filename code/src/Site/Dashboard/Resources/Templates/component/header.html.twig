@@ -49,7 +49,7 @@
             <!-- Currencies Menu -->
             <div class="nav-item dropdown combined-dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="combinedDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-globe"></i>
+                    <i class="fas fa-globe icon-space" style="margin-right: 10px"></i>
                     <span class="language-code">{{ app.request.locale|upper }}</span>
                     <span class="mx-1">/</span>
                     <span class="currency-code">{{ app.request.cookies.get('appCurrency')|default(default_currency)|upper }}</span>
