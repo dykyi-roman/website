@@ -1,0 +1,36 @@
+parameters:
+    exchange_rate_api_host: '%env(EXCHANGE_RATE_API_HOST)%'
+    exchange_rate_api_key: '%env(EXCHANGE_RATE_API_KEY)%'
+    exchange_rate_base_currency: '%env(DEFAULT_CURRENCY)%'
+    exchange_rate_cache_ttl: 14400 # 4 hours in seconds
+
+    default_currency: '%env(DEFAULT_CURRENCY)%'
+    supported_currencies: '%env(json:SUPPORTED_CURRENCIES)%'
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $exchangeRateApiHost: '%exchange_rate_api_host%'
+            $exchangeRateApiKey: '%exchange_rate_api_key%'
+            $exchangeRateBaseCurrency: '%exchange_rate_base_currency%'
+            $exchangeRateCacheTtl: '%exchange_rate_cache_ttl%'
+            $supportedCurrencies: '%supported_currencies%'
+            $defaultCurrency: '%default_currency%'
+
+    Site\Money\:
+        resource: '../../'
+        exclude:
+            - '../../Resources/'
+            - '../../DomainModel/Model/'
+            - '../../Tests/'
+            - '../../**/Tests/'
+        tags: ['controller.service_arguments']
+
+    Site\Money\Infrastructure\Client\CachedExchangeRatesFetcher: ~
+    Site\Money\Infrastructure\Client\ExchangeRatesFetcherInterface: '@Site\Money\Infrastructure\Client\CachedExchangeRatesFetcher'
+
+    # Twig
+    Site\Money\Presentation\Web\Twig\CurrencyExtension:
+        tags: [ 'twig.extension' ]

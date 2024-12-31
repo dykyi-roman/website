@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Site\Profile\Presentation\Web;
 
-use Site\Profile\Presentation\Web\Response\ProfileHtmlResponder;
+use Site\Profile\Presentation\Web\Response\FavoritesHtmlResponder;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final readonly class ProfileAction
+final readonly class FavoritesAction
 {
-    #[Route('/profile', name: 'profile')]
+    #[Route('/favorites', name: 'favorites')]
     public function __invoke(
-        ProfileHtmlResponder $responder,
+        FavoritesHtmlResponder $responder,
         TranslatorInterface $translator,
-    ): ProfileHtmlResponder {
+    ): FavoritesHtmlResponder {
         return $responder->context([
-            'page_title' => $translator->trans('profile.page_title'),
+            'page_title' => $translator->trans('favorites.page_title'),
             'content' => '',
         ])->respond();
     }

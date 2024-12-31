@@ -36,13 +36,18 @@ final class LocationType extends Type
             throw new \InvalidArgumentException('Invalid JSON data structure');
         }
 
-        if (!isset($data['country']) || !is_array($data['country']) || !isset($data['country']['code']) || !is_string($data['country']['code'])) {
-            throw new \InvalidArgumentException('Invalid country data structure');
-        }
+        $country = null;
+        if (isset($data['country'])) {
+            if (!is_array($data['country']) || !isset($data['country']['code']) || !is_string(
+                $data['country']['code']
+            )) {
+                throw new \InvalidArgumentException('Invalid country data structure');
+            }
 
-        $country = new Country(
-            code: $data['country']['code']
-        );
+            $country = new Country(
+                code: $data['country']['code']
+            );
+        }
 
         $city = null;
         if (isset($data['city']) && is_array($data['city'])) {

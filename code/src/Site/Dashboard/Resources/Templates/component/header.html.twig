@@ -46,13 +46,39 @@
                 </button>
             {% endif %}
 
-            <!-- Language Menu -->
-            {% include '@Locale/component/language_menu.html.twig' %}
+            <!-- Currencies Menu -->
+            <div class="nav-item dropdown combined-dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="combinedDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-globe"></i>
+                    <span class="language-code">{{ app.request.locale|upper }}</span>
+                    <span class="mx-1">/</span>
+                    <span class="currency-code">{{ app.request.cookies.get('appCurrency')|default(default_currency)|upper }}</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="combinedDropdown">
+                    <div class="dropdown-menu-columns">
+                        <div class="menu-column">
+                            <div class="menu-title">{{ 'Language'|trans }}</div>
+                            {% for locale in locales %}
+                                <a class="dropdown-item {{ locale.code == app.request.locale ? 'active' : '' }}" href="#" data-lang="{{ locale.code }}">
+                                    {{ ('js.locales.' ~ locale.code)|trans }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                        <div class="menu-column">
+                            <div class="menu-title">{{ 'Currency'|trans }}</div>
+                            {% for currency in currencies %}
+                                <a class="dropdown-item {{ currency.code == (app.request.cookies.get('appCurrency')|default(default_currency)) ? 'active' : '' }}" href="#" data-currency="{{ currency.code }}">
+                                    {{ currency.symbol }} {{ currency.code }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- Profile Dropdown with improved interaction -->
             <div class="nav-item dropdown profile-dropdown">
-                <a class="nav-link dropdown-toggle d-flex align-items-center" 
-                   href="{{ path('profile') }}"
+                <a class="nav-link dropdown-toggle d-flex align-items-center"
                    id="profileDropdown" 
                    role="button" 
                    data-bs-toggle="dropdown" 
@@ -75,22 +101,22 @@
                         </div>
                     {% else %}
                         <i class="fas fa-user"></i>
-                        <span class="ms-2">{{ 'guest'|trans }}</span>
+                        <span class="ms-2"></span>
                     {% endif %}
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm" 
                     aria-labelledby="profileDropdown">
                     {% if app.user %}
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="/profile">
-                                <i class="fas fa-user me-2"></i>
-                                <span>{{ 'profile_menu_item'|trans }}</span>
+                            <a class="dropdown-item d-flex align-items-center" href="{{ path('favorites') }}">
+                                <i class="fas fa-heart me-2"></i>
+                                <span>{{ 'menu_favorites'|trans }}</span>
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="/profile">
-                                <i class="fas fa-heart me-2"></i>
-                                <span>{{ 'favorites'|trans }}</span>
+                            <a class="dropdown-item d-flex align-items-center" href="{{ path('settings') }}">
+                                <i class="fas fa-cog me-2"></i>
+                                <span>{{ 'settings_menu_item'|trans }}</span>
                             </a>
                         </li>
                         <li><hr class="dropdown-divider"></li>

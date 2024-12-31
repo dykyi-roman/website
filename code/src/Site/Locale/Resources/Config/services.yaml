@@ -51,7 +51,3 @@ services:
     # Twig
     Site\Locale\Presentation\Web\Twig\LocaleExtension:
         tags: [ 'twig.extension' ]
-
-twig:
-    paths:
-        '%kernel.project_dir%/src/Site/Locale/Resources/Templates': Locale

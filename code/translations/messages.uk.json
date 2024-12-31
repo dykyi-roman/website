@@ -48,7 +48,7 @@
   "services_search_title": "Пошук послуг",
   "list_view_title": "Список",
   "grid_view_title": "Сітка",
-  "profile_menu_item": "Профіль",
+  "settings_menu_item": "Налаштування",
   "forgot_password_email_instructions": "Введіть адресу електронної пошти, пов'язану з вашим обліковим записом, і ми надішлемо вам посилання для скидання пароля.",
   "auth_menu_login": "Увійти",
   "auth_menu_register": "Зареєструватися",

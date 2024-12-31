@@ -6,14 +6,14 @@ namespace Site\Profile\Presentation\Web\Response;
 
 use Shared\Presentation\Responder\TemplateResponderInterface;
 
-final class ProfileHtmlResponder implements TemplateResponderInterface
+final class SettingsHtmlResponder implements TemplateResponderInterface
 {
     /** @var array<string, mixed> */
     private array $data = [];
 
     public function template(): string
     {
-        return '@Profile/page/profile.html.twig';
+        return '@Profile/page/settings.html.twig';
     }
 
     /** @return array<string, mixed> */

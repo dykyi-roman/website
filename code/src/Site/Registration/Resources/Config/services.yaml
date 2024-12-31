@@ -2,6 +2,11 @@ parameters:
     apiapi_host: '%env(APIAPI_HOST)%'
     supported_countries: '%env(json:SUPPORTED_COUNTRIES)%'
     password_secret_key: '%env(PASSWORD_SECRET_KEY)%'
+
+twig:
+    paths:
+        '%kernel.project_dir%/src/Site/Registration/Resources/Templates': Registration
+
 services:
     _defaults:
         autowire: true
@@ -25,7 +30,3 @@ services:
 
     Site\Registration\Presentation\Web\Twig\RegistrationExtension:
         tags: ['twig.extension']
-
-twig:
-    paths:
-        '%kernel.project_dir%/src/Site/Registration/Resources/Templates': Registration

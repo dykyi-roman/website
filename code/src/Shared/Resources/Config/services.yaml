@@ -8,6 +8,7 @@ parameters:
         'https://www.linkedin.com/company/easy-order',
     ]
     app.mailer.from: '%env(MAILER_FROM)%'
+    app.agreement_with_cookies: 'none'
 
 services:
     _defaults:

@@ -2,6 +2,9 @@
 
 # Features
 
+### General
+* Agreement with cookies popup
+
 ### Registration
 * Social network authentication
 * Two types of registration (Client or Partner)
@@ -137,6 +140,14 @@ Note: The free web service allows up to 20,000 credits per day.
 ```env
 GOOGLE_RECAPTCHA_SITE_KEY=your_secret_key_here
 GOOGLE_RECAPTCHA_SECRET_KEY=your_site_key_here
+```
+
+## Currency Integration
+1. Register for a GeoNames account [exchangerate](https://app.exchangerate-api.com/)
+2. Receive key
+3. Set key to your `.env` file:
+```env
+EXCHANGE_RATE_API_KEY=your_secret_key
 ```
 
 ## Social Login Integration

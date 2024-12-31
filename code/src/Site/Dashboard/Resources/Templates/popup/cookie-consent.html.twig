@@ -1,0 +1,13 @@
+<div class="offcanvas offcanvas-bottom" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="cookieConsent" aria-labelledby="cookieConsentLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="cookieConsentLabel">{{ 'cookie_consent.title'|trans }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <p>{{ 'cookie_consent.description'|trans }}</p>
+        <div class="d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-secondary" id="rejectCookies">{{ 'cookie_consent.reject_button'|trans }}</button>
+            <button type="button" class="btn btn-primary" id="acceptCookies">{{ 'cookie_consent.accept_button'|trans }}</button>
+        </div>
+    </div>
+</div>

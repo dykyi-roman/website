@@ -244,6 +244,55 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Show agreement with cookies canvas
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to get cookie value by name
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+    }
+
+    // Function to set cookie
+    function setCookie(name, value, days = 365) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        const expires = `expires=${date.toUTCString()}`;
+        document.cookie = `${name}=${value};${expires};path=/`;
+    }
+
+    // Function to handle cookie consent
+    function handleCookieConsent() {
+        const cookieConsent = document.getElementById('cookieConsent');
+        if (!cookieConsent) return;
+
+        const bsOffcanvas = new bootstrap.Offcanvas(cookieConsent);
+        const agreementCookie = getCookie('agreement_with_cookies');
+
+        // Show consent popup if cookie doesn't exist and display is required
+        if (!agreementCookie) {
+            bsOffcanvas.show();
+        }
+
+        // Handle accept button click
+        document.getElementById('acceptCookies')?.addEventListener('click', function() {
+            setCookie('agreement_with_cookies', '1');
+            bsOffcanvas.hide();
+        });
+
+        // Handle reject button click
+        document.getElementById('rejectCookies')?.addEventListener('click', function() {
+            setCookie('agreement_with_cookies', '0');
+            bsOffcanvas.hide();
+        });
+    }
+
+    // Initialize cookie consent handling
+    handleCookieConsent();
+});
+
+
 // Check and set referral code
 (function() {
     function getCookie(name) {

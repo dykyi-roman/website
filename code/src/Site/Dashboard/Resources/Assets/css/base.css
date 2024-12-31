@@ -35,9 +35,9 @@ body {
 .fa-globe,
 .fa-user,
 .fa-heart,
+.fa-cog,
 .fa-bell,
 .fa-comment-dots {
-    font-size: 1.25rem;
     color: var(--primary-color);
 }
 
@@ -624,4 +624,40 @@ footer h5 {
 
 .app-store-link:hover .app-store-badge {
     opacity: 1;
+}
+
+/* Language and currency */
+.combined-dropdown .dropdown-menu {
+    min-width: 300px;
+    padding: 1rem;
+}
+
+.combined-dropdown .dropdown-menu-columns {
+    display: flex;
+    gap: 1rem;
+}
+
+.combined-dropdown .menu-column {
+    flex: 1;
+}
+
+.combined-dropdown .menu-column + .menu-column {
+    border-left: 1px solid #dee2e6;
+    padding-left: 1rem;
+}
+
+.combined-dropdown .menu-title {
+    font-weight: bold;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+    padding: 0.25rem 1rem;
+}
+
+.combined-dropdown .dropdown-item {
+    padding: 0.25rem 1rem;
+}
+
+.combined-dropdown .dropdown-item.active {
+    background-color: var(--primary-color);
+    color: white;
 }

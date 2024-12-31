@@ -50,13 +50,8 @@
         {# Page-specific CSS #}
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('css/base.css') }}">
-            <link rel="stylesheet" href="{{ asset('css/language.css') }}">
             <link rel="stylesheet" href="{{ asset('css/popup.css') }}">
             <link rel="stylesheet" href="{{ asset('css/dark-theme.css') }}">
-            <link rel="stylesheet" href="{{ asset('assets/css/ui-enhancement.css') }}">
-            {% if app.request.locale in ['ar', 'he'] %}
-                <link rel="stylesheet" href="{{ asset('css/rtl.css') }}">
-            {% endif %}
         {% endblock %}
 
         {# Core JavaScript with SRI #}
@@ -131,6 +126,11 @@
             </footer>
         {% endblock %}
 
+        {# Cookies #}
+        {% if agreement_with_cookies == 'display' %}
+            {% include '@Dashboard/popup/cookie-consent.html.twig' %}
+        {% endif %}
+
         {# Modals #}
         {% block modals %}
             {% include '@Dashboard/popup/share-popup.html.twig' %}
@@ -144,6 +144,7 @@
         {# Late-loaded JavaScript #}
         {% block late_javascripts %}
             <script src="{{ asset('js/language.js') }}" defer></script>
+            <script src="{{ asset('js/currency-menu.js') }}" defer></script>
             <script src="{{ asset('js/hello.js') }}" defer></script>
         {% endblock %}
     </body>

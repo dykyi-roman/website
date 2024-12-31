@@ -3,6 +3,11 @@ parameters:
     app.support_phone: '+38 (093) 067 08 92'
     app.support_address: 'Ukraine, Zolotonosha'
     app.support_map: 'Zolotonosha+pushkina+11'
+
+twig:
+    paths:
+        '%kernel.project_dir%/src/Site/Dashboard/Resources/Templates': Dashboard
+
 services:
     _defaults:
         autowire: true
@@ -19,7 +24,3 @@ services:
             - '../../Tests/'
             - '../../**/Tests/'
         tags: ['controller.service_arguments']
-
-twig:
-    paths:
-        '%kernel.project_dir%/src/Site/Dashboard/Resources/Templates': Dashboard

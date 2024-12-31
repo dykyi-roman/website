@@ -11,6 +11,8 @@
   "Logout": "Logout",
   "Login": "Login",
   "Register": "Register",
+  "Language": "Language",
+  "Currency": "Currency",
   "error_social_login": "Error social login",
   "Internal Server Error": "Internal Server Error",
   "Back to Dashboard": "Back to Dashboard",
@@ -39,6 +41,7 @@
   "reset_password_button": "Reset Password",
   "registration_success": "Registration successful!",
   "unexpected_registration_error": "Unexpected error during registration",
+  "unexpected_registration_save_settings": "Unexpected error during registration",
   "password_reset_success": "Password successfully reset",
   "reset_token_expired": "Reset token is invalid or has expired",
   "invalid_password": "Invalid password",
@@ -49,7 +52,7 @@
   "services_search_title": "Services Search",
   "list_view_title": "List View",
   "grid_view_title": "Grid View",
-  "profile_menu_item": "Profile",
+  "settings_menu_item": "Settings",
   "order": {
     "price": {
       "asc": "Price: Low to High",
@@ -115,14 +118,62 @@
   "notifications": "Notifications",
   "unread_notifications": "Unread notifications",
   "messages": "Messages",
-  "favorites": "Favorites",
+  "menu_favorites": "Favorites",
   "unread_messages": "Unread messages",
   "account_menu": "Menu",
   "profile_picture": "Profile picture",
   "get_it_on_google_play": "Download on the Google play",
   "download_on_app_store": "Download on the Apple store",
-  "profile": {
-    "page_title": "Profile"
+  "favorites": {
+    "page_title": "Favorites"
+  },
+  "settings": {
+    "page_title": "Settings",
+    "menu": {
+      "account": "Account",
+      "general": "General",
+      "notifications": "Notifications",
+      "privacy": "Privacy"
+    },
+    "privacy": {
+      "deactivation": {
+        "title": "Account Deactivation",
+        "description": "Deactivating your account will temporarily hide your profile and all your content from other users. You can reactivate your account at any time by logging back in.",
+        "button": "Deactivate Account",
+        "modal": {
+          "title": "Confirm Account Deactivation",
+          "message": "Are you sure you want to deactivate your account? Your profile and content will be hidden until you reactivate.",
+          "effects": {
+            "profile_invisible": "Your profile will become invisible to other users",
+            "content_hidden": "Your content will be temporarily hidden",
+            "can_reactivate": "You can reactivate by logging back in"
+          },
+          "cancel": "No, Cancel",
+          "confirm": "Yes, Deactivate"
+        }
+      },
+      "activation": {
+        "title": "Account Activation",
+        "description": "Your account is currently deactivated. Activating your account will make your profile and content visible to other users again.",
+        "button": "Activate Account"
+      },
+      "deletion": {
+        "title": "Account Deletion",
+        "description": "Deleting your account is permanent. All your data, including profile information, history, and content will be permanently removed and cannot be recovered.",
+        "button": "Delete Account",
+        "modal": {
+          "title": "Confirm Account Deletion",
+          "message": "Are you sure you want to permanently delete your account? This action cannot be undone.",
+          "effects": {
+            "data_deleted": "All your personal data will be permanently deleted",
+            "profile_removed": "Your profile and content will be removed forever",
+            "no_recovery": "You cannot recover your account after deletion"
+          },
+          "cancel": "No, Cancel",
+          "confirm": "Yes, Delete"
+        }
+      }
+    }
   },
   "app": {
     "page_title": "App votes",
@@ -144,6 +195,21 @@
     }
   },
   "js": {
+    "settings": {
+      "account_activation_requested": "Account activation requested",
+      "account_deactivation_confirmed": "Account deactivation confirmed",
+      "account_deletion_confirmed": "Account deletion confirmed",
+      "deactivate_block": {
+        "title": "Account Deactivation",
+        "description": "Deactivating your account will temporarily hide your profile and all your content from other users. You can reactivate your account at any time by logging back in.",
+        "button": "Deactivate Account"
+      },
+      "activate_block": {
+        "title": "Account Activation",
+        "description": "Your account is currently deactivated. Activating your account will make your profile and content visible to other users again.",
+        "button": "Activate Account"
+      }
+    },
     "locales": {
       "uk": "Українська",
       "en": "English",
@@ -201,6 +267,12 @@
     "page_title": "Contact Us",
     "content": "<h2>Get in Touch</h2><p>We'd love to hear from you! Please use the contact information provided or visit us during business hours.</p>",
     "business_hours": "We work for you 24/7"
+  },
+  "cookie_consent": {
+    "title": "Cookie Consent",
+    "description": "We use cookies to enhance your browsing experience and analyze our traffic. Please choose your preference below.",
+    "reject_button": "Reject",
+    "accept_button": "Accept"
   },
   "dashboard": {
     "dashboard_page_title": "Welcome!",

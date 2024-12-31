@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Site\Registration\Presentation\Web\Twig;
 
-use Symfony\Bundle\SecurityBundle\Security;
+use Site\User\DomainModel\Service\UserFetcher;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 
@@ -14,7 +14,7 @@ final class RegistrationExtension extends AbstractExtension implements GlobalsIn
      * @param array<string, string> $supportedCountries
      */
     public function __construct(
-        private readonly Security $security,
+        private readonly UserFetcher $userFetcher,
         private readonly array $supportedCountries,
     ) {
     }
@@ -25,8 +25,7 @@ final class RegistrationExtension extends AbstractExtension implements GlobalsIn
     public function getGlobals(): array
     {
         $response = [];
-        $user = $this->security->getUser();
-        if (!$user) {
+        if (!$this->userFetcher->logined()) {
             $countries = [];
             foreach ($this->supportedCountries as $code) {
                 $countries[] = ['code' => $code];

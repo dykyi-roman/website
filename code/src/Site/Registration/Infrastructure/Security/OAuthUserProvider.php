@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Site\Registration\Infrastructure\Security;
 
-use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\User\OAuthUser;
 use League\OAuth2\Client\Provider\FacebookUser;
 use League\OAuth2\Client\Provider\GoogleUser;
@@ -12,7 +11,6 @@ use Shared\DomainModel\ValueObject\Country;
 use Shared\DomainModel\ValueObject\Email;
 use Shared\DomainModel\ValueObject\Location;
 use Site\Registration\DomainModel\Service\CountryDetectorInterface;
-use Site\User\DomainModel\Enum\Roles;
 use Site\User\DomainModel\Enum\UserId;
 use Site\User\DomainModel\Model\User;
 use Site\User\DomainModel\Model\UserInterface;
@@ -27,7 +25,6 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 final readonly class OAuthUserProvider implements UserProviderInterface
 {
     public function __construct(
-        private ClientRegistry $clientRegistry,
         private UserRepositoryInterface $userRepository,
         private CountryDetectorInterface $countryDetector,
     ) {
@@ -35,16 +32,7 @@ final readonly class OAuthUserProvider implements UserProviderInterface
 
     public function loadUserByIdentifier(string $identifier): SymfonyUserInterface
     {
-        $client = $this->clientRegistry->getClient('facebook');
-        $accessToken = $client->getAccessToken();
-
-        /** @var FacebookUser $facebookUser */
-        $facebookUser = $client->fetchUserFromToken($accessToken);
-
-        return new OAuthUser(
-            $facebookUser->getId(),
-            [Roles::ROLE_CLIENT->value, Roles::ROLE_PARTNER->value]
-        );
+        return $this->userRepository->findByEmail(Email::fromString($identifier));
     }
 
     public function loadUserByOAuth2UserGoogle(GoogleUser $oauthUser): UserInterface
@@ -72,14 +60,14 @@ final readonly class OAuthUserProvider implements UserProviderInterface
         }
 
         if (null === $user) {
-            $country = $this->countryDetector->detect();
+            if ($country = $this->countryDetector->detect()) {
+                $country = new Country($country->code);
+            }
             $user = new User(
                 new UserId(),
                 $name,
                 Email::fromString($email),
-                new Location(
-                    new Country(null === $country ? '??' : $country->code),
-                ),
+                new Location($country),
             );
             $user->setGoogleToken($googleId);
             $this->userRepository->save($user);
@@ -113,14 +101,14 @@ final readonly class OAuthUserProvider implements UserProviderInterface
         }
 
         if (null === $user) {
-            $country = $this->countryDetector->detect();
+            if ($country = $this->countryDetector->detect()) {
+                $country = new Country($country->code);
+            }
             $user = new User(
                 new UserId(),
                 $name,
                 Email::fromString($email),
-                new Location(
-                    new Country(null === $country ? '??' : $country->code),
-                ),
+                new Location($country),
             );
             $user->setFacebookToken($facebookId);
             $this->userRepository->save($user);
