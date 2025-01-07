@@ -18,6 +18,57 @@
     --text-secondary: #6c757d;
 }
 
+/* Promotional Banner */
+.promo-banner {
+    background: linear-gradient(45deg, #FFB347, #FF6B35);
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    font-weight: 500;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1029;
+}
+
+.promo-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.emoji {
+    font-size: 1.2em;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+/* Navbar Positioning */
+.navbar.fixed-top {
+    top: 0;
+    z-index: 1030;
+    box-shadow: var(--shadow-md);
+}
+
+/* Default body padding */
+body {
+    padding-top: 56px;
+}
+
+/* Adjustments when promo banner exists */
+.promo-banner ~ .navbar.fixed-top {
+    top: 40px;
+}
+
+.promo-banner ~ .navbar.fixed-top ~ main {
+    padding-top: 96px;
+}
+
 .search-section .input-group {
     width: 100%;
     margin: 0 auto;

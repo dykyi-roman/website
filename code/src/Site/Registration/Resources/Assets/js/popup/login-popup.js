@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', async function () {
-    console.log('Login popup script loaded');
     // Get current language or default to English
     const currentLang = localStorage.getItem('locale') || 'en';
     const t = await loadTranslations(currentLang);
@@ -124,6 +123,10 @@ document.addEventListener('DOMContentLoaded', async function () {
                 showModalSpinner(loginModal);
 
                 const formData = new FormData(form);
+                const rememberMeCheckbox = form.querySelector('#rememberMe');
+                // Explicitly set the remember_me value as a string "true" or "false"
+                formData.set('remember_me', rememberMeCheckbox.checked ? 'true' : 'false');
+                
                 const response = await fetch('/login', {
                     method: 'POST',
                     headers: {

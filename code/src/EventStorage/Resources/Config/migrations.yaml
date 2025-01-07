@@ -1,0 +1,5 @@
+migrations_paths:
+    'EventStorage\Resources\Migrations': './src/EventStorage/Resources/Migrations'
+
+connection: site
+em: site

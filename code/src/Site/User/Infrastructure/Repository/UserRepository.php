@@ -6,6 +6,7 @@ namespace Site\User\Infrastructure\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Shared\DomainModel\Services\MessageBusInterface;
 use Shared\DomainModel\ValueObject\Email;
 use Site\User\DomainModel\Enum\UserId;
 use Site\User\DomainModel\Model\User;
@@ -19,6 +20,7 @@ final class UserRepository implements UserRepositoryInterface
 
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
+        private readonly MessageBusInterface $eventBus,
     ) {
         $this->repository = $this->entityManager->getRepository(User::class);
     }
@@ -27,6 +29,10 @@ final class UserRepository implements UserRepositoryInterface
     {
         $this->entityManager->persist($user);
         $this->entityManager->flush();
+
+        foreach ($user->releaseEvents() as $event) {
+            $this->eventBus->dispatch($event);
+        }
     }
 
     public function findById(UserId $id): ?UserInterface

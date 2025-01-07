@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', async function() {
-    console.log('Module::Search::Created');
     // Function to show search spinner
     function showSearchSpinner() {
         const searchItemsSection = document.getElementById('search-items');

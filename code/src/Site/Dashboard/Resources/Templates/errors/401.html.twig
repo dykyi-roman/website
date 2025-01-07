@@ -1,0 +1,45 @@
+{% extends '@Dashboard/base.html.twig' %}
+
+{% block title %}401 - Unauthorized{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .error-container {
+            text-align: center;
+            padding: 100px 0;
+        }
+        .error-code {
+            font-size: 120px;
+            font-weight: bold;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+        .error-message {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+        .error-description {
+            color: #6c757d;
+            margin-bottom: 30px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="error-container">
+            <div class="error-code">401</div>
+            <h1 class="error-message">{{ 'unauthorized_title'|trans }}</h1>
+            <p class="error-description">{{ "you_need_to_be_authorized_message"|trans }}</p>
+            <a href="{{ path('dashboard') }}">
+                <i class="fas fa-home"></i> {{ 'back_to_dashboard'|trans }}
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

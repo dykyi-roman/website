@@ -12,6 +12,9 @@ use Shared\DomainModel\ValueObject\Location;
  */
 final readonly class RegisterUserCommand
 {
+    /**
+     * @param array<string> $roles
+     */
     public function __construct(
         public string $name,
         public Email $email,

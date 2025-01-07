@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', async function () {
-    console.log('Module::Location::Created');
 
     // Debounce function
     function debounce(func, wait) {

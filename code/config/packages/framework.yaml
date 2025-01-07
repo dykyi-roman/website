@@ -26,6 +26,9 @@ when@prod:
 
         error_controller: Site\Dashboard\Presentation\Web\ExceptionAction
         exceptions:
+            Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException:
+                log_level: error
+                status_code: 401
             Symfony\Component\HttpKernel\Exception\NotFoundHttpException:
                 log_level: error
                 status_code: 404

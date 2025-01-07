@@ -1,9 +1,32 @@
 # Web page
 
+## Install
+
+* Update [.env](.env)
+* Update [manifest.json](public%2Fmanifest.json)
+* Update [sitemap.xml](public%2Fsitemap.xml)
+* Update [robots.txt](public%2Frobots.txt)
+* Call command: `make translations-copy`
+* Call command: `make assets-copy`
+
 # Features
 
 ### General
+* Browser's location permission request
 * Agreement with cookies popup
+* Display promotion banner
+* Language and Currency detection
+* Light and dark themas
+* User-friendly error pages (401, 403, 404, 500)
+* Event storage
+
+### Settings
+* Privacy
+  - Activation/Deactivation
+  - Delete user account
+
+### Login
+* Manual + social network 
 
 ### Registration
 * Social network authentication
@@ -20,9 +43,6 @@
 
 ### Location
 * Use API service for search city by name
-
-### App
-* Vote page
 
 ### Error Handling
 * User-friendly error pages

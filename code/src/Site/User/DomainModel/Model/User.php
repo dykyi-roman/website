@@ -5,8 +5,13 @@ declare(strict_types=1);
 namespace Site\User\DomainModel\Model;
 
 use Doctrine\ORM\Mapping as ORM;
+use Shared\DomainModel\Model\AbstractDomainModel;
 use Shared\DomainModel\ValueObject\Email;
 use Shared\DomainModel\ValueObject\Location;
+use Site\Profile\DomainModel\Event\UserActivatedEvent;
+use Site\Profile\DomainModel\Event\UserDeactivatedEvent;
+use Site\Profile\DomainModel\Event\UserDeletedEvent;
+use Site\Registration\DomainModel\Event\UserChangedPasswordEvent;
 use Site\User\DomainModel\Enum\Roles;
 use Site\User\DomainModel\Enum\UserId;
 use Site\User\DomainModel\Enum\UserStatus;
@@ -15,7 +20,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[ORM\Entity]
 #[ORM\Table(name: 'user')]
 #[ORM\HasLifecycleCallbacks]
-class User implements PasswordAuthenticatedUserInterface, UserInterface
+class User extends AbstractDomainModel implements PasswordAuthenticatedUserInterface, UserInterface
 {
     #[ORM\Id]
     #[ORM\Column(type: 'user_id', unique: true)]
@@ -67,6 +72,9 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(name: 'updated_at', type: 'datetime_immutable')]
     private \DateTimeImmutable $updatedAt;
 
+    /**
+     * @param array<string> $roles
+     */
     public function __construct(
         UserId $id,
         string $name,
@@ -89,17 +97,41 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     public function activate(): void
     {
         $this->status = UserStatus::ACTIVATED;
+
+        $this->raise(
+            new UserActivatedEvent(
+                $this->id,
+                $this->email,
+                $this->name,
+            ),
+        );
     }
 
     public function deactivate(): void
     {
         $this->status = UserStatus::DEACTIVATED;
+
+        $this->raise(
+            new UserDeactivatedEvent(
+                $this->id,
+                $this->email,
+                $this->name,
+            ),
+        );
     }
 
     public function delete(): void
     {
         $this->eraseCredentials();
         $this->deactivate();
+
+        $this->raise(
+            new UserDeletedEvent(
+                $this->id,
+                $this->email,
+                $this->name,
+            ),
+        );
 
         $this->facebookToken = null;
         $this->googleToken = null;
@@ -116,6 +148,12 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     public function clearResetToken(): void
     {
         $this->passwordToken = null;
+
+        $this->raise(
+            new UserChangedPasswordEvent(
+                $this->id,
+            ),
+        );
     }
 
     public function getUserIdentifier(): string
@@ -140,6 +178,11 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     }
 
     public function updatePassword(string $password): void
+    {
+        $this->password = $password;
+    }
+
+    public function setPassword(string $password): void
     {
         $this->password = $password;
     }

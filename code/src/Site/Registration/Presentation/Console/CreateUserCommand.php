@@ -39,14 +39,24 @@ final class CreateUserCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
+            $email = $input->getArgument('email');
+            if (!is_string($email)) {
+                throw new \InvalidArgumentException('Email must be a string');
+            }
+
+            $password = $input->getArgument('password');
+            if (!is_string($password)) {
+                throw new \InvalidArgumentException('Password must be a string');
+            }
+
             $this->messageBus->dispatch(
                 new RegisterUserCommand(
                     'Administrator',
-                    Email::fromString($input->getArgument('email')),
-                    $input->getArgument('password'),
+                    Email::fromString($email),
+                    $password,
                     '',
                     new Location(),
-                    [Roles::ROLE_ADMIN],
+                    [Roles::ROLE_ADMIN->value],
                 ),
             );
 

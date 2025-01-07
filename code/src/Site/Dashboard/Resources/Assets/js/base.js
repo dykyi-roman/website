@@ -1,3 +1,18 @@
+// Function to set cookie
+function setCookie(name, value, days = 365) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = `expires=${date.toUTCString()}`;
+    document.cookie = `${name}=${value};${expires};path=/`;
+}
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+}
+
 // Global error handling with spinner management
 document.addEventListener('DOMContentLoaded', function() {
     // Add spinner overlay to all modals
@@ -113,8 +128,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Create scroll to top button
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Scroll button created');
-
     // Create the button element
     const scrollButton = document.createElement('div');
     scrollButton.className = 'scroll-to-top';
@@ -150,10 +163,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Append to body
     document.body.appendChild(backButton);
-    
-    // Log for debugging
-    console.log('Back button created');
-    console.log('Current pathname:', window.location.pathname);
     
     // Show/hide back button based on page history and current path
     const currentPath = window.location.pathname;
@@ -246,22 +255,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Show agreement with cookies canvas
 document.addEventListener('DOMContentLoaded', function() {
-    // Function to get cookie value by name
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-        return null;
-    }
-
-    // Function to set cookie
-    function setCookie(name, value, days = 365) {
-        const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        const expires = `expires=${date.toUTCString()}`;
-        document.cookie = `${name}=${value};${expires};path=/`;
-    }
-
     // Function to handle cookie consent
     function handleCookieConsent() {
         const cookieConsent = document.getElementById('cookieConsent');
@@ -292,16 +285,50 @@ document.addEventListener('DOMContentLoaded', function() {
     handleCookieConsent();
 });
 
+// Get geolocation from browser
+document.addEventListener('DOMContentLoaded', function() {
+    async function getCountryWithCache(latitude, longitude) {
+        const roundedLat = Math.round(latitude * 100) / 100;
+        const roundedLon = Math.round(longitude * 100) / 100;
+
+        const cacheKey = `country_${roundedLat}_${roundedLon}`;
+        const cached = localStorage.getItem(cacheKey);
+
+        if (cached) {
+            return JSON.parse(cached);
+        }
+
+        try {
+            const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
+            const response = await fetch(url);
+            const data = await response.json();
+
+            const result = {
+                country: data.address.country,
+                countryCode: data.address.country_code,
+                city: data.address.city
+            };
+
+            setCookie('appCountry', JSON.stringify(result));
+            localStorage.setItem(cacheKey, JSON.stringify(result));
+            console.log(result);
+        } catch (error) {
+            console.error("Error in determining country:", error);
+            throw error;
+        }
+    }
+
+    navigator.geolocation.getCurrentPosition(async position => {
+        try {
+            await getCountryWithCache(position.coords.latitude, position.coords.longitude);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    });
+});
 
 // Check and set referral code
 (function() {
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-        return null;
-    }
-
     function setReferralCode() {
         // Check if reff cookie already exists
         if (getCookie('reff')) {

@@ -1,0 +1,25 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    EventStorage\:
+        resource: '../../'
+        exclude:
+            - '../../Resources/'
+            - '../../Presentation/**/Response'
+            - '../../Application/**/*{Command,Query}.php'
+            - '../../DomainModel/{Dto,Event,Model,ValueObject}/'
+            - '../../Application/*/{Dto,Event,Model,ValueObject}/'
+            - '../../Tests/'
+        tags: ['controller.service_arguments']
+
+    EventStorage\Infrastructure\Repository\EventRepository:
+        arguments:
+            $entityManager: '@doctrine.orm.site_entity_manager'
+
+    EventStorage\DomainModel\Repository\EventRepositoryInterface:
+        alias: EventStorage\Infrastructure\Repository\EventRepository

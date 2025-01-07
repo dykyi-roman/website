@@ -76,6 +76,7 @@ logs-php: ## View PHP logs
 phpcs: ## Run PHP CS Fixer to fix code style
 	docker exec -it $(php) bash -c "cd /var/www/html/code && php vendor/bin/php-cs-fixer fix -v --using-cache=no --config=../tools/.php-cs-fixer.php"
 	@echo "PHP CS Fixer done!"
+cs: phpcs ## Alias for 'phpcs' command
 
 phpstan: ## Run PHPStan for static code analysis
 	docker exec -it $(php) bash -c "cd /var/www/html/code && php vendor/bin/phpstan analyse src --configuration=../tools/phpstan.neon"

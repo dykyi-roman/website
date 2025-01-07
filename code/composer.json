@@ -58,7 +58,7 @@
             "Services\\": "src/Services/",
             "Site\\": "src/Site/",
             "Shared\\": "src/Shared/",
-            "Healthcheck\\": "src/Healthcheck/"
+            "EventStorage\\": "src/EventStorage/"
         }
     },
     "autoload-dev": {
@@ -68,7 +68,7 @@
             "Services\\": "src/Services/",
             "Site\\": "src/Site/",
             "Shared\\": "src/Shared/",
-            "Healthcheck\\": "src/Healthcheck/"
+            "EventStorage\\": "src/EventStorage/"
         }
     },
     "replace": {

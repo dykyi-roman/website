@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', async function () {
-    console.log('Register popup script loaded');
-
     // Get current language or default to English
     const currentLang = localStorage.getItem('locale') || 'en';
     const t = await loadTranslations(currentLang);
@@ -385,7 +383,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Add event delegation for favorite buttons
     document.addEventListener('click', function (e) {
         if (e.target.closest('.btn-favorite')) {
-            console.log('Favorite button clicked');
             showRegistrationModal();
         }
     });
@@ -509,7 +506,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Functions
     function showRegistrationModal() {
-        console.log('Showing registration modal');
         resetForms();
         showRegistrationTypeSelection();
         registerModal.show();

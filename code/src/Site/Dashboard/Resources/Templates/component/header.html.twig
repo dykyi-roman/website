@@ -1,3 +1,16 @@
+{% if not app.user %}
+<!-- Promotional Banner -->
+<div class="promo-banner fixed-top" style="cursor: pointer;" data-action="register">
+    <div class="container">
+        <div class="promo-content">
+            <span class="emoji">🎉 🎉 🎉</span>
+            {{ "promotion_information_text"|trans }}
+            <span class="emoji">🚀 🚀 🚀</span>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 <!-- Header/Navbar -->
 <nav class="navbar navbar-light bg-light fixed-top">
     <div class="container">
@@ -51,7 +64,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="combinedDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-globe icon-space" style="margin-right: 10px"></i>
                     <span class="language-code">{{ app.request.locale|upper }}</span>
-                    <span class="mx-1">/</span>
+                    <span class="mx-1">|</span>
                     <span class="currency-code">{{ app.request.cookies.get('appCurrency')|default(default_currency)|upper }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="combinedDropdown">

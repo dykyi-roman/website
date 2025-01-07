@@ -9,6 +9,6 @@ use Site\User\DomainModel\Enum\UserId;
 
 final class UserIdType extends UuidType
 {
-    protected const string TYPE_NAME = 'user_id';
-    protected const string CLASS_NAME = UserId::class;
+    protected const ?string TYPE_NAME = 'user_id';
+    protected const ?string CLASS_NAME = UserId::class;
 }

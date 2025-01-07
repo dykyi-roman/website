@@ -101,8 +101,8 @@ final readonly class ServiceSearchAction
             $searchRequest->limit,
         );
 
-        $data['items'] = array_map(static function(array $item) use ($currency): array {
-            $item['price'] = $item['price'] . ' ' . $currency->symbol();
+        $data['items'] = array_map(static function (array $item) use ($currency): array {
+            $item['price'] = $item['price'].' '.$currency->symbol();
 
             return $item;
         }, $data['items']);

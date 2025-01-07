@@ -18,6 +18,8 @@ final readonly class ExchangeRatesFetcher implements ExchangeRatesFetcherInterfa
     }
 
     /**
+     * @return array<string, float>
+     *
      * @throws ExchangeRateApiException
      */
     public function updateRates(): array
@@ -41,11 +43,30 @@ final readonly class ExchangeRatesFetcher implements ExchangeRatesFetcherInterfa
                 throw new ExchangeRateApiException('Failed to parse API response');
             }
 
-            if ('success' !== $data['result']) {
-                throw new ExchangeRateApiException('API returned error: '.($data['error'] ?? 'Unknown error'));
+            if (!is_array($data)) {
+                throw new ExchangeRateApiException('Invalid API response format');
             }
 
-            return $data['conversion_rates'];
+            if (!isset($data['result']) || 'success' !== $data['result']) {
+                $error = isset($data['error']) && is_string($data['error'])
+                    ? $data['error']
+                    : 'Unknown error';
+                throw new ExchangeRateApiException('API returned error: '.$error);
+            }
+
+            if (!isset($data['conversion_rates']) || !is_array($data['conversion_rates'])) {
+                throw new ExchangeRateApiException('Missing or invalid conversion rates in API response');
+            }
+
+            $rates = [];
+            foreach ($data['conversion_rates'] as $currency => $rate) {
+                if (!is_string($currency) || !is_numeric($rate)) {
+                    throw new ExchangeRateApiException('Invalid rate format in API response');
+                }
+                $rates[$currency] = (float) $rate;
+            }
+
+            return $rates;
         } catch (\Throwable $exception) {
             throw new ExchangeRateApiException('Failed to fetch exchange rates: '.$exception->getMessage());
         }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Services\DomainModel\Service;
 
 use Services\DomainModel\Enum\OrderType;
-use Shared\DomainModel\ValueObject\Currency;
 
 interface ServicesInterface
 {
@@ -22,7 +21,7 @@ interface ServicesInterface
      *         features: array<int, string>,
      *         rating: int,
      *         review_count: int,
-     *         price: string
+     *         price: float
      *     }>,
      *     total: int,
      *     page: int,
@@ -49,7 +48,7 @@ interface ServicesInterface
      *     features: array<int, string>,
      *     rating: int,
      *     review_count: int,
-     *     price: string
+     *     price: float
      * }>
      */
     public function last(int $count): array;

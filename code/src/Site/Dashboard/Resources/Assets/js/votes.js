@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', async function() {
-    console.log('App vote script loaded');
-
     const voteButton = document.getElementById('voteButton');
     const progressBar = document.getElementById('progressBar');
     const progressText = document.getElementById('progressText');
@@ -83,8 +81,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Vote recorded');
-                
                 // Save to localStorage
                 localStorage.setItem(localStorageKey, 'true');
                 

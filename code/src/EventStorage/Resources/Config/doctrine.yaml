@@ -1,0 +1,18 @@
+doctrine:
+    dbal:
+        connections:
+            site:
+                url: '%env(resolve:DATABASE_SITE_URL)%'
+        types:
+            event_id: EventStorage\Infrastructure\Doctrine\DoctrineType\EventIdType
+    orm:
+        entity_managers:
+            site:
+                connection: site
+                mappings:
+                    Event:
+                        type: attribute
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/EventStorage/DomainModel/Model'
+                        prefix: 'EventStorage\DomainModel\Model'
+                        alias: Event

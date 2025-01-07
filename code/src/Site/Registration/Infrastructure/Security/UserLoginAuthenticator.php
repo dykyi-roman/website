@@ -41,7 +41,7 @@ final class UserLoginAuthenticator extends AbstractAuthenticator
 
         $userBadge = new UserBadge($email, function (string $email) {
             $user = $this->userRepository->findByEmail(Email::fromString($email));
-            if (!$user || $user->isDeleted() || !$user->isActive()) {
+            if (!$user || $user->isDeleted()) {
                 throw new AuthenticationException('Invalid username or password');
             }
 
@@ -66,7 +66,7 @@ final class UserLoginAuthenticator extends AbstractAuthenticator
             new UserLoggedInEvent(
                 $user->getId(),
                 $user->getEmail(),
-                new \DateTimeImmutable(),
+                'manual',
             ),
         );
 

@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', async function() {
-    console.log('Forgot password popup script loaded');
-
     // Get current language or default to English
     const currentLang = localStorage.getItem('locale') || 'en';
     const t = await loadTranslations(currentLang);

@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', async function() {
-    console.log('Module::Settings::Created');
-    
     // Get current language or default to English
     const currentLang = localStorage.getItem('locale') || 'en';
     const t = await loadTranslations(currentLang);
@@ -90,7 +88,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Use event delegation for dynamically added elements
     $(document).on('click', '#activateAccount', async function() {
         try {
-            const response = await fetch('/settings/privacy/account-activate?status=1', {
+            const response = await fetch('/settings/privacy/user-activate?status=1', {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json'
@@ -136,7 +134,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Account deactivation confirmation
     $('#confirmDeactivate').on('click', async function() {
         try {
-            const response = await fetch('/settings/privacy/account-activate?status=0', {
+            const response = await fetch('/settings/privacy/user-activate?status=0', {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json'

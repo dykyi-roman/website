@@ -9,6 +9,6 @@ use Site\Profile\DomainModel\Enum\PropertyType;
 
 final class PropertyTypeType extends StringEnumType
 {
-    protected const string TYPE_NAME = 'property_type';
-    protected const string CLASS_NAME = PropertyType::class;
+    protected const ?string TYPE_NAME = 'property_type';
+    protected const ?string CLASS_NAME = PropertyType::class;
 }

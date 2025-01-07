@@ -36,6 +36,10 @@ final class EmailType extends Type
             return null;
         }
 
+        if (is_string($value)) {
+            return $value;
+        }
+
         if (!$value instanceof Email) {
             throw new \InvalidArgumentException('Value must be an instance of Email');
         }

@@ -13,7 +13,7 @@ final readonly class Location implements \JsonSerializable
     }
 
     /**
-     * @return array{country: array{code: string}, city: array{name: string, transcription: string, address: string|null}|null}
+     * @return array{country: array{code: string}|null, city: array{name: string, transcription: string, address: string|null}|null}
      */
     public function jsonSerialize(): array
     {

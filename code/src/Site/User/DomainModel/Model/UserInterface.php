@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Site\User\DomainModel\Model;
 
+use Shared\DomainModel\Model\DomainModelInterface;
 use Shared\DomainModel\ValueObject\Email;
 use Site\User\DomainModel\Enum\UserId;
 use Site\User\DomainModel\Enum\UserStatus;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
-interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterface, PasswordAuthenticatedUserInterface
+interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterface, PasswordAuthenticatedUserInterface, DomainModelInterface
 {
     public function getId(): UserId;
 

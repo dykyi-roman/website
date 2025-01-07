@@ -7,12 +7,12 @@ framework:
                     - validation
                     - doctrine_transaction
             query.bus: ~
-            event.bus: ~
+            event.bus:
+                default_middleware: allow_no_handlers
 
         transports:
             async: '%env(MESSENGER_TRANSPORT_DSN)%'
             sync: 'in-memory://default'
 
         routing:
-            Site\Registration\DomainModel\Event\UserLoggedInEvent: sync
-            Site\Registration\DomainModel\Event\UserRegisteredEvent: sync
+            EventStorage\DomainModel\Event\PersistingEventInterface: sync

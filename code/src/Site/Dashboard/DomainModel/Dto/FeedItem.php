@@ -18,7 +18,7 @@ final readonly class FeedItem
         public array $features,
         public int $rating,
         public int $reviewCount,
-        public string $price,
+        public float $price,
     ) {
     }
 }

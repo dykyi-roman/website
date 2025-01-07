@@ -44,7 +44,7 @@ final readonly class RegisterUserCommandHandler
             new UserRegisteredEvent(
                 $user->getId(),
                 $user->getEmail(),
-                new \DateTimeImmutable(),
+                'manual',
             ),
         );
 

@@ -79,7 +79,7 @@ final readonly class SeoFeedAction
                 features: $item['features'],
                 rating: $item['rating'],
                 reviewCount: $item['review_count'],
-                price: $item['price'],
+                price: (float) $item['price'],
             ),
             $arrayItems
         );

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Orders\Presentation\Api\Request;
 
 use Orders\DomainModel\Enum\OrderType;
-use Shared\DomainModel\ValueObject\Currency;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final class OrdersSearchRequestDTO

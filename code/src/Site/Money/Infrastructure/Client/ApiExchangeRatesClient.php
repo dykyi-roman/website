@@ -40,11 +40,19 @@ final readonly class ApiExchangeRatesClient implements ExchangeRatesClientInterf
         return Money::create(round($convertedAmount, 4), $toCurrency);
     }
 
+    /**
+     * @param array<string, float> $rates
+     *
+     * @return array<int, string>
+     */
     public function getAvailableCurrencies(array $rates): array
     {
         return array_keys($rates);
     }
 
+    /**
+     * @param array<string, float> $rates
+     */
     private function validateCurrencies(array $rates, Currency ...$currencies): void
     {
         foreach ($currencies as $currency) {

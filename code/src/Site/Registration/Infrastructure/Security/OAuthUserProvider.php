@@ -7,10 +7,14 @@ namespace Site\Registration\Infrastructure\Security;
 use KnpU\OAuth2ClientBundle\Security\User\OAuthUser;
 use League\OAuth2\Client\Provider\FacebookUser;
 use League\OAuth2\Client\Provider\GoogleUser;
+use Shared\DomainModel\Services\MessageBusInterface;
 use Shared\DomainModel\ValueObject\Country;
 use Shared\DomainModel\ValueObject\Email;
 use Shared\DomainModel\ValueObject\Location;
+use Site\Registration\DomainModel\Event\UserRegisteredEvent;
 use Site\Registration\DomainModel\Service\CountryDetectorInterface;
+use Site\Registration\DomainModel\Service\ReferralReceiver;
+use Site\User\DomainModel\Enum\Roles;
 use Site\User\DomainModel\Enum\UserId;
 use Site\User\DomainModel\Model\User;
 use Site\User\DomainModel\Model\UserInterface;
@@ -27,12 +31,14 @@ final readonly class OAuthUserProvider implements UserProviderInterface
     public function __construct(
         private UserRepositoryInterface $userRepository,
         private CountryDetectorInterface $countryDetector,
+        private ReferralReceiver $referralReceiver,
+        private MessageBusInterface $eventBus,
     ) {
     }
 
     public function loadUserByIdentifier(string $identifier): SymfonyUserInterface
     {
-        return $this->userRepository->findByEmail(Email::fromString($identifier));
+        return new OAuthUser($identifier, [Roles::ROLE_CLIENT, Roles::ROLE_PARTNER]);
     }
 
     public function loadUserByOAuth2UserGoogle(GoogleUser $oauthUser): UserInterface
@@ -68,9 +74,20 @@ final readonly class OAuthUserProvider implements UserProviderInterface
                 $name,
                 Email::fromString($email),
                 new Location($country),
+                null,
+                []
             );
             $user->setGoogleToken($googleId);
+            $user->withReferral($this->referralReceiver->referral());
             $this->userRepository->save($user);
+
+            $this->eventBus->dispatch(
+                new UserRegisteredEvent(
+                    $user->getId(),
+                    $user->getEmail(),
+                    'google',
+                ),
+            );
         }
 
         return $user;
@@ -109,9 +126,20 @@ final readonly class OAuthUserProvider implements UserProviderInterface
                 $name,
                 Email::fromString($email),
                 new Location($country),
+                null,
+                []
             );
             $user->setFacebookToken($facebookId);
+            $user->withReferral($this->referralReceiver->referral());
             $this->userRepository->save($user);
+
+            $this->eventBus->dispatch(
+                new UserRegisteredEvent(
+                    $user->getId(),
+                    $user->getEmail(),
+                    'facebook',
+                ),
+            );
         }
 
         return $user;

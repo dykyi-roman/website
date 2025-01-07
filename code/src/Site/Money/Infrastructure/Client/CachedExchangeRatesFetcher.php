@@ -17,14 +17,16 @@ final readonly class CachedExchangeRatesFetcher implements ExchangeRatesFetcherI
     }
 
     /**
+     * @return array<string, float>
+     *
      * @throws ExchangeRateApiException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function updateRates(): array
     {
-        $rates = $this->cache->get(self::CACHE_KEY);
-        if (null !== $rates) {
-            return $rates;
+        $cachedRates = $this->cache->get(self::CACHE_KEY);
+        if (null !== $cachedRates) {
+            return $this->validateAndNormalizeCachedRates($cachedRates);
         }
 
         try {
@@ -33,12 +35,35 @@ final readonly class CachedExchangeRatesFetcher implements ExchangeRatesFetcherI
 
             return $rates;
         } catch (ExchangeRateApiException $exception) {
-            $rates = $this->cache->get(self::CACHE_KEY);
-            if (null !== $rates) {
-                return $rates;
+            // Try to use cached rates as fallback
+            $cachedRates = $this->cache->get(self::CACHE_KEY);
+            if (null !== $cachedRates) {
+                return $this->validateAndNormalizeCachedRates($cachedRates);
             }
 
             throw $exception;
         }
+    }
+
+    /**
+     * @return array<string, float>
+     *
+     * @throws ExchangeRateApiException
+     */
+    private function validateAndNormalizeCachedRates(mixed $cachedRates): array
+    {
+        if (!is_array($cachedRates)) {
+            throw new ExchangeRateApiException('Invalid cached exchange rates format');
+        }
+
+        $rates = [];
+        foreach ($cachedRates as $currency => $rate) {
+            if (!is_string($currency) || !is_numeric($rate)) {
+                throw new ExchangeRateApiException('Invalid cached rate format');
+            }
+            $rates[$currency] = (float) $rate;
+        }
+
+        return $rates;
     }
 }

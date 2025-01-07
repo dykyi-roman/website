@@ -6,12 +6,32 @@ namespace Services\Infrastructure\ElasticSearch;
 
 use Services\DomainModel\Enum\OrderType;
 use Services\DomainModel\Service\ServicesInterface;
-use Shared\DomainModel\ValueObject\Currency;
 
 final readonly class MockClient implements ServicesInterface
 {
     private const int COUNT = 25;
 
+    /**
+     * @return array{
+     *     items: array<int, array{
+     *         id: int,
+     *         title: string,
+     *         description: string,
+     *         category: string,
+     *         url: string,
+     *         feedback_count: string,
+     *         image_url: string,
+     *         features: array<int, string>,
+     *         rating: int,
+     *         review_count: int,
+     *         price: float
+     *     }>,
+     *     total: int,
+     *     page: int,
+     *     limit: int,
+     *     total_pages: int
+     * }
+     */
     public function search(
         string $query,
         OrderType $order,
@@ -37,7 +57,7 @@ final readonly class MockClient implements ServicesInterface
                 ],
                 'rating' => 4,
                 'review_count' => 34,
-                'price' => '500',
+                'price' => 100.00,
             ];
         }
 
@@ -54,6 +74,21 @@ final readonly class MockClient implements ServicesInterface
         ];
     }
 
+    /**
+     * @return array<int, array{
+     *         id: int,
+     *         title: string,
+     *         description: string,
+     *         category: string,
+     *         url: string,
+     *         feedback_count: string,
+     *         image_url: string,
+     *         features: array<int, string>,
+     *         rating: int,
+     *         review_count: int,
+     *         price: float
+     *     }>
+     */
     public function last(int $count): array
     {
         return [];

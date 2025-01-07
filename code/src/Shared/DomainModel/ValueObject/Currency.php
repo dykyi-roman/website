@@ -43,6 +43,7 @@ final readonly class Currency implements \Stringable
         return match ($this->code) {
             'USD' => '$',
             'EUR' => '€',
+            default => $this->code,
         };
     }
 }
