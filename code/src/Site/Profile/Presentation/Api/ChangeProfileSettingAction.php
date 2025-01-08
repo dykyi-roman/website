@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Site\Profile\Presentation\Api;
 
 use OpenApi\Attributes as OA;
-use Site\Profile\Infrastructure\Repository\ProfileRepository;
+use Site\Profile\DomainModel\Repository\ProfileRepositoryInterface;
 use Site\Profile\Presentation\Api\Request\ChangeProfileSettingRequest;
 use Site\User\DomainModel\Model\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 final readonly class ChangeProfileSettingAction
 {
     public function __construct(
-        private ProfileRepository $profileRepository,
+        private ProfileRepositoryInterface $profileRepository,
     ) {
     }
 
@@ -85,10 +85,10 @@ final readonly class ChangeProfileSettingAction
         #[CurrentUser] User $user,
         #[MapRequestPayload] ChangeProfileSettingRequest $request
     ): JsonResponse {
-        $this->profileRepository->addOrUpdate(
-            $user->getId(),
-            $request->property()
-        );
+//        $this->profileRepository->addOrUpdate(
+//            $user->getId(),
+//            $request->property()
+//        );
 
         return new JsonResponse([
             'success' => true,

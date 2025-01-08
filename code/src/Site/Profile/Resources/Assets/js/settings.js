@@ -1,3 +1,33 @@
+// Global profile settings update function
+window.updateProfileSetting = async function(group, name, type, value) {
+    try {
+        const response = await fetch('/api/v1/profile/settings', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                group,
+                name,
+                type,
+                value
+            })
+        });
+
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to update setting');
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Error updating profile setting:', error);
+        throw error;
+    }
+};
+
 document.addEventListener('DOMContentLoaded', async function() {
     // Get current language or default to English
     const currentLang = localStorage.getItem('locale') || 'en';

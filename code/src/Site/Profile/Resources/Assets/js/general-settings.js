@@ -7,14 +7,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function toggleTheme(theme) {
         // Determine theme name (base.js uses 'dark' and 'light')
         const themeName = theme === 'dark-theme' ? 'dark' : 'light';
-        
+
         // Update document class
         document.documentElement.setAttribute('data-theme', themeName);
-        
+
         // Update theme icon if exists
         const themeToggleButton = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
-        
+
         if (themeToggleButton && themeIcon) {
             themeIcon.className = `fas ${themeName === 'dark' ? 'fa-sun' : 'fa-moon'}`;
         }
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (languageSelect) {
         languageSelect.addEventListener('change', function(e) {
             const langCode = this.value;
-            
+
             // Set cookie with 1 year expiration
             const expirationDate = new Date();
             expirationDate.setFullYear(expirationDate.getFullYear() + 1);
@@ -76,6 +76,9 @@ document.addEventListener('DOMContentLoaded', function() {
         themeSelect.addEventListener('change', function(e) {
             const themeName = this.value;
             toggleTheme(themeName);
+
+            updateProfileSetting('GENERAL', 'theme', 'string', $(this).val())
+                .catch(error => console.error('Failed to update theme:', error));
         });
 
         // Trigger initial theme setup

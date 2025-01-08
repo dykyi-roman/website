@@ -19,3 +19,10 @@ services:
             - '../../Application/*/{Dto,Event,Model,ValueObject}/'
             - '../../Tests/'
         tags: ['controller.service_arguments']
+
+    Site\Profile\Infrastructure\Repository\ProfileRepository:
+        arguments:
+            $entityManager: '@doctrine.orm.site_entity_manager'
+
+    Site\Profile\DomainModel\Repository\ProfileRepositoryInterface:
+        alias: Site\Profile\Infrastructure\Repository\ProfileRepository
