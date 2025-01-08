@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     function handleInitialLoad() {
         let hash = window.location.hash.substring(1); // Remove the # symbol
         if (!hash || !$('#' + hash).length) {
-            hash = 'account'; // Default tab
+            hash = 'general'; // Default tab
         }
         switchTab(hash, false);
     }

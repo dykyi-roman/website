@@ -1,28 +1,45 @@
 {% block general_settings %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/general-settings.css') }}">
+    {% endblock %}
+
 <div class="general-settings">
     <div class="form-group">
-        <label for="language">Language</label>
-        <select id="language" name="language">
-            <option value="en">English</option>
-            <option value="es">Spanish</option>
+        <label for="language-select">{{ 'Language'|trans }}</label>
+        <select id="language-select" name="language" class="form-control language-select">
+            {% for locale in locales %}
+                <option value="{{ locale.code }}" {{ locale.code == app.request.locale ? 'selected' : '' }}>
+                    {{ ('js.locales.' ~ locale.code)|trans }}
+                </option>
+            {% endfor %}
         </select>
     </div>
 
     <div class="form-group">
-        <label for="language">Currency</label>
-        <select id="language" name="language">
-            <option value="en">English</option>
-            <option value="es">Spanish</option>
+        <label for="currency-select">{{ 'Currency'|trans }}</label>
+        <select id="currency-select" name="currency" class="form-control currency-select">
+            {% for currency in currencies %}
+                <option value="{{ currency.code }}" {{ currency.code == (app.request.cookies.get('appCurrency')|default(default_currency)) ? 'selected' : '' }}>
+                    {{ currency.symbol }} {{ currency.code }}
+                </option>
+            {% endfor %}
         </select>
     </div>
 
     <div class="form-group">
-        <label for="language">Theme</label>
-        <select id="language" name="language">
-            <option value="dark-theme">Dark</option>
-            <option value="light-theme">Light</option>
+        <label for="theme-select">{{ 'Theme'|trans }}</label>
+        <select id="theme-select" name="theme" class="form-control theme-select">
+            <option value="dark-theme" {{ (app.request.cookies.get('appTheme')|default('light-theme')) == 'dark-theme' ? 'selected' : '' }}>
+                {{ 'Dark'|trans }}
+            </option>
+            <option value="light-theme" {{ (app.request.cookies.get('appTheme')|default('light-theme')) == 'light-theme' ? 'selected' : '' }}>
+                {{ 'Light'|trans }}
+            </option>
         </select>
     </div>
-
 </div>
+
+    {% block javascripts %}
+        <script src="{{ asset('js/general-settings.js') }}"></script>
+    {% endblock %}
 {% endblock %}
