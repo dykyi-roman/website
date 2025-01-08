@@ -24,8 +24,7 @@ final class Version20241219100223 extends AbstractMigration
             name VARCHAR(100) NOT NULL,
             value TEXT DEFAULT NULL,
             created_at DATETIME NOT NULL,
-            updated_at DATETIME NOT NULL,
-            PRIMARY KEY(id)
+            updated_at DATETIME NOT NULL
         ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
     }
 

@@ -20,7 +20,7 @@
         <select id="currency-select" name="currency" class="form-control currency-select">
             {% for currency in currencies %}
                 <option value="{{ currency.code }}" {{ currency.code == (app.request.cookies.get('appCurrency')|default(default_currency)) ? 'selected' : '' }}>
-                    {{ currency.symbol }} {{ currency.code }}
+                    {{ currency.code }}
                 </option>
             {% endfor %}
         </select>

@@ -1,7 +1,7 @@
 // Global profile settings update function
 window.updateProfileSetting = async function(group, name, value) {
     try {
-        const response = await fetch('/api/v1/profile/settings', {
+        const response = fetch('/api/v1/profile/settings', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
