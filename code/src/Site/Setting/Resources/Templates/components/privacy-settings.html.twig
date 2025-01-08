@@ -1,0 +1,97 @@
+{% block privacy_settings %}
+<div class="privacy-settings">
+    <div class="account-actions">
+        <div class="action-block">
+            {% if settings.privacy.user_status == 1 %}
+                <div id="deactivate-block">
+                    <h3>{{ 'settings.privacy.deactivation.title'|trans }}</h3>
+                    <p class="action-description">
+                        {{ 'settings.privacy.deactivation.description'|trans }}
+                    </p>
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#deactivateModal">
+                        {{ 'settings.privacy.deactivation.button'|trans }}
+                    </button>
+                </div>
+            {% else %}
+                <div id="activate-block">
+                    <h3>{{ 'settings.privacy.activation.title'|trans }}</h3>
+                    <p class="action-description">
+                        {{ 'settings.privacy.activation.description'|trans }}
+                    </p>
+                    <button class="btn btn-success" id="activateAccount">
+                        {{ 'settings.privacy.activation.button'|trans }}
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="action-block mt-4">
+            <h3>{{ 'settings.privacy.deletion.title'|trans }}</h3>
+            <p class="action-description">
+                {{ 'settings.privacy.deletion.description'|trans }}
+            </p>
+            <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                {{ 'settings.privacy.deletion.button'|trans }}
+            </button>
+        </div>
+    </div>
+
+    <!-- Deactivate Account Modal -->
+    <div class="modal fade" id="deactivateModal" tabindex="-1" role="dialog" aria-labelledby="deactivateModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"
+                        id="deactivateModalLabel">{{ 'settings.privacy.deactivation.modal.title'|trans }}</h5>
+                    <button type="button" class="close btn-close" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ 'settings.privacy.deactivation.modal.message'|trans }}</p>
+                    <ul class="deactivation-effects">
+                        <li>{{ 'settings.privacy.deactivation.modal.effects.Setting_invisible'|trans }}</li>
+                        <li>{{ 'settings.privacy.deactivation.modal.effects.content_hidden'|trans }}</li>
+                        <li>{{ 'settings.privacy.deactivation.modal.effects.can_reactivate'|trans }}</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-secondary">{{ 'settings.privacy.deactivation.modal.cancel'|trans }}</button>
+                    <button type="button" class="btn btn-warning"
+                            id="confirmDeactivate">{{ 'settings.privacy.deactivation.modal.confirm'|trans }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Account Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"
+                        id="deleteModalLabel">{{ 'settings.privacy.deletion.modal.title'|trans }}</h5>
+                    <button type="button" class="close btn-close" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ 'settings.privacy.deletion.modal.message'|trans }}</p>
+                    <ul class="deletion-effects">
+                        <li>{{ 'settings.privacy.deletion.modal.effects.data_deleted'|trans }}</li>
+                        <li>{{ 'settings.privacy.deletion.modal.effects.Setting_removed'|trans }}</li>
+                        <li>{{ 'settings.privacy.deletion.modal.effects.no_recovery'|trans }}</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-secondary">{{ 'settings.privacy.deletion.modal.cancel'|trans }}</button>
+                    <button type="button" class="btn btn-danger"
+                            id="confirmDelete">{{ 'settings.privacy.deletion.modal.confirm'|trans }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

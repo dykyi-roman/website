@@ -5,7 +5,7 @@ window.updateProfileSetting = async function(category, name, value) {
     }
 
     try {
-        const response = await fetch('/api/v1/profile/settings', {
+        const response = await fetch('/api/v1/settings', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -278,13 +278,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Update theme-select if it exists
         const themeSelect = document.getElementById('theme-select');
+        const themeSelectValue = newTheme === 'dark' ? 'dark-theme' : 'light-theme';
         if (themeSelect) {
-            themeSelect.value = newTheme === 'dark' ? 'dark-theme' : 'light-theme';
+            themeSelect.value = themeSelectValue;
         }
 
         // Only update profile settings if user is authenticated
         if (window.appConfig?.isAuthenticated) {
-            updateProfileSetting('GENERAL', 'theme', themeSelect.value).catch(error => console.error('Failed to update theme:', error));
+            updateProfileSetting('GENERAL', 'theme', themeSelectValue).catch(error => console.error('Failed to update theme:', error));
         }
 
         // Dispatch theme change event

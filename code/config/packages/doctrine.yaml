@@ -3,7 +3,7 @@ imports:
     - { resource: '../../src/EventStorage/Resources/Config/doctrine.yaml' }
     - { resource: '../../src/Site/Location/Resources/Config/doctrine.yaml' }
     - { resource: '../../src/Site/User/Resources/Config/doctrine.yaml' }
-    - { resource: '../../src/Site/Profile/Resources/Config/doctrine.yaml' }
+    - { resource: '../../src/Site/Setting/Resources/Config/doctrine.yaml' }
 
 doctrine:
     orm:

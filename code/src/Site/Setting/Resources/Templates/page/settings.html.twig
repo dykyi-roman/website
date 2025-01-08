@@ -1,0 +1,84 @@
+{% extends '@Dashboard/base.html.twig' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/settings.css') }}">
+{% endblock %}
+
+{% block body %}
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <div class="row page-title">
+            <h1 class="text-center mb-5">{{ page_title|trans }}</h1>
+        </div>
+        <div class="container">
+            <div class="settings-page-content">
+                <div class="Setting-settings">
+                    <!-- Left Menu -->
+                    <div class="settings-menu">
+                        <a href="#general" class="settings-menu-item" data-content="general">
+                            <i class="fas fa-cog"></i>
+                            {{ 'settings.menu.general'|trans }}
+                        </a>
+                        <a href="#account" class="settings-menu-item" data-content="account">
+                            <i class="fas fa-user"></i>
+                            {{ 'settings.menu.account'|trans }}
+                        </a>
+                        <a href="#notifications" class="settings-menu-item" data-content="notifications">
+                            <i class="fas fa-bell"></i>
+                            {{ 'settings.menu.notifications'|trans }}
+                        </a>
+                        <a href="#privacy" class="settings-menu-item" data-content="privacy">
+                            <i class="fas fa-lock"></i>
+                            {{ 'settings.menu.privacy'|trans }}
+                        </a>
+                    </div>
+
+                    <!-- Right Content Area -->
+                    <div class="settings-content">
+
+                        <!-- General Settings -->
+                        <div id="general" class="settings-section" style="display: none;">
+                            <h2>{{ 'settings.menu.general'|trans }}</h2>
+                            <div class="settings-form">
+                                {% include '@Setting/components/general-settings.html.twig' %}
+                            </div>
+                        </div>
+
+                        <!-- Account Settings -->
+                        <div id="account" class="settings-section">
+                            <h2>{{ 'settings.menu.account'|trans }}</h2>
+                            <div class="settings-form">
+                                {% include '@Setting/components/account-settings.html.twig' %}
+                            </div>
+                        </div>
+
+                        <!-- Notifications Settings -->
+                        <div id="notifications" class="settings-section" style="display: none;">
+                            <h2>{{ 'settings.menu.notifications'|trans }}</h2>
+                            <div class="settings-form">
+                                {% include '@Setting/components/notification-settings.html.twig' %}
+                            </div>
+                        </div>
+
+                        <!-- Privacy Settings -->
+                        <div id="privacy" class="settings-section" style="display: none;">
+                            <h2>{{ 'settings.menu.privacy'|trans }}</h2>
+                            <div class="settings-form">
+                                {% include '@Setting/components/privacy-settings.html.twig' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('js/settings.js') }}"></script>
+{% endblock %}
