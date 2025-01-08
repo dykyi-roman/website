@@ -8,7 +8,7 @@ use Site\Profile\DomainModel\Enum\PropertyGroup;
 use Site\Profile\DomainModel\Enum\PropertyName;
 use Site\Profile\DomainModel\Enum\PropertyType;
 
-final readonly class Property
+final readonly class Property implements \JsonSerializable
 {
     public function __construct(
         public PropertyGroup $group,
@@ -31,5 +31,16 @@ final readonly class Property
         if (!$isValid) {
             throw new \InvalidArgumentException(sprintf('Property value must be of type %s, %s given', $this->type->value, get_debug_type($this->value)));
         }
+    }
+
+    /** @return array<string, string> */
+    public function jsonSerialize(): array
+    {
+       return [
+           'group' => $this->group->value,
+           'type' => $this->type->value,
+           'name' => $this->name->value,
+           'value' => (string) $this->value,
+       ];
     }
 }

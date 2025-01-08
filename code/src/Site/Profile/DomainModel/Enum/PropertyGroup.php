@@ -7,4 +7,6 @@ namespace Site\Profile\DomainModel\Enum;
 enum PropertyGroup: string
 {
     case GENERAL = 'GENERAL';
+    case ACCOUNT = 'ACCOUNT';
+    case NOTIFICATION = 'NOTIFICATION';
 }

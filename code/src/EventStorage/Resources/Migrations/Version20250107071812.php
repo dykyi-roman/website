@@ -24,7 +24,6 @@ final class Version20250107071812 extends AbstractMigration
             occurred_on DATETIME NOT NULL,
             version SMALLINT NOT NULL,
             created_at DATETIME NOT NULL,
-            updated_at DATETIME NOT NULL,
             PRIMARY KEY(id)
         ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
 

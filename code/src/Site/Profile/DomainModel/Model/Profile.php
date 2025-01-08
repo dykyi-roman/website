@@ -5,16 +5,18 @@ declare(strict_types=1);
 namespace Site\Profile\DomainModel\Model;
 
 use Doctrine\ORM\Mapping as ORM;
+use Shared\DomainModel\Model\AbstractDomainModel;
 use Site\Profile\DomainModel\Enum\PropertyGroup;
 use Site\Profile\DomainModel\Enum\PropertyName;
 use Site\Profile\DomainModel\Enum\PropertyType;
+use Site\Profile\DomainModel\Event\ProfileSettingsIsChangedEvent;
 use Site\Profile\DomainModel\ValueObject\Property;
 use Site\User\DomainModel\Enum\UserId;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'profile')]
 #[ORM\HasLifecycleCallbacks]
-class Profile
+class Profile extends AbstractDomainModel
 {
     #[ORM\Id]
     #[ORM\Column(type: 'user_id', unique: true)]
@@ -64,6 +66,16 @@ class Profile
             $this->name,
             $this->value,
         );
+    }
+
+    public function changeProperty(Property $property): void
+    {
+        $this->group = $property->group;
+        $this->type = $property->type;
+        $this->name = $property->name;
+        $this->value = $property->value;
+
+        $this->raise(new ProfileSettingsIsChangedEvent($this->id, $property));
     }
 
     #[ORM\PreUpdate]

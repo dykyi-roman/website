@@ -34,9 +34,6 @@ class Event
     #[ORM\Column(name: 'created_at', type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
 
-    #[ORM\Column(name: 'updated_at', type: 'datetime_immutable')]
-    private \DateTimeImmutable $updatedAt;
-
     /**
      * @param array<string, mixed> $payload
      */
@@ -55,7 +52,6 @@ class Event
         $this->occurredOn = $occurredOn;
         $this->version = $version;
         $this->createdAt = new \DateTimeImmutable();
-        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function getId(): EventId
@@ -87,11 +83,6 @@ class Event
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
-    }
-
-    public function getUpdatedAt(): \DateTimeImmutable
-    {
-        return $this->updatedAt;
     }
 
     public function getVersion(): int
