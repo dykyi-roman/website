@@ -33,8 +33,12 @@ final class ProfileRepository implements ProfileRepositoryInterface
             $profile->changeProperty($property);
         }
 
-        $this->entityManager->persist($profile);
-        $this->entityManager->flush();
+        try {
+            $this->entityManager->persist($profile);
+            $this->entityManager->flush();
+        } catch (\Throwable $exception) {
+            dump($exception->getMessage()); die();
+        }
 
         foreach ($profile->releaseEvents() as $event) {
             $this->eventBus->dispatch($event);

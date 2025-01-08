@@ -22,7 +22,7 @@ class Profile extends AbstractDomainModel
     #[ORM\Column(type: 'user_id', unique: true)]
     private UserId $id;
 
-    #[ORM\Column(name: 'group', type: 'property_group', length: 100)]
+    #[ORM\Column(name: '`group`', type: 'property_group', length: 100)]
     private PropertyGroup $group;
 
     #[ORM\Column(name: 'type', type: 'property_type', length: 100)]
