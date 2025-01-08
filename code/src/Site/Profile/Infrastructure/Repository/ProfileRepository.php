@@ -24,9 +24,14 @@ final class ProfileRepository implements ProfileRepositoryInterface
         $this->repository = $this->entityManager->getRepository(Profile::class);
     }
 
-    public function changeSettingProperty(UserId $id, Property $property): void
+    public function updateSettingProperty(UserId $id, Property $property): void
     {
-        $profile = $this->repository->find($id);
+        $profile = $this->repository->findOneBy([
+            'id' => $id,
+//            '`group`' => $property->group,
+            'name' => $property->name,
+        ]);
+dump($profile); die();
         if ($profile === null) {
             $profile = new Profile($id, $property);
         } else {
