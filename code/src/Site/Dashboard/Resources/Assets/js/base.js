@@ -1,5 +1,9 @@
-// Global profile settings update function
+// Profile settings update function - only available for authenticated users
 window.updateProfileSetting = async function(category, name, value) {
+    if (!window.appConfig?.isAuthenticated) {
+        return;
+    }
+
     try {
         const response = await fetch('/api/v1/profile/settings', {
             method: 'PUT',
@@ -278,7 +282,10 @@ document.addEventListener('DOMContentLoaded', function() {
             themeSelect.value = newTheme === 'dark' ? 'dark-theme' : 'light-theme';
         }
 
-        updateProfileSetting('GENERAL', 'theme', themeSelect.value).catch(error => console.error('Failed to update theme:', error));
+        // Only update profile settings if user is authenticated
+        if (window.appConfig?.isAuthenticated) {
+            updateProfileSetting('GENERAL', 'theme', themeSelect.value).catch(error => console.error('Failed to update theme:', error));
+        }
 
         // Dispatch theme change event
         document.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: newTheme } }));
