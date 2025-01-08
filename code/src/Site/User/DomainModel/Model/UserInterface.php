@@ -18,6 +18,8 @@ interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterf
 
     public function getStatus(): UserStatus;
 
+    public function isVerified(): bool;
+
     public function isActive(): bool;
 
     public function isDeleted(): bool;

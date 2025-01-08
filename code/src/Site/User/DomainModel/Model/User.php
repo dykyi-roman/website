@@ -232,6 +232,11 @@ class User extends AbstractDomainModel implements PasswordAuthenticatedUserInter
         return $this->status;
     }
 
+    public function isVerified(): bool
+    {
+        return false;
+    }
+
     /** @return array<string> */
     public function getRoles(): array
     {

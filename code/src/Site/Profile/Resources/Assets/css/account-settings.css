@@ -1,0 +1,40 @@
+.account-settings {
+    max-width: 500px;
+    padding: 20px;
+    background-color: var(--background-color);
+    border-radius: 8px;
+}
+
+.account-settings .form-group {
+    margin-bottom: 15px;
+}
+
+.account-settings label {
+    display: block;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.account-settings label strong {
+    color: var(--primary-color);
+}
+
+.user-status {
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 1.2em;
+}
+
+.user-status.active::after {
+    content: '🟢';
+}
+
+.user-status.inactive::after {
+    content: '⭕';
+}
+
+.user-status.verified::after {
+    content: '✓';
+    color: #1DA1F2;
+    font-weight: bold;
+}

@@ -99,15 +99,35 @@
                    title="{{ app.user ? app.user.name : 'account_menu'|trans }}">
                     {% if app.user %}
                         {% if app.user.avatar %}
-                            <div class="profile-image-container">
+                            <div class="profile-image-container position-relative">
                                 <img src="{{ app.user.avatar }}" 
                                      alt="{{ 'profile_picture'|trans }}" 
                                      class="rounded-circle"
                                      width="32" 
                                      height="32">
+                                {% if app.user.isActive() %}
+                                    {% if app.user.isVerified %}
+                                        <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle user-status-indicator" title="Verified Status"></span>
+                                    {% else %}
+                                        <span class="position-absolute bottom-0 end-0 p-1 bg-warning border border-light rounded-circle user-status-indicator" title="Active Status"></span>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="position-absolute bottom-0 end-0 p-1 bg-danger border border-light rounded-circle user-status-indicator" title="Inactive Status"></span>
+                                {% endif %}
                             </div>
                         {% else %}
-                            <i class="fas fa-user"></i>
+                            <div class="position-relative">
+                                <i class="fas fa-user"></i>
+                                {% if app.user.isActive() %}
+                                    {% if app.user.isVerified %}
+                                        <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle user-status-indicator" title="Verified Status"></span>
+                                    {% else %}
+                                        <span class="position-absolute bottom-0 end-0 p-1 bg-warning border border-light rounded-circle user-status-indicator" title="Active Status"></span>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="position-absolute bottom-0 end-0 p-1 bg-danger border border-light rounded-circle user-status-indicator" title="Inactive Status"></span>
+                                {% endif %}
+                            </div>
                         {% endif %}
                         <div class="profile-name fw-semibold text-truncate ms-2">
                             {{ app.user.name|length > 20 ? app.user.name|slice(0, 20) ~ '...' : app.user.name }}
