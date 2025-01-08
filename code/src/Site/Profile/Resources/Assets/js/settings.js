@@ -112,6 +112,16 @@ document.addEventListener('DOMContentLoaded', async function() {
                         </button>
                     </div>
                 `);
+
+                // Update user status icon in header
+                const userIcon = document.querySelector('.fas.fa-user');
+                if (userIcon) {
+                    const statusIndicator = document.querySelector('.user-status-indicator');
+                    if (statusIndicator) {
+                        statusIndicator.classList.remove('bg-danger');
+                        statusIndicator.classList.add(userIcon.getAttribute('data-user-status') === '1' ? 'bg-success' : 'bg-warning');
+                    }
+                }
             } else {
                 console.error('Failed to activate account');
             }
@@ -159,6 +169,16 @@ document.addEventListener('DOMContentLoaded', async function() {
                         </button>
                     </div>
                 `);
+
+                // Update user status icon in header
+                const userIcon = document.querySelector('.fas.fa-user');
+                if (userIcon) {
+                    const statusIndicator = document.querySelector('.user-status-indicator');
+                    if (statusIndicator) {
+                        statusIndicator.classList.remove('bg-warning', 'bg-success');
+                        statusIndicator.classList.add('bg-danger');
+                    }
+                }
             } else {
                 console.error('Failed to deactivate account');
             }

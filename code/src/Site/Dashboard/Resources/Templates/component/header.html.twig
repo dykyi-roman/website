@@ -117,7 +117,7 @@
                             </div>
                         {% else %}
                             <div class="position-relative">
-                                <i class="fas fa-user"></i>
+                                <i class="fas fa-user" data-user-status="{{ app.user.isVerified ? '1' : '0' }}"></i>
                                 {% if app.user.isActive() %}
                                     {% if app.user.isVerified %}
                                         <span class="position-absolute bottom-0 end-0 p-1 bg-success border border-light rounded-circle user-status-indicator" title="Verified Status"></span>
