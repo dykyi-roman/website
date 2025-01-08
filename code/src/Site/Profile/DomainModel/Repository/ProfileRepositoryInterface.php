@@ -9,5 +9,5 @@ use Site\User\DomainModel\Enum\UserId;
 
 interface ProfileRepositoryInterface
 {
-    public function addOrUpdate(UserId $id, Property $property): void;
+    public function setOrChangeSettingProperty(UserId $id, Property $property): void;
 }
