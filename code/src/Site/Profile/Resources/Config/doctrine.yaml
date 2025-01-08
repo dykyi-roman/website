@@ -3,6 +3,7 @@ doctrine:
         types:
             property_category: Site\Profile\Infrastructure\Doctrine\DoctrineType\PropertyCategoryType
             property_name: Site\Profile\Infrastructure\Doctrine\DoctrineType\PropertyNameType
+            setting_id: Site\Profile\Infrastructure\Doctrine\DoctrineType\SettingIdType
         connections:
             site:
                 url: '%env(resolve:DATABASE_SITE_URL)%'

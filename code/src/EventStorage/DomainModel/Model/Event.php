@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use EventStorage\DomainModel\Enum\EventId;
 
 #[ORM\Entity]
-#[ORM\Table(name: 'event')]
+#[ORM\Table(name: 'events')]
 class Event
 {
     #[ORM\Id]

@@ -18,7 +18,7 @@ use Site\User\DomainModel\Enum\UserStatus;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity]
-#[ORM\Table(name: 'user')]
+#[ORM\Table(name: 'users')]
 #[ORM\HasLifecycleCallbacks]
 class User extends AbstractDomainModel implements PasswordAuthenticatedUserInterface, UserInterface
 {
