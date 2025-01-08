@@ -1,4 +1,8 @@
 {% block account_settings %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/account-settings.css') }}">
+    {% endblock %}
+
 <div class="account-settings">
     <div class="form-group">
         <label for="username">Name: <strong>{{ app.user.name }}</strong></label>
