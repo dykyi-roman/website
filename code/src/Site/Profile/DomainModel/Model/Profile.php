@@ -73,7 +73,7 @@ class Profile extends AbstractDomainModel
         $this->group = $property->group;
         $this->type = $property->type;
         $this->name = $property->name;
-        $this->value = $property->value;
+        $this->value = $property->type->convertToString($property->value);
 
         $this->raise(new ProfileSettingsIsChangedEvent($this->id, $property));
     }
