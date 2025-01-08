@@ -13,4 +13,9 @@ enum PropertyName: string
     case PROFILE_SETTINGS_GENERAL_LANGUAGE = 'language';
     case PROFILE_SETTINGS_GENERAL_CURRENCY = 'currency';
     case PROFILE_SETTINGS_GENERAL_THEME = 'theme';
+
+    public static function values(): array
+    {
+        return array_column(self::cases(), 'value');
+    }
 }

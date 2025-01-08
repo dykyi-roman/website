@@ -20,4 +20,9 @@ enum PropertyType: string
             self::DATE => $value instanceof \DateTimeInterface ? $value->format('Y-m-d H:i:s') : throw new \InvalidArgumentException('Invalid date value'),
         };
     }
+
+    public static function values(): array
+    {
+        return array_column(self::cases(), 'value');
+    }
 }

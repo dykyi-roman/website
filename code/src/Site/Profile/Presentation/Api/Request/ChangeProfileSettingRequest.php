@@ -10,23 +10,23 @@ use Site\Profile\DomainModel\Enum\PropertyType;
 use Site\Profile\DomainModel\ValueObject\Property;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class ChangeProfileSettingRequest
+final readonly class ChangeProfileSettingRequest
 {
     public function __construct(
         #[Assert\NotBlank(message: 'Group should not be blank')]
-        #[Assert\Choice(callback: [PropertyGroup::class, 'cases'], message: 'Invalid group value')]
-        private readonly string $group,
+        #[Assert\Choice(callback: [PropertyGroup::class, 'values'], message: 'Invalid group value')]
+        private string $group,
 
         #[Assert\NotBlank(message: 'Name should not be blank')]
-        #[Assert\Choice(callback: [PropertyName::class, 'cases'], message: 'Invalid name value')]
-        private readonly string $name,
+        #[Assert\Choice(callback: [PropertyName::class, 'values'], message: 'Invalid name value')]
+        private string $name,
 
         #[Assert\NotBlank(message: 'Type should not be blank')]
-        #[Assert\Choice(callback: [PropertyType::class, 'cases'], message: 'Invalid type value')]
-        private readonly string $type,
+        #[Assert\Choice(callback: [PropertyType::class, 'values'], message: 'Invalid type value')]
+        private string $type,
 
         #[Assert\NotNull(message: 'Value should not be null')]
-        private readonly mixed $value,
+        private mixed $value,
     ) {
     }
 
