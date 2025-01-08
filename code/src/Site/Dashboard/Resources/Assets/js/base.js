@@ -226,30 +226,52 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Theme switching functionality
 document.addEventListener('DOMContentLoaded', function() {
-    const themeToggle = document.querySelector('.theme-toggle');
-    const themeIcon = themeToggle.querySelector('i');
-    
-    // Check for saved theme preference, otherwise use system preference
-    const savedTheme = localStorage.getItem('theme');
-    const defaultTheme = savedTheme || 'light';
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
 
-    // Set initial theme
-    document.documentElement.setAttribute('data-theme', defaultTheme);
-    updateThemeIcon(defaultTheme);
-
-    // Add click event listener to existing theme toggle button
-    themeToggle.addEventListener('click', function() {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
+    // Function to toggle theme
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
-        // Update theme
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        updateThemeIcon(newTheme);
-    });
 
+        // Set theme attribute
+        document.documentElement.setAttribute('data-theme', newTheme);
+
+        // Update theme icon
+        updateThemeIcon(newTheme);
+
+        // Save theme to cookie
+        setCookie('theme', newTheme);
+
+        // Update theme-select if it exists
+        const themeSelect = document.getElementById('theme-select');
+        if (themeSelect) {
+            themeSelect.value = newTheme === 'dark' ? 'dark-theme' : 'light-theme';
+        }
+
+        // Dispatch theme change event
+        document.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: newTheme } }));
+    }
+
+    // Function to update theme icon
     function updateThemeIcon(theme) {
         themeIcon.className = `fas ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`;
+    }
+
+    // Check for saved theme on page load
+    const savedTheme = getCookie('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+
+    // Update theme-select if it exists on page load
+    const themeSelect = document.getElementById('theme-select');
+    if (themeSelect) {
+        themeSelect.value = savedTheme === 'dark' ? 'dark-theme' : 'light-theme';
+    }
+
+    // Add click event listener to theme toggle
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
     }
 });
 

@@ -4,7 +4,9 @@
     padding: 20px;
     background-color: var(--background-color);
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 2px solid var(--border-color);
+    border-color: rgba(0, 0, 0, 0.2);
+    box-shadow: none;
 }
 
 .general-settings .form-group {
@@ -21,28 +23,29 @@
 .general-settings select {
     width: 100%;
     padding: 10px;
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 4px;
     background-color: var(--input-background);
     color: var(--text-color);
     transition: border-color 0.3s ease;
+    box-shadow: none;
 }
 
 .general-settings select:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.2);
 }
 
 /* Dark theme specific styles */
 .dark-theme .general-settings {
     background-color: var(--dark-background-color);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .dark-theme .general-settings select {
     background-color: var(--dark-input-background);
     color: var(--dark-text-color);
-    border-color: var(--dark-border-color);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
 .dark-theme .general-settings select:focus {
