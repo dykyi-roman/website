@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Site\Profile\DomainModel\Enum;
 
-enum PropertyGroup: string
+enum PropertyCategory: string
 {
     case GENERAL = 'GENERAL';
     case ACCOUNT = 'ACCOUNT';

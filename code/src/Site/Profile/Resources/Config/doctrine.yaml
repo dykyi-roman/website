@@ -1,7 +1,7 @@
 doctrine:
     dbal:
         types:
-            property_group: Site\Profile\Infrastructure\Doctrine\DoctrineType\PropertyGroupType
+            property_category: Site\Profile\Infrastructure\Doctrine\DoctrineType\PropertyCategoryType
             property_name: Site\Profile\Infrastructure\Doctrine\DoctrineType\PropertyNameType
         connections:
             site:

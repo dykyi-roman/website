@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Site\Profile\DomainModel\ValueObject;
 
-use Site\Profile\DomainModel\Enum\PropertyGroup;
+use Site\Profile\DomainModel\Enum\PropertyCategory;
 use Site\Profile\DomainModel\Enum\PropertyName;
 
 final readonly class Property implements \JsonSerializable
 {
     public function __construct(
-        public PropertyGroup $group,
+        public PropertyCategory $category,
         public PropertyName $name,
         public mixed $value,
     ) {
@@ -33,7 +33,7 @@ final readonly class Property implements \JsonSerializable
     public function jsonSerialize(): array
     {
        return [
-           'group' => $this->group->value,
+           'category' => $this->category->value,
            'name' => $this->name->value,
            'value' => (string) $this->value,
        ];

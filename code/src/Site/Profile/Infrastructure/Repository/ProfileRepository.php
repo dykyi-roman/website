@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Site\Profile\DomainModel\Model\Profile;
-use Site\Profile\DomainModel\Enum\PropertyGroup;
+use Site\Profile\DomainModel\Enum\PropertyCategory;
 use Site\Profile\DomainModel\Enum\PropertyName;
 use Site\Profile\DomainModel\Repository\ProfileRepositoryInterface;
 use Site\Profile\DomainModel\ValueObject\Property;
@@ -29,13 +29,14 @@ final class ProfileRepository implements ProfileRepositoryInterface
     public function updateSettingProperty(UserId $id, Property $property): void
     {
         $qb = $this->entityManager->createQueryBuilder();
+        /** @var null|Profile $profile */
         $profile = $qb->select('p')
             ->from(Profile::class, 'p')
             ->where('p.id = :id')
-            ->andWhere('p.group = :group')
+            ->andWhere('p.category = :category')
             ->andWhere('p.name = :name')
             ->setParameter('id', $id->toBinary())
-            ->setParameter('group', $property->group->value)
+            ->setParameter('category', $property->category->value)
             ->setParameter('name', $property->name->value)
             ->getQuery()
             ->getOneOrNullResult();

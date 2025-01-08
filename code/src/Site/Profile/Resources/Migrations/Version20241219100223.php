@@ -20,7 +20,7 @@ final class Version20241219100223 extends AbstractMigration
 
         $this->addSql('CREATE TABLE profile (
             id BINARY(16) NOT NULL,
-            `group` VARCHAR(100) NOT NULL,
+            category VARCHAR(100) NOT NULL,
             name VARCHAR(100) NOT NULL,
             value TEXT DEFAULT NULL,
             created_at DATETIME NOT NULL,

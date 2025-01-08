@@ -31,7 +31,7 @@ final readonly class ChangeProfileSettingAction
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(
-                    property: 'group',
+                    property: 'category',
                     type: 'string',
                     enum: ['GENERAL', 'ACCOUNT', 'NOTIFICATION'],
                     example: 'NOTIFICATION'

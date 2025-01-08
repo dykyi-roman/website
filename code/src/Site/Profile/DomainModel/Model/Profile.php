@@ -6,7 +6,7 @@ namespace Site\Profile\DomainModel\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use Shared\DomainModel\Model\AbstractDomainModel;
-use Site\Profile\DomainModel\Enum\PropertyGroup;
+use Site\Profile\DomainModel\Enum\PropertyCategory;
 use Site\Profile\DomainModel\Enum\PropertyName;
 use Site\Profile\DomainModel\Event\ProfileSettingsIsChangedEvent;
 use Site\Profile\DomainModel\ValueObject\Property;
@@ -21,8 +21,8 @@ class Profile extends AbstractDomainModel
     #[ORM\Column(type: 'user_id', unique: true)]
     private UserId $id;
 
-    #[ORM\Column(name: '`group`', type: 'property_group', length: 100)]
-    private PropertyGroup $group;
+    #[ORM\Column(name: 'category', type: 'property_category', length: 100)]
+    private PropertyCategory $category;
 
     #[ORM\Column(name: 'name', type: 'property_name', length: 100)]
     private PropertyName $name;
@@ -41,7 +41,7 @@ class Profile extends AbstractDomainModel
         Property $property,
     ) {
         $this->id = $id;
-        $this->group = $property->group;
+        $this->category = $property->category;
         $this->name = $property->name;
         $this->value = $property->toString($property->value);
         $this->createdAt = new \DateTimeImmutable();
@@ -56,7 +56,7 @@ class Profile extends AbstractDomainModel
     public function getProperty(): Property
     {
         return new Property(
-            $this->group,
+            $this->category,
             $this->name,
             $this->value,
         );
@@ -64,7 +64,7 @@ class Profile extends AbstractDomainModel
 
     public function changeProperty(Property $property): void
     {
-        $this->group = $property->group;
+        $this->category = $property->category;
         $this->name = $property->name;
         $this->value = $property->toString($property->value);
 
