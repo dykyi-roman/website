@@ -24,7 +24,7 @@ final class ProfileRepository implements ProfileRepositoryInterface
         $this->repository = $this->entityManager->getRepository(Profile::class);
     }
 
-    public function setOrChangeSettingProperty(UserId $id, Property $property): void
+    public function сhangeSettingProperty(UserId $id, Property $property): void
     {
         $profile = $this->repository->find($id);
         if ($profile === null) {

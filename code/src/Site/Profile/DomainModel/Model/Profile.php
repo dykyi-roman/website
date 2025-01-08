@@ -22,16 +22,16 @@ class Profile extends AbstractDomainModel
     #[ORM\Column(type: 'user_id', unique: true)]
     private UserId $id;
 
-    #[ORM\Column(type: 'property_group', length: 100)]
+    #[ORM\Column(name: 'group', type: 'property_group', length: 100)]
     private PropertyGroup $group;
 
-    #[ORM\Column(type: 'property_type', length: 100)]
+    #[ORM\Column(name: 'type', type: 'property_type', length: 100)]
     private PropertyType $type;
 
-    #[ORM\Column(type: 'property_name', length: 100)]
+    #[ORM\Column(name: 'name', type: 'property_name', length: 100)]
     private PropertyName $name;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(name: 'value', type: 'string', nullable: true)]
     private string $value;
 
     #[ORM\Column(name: 'created_at', type: 'datetime_immutable')]

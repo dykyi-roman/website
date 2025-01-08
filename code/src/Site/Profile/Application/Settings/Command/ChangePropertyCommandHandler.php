@@ -20,7 +20,7 @@ final readonly class ChangePropertyCommandHandler
     public function __invoke(ChangePropertyCommand $command): void
     {
         try {
-            $this->profileRepository->setOrChangeSettingProperty($command->id, $command->property);
+            $this->profileRepository->сhangeSettingProperty($command->id, $command->property);
         } catch (\Throwable $exception) {
             $this->logger->error($exception->getMessage());
         }

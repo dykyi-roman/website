@@ -86,7 +86,7 @@ final readonly class ChangeProfileSettingAction
         #[MapRequestPayload] ChangeProfileSettingRequest $request,
         ChangeSettingJsonResponder $responder,
     ): ChangeSettingJsonResponder {
-        $this->profileRepository->setOrChangeSettingProperty(
+        $this->profileRepository->сhangeSettingProperty(
             $user->getId(),
             $request->property()
         );
