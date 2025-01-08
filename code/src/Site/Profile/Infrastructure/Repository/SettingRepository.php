@@ -9,11 +9,11 @@ use Doctrine\ORM\EntityRepository;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Site\Profile\DomainModel\Enum\SettingId;
 use Site\Profile\DomainModel\Model\Setting;
-use Site\Profile\DomainModel\Repository\ProfileRepositoryInterface;
+use Site\Profile\DomainModel\Repository\SettingRepositoryInterface;
 use Site\Profile\DomainModel\ValueObject\Property;
 use Site\User\DomainModel\Enum\UserId;
 
-final class ProfileRepository implements ProfileRepositoryInterface
+final class SettingRepository implements SettingRepositoryInterface
 {
     /** @var EntityRepository<Setting> */
     private EntityRepository $repository;
@@ -25,7 +25,7 @@ final class ProfileRepository implements ProfileRepositoryInterface
         $this->repository = $this->entityManager->getRepository(Setting::class);
     }
 
-    public function updateSettingProperty(UserId $id, Property $property): void
+    public function updateProperty(UserId $id, Property $property): void
     {
         $qb = $this->entityManager->createQueryBuilder();
         /** @var null|Setting $profile */

@@ -7,7 +7,7 @@ namespace Site\Profile\DomainModel\Repository;
 use Site\Profile\DomainModel\ValueObject\Property;
 use Site\User\DomainModel\Enum\UserId;
 
-interface ProfileRepositoryInterface
+interface SettingRepositoryInterface
 {
-    public function updateSettingProperty(UserId $id, Property $property): void;
+    public function updateProperty(UserId $id, Property $property): void;
 }

@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Site\Profile\Application\Settings\Command;
 
 use Psr\Log\LoggerInterface;
-use Site\Profile\DomainModel\Repository\ProfileRepositoryInterface;
+use Site\Profile\DomainModel\Repository\SettingRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
 final readonly class ChangePropertyCommandHandler
 {
     public function __construct(
-        private ProfileRepositoryInterface $profileRepository,
+        private SettingRepositoryInterface $settingRepository,
         private LoggerInterface $logger,
     ) {
     }
@@ -20,7 +20,7 @@ final readonly class ChangePropertyCommandHandler
     public function __invoke(ChangePropertyCommand $command): void
     {
         try {
-            $this->profileRepository->updateSettingProperty($command->id, $command->property);
+            $this->settingRepository->updateProperty($command->id, $command->property);
         } catch (\Throwable $exception) {
             $this->logger->error($exception->getMessage());
         }
