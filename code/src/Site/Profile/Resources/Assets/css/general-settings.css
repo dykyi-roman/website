@@ -4,8 +4,7 @@
     padding: 20px;
     background-color: var(--background-color);
     border-radius: 8px;
-    border: 2px solid var(--border-color);
-    border-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid #ccc;
     box-shadow: none;
 }
 
@@ -39,7 +38,7 @@
 /* Dark theme specific styles */
 .dark-theme .general-settings {
     background-color: var(--dark-background-color);
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: #444;
 }
 
 .dark-theme .general-settings select {
