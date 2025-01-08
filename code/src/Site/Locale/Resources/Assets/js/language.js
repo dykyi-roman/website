@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', function() {
             languageItems.forEach(item => item.classList.remove('active'));
             this.classList.add('active');
 
+            updateProfileSetting('GENERAL', 'language', langCode).catch(error => console.error('Failed to update language:', error));
+
             // Update URL and reload page
             const url = new URL(window.location.href);
             url.searchParams.set('lang', langCode);

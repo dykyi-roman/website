@@ -1,3 +1,32 @@
+// Global profile settings update function
+window.updateProfileSetting = async function(category, name, value) {
+    try {
+        const response = await fetch('/api/v1/profile/settings', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                category,
+                name,
+                value
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to update setting');
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Error updating profile setting:', error);
+        throw error;
+    }
+};
+
 // Function to set cookie
 function setCookie(name, value, days = 365) {
     const date = new Date();
@@ -248,6 +277,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (themeSelect) {
             themeSelect.value = newTheme === 'dark' ? 'dark-theme' : 'light-theme';
         }
+
+        updateProfileSetting('GENERAL', 'theme', themeSelect.value).catch(error => console.error('Failed to update theme:', error));
 
         // Dispatch theme change event
         document.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: newTheme } }));

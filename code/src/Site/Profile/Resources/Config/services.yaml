@@ -25,4 +25,4 @@ services:
             $entityManager: '@doctrine.orm.site_entity_manager'
 
     Site\Profile\DomainModel\Repository\SettingRepositoryInterface:
-        alias: SettingRepository
+        alias: Site\Profile\Infrastructure\Repository\SettingRepository

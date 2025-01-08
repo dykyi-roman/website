@@ -62,6 +62,8 @@ document.addEventListener('DOMContentLoaded', function() {
             currencyItems.forEach(item => item.classList.remove('active'));
             this.classList.add('active');
 
+            updateProfileSetting('GENERAL', 'currency', currencyCode).catch(error => console.error('Failed to update currency:', error));
+
             // Reload page to apply new currency
             window.location.reload();
         });

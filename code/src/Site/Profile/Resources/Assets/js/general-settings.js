@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
             expirationDate.setFullYear(expirationDate.getFullYear() + 1);
             document.cookie = `locale=${langCode}; expires=${expirationDate.toUTCString()}; path=/; SameSite=Strict`;
 
-            updateProfileSetting('GENERAL', 'language', langCode).catch(error => console.error('Failed to update theme:', error));
+            updateProfileSetting('GENERAL', 'language', langCode).catch(error => console.error('Failed to update language:', error));
 
             // Update URL and reload page
             const url = new URL(window.location.href);
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
             expirationDate.setFullYear(expirationDate.getFullYear() + 1);
             document.cookie = `appCurrency=${currencyCode}; expires=${expirationDate.toUTCString()}; path=/`;
 
-            updateProfileSetting('GENERAL', 'currency', currencyCode).catch(error => console.error('Failed to update theme:', error));
+            updateProfileSetting('GENERAL', 'currency', currencyCode).catch(error => console.error('Failed to update currency:', error));
 
             // Reload page to apply new currency
             window.location.reload();
