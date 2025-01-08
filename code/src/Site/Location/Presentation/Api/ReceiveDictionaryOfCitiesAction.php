@@ -9,7 +9,7 @@ use Site\Location\DomainModel\Service\DictionaryOfCitiesInterface;
 use Site\Location\Presentation\Api\Request\DictionaryOfCitiesRequest;
 use Site\Location\Presentation\Api\Response\DictionaryOfCitiesResponse;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/v1/location/cities', name: 'api_cities_by_country_search', methods: ['GET'])]
 final readonly class ReceiveDictionaryOfCitiesAction

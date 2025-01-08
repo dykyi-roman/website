@@ -10,7 +10,7 @@ use Site\Profile\Presentation\Api\Request\ChangeProfileSettingRequest;
 use Site\Profile\Presentation\Api\Response\ChangeSettingJsonResponder;
 use Site\User\DomainModel\Model\User;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 final readonly class ChangeProfileSettingAction
@@ -41,12 +41,6 @@ final readonly class ChangeProfileSettingAction
                     type: 'string',
                     enum: ['phone_verified_at', 'email_verified_at', 'accepted_cookies'],
                     example: 'accepted_cookies'
-                ),
-                new OA\Property(
-                    property: 'type',
-                    type: 'string',
-                    enum: ['string', 'integer', 'bool', 'date'],
-                    example: 'bool'
                 ),
                 new OA\Property(
                     property: 'value',
@@ -88,7 +82,7 @@ final readonly class ChangeProfileSettingAction
     ): ChangeSettingJsonResponder {
         $this->profileRepository->changeSettingProperty(
             $user->getId(),
-            $request->property()
+            $request->property(),
         );
 
         return $responder->success('Ok')->respond();

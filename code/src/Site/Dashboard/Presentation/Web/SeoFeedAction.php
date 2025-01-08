@@ -12,7 +12,7 @@ use Site\Dashboard\Presentation\Web\Response\FeedRssHtmlResponder;
 use Site\User\DomainModel\Enum\Roles;
 use Site\User\DomainModel\Exception\AuthenticationException;
 use Site\User\DomainModel\Service\UserFetcher;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 final readonly class SeoFeedAction
 {
