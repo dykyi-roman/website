@@ -30,8 +30,8 @@ async function fetchAndStoreSettings() {
 // Execute fetchAndStoreSettings immediately if user is authenticated
 settings = fetchAndStoreSettings();
 
-// Function to get cookie value
-function getCookie(name) {
+// Function to get cookie value - globally accessible
+window.getCookie = function(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
