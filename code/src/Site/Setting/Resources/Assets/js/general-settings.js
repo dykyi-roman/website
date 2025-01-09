@@ -79,8 +79,8 @@ document.addEventListener('DOMContentLoaded', function() {
         saveButton.disabled = true;
         saveButton.addEventListener('click', async function() {
             try {
-                // Apply all pending changes
-                const promises = [];
+                // Collect all pending changes
+                const settings = [];
                 
                 if (pendingChanges.language) {
                     // Set language cookie
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     expirationDate.setFullYear(expirationDate.getFullYear() + 1);
                     document.cookie = `locale=${pendingChanges.language}; expires=${expirationDate.toUTCString()}; path=/; SameSite=Strict`;
                     
-                    promises.push(updateProfileSetting('GENERAL', 'language', pendingChanges.language));
+                    settings.push(['GENERAL', 'language', pendingChanges.language]);
                 }
                 
                 if (pendingChanges.currency) {
@@ -97,16 +97,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     expirationDate.setFullYear(expirationDate.getFullYear() + 1);
                     document.cookie = `appCurrency=${pendingChanges.currency}; expires=${expirationDate.toUTCString()}; path=/`;
                     
-                    promises.push(updateProfileSetting('GENERAL', 'currency', pendingChanges.currency));
+                    settings.push(['GENERAL', 'currency', pendingChanges.currency]);
                 }
                 
                 if (pendingChanges.theme) {
                     toggleTheme(pendingChanges.theme);
-                    promises.push(updateProfileSetting('GENERAL', 'theme', pendingChanges.theme));
+                    settings.push(['GENERAL', 'theme', pendingChanges.theme]);
                 }
 
-                // Wait for all updates to complete
-                await Promise.all(promises);
+                // Update all settings at once
+                if (settings.length > 0) {
+                    await updateProfileSetting(settings);
+                }
 
                 // Reload page to apply changes
                 if (pendingChanges.language) {

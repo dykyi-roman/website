@@ -31,22 +31,30 @@ final readonly class ChangeSettingAction
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(
-                    property: 'category',
-                    type: 'string',
-                    enum: ['GENERAL', 'ACCOUNT', 'NOTIFICATION'],
-                    example: 'NOTIFICATION'
-                ),
-                new OA\Property(
-                    property: 'name',
-                    type: 'string',
-                    enum: ['phone_verified_at', 'email_verified_at', 'accepted_cookies'],
-                    example: 'accepted_cookies'
-                ),
-                new OA\Property(
-                    property: 'value',
-                    type: 'mixed',
-                    example: true
-                ),
+                    property: 'settings',
+                    type: 'array',
+                    items: new OA\Items(
+                        properties: [
+                            new OA\Property(
+                                property: 'category',
+                                type: 'string',
+                                enum: ['GENERAL', 'ACCOUNT', 'NOTIFICATION'],
+                                example: 'NOTIFICATION'
+                            ),
+                            new OA\Property(
+                                property: 'name',
+                                type: 'string',
+                                enum: ['phone_verified_at', 'email_verified_at', 'accepted_cookies'],
+                                example: 'accepted_cookies'
+                            ),
+                            new OA\Property(
+                                property: 'value',
+                                type: 'mixed',
+                                example: true
+                            ),
+                        ]
+                    )
+                )
             ]
         )
     )]
@@ -80,10 +88,12 @@ final readonly class ChangeSettingAction
         #[MapRequestPayload] ChangeSettingRequest $request,
         ChangeSettingJsonResponder $responder,
     ): ChangeSettingJsonResponder {
-        $this->settingRepository->updateProperty(
-            $user->getId(),
-            $request->property(),
-        );
+        foreach ($request->properties() as $property) {
+            $this->settingRepository->updateProperty(
+                $user->getId(),
+                $property,
+            );
+        }
 
         return $responder->success('Ok')->respond();
     }

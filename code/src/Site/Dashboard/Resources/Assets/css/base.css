@@ -37,6 +37,7 @@ body {
 .fa-heart,
 .fa-cog,
 .fa-bell,
+.fa-lock,
 .fa-comment-dots {
     color: var(--primary-color);
 }

@@ -12,25 +12,39 @@ use Symfony\Component\Validator\Constraints as Assert;
 final readonly class ChangeSettingRequest
 {
     public function __construct(
-        #[Assert\NotBlank(message: 'Category should not be blank')]
-        #[Assert\Choice(callback: [PropertyCategory::class, 'values'], message: 'Invalid category value')]
-        private string $category,
-
-        #[Assert\NotBlank(message: 'Name should not be blank')]
-        #[Assert\Choice(callback: [PropertyName::class, 'values'], message: 'Invalid name value')]
-        private string $name,
-
-        #[Assert\NotNull(message: 'Value should not be null')]
-        private mixed $value,
+        #[Assert\NotBlank(message: 'Settings should not be blank')]
+        #[Assert\Type(type: 'array', message: 'Settings must be an array')]
+        #[Assert\All([
+            new Assert\Collection([
+                'category' => [
+                    new Assert\NotBlank(message: 'Category should not be blank'),
+                    new Assert\Choice(callback: [PropertyCategory::class, 'values'], message: 'Invalid category value')
+                ],
+                'name' => [
+                    new Assert\NotBlank(message: 'Name should not be blank'),
+                    new Assert\Choice(callback: [PropertyName::class, 'values'], message: 'Invalid name value')
+                ],
+                'value' => [
+                    new Assert\NotNull(message: 'Value should not be null')
+                ]
+            ])
+        ])]
+        private array $settings,
     ) {
     }
 
-    public function property(): Property
+    /**
+     * @return Property[]
+     */
+    public function properties(): array
     {
-        return new Property(
-            PropertyCategory::from($this->category),
-            PropertyName::from($this->name),
-            $this->value
+        return array_map(
+            fn (array $setting) => new Property(
+                PropertyCategory::from($setting['category']),
+                PropertyName::from($setting['name']),
+                $setting['value']
+            ),
+            $this->settings
         );
     }
 }

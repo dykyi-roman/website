@@ -1,8 +1,11 @@
 // Profile settings update function - only available for authenticated users
-window.updateProfileSetting = async function(category, name, value) {
+window.updateProfileSetting = async function(settings) {
     if (!window.appConfig?.isAuthenticated) {
         return;
     }
+
+    // Handle both single setting and array of settings
+    const settingsArray = Array.isArray(settings) ? settings : [[...arguments]];
 
     try {
         const response = await fetch('/api/v1/settings', {
@@ -12,9 +15,11 @@ window.updateProfileSetting = async function(category, name, value) {
                 'Accept': 'application/json'
             },
             body: JSON.stringify({
-                category,
-                name,
-                value
+                settings: settingsArray.map(([category, name, value]) => ({
+                    category,
+                    name,
+                    value
+                }))
             })
         });
 
@@ -285,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Only update profile settings if user is authenticated
         if (window.appConfig?.isAuthenticated) {
-            updateProfileSetting('GENERAL', 'theme', themeSelectValue).catch(error => console.error('Failed to update theme:', error));
+            updateProfileSetting([['GENERAL', 'theme', themeSelectValue]]).catch(error => console.error('Failed to update theme:', error));
         }
 
         // Dispatch theme change event
