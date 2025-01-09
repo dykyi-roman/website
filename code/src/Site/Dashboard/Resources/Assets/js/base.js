@@ -337,12 +337,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // Handle accept button click
         document.getElementById('acceptCookies')?.addEventListener('click', function() {
             setCookie('agreement_with_cookies', '1');
+            updateProfileSetting([['GENERAL', 'cookies', 1]]).catch(error => console.error('Failed to update cookies:', error));
             bsOffcanvas.hide();
         });
 
         // Handle reject button click
         document.getElementById('rejectCookies')?.addEventListener('click', function() {
             setCookie('agreement_with_cookies', '0');
+            updateProfileSetting([['GENERAL', 'cookies', 0]]).catch(error => console.error('Failed to update cookies:', error));
             bsOffcanvas.hide();
         });
     }

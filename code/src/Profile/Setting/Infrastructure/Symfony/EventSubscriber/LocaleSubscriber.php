@@ -17,34 +17,39 @@ final readonly class LocaleSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private LocaleSwitcher $localeSwitcher,
-        private UserFetcher $userFetcher,
         private SettingRepositoryInterface $settingRepository,
+        private UserFetcher $userFetcher,
     ) {
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::REQUEST => [['onKernelRequest', 20]],
+            KernelEvents::REQUEST => [['onKernelRequest', -8]],
         ];
     }
 
     public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
+        if ($request->query->get('lang')) {
+            return;
+        }
+
         try {
             $user = $this->userFetcher->fetch();
-            $setting = $this->settingRepository->findByName($user->getId(), PropertyName::SETTINGS_GENERAL_LANGUAGE);
-            if (null === $setting) {
-                return;
-            }
-
-            $locale = $setting->getProperty()->value;
-            $this->localeSwitcher->setLocale($locale);
-            $request->cookies->set('locale', $locale);
-            $request->setLocale($locale);
         } catch (AuthenticationException) {
             return;
         }
+
+        $setting = $this->settingRepository->findByName($user->getId(), PropertyName::SETTINGS_GENERAL_LANGUAGE);
+        if (null === $setting) {
+            return;
+        }
+
+        $locale = (string)$setting->getProperty()->value;
+        $this->localeSwitcher->setLocale($locale);
+        $request->cookies->set('locale', $locale);
+        $request->setLocale($locale);
     }
 }
