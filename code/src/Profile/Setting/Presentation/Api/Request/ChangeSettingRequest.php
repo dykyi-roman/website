@@ -18,16 +18,16 @@ final readonly class ChangeSettingRequest
             new Assert\Collection([
                 'category' => [
                     new Assert\NotBlank(message: 'Category should not be blank'),
-                    new Assert\Choice(callback: [PropertyCategory::class, 'values'], message: 'Invalid category value')
+                    new Assert\Choice(callback: [PropertyCategory::class, 'values'], message: 'Invalid category value'),
                 ],
                 'name' => [
                     new Assert\NotBlank(message: 'Name should not be blank'),
-                    new Assert\Choice(callback: [PropertyName::class, 'values'], message: 'Invalid name value')
+                    new Assert\Choice(callback: [PropertyName::class, 'values'], message: 'Invalid name value'),
                 ],
                 'value' => [
-                    new Assert\NotNull(message: 'Value should not be null')
-                ]
-            ])
+                    new Assert\NotNull(message: 'Value should not be null'),
+                ],
+            ]),
         ])]
         private array $settings,
     ) {

@@ -123,7 +123,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 
             } catch (error) {
                 console.error('Failed to save settings:', error);
-                // You might want to show an error message to the user here
             }
         });
     }

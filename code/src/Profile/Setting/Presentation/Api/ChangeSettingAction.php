@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Profile\Setting\Presentation\Api;
 
 use OpenApi\Attributes as OA;
-use Profile\Setting\DomainModel\Repository\SettingRepositoryInterface;
+use Profile\Setting\Application\Settings\Command\ChangePropertyCommand;
 use Profile\Setting\Presentation\Api\Request\ChangeSettingRequest;
 use Profile\Setting\Presentation\Api\Response\ChangeSettingJsonResponder;
+use Shared\DomainModel\Services\MessageBusInterface;
 use Site\User\DomainModel\Model\User;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
@@ -16,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 final readonly class ChangeSettingAction
 {
     public function __construct(
-        private SettingRepositoryInterface $settingRepository,
+        private MessageBusInterface $messageBus,
     ) {
     }
 
@@ -54,7 +55,7 @@ final readonly class ChangeSettingAction
                             ),
                         ]
                     )
-                )
+                ),
             ]
         )
     )]
@@ -88,12 +89,10 @@ final readonly class ChangeSettingAction
         #[MapRequestPayload] ChangeSettingRequest $request,
         ChangeSettingJsonResponder $responder,
     ): ChangeSettingJsonResponder {
-        foreach ($request->properties() as $property) {
-            $this->settingRepository->updateProperty(
-                $user->getId(),
-                $property,
-            );
-        }
+        $this->messageBus->dispatch(new ChangePropertyCommand(
+            $user->getId(),
+            $request->properties(),
+        ));
 
         return $responder->success('Ok')->respond();
     }

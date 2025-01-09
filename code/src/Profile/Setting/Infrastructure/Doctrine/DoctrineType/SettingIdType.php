@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Profile\Setting\Infrastructure\Doctrine\DoctrineType;
 
-use Shared\Infrastructure\Doctrine\DoctrineType\UuidType;
 use Profile\Setting\DomainModel\Enum\SettingId;
-use Site\User\DomainModel\Enum\UserId;
+use Shared\Infrastructure\Doctrine\DoctrineType\UuidType;
 
 final class SettingIdType extends UuidType
 {

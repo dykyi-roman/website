@@ -14,7 +14,10 @@ final readonly class ChangePropertyCommand
 {
     public function __construct(
         public UserId $id,
-        public Property $property,
+        /**
+         * @var Property[]
+         */
+        public array $properties,
     ) {
     }
 }

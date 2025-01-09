@@ -6,11 +6,11 @@ namespace Profile\Setting\Infrastructure\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Shared\DomainModel\Services\MessageBusInterface;
 use Profile\Setting\DomainModel\Enum\SettingId;
 use Profile\Setting\DomainModel\Model\Setting;
 use Profile\Setting\DomainModel\Repository\SettingRepositoryInterface;
 use Profile\Setting\DomainModel\ValueObject\Property;
+use Shared\DomainModel\Services\MessageBusInterface;
 use Site\User\DomainModel\Enum\UserId;
 
 final class SettingRepository implements SettingRepositoryInterface
@@ -25,31 +25,63 @@ final class SettingRepository implements SettingRepositoryInterface
         $this->repository = $this->entityManager->getRepository(Setting::class);
     }
 
-    public function updateProperty(UserId $id, Property $property): void
+    public function updateProperties(UserId $id, Property ...$properties): void
     {
         $qb = $this->entityManager->createQueryBuilder();
-        /** @var null|Setting $Setting */
-        $Setting = $qb->select('p')
-            ->from(Setting::class, 'p')
-            ->where('p.userId = :id')
-            ->andWhere('p.category = :category')
-            ->andWhere('p.name = :name')
-            ->setParameter('id', $id->toBinary())
-            ->setParameter('category', $property->category->value)
-            ->setParameter('name', $property->name->value)
-            ->getQuery()
-            ->getOneOrNullResult();
 
-        if ($Setting === null) {
-            $Setting = new Setting(new SettingId(), $id, $property);
-        } else {
-            $Setting->changeProperty($property);
+        $qb->select('s')
+            ->from(Setting::class, 's')
+            ->where('s.userId = :id')
+            ->setParameter('id', $id->toBinary());
+
+        if (!empty($properties)) {
+            $orX = $qb->expr()->orX();
+            foreach ($properties as $prop) {
+                $categoryParam = 'category_' . $prop->category->value;
+                $nameParam = 'name_' . $prop->name->value;
+                
+                $orX->add(
+                    $qb->expr()->andX(
+                        $qb->expr()->eq('s.category', ':' . $categoryParam),
+                        $qb->expr()->eq('s.name', ':' . $nameParam)
+                    )
+                );
+                
+                $qb->setParameter($categoryParam, $prop->category->value)
+                   ->setParameter($nameParam, $prop->name->value);
+            }
+            $qb->andWhere($orX);
         }
 
-        $this->entityManager->persist($Setting);
+        /** @var iterable<Setting> $existingSettings */
+        $existingSettings = $qb->getQuery()->getResult();
+
+        // Index existing settings by category and name for quick lookup
+        /** @var $settingsMap array<string, Setting> */
+        $settingsMap = [];
+        foreach ($existingSettings as $setting) {
+            $key = $setting->getProperty()->category->value.'_'.$setting->getProperty()->name->value;
+            $settingsMap[$key] = $setting;
+        }
+
+        $events = [];
+        // Process all properties in batch
+        foreach ($properties as $property) {
+            $key = $property->category->value.'_'.$property->name->value;
+
+            if (isset($settingsMap[$key])) {
+                $settingsMap[$key]->changeProperty($property);
+                $events = array_merge($events, $settingsMap[$key]->releaseEvents());
+            } else {
+                $setting = new Setting(new SettingId(), $id, $property);
+                $this->entityManager->persist($setting);
+                $events = array_merge($events, $setting->releaseEvents());
+            }
+        }
+
         $this->entityManager->flush();
 
-        foreach ($Setting->releaseEvents() as $event) {
+        foreach ($events as $event) {
             $this->eventBus->dispatch($event);
         }
     }

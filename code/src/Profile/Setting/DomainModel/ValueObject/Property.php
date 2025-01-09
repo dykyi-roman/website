@@ -32,10 +32,10 @@ final readonly class Property implements \JsonSerializable
     /** @return array<string, string> */
     public function jsonSerialize(): array
     {
-       return [
-           'category' => $this->category->value,
-           'name' => $this->name->value,
-           'value' => (string) $this->value,
-       ];
+        return [
+            'category' => $this->category->value,
+            'name' => $this->name->value,
+            'value' => (string) $this->value,
+        ];
     }
 }

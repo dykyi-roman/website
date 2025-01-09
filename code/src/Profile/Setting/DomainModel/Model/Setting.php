@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Profile\Setting\DomainModel\Model;
 
 use Doctrine\ORM\Mapping as ORM;
-use Shared\DomainModel\Model\AbstractDomainModel;
 use Profile\Setting\DomainModel\Enum\PropertyCategory;
 use Profile\Setting\DomainModel\Enum\PropertyName;
 use Profile\Setting\DomainModel\Enum\SettingId;
 use Profile\Setting\DomainModel\Event\SettingIsChangedEvent;
 use Profile\Setting\DomainModel\ValueObject\Property;
+use Shared\DomainModel\Model\AbstractDomainModel;
 use Site\User\DomainModel\Enum\UserId;
 
 #[ORM\Entity]
@@ -54,7 +54,7 @@ class Setting extends AbstractDomainModel
         $this->updatedAt = new \DateTimeImmutable();
     }
 
-    public function getId(): UserId
+    public function getId(): SettingId
     {
         return $this->id;
     }

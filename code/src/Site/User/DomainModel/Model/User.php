@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Site\User\DomainModel\Model;
 
 use Doctrine\ORM\Mapping as ORM;
-use Shared\DomainModel\Model\AbstractDomainModel;
-use Shared\DomainModel\ValueObject\Email;
-use Shared\DomainModel\ValueObject\Location;
 use Profile\Setting\DomainModel\Event\UserActivatedEvent;
 use Profile\Setting\DomainModel\Event\UserDeactivatedEvent;
 use Profile\Setting\DomainModel\Event\UserDeletedEvent;
+use Shared\DomainModel\Model\AbstractDomainModel;
+use Shared\DomainModel\ValueObject\Email;
+use Shared\DomainModel\ValueObject\Location;
 use Site\Registration\DomainModel\Event\UserChangedPasswordEvent;
 use Site\User\DomainModel\Enum\Roles;
 use Site\User\DomainModel\Enum\UserId;

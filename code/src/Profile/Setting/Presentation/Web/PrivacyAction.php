@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Profile\Setting\Presentation\Web;
 
-use Shared\DomainModel\Services\MessageBusInterface;
 use Profile\Setting\Application\SettingsPrivacy\Command\ActivateUserAccountCommand;
 use Profile\Setting\Application\SettingsPrivacy\Command\DeleteUserAccountCommand;
 use Profile\Setting\Presentation\Web\Request\ActivateAccountRequestDTO;
 use Profile\Setting\Presentation\Web\Response\PrivacyJsonResponder;
+use Shared\DomainModel\Services\MessageBusInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;

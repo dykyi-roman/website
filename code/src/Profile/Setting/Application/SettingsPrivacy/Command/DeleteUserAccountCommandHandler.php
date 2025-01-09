@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Profile\Setting\Application\SettingsPrivacy\Command;
 
-use Profile\Setting\Application\SettingsPrivacy\Command\DeleteUserAccountCommand;
 use Psr\Log\LoggerInterface;
 use Site\User\DomainModel\Repository\UserRepositoryInterface;
 use Site\User\DomainModel\Service\UserFetcher;

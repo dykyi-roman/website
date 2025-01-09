@@ -9,5 +9,5 @@ use Site\User\DomainModel\Enum\UserId;
 
 interface SettingRepositoryInterface
 {
-    public function updateProperty(UserId $id, Property $property): void;
+    public function updateProperties(UserId $id, Property ...$properties): void;
 }

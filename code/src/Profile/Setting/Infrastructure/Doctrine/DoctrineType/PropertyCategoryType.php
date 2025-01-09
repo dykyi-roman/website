@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Profile\Setting\Infrastructure\Doctrine\DoctrineType;
 
-use Shared\Infrastructure\Doctrine\DoctrineType\StringEnumType;
 use Profile\Setting\DomainModel\Enum\PropertyCategory;
+use Shared\Infrastructure\Doctrine\DoctrineType\StringEnumType;
 
 final class PropertyCategoryType extends StringEnumType
 {
