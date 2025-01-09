@@ -16,8 +16,6 @@ final class Version20241210084422 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('DROP TABLE IF EXISTS users');
-
         $this->addSql('CREATE TABLE users (
             id BINARY(16) NOT NULL,
             name VARCHAR(100) NOT NULL,
