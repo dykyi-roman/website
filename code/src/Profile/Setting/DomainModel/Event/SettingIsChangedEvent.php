@@ -34,7 +34,11 @@ final readonly class SettingIsChangedEvent implements PersistingEventInterface
     /** @return array<string, string> */
     public function getPayload(): array
     {
-        return $this->property->jsonSerialize();
+        return [
+            'category' => $this->property->category->value,
+            'name' => $this->property->name->value,
+            'value' => $this->property->toString($this->property->value),
+        ];
     }
 
     public function getVersion(): int
