@@ -193,14 +193,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         };
     }
 
-    // Utility function to get cookie value
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-        return null;
-    }
-
     // Utility function to safely get image URL
     function getImageUrl(imageUrl) {
         return imageUrl || 'images/default-item-image.webp';

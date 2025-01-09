@@ -30,6 +30,14 @@ async function fetchAndStoreSettings() {
 // Execute fetchAndStoreSettings immediately if user is authenticated
 settings = fetchAndStoreSettings();
 
+// Function to get cookie value
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+}
+
 // Profile settings update function - only available for authenticated users
 window.updateProfileSetting = async function(settings) {
     if (!window.appConfig?.isAuthenticated) {
@@ -74,13 +82,6 @@ function setCookie(name, value, days = 365) {
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
     const expires = `expires=${date.toUTCString()}`;
     document.cookie = `${name}=${value};${expires};path=/`;
-}
-
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-    return null;
 }
 
 // Global error handling with spinner management
