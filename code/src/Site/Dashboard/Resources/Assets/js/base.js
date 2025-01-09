@@ -19,14 +19,16 @@ async function fetchAndStoreSettings() {
         
         const settings = await response.json();
 
-        setCookie('userSettings', JSON.stringify(settings.settings));
+        setCookie('appSettings', JSON.stringify(settings.settings));
+
+        return settings.settings;
     } catch (error) {
         console.error('Error fetching settings:', error);
     }
 }
 
 // Execute fetchAndStoreSettings immediately if user is authenticated
-fetchAndStoreSettings();
+settings = fetchAndStoreSettings();
 
 // Profile settings update function - only available for authenticated users
 window.updateProfileSetting = async function(settings) {
