@@ -1,5 +1,9 @@
-// Fetch and store settings
+// Fetch and store settings - only available for authenticated users
 async function fetchAndStoreSettings() {
+    if (!window.appConfig?.isAuthenticated) {
+        return;
+    }
+
     try {
         const response = await fetch('/api/v1/settings', {
             method: 'GET',
@@ -21,7 +25,7 @@ async function fetchAndStoreSettings() {
     }
 }
 
-// Execute fetchAndStoreSettings immediately
+// Execute fetchAndStoreSettings immediately if user is authenticated
 fetchAndStoreSettings();
 
 // Profile settings update function - only available for authenticated users
