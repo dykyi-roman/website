@@ -1,50 +1,26 @@
 .general-settings {
-    max-width: 500px;
-    padding: 20px;
-    background-color: var(--background-color);
-    border-radius: 8px;
-    box-shadow: none;
+    position: relative;
+    padding-bottom: 60px; /* Space for the button */
 }
 
-.general-settings .form-group {
-    margin-bottom: 20px;
+.form-group {
+    margin-bottom: 1.5rem;
 }
 
-.general-settings label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: var(--text-color);
+.form-actions {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 1rem 0;
 }
 
-.general-settings select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    border-radius: 4px;
-    background-color: var(--input-background);
-    color: var(--text-color);
-    transition: border-color 0.3s ease;
-    box-shadow: none;
+.form-actions .btn {
+    min-width: 120px;
 }
 
-.general-settings select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-}
-
-/* Dark theme specific styles */
-.dark-theme .general-settings {
-    background-color: var(--dark-background-color);
-    border-color: #444;
-}
-
-.dark-theme .general-settings select {
-    background-color: var(--dark-input-background);
-    color: var(--dark-text-color);
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-.dark-theme .general-settings select:focus {
-    border-color: var(--dark-primary-color);
+/* Disabled state styling */
+.btn.btn-primary:disabled {
+    background-color: var(--primary-light) !important;
+    border-color: var(--primary-light) !important;
+    cursor: not-allowed;
 }

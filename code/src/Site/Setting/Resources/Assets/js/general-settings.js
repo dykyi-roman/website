@@ -2,6 +2,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const languageSelect = document.getElementById('language-select');
     const currencySelect = document.getElementById('currency-select');
     const themeSelect = document.getElementById('theme-select');
+    const saveButton = document.getElementById('save-settings');
+    
+    // Store pending changes
+    let pendingChanges = {
+        language: null,
+        currency: null,
+        theme: null
+    };
 
     // Theme Toggle Function
     function toggleTheme(theme) {
@@ -37,36 +45,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Language Selection
     if (languageSelect) {
         languageSelect.addEventListener('change', function(e) {
-            const langCode = this.value;
-
-            // Set cookie with 1 year expiration
-            const expirationDate = new Date();
-            expirationDate.setFullYear(expirationDate.getFullYear() + 1);
-            document.cookie = `locale=${langCode}; expires=${expirationDate.toUTCString()}; path=/; SameSite=Strict`;
-
-            updateProfileSetting('GENERAL', 'language', langCode).catch(error => console.error('Failed to update language:', error));
-
-            // Update URL and reload page
-            const url = new URL(window.location.href);
-            url.searchParams.set('lang', langCode);
-            window.location.href = url.toString();
+            pendingChanges.language = this.value;
+            saveButton.disabled = false;
         });
     }
 
     // Currency Selection
     if (currencySelect) {
         currencySelect.addEventListener('change', function(e) {
-            const currencyCode = this.value;
-
-            // Set cookie with 1 year expiration
-            const expirationDate = new Date();
-            expirationDate.setFullYear(expirationDate.getFullYear() + 1);
-            document.cookie = `appCurrency=${currencyCode}; expires=${expirationDate.toUTCString()}; path=/`;
-
-            updateProfileSetting('GENERAL', 'currency', currencyCode).catch(error => console.error('Failed to update currency:', error));
-
-            // Reload page to apply new currency
-            window.location.reload();
+            pendingChanges.currency = this.value;
+            saveButton.disabled = false;
         });
     }
 
@@ -78,14 +66,64 @@ document.addEventListener('DOMContentLoaded', function() {
         themeSelect.value = themeValue;
 
         themeSelect.addEventListener('change', function(e) {
-            const themeName = this.value;
-            toggleTheme(themeName);
-
-            updateProfileSetting('GENERAL', 'theme', themeName).catch(error => console.error('Failed to update theme:', error));
+            pendingChanges.theme = this.value;
+            saveButton.disabled = false;
         });
 
-        // Trigger initial theme setup
+        // Set initial theme
         toggleTheme(themeValue);
+    }
+
+    // Save Button Handler
+    if (saveButton) {
+        saveButton.disabled = true;
+        saveButton.addEventListener('click', async function() {
+            try {
+                // Apply all pending changes
+                const promises = [];
+                
+                if (pendingChanges.language) {
+                    // Set language cookie
+                    const expirationDate = new Date();
+                    expirationDate.setFullYear(expirationDate.getFullYear() + 1);
+                    document.cookie = `locale=${pendingChanges.language}; expires=${expirationDate.toUTCString()}; path=/; SameSite=Strict`;
+                    
+                    promises.push(updateProfileSetting('GENERAL', 'language', pendingChanges.language));
+                }
+                
+                if (pendingChanges.currency) {
+                    // Set currency cookie
+                    const expirationDate = new Date();
+                    expirationDate.setFullYear(expirationDate.getFullYear() + 1);
+                    document.cookie = `appCurrency=${pendingChanges.currency}; expires=${expirationDate.toUTCString()}; path=/`;
+                    
+                    promises.push(updateProfileSetting('GENERAL', 'currency', pendingChanges.currency));
+                }
+                
+                if (pendingChanges.theme) {
+                    toggleTheme(pendingChanges.theme);
+                    promises.push(updateProfileSetting('GENERAL', 'theme', pendingChanges.theme));
+                }
+
+                // Wait for all updates to complete
+                await Promise.all(promises);
+
+                // Reload page to apply changes
+                if (pendingChanges.language) {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('lang', pendingChanges.language);
+                    window.location.href = url.toString();
+                } else if (pendingChanges.currency) {
+                    window.location.reload();
+                }
+
+                saveButton.disabled = true;
+                
+            } catch (error) {
+                console.error('Failed to save settings:', error);
+                // You might want to show an error message to the user here
+            }
+        });
     }
 
     // Utility function to get cookie
