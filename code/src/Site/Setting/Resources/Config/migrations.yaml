@@ -1,5 +1,0 @@
-migrations_paths:
-    'Site\Setting\Resources\Migrations': './src/Site/Setting/Resources/Migrations'
-
-connection: site
-em: site

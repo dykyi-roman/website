@@ -1,0 +1,28 @@
+parameters:
+
+twig:
+    paths:
+        '%kernel.project_dir%/src/Profile/Setting/Resources/Templates': Setting
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Profile\Setting\:
+        resource: '../../'
+        exclude:
+            - '../../Resources/'
+            - '../../Application/**/*{Command,Query}.php'
+            - '../../DomainModel/{Dto,Event,Model,ValueObject}/'
+            - '../../Application/*/{Dto,Event,Model,ValueObject}/'
+            - '../../Tests/'
+        tags: ['controller.service_arguments']
+
+    Profile\Setting\Infrastructure\Repository\SettingRepository:
+        arguments:
+            $entityManager: '@doctrine.orm.site_entity_manager'
+
+    Profile\Setting\DomainModel\Repository\SettingRepositoryInterface:
+        alias: Profile\Setting\Infrastructure\Repository\SettingRepository

@@ -57,6 +57,7 @@
             "Orders\\": "src/Orders/",
             "Services\\": "src/Services/",
             "Site\\": "src/Site/",
+            "Profile\\": "src/Profile/",
             "Shared\\": "src/Shared/",
             "EventStorage\\": "src/EventStorage/"
         }
@@ -67,6 +68,7 @@
             "Orders\\": "src/Orders/",
             "Services\\": "src/Services/",
             "Site\\": "src/Site/",
+            "Profile\\": "src/Profile/",
             "Shared\\": "src/Shared/",
             "EventStorage\\": "src/EventStorage/"
         }
