@@ -26,3 +26,8 @@ services:
 
     Profile\Setting\DomainModel\Repository\SettingRepositoryInterface:
         alias: Profile\Setting\Infrastructure\Repository\SettingRepository
+
+    # EventSubscriber
+    Profile\Setting\Infrastructure\Symfony\EventSubscriber\LocaleSubscriber:
+        tags:
+            - { name: kernel.event_subscriber }

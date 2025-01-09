@@ -6,7 +6,6 @@ namespace Profile\Setting\Infrastructure\Symfony\EventSubscriber;
 
 use Profile\Setting\DomainModel\Enum\PropertyName;
 use Profile\Setting\DomainModel\Repository\SettingRepositoryInterface;
-use Site\Locale\DomainModel\Service\LocaleResolverInterface;
 use Site\User\DomainModel\Exception\AuthenticationException;
 use Site\User\DomainModel\Service\UserFetcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -26,7 +25,7 @@ final readonly class LocaleSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::REQUEST => [['onKernelRequest', 30]],
+            KernelEvents::REQUEST => [['onKernelRequest', 20]],
         ];
     }
 
