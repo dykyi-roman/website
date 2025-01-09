@@ -319,8 +319,35 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Show agreement with cookies canvas
+// Fetch and store settings
+async function fetchAndStoreSettings() {
+    try {
+        const response = await fetch('/api/v1/settings', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch settings');
+        }
+        
+        const settings = await response.json();
+        console.log(JSON.stringify(settings));
+        // setCookie('userSettings', JSON.stringify(settings));
+        return settings;
+    } catch (error) {
+        console.error('Error fetching settings:', error);
+    }
+}
+
+// Initialize settings on page load
 document.addEventListener('DOMContentLoaded', function() {
+    // Fetch settings immediately when page loads
+    fetchAndStoreSettings();
+    
     // Function to handle cookie consent
     function handleCookieConsent() {
         const cookieConsent = document.getElementById('cookieConsent');

@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Profile\Setting\Application\Settings\Query;
 
 use Profile\Setting\DomainModel\Repository\SettingRepositoryInterface;
-use Profile\Setting\DomainModel\ValueObject\Property;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
+#[AsMessageHandler]
 final readonly class GetSettingsQueryHandler
 {
     public function __construct(
