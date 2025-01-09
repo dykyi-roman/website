@@ -20,6 +20,9 @@ final readonly class UserFetcher
         return null !== $this->security->getToken();
     }
 
+    /**
+     * @throw AuthenticationException
+     */
     public function fetch(): UserInterface
     {
         $token = $this->security->getToken();

@@ -6,6 +6,7 @@ namespace Profile\Setting\Infrastructure\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Profile\Setting\DomainModel\Enum\PropertyName;
 use Profile\Setting\DomainModel\Enum\SettingId;
 use Profile\Setting\DomainModel\Model\Setting;
 use Profile\Setting\DomainModel\Repository\SettingRepositoryInterface;
@@ -13,12 +14,25 @@ use Profile\Setting\DomainModel\ValueObject\Property;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Site\User\DomainModel\Enum\UserId;
 
-final class SettingRepository implements SettingRepositoryInterface
+final readonly class SettingRepository implements SettingRepositoryInterface
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly MessageBusInterface $eventBus,
+        private EntityManagerInterface $entityManager,
+        private MessageBusInterface $eventBus,
     ) {
+    }
+
+    public function findByName(UserId $id, PropertyName $name): ?Setting
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('s')
+            ->from(Setting::class, 's')
+            ->andWhere('s.userId = :id')
+            ->andWhere('s.name = :name')
+            ->setParameter('id', $id->toBinary())
+            ->setParameter('name', $name->value);
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     public function updateProperties(UserId $id, Property ...$properties): void

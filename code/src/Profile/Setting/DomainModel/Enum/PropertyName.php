@@ -10,9 +10,9 @@ enum PropertyName: string
     case EMAIL_VERIFIED_AT = 'email_verified_at';
     case ACCEPTED_COOKIES = 'accepted_cookies';
 
-    case Setting_SETTINGS_GENERAL_LANGUAGE = 'language';
-    case Setting_SETTINGS_GENERAL_CURRENCY = 'currency';
-    case Setting_SETTINGS_GENERAL_THEME = 'theme';
+    case SETTINGS_GENERAL_LANGUAGE = 'language';
+    case SETTINGS_GENERAL_CURRENCY = 'currency';
+    case SETTINGS_GENERAL_THEME = 'theme';
 
     /** @return array<string> */
     public static function values(): array
