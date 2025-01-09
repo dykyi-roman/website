@@ -234,7 +234,7 @@ class User extends AbstractDomainModel implements PasswordAuthenticatedUserInter
 
     public function isVerified(): bool
     {
-        return false;
+        return true;
     }
 
     /** @return array<string> */
