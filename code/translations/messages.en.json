@@ -293,5 +293,19 @@
       "button_text": "Reset Your Password",
       "signature": "Thanks,\nYour Team"
     }
+  },
+  "account": {
+    "change_photo": "Change photo",
+    "verify": "Verify",
+    "profile_image": "Profile Image",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "save": "Save",
+    "light": "Light",
+    "dark": "Dark",
+    "theme": "Theme",
+    "currency": "Currency",
+    "language": "Language"
   }
 }

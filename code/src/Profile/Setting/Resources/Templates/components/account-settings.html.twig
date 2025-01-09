@@ -6,16 +6,16 @@
 <div class="account-settings">
     <div class="form-group item-image-container">
         <div class="profile-image-wrapper">
-            <img src="/images/default-item-image.webp" class="img-fluid rounded item-image" alt="Profile Image">
+            <img src="/images/default-item-image.webp" class="img-fluid rounded item-image" alt="{{ 'account.profile_image'|trans }}">
             <div class="image-overlay">
-                <span class="change-photo-text">Change photo</span>
+                <span class="change-photo-text">{{ 'account.change_photo'|trans }}</span>
             </div>
         </div>
     </div>
 
     <div class="form-group">
         <label for="username">
-            Name: <strong>{{ app.user.name }}</strong>
+            {{ 'account.name'|trans }}: <strong>{{ app.user.name }}</strong>
             <span class="verification-shield {% if app.user.verified %}verified{% else %}unverified{% endif %}">
                 <svg viewBox="0 0 24 24" class="shield-icon">
                     <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
@@ -26,15 +26,15 @@
 
     <div class="form-group">
         <label for="email">
-            Email: <strong>{{ app.user.email }}</strong>
-            <button class="verify-button">Verify</button>
+            {{ 'account.email'|trans }}: <strong>{{ app.user.email }}</strong>
+            <button class="verify-button">{{ 'account.verify'|trans }}</button>
         </label>
     </div>
 
     <div class="form-group">
         <label for="phone">
-            Phone: <strong>{{ app.user.phone }}</strong>
-            <button class="verify-button">Verify</button>
+            {{ 'account.phone'|trans }}: <strong>{{ app.user.phone }}</strong>
+            <button class="verify-button">{{ 'account.verify'|trans }}</button>
         </label>
     </div>
 </div>

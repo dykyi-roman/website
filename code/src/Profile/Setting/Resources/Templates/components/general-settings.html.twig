@@ -16,7 +16,7 @@
     </div>
 
     <div class="form-group">
-        <label for="currency-select">{{ 'Currency'|trans }}</label>
+        <label for="currency-select">{{ 'account.currency'|trans }}</label>
         <select id="currency-select" name="currency" class="form-control currency-select">
             {% for currency in currencies %}
                 <option value="{{ currency.code }}" {{ currency.code == (app.request.cookies.get('appCurrency')|default(default_currency)) ? 'selected' : '' }}>
@@ -27,19 +27,19 @@
     </div>
 
     <div class="form-group">
-        <label for="theme-select">{{ 'Theme'|trans }}</label>
+        <label for="theme-select">{{ 'account.theme'|trans }}</label>
         <select id="theme-select" name="theme" class="form-control theme-select">
             <option value="dark-theme" {{ (app.request.cookies.get('appTheme')|default('light-theme')) == 'dark-theme' ? 'selected' : '' }}>
-                {{ 'Dark'|trans }}
+                {{ 'account.dark'|trans }}
             </option>
             <option value="light-theme" {{ (app.request.cookies.get('appTheme')|default('light-theme')) == 'light-theme' ? 'selected' : '' }}>
-                {{ 'Light'|trans }}
+                {{ 'account.light'|trans }}
             </option>
         </select>
     </div>
     <div class="form-actions">
         <button id="save-settings" class="btn btn-primary">
-            {{ 'Save Settings'|trans }}
+            {{ 'account.save'|trans }}
         </button>
     </div>
 </div>
