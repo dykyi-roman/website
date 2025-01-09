@@ -4,6 +4,10 @@
     {% endblock %}
 
 <div class="account-settings">
+    <div class="form-group item-image-container">
+        <img src="/images/default-item-image.webp" class="img-fluid rounded item-image" alt="Sample Service Title 1">
+    </div>
+
     <div class="form-group">
         <label for="username">
             Name: <strong>{{ app.user.name }}</strong>
@@ -11,7 +15,11 @@
     </div>
 
     <div class="form-group">
-        <label for="email">Email: <strong>{{ app.user.email }}</strong></label>
+        <label for="email">Email: <strong>{{ app.user.email }}</strong> </label>
+    </div>
+
+    <div class="form-group">
+        <label for="phone">Phone: <strong>{{ app.user.phone }}</strong> </label>
     </div>
 </div>
 {% endblock %}
