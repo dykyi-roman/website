@@ -11,6 +11,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final readonly class ChangeSettingRequest
 {
+    /**
+     * @param array<array{
+     *     category: string,
+     *     name: string,
+     *     value: mixed
+     * }> $settings
+     */
     public function __construct(
         #[Assert\NotBlank(message: 'Settings should not be blank')]
         #[Assert\Type(type: 'array', message: 'Settings must be an array')]

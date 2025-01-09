@@ -26,16 +26,24 @@ final readonly class Property implements \JsonSerializable
             return $value->format('Y-m-d H:i:s');
         }
 
-        return (string) $value;
+        if (is_scalar($value) || (is_object($value) && method_exists($value, '__toString'))) {
+            return (string) $value;
+        }
+
+        if (is_null($value)) {
+            return '';
+        }
+
+        throw new \InvalidArgumentException('Cannot convert value to string');
     }
 
-    /** @return array<string, string> */
+    /** @return array<string, mixed> */
     public function jsonSerialize(): array
     {
         return [
             'category' => $this->category->value,
             'name' => $this->name->value,
-            'value' => (string) $this->value,
+            'value' => $this->toString($this->value),
         ];
     }
 }

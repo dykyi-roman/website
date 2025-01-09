@@ -107,11 +107,6 @@ ci: ## Run all code quality checks
 	$(MAKE) deptrac
 	$(MAKE) test-php
 
-## -- Framework Selection --
-
-framework: ## Switch to specific framework branch (usage: make framework symfony|laravel)
-	git checkout $(filter-out $@,$(MAKECMDGOALS)); \
-
 ## -- GIT --
 
 status: git status

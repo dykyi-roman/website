@@ -9,18 +9,12 @@ use Profile\Setting\Application\Settings\Command\ChangePropertyCommand;
 use Profile\Setting\Presentation\Api\Request\ChangeSettingRequest;
 use Profile\Setting\Presentation\Api\Response\ChangeSettingJsonResponder;
 use Shared\DomainModel\Services\MessageBusInterface;
-use Site\User\DomainModel\Model\User;
+use Site\User\DomainModel\Service\UserFetcher;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 final readonly class ChangeSettingAction
 {
-    public function __construct(
-        private MessageBusInterface $messageBus,
-    ) {
-    }
-
     #[Route('/v1/settings', name: 'api_Setting_settings_change', methods: ['PUT'])]
     #[OA\Put(
         path: '/v1/settings',
@@ -85,11 +79,14 @@ final readonly class ChangeSettingAction
         )
     )]
     public function __invoke(
-        #[CurrentUser] User $user,
         #[MapRequestPayload] ChangeSettingRequest $request,
+        UserFetcher $userFetcher,
+        MessageBusInterface $messageBus,
         ChangeSettingJsonResponder $responder,
     ): ChangeSettingJsonResponder {
-        $this->messageBus->dispatch(new ChangePropertyCommand(
+        $user = $userFetcher->fetch();
+
+        $messageBus->dispatch(new ChangePropertyCommand(
             $user->getId(),
             $request->properties(),
         ));

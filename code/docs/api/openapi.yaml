@@ -3,12 +3,157 @@ info:
   title: 'REST API'
   version: 1.0.0
 paths:
+  /api/v1/orders/search:
+    get:
+      tags:
+        - Service
+      summary: 'Search orders with pagination'
+      operationId: e8de1f235243a93adadea3bd4954808c
+      parameters:
+        -
+          name: query
+          in: query
+          description: 'Search query string'
+          required: false
+          schema:
+            type: string
+            maxLength: 255
+        -
+          name: currency
+          in: query
+          description: Currency
+          required: false
+          schema:
+            type: string
+            maxLength: 3
+        -
+          name: page
+          in: query
+          description: 'Page number (zero-based)'
+          required: false
+          schema:
+            type: integer
+            default: 1
+            minimum: 0
+        -
+          name: limit
+          in: query
+          description: 'Number of items per page'
+          required: false
+          schema:
+            type: integer
+            default: 10
+            maximum: 100
+            minimum: 1
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  items: { type: array, items: { type: object } }
+                  total: { type: integer }
+                  page: { type: integer }
+                  limit: { type: integer }
+                  total_pages: { type: integer }
+                type: object
+  /v1/settings:
+    put:
+      summary: 'Change Setting settings'
+      description: 'Updates Setting settings based on provided parameters'
+      operationId: 27b53bf65957b045ef8c56821953ecb1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                settings:
+                  type: array
+                  items: { properties: { category: { type: string, enum: [GENERAL, ACCOUNT, NOTIFICATION], example: NOTIFICATION }, name: { type: string, enum: [phone_verified_at, email_verified_at, accepted_cookies], example: accepted_cookies }, value: { type: mixed, example: true } }, type: object }
+              type: object
+      responses:
+        '200':
+          description: 'Setting updated successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean, example: true }
+                  message: { type: string, example: 'Setting updated successfully' }
+                type: object
+        '400':
+          description: 'Validation error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean, example: false }
+                  message: { type: string, example: 'Validation failed' }
+                  errors: { type: array, items: { type: string } }
+                type: object
+  /api/v1/services/search:
+    get:
+      tags:
+        - Service
+      summary: 'Search services with pagination'
+      operationId: 4f1998c58b60a348e6683df55431737e
+      parameters:
+        -
+          name: query
+          in: query
+          description: 'Search query string'
+          required: false
+          schema:
+            type: string
+            maxLength: 255
+        -
+          name: currency
+          in: query
+          description: Currency
+          required: false
+          schema:
+            type: string
+            maxLength: 3
+        -
+          name: page
+          in: query
+          description: 'Page number (zero-based)'
+          required: false
+          schema:
+            type: integer
+            default: 1
+            minimum: 0
+        -
+          name: limit
+          in: query
+          description: 'Number of items per page'
+          required: false
+          schema:
+            type: integer
+            default: 10
+            maximum: 100
+            minimum: 1
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  items: { type: array, items: { type: object } }
+                  total: { type: integer }
+                  page: { type: integer }
+                  limit: { type: integer }
+                  total_pages: { type: integer }
+                type: object
   /api/v1/location/cities:
     get:
       tags:
         - Location
       summary: 'Search cities by country and language'
-      operationId: 0dc9b8bf4e25983510c15182611ce22a
+      operationId: abfbe5c07e2b062d067931b2cd9ab839
       parameters:
         -
           name: countryCode
@@ -46,104 +191,10 @@ paths:
                 properties:
                   cities: { type: array, items: { properties: { countryCode: { type: string, example: UA }, name: { type: string, example: Київ }, transcription: { type: string, example: Kyiv }, area: { type: string, example: 'Київська область' } }, type: object } }
                 type: object
-  /api/v1/orders/search:
-    get:
-      tags:
-        - Service
-      summary: 'Search orders with pagination'
-      operationId: 34d723e0442ed85c0f491f6e854e694f
-      parameters:
-        -
-          name: query
-          in: query
-          description: 'Search query string'
-          required: false
-          schema:
-            type: string
-            maxLength: 255
-        -
-          name: page
-          in: query
-          description: 'Page number (zero-based)'
-          required: false
-          schema:
-            type: integer
-            default: 1
-            minimum: 0
-        -
-          name: limit
-          in: query
-          description: 'Number of items per page'
-          required: false
-          schema:
-            type: integer
-            default: 10
-            maximum: 100
-            minimum: 1
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                properties:
-                  items: { type: array, items: { type: object } }
-                  total: { type: integer }
-                  page: { type: integer }
-                  limit: { type: integer }
-                  total_pages: { type: integer }
-                type: object
-  /api/v1/services/search:
-    get:
-      tags:
-        - Service
-      summary: 'Search services with pagination'
-      operationId: 72d27ed56adeb8ab57082ff29f47d828
-      parameters:
-        -
-          name: query
-          in: query
-          description: 'Search query string'
-          required: false
-          schema:
-            type: string
-            maxLength: 255
-        -
-          name: page
-          in: query
-          description: 'Page number (zero-based)'
-          required: false
-          schema:
-            type: integer
-            default: 1
-            minimum: 0
-        -
-          name: limit
-          in: query
-          description: 'Number of items per page'
-          required: false
-          schema:
-            type: integer
-            default: 10
-            maximum: 100
-            minimum: 1
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                properties:
-                  items: { type: array, items: { type: object } }
-                  total: { type: integer }
-                  page: { type: integer }
-                  limit: { type: integer }
-                  total_pages: { type: integer }
-                type: object
 tags:
-  -
-    name: Location
-    description: Location
   -
     name: Service
     description: Service
+  -
+    name: Location
+    description: Location

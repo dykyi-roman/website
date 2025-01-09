@@ -22,7 +22,6 @@ final readonly class ChangePropertyCommandHandler
         try {
             $this->settingRepository->updateProperties($command->id, ...$command->properties);
         } catch (\Throwable $exception) {
-            dump($exception->getMessage()); die();
             $this->logger->error($exception->getMessage());
         }
     }

@@ -5,7 +5,7 @@
 
 <div class="general-settings">
     <div class="form-group">
-        <label for="language-select">{{ 'Language'|trans }}</label>
+        <label for="language-select">{{ 'account.language'|trans }}</label>
         <select id="language-select" name="language" class="form-control language-select">
             {% for locale in locales %}
                 <option value="{{ locale.code }}" {{ locale.code == app.request.locale ? 'selected' : '' }}>

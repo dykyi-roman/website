@@ -15,14 +15,10 @@ use Site\User\DomainModel\Enum\UserId;
 
 final class SettingRepository implements SettingRepositoryInterface
 {
-    /** @var EntityRepository<Setting> */
-    private EntityRepository $repository;
-
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly MessageBusInterface $eventBus,
     ) {
-        $this->repository = $this->entityManager->getRepository(Setting::class);
     }
 
     public function updateProperties(UserId $id, Property ...$properties): void
@@ -37,16 +33,16 @@ final class SettingRepository implements SettingRepositoryInterface
         if (!empty($properties)) {
             $orX = $qb->expr()->orX();
             foreach ($properties as $prop) {
-                $categoryParam = 'category_' . $prop->category->value;
-                $nameParam = 'name_' . $prop->name->value;
-                
+                $categoryParam = 'category_'.$prop->category->value;
+                $nameParam = 'name_'.$prop->name->value;
+
                 $orX->add(
                     $qb->expr()->andX(
-                        $qb->expr()->eq('s.category', ':' . $categoryParam),
-                        $qb->expr()->eq('s.name', ':' . $nameParam)
+                        $qb->expr()->eq('s.category', ':'.$categoryParam),
+                        $qb->expr()->eq('s.name', ':'.$nameParam)
                     )
                 );
-                
+
                 $qb->setParameter($categoryParam, $prop->category->value)
                    ->setParameter($nameParam, $prop->name->value);
             }
@@ -57,7 +53,7 @@ final class SettingRepository implements SettingRepositoryInterface
         $existingSettings = $qb->getQuery()->getResult();
 
         // Index existing settings by category and name for quick lookup
-        /** @var $settingsMap array<string, Setting> */
+        /** @var array<string, Setting> */
         $settingsMap = [];
         foreach ($existingSettings as $setting) {
             $key = $setting->getProperty()->category->value.'_'.$setting->getProperty()->name->value;
