@@ -1,3 +1,29 @@
+// Fetch and store settings
+async function fetchAndStoreSettings() {
+    try {
+        const response = await fetch('/api/v1/settings', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch settings');
+        }
+        
+        const settings = await response.json();
+
+        setCookie('userSettings', JSON.stringify(settings.settings));
+    } catch (error) {
+        console.error('Error fetching settings:', error);
+    }
+}
+
+// Execute fetchAndStoreSettings immediately
+fetchAndStoreSettings();
+
 // Profile settings update function - only available for authenticated users
 window.updateProfileSetting = async function(settings) {
     if (!window.appConfig?.isAuthenticated) {
@@ -318,29 +344,6 @@ document.addEventListener('DOMContentLoaded', function() {
         themeToggle.addEventListener('click', toggleTheme);
     }
 });
-
-// Fetch and store settings
-async function fetchAndStoreSettings() {
-    try {
-        const response = await fetch('/api/v1/settings', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        });
-        
-        if (!response.ok) {
-            throw new Error('Failed to fetch settings');
-        }
-        
-        const settings = await response.json();
-
-        setCookie('userSettings', JSON.stringify(settings.settings));
-    } catch (error) {
-        console.error('Error fetching settings:', error);
-    }
-}
 
 // Initialize settings on page load
 document.addEventListener('DOMContentLoaded', function() {
