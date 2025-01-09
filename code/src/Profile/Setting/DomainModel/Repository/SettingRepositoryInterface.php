@@ -14,7 +14,7 @@ interface SettingRepositoryInterface
     public function findByName(UserId $id, PropertyName $name): ?Setting;
 
     /**
-     * @return array<Property>
+     * @return array<Setting>
      */
     public function findAll(UserId $id): array;
 

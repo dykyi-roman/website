@@ -36,7 +36,7 @@ final readonly class SettingRepository implements SettingRepositoryInterface
     }
 
     /**
-     * @return array<Property>
+     * @return array<Setting>
      */
     public function findAll(UserId $id): array
     {
@@ -46,7 +46,7 @@ final readonly class SettingRepository implements SettingRepositoryInterface
             ->andWhere('s.userId = :id')
             ->setParameter('id', $id->toBinary());
 
-        return $qb->getQuery()->getOneOrNullResult() ?? [];
+        return $qb->getQuery()->getResult();
     }
 
     public function updateProperties(UserId $id, Property ...$properties): void

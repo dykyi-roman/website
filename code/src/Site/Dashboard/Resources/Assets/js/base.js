@@ -335,9 +335,8 @@ async function fetchAndStoreSettings() {
         }
         
         const settings = await response.json();
-        console.log(JSON.stringify(settings));
-        // setCookie('userSettings', JSON.stringify(settings));
-        return settings;
+
+        setCookie('userSettings', JSON.stringify(settings.settings));
     } catch (error) {
         console.error('Error fetching settings:', error);
     }

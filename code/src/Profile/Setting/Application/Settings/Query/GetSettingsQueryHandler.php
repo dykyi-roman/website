@@ -20,11 +20,15 @@ final readonly class GetSettingsQueryHandler
      */
     public function __invoke(GetSettingsQuery $query): array
     {
-        $properties = $this->settingRepository->findAll($query->userId);
+        $settings = $this->settingRepository->findAll($query->userId);
 
         $result = [];
-        foreach ($properties as $property) {
-            $result[$property->category->value] = [$property->name->value => $property->toString($property->value)];
+        foreach ($settings as $setting) {
+            $property = $setting->getProperty();
+            if (!isset($result[$property->category->value])) {
+                $result[$property->category->value] = [];
+            }
+            $result[$property->category->value][$property->name->value] = $property->toString($property->value);
         }
 
         return $result;
