@@ -35,6 +35,20 @@ final readonly class SettingRepository implements SettingRepositoryInterface
         return $qb->getQuery()->getOneOrNullResult();
     }
 
+    /**
+     * @return array<Property>
+     */
+    public function findAll(UserId $id): array
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('s')
+            ->from(Setting::class, 's')
+            ->andWhere('s.userId = :id')
+            ->setParameter('id', $id->toBinary());
+
+        return $qb->getQuery()->getOneOrNullResult() ?? [];
+    }
+
     public function updateProperties(UserId $id, Property ...$properties): void
     {
         $qb = $this->entityManager->createQueryBuilder();

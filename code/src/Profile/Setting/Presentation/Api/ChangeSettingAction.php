@@ -15,11 +15,11 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final readonly class ChangeSettingAction
 {
-    #[Route('/v1/settings', name: 'api_Setting_settings_change', methods: ['PUT'])]
+    #[Route('/v1/settings', name: 'api_settings_change', methods: ['PUT'])]
     #[OA\Put(
         path: '/v1/settings',
-        description: 'Updates Setting settings based on provided parameters',
-        summary: 'Change Setting settings'
+        description: 'Updates settings based on provided parameters',
+        summary: 'Change settings'
     )]
     #[OA\RequestBody(
         required: true,
