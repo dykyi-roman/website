@@ -12,48 +12,6 @@ window.setCookie = function(name, value, days = 365) {
     }
 };
 
-// Fetch and store settings immediately - only available for authenticated users
-(function() {
-    if (!window.appConfig?.isAuthenticated) {
-        return;
-    }
-
-    fetch('/api/v1/settings', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to fetch settings');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log(data.settings);
-        if (data.settings?.general) {
-            const general = data.settings.general;
-
-            if (general.language) {
-                setCookie('locale', general.language);
-            }
-
-            if (general.currency) {
-                setCookie('appCurrency', general.currency.toUpperCase());
-            }
-
-            if (general.theme) {
-                setCookie('appTheme', general.theme);
-            }
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching settings:', error);
-    });
-})();
-
 // Function to get cookie value - globally accessible
 window.getCookie = function(name) {
     const value = `; ${document.cookie}`;
@@ -61,6 +19,63 @@ window.getCookie = function(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
     return null;
 }
+
+// Theme functionality initialization
+const initializeTheme = (function() {
+    let initialized = false;
+    
+    return function(initialTheme = 'light') {
+        if (initialized) return;
+        initialized = true;
+
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        // Function to set theme
+        function setTheme(theme) {
+            // Set theme attribute
+            document.documentElement.setAttribute('data-theme', theme);
+
+            // Update theme icon
+            if (themeIcon) {
+                themeIcon.className = `fas ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`;
+            }
+
+            // Update theme-select if it exists
+            const themeSelect = document.getElementById('theme-select');
+            const themeSelectValue = theme === 'dark' ? 'dark' : 'light';
+            if (themeSelect) {
+                themeSelect.value = themeSelectValue;
+            }
+
+            // Save theme to cookie
+            setCookie('appTheme', theme);
+
+            // Only update profile settings if user is authenticated
+            if (window.appConfig?.isAuthenticated) {
+                updateProfileSetting([['GENERAL', 'theme', themeSelectValue]]).catch(error => console.error('Failed to update theme:', error));
+            }
+
+            // Dispatch theme change event
+            document.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme } }));
+        }
+
+        // Function to toggle theme
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        }
+
+        // Set initial theme
+        setTheme(initialTheme);
+
+        // Add click event listener to theme toggle
+        if (themeToggle) {
+            themeToggle.addEventListener('click', toggleTheme);
+        }
+    };
+})();
 
 // Profile settings update function - only available for authenticated users
 window.updateProfileSetting = async function(settings) {
@@ -100,6 +115,62 @@ window.updateProfileSetting = async function(settings) {
     }
 };
 
+// Initialize settings and theme
+document.addEventListener('DOMContentLoaded', function() {
+    // For non-authenticated users, initialize theme from cookie immediately
+    if (!window.appConfig?.isAuthenticated) {
+        const savedTheme = getCookie('appTheme');
+        initializeTheme(savedTheme || 'light');
+        return;
+    }
+
+    // For authenticated users, fetch settings first
+    fetch('/api/v1/settings', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch settings');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.settings?.general) {
+            const general = data.settings.general;
+
+            // Initialize theme from settings
+            if (general.theme) {
+                initializeTheme(general.theme);
+            } else {
+                const savedTheme = getCookie('appTheme');
+                initializeTheme(savedTheme || 'light');
+            }
+
+            // Set other settings
+            if (general.language) {
+                setCookie('locale', general.language);
+            }
+
+            if (general.currency) {
+                setCookie('appCurrency', general.currency.toUpperCase());
+            }
+        } else {
+            // Fallback to cookie or default theme if no settings
+            const savedTheme = getCookie('appTheme');
+            initializeTheme(savedTheme || 'light');
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching settings:', error);
+        // On error, fallback to cookie or default theme
+        const savedTheme = getCookie('appTheme');
+        initializeTheme(savedTheme || 'light');
+    });
+});
 
 // Global error handling with spinner management
 document.addEventListener('DOMContentLoaded', function() {
@@ -310,63 +381,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-});
-
-// Theme switching functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
-
-    // Function to toggle theme
-    function toggleTheme() {
-        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-        // Set theme attribute
-        document.documentElement.setAttribute('data-theme', newTheme);
-
-        // Update theme icon
-        updateThemeIcon(newTheme);
-
-        // Save theme to cookie
-        setCookie('appTheme', newTheme);
-
-        // Update theme-select if it exists
-        const themeSelect = document.getElementById('theme-select');
-        const themeSelectValue = newTheme === 'dark' ? 'dark' : 'light';
-        if (themeSelect) {
-            themeSelect.value = themeSelectValue;
-        }
-
-        // Only update profile settings if user is authenticated
-        if (window.appConfig?.isAuthenticated) {
-            updateProfileSetting([['GENERAL', 'theme', themeSelectValue]]).catch(error => console.error('Failed to update theme:', error));
-        }
-
-        // Dispatch theme change event
-        document.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: newTheme } }));
-    }
-
-    // Function to update theme icon
-    function updateThemeIcon(theme) {
-        themeIcon.className = `fas ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`;
-    }
-
-    // Check for saved theme on page load
-    const savedTheme = getCookie('appTheme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    updateThemeIcon(savedTheme);
-
-    // Update theme-select if it exists on page load
-    const themeSelect = document.getElementById('theme-select');
-    if (themeSelect) {
-        themeSelect.value = savedTheme === 'dark' ? 'dark' : 'light';
-    }
-
-    // Add click event listener to theme toggle
-    if (themeToggle) {
-        themeToggle.addEventListener('click', toggleTheme);
-    }
 });
 
 // Initialize settings on page load
