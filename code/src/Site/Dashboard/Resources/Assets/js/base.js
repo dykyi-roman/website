@@ -372,6 +372,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             if (currency) {
                 CookieService.set('appCurrency', currency.toUpperCase());
+                // Dispatch currency change event
+                document.dispatchEvent(new CustomEvent('currencyChanged', { 
+                    detail: { currency: currency.toUpperCase() } 
+                }));
             }
         } else {
             const savedTheme = CookieService.get('appTheme');
