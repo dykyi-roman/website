@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const languageSelect = document.getElementById('language-select');
     const currencySelect = document.getElementById('currency-select');
     const themeSelect = document.getElementById('theme-select');
-    const saveButton = document.getElementById('save-settings');
+    const saveButton = document.getElementById('save-general-settings');
     
     // Store pending changes
     let pendingChanges = {

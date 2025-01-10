@@ -6,7 +6,7 @@
 <div class="account-settings">
     <div class="form-group item-image-container">
         <div class="profile-image-wrapper">
-            <img src="/images/default-item-image.webp" class="img-fluid rounded item-image" alt="{{ 'account.profile_image'|trans }}">
+            <img src="{{ app.user.photo|default('/images/default-item-image.webp') }}" class="img-fluid rounded item-image" alt="{{ 'account.profile_image'|trans }}">
             <div class="image-overlay">
                 <span class="change-photo-text">{{ 'account.change_photo'|trans }}</span>
             </div>
@@ -14,13 +14,8 @@
     </div>
 
     <div class="form-group">
-        <label for="username">
+        <label for="name">
             {{ 'account.name'|trans }}: <strong>{{ app.user.name }}</strong>
-            <span class="verification-shield {% if app.user.verified %}verified{% else %}unverified{% endif %}">
-                <svg viewBox="0 0 24 24" class="shield-icon">
-                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
-                </svg>
-            </span>
         </label>
     </div>
 
@@ -37,5 +32,15 @@
             <button class="verify-button">{{ 'account.verify'|trans }}</button>
         </label>
     </div>
+
+    <div class="form-actions">
+        <button id="save-account-settings" class="btn btn-primary">
+            {{ 'account.save'|trans }}
+        </button>
+    </div>
 </div>
+
+    {% block javascripts %}
+        <script src="{{ asset('js/account-settings.js') }}"></script>
+    {% endblock %}
 {% endblock %}
