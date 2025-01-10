@@ -23,24 +23,24 @@ final readonly class ChangeUserAction
         MessageBusInterface $messageBus,
         ChangeUserJsonResponder $responder,
     ): ChangeUserJsonResponder {
+        dump($request); die();
         try {
             $messageBus->dispatch(
                 new ChangeUserCommand(
                     userId: $userFetcher->fetch()->id(),
                     name: $request->name,
                     email: $request->email,
-                    phone: $request->phone,
                     avatar: $request->avatar,
                 )
             );
 
-            return $responder->success('Ok')->respond();
+            return $responder->success('Settings updated successfully')->respond();
         } catch (AuthenticationException) {
             return $responder->error('User not authenticated')->respond();
         } catch (UserNotFoundException) {
-            return $responder->error('User not found error')->respond();
-        } catch (\InvalidArgumentException) {
-            return $responder->error('Invalid argument error')->respond();
+            return $responder->error('User not found')->respond();
+        } catch (\InvalidArgumentException $e) {
+            return $responder->error($e->getMessage())->respond();
         }
     }
 }

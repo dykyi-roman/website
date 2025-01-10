@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         name: null,
         email: null,
         phone: null,
-        photo: null
+        avatar: null
     };
 
     // Validation rules
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             const reader = new FileReader();
             reader.onload = function(e) {
                 profileImage.src = e.target.result;
-                pendingChanges.photo = file;
+                pendingChanges.avatar = file;
                 saveButton.disabled = false;
             };
             reader.readAsDataURL(file);
@@ -202,46 +202,61 @@ document.addEventListener('DOMContentLoaded', async function() {
             return;
         }
 
-        const formData = new FormData();
-        
-        // Add changed fields to formData
-        Object.keys(pendingChanges).forEach(key => {
-            if (pendingChanges[key] !== null) {
-                if (key === 'photo') {
-                    formData.append('avatar', pendingChanges[key]);
-                } else {
-                    formData.append(key, pendingChanges[key]);
-                }
-            }
-        });
-
         try {
-            saveButton.disabled = true;
+            let avatarBase64 = null;
+            if (pendingChanges.avatar) {
+                avatarBase64 = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.readAsDataURL(pendingChanges.avatar);
+                });
+            }
+
+            const payload = {
+                name: pendingChanges.name,
+                email: pendingChanges.email,
+                phone: pendingChanges.phone,
+                avatar: avatarBase64,
+            };
+
+            // Remove null values
+            Object.keys(payload).forEach(key => {
+                if (payload[key] === null) {
+                    delete payload[key];
+                }
+            });
+            console.log(payload);
             const response = await fetch('/api/v1/users', {
                 method: 'PUT',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(payload)
             });
 
-            if (response.ok) {
-                const result = await response.json();
-                // Reset pending changes and original values
-                inputs.forEach(input => {
-                    input.setAttribute('data-original-value', input.value.trim());
-                });
-                pendingChanges = {
-                    name: null,
-                    email: null,
-                    phone: null,
-                    photo: null
-                };
-                
-                alert(t.settings_saved_successfully || 'Settings saved successfully!');
-            } else {
-                throw new Error('Failed to save settings');
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.message || 'Failed to update settings');
             }
+
+            // Reset pending changes and disable save button
+            pendingChanges = {
+                name: null,
+                email: null,
+                phone: null,
+                avatar: null
+            };
+            saveButton.disabled = true;
+
+            // Update original values
+            inputs.forEach(input => {
+                input.setAttribute('data-original-value', input.value.trim());
+            });
+
+            alert(t.settings_saved || 'Settings saved successfully');
         } catch (error) {
-            console.error('Error:', error);
-            saveButton.disabled = false;
+            console.error('Failed to save settings:', error);
         }
     });
 
