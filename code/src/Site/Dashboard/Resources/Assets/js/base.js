@@ -41,7 +41,7 @@ window.setCookie = function(name, value, days = 365) {
             }
 
             if (general.currency) {
-                setCookie('appCurrency', general.currency);
+                setCookie('appCurrency', general.currency.toUpperCase());
             }
 
             if (general.theme) {
@@ -448,7 +448,6 @@ document.addEventListener('DOMContentLoaded', function() {
 // Check and set referral code
 (function() {
     function setReferralCode() {
-        // Check if reff cookie already exists
         if (getCookie('reff')) {
             return;
         }
@@ -456,13 +455,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Get reff parameter from URL
         const urlParams = new URLSearchParams(window.location.search);
         const reffCode = urlParams.get('reff');
-
-        // If reff parameter exists in URL, set it as a cookie
         if (reffCode) {
-            // Set cookie with 30 days expiration
-            const expirationDate = new Date();
-            expirationDate.setDate(expirationDate.getDate() + 30);
-            document.cookie = `reff=${reffCode}; expires=${expirationDate.toUTCString()}; path=/`;
+            setCookie('reff', reffCode, 30);
         }
     }
 

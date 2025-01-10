@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
                 if (pendingChanges.currency) {
-                    setCookie('appCurrency', pendingChanges.currency);
+                    setCookie('appCurrency', pendingChanges.currency.toUpperCase());
                     settings.push(['GENERAL', 'currency', pendingChanges.currency]);
                 }
                 

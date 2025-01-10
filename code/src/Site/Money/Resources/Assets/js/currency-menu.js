@@ -18,11 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const defaultCurrencyCode = defaultCurrencyItem.dataset.currency;
         
         if (defaultCurrencyCode) {
-            // Set cookie with 1 year expiration
-            const expirationDate = new Date();
-            expirationDate.setFullYear(expirationDate.getFullYear() + 1);
-            document.cookie = `appCurrency=${defaultCurrencyCode}; expires=${expirationDate.toUTCString()}; path=/`;
-
+            setCookie('appCurrency', defaultCurrencyCode.toUpperCase());
             // Update displayed currency code
             if (currencyCodeElement) {
                 currencyCodeElement.textContent = defaultCurrencyCode.toUpperCase();
@@ -42,10 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const currencyCode = this.dataset.currency;
             if (!currencyCode) return;
 
-            // Set cookie with 1 year expiration
-            const expirationDate = new Date();
-            expirationDate.setFullYear(expirationDate.getFullYear() + 1);
-            document.cookie = `appCurrency=${currencyCode}; expires=${expirationDate.toUTCString()}; path=/`;
+            setCookie('appCurrency', currencyCode.toUpperCase());
 
             // Update displayed currency code
             if (currencyCodeElement) {

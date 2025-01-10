@@ -13,10 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const langCode = this.dataset.lang;
             if (!langCode) return;
 
-            // Set cookie with 1 year expiration
-            const expirationDate = new Date();
-            expirationDate.setFullYear(expirationDate.getFullYear() + 1);
-            document.cookie = `locale=${langCode}; expires=${expirationDate.toUTCString()}; path=/; SameSite=Strict`;
+            setCookie('locale', langCode);
 
             // Update displayed language code
             if (languageCodeElement) {

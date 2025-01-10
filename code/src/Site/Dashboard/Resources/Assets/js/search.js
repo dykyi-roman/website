@@ -442,7 +442,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Get currency from cookies if available
         const appCurrency = getCookie('appCurrency');
         const currencyParam = appCurrency ? `&currency=${encodeURIComponent(appCurrency)}` : '';
-        console
 
         // Fetch orders from API
         fetch(`/api/v1/orders/search?query=${encodeURIComponent(query)}&order=${order}&page=${page}&limit=${itemsPerPage}&filter=${filter}${currencyParam}`, {
