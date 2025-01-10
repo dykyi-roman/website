@@ -8,7 +8,7 @@ use Psr\Log\LoggerInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Site\Registration\Application\ForgontPassword\Command\ForgotPasswordCommand;
 use Site\Registration\DomainModel\Service\PasswordResetRateLimiterService;
-use Site\Registration\Presentation\Web\Request\ForgotPasswordRequestDTO;
+use Site\Registration\Presentation\Web\Request\ForgotPasswordRequestDto;
 use Site\Registration\Presentation\Web\Response\ForgotPasswordJsonResponder;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
@@ -24,7 +24,7 @@ final readonly class ForgotPasswordAction
 
     #[Route('/forgot-password', name: 'forgot-password', methods: ['POST'])]
     public function __invoke(
-        #[MapRequestPayload] ForgotPasswordRequestDTO $request,
+        #[MapRequestPayload] ForgotPasswordRequestDto $request,
         ForgotPasswordJsonResponder $responder,
         TranslatorInterface $translator,
         LoggerInterface $logger,

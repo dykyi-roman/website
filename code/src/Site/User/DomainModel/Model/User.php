@@ -44,6 +44,12 @@ class User extends AbstractDomainModel implements PasswordAuthenticatedUserInter
     #[ORM\Column(type: 'user_status', options: ['default' => UserStatus::ACTIVATED])]
     private UserStatus $status;
 
+    #[ORM\Column(name: 'phone_verified', type: 'boolean')]
+    private bool $phoneVerified;
+
+    #[ORM\Column(name: 'email_verified', type: 'boolean')]
+    private bool $emailVerified;
+
     /** @var array<string> */
     #[ORM\Column(type: 'json')]
     private array $roles;
@@ -90,6 +96,8 @@ class User extends AbstractDomainModel implements PasswordAuthenticatedUserInter
         $this->location = $location;
         $this->status = UserStatus::ACTIVATED;
         $this->roles = [] === $roles ? [Roles::ROLE_CLIENT->value, Roles::ROLE_PARTNER->value] : $roles;
+        $this->emailVerified = false;
+        $this->phoneVerified = false;
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
     }
@@ -234,7 +242,7 @@ class User extends AbstractDomainModel implements PasswordAuthenticatedUserInter
 
     public function isVerified(): bool
     {
-        return false;
+        return $this->phoneVerified && $this->emailVerified;
     }
 
     /** @return array<string> */

@@ -9,7 +9,7 @@ use Site\Registration\Application\ResetPassword\Query\ResetPasswordQuery;
 use Site\Registration\Application\ResetPassword\ValueObject\ResetPasswordResponse;
 use Site\Registration\DomainModel\Service\TokenGeneratorInterface;
 use Site\Registration\Presentation\Web\Request\ResetPasswordFormRequestDTO;
-use Site\Registration\Presentation\Web\Request\ResetPasswordRequestDTO;
+use Site\Registration\Presentation\Web\Request\ResetPasswordRequestDto;
 use Site\Registration\Presentation\Web\Response\ResetPasswordHtmlResponder;
 use Site\Registration\Presentation\Web\Response\ResetPasswordJsonResponder;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -51,7 +51,7 @@ final readonly class ResetPasswordAction
 
     #[Route('/reset-password', name: 'reset-password', methods: ['POST'])]
     public function resetPassword(
-        #[MapRequestPayload] ResetPasswordRequestDTO $request,
+        #[MapRequestPayload] ResetPasswordRequestDto $request,
         ResetPasswordJsonResponder $responder,
     ): ResetPasswordJsonResponder {
         /** @var ResetPasswordResponse $response */

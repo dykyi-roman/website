@@ -28,6 +28,8 @@ final class Version20241210084422 extends AbstractMigration
             google_token VARCHAR(1024) DEFAULT NULL,
             location JSON NOT NULL,
             status SMALLINT DEFAULT 1,
+            phone_verified boolean default 0 not null
+            email_verified boolean default 0 not null
             roles JSON DEFAULT NULL,
             referral TEXT DEFAULT NULL,
             deleted_at DATETIME DEFAULT NULL,

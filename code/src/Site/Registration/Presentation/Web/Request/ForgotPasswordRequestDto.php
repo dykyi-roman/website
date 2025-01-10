@@ -7,7 +7,7 @@ namespace Site\Registration\Presentation\Web\Request;
 use Shared\DomainModel\ValueObject\Email;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final readonly class ForgotPasswordRequestDTO
+final readonly class ForgotPasswordRequestDto
 {
     public function __construct(
         #[Assert\NotBlank(message: 'Email is required')]

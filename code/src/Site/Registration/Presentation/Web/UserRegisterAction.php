@@ -11,7 +11,7 @@ use Shared\DomainModel\ValueObject\Country;
 use Shared\DomainModel\ValueObject\Email;
 use Shared\DomainModel\ValueObject\Location;
 use Site\Registration\Application\UserRegistration\Command\RegisterUserCommand;
-use Site\Registration\Presentation\Web\Request\UserRegisterRequestDTO;
+use Site\Registration\Presentation\Web\Request\UserRegisterRequestDto;
 use Site\Registration\Presentation\Web\Response\RegistrationJsonResponder;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
@@ -21,7 +21,7 @@ final readonly class UserRegisterAction
 {
     #[Route('/register', name: 'register', methods: ['POST'])]
     public function register(
-        #[MapRequestPayload] UserRegisterRequestDTO $dto,
+        #[MapRequestPayload] UserRegisterRequestDto $dto,
         MessageBusInterface $commandBus,
         NoCaptcha $captcha,
         LoggerInterface $logger,

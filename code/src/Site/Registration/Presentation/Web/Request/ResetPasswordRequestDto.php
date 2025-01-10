@@ -6,7 +6,7 @@ namespace Site\Registration\Presentation\Web\Request;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final readonly class ResetPasswordRequestDTO
+final readonly class ResetPasswordRequestDto
 {
     public function __construct(
         #[Assert\NotBlank]

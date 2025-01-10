@@ -9,7 +9,7 @@ use Profile\Setting\DomainModel\Enum\PropertyName;
 use Profile\Setting\DomainModel\ValueObject\Property;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final readonly class ChangeSettingRequest
+final readonly class ChangeSettingRequestDto
 {
     /**
      * @param array<array{

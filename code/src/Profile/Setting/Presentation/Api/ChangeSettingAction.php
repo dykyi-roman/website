@@ -6,7 +6,7 @@ namespace Profile\Setting\Presentation\Api;
 
 use OpenApi\Attributes as OA;
 use Profile\Setting\Application\Settings\Command\ChangePropertyCommand;
-use Profile\Setting\Presentation\Api\Request\ChangeSettingRequest;
+use Profile\Setting\Presentation\Api\Request\ChangeSettingRequestDto;
 use Profile\Setting\Presentation\Api\Response\ChangeSettingJsonResponder;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Site\User\DomainModel\Service\UserFetcher;
@@ -79,7 +79,7 @@ final readonly class ChangeSettingAction
         )
     )]
     public function __invoke(
-        #[MapRequestPayload] ChangeSettingRequest $request,
+        #[MapRequestPayload] ChangeSettingRequestDto $request,
         UserFetcher $userFetcher,
         MessageBusInterface $messageBus,
         ChangeSettingJsonResponder $responder,
