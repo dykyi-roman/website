@@ -6,11 +6,10 @@ services:
         autoconfigure: true
         public: false
 
-    Site\User\:
+    Profile\Setting\:
         resource: '../../'
         exclude:
             - '../../Resources/'
-            - '../../Presentation/**/Response'
             - '../../Application/**/*{Command,Query}.php'
             - '../../DomainModel/{Dto,Event,Model,ValueObject}/'
             - '../../Application/*/{Dto,Event,Model,ValueObject}/'
