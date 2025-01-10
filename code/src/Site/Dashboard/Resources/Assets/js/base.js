@@ -1,189 +1,185 @@
-// Function to set cookie - globally accessible
-window.setCookie = function(name, value, days = 365) {
-    try {
-        const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        const expires = `expires=${date.toUTCString()}`;
-        document.cookie = `${name}=${value};${expires};path=/`;
-        return true;
-    } catch (error) {
-        console.error('Error setting cookie:', error);
-        return false;
+// Services
+class CookieService {
+    static set(name, value, days = 365) {
+        try {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+            return true;
+        } catch (error) {
+            ErrorService.handle('Error setting cookie:', error);
+            return false;
+        }
     }
-};
 
-// Function to get cookie value - globally accessible
-window.getCookie = function(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-    return null;
+    static get(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        return parts.length === 2 ? parts.pop().split(';').shift() : null;
+    }
 }
 
-// Theme functionality initialization
-const initializeTheme = (function() {
-    let initialized = false;
-    
-    return function(initialTheme = 'light') {
-        if (initialized) return;
-        initialized = true;
-
-        const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = document.getElementById('themeIcon');
-
-        // Function to set theme
-        function setTheme(theme) {
-            // Set theme attribute
-            document.documentElement.setAttribute('data-theme', theme);
-
-            // Update theme icon
-            if (themeIcon) {
-                themeIcon.className = `fas ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`;
-            }
-
-            // Update theme-select if it exists
-            const themeSelect = document.getElementById('theme-select');
-            const themeSelectValue = theme === 'dark' ? 'dark' : 'light';
-            if (themeSelect) {
-                themeSelect.value = themeSelectValue;
-            }
-
-            // Save theme to cookie
-            setCookie('appTheme', theme);
-
-            // Only update profile settings if user is authenticated
-            if (window.appConfig?.isAuthenticated) {
-                updateProfileSetting([['GENERAL', 'theme', themeSelectValue]]).catch(error => console.error('Failed to update theme:', error));
-            }
-
-            // Dispatch theme change event
-            document.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme } }));
-        }
-
-        // Function to toggle theme
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            setTheme(newTheme);
-        }
-
-        // Set initial theme
-        setTheme(initialTheme);
-
-        // Add click event listener to theme toggle
-        if (themeToggle) {
-            themeToggle.addEventListener('click', toggleTheme);
-        }
-    };
-})();
-
-// Profile settings update function - only available for authenticated users
-window.updateProfileSetting = async function(settings) {
-    if (!window.appConfig?.isAuthenticated) {
-        return;
+class ErrorService {
+    static handle(message, error) {
+        console.error(message, error);
+        ModalService.hideSpinner();
     }
 
-    // Handle both single setting and array of settings
-    const settingsArray = Array.isArray(settings) ? settings : [[...arguments]];
+    static init() {
+        window.addEventListener('error', () => ModalService.hideSpinner());
+        window.addEventListener('unhandledrejection', () => ModalService.hideSpinner());
+        
+        // Intercept alert
+        const originalAlert = window.alert;
+        window.alert = function() {
+            ModalService.hideSpinner();
+            return originalAlert.apply(this, arguments);
+        };
+    }
+}
 
-    try {
-        const response = await fetch('/api/v1/settings', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                settings: settingsArray.map(([category, name, value]) => ({
-                    category,
-                    name,
-                    value
-                }))
-            })
+class ApiService {
+    static async updateSettings(settings) {
+        if (!ConfigService.isAuthenticated) return;
+
+        const settingsArray = Array.isArray(settings) ? settings : [[...arguments]];
+        
+        try {
+            const response = await fetch('/api/v1/settings', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    settings: settingsArray.map(([category, name, value]) => ({
+                        category,
+                        name,
+                        value
+                    }))
+                })
+            });
+
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.message || 'Failed to update setting');
+            return data;
+        } catch (error) {
+            ErrorService.handle('Error updating settings:', error);
+            throw error;
+        }
+    }
+
+    static async getSettings() {
+        try {
+            const response = await fetch('/api/v1/settings', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            });
+            
+            if (!response.ok) throw new Error('Failed to fetch settings');
+            return await response.json();
+        } catch (error) {
+            ErrorService.handle('Error fetching settings:', error);
+            throw error;
+        }
+    }
+
+    static async getCountryFromCoords(latitude, longitude) {
+        const roundedLat = Math.round(latitude * 100) / 100;
+        const roundedLon = Math.round(longitude * 100) / 100;
+        const cacheKey = `country_${roundedLat}_${roundedLon}`;
+        
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) return JSON.parse(cached);
+
+        try {
+            const response = await fetch(
+                `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+            );
+            const data = await response.json();
+
+            const result = {
+                country: data.address.country,
+                countryCode: data.address.country_code,
+                city: data.address.city
+            };
+
+            CookieService.set('appCountry', JSON.stringify(result));
+            localStorage.setItem(cacheKey, JSON.stringify(result));
+            return result;
+        } catch (error) {
+            ErrorService.handle('Error determining country:', error);
+            throw error;
+        }
+    }
+}
+
+class ThemeService {
+    static #initialized = false;
+    static #themeToggle = null;
+    static #themeIcon = null;
+
+    static init(initialTheme = 'light') {
+        if (this.#initialized) return;
+        this.#initialized = true;
+
+        this.#themeToggle = document.getElementById('themeToggle');
+        this.#themeIcon = document.getElementById('themeIcon');
+
+        this.setTheme(initialTheme);
+        
+        if (this.#themeToggle) {
+            this.#themeToggle.addEventListener('click', () => this.toggle());
+        }
+    }
+
+    static setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        
+        if (this.#themeIcon) {
+            this.#themeIcon.className = `fas ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`;
+        }
+
+        const themeSelect = document.getElementById('theme-select');
+        if (themeSelect) {
+            themeSelect.value = theme;
+        }
+
+        CookieService.set('appTheme', theme);
+
+        if (ConfigService.isAuthenticated) {
+            ApiService.updateSettings([['GENERAL', 'theme', theme]])
+                .catch(error => ErrorService.handle('Failed to update theme:', error));
+        }
+
+        document.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme } }));
+    }
+
+    static toggle() {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        this.setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    }
+}
+
+class ModalService {
+    static init() {
+        document.querySelectorAll('.modal .modal-content').forEach(modalContent => {
+            this.#createSpinnerOverlay(modalContent);
         });
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to update setting');
-        }
-
-        return data;
-    } catch (error) {
-        console.error('Error updating profile setting:', error);
-        throw error;
-    }
-};
-
-// Initialize settings and theme
-document.addEventListener('DOMContentLoaded', function() {
-    // For non-authenticated users, initialize theme from cookie immediately
-    if (!window.appConfig?.isAuthenticated) {
-        const savedTheme = getCookie('appTheme');
-        initializeTheme(savedTheme || 'light');
-        return;
+        // Intercept form submissions
+        document.addEventListener('submit', e => {
+            const form = e.target;
+            const modal = form.closest('.modal-content');
+            if (modal && form.dataset.ajax === 'true') {
+                e.preventDefault();
+            }
+        }, true);
     }
 
-    // For authenticated users, fetch settings first
-    fetch('/api/v1/settings', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to fetch settings');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.settings?.general) {
-            const general = data.settings.general;
-
-            // Initialize theme from settings
-            if (general.theme) {
-                initializeTheme(general.theme);
-            } else {
-                const savedTheme = getCookie('appTheme');
-                initializeTheme(savedTheme || 'light');
-            }
-
-            // Set other settings
-            if (general.language) {
-                setCookie('locale', general.language);
-            }
-
-            if (general.currency) {
-                setCookie('appCurrency', general.currency.toUpperCase());
-            }
-        } else {
-            // Fallback to cookie or default theme if no settings
-            const savedTheme = getCookie('appTheme');
-            initializeTheme(savedTheme || 'light');
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching settings:', error);
-        // On error, fallback to cookie or default theme
-        const savedTheme = getCookie('appTheme');
-        initializeTheme(savedTheme || 'light');
-    });
-});
-
-// Global error handling with spinner management
-document.addEventListener('DOMContentLoaded', function() {
-    // Add spinner overlay to all modals
-    document.querySelectorAll('.modal .modal-content').forEach(modalContent => {
-        const spinnerOverlay = document.createElement('div');
-        spinnerOverlay.className = 'spinner-overlay';
-        spinnerOverlay.innerHTML = '<div class="spinner"></div>';
-        modalContent.appendChild(spinnerOverlay);
-    });
-
-    // Helper function to create spinner overlay if not exists
-    function createSpinnerOverlay(element) {
+    static #createSpinnerOverlay(element) {
         const spinnerOverlay = document.createElement('div');
         spinnerOverlay.className = 'spinner-overlay';
         spinnerOverlay.innerHTML = '<div class="spinner"></div>';
@@ -194,22 +190,20 @@ document.addEventListener('DOMContentLoaded', function() {
         return spinnerOverlay;
     }
 
-    // Global function to show spinner for any modal
-    window.showModalSpinner = function(modalElement) {
+    static showSpinner(modalElement) {
         const spinnerOverlay = modalElement
             ? modalElement.querySelector('.spinner-overlay') ||
               modalElement.closest('.modal')?.querySelector('.spinner-overlay') ||
               modalElement.closest('.modal-content')?.querySelector('.spinner-overlay') ||
-              createSpinnerOverlay(modalElement)
+              this.#createSpinnerOverlay(modalElement)
             : document.querySelector('.modal.show .spinner-overlay');
 
         if (spinnerOverlay) {
             spinnerOverlay.classList.add('active');
         }
-    };
+    }
 
-    // Global function to hide spinner for any modal
-    window.hideModalSpinner = function(modalElement) {
+    static hideSpinner(modalElement) {
         const spinnerOverlay = modalElement
             ? modalElement.querySelector('.spinner-overlay') ||
               modalElement.closest('.modal')?.querySelector('.spinner-overlay') ||
@@ -219,265 +213,178 @@ document.addEventListener('DOMContentLoaded', function() {
         if (spinnerOverlay) {
             spinnerOverlay.classList.remove('active');
         }
-    };
+    }
+}
 
-    // Global error handler
-    window.addEventListener('error', function(event) {
-        hideModalSpinner();
-        return false;
-    });
+class UIService {
+    static initScrollToTop() {
+        const scrollButton = document.createElement('div');
+        scrollButton.className = 'scroll-to-top';
+        scrollButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
+        document.body.appendChild(scrollButton);
 
-    // Handle unhandled promise rejections
-    window.addEventListener('unhandledrejection', function(event) {
-        hideModalSpinner();
-        return false;
-    });
+        window.addEventListener('scroll', () => {
+            scrollButton.classList.toggle('visible', window.pageYOffset > 300);
+        });
 
-    // Global AJAX error handler for jQuery
-    if (typeof jQuery !== 'undefined') {
-        jQuery(document).ajaxError(function() {
-            hideModalSpinner();
+        scrollButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
 
-    // Intercept all form submissions
-    document.addEventListener('submit', function(e) {
-        const form = e.target;
-        const modal = form.closest('.modal-content');
-
-        if (modal) {
-            if (form.dataset.ajax === 'true') {
-                e.preventDefault();
-            }
-        }
-    }, true);
-
-    // Intercept alert function
-    const originalAlert = window.alert;
-    window.alert = function() {
-        hideModalSpinner();
-        return originalAlert.apply(this, arguments);
-    };
-
-    // Intercept fetch API
-    const originalFetch = window.fetch;
-    window.fetch = function(input, init = {}) {
-        // Add Accept header if not present
-        init.headers = init.headers || {};
-        if (typeof init.headers === 'object' && !(init.headers instanceof Headers)) {
-            init.headers = new Headers(init.headers);
-        }
-        if (!init.headers.has('Accept')) {
-            init.headers.set('Accept', 'application/json');
+    static initBackButton() {
+        const backButton = document.createElement('div');
+        backButton.id = 'back-button';
+        backButton.className = 'back-button';
+        backButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
+        backButton.title = 'Go Back';
+        
+        document.body.appendChild(backButton);
+        
+        if (window.location.pathname !== '/') {
+            backButton.classList.add('visible');
         }
         
-        const fetchPromise = originalFetch.call(this, input, init);
-        fetchPromise.catch(() => hideModalSpinner());
-        return fetchPromise;
-    };
+        backButton.addEventListener('click', () => {
+            const currentHostname = window.location.hostname;
 
-    // Intercept XMLHttpRequest
-    const originalXHROpen = XMLHttpRequest.prototype.open;
-    XMLHttpRequest.prototype.open = function() {
-        this.addEventListener('error', () => hideModalSpinner());
-        this.addEventListener('abort', () => hideModalSpinner());
-        return originalXHROpen.apply(this, arguments);
-    };
-});
-
-// Create scroll to top button
-document.addEventListener('DOMContentLoaded', function() {
-    // Create the button element
-    const scrollButton = document.createElement('div');
-    scrollButton.className = 'scroll-to-top';
-    scrollButton.innerHTML = '<i class="fas fa-arrow-up"></i>';
-    document.body.appendChild(scrollButton);
-
-    // Show/hide button based on scroll position
-    window.addEventListener('scroll', function() {
-        if (window.pageYOffset > 300) {
-            scrollButton.classList.add('visible');
-        } else {
-            scrollButton.classList.remove('visible');
-        }
-    });
-
-    // Smooth scroll to top when button is clicked
-    scrollButton.addEventListener('click', function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-});
-
-// Add back button functionality
-document.addEventListener('DOMContentLoaded', function() {
-    // Create the back button element
-    const backButton = document.createElement('div');
-    backButton.id = 'back-button';
-    backButton.className = 'back-button';
-    backButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
-    backButton.title = 'Go Back';
-    
-    // Append to body
-    document.body.appendChild(backButton);
-    
-    // Show/hide back button based on page history and current path
-    const currentPath = window.location.pathname;
-    const shouldShowBackButton = currentPath !== '/';
-    
-    if (shouldShowBackButton) {
-        backButton.classList.add('visible');
-    }
-    
-    // Add click event listener
-    backButton.addEventListener('click', function() {
-        // Get current site's hostname
-        const currentHostname = window.location.hostname;
-
-        // Check browser history
-        if (window.history.length > 1) {
-            // Try to find a previous page within the same domain
-            for (let i = window.history.length - 2; i >= 0; i--) {
+            if (window.history.length > 1) {
                 try {
-                    // Use history.go with negative index to check previous pages
                     const previousState = window.history.state;
                     const previousUrl = previousState?.url || document.referrer;
 
                     if (previousUrl) {
                         const previousUrlObj = new URL(previousUrl, window.location.origin);
-                        
-                        // Check if previous URL is from the same domain
                         if (previousUrlObj.hostname === currentHostname) {
                             window.history.go(-1);
                             return;
                         }
                     }
                 } catch (error) {
-                    console.warn('Error checking previous page:', error);
+                    ErrorService.handle('Error checking previous page:', error);
                 }
             }
-
-            // If no same-domain page found, go to homepage
             window.location.href = '/';
-        } else {
-            // If no history, go to homepage
-            window.location.href = '/';
-        }
-    });
-});
-
-// Password toggle functionality
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.password-toggle').forEach(button => {
-        button.addEventListener('click', function() {
-            const input = this.closest('.password-wrapper').querySelector('input');
-            
-            if (input.type === 'password') {
-                input.type = 'text';
-            } else {
-                input.type = 'password';
-            }
         });
-    });
-});
+    }
 
-// Initialize settings on page load
-document.addEventListener('DOMContentLoaded', function() {
-    // Function to handle cookie consent
-    function handleCookieConsent() {
+    static initPasswordToggles() {
+        document.querySelectorAll('.password-toggle').forEach(button => {
+            button.addEventListener('click', function() {
+                const input = this.closest('.password-wrapper').querySelector('input');
+                input.type = input.type === 'password' ? 'text' : 'password';
+            });
+        });
+    }
+
+    static initCookieConsent() {
         const cookieConsent = document.getElementById('cookieConsent');
         if (!cookieConsent) return;
 
         const bsOffcanvas = new bootstrap.Offcanvas(cookieConsent);
-        const agreementCookie = getCookie('agreement_with_cookies');
-
-        // Show consent popup if cookie doesn't exist and display is required
-        if (!agreementCookie) {
+        if (!CookieService.get('agreement_with_cookies')) {
             bsOffcanvas.show();
         }
 
-        // Handle accept button click
-        document.getElementById('acceptCookies')?.addEventListener('click', function() {
-            setCookie('agreement_with_cookies', '1');
-            updateProfileSetting([['GENERAL', 'cookies', 1]]).catch(error => console.error('Failed to update cookies:', error));
+        document.getElementById('acceptCookies')?.addEventListener('click', () => {
+            CookieService.set('agreement_with_cookies', '1');
+            ApiService.updateSettings([['GENERAL', 'cookies', 1]])
+                .catch(error => ErrorService.handle('Failed to update cookies:', error));
             bsOffcanvas.hide();
         });
 
-        // Handle reject button click
-        document.getElementById('rejectCookies')?.addEventListener('click', function() {
-            setCookie('agreement_with_cookies', '0');
-            updateProfileSetting([['GENERAL', 'cookies', 0]]).catch(error => console.error('Failed to update cookies:', error));
+        document.getElementById('rejectCookies')?.addEventListener('click', () => {
+            CookieService.set('agreement_with_cookies', '0');
+            ApiService.updateSettings([['GENERAL', 'cookies', 0]])
+                .catch(error => ErrorService.handle('Failed to update cookies:', error));
             bsOffcanvas.hide();
         });
     }
+}
 
-    // Initialize cookie consent handling
-    handleCookieConsent();
-});
-
-// Get geolocation from browser
-document.addEventListener('DOMContentLoaded', function() {
-    async function getCountryWithCache(latitude, longitude) {
-        const roundedLat = Math.round(latitude * 100) / 100;
-        const roundedLon = Math.round(longitude * 100) / 100;
-
-        const cacheKey = `country_${roundedLat}_${roundedLon}`;
-        const cached = localStorage.getItem(cacheKey);
-
-        if (cached) {
-            return JSON.parse(cached);
-        }
-
-        try {
-            const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
-            const response = await fetch(url);
-            const data = await response.json();
-
-            const result = {
-                country: data.address.country,
-                countryCode: data.address.country_code,
-                city: data.address.city
-            };
-
-            setCookie('appCountry', JSON.stringify(result));
-            localStorage.setItem(cacheKey, JSON.stringify(result));
-            console.log(result);
-        } catch (error) {
-            console.error("Error in determining country:", error);
-            throw error;
-        }
+class ConfigService {
+    static get isAuthenticated() {
+        return window.appConfig?.isAuthenticated ?? false;
     }
+}
 
-    navigator.geolocation.getCurrentPosition(async position => {
-        try {
-            await getCountryWithCache(position.coords.latitude, position.coords.longitude);
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    });
-});
+class GeolocationService {
+    static init() {
+        navigator.geolocation.getCurrentPosition(async position => {
+            try {
+                await ApiService.getCountryFromCoords(
+                    position.coords.latitude,
+                    position.coords.longitude
+                );
+            } catch (error) {
+                ErrorService.handle('Geolocation error:', error);
+            }
+        });
+    }
+}
 
-// Check and set referral code
-(function() {
-    function setReferralCode() {
-        if (getCookie('reff')) {
-            return;
-        }
+class ReferralService {
+    static init() {
+        if (CookieService.get('reff')) return;
 
-        // Get reff parameter from URL
         const urlParams = new URLSearchParams(window.location.search);
         const reffCode = urlParams.get('reff');
         if (reffCode) {
-            setCookie('reff', reffCode, 30);
+            CookieService.set('reff', reffCode, 30);
         }
     }
+}
 
-    // Run when DOM is loaded
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', setReferralCode);
-    } else {
-        setReferralCode();
+// Initialize application
+document.addEventListener('DOMContentLoaded', async () => {
+    // Initialize core services
+    ErrorService.init();
+    ModalService.init();
+    
+    // Initialize UI components
+    UIService.initScrollToTop();
+    UIService.initBackButton();
+    UIService.initPasswordToggles();
+    UIService.initCookieConsent();
+    
+    // Initialize geolocation and referral
+    GeolocationService.init();
+    ReferralService.init();
+
+    // Initialize theme
+    if (!ConfigService.isAuthenticated) {
+        const savedTheme = CookieService.get('appTheme');
+        ThemeService.init(savedTheme || 'light');
+        return;
     }
-})();
+
+    try {
+        const data = await ApiService.getSettings();
+        if (data.settings?.general) {
+            const { theme, language, currency } = data.settings.general;
+
+            ThemeService.init(theme || CookieService.get('appTheme') || 'light');
+            
+            if (language) {
+                CookieService.set('locale', language);
+            }
+            
+            if (currency) {
+                CookieService.set('appCurrency', currency.toUpperCase());
+            }
+        } else {
+            const savedTheme = CookieService.get('appTheme');
+            ThemeService.init(savedTheme || 'light');
+        }
+    } catch {
+        const savedTheme = CookieService.get('appTheme');
+        ThemeService.init(savedTheme || 'light');
+    }
+});
+
+// Export global functions for backward compatibility
+window.setCookie = CookieService.set.bind(CookieService);
+window.getCookie = CookieService.get.bind(CookieService);
+window.updateProfileSetting = ApiService.updateSettings;
+window.showModalSpinner = ModalService.showSpinner.bind(ModalService);
+window.hideModalSpinner = ModalService.hideSpinner.bind(ModalService);
