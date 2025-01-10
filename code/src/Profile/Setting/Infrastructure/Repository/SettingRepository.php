@@ -31,11 +31,12 @@ final readonly class SettingRepository implements SettingRepositoryInterface
             ->setParameter('id', $id->toBinary())
             ->setParameter('name', $name->value);
 
+        /** @var Setting|null */
         return $qb->getQuery()->getOneOrNullResult();
     }
 
     /**
-     * @return array<Setting>
+     * @return array<int, Setting>
      */
     public function findAll(UserId $id): array
     {
@@ -45,6 +46,7 @@ final readonly class SettingRepository implements SettingRepositoryInterface
             ->andWhere('s.userId = :id')
             ->setParameter('id', $id->toBinary());
 
+        /** @var array<int, Setting> */
         return $qb->getQuery()->getResult();
     }
 

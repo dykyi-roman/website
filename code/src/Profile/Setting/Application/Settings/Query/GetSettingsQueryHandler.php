@@ -16,7 +16,7 @@ final readonly class GetSettingsQueryHandler
     }
 
     /**
-     * @return array<string, array<string, string>
+     * @return array<string, array<string, string>>
      */
     public function __invoke(GetSettingsQuery $query): array
     {

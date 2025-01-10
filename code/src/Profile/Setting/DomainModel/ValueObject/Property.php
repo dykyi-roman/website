@@ -43,7 +43,7 @@ final readonly class Property implements \JsonSerializable
         return [
             'category' => $this->category->value,
             'name' => $this->name->value,
-            'value' => $this->value($this->value),
+            'value' => $this->value(),
         ];
     }
 }
