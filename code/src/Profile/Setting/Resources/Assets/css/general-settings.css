@@ -7,17 +7,6 @@
     margin-bottom: 1.5rem;
 }
 
-.form-actions {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: 1rem 0;
-}
-
-.form-actions .btn {
-    min-width: 120px;
-}
-
 /* Disabled state styling */
 .btn.btn-primary:disabled {
     background-color: var(--primary-light) !important;
