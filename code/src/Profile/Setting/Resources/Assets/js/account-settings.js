@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         Object.keys(pendingChanges).forEach(key => {
             if (pendingChanges[key] !== null) {
                 if (key === 'photo') {
-                    formData.append('photo', pendingChanges[key]);
+                    formData.append('avatar', pendingChanges[key]);
                 } else {
                     formData.append(key, pendingChanges[key]);
                 }
