@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Shared\DomainModel\ValueObject\Email;
 use Site\User\DomainModel\Enum\UserId;
+use Site\User\DomainModel\Exception\UserNotFoundException;
 use Site\User\DomainModel\Model\User;
 use Site\User\DomainModel\Model\UserInterface;
 use Site\User\DomainModel\Repository\UserRepositoryInterface;
@@ -38,9 +39,14 @@ final class UserRepository implements UserRepositoryInterface
     /**
      * @throws \Symfony\Component\Security\Core\Exception\UserNotFoundException
      */
-    public function findById(UserId $id): UserInterface
+    public function findById(UserId $userId): UserInterface
     {
-        return $this->repository->find($id->toRfc4122());
+        $user = $this->repository->find($userId->toRfc4122());
+        if (null === $user) {
+            throw new UserNotFoundException($userId);
+        }
+
+        return $user;
     }
 
     public function findByEmail(Email $email): ?UserInterface

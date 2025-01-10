@@ -58,7 +58,7 @@ final readonly class NominatimClient implements GeoLocationInterface
             $address = $data['address'] ?? [];
             $city = $address['city'] ?? $address['town'] ?? $address['village'] ?? '';
             $street = implode(', ', array_filter([
-                $address['house_number'] . ' ' . $address['road'], // @phpstan-ignore-line
+                $address['house_number'].' '.$address['road'], // @phpstan-ignore-line
                 $address['suburb'],
             ]));
             $countryCode = $address['country_code'] ?? '';

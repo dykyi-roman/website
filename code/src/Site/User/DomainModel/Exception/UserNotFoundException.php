@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace Site\User\DomainModel\Exception;
 
+use Site\User\DomainModel\Enum\UserId;
+
 final class UserNotFoundException extends \RuntimeException
 {
-
+    public function __construct(UserId $userId, int $code = 0, ?\Throwable $previous = null)
+    {
+        parent::__construct(sprintf('User not found by id: %s', $userId->toRfc4122()), $code, $previous);
+    }
 }

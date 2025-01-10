@@ -31,7 +31,7 @@ final readonly class SettingRepository implements SettingRepositoryInterface
             ->setParameter('id', $id->toBinary())
             ->setParameter('name', $name->value);
 
-        /** @var Setting|null */
+        /* @var Setting|null */
         return $qb->getQuery()->getOneOrNullResult();
     }
 
@@ -46,7 +46,7 @@ final readonly class SettingRepository implements SettingRepositoryInterface
             ->andWhere('s.userId = :id')
             ->setParameter('id', $id->toBinary());
 
-        /** @var array<int, Setting> */
+        /* @var array<int, Setting> */
         return $qb->getQuery()->getResult();
     }
 

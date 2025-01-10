@@ -23,8 +23,8 @@ final readonly class ChangeUserCommandHandler
         $user->changeName($command->name);
         $user->changeEmail(Email::fromString($command->email));
         $user->changePhone($command->phone);
-        
-        if ($command->avatar !== null) {
+
+        if (null !== $command->avatar) {
             $user->changeAvatar($command->avatar);
         }
 

@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Site\User\DomainModel\Event;
 
 use EventStorage\DomainModel\Event\PersistingEventInterface;
-use Shared\DomainModel\ValueObject\Email;
 use Site\User\DomainModel\Enum\UserId;
 
 final readonly class UserChangedPhoneEvent implements PersistingEventInterface
 {
     public function __construct(
         public UserId $id,
-        public string $oldPhone,
+        public ?string $oldPhone,
         public string $newPhone,
     ) {
     }
@@ -36,7 +35,7 @@ final readonly class UserChangedPhoneEvent implements PersistingEventInterface
     public function getPayload(): array
     {
         return [
-            'from' => $this->oldPhone,
+            'from' => $this->oldPhone ?? '',
             'to' => $this->newPhone,
         ];
     }

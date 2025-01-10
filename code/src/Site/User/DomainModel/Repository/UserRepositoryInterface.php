@@ -15,7 +15,7 @@ interface UserRepositoryInterface
     /**
      * @throws \Symfony\Component\Security\Core\Exception\UserNotFoundException
      */
-    public function findById(UserId $id): UserInterface;
+    public function findById(UserId $userId): UserInterface;
 
     public function findByEmail(Email $email): ?UserInterface;
 

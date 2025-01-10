@@ -36,8 +36,8 @@ final readonly class UserChangedEmailEvent implements PersistingEventInterface
     public function getPayload(): array
     {
         return [
-            'from' => $this->oldEmail,
-            'to' => $this->newEmail,
+            'from' => $this->oldEmail->value,
+            'to' => $this->newEmail->value,
         ];
     }
 

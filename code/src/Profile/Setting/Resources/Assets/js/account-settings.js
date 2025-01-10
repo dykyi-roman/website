@@ -273,7 +273,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     function updateProfileNameDisplay(name) {
         const profileNameElement = document.querySelector('.profile-name');
         if (profileNameElement) {
-            profileNameElement.outerHTML = truncateProfileName(name);
+            profileNameElement.outerHTML = `<div class="profile-name fw-semibold text-truncate ms-2">${truncateProfileName(name)}</div>`;
         }
     }
 
