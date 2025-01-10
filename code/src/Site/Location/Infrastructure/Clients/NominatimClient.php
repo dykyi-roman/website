@@ -53,10 +53,15 @@ final readonly class NominatimClient implements GeoLocationInterface
             }
 
             $address = $data['address'] ?? [];
-            $city = $address['city'] ?? $address['town'] ?? $address['village'] ?? '';
+            if (!is_array($address)) {
+                throw new \JsonException('Invalid address structure');
+            }
+
+            $city = (string) ($address['city'] ?? $address['town'] ?? $address['village'] ?? '');
+            $countryCode = (string) ($address['country_code'] ?? '');
 
             return new Location(
-                new Country(trim($address['country_code'])),
+                new Country(trim($countryCode)),
                 new City(trim($city), trim($city)),
             );
         } catch (\JsonException $exception) {

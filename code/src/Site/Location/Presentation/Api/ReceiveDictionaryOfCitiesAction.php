@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Site\Location\Presentation\Api;
 
 use OpenApi\Attributes as OA;
+use Shared\DomainModel\Services\MessageBusInterface;
 use Site\Location\Application\Query\GetCitiesDictionaryQuery;
+use Site\Location\DomainModel\Dto\CityDto;
 use Site\Location\Presentation\Api\Request\DictionaryOfCitiesRequest;
 use Site\Location\Presentation\Api\Response\DictionaryOfCitiesResponse;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/v1/location/cities', name: 'api_cities_by_country_search', methods: ['GET'])]
@@ -77,9 +78,10 @@ final readonly class ReceiveDictionaryOfCitiesAction
     )]
     public function __invoke(
         #[MapQueryString] DictionaryOfCitiesRequest $request,
-        MessageBusInterface $queryBus,
+        MessageBusInterface $messageBus,
     ): DictionaryOfCitiesResponse {
-        $cities = $queryBus->dispatch(
+        /** @var array<CityDto> $cities */
+        $cities = $messageBus->dispatch(
             new GetCitiesDictionaryQuery(
                 countryCode: $request->countryCode,
                 lang: $request->lang,
@@ -89,7 +91,7 @@ final readonly class ReceiveDictionaryOfCitiesAction
 
         return new DictionaryOfCitiesResponse(
             array_map(
-                static fn ($cityDto) => [
+                static fn (CityDto $cityDto) => [
                     'name' => $cityDto->name,
                     'transcription' => $cityDto->transcription,
                     'address' => $cityDto->area,

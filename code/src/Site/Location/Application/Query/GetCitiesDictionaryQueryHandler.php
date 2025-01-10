@@ -28,8 +28,8 @@ final readonly class GetCitiesDictionaryQueryHandler
         );
 
         $cities = [];
-        foreach ($citiesDto as $index => $cityDto) {
-            $cities[$index] = new CityDto(
+        foreach ($citiesDto as $cityDto) {
+            $cities[] = new CityDto(
                 name: $cityDto->name,
                 transcription: $cityDto->transcription,
                 area: $cityDto->area,
