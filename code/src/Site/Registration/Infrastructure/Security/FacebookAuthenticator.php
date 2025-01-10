@@ -62,8 +62,8 @@ final class FacebookAuthenticator extends OAuth2Authenticator implements Authent
 
         $this->eventBus->dispatch(
             new UserLoggedInEvent(
-                $user->getId(),
-                $user->getEmail(),
+                $user->id(),
+                $user->email(),
                 'facebook',
             ),
         );

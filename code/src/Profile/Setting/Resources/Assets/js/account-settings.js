@@ -241,7 +241,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
         } catch (error) {
             console.error('Error:', error);
-            alert(t.error_save_settings || 'Failed to save settings. Please try again.');
             saveButton.disabled = false;
         }
     });

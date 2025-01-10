@@ -42,8 +42,8 @@ final readonly class RegisterUserCommandHandler
 
         $this->eventBus->dispatch(
             new UserRegisteredEvent(
-                $user->getId(),
-                $user->getEmail(),
+                $user->id(),
+                $user->email(),
                 'manual',
             ),
         );

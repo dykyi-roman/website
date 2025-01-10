@@ -83,8 +83,8 @@ final readonly class OAuthUserProvider implements UserProviderInterface
 
             $this->eventBus->dispatch(
                 new UserRegisteredEvent(
-                    $user->getId(),
-                    $user->getEmail(),
+                    $user->id(),
+                    $user->email(),
                     'google',
                 ),
             );
@@ -135,8 +135,8 @@ final readonly class OAuthUserProvider implements UserProviderInterface
 
             $this->eventBus->dispatch(
                 new UserRegisteredEvent(
-                    $user->getId(),
-                    $user->getEmail(),
+                    $user->id(),
+                    $user->email(),
                     'facebook',
                 ),
             );

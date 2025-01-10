@@ -61,8 +61,8 @@ final class GoogleAuthenticator extends OAuth2Authenticator implements Authentic
 
         $this->eventBus->dispatch(
             new UserLoggedInEvent(
-                $user->getId(),
-                $user->getEmail(),
+                $user->id(),
+                $user->email(),
                 'google',
             ),
         );

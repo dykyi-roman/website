@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Site\User\Presentation\Api;
 
 use Shared\DomainModel\Services\MessageBusInterface;
+use Site\User\Application\UpdateUserSettings\Command\ChangeUserCommand;
+use Site\User\DomainModel\Exception\AuthenticationException;
+use Site\User\DomainModel\Exception\UserNotFoundException;
 use Site\User\DomainModel\Service\UserFetcher;
 use Site\User\Presentation\Api\Request\ChangeUserRequestDto;
 use Site\User\Presentation\Api\Response\ChangeUserJsonResponder;
@@ -20,7 +23,24 @@ final readonly class ChangeUserAction
         MessageBusInterface $messageBus,
         ChangeUserJsonResponder $responder,
     ): ChangeUserJsonResponder {
+        try {
+            $messageBus->dispatch(
+                new ChangeUserCommand(
+                    userId: $userFetcher->fetch()->id(),
+                    name: $request->name,
+                    email: $request->email,
+                    phone: $request->phone,
+                    avatar: $request->avatar,
+                )
+            );
 
-        return $responder->success('Ok')->respond();
+            return $responder->success('Ok')->respond();
+        } catch (AuthenticationException) {
+            return $responder->error('User not authenticated')->respond();
+        } catch (UserNotFoundException) {
+            return $responder->error('User not found error')->respond();
+        } catch (\InvalidArgumentException) {
+            return $responder->error('Invalid argument error')->respond();
+        }
     }
 }

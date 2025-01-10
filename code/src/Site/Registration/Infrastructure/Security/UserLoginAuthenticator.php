@@ -64,8 +64,8 @@ final class UserLoginAuthenticator extends AbstractAuthenticator
 
         $this->eventBus->dispatch(
             new UserLoggedInEvent(
-                $user->getId(),
-                $user->getEmail(),
+                $user->id(),
+                $user->email(),
                 'manual',
             ),
         );

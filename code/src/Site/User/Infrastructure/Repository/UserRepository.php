@@ -35,9 +35,11 @@ final class UserRepository implements UserRepositoryInterface
         }
     }
 
-    public function findById(UserId $id): ?UserInterface
+    /**
+     * @throws \Symfony\Component\Security\Core\Exception\UserNotFoundException
+     */
+    public function findById(UserId $id): UserInterface
     {
-        /* @var UserInterface|null */
         return $this->repository->find($id->toRfc4122());
     }
 

@@ -29,6 +29,20 @@ final class ChangeUserJsonResponder implements ResponderInterface
         return $this;
     }
 
+    public function error(string $message, string $field = ''): self
+    {
+        $this->data = [
+            'success' => false,
+            'errors' => [
+                'message' => $message,
+                'field' => $field,
+            ],
+        ];
+        $this->statusCode = 400;
+
+        return $this;
+    }
+
     public function respond(): self
     {
         return $this;

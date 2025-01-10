@@ -15,6 +15,8 @@ use Site\Registration\DomainModel\Event\UserChangedPasswordEvent;
 use Site\User\DomainModel\Enum\Roles;
 use Site\User\DomainModel\Enum\UserId;
 use Site\User\DomainModel\Enum\UserStatus;
+use Site\User\DomainModel\Event\UserChangedEmailEvent;
+use Site\User\DomainModel\Event\UserChangedPhoneEvent;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity]
@@ -215,17 +217,17 @@ class User extends AbstractDomainModel implements PasswordAuthenticatedUserInter
         return $this->passwordToken;
     }
 
-    public function getId(): UserId
+    public function id(): UserId
     {
         return $this->id;
     }
 
-    public function getName(): string
+    public function name(): string
     {
         return $this->name;
     }
 
-    public function getEmail(): Email
+    public function email(): Email
     {
         return $this->email;
     }
@@ -235,7 +237,7 @@ class User extends AbstractDomainModel implements PasswordAuthenticatedUserInter
         return $this->location;
     }
 
-    public function getStatus(): UserStatus
+    public function status(): UserStatus
     {
         return $this->status;
     }
@@ -311,5 +313,37 @@ class User extends AbstractDomainModel implements PasswordAuthenticatedUserInter
     public function setFacebookToken(?string $facebookToken): void
     {
         $this->facebookToken = $facebookToken;
+    }
+
+    public function changeName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function changeEmail(Email $email): void
+    {
+        $this->raise(new UserChangedEmailEvent(
+            $this->id,
+            $this->email,
+            $email,
+        ));
+
+        $this->email = $email;
+    }
+
+    public function changePhone(string $phone): void
+    {
+        $this->raise(new UserChangedPhoneEvent(
+            $this->id,
+            $this->phone,
+            $phone,
+        ));
+
+        $this->phone = $phone;
+    }
+
+    public function changeAvatar(string $avatar): void
+    {
+        $this->avatar = $avatar;
     }
 }

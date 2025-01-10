@@ -87,7 +87,7 @@ final readonly class ChangeSettingAction
         $user = $userFetcher->fetch();
 
         $messageBus->dispatch(new ChangePropertyCommand(
-            $user->getId(),
+            $user->id(),
             $request->properties(),
         ));
 

@@ -42,7 +42,7 @@ final readonly class LocaleSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $setting = $this->settingRepository->findByName($user->getId(), PropertyName::SETTINGS_GENERAL_LANGUAGE);
+        $setting = $this->settingRepository->findByName($user->id(), PropertyName::SETTINGS_GENERAL_LANGUAGE);
         if (null === $setting) {
             return;
         }

@@ -12,7 +12,10 @@ interface UserRepositoryInterface
 {
     public function save(UserInterface $user): void;
 
-    public function findById(UserId $id): ?UserInterface;
+    /**
+     * @throws \Symfony\Component\Security\Core\Exception\UserNotFoundException
+     */
+    public function findById(UserId $id): UserInterface;
 
     public function findByEmail(Email $email): ?UserInterface;
 

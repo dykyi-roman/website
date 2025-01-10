@@ -43,8 +43,8 @@ final readonly class ResetPasswordService
         $this->userRepository->save($user);
 
         $this->logger->info('Password reset successful', [
-            'user_id' => $user->getId(),
-            'email' => $user->getEmail(),
+            'user_id' => $user->id(),
+            'email' => $user->email(),
         ]);
     }
 

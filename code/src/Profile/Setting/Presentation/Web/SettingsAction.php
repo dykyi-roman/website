@@ -24,7 +24,7 @@ final readonly class SettingsAction
             'content' => '',
             'settings' => [
                 'privacy' => [
-                    'user_status' => $user->getStatus()->isActive(),
+                    'user_status' => $user->status()->isActive(),
                 ],
             ],
         ])->respond();

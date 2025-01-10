@@ -30,11 +30,11 @@ final readonly class ForgotPasswordCommandHandler
         }
 
         try {
-            $token = $this->tokenGenerator->generate($user->getId()->toBase32());
+            $token = $this->tokenGenerator->generate($user->id()->toBase32());
             $user->setPasswordToken($token);
             $this->userRepository->save($user);
 
-            $this->passwordResetNotification->send($command->email, $user->getName(), $token);
+            $this->passwordResetNotification->send($command->email, $user->name(), $token);
         } catch (\Throwable $exception) {
             $this->logger->error('Password reset failed', [
                 'email' => $command->email,

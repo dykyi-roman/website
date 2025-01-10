@@ -12,11 +12,13 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterface, PasswordAuthenticatedUserInterface, DomainModelInterface
 {
-    public function getId(): UserId;
+    public function id(): UserId;
 
-    public function getEmail(): Email;
+    public function name(): string;
 
-    public function getStatus(): UserStatus;
+    public function email(): Email;
+
+    public function status(): UserStatus;
 
     public function isVerified(): bool;
 
@@ -36,11 +38,17 @@ interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterf
 
     public function withReferral(string $referral): void;
 
-    public function getName(): string;
-
     public function setPasswordToken(string $token): void;
 
     public function setGoogleToken(?string $googleToken): void;
 
     public function setFacebookToken(?string $facebookToken): void;
+
+    public function changeName(string $name): void;
+
+    public function changeEmail(Email $email): void;
+
+    public function changePhone(string $phone): void;
+
+    public function changeAvatar(string $avatar): void;
 }

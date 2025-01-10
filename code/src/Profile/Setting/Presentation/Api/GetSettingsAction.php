@@ -25,7 +25,7 @@ final readonly class GetSettingsAction
         GetSettingsJsonResponder $responder,
     ): GetSettingsJsonResponder {
         /** @var array<string, array<string, mixed>> $settings */
-        $settings = $messageBus->dispatch(new GetSettingsQuery($userFetcher->fetch()->getId()));
+        $settings = $messageBus->dispatch(new GetSettingsQuery($userFetcher->fetch()->id()));
 
         return $responder->success($settings)->respond();
     }
