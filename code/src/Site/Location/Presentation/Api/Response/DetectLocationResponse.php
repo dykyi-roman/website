@@ -14,12 +14,6 @@ final readonly class DetectLocationResponse implements ResponderInterface
     ) {
     }
 
-
-    public function jsonSerialize(): array
-    {
-        return $this->location->jsonSerialize();
-    }
-
     public function respond(): ResponderInterface
     {
         return $this;

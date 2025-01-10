@@ -96,19 +96,17 @@ class ApiService {
 
         try {
             const response = await fetch(
-                `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
-            );
+                `/api/v1/location/detect?latitude=${latitude}&longitude=${longitude}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
             const data = await response.json();
 
-            const result = {
-                country: data.address.country,
-                countryCode: data.address.country_code,
-                city: data.address.city
-            };
+            CookieService.set('appCountry', JSON.stringify(data));
 
-            CookieService.set('appCountry', JSON.stringify(result));
-            localStorage.setItem(cacheKey, JSON.stringify(result));
-            return result;
+            return data;
         } catch (error) {
             ErrorService.handle('Error determining country:', error);
             throw error;
