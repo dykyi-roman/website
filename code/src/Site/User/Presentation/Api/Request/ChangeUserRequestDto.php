@@ -21,7 +21,6 @@ final readonly class ChangeUserRequestDto
         #[Assert\Regex(pattern: '/^\+\d{10,15}$/', message: 'Invalid phone number format')]
         public string $phone,
 
-        #[Assert\Optional]
         #[Assert\Image(
             maxSize: '5M',
             mimeTypes: ['image/jpeg', 'image/png'],

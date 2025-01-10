@@ -212,20 +212,24 @@ document.addEventListener('DOMContentLoaded', async function() {
                 });
             }
 
+            // Get all current field values
+            const formFields = form.querySelectorAll('input:not([type="file"])');
             const payload = {
-                name: pendingChanges.name,
-                email: pendingChanges.email,
-                phone: pendingChanges.phone,
-                avatar: avatarBase64,
+                name: '',
+                email: '',
+                phone: '',
+                avatar: avatarBase64
             };
 
-            // Remove null values
-            Object.keys(payload).forEach(key => {
-                if (payload[key] === null) {
-                    delete payload[key];
+            // Fill in all current values
+            formFields.forEach(field => {
+                if (field.name in payload) {
+                    payload[field.name] = field.value.trim();
                 }
             });
-            console.log(payload);
+
+            console.log('Sending payload:', payload);
+            
             const response = await fetch('/api/v1/users', {
                 method: 'PUT',
                 headers: {
@@ -253,8 +257,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             inputs.forEach(input => {
                 input.setAttribute('data-original-value', input.value.trim());
             });
-
-            alert(t.settings_saved || 'Settings saved successfully');
         } catch (error) {
             console.error('Failed to save settings:', error);
         }
