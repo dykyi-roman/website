@@ -49,7 +49,7 @@ class Setting extends AbstractDomainModel
         $this->userId = $userId;
         $this->category = $property->category;
         $this->name = $property->name;
-        $this->value = $property->toString($property->value);
+        $this->value = $property->value();
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
     }
@@ -72,7 +72,7 @@ class Setting extends AbstractDomainModel
     {
         $this->category = $property->category;
         $this->name = $property->name;
-        $this->value = $property->toString($property->value);
+        $this->value = $property->value();
 
         $this->raise(new SettingIsChangedEvent($this->userId, $property));
     }

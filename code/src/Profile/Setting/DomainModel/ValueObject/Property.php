@@ -16,21 +16,21 @@ final readonly class Property implements \JsonSerializable
     ) {
     }
 
-    public function toString(mixed $value): string
+    public function value(): string
     {
-        if (is_bool($value)) {
-            return $value ? '1' : '0';
+        if (is_bool($this->value)) {
+            return $this->value ? '1' : '0';
         }
 
-        if ($value instanceof \DateTimeInterface) {
-            return $value->format('Y-m-d H:i:s');
+        if ($this->value instanceof \DateTimeInterface) {
+            return $this->value->format('Y-m-d H:i:s');
         }
 
-        if (is_scalar($value) || (is_object($value) && method_exists($value, '__toString'))) {
-            return (string) $value;
+        if (is_scalar($this->value) || (is_object($this->value) && method_exists($this->value, '__toString'))) {
+            return (string) $this->value;
         }
 
-        if (is_null($value)) {
+        if (is_null($this->value)) {
             return '';
         }
 
@@ -43,7 +43,7 @@ final readonly class Property implements \JsonSerializable
         return [
             'category' => $this->category->value,
             'name' => $this->name->value,
-            'value' => $this->toString($this->value),
+            'value' => $this->value($this->value),
         ];
     }
 }

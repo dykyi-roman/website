@@ -28,7 +28,7 @@ final readonly class GetSettingsQueryHandler
             if (!isset($result[$property->category->value])) {
                 $result[$property->category->value] = [];
             }
-            $result[strtolower($property->category->value)][$property->name->value] = $property->toString($property->value);
+            $result[strtolower($property->category->value)][$property->name->value] = $property->value();
         }
 
         return $result;

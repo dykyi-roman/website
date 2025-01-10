@@ -47,18 +47,18 @@ final readonly class NominatimClient implements GeoLocationInterface
                 return new Location(null, null);
             }
 
+            /** @var array<string,mixed> $data */
             $data = json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR);
-            if (!is_array($data)) {
-                throw new \JsonException('Invalid JSON structure');
-            }
 
+            /** @var array<string,mixed> $address */
             $address = $data['address'] ?? [];
-            if (!is_array($address)) {
-                throw new \JsonException('Invalid address structure');
-            }
 
-            $city = (string) ($address['city'] ?? $address['town'] ?? $address['village'] ?? '');
-            $countryCode = (string) ($address['country_code'] ?? '');
+            $city = $address['city'] ?? $address['town'] ?? $address['village'] ?? '';
+            $countryCode = $address['country_code'] ?? '';
+
+            if (!is_string($city) || !is_string($countryCode)) {
+                throw new \JsonException('Invalid city or country code type');
+            }
 
             return new Location(
                 new Country(trim($countryCode)),

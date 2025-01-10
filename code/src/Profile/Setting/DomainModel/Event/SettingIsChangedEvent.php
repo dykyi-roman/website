@@ -37,7 +37,7 @@ final readonly class SettingIsChangedEvent implements PersistingEventInterface
         return [
             'category' => $this->property->category->value,
             'name' => $this->property->name->value,
-            'value' => $this->property->toString($this->property->value),
+            'value' => $this->property->value(),
         ];
     }
 

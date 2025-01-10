@@ -47,7 +47,7 @@ final readonly class LocaleSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $locale = (string) $setting->getProperty()->value;
+        $locale = $setting->getProperty()->value();
         $this->localeSwitcher->setLocale($locale);
         $request->cookies->set('locale', $locale);
         $request->setLocale($locale);

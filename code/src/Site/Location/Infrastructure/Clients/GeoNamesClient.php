@@ -72,7 +72,7 @@ final readonly class GeoNamesClient implements DictionaryOfCitiesInterface
             return array_map(
                 static function (mixed $city): CityDto {
                     if (!is_array($city)) {
-                        return new CityDto('', '', '', '');
+                        return new CityDto('', '', '');
                     }
 
                     $name = isset($city['name']) && is_string($city['name']) ? $city['name'] : '';
