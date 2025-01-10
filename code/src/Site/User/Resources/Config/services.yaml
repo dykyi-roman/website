@@ -6,7 +6,7 @@ services:
         autoconfigure: true
         public: false
 
-    Profile\Setting\:
+    Site\User\:
         resource: '../../'
         exclude:
             - '../../Resources/'
