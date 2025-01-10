@@ -1,9 +1,14 @@
 /* Settings Page Layout */
-.Setting-settings {
+.settings {
     display: flex;
     gap: 2rem;
     min-height: calc(100vh - 200px);
     padding: 2rem;
+}
+
+.form-actions {
+    margin-top: 20px;
+    text-align: right;
 }
 
 /* Left Menu Styles */
@@ -107,7 +112,7 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .Setting-settings {
+    .settings {
         flex-direction: column;
         padding: 1rem;
     }

@@ -130,11 +130,6 @@
     box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.1);
 }
 
-.form-actions {
-    margin-top: 20px;
-    text-align: right;
-}
-
 #save-account-settings {
     padding: 10px 20px;
     background-color: var(--primary-color);
