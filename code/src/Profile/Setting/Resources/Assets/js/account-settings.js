@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         const value = field.value;
         const fieldType = field.type;
         const config = getValidationConfig(field, value);
-        
+
         if (!config) return true;
 
         let isValid = true;
@@ -70,9 +70,9 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
         }
 
-        const feedback = field.parentElement.querySelector('.invalid-feedback') 
+        const feedback = field.parentElement.querySelector('.invalid-feedback')
             || createFeedbackElement(field);
-        
+
         updateFieldValidationState(field, feedback, isValid, message);
         return isValid;
     }
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     function updateFieldValidationState(field, feedback, isValid, message) {
         field.classList.toggle('is-invalid', !isValid);
         field.classList.toggle('is-valid', isValid);
-        
+
         if (!isValid) {
             feedback.textContent = message;
             feedback.style.display = 'block';
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Handle image upload
     const profileImage = document.querySelector('.item-image');
     const imageOverlay = document.querySelector('.image-overlay');
-    
+
     imageOverlay.addEventListener('click', () => {
         imageInput.click();
     });
@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
 
             console.log('Sending payload:', payload);
-            
+
             const response = await fetch('/api/v1/users', {
                 method: 'PUT',
                 headers: {
@@ -257,10 +257,25 @@ document.addEventListener('DOMContentLoaded', async function() {
             inputs.forEach(input => {
                 input.setAttribute('data-original-value', input.value.trim());
             });
+
+            if (response.ok) {
+                updateProfileNameDisplay(payload.name);
+            }
         } catch (error) {
             console.error('Failed to save settings:', error);
         }
     });
+
+    function truncateProfileName(name) {
+        return name.length > 20 ? name.substring(0, 17) + '...' : name;
+    }
+
+    function updateProfileNameDisplay(name) {
+        const profileNameElement = document.querySelector('.profile-name');
+        if (profileNameElement) {
+            profileNameElement.outerHTML = truncateProfileName(name);
+        }
+    }
 
     // Initialize form validation
     setupFormValidation(form);
