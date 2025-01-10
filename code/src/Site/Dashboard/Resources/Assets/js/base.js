@@ -352,9 +352,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     ReferralService.init();
 
     // Initialize theme
+    const defaultTheme = 'light';
     if (!ConfigService.isAuthenticated) {
         const savedTheme = CookieService.get('appTheme');
-        ThemeService.init(savedTheme || 'light');
+        ThemeService.init(savedTheme || defaultTheme);
         return;
     }
 
@@ -363,7 +364,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (data.settings?.general) {
             const { theme, language, currency } = data.settings.general;
 
-            ThemeService.init(theme || CookieService.get('appTheme') || 'light');
+            ThemeService.init(theme || CookieService.get('appTheme') || defaultTheme);
             
             if (language) {
                 CookieService.set('locale', language);
@@ -374,11 +375,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         } else {
             const savedTheme = CookieService.get('appTheme');
-            ThemeService.init(savedTheme || 'light');
+            ThemeService.init(savedTheme || defaultTheme);
         }
     } catch {
         const savedTheme = CookieService.get('appTheme');
-        ThemeService.init(savedTheme || 'light');
+        ThemeService.init(savedTheme || defaultTheme);
     }
 });
 
