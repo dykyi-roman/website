@@ -8,11 +8,20 @@ document.addEventListener('DOMContentLoaded', async function() {
     const t = await loadTranslations(currentLang);
 
     const form = document.querySelector('.account-settings');
+    const saveButton = document.getElementById('save-account-settings');
     const imageInput = document.createElement('input');
     imageInput.type = 'file';
     imageInput.accept = IMAGE_ALLOWED_TYPES.join(',');
     imageInput.style.display = 'none';
     form.appendChild(imageInput);
+
+    // Store pending changes
+    let pendingChanges = {
+        name: null,
+        email: null,
+        phone: null,
+        photo: null
+    };
 
     // Validation rules
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -97,8 +106,14 @@ document.addEventListener('DOMContentLoaded', async function() {
     function setupFormValidation(form) {
         const inputs = form.querySelectorAll('input:not([type="file"])');
         inputs.forEach(input => {
-            input.addEventListener('blur', () => validateField(input));
-            input.addEventListener('input', () => validateField(input));
+            input.addEventListener('blur', () => {
+                validateField(input);
+                updatePendingChanges(input);
+            });
+            input.addEventListener('input', () => {
+                validateField(input);
+                updatePendingChanges(input);
+            });
 
             if (input.type === 'tel') {
                 input.addEventListener('input', function(e) {
@@ -110,6 +125,21 @@ document.addEventListener('DOMContentLoaded', async function() {
                 });
             }
         });
+    }
+
+    function updatePendingChanges(input) {
+        const originalValue = input.getAttribute('data-original-value') || '';
+        const currentValue = input.value.trim();
+
+        if (currentValue !== originalValue) {
+            pendingChanges[input.name] = currentValue;
+            saveButton.disabled = false;
+        } else {
+            pendingChanges[input.name] = null;
+            // Check if any other fields have changes
+            const hasChanges = Object.values(pendingChanges).some(change => change !== null);
+            saveButton.disabled = !hasChanges;
+        }
     }
 
     // Handle image upload
@@ -140,33 +170,27 @@ document.addEventListener('DOMContentLoaded', async function() {
             const reader = new FileReader();
             reader.onload = function(e) {
                 profileImage.src = e.target.result;
+                pendingChanges.photo = file;
+                saveButton.disabled = false;
             };
             reader.readAsDataURL(file);
         }
     });
 
-    // Make fields editable
-    const editableFields = ['name', 'email', 'phone'];
-    editableFields.forEach(field => {
-        const container = document.querySelector(`label[for="${field}"] strong`);
-        if (container) {
-            const value = container.textContent;
-            const input = document.createElement('input');
-            input.type = field === 'email' ? 'email' : 'text';
-            input.value = value;
-            input.className = 'form-control editable-input';
-            input.name = field;
-            container.parentNode.replaceChild(input, container);
-        }
+    // Initialize form with original values
+    const inputs = form.querySelectorAll('input:not([type="file"])');
+    inputs.forEach(input => {
+        input.setAttribute('data-original-value', input.value.trim());
     });
 
-    // Handle form submission
-    const saveButton = document.getElementById('save-account-settings');
+    // Disable save button initially
+    saveButton.disabled = true;
+
+    // Save Button Handler
     saveButton.addEventListener('click', async function(e) {
         e.preventDefault();
 
         // Validate all fields
-        const inputs = form.querySelectorAll('input:not([type="file"])');
         let isValid = true;
         inputs.forEach(input => {
             if (!validateField(input)) {
@@ -179,12 +203,16 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
 
         const formData = new FormData();
-        if (imageInput.files[0]) {
-            formData.append('photo', imageInput.files[0]);
-        }
-
-        inputs.forEach(input => {
-            formData.append(input.name, input.value);
+        
+        // Add changed fields to formData
+        Object.keys(pendingChanges).forEach(key => {
+            if (pendingChanges[key] !== null) {
+                if (key === 'photo') {
+                    formData.append('photo', pendingChanges[key]);
+                } else {
+                    formData.append(key, pendingChanges[key]);
+                }
+            }
         });
 
         try {
@@ -196,7 +224,17 @@ document.addEventListener('DOMContentLoaded', async function() {
 
             if (response.ok) {
                 const result = await response.json();
-                // Show success message
+                // Reset pending changes and original values
+                inputs.forEach(input => {
+                    input.setAttribute('data-original-value', input.value.trim());
+                });
+                pendingChanges = {
+                    name: null,
+                    email: null,
+                    phone: null,
+                    photo: null
+                };
+                
                 alert(t.settings_saved_successfully || 'Settings saved successfully!');
             } else {
                 throw new Error('Failed to save settings');
@@ -204,7 +242,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         } catch (error) {
             console.error('Error:', error);
             alert(t.error_save_settings || 'Failed to save settings. Please try again.');
-        } finally {
             saveButton.disabled = false;
         }
     });
