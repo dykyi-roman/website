@@ -10,7 +10,7 @@ window.setCookie = function(name, value, days = 365) {
         console.error('Error setting cookie:', error);
         return false;
     }
-}
+}();
 
 // Fetch and store settings immediately - only available for authenticated users
 (function() {
@@ -32,7 +32,7 @@ window.setCookie = function(name, value, days = 365) {
         return response.json();
     })
     .then(data => {
-        setCookie('appSettings', JSON.stringify(data.settings));
+        console.log(data.settings);
         if (data.settings?.general) {
             const general = data.settings.general;
 

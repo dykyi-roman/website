@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // Check if currency cookie exists, if not use data-currency
-    const currentCurrency = getCookie('appCurrency');
+    const currentCurrency = window.getCookie('appCurrency');
     if (!currentCurrency && currencyItems.length > 0) {
         // Get the first item with data-currency or find an item with 'active' class
         const defaultCurrencyItem = 
