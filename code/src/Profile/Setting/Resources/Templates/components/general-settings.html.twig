@@ -29,10 +29,10 @@
     <div class="form-group">
         <label for="theme-select">{{ 'account.theme'|trans }}</label>
         <select id="theme-select" name="theme" class="form-control theme-select">
-            <option value="dark-theme" {{ (app.request.cookies.get('appTheme')|default('light-theme')) == 'dark-theme' ? 'selected' : '' }}>
+            <option value="dark" {{ (app.request.cookies.get('appTheme')|default('light')) == 'dark' ? 'selected' : '' }}>
                 {{ 'account.dark'|trans }}
             </option>
-            <option value="light-theme" {{ (app.request.cookies.get('appTheme')|default('light-theme')) == 'light-theme' ? 'selected' : '' }}>
+            <option value="light" {{ (app.request.cookies.get('appTheme')|default('light')) == 'light' ? 'selected' : '' }}>
                 {{ 'account.light'|trans }}
             </option>
         </select>

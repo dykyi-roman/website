@@ -13,24 +13,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Theme Toggle Function
     function toggleTheme(theme) {
-        // Determine theme name (base.js uses 'dark-theme' and 'light-theme')
-        const themeName = theme === 'dark-theme' ? 'dark-theme' : 'light-theme';
-
         // Update document class
-        document.documentElement.setAttribute('data-theme', themeName);
+        document.documentElement.setAttribute('data-theme', theme);
 
         // Update theme icon if exists
         const themeToggleButton = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
 
         if (themeToggleButton && themeIcon) {
-            themeIcon.className = `fas ${themeName === 'dark-theme' ? 'fa-sun' : 'fa-moon'}`;
+            themeIcon.className = `fas ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`;
         }
 
-        setCookie('appTheme', themeName);
+        setCookie('appTheme', theme);
 
         // Trigger any theme-related event listeners
-        document.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: themeName } }));
+        document.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: theme } }));
     }
 
     // Language Selection
@@ -52,9 +49,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Theme Selection
     if (themeSelect) {
         // Get current theme from cookie or default
-        const savedTheme = getCookie('appTheme') || 'light-theme';
-        const themeValue = savedTheme === 'dark-theme' ? 'dark-theme' : 'light-theme';
-        themeSelect.value = themeValue;
+        const savedTheme = getCookie('appTheme') || 'light';
+        themeSelect.value = savedTheme;
 
         themeSelect.addEventListener('change', function(e) {
             pendingChanges.theme = this.value;
@@ -62,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Set initial theme
-        toggleTheme(themeValue);
+        toggleTheme(savedTheme);
     }
 
     // Save Button Handler

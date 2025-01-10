@@ -10,7 +10,7 @@ window.setCookie = function(name, value, days = 365) {
         console.error('Error setting cookie:', error);
         return false;
     }
-}();
+};
 
 // Fetch and store settings immediately - only available for authenticated users
 (function() {
@@ -319,8 +319,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to toggle theme
     function toggleTheme() {
-        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light-theme';
-        const newTheme = currentTheme === 'dark-theme' ? 'light-theme' : 'dark-theme';
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
         // Set theme attribute
         document.documentElement.setAttribute('data-theme', newTheme);
@@ -333,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Update theme-select if it exists
         const themeSelect = document.getElementById('theme-select');
-        const themeSelectValue = newTheme === 'dark-theme' ? 'dark-theme' : 'light-theme';
+        const themeSelectValue = newTheme === 'dark' ? 'dark' : 'light';
         if (themeSelect) {
             themeSelect.value = themeSelectValue;
         }
@@ -349,18 +349,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to update theme icon
     function updateThemeIcon(theme) {
-        themeIcon.className = `fas ${theme === 'dark-theme' ? 'fa-sun' : 'fa-moon'}`;
+        themeIcon.className = `fas ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`;
     }
 
     // Check for saved theme on page load
-    const savedTheme = getCookie('appTheme') || 'light-theme';
+    const savedTheme = getCookie('appTheme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme);
 
     // Update theme-select if it exists on page load
     const themeSelect = document.getElementById('theme-select');
     if (themeSelect) {
-        themeSelect.value = savedTheme === 'dark-theme' ? 'dark-theme' : 'light-theme';
+        themeSelect.value = savedTheme === 'dark' ? 'dark' : 'light';
     }
 
     // Add click event listener to theme toggle
