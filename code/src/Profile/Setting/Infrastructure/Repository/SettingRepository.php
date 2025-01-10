@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Profile\Setting\Infrastructure\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Profile\Setting\DomainModel\Enum\PropertyName;
 use Profile\Setting\DomainModel\Enum\SettingId;
 use Profile\Setting\DomainModel\Model\Setting;

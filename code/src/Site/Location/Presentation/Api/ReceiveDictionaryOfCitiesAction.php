@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Site\Location\Presentation\Api;
 
 use OpenApi\Attributes as OA;
-use Site\Location\DomainModel\Service\DictionaryOfCitiesInterface;
+use Site\Location\Application\Query\GetCitiesDictionaryQuery;
 use Site\Location\Presentation\Api\Request\DictionaryOfCitiesRequest;
 use Site\Location\Presentation\Api\Response\DictionaryOfCitiesResponse;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/v1/location/cities', name: 'api_cities_by_country_search', methods: ['GET'])]
@@ -76,23 +77,25 @@ final readonly class ReceiveDictionaryOfCitiesAction
     )]
     public function __invoke(
         #[MapQueryString] DictionaryOfCitiesRequest $request,
-        DictionaryOfCitiesInterface $dictionaryOfCities,
+        MessageBusInterface $queryBus,
     ): DictionaryOfCitiesResponse {
-        $citiesDto = $dictionaryOfCities->cityByCountryAndLocale(
-            $request->countryCode,
-            $request->lang,
-            $request->city,
+        $cities = $queryBus->dispatch(
+            new GetCitiesDictionaryQuery(
+                countryCode: $request->countryCode,
+                lang: $request->lang,
+                city: $request->city,
+            )
         );
 
-        $cities = [];
-        foreach ($citiesDto as $index => $cityDto) {
-            $cities[$index] = [
-                'name' => $cityDto->name,
-                'transcription' => $cityDto->transcription,
-                'address' => $cityDto->area,
-            ];
-        }
-
-        return new DictionaryOfCitiesResponse($cities);
+        return new DictionaryOfCitiesResponse(
+            array_map(
+                static fn ($cityDto) => [
+                    'name' => $cityDto->name,
+                    'transcription' => $cityDto->transcription,
+                    'address' => $cityDto->area,
+                ],
+                $cities,
+            )
+        );
     }
 }

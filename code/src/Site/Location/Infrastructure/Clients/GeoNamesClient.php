@@ -75,12 +75,11 @@ final readonly class GeoNamesClient implements DictionaryOfCitiesInterface
                         return new CityDto('', '', '', '');
                     }
 
-                    $countryCode = isset($city['countryCode']) && is_string($city['countryCode']) ? $city['countryCode'] : '';
                     $name = isset($city['name']) && is_string($city['name']) ? $city['name'] : '';
                     $transcription = isset($city['toponymName']) && is_string($city['toponymName']) ? $city['toponymName'] : '';
                     $area = isset($city['adminName1']) && is_string($city['adminName1']) ? $city['adminName1'] : '';
 
-                    return new CityDto($countryCode, $name, $transcription, $area);
+                    return new CityDto($name, $transcription, $area);
                 },
                 $geonames
             );

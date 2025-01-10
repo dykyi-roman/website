@@ -49,7 +49,7 @@ final readonly class SeoFeedAction
         ];
 
         return array_map(
-            static fn(array $item): FeedItem => new FeedItem(
+            static fn (array $item): FeedItem => new FeedItem(
                 id: $item['id'],
                 title: $item['title'],
                 description: $item['description'],
@@ -60,7 +60,7 @@ final readonly class SeoFeedAction
                 features: $item['features'],
                 rating: $item['rating'],
                 reviewCount: $item['review_count'],
-                price: (float)$item['price'],
+                price: (float) $item['price'],
             ),
             $arrayItems
         );
