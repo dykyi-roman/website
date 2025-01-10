@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const langCode = this.dataset.lang;
             if (!langCode) return;
 
-            setCookie('locale', langCode);
+            window.setCookie('locale', langCode);
 
             // Update displayed language code
             if (languageCodeElement) {

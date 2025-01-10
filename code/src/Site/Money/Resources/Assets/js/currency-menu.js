@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const defaultCurrencyCode = defaultCurrencyItem.dataset.currency;
         if (defaultCurrencyCode) {
             updateCurrencyUI(defaultCurrencyCode);
-            setCookie('appCurrency', defaultCurrencyCode.toUpperCase());
+            window.setCookie('appCurrency', defaultCurrencyCode.toUpperCase());
         }
     }
 
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!currencyCode) return;
 
             const upperCurrencyCode = currencyCode.toUpperCase();
-            setCookie('appCurrency', upperCurrencyCode);
+            window.setCookie('appCurrency', upperCurrencyCode);
             updateCurrencyUI(upperCurrencyCode);
 
             // Dispatch currency change event

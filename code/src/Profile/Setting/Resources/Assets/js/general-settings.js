@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
             themeIcon.className = `fas ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`;
         }
 
-        setCookie('appTheme', theme);
+        window.setCookie('appTheme', theme);
 
         // Trigger any theme-related event listeners
         document.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: theme } }));
@@ -70,12 +70,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 const settings = [];
                 
                 if (pendingChanges.language) {
-                    setCookie('locale', pendingChanges.language);
+                    window.setCookie('locale', pendingChanges.language);
                     settings.push(['GENERAL', 'language', pendingChanges.language]);
                 }
                 
                 if (pendingChanges.currency) {
-                    setCookie('appCurrency', pendingChanges.currency.toUpperCase());
+                    window.setCookie('appCurrency', pendingChanges.currency.toUpperCase());
                     settings.push(['GENERAL', 'currency', pendingChanges.currency]);
                 }
                 

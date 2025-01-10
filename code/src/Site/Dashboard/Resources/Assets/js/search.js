@@ -316,7 +316,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         showSearchSpinner();
 
         // Get currency from cookies if available
-        const appCurrency = getCookie('appCurrency');
+        const appCurrency = window.getCookie('appCurrency');
         const currencyParam = appCurrency ? `&currency=${encodeURIComponent(appCurrency)}` : '';
 
         // Fetch services from API
@@ -440,7 +440,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         showSearchSpinner();
 
         // Get currency from cookies if available
-        const appCurrency = getCookie('appCurrency');
+        const appCurrency = window.getCookie('appCurrency');
         const currencyParam = appCurrency ? `&currency=${encodeURIComponent(appCurrency)}` : '';
 
         // Fetch orders from API
