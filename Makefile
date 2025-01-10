@@ -64,6 +64,10 @@ enter: ## Enter PHP container shell
 console: ## Execute Symfony console commands (usage: make console command="your:command")
 	docker exec -it $(php) bash -c "php bin/console $(filter-out $@,$(MAKECMDGOALS))"
 
+cc: ## clear cache
+	docker exec -it $(php) bash -c "composer dumpautoload -a"
+	docker exec -it $(php) bash -c "php bin/console c:c"
+
 ## -- Logs --
 logs-cron: ## View cron output logs
 	docker exec es-cron tail -f /var/log/cron.log

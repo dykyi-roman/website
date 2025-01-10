@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Site\Location\Application\Query;
+namespace Site\Location\Application\CitiesDictionary\Query;
 
 /**
  * @see GetCitiesDictionaryQueryHandler

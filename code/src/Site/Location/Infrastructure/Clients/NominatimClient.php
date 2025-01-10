@@ -49,7 +49,7 @@ final readonly class NominatimClient implements GeoLocationInterface
 
             /** @var array<string,mixed> $data */
             $data = json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR);
-
+dump($data); die();
             /** @var array<string,mixed> $address */
             $address = $data['address'] ?? [];
 

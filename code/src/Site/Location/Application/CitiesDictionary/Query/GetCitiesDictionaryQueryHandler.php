@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Site\Location\Application\Query;
+namespace Site\Location\Application\CitiesDictionary\Query;
 
 use Site\Location\DomainModel\Dto\CityDto;
 use Site\Location\DomainModel\Service\DictionaryOfCitiesInterface;

@@ -6,7 +6,7 @@ namespace Site\Location\Presentation\Api;
 
 use OpenApi\Attributes as OA;
 use Shared\DomainModel\Services\MessageBusInterface;
-use Site\Location\Application\Query\GetCitiesDictionaryQuery;
+use Site\Location\Application\CitiesDictionary\Query\GetCitiesDictionaryQuery;
 use Site\Location\DomainModel\Dto\CityDto;
 use Site\Location\Presentation\Api\Request\DictionaryOfCitiesRequest;
 use Site\Location\Presentation\Api\Response\DictionaryOfCitiesResponse;
@@ -89,15 +89,6 @@ final readonly class ReceiveDictionaryOfCitiesAction
             )
         );
 
-        return new DictionaryOfCitiesResponse(
-            array_map(
-                static fn (CityDto $cityDto) => [
-                    'name' => $cityDto->name,
-                    'transcription' => $cityDto->transcription,
-                    'address' => $cityDto->area,
-                ],
-                $cities,
-            )
-        );
+        return new DictionaryOfCitiesResponse($cities);
     }
 }
