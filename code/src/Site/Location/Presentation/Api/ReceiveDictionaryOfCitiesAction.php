@@ -14,11 +14,6 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/v1/location/cities', name: 'api_cities_by_country_search', methods: ['GET'])]
 final readonly class ReceiveDictionaryOfCitiesAction
 {
-    public function __construct(
-        private DictionaryOfCitiesInterface $dictionaryOfCities,
-    ) {
-    }
-
     #[OA\Get(
         path: '/api/v1/location/cities',
         summary: 'Search cities by country and language',
@@ -81,8 +76,9 @@ final readonly class ReceiveDictionaryOfCitiesAction
     )]
     public function __invoke(
         #[MapQueryString] DictionaryOfCitiesRequest $request,
+        DictionaryOfCitiesInterface $dictionaryOfCities,
     ): DictionaryOfCitiesResponse {
-        $citiesDto = $this->dictionaryOfCities->cityByCountryAndLocale(
+        $citiesDto = $dictionaryOfCities->cityByCountryAndLocale(
             $request->countryCode,
             $request->lang,
             $request->city,
