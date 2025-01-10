@@ -89,7 +89,24 @@
 }
 
 /* Verify Button Styles */
+.input-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.input-group .form-control {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.input-group-append {
+    display: flex;
+    align-items: center;
+}
+
 .verify-button {
+    white-space: nowrap;
     margin-left: 10px;
     padding: 4px 8px;
     font-size: 12px;
@@ -108,6 +125,22 @@
 
 .verify-button:active {
     transform: scale(0.98);
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--text-color);
+    background-color: var(--input-background);
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
 }
 
 .editable-input {
