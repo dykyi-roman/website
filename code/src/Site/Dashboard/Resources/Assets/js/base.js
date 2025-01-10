@@ -1,34 +1,58 @@
-// Fetch and store settings - only available for authenticated users
-async function fetchAndStoreSettings() {
+// Function to set cookie - globally accessible
+window.setCookie = function(name, value, days = 365) {
+    try {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        const expires = `expires=${date.toUTCString()}`;
+        document.cookie = `${name}=${value};${expires};path=/`;
+        return true;
+    } catch (error) {
+        console.error('Error setting cookie:', error);
+        return false;
+    }
+}
+
+// Fetch and store settings immediately - only available for authenticated users
+(function() {
     if (!window.appConfig?.isAuthenticated) {
         return;
     }
 
-    try {
-        const response = await fetch('/api/v1/settings', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        });
-        
+    fetch('/api/v1/settings', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
         if (!response.ok) {
             throw new Error('Failed to fetch settings');
         }
-        
-        const settings = await response.json();
+        return response.json();
+    })
+    .then(data => {
+        setCookie('appSettings', JSON.stringify(data.settings));
+        if (data.settings?.general) {
+            const general = data.settings.general;
 
-        setCookie('appSettings', JSON.stringify(settings.settings));
+            if (general.language) {
+                setCookie('locale', general.language);
+            }
 
-        return settings.settings;
-    } catch (error) {
+            if (general.currency) {
+                setCookie('appCurrency', general.currency);
+            }
+
+            if (general.theme) {
+                setCookie('appTheme', general.theme);
+            }
+        }
+    })
+    .catch(error => {
         console.error('Error fetching settings:', error);
-    }
-}
-
-// Execute fetchAndStoreSettings immediately if user is authenticated
-settings = fetchAndStoreSettings();
+    });
+})();
 
 // Function to get cookie value - globally accessible
 window.getCookie = function(name) {
@@ -76,13 +100,6 @@ window.updateProfileSetting = async function(settings) {
     }
 };
 
-// Function to set cookie
-function setCookie(name, value, days = 365) {
-    const date = new Date();
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-    const expires = `expires=${date.toUTCString()}`;
-    document.cookie = `${name}=${value};${expires};path=/`;
-}
 
 // Global error handling with spinner management
 document.addEventListener('DOMContentLoaded', function() {
@@ -99,22 +116,22 @@ document.addEventListener('DOMContentLoaded', function() {
         const spinnerOverlay = document.createElement('div');
         spinnerOverlay.className = 'spinner-overlay';
         spinnerOverlay.innerHTML = '<div class="spinner"></div>';
-        
+
         const targetElement = element.closest('.modal-content') || element.closest('.modal') || element;
         targetElement.appendChild(spinnerOverlay);
-        
+
         return spinnerOverlay;
     }
 
     // Global function to show spinner for any modal
     window.showModalSpinner = function(modalElement) {
-        const spinnerOverlay = modalElement 
-            ? modalElement.querySelector('.spinner-overlay') || 
-              modalElement.closest('.modal')?.querySelector('.spinner-overlay') || 
+        const spinnerOverlay = modalElement
+            ? modalElement.querySelector('.spinner-overlay') ||
+              modalElement.closest('.modal')?.querySelector('.spinner-overlay') ||
               modalElement.closest('.modal-content')?.querySelector('.spinner-overlay') ||
               createSpinnerOverlay(modalElement)
             : document.querySelector('.modal.show .spinner-overlay');
-            
+
         if (spinnerOverlay) {
             spinnerOverlay.classList.add('active');
         }
@@ -122,12 +139,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Global function to hide spinner for any modal
     window.hideModalSpinner = function(modalElement) {
-        const spinnerOverlay = modalElement 
-            ? modalElement.querySelector('.spinner-overlay') || 
-              modalElement.closest('.modal')?.querySelector('.spinner-overlay') || 
+        const spinnerOverlay = modalElement
+            ? modalElement.querySelector('.spinner-overlay') ||
+              modalElement.closest('.modal')?.querySelector('.spinner-overlay') ||
               modalElement.closest('.modal-content')?.querySelector('.spinner-overlay')
             : document.querySelector('.modal.show .spinner-overlay');
-            
+
         if (spinnerOverlay) {
             spinnerOverlay.classList.remove('active');
         }
@@ -156,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('submit', function(e) {
         const form = e.target;
         const modal = form.closest('.modal-content');
-        
+
         if (modal) {
             if (form.dataset.ajax === 'true') {
                 e.preventDefault();
@@ -302,8 +319,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to toggle theme
     function toggleTheme() {
-        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light-theme';
+        const newTheme = currentTheme === 'dark-theme' ? 'light-theme' : 'dark-theme';
 
         // Set theme attribute
         document.documentElement.setAttribute('data-theme', newTheme);
@@ -312,11 +329,11 @@ document.addEventListener('DOMContentLoaded', function() {
         updateThemeIcon(newTheme);
 
         // Save theme to cookie
-        setCookie('theme', newTheme);
+        setCookie('appTheme', newTheme);
 
         // Update theme-select if it exists
         const themeSelect = document.getElementById('theme-select');
-        const themeSelectValue = newTheme === 'dark' ? 'dark-theme' : 'light-theme';
+        const themeSelectValue = newTheme === 'dark-theme' ? 'dark-theme' : 'light-theme';
         if (themeSelect) {
             themeSelect.value = themeSelectValue;
         }
@@ -332,18 +349,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to update theme icon
     function updateThemeIcon(theme) {
-        themeIcon.className = `fas ${theme === 'dark' ? 'fa-sun' : 'fa-moon'}`;
+        themeIcon.className = `fas ${theme === 'dark-theme' ? 'fa-sun' : 'fa-moon'}`;
     }
 
     // Check for saved theme on page load
-    const savedTheme = getCookie('theme') || 'light';
+    const savedTheme = getCookie('appTheme') || 'light-theme';
     document.documentElement.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme);
 
     // Update theme-select if it exists on page load
     const themeSelect = document.getElementById('theme-select');
     if (themeSelect) {
-        themeSelect.value = savedTheme === 'dark' ? 'dark-theme' : 'light-theme';
+        themeSelect.value = savedTheme === 'dark-theme' ? 'dark-theme' : 'light-theme';
     }
 
     // Add click event listener to theme toggle
@@ -354,9 +371,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Initialize settings on page load
 document.addEventListener('DOMContentLoaded', function() {
-    // Fetch settings immediately when page loads
-    fetchAndStoreSettings();
-    
     // Function to handle cookie consent
     function handleCookieConsent() {
         const cookieConsent = document.getElementById('cookieConsent');

@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Theme Toggle Function
     function toggleTheme(theme) {
-        // Determine theme name (base.js uses 'dark' and 'light')
-        const themeName = theme === 'dark-theme' ? 'dark' : 'light';
+        // Determine theme name (base.js uses 'dark-theme' and 'light-theme')
+        const themeName = theme === 'dark-theme' ? 'dark-theme' : 'light-theme';
 
         // Update document class
         document.documentElement.setAttribute('data-theme', themeName);
@@ -24,22 +24,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const themeIcon = document.getElementById('themeIcon');
 
         if (themeToggleButton && themeIcon) {
-            themeIcon.className = `fas ${themeName === 'dark' ? 'fa-sun' : 'fa-moon'}`;
+            themeIcon.className = `fas ${themeName === 'dark-theme' ? 'fa-sun' : 'fa-moon'}`;
         }
 
-        // Set cookie for theme
-        setCookie('theme', themeName);
+        setCookie('appTheme', themeName);
 
         // Trigger any theme-related event listeners
         document.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: themeName } }));
-    }
-
-    // Utility function to set cookie
-    function setCookie(name, value, days = 365) {
-        const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        const expires = `expires=${date.toUTCString()}`;
-        document.cookie = `${name}=${value};${expires};path=/`;
     }
 
     // Language Selection
@@ -61,8 +52,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Theme Selection
     if (themeSelect) {
         // Get current theme from cookie or default
-        const savedTheme = getCookie('theme') || 'light';
-        const themeValue = savedTheme === 'dark' ? 'dark-theme' : 'light-theme';
+        const savedTheme = getCookie('appTheme') || 'light-theme';
+        const themeValue = savedTheme === 'dark-theme' ? 'dark-theme' : 'light-theme';
         themeSelect.value = themeValue;
 
         themeSelect.addEventListener('change', function(e) {
@@ -83,20 +74,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 const settings = [];
                 
                 if (pendingChanges.language) {
-                    // Set language cookie
-                    const expirationDate = new Date();
-                    expirationDate.setFullYear(expirationDate.getFullYear() + 1);
-                    document.cookie = `locale=${pendingChanges.language}; expires=${expirationDate.toUTCString()}; path=/; SameSite=Strict`;
-                    
+                    setCookie('locale', pendingChanges.language);
                     settings.push(['GENERAL', 'language', pendingChanges.language]);
                 }
                 
                 if (pendingChanges.currency) {
-                    // Set currency cookie
-                    const expirationDate = new Date();
-                    expirationDate.setFullYear(expirationDate.getFullYear() + 1);
-                    document.cookie = `appCurrency=${pendingChanges.currency}; expires=${expirationDate.toUTCString()}; path=/`;
-                    
+                    setCookie('appCurrency', pendingChanges.currency);
                     settings.push(['GENERAL', 'currency', pendingChanges.currency]);
                 }
                 
