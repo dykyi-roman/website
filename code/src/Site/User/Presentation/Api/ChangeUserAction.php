@@ -23,13 +23,13 @@ final readonly class ChangeUserAction
         MessageBusInterface $messageBus,
         ChangeUserJsonResponder $responder,
     ): ChangeUserJsonResponder {
-        dump($request); die();
         try {
             $messageBus->dispatch(
                 new ChangeUserCommand(
                     userId: $userFetcher->fetch()->id(),
                     name: $request->name,
                     email: $request->email,
+                    phone: $request->phone,
                     avatar: $request->avatar,
                 )
             );

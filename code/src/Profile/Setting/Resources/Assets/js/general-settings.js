@@ -99,7 +99,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 saveButton.disabled = true;
-                
             } catch (error) {
                 console.error('Failed to save settings:', error);
             }

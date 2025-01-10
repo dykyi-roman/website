@@ -328,6 +328,10 @@ class User extends AbstractDomainModel implements PasswordAuthenticatedUserInter
             $email,
         ));
 
+        if (!$this->email->equals($email)) {
+            $this->emailVerified = false;
+        }
+
         $this->email = $email;
     }
 
@@ -338,6 +342,10 @@ class User extends AbstractDomainModel implements PasswordAuthenticatedUserInter
             $this->phone,
             $phone,
         ));
+
+        if ($phone !== $this->phone) {
+            $this->phoneVerified = false;
+        }
 
         $this->phone = $phone;
     }
