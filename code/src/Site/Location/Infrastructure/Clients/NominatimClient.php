@@ -35,6 +35,10 @@ final readonly class NominatimClient implements GeoLocationInterface
                 ]));
 
             $request = $this->requestFactory->createRequest('GET', $uri);
+            $request = $request
+                ->withHeader('User-Agent', 'YourAppName/1.0')
+                ->withHeader('Accept', 'application/json; charset=utf-8')
+                ->withHeader('Accept-Language', 'en');
             $response = $this->client->sendRequest($request);
 
             if (200 !== $response->getStatusCode()) {
@@ -49,11 +53,14 @@ final readonly class NominatimClient implements GeoLocationInterface
 
             /** @var array<string,mixed> $data */
             $data = json_decode((string) $response->getBody(), true, 512, JSON_THROW_ON_ERROR);
-dump($data); die();
+
             /** @var array<string,mixed> $address */
             $address = $data['address'] ?? [];
-
             $city = $address['city'] ?? $address['town'] ?? $address['village'] ?? '';
+            $street = implode(', ', array_filter([
+                $address['house_number'] . ' ' . $address['road'],
+                $address['suburb'],
+            ]));
             $countryCode = $address['country_code'] ?? '';
 
             if (!is_string($city) || !is_string($countryCode)) {
@@ -62,7 +69,7 @@ dump($data); die();
 
             return new Location(
                 new Country(trim($countryCode)),
-                new City(trim($city), trim($city)),
+                new City(trim($city), trim($city), trim($street)),
             );
         } catch (\JsonException $exception) {
             $this->logger->error('Failed to parse Nominatim API response', [
