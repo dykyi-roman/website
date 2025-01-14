@@ -24,13 +24,23 @@
 * Privacy
   - Activation/Deactivation
   - Delete user account
+  - Change password
+* General
+  - Change language 
+  - Change currency 
+  - Change theme
+* Account
+  - Upload photo
+  - Change name
+  - Verify phone
+  - Verify email
 
 ### Login
-* Manual + social network 
+* Manual
+* Social network 
 
 ### Registration
 * Social network authentication
-* Two types of registration (Client or Partner)
 * reCAPTCHA protection against fraud and abuse
 * Password recovery with JWT token
 * Session management with Redis cache
@@ -42,6 +52,7 @@
 * Frontend language detection (4 strategies)
 
 ### Location
+* Use GEO API for get location
 * Use API service for search city by name
 
 ### Error Handling
@@ -123,6 +134,7 @@
   * Added preload directives for critical CSS and JavaScript
 
 ### Development
+  * API Spec + versioning
   * Asset versioning system
   * CI tools integration
   * Console hello message
