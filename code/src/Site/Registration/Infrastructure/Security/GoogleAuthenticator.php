@@ -6,9 +6,9 @@ namespace Site\Registration\Infrastructure\Security;
 
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
+use Profile\User\DomainModel\Model\UserInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Site\Registration\DomainModel\Event\UserLoggedInEvent;
-use Site\User\DomainModel\Model\UserInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,8 +61,8 @@ final class GoogleAuthenticator extends OAuth2Authenticator implements Authentic
 
         $this->eventBus->dispatch(
             new UserLoggedInEvent(
-                $user->getId(),
-                $user->getEmail(),
+                $user->id(),
+                $user->email(),
                 'google',
             ),
         );

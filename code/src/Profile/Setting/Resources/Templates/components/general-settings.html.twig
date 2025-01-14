@@ -1,0 +1,50 @@
+{% block general_settings %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/general-settings.css') }}">
+    {% endblock %}
+
+<div class="general-settings">
+    <div class="form-group">
+        <label for="language-select">{{ 'account.language'|trans }}</label>
+        <select id="language-select" name="language" class="form-control language-select">
+            {% for locale in locales %}
+                <option value="{{ locale.code }}" {{ locale.code == app.request.locale ? 'selected' : '' }}>
+                    {{ ('js.locales.' ~ locale.code)|trans }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="currency-select">{{ 'account.currency'|trans }}</label>
+        <select id="currency-select" name="currency" class="form-control currency-select">
+            {% for currency in currencies %}
+                <option value="{{ currency.code }}" {{ currency.code == (app.request.cookies.get('appCurrency')|default(default_currency)) ? 'selected' : '' }}>
+                    {{ currency.code }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="theme-select">{{ 'account.theme'|trans }}</label>
+        <select id="theme-select" name="theme" class="form-control theme-select">
+            <option value="dark" {{ (app.request.cookies.get('appTheme')|default('light')) == 'dark' ? 'selected' : '' }}>
+                {{ 'account.dark'|trans }}
+            </option>
+            <option value="light" {{ (app.request.cookies.get('appTheme')|default('light')) == 'light' ? 'selected' : '' }}>
+                {{ 'account.light'|trans }}
+            </option>
+        </select>
+    </div>
+    <div class="form-actions">
+        <button id="save-general-settings" class="btn btn-primary">
+            {{ 'account.save'|trans }}
+        </button>
+    </div>
+</div>
+
+    {% block javascripts %}
+        <script src="{{ asset('js/general-settings.js') }}"></script>
+    {% endblock %}
+{% endblock %}

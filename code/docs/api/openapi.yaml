@@ -3,12 +3,330 @@ info:
   title: 'REST API'
   version: 1.0.0
 paths:
+  /api/v1/orders/search:
+    get:
+      tags:
+        - Orders
+      summary: 'Search orders with pagination'
+      operationId: e8de1f235243a93adadea3bd4954808c
+      parameters:
+        -
+          name: query
+          in: query
+          description: 'Search query string'
+          required: false
+          schema:
+            type: string
+            maxLength: 255
+        -
+          name: currency
+          in: query
+          description: Currency
+          required: false
+          schema:
+            type: string
+            maxLength: 3
+        -
+          name: page
+          in: query
+          description: 'Page number (zero-based)'
+          required: false
+          schema:
+            type: integer
+            default: 1
+            minimum: 0
+        -
+          name: limit
+          in: query
+          description: 'Number of items per page'
+          required: false
+          schema:
+            type: integer
+            default: 10
+            maximum: 100
+            minimum: 1
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  items: { type: array, items: { type: object } }
+                  total: { type: integer }
+                  page: { type: integer }
+                  limit: { type: integer }
+                  total_pages: { type: integer }
+                type: object
+  /api/v1/settings:
+    get:
+      tags:
+        - Settings
+      summary: 'Get settings'
+      description: 'Get all user settings grouped by category'
+      operationId: 4b919a0157f29a9a653f26bb15facc9f
+      responses:
+        '200':
+          description: 'Returns user settings grouped by category'
+          content:
+            application/json:
+              schema:
+                properties:
+                  data: { description: 'Settings data grouped by category', type: object }
+                type: object
+    put:
+      tags:
+        - Settings
+      summary: 'Change settings'
+      description: 'Updates settings based on provided parameters'
+      operationId: 070608c9b01d31e510e48d244cf61645
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                settings:
+                  type: array
+                  items: { properties: { category: { type: string, enum: [GENERAL, ACCOUNT, NOTIFICATION], example: NOTIFICATION }, name: { type: string, enum: [phone_verified_at, email_verified_at, accepted_cookies], example: accepted_cookies }, value: { type: mixed, example: true } }, type: object }
+              type: object
+      responses:
+        '200':
+          description: 'Setting updated successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean, example: true }
+                  message: { type: string, example: 'Setting updated successfully' }
+                type: object
+        '400':
+          description: 'Validation error'
+          content:
+            application/json:
+              schema:
+                properties:
+                  success: { type: boolean, example: false }
+                  message: { type: string, example: 'Validation failed' }
+                  errors: { type: array, items: { type: string } }
+                type: object
+  /api/v1/settings/profile/verification/send:
+    post:
+      tags:
+        - Settings
+      summary: 'Send verification code to email or phone'
+      description: "Sends a 6-digit verification code to the user's email or phone"
+      operationId: 0ae275d153b585dd27fa3b21b5b9455c
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                type:
+                  description: 'Verification type'
+                  type: string
+                  enum: [email, phone]
+              type: object
+      responses:
+        '200':
+          description: 'Code sent successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: success }
+                type: object
+  /api/v1/settings/profile/verification/verify:
+    post:
+      tags:
+        - Settings
+      summary: 'Verify the code'
+      description: 'Verifies the 6-digit code sent to email or phone'
+      operationId: 9a27a03ed9852de6f7cc750616eee85f
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                type:
+                  description: 'Verification type'
+                  type: string
+                  enum: [email, phone]
+                code:
+                  description: 'Verification code'
+                  type: string
+                  maxLength: 6
+                  minLength: 6
+              type: object
+      responses:
+        '200':
+          description: 'Code verified successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: success }
+                type: object
+        '400':
+          description: 'Invalid verification code'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: error }
+                  message: { type: string, example: 'Invalid verification code' }
+                type: object
+  /v1/users:
+    put:
+      tags:
+        - Users
+      summary: 'Update user settings'
+      description: 'Update user settings'
+      operationId: 5c35690c63328294fedd89d97ae13bff
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                phone:
+                  type: string
+                avatar:
+                  type: string
+              type: object
+      responses:
+        '200':
+          description: 'Settings updated successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                type: object
+        '400':
+          description: 'Invalid input or user already exists'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error: { type: string }
+                type: object
+        '401':
+          description: 'User not authenticated'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error: { type: string }
+                type: object
+        '404':
+          description: 'User not found'
+          content:
+            application/json:
+              schema:
+                properties:
+                  error: { type: string }
+                type: object
+  /api/v1/services/search:
+    get:
+      tags:
+        - Services
+      summary: 'Search services with pagination'
+      operationId: 4f1998c58b60a348e6683df55431737e
+      parameters:
+        -
+          name: query
+          in: query
+          description: 'Search query string'
+          required: false
+          schema:
+            type: string
+            maxLength: 255
+        -
+          name: currency
+          in: query
+          description: Currency
+          required: false
+          schema:
+            type: string
+            maxLength: 3
+        -
+          name: page
+          in: query
+          description: 'Page number (zero-based)'
+          required: false
+          schema:
+            type: integer
+            default: 1
+            minimum: 0
+        -
+          name: limit
+          in: query
+          description: 'Number of items per page'
+          required: false
+          schema:
+            type: integer
+            default: 10
+            maximum: 100
+            minimum: 1
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  items: { type: array, items: { type: object } }
+                  total: { type: integer }
+                  page: { type: integer }
+                  limit: { type: integer }
+                  total_pages: { type: integer }
+                type: object
+  /api/v1/location/detect:
+    get:
+      tags:
+        - Location
+      summary: 'Detect location by coordinates'
+      operationId: 95785c5f0a06a0fe91a47bc3a548f08c
+      parameters:
+        -
+          name: latitude
+          in: query
+          description: 'Latitude coordinate'
+          required: true
+          schema:
+            type: string
+            pattern: '^[-]?((([0-8]?[0-9])(\.[0-9]+)?)|90(\.0+)?)$'
+        -
+          name: longitude
+          in: query
+          description: 'Longitude coordinate'
+          required: true
+          schema:
+            type: string
+            pattern: '^[-]?((([0-9]?[0-9]|1[0-7][0-9])(\.[0-9]+)?)|180(\.0+)?)$'
+      responses:
+        '200':
+          description: 'Location information'
+          content:
+            application/json:
+              schema:
+                properties:
+                  country: { type: string, example: UA }
+                  city: { type: string, example: Київ }
+                type: object
   /api/v1/location/cities:
     get:
       tags:
         - Location
       summary: 'Search cities by country and language'
-      operationId: 0dc9b8bf4e25983510c15182611ce22a
+      operationId: abfbe5c07e2b062d067931b2cd9ab839
       parameters:
         -
           name: countryCode
@@ -46,104 +364,61 @@ paths:
                 properties:
                   cities: { type: array, items: { properties: { countryCode: { type: string, example: UA }, name: { type: string, example: Київ }, transcription: { type: string, example: Kyiv }, area: { type: string, example: 'Київська область' } }, type: object } }
                 type: object
-  /api/v1/orders/search:
-    get:
+  /api/v1/settings/change-password:
+    post:
       tags:
-        - Service
-      summary: 'Search orders with pagination'
-      operationId: 34d723e0442ed85c0f491f6e854e694f
-      parameters:
-        -
-          name: query
-          in: query
-          description: 'Search query string'
-          required: false
-          schema:
-            type: string
-            maxLength: 255
-        -
-          name: page
-          in: query
-          description: 'Page number (zero-based)'
-          required: false
-          schema:
-            type: integer
-            default: 1
-            minimum: 0
-        -
-          name: limit
-          in: query
-          description: 'Number of items per page'
-          required: false
-          schema:
-            type: integer
-            default: 10
-            maximum: 100
-            minimum: 1
+        - Settings
+      summary: 'Change user password'
+      description: 'Changes the password for the authenticated user'
+      operationId: dffc596ef06f09c70f817aad6295fe7d
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - currentPassword
+                - newPassword
+              properties:
+                currentPassword:
+                  type: string
+                  example: current123
+                newPassword:
+                  type: string
+                  example: new123
+              type: object
       responses:
         '200':
-          description: Success
+          description: 'Password changed successfully'
           content:
             application/json:
               schema:
                 properties:
-                  items: { type: array, items: { type: object } }
-                  total: { type: integer }
-                  page: { type: integer }
-                  limit: { type: integer }
-                  total_pages: { type: integer }
+                  success: { type: boolean, example: true }
+                  message: { type: string, example: Ok }
                 type: object
-  /api/v1/services/search:
-    get:
-      tags:
-        - Service
-      summary: 'Search services with pagination'
-      operationId: 72d27ed56adeb8ab57082ff29f47d828
-      parameters:
-        -
-          name: query
-          in: query
-          description: 'Search query string'
-          required: false
-          schema:
-            type: string
-            maxLength: 255
-        -
-          name: page
-          in: query
-          description: 'Page number (zero-based)'
-          required: false
-          schema:
-            type: integer
-            default: 1
-            minimum: 0
-        -
-          name: limit
-          in: query
-          description: 'Number of items per page'
-          required: false
-          schema:
-            type: integer
-            default: 10
-            maximum: 100
-            minimum: 1
-      responses:
-        '200':
-          description: Success
+        '400':
+          description: 'Validation error'
           content:
             application/json:
               schema:
                 properties:
-                  items: { type: array, items: { type: object } }
-                  total: { type: integer }
-                  page: { type: integer }
-                  limit: { type: integer }
-                  total_pages: { type: integer }
+                  success: { type: boolean, example: false }
+                  message: { type: string, example: 'Password change failed' }
                 type: object
 tags:
   -
+    name: Orders
+    description: Orders
+  -
+    name: Settings
+    description: Settings
+  -
+    name: Users
+    description: Users
+  -
+    name: Services
+    description: Services
+  -
     name: Location
     description: Location
-  -
-    name: Service
-    description: Service

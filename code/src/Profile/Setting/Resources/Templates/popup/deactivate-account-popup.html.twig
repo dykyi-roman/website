@@ -1,0 +1,28 @@
+<!-- Deactivate Account Modal -->
+<div class="modal fade" id="deactivateModal" tabindex="-1" role="dialog" aria-labelledby="deactivateModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"
+                    id="deactivateModalLabel">{{ 'settings.privacy.deactivation.modal.title'|trans }}</h5>
+                <button type="button" class="close btn-close" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{ 'settings.privacy.deactivation.modal.message'|trans }}</p>
+                <ul class="deactivation-effects">
+                    <li>{{ 'settings.privacy.deactivation.modal.effects.Setting_invisible'|trans }}</li>
+                    <li>{{ 'settings.privacy.deactivation.modal.effects.content_hidden'|trans }}</li>
+                    <li>{{ 'settings.privacy.deactivation.modal.effects.can_reactivate'|trans }}</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary">{{ 'settings.privacy.deactivation.modal.cancel'|trans }}</button>
+                <button type="button" class="btn btn-warning"
+                        id="confirmDeactivate">{{ 'settings.privacy.deactivation.modal.confirm'|trans }}</button>
+            </div>
+        </div>
+    </div>
+</div>

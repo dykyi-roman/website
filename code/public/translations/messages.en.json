@@ -1,8 +1,18 @@
 {
     "settings": {
+        "error_changing_password": "Error changing password",
+        "password_changed_success": "Password changed successfully",
+        "update_failed": "Failed to update settings",
+        "error_invalid_image_type": "Please select a supported image.",
+        "error_image_too_large": "Image size should not exceed 5MB.",
+        "form_validation_error": "Please correct the form errors",
+        "unexpected_error": "Unexpected error during save settings",
         "account_activation_requested": "Account activation requested",
         "account_deactivation_confirmed": "Account deactivation confirmed",
         "account_deletion_confirmed": "Account deletion confirmed",
+        "send_again_verification_code": "Send again",
+        "error_sending_verification_code": "Error sending verification code",
+        "error_verifying": "Invalid verification code. Please try again",
         "deactivate_block": {
             "title": "Account Deactivation",
             "description": "Deactivating your account will temporarily hide your profile and all your content from other users. You can reactivate your account at any time by logging back in.",
@@ -12,7 +22,8 @@
             "title": "Account Activation",
             "description": "Your account is currently deactivated. Activating your account will make your profile and content visible to other users again.",
             "button": "Activate Account"
-        }
+        },
+        "verification_retry_timer": "Retrying in %seconds% seconds"
     },
     "locales": {
         "uk": "Українська",

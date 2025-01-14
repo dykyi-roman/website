@@ -5,47 +5,141 @@ parameters:
     - '#.*test.*#'
     - '#vendor#'
   layers:
-    - name: HealthcheckClasses
+    # EventStorage Domain
+    - name: EventStorageClasses
       collectors:
         - type: bool
           must:
             - type: directory
-              value: src/Healthcheck/.*
+              value: src/EventStorage/.*
           must_not:
             - type: interface
               value: .*Interface$
-    - name: YourDomainClasses
+    - name: EventStorageInterfaces
       collectors:
         - type: bool
           must:
             - type: directory
-              value: src/YourDomain/.*
+              value: src/EventStorage/.*
+            - type: interface
+              value: .*Interface$
+
+    # Orders Domain
+    - name: OrdersClasses
+      collectors:
+        - type: bool
+          must:
+            - type: directory
+              value: src/Orders/.*
           must_not:
             - type: interface
               value: .*Interface$
-    - name: HealthcheckInterfaces
+    - name: OrdersInterfaces
       collectors:
         - type: bool
           must:
             - type: directory
-              value: src/Healthcheck/.*
+              value: src/Orders/.*
             - type: interface
               value: .*Interface$
-    - name: YourDomainInterfaces
+
+    # Services Domain
+    - name: ServicesClasses
       collectors:
         - type: bool
           must:
             - type: directory
-              value: src/YourDomain/.*
+              value: src/Services/.*
+          must_not:
+            - type: interface
+              value: .*Interface$
+    - name: ServicesInterfaces
+      collectors:
+        - type: bool
+          must:
+            - type: directory
+              value: src/Services/.*
+            - type: interface
+              value: .*Interface$
+
+    # Shared Domain
+    - name: SharedClasses
+      collectors:
+        - type: bool
+          must:
+            - type: directory
+              value: src/Shared/.*
+          must_not:
+            - type: interface
+              value: .*Interface$
+    - name: SharedInterfaces
+      collectors:
+        - type: bool
+          must:
+            - type: directory
+              value: src/Shared/.*
+            - type: interface
+              value: .*Interface$
+
+    # Site Domain
+    - name: SiteClasses
+      collectors:
+        - type: bool
+          must:
+            - type: directory
+              value: src/Site/.*
+          must_not:
+            - type: interface
+              value: .*Interface$
+    - name: SiteInterfaces
+      collectors:
+        - type: bool
+          must:
+            - type: directory
+              value: src/Site/.*
             - type: interface
               value: .*Interface$
 
   ruleset:
-    HealthcheckClasses:
-      - HealthcheckInterfaces # Can use/implement own domain interfaces
-      - YourDomainInterfaces  # Can use other domain interfaces
-    YourDomainClasses:
-      - YourDomainInterfaces  # Can use/implement own domain interfaces
-      - HealthcheckInterfaces # Can use other domain interfaces
-    HealthcheckInterfaces: ~
-    YourDomainInterfaces: ~
+    EventStorageClasses:
+      - EventStorageInterfaces  # Can use/implement own domain interfaces
+      - SharedClasses          # Can use shared domain classes
+      - SharedInterfaces       # Can use shared domain interfaces
+    OrdersClasses:
+      - OrdersInterfaces       # Can use/implement own domain interfaces
+      - EventStorageInterfaces # Can use event storage interfaces
+      - SharedClasses         # Can use shared domain classes
+      - SharedInterfaces      # Can use shared domain interfaces
+    ServicesClasses:
+      - ServicesInterfaces     # Can use/implement own domain interfaces
+      - EventStorageInterfaces # Can use event storage interfaces
+      - SharedClasses         # Can use shared domain classes
+      - SharedInterfaces      # Can use shared domain interfaces
+    SharedClasses:
+      - SharedInterfaces       # Can use/implement own domain interfaces
+      - EventStorageInterfaces # Can use event storage interfaces
+    SiteClasses:
+      - SiteInterfaces        # Can use/implement own domain interfaces
+      - EventStorageInterfaces # Can use event storage interfaces
+      - SharedClasses         # Can use shared domain classes
+      - SharedInterfaces      # Can use shared domain interfaces
+    
+    # Interface dependencies
+    EventStorageInterfaces:
+      - EventStorageClasses   # Can use own domain classes
+      - SharedClasses        # Can use shared domain classes
+      - SharedInterfaces     # Can use shared domain interfaces
+    OrdersInterfaces:
+      - OrdersClasses        # Can use own domain classes
+      - SharedClasses        # Can use shared domain classes
+      - SharedInterfaces     # Can use shared domain interfaces
+    ServicesInterfaces:
+      - ServicesClasses      # Can use own domain classes
+      - SharedClasses        # Can use shared domain classes
+      - SharedInterfaces     # Can use shared domain interfaces
+    SharedInterfaces:
+      - SharedClasses        # Can use own domain classes
+    SiteInterfaces:
+      - SiteClasses         # Can use own domain classes
+      - SharedClasses       # Can use shared domain classes
+      - SharedInterfaces    # Can use shared domain interfaces

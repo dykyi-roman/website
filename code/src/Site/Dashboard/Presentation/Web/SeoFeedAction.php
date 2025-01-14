@@ -4,25 +4,13 @@ declare(strict_types=1);
 
 namespace Site\Dashboard\Presentation\Web;
 
-use Orders\DomainModel\Service\OrdersInterface;
-use Services\DomainModel\Service\ServicesInterface;
 use Site\Dashboard\DomainModel\Dto\FeedItem;
 use Site\Dashboard\Presentation\Web\Response\FeedAtomHtmlResponder;
 use Site\Dashboard\Presentation\Web\Response\FeedRssHtmlResponder;
-use Site\User\DomainModel\Enum\Roles;
-use Site\User\DomainModel\Exception\AuthenticationException;
-use Site\User\DomainModel\Service\UserFetcher;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 final readonly class SeoFeedAction
 {
-    public function __construct(
-        private OrdersInterface $orders,
-        private ServicesInterface $services,
-        private UserFetcher $userFetcher,
-    ) {
-    }
-
     #[Route('/feed/rss.xml', name: 'feed-rss', defaults: ['_format' => 'xml'])]
     public function rss(FeedRssHtmlResponder $responder): FeedRssHtmlResponder
     {
@@ -47,25 +35,7 @@ final readonly class SeoFeedAction
     /** @return array<int, object> */
     private function getItems(): array
     {
-        try {
-            $user = $this->userFetcher->fetch();
-        } catch (AuthenticationException) {
-            return [];
-        }
-
         $arrayItems = [];
-        if (in_array(Roles::ROLE_CLIENT->value, $user->getRoles(), true)) {
-            $arrayItems = $this->orders->last(10);
-        } elseif (in_array(Roles::ROLE_PARTNER->value, $user->getRoles(), true)) {
-            $arrayItems = $this->services->last(10);
-        }
-
-        if ([] === $arrayItems) {
-            $arrayItems = [
-                ...$this->orders->last(10),
-                ...$this->services->last(10),
-            ];
-        }
 
         return array_map(
             static fn (array $item): FeedItem => new FeedItem(

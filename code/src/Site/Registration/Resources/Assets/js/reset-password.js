@@ -201,49 +201,12 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Function to show error messages
     function showErrorMessage(message) {
-        // Find or create error message container
-        let errorContainer = document.querySelector('.reset-password-error-message');
-        if (!errorContainer) {
-            errorContainer = document.createElement('div');
-            errorContainer.className = 'alert alert-danger reset-password-error-message';
-            resetPasswordForm.insertBefore(errorContainer, resetPasswordForm.firstChild);
-        }
-        errorContainer.textContent = message;
-        errorContainer.style.display = 'block';
-        
-        // Automatically hide the error message after 3 seconds
-        setTimeout(() => {
-            errorContainer.style.display = 'none';
-        }, 3000);
+        UIService.showError(message);
     }
 
     // Function to show success messages
     function showSuccessMessage(message) {
-        // Find or create success message container
-        let successContainer = document.querySelector('.reset-password-success-message');
-        if (!successContainer) {
-            successContainer = document.createElement('div');
-            successContainer.className = 'alert alert-success reset-password-success-message';
-            resetPasswordForm.insertBefore(successContainer, resetPasswordForm.firstChild);
-        }
-        successContainer.textContent = message;
-
-        // Hide all form groups
-        const formGroups = resetPasswordForm.querySelectorAll('.form-group');
-        formGroups.forEach(group => {
-            group.style.display = 'none';
-        });
-
-        // Hide submit button
-        const submitButton = resetPasswordForm.querySelector('button[type="submit"]');
-        if (submitButton) {
-            submitButton.style.display = 'none';
-        }
-
-        // Optional: Disable form after successful message
-        resetPasswordForm.querySelectorAll('input, button').forEach(el => {
-            el.disabled = true;
-        });
+        UIService.showSuccess(message);
     }
 
     // Event listener for reset password form submission

@@ -99,7 +99,7 @@
                    title="{{ app.user ? app.user.name : 'account_menu'|trans }}">
                     {% if app.user %}
                         {% if app.user.avatar %}
-                            <div class="profile-image-container">
+                            <div class="profile-image-container position-relative">
                                 <img src="{{ app.user.avatar }}" 
                                      alt="{{ 'profile_picture'|trans }}" 
                                      class="rounded-circle"
@@ -107,7 +107,9 @@
                                      height="32">
                             </div>
                         {% else %}
-                            <i class="fas fa-user"></i>
+                            <div class="position-relative">
+                                <i class="fas fa-user" data-user-status="{{ app.user.isVerified ? '1' : '0' }}"></i>
+                            </div>
                         {% endif %}
                         <div class="profile-name fw-semibold text-truncate ms-2">
                             {{ app.user.name|length > 20 ? app.user.name|slice(0, 20) ~ '...' : app.user.name }}

@@ -1,6 +1,7 @@
 parameters:
     api_geo_host: '%env(API_GEO_HOST)%'
     api_geo_user_name: '%env(API_GEO_USER_NAME)%'
+    api_api_nominatim_host: '%env(API_NOMINATIM_HOST)%'
 services:
     _defaults:
         autowire: true
@@ -9,6 +10,7 @@ services:
         bind:
             $apiGeoHost: '%api_geo_host%'
             $apiGeoUserName: '%api_geo_user_name%'
+            $apiApiNominatimHost: '%api_api_nominatim_host%'
 
     Site\Location\:
         resource: '../../'

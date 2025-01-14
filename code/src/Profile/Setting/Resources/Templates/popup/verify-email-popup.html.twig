@@ -1,0 +1,23 @@
+<div class="modal fade" id="verifyEmailModal" tabindex="-1" role="dialog" aria-labelledby="verifyEmailModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title text-center w-100" id="verifyEmailModalLabel">{{ 'email.verification.popup_title'|trans }}</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="verifyEmailForm">
+                    <p class="text-center">{{ 'email.verification.instructions'|trans }}</p>
+                    <div class="verification-code-input">
+                        <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                        <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

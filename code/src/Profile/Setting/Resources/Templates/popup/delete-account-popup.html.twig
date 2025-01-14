@@ -1,0 +1,28 @@
+<!-- Delete Account Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"
+                    id="deleteModalLabel">{{ 'settings.privacy.deletion.modal.title'|trans }}</h5>
+                <button type="button" class="close btn-close" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{ 'settings.privacy.deletion.modal.message'|trans }}</p>
+                <ul class="deletion-effects">
+                    <li>{{ 'settings.privacy.deletion.modal.effects.data_deleted'|trans }}</li>
+                    <li>{{ 'settings.privacy.deletion.modal.effects.Setting_removed'|trans }}</li>
+                    <li>{{ 'settings.privacy.deletion.modal.effects.no_recovery'|trans }}</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary">{{ 'settings.privacy.deletion.modal.cancel'|trans }}</button>
+                <button type="button" class="btn btn-danger"
+                        id="confirmDelete">{{ 'settings.privacy.deletion.modal.confirm'|trans }}</button>
+            </div>
+        </div>
+    </div>
+</div>

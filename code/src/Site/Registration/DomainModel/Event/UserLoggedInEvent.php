@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Site\Registration\DomainModel\Event;
 
 use EventStorage\DomainModel\Event\PersistingEventInterface;
+use Profile\User\DomainModel\Enum\UserId;
 use Shared\DomainModel\ValueObject\Email;
-use Site\User\DomainModel\Enum\UserId;
 
 final readonly class UserLoggedInEvent implements PersistingEventInterface
 {

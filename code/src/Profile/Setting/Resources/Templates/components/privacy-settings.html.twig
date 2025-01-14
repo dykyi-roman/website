@@ -1,0 +1,58 @@
+{% block privacy_settings %}
+<div class="privacy-settings">
+    <div class="account-actions">
+        <div class="action-block mt-4">
+            <h3>{{ 'settings.privacy.change_password.title'|trans }}</h3>
+            <p class="action-description">
+                {{ 'settings.privacy.change_password.description'|trans }}
+            </p>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#change-password-popup">
+                {{ 'settings.privacy.change_password.button'|trans }}
+            </button>
+        </div>
+
+        <div class="action-block mt-4">
+            {% if settings.privacy.user_status == 1 %}
+                <div id="deactivate-block">
+                    <h3>{{ 'settings.privacy.deactivation.title'|trans }}</h3>
+                    <p class="action-description">
+                        {{ 'settings.privacy.deactivation.description'|trans }}
+                    </p>
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#deactivateModal">
+                        {{ 'settings.privacy.deactivation.button'|trans }}
+                    </button>
+                </div>
+            {% else %}
+                <div id="activate-block">
+                    <h3>{{ 'settings.privacy.activation.title'|trans }}</h3>
+                    <p class="action-description">
+                        {{ 'settings.privacy.activation.description'|trans }}
+                    </p>
+                    <button class="btn btn-success" id="activateAccount">
+                        {{ 'settings.privacy.activation.button'|trans }}
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="action-block mt-4">
+            <h3>{{ 'settings.privacy.deletion.title'|trans }}</h3>
+            <p class="action-description">
+                {{ 'settings.privacy.deletion.description'|trans }}
+            </p>
+            <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                {{ 'settings.privacy.deletion.button'|trans }}
+            </button>
+        </div>
+    </div>
+
+    {% include '@Setting/popup/delete-account-popup.html.twig' %}
+    {% include '@Setting/popup/deactivate-account-popup.html.twig' %}
+    {% include '@Setting/popup/change-password-popup.html.twig' %}
+</div>
+
+    {% block javascripts %}
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="{{ asset('js/privacy-settings.js') }}"></script>
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,80 @@
+{% block account_settings %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/account-settings.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/verify-email-popup.css') }}">
+    {% endblock %}
+
+<div class="account-settings">
+    <div class="form-group item-image-container">
+        <div class="profile-image-wrapper">
+            <img src="{{ app.user.avatar|default('/images/default-item-image.webp') }}" class="img-fluid rounded item-image" alt="{{ 'account.profile_image'|trans }}">
+            <div class="image-overlay">
+                <span class="change-photo-text">{{ 'account.change_photo'|trans }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group user-status">
+        <h4>{{ 'account.status'|trans }}
+            <span class="badge {% if app.user.isActive %}text-bg-success{% else %}text-bg-warning{% endif %}">
+                {% if app.user.isActive %} {{ 'account.active'|trans }} {% else %} {{ 'account.inactive'|trans }} {% endif %}
+            </span></h4>
+    </div>
+
+    <div class="form-group">
+        <label for="name">{{ 'account.name'|trans }}</label>
+        <div class="input-group">
+            <input type="text" id="name" name="name" class="form-control" value="{{ app.user.name }}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="email">{{ 'account.email'|trans }}</label>
+        <div class="input-group">
+            <input type="email" id="email" name="email" class="form-control" value="{{ app.user.email }}">
+            <div class="input-group-append">
+                {% if app.user.isEmailVerified %}
+                    <span class="text-success">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-shield-fill-check" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.8 11.8 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7 7 0 0 0 1.048-.625 11.8 11.8 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.54 1.54 0 0 0-1.044-1.263 63 63 0 0 0-2.887-.87C9.843.266 8.69 0 8 0m2.146 5.146a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793z"/>
+                        </svg>
+                    </span>
+                {% else %}
+                    <button type="button" class="verify-button verify-email-button">{{ 'account.verify'|trans }}</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="phone">{{ 'account.phone'|trans }}</label>
+        <div class="input-group">
+            <input type="tel" id="phone" name="phone" class="form-control" value="{{ app.user.phone }}">
+            <div class="input-group-append">
+                {% if app.user.isPhoneVerified %}
+                    <span class="text-success">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-shield-fill-check" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.8 11.8 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7 7 0 0 0 1.048-.625 11.8 11.8 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.54 1.54 0 0 0-1.044-1.263 63 63 0 0 0-2.887-.87C9.843.266 8.69 0 8 0m2.146 5.146a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793z"/>
+                        </svg>
+                    </span>
+                {% else %}
+                    <button type="button" class="verify-button verify-phone-button">{{ 'account.verify'|trans }}</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <button id="save-account-settings" class="btn btn-primary">
+            {{ 'account.save'|trans }}
+        </button>
+    </div>
+</div>
+
+{% include '@Setting/popup/verify-email-popup.html.twig' %}
+{% include '@Setting/popup/verify-phone-popup.html.twig' %}
+
+    {% block javascripts %}
+        <script src="{{ asset('js/account-settings.js') }}"></script>
+    {% endblock %}
+{% endblock %}

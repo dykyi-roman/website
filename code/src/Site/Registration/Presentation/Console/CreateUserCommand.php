@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Site\Registration\Presentation\Console;
 
+use Profile\User\DomainModel\Enum\Roles;
 use Psr\Log\LoggerInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Shared\DomainModel\ValueObject\Email;
 use Shared\DomainModel\ValueObject\Location;
 use Site\Registration\Application\UserRegistration\Command\RegisterUserCommand;
-use Site\User\DomainModel\Enum\Roles;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

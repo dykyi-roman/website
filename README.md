@@ -6,8 +6,8 @@
 * Update [manifest.json](public%2Fmanifest.json)
 * Update [sitemap.xml](public%2Fsitemap.xml)
 * Update [robots.txt](public%2Frobots.txt)
-* Call command: `make translations-copy`
-* Call command: `make assets-copy`
+* Check /feed/rss.xml & /feed/atom.xml
+* Call command: `make copy`
 
 # Features
 
@@ -168,6 +168,20 @@ GOOGLE_RECAPTCHA_SECRET_KEY=your_site_key_here
 3. Set key to your `.env` file:
 ```env
 EXCHANGE_RATE_API_KEY=your_secret_key
+```
+
+## Twilio
+1. Register for a Twilio account [twilio](https://console.twilio.com/)
+2. Receive SID and token
+3. Set key to your `.env` file:
+```env
+TWILIO_DSN=twilio://SID:TOKEN@default?from=FROM
+```
+
+```
+SID - your Account SID from Twilio
+TOKEN - your Auth Token from Twilio
+PHONE - your phone number from Twilio
 ```
 
 ## Social Login Integration

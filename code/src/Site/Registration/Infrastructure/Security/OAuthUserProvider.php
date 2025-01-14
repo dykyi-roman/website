@@ -7,6 +7,11 @@ namespace Site\Registration\Infrastructure\Security;
 use KnpU\OAuth2ClientBundle\Security\User\OAuthUser;
 use League\OAuth2\Client\Provider\FacebookUser;
 use League\OAuth2\Client\Provider\GoogleUser;
+use Profile\User\DomainModel\Enum\Roles;
+use Profile\User\DomainModel\Enum\UserId;
+use Profile\User\DomainModel\Model\User;
+use Profile\User\DomainModel\Model\UserInterface;
+use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Shared\DomainModel\ValueObject\Country;
 use Shared\DomainModel\ValueObject\Email;
@@ -14,11 +19,6 @@ use Shared\DomainModel\ValueObject\Location;
 use Site\Registration\DomainModel\Event\UserRegisteredEvent;
 use Site\Registration\DomainModel\Service\CountryDetectorInterface;
 use Site\Registration\DomainModel\Service\ReferralReceiver;
-use Site\User\DomainModel\Enum\Roles;
-use Site\User\DomainModel\Enum\UserId;
-use Site\User\DomainModel\Model\User;
-use Site\User\DomainModel\Model\UserInterface;
-use Site\User\DomainModel\Repository\UserRepositoryInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -83,8 +83,8 @@ final readonly class OAuthUserProvider implements UserProviderInterface
 
             $this->eventBus->dispatch(
                 new UserRegisteredEvent(
-                    $user->getId(),
-                    $user->getEmail(),
+                    $user->id(),
+                    $user->email(),
                     'google',
                 ),
             );
@@ -135,8 +135,8 @@ final readonly class OAuthUserProvider implements UserProviderInterface
 
             $this->eventBus->dispatch(
                 new UserRegisteredEvent(
-                    $user->getId(),
-                    $user->getEmail(),
+                    $user->id(),
+                    $user->email(),
                     'facebook',
                 ),
             );

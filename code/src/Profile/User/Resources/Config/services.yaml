@@ -1,0 +1,24 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Profile\User\:
+        resource: '../../'
+        exclude:
+            - '../../Resources/'
+            - '../../Application/**/*{Command,Query}.php'
+            - '../../DomainModel/{Dto,Event,Model,ValueObject}/'
+            - '../../Application/*/{Dto,Event,Model,ValueObject}/'
+            - '../../Tests/'
+        tags: ['controller.service_arguments']
+
+    Profile\User\Infrastructure\Repository\UserRepository:
+        arguments:
+            $entityManager: '@doctrine.orm.site_entity_manager'
+
+    Profile\User\DomainModel\Repository\UserRepositoryInterface:
+        alias: Profile\User\Infrastructure\Repository\UserRepository

@@ -9,9 +9,8 @@ use Orders\DomainModel\Service\OrdersInterface;
 use Orders\Presentation\Api\Request\OrdersSearchRequestDTO;
 use Shared\DomainModel\ValueObject\Currency;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 final readonly class OrderSearchAction
 {
@@ -23,7 +22,7 @@ final readonly class OrderSearchAction
     #[OA\Get(
         path: '/api/v1/orders/search',
         summary: 'Search orders with pagination',
-        tags: ['Service']
+        tags: ['Orders']
     )]
     #[OA\Parameter(
         name: 'query',
@@ -88,7 +87,6 @@ final readonly class OrderSearchAction
     )]
     #[Route('/v1/orders/search', name: 'api_orders_search', methods: ['GET'])]
     public function __invoke(
-        Request $request,
         #[MapQueryString] OrdersSearchRequestDTO $searchRequest,
         OrdersInterface $orders,
     ): JsonResponse {

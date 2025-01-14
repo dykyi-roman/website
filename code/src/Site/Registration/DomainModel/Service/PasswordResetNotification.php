@@ -6,7 +6,7 @@ namespace Site\Registration\DomainModel\Service;
 
 use Shared\DomainModel\Services\NotificationInterface;
 use Shared\DomainModel\ValueObject\Notification;
-use Shared\Infrastructure\Notification\Recipient;
+use Shared\DomainModel\ValueObject\Recipient;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment as TwigEnvironment;

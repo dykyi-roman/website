@@ -186,20 +186,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Function to show error messages
     function showErrorMessage(message) {
-        // Find or create error message container
-        let errorContainer = document.querySelector('.login-error-message');
-        if (!errorContainer) {
-            errorContainer = document.createElement('div');
-            errorContainer.className = 'alert alert-danger login-error-message mt-3';
-            loginForm.insertBefore(errorContainer, loginForm.firstChild);
-        }
-        errorContainer.textContent = message;
-        errorContainer.style.display = 'block';
-
-        // Automatically hide the error message after 3 seconds
-        setTimeout(() => {
-            errorContainer.style.display = 'none';
-        }, 3000);
+        UIService.showError(message);
     }
 
     // Function to clear form errors and alerts

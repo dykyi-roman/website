@@ -1,0 +1,15 @@
+.general-settings {
+    position: relative;
+    padding-bottom: 60px; /* Space for the button */
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Disabled state styling */
+.btn.btn-primary:disabled {
+    background-color: var(--primary-light) !important;
+    border-color: var(--primary-light) !important;
+    cursor: not-allowed;
+}

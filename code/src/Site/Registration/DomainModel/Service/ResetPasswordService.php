@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Site\Registration\DomainModel\Service;
 
+use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use Site\Registration\DomainModel\Exception\InvalidPasswordException;
 use Site\Registration\DomainModel\Exception\TokenExpiredException;
-use Site\User\DomainModel\Repository\UserRepositoryInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final readonly class ResetPasswordService
@@ -43,8 +43,8 @@ final readonly class ResetPasswordService
         $this->userRepository->save($user);
 
         $this->logger->info('Password reset successful', [
-            'user_id' => $user->getId(),
-            'email' => $user->getEmail(),
+            'user_id' => $user->id(),
+            'email' => $user->email(),
         ]);
     }
 

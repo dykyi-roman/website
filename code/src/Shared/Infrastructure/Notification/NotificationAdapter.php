@@ -6,6 +6,7 @@ namespace Shared\Infrastructure\Notification;
 
 use Shared\DomainModel\Services\NotificationInterface;
 use Shared\DomainModel\ValueObject\Notification;
+use Shared\DomainModel\ValueObject\RecipientInterface;
 use Symfony\Component\Notifier\Notification\Notification as SymfonyNotificationClass;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;

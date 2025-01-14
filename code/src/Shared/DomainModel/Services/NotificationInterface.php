@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Shared\DomainModel\Services;
 
 use Shared\DomainModel\ValueObject\Notification;
-use Shared\Infrastructure\Notification\RecipientInterface;
+use Shared\DomainModel\ValueObject\RecipientInterface;
 
 interface NotificationInterface
 {

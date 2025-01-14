@@ -349,23 +349,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Function to show error messages
     function showErrorMessage(message) {
-        // Find or create error message container
-        let errorContainer = document.querySelector('.registration-error-message');
-        if (!errorContainer) {
-            errorContainer = document.createElement('div');
-            errorContainer.className = 'alert alert-danger registration-error-message mt-3';
-            const form = document.querySelector('#clientRegistrationForm');
-            if (form) {
-                form.insertBefore(errorContainer, form.firstChild);
-            }
-        }
-        errorContainer.textContent = message;
-        errorContainer.style.display = 'block';
-
-        // Automatically hide the error message after 3 seconds
-        setTimeout(() => {
-            errorContainer.style.display = 'none';
-        }, 3000);
+        UIService.showError(message);
     }
 
     // Event listeners for form submission

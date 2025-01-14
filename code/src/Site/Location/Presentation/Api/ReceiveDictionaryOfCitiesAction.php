@@ -5,20 +5,17 @@ declare(strict_types=1);
 namespace Site\Location\Presentation\Api;
 
 use OpenApi\Attributes as OA;
-use Site\Location\DomainModel\Service\DictionaryOfCitiesInterface;
+use Shared\DomainModel\Services\MessageBusInterface;
+use Site\Location\Application\CitiesDictionary\Query\GetCitiesDictionaryQuery;
+use Site\Location\DomainModel\Dto\CityDto;
 use Site\Location\Presentation\Api\Request\DictionaryOfCitiesRequest;
 use Site\Location\Presentation\Api\Response\DictionaryOfCitiesResponse;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/v1/location/cities', name: 'api_cities_by_country_search', methods: ['GET'])]
 final readonly class ReceiveDictionaryOfCitiesAction
 {
-    public function __construct(
-        private DictionaryOfCitiesInterface $dictionaryOfCities,
-    ) {
-    }
-
     #[OA\Get(
         path: '/api/v1/location/cities',
         summary: 'Search cities by country and language',
@@ -81,21 +78,16 @@ final readonly class ReceiveDictionaryOfCitiesAction
     )]
     public function __invoke(
         #[MapQueryString] DictionaryOfCitiesRequest $request,
+        MessageBusInterface $messageBus,
     ): DictionaryOfCitiesResponse {
-        $citiesDto = $this->dictionaryOfCities->cityByCountryAndLocale(
-            $request->countryCode,
-            $request->lang,
-            $request->city,
+        /** @var array<CityDto> $cities */
+        $cities = $messageBus->dispatch(
+            new GetCitiesDictionaryQuery(
+                countryCode: $request->countryCode,
+                lang: $request->lang,
+                city: $request->city,
+            )
         );
-
-        $cities = [];
-        foreach ($citiesDto as $index => $cityDto) {
-            $cities[$index] = [
-                'name' => $cityDto->name,
-                'transcription' => $cityDto->transcription,
-                'address' => $cityDto->area,
-            ];
-        }
 
         return new DictionaryOfCitiesResponse($cities);
     }

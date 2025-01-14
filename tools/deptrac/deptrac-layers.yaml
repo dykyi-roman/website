@@ -4,6 +4,7 @@ parameters:
   exclude_files:
     - '#.*test.*#'
     - '#vendor#'
+    - '#OAuthUserProvider\.php#'
   layers:
     - name: Presentation
       collectors:
@@ -23,6 +24,17 @@ parameters:
           must:
             - type: directory
               value: src/.*/DomainModel/.*
+          must_not:
+            - type: directory
+              value: src/.*/DomainModel/(Exception|Dto|Enum|Event|Model|ValueObject)/.*
+            - type: classNameRegex
+              value: '/.*Interface$/'
+    - name: DomainTypes
+      collectors:
+        - type: bool
+          must:
+            - type: directory
+              value: src/.*/DomainModel/(Exception|Dto|Enum|Event|Model|ValueObject)/.*
     - name: Infrastructure
       collectors:
         - type: bool
@@ -32,8 +44,11 @@ parameters:
   ruleset:
     Presentation:
       - Application
-      - DomainModel
+      - DomainTypes
     Application:
       - DomainModel
-    DomainModel: ~
-    Infrastructure: ~
+      - DomainTypes
+    DomainModel:
+      - DomainTypes
+    Infrastructure:
+      - DomainTypes

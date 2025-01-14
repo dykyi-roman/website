@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Site\Registration\Infrastructure\Security;
 
+use Profile\User\DomainModel\Model\UserInterface;
+use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Shared\DomainModel\ValueObject\Email;
 use Site\Registration\DomainModel\Event\UserLoggedInEvent;
-use Site\User\DomainModel\Model\UserInterface;
-use Site\User\DomainModel\Repository\UserRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,8 +64,8 @@ final class UserLoginAuthenticator extends AbstractAuthenticator
 
         $this->eventBus->dispatch(
             new UserLoggedInEvent(
-                $user->getId(),
-                $user->getEmail(),
+                $user->id(),
+                $user->email(),
                 'manual',
             ),
         );

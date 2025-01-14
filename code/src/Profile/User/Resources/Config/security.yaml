@@ -1,0 +1,10 @@
+security:
+    password_hashers:
+        Profile\User\DomainModel\Model\User: 'auto'
+
+    providers:
+        site_provider:
+            entity:
+                class: Profile\User\DomainModel\Model\User
+                property: email
+                manager_name: site

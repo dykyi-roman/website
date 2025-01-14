@@ -1,5 +1,11 @@
-/* Variables */
+/* Theme Variables */
 :root {
+    /* Common variables */
+    --transition-speed: 0.3s;
+}
+
+/* Light theme (default) */
+html {
     --primary-color: #FFB347;
     --primary-hover: #FFA533;
     --primary-light: #FFD1A1;
@@ -10,11 +16,37 @@
     --text-dark: #343a40;
     --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
     --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-    --transition-speed: 0.3s;
     --primary-orange: #FF6B35;
     --secondary-orange: #F08A4B;
     --light-orange: #F5D547;
     --error-red: #dc3545;
+    --bg-color: #ffffff;
+}
+
+/* Dark theme */
+html.dark {
+    --primary-color: #FFB347;
+    --primary-hover: #FFA533;
+    --primary-light: #FFD1A1;
+    --primary-shadow: rgba(255, 179, 71, 0.3);
+    --secondary-color: #a1a7ae;
+    --success-color: #28a745;
+    --background-light: #2a2a2a;
+    --text-dark: #ffffff;
+    --shadow-sm: 0 2px 4px rgba(255,255,255,0.1);
+    --shadow-md: 0 4px 6px rgba(255,255,255,0.1);
+    --primary-orange: #FF6B35;
+    --secondary-orange: #F08A4B;
+    --light-orange: #F5D547;
+    --error-red: #ff4b5a;
+    --bg-color: #1a1a1a;
+}
+
+/* Base styles */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-dark);
+    transition: background-color var(--transition-speed), color var(--transition-speed);
 }
 
 /* Main layout styles */
@@ -28,7 +60,6 @@ body {
     flex-direction: column;
     min-height: 100vh;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    color: var(--text-dark);
     line-height: 1.6;
 }
 
@@ -37,6 +68,7 @@ body {
 .fa-heart,
 .fa-cog,
 .fa-bell,
+.fa-lock,
 .fa-comment-dots {
     color: var(--primary-color);
 }
@@ -342,10 +374,6 @@ footer h5 {
         justify-content: flex-end;
     }
 
-    .language-dropdown .fa-globe,
-    .fa-globe {
-        display: none !important;
-    }
     
     .header-button {
         margin-right: 0;
@@ -557,7 +585,6 @@ footer h5 {
     background: transparent;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-right: 1rem;
     padding: 0;
 }
 
@@ -587,7 +614,6 @@ footer h5 {
     background: transparent;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-right: 1rem;
     padding: 0;
 }
 
@@ -660,4 +686,13 @@ footer h5 {
 .combined-dropdown .dropdown-item.active {
     background-color: var(--primary-color);
     color: white;
+}
+
+/* Hide language and currency elements on mobile */
+@media screen and (max-width: 768px) {
+    .language-code,
+    .currency-code,
+    .mx-1 {
+        display: none !important;
+    }
 }

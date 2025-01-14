@@ -1,0 +1,201 @@
+.account-settings {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    padding-bottom: 60px;
+    background-color: var(--background-color);
+}
+
+.account-settings .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.account-settings label {
+    display: block;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.account-settings label strong {
+    color: var(--primary-color);
+}
+
+/* Profile Image Styles */
+.profile-image-wrapper {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 0 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.profile-image-wrapper:hover {
+    transform: scale(1.02);
+}
+
+.item-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.profile-image-wrapper:hover .image-overlay {
+    opacity: 1;
+}
+
+.change-photo-text {
+    font-size: 14px;
+}
+
+/* Verification Shield Styles */
+.verification-shield {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 8px;
+    margin-bottom: -4px;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: 2px;
+}
+
+.shield-icon {
+    width: 100%;
+    height: 100%;
+}
+
+.verification-shield.verified .shield-icon {
+    fill: #34c759;  /* Green color for verified */
+}
+
+.verification-shield.unverified .shield-icon {
+    fill: #ffcc00;  /* Yellow color for unverified */
+}
+
+/* Verify Button Styles */
+.input-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.input-group .form-control {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.input-group-append {
+    display: flex;
+    align-items: center;
+}
+
+.verify-button {
+    white-space: nowrap;
+    margin-left: 10px;
+    padding: 4px 8px;
+    font-size: 12px;
+    color: var(--primary-color);
+    background: transparent;
+    border: 1px solid var(--primary-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.verify-button:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.verify-button:active {
+    transform: scale(0.98);
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--text-color);
+    background-color: var(--input-background);
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.editable-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--text-color);
+    background-color: var(--input-background);
+    transition: border-color 0.3s ease;
+    margin-top: 5px;
+}
+
+.editable-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.1);
+}
+
+#save-account-settings {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#save-account-settings:hover {
+    background-color: var(--primary-color-dark);
+}
+
+#save-account-settings:disabled {
+    background-color: var(--primary-light) !important;
+    border-color: var(--primary-light) !important;
+    cursor: not-allowed;
+}
+
+/* Modal Animation Styles */
+.modal.fade .modal-dialog.modal-slide-down {
+    transform: translate(0, -100%);
+    transition: transform 0.3s ease-out;
+}
+
+.modal.show .modal-dialog.modal-slide-down {
+    transform: translate(0, 0);
+}
+
+.modal-dialog.modal-slide-down {
+    margin-top: 0;
+    position: relative;
+    top: 20px;
+}

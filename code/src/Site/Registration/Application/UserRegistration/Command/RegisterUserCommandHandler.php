@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Site\Registration\Application\UserRegistration\Command;
 
+use Profile\User\DomainModel\Enum\UserId;
+use Profile\User\DomainModel\Model\User;
+use Profile\User\DomainModel\Model\UserInterface;
+use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Shared\DomainModel\ValueObject\Email;
 use Site\Registration\DomainModel\Event\UserRegisteredEvent;
 use Site\Registration\DomainModel\Service\ReferralReceiver;
-use Site\User\DomainModel\Enum\UserId;
-use Site\User\DomainModel\Model\User;
-use Site\User\DomainModel\Model\UserInterface;
-use Site\User\DomainModel\Repository\UserRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -42,8 +42,8 @@ final readonly class RegisterUserCommandHandler
 
         $this->eventBus->dispatch(
             new UserRegisteredEvent(
-                $user->getId(),
-                $user->getEmail(),
+                $user->id(),
+                $user->email(),
                 'manual',
             ),
         );

@@ -13,10 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const langCode = this.dataset.lang;
             if (!langCode) return;
 
-            // Set cookie with 1 year expiration
-            const expirationDate = new Date();
-            expirationDate.setFullYear(expirationDate.getFullYear() + 1);
-            document.cookie = `locale=${langCode}; expires=${expirationDate.toUTCString()}; path=/; SameSite=Strict`;
+            window.setCookie('locale', langCode);
 
             // Update displayed language code
             if (languageCodeElement) {
@@ -26,6 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update active state
             languageItems.forEach(item => item.classList.remove('active'));
             this.classList.add('active');
+
+            updateProfileSetting('GENERAL', 'language', langCode).catch(error => console.error('Failed to update language:', error));
 
             // Update URL and reload page
             const url = new URL(window.location.href);

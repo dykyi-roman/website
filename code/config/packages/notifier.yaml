@@ -1,7 +1,10 @@
 framework:
     notifier:
+        texter_transport: twilio
+        texter_transports:
+            twilio: '%env(TWILIO_DSN)%'
         channel_policy:
-            urgent: ['custom-email']
-            high: ['custom-email']
+            urgent: ['custom-email', 'sms']
+            high: ['custom-email', 'sms']
             medium: ['custom-email']
             low: ['custom-email']

@@ -193,14 +193,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         };
     }
 
-    // Utility function to get cookie value
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-        return null;
-    }
-
     // Utility function to safely get image URL
     function getImageUrl(imageUrl) {
         return imageUrl || 'images/default-item-image.webp';
@@ -324,7 +316,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         showSearchSpinner();
 
         // Get currency from cookies if available
-        const appCurrency = getCookie('appCurrency');
+        const appCurrency = window.getCookie('appCurrency');
         const currencyParam = appCurrency ? `&currency=${encodeURIComponent(appCurrency)}` : '';
 
         // Fetch services from API
@@ -448,9 +440,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         showSearchSpinner();
 
         // Get currency from cookies if available
-        const appCurrency = getCookie('appCurrency');
+        const appCurrency = window.getCookie('appCurrency');
         const currencyParam = appCurrency ? `&currency=${encodeURIComponent(appCurrency)}` : '';
-        console
 
         // Fetch orders from API
         fetch(`/api/v1/orders/search?query=${encodeURIComponent(query)}&order=${order}&page=${page}&limit=${itemsPerPage}&filter=${filter}${currencyParam}`, {

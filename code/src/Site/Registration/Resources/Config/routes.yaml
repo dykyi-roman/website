@@ -3,3 +3,10 @@ web_routes:
         path: ../../Presentation/Web
         namespace: Site\Registration\Presentation\Web
     type: attribute
+
+api_routes:
+    resource:
+        path: ../../Presentation/Api
+        namespace: Site\Registration\Presentation\Api
+    type: attribute
+    prefix: '/api'
