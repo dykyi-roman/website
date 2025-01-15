@@ -22,7 +22,7 @@ final readonly class UpdateUserSettingsCommandHandler
         $user = $this->userRepository->findById($command->userId);
         $newEmail = Email::fromString($command->email);
 
-        if ($this->userRepository->existsByEmail($newEmail) && !$user->email()->equals($newEmail)) {
+        if ($this->userRepository->findByEmail($newEmail) && !$user->email()->equals($newEmail)) {
             throw new UserExistException($user->id());
         }
 

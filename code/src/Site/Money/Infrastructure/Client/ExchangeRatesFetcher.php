@@ -4,7 +4,7 @@ namespace Site\Money\Infrastructure\Client;
 
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
-use Site\Money\Domain\Exception\ExchangeRateApiException;
+use Site\Money\DomainModel\Exception\ExchangeRateApiException;
 
 final readonly class ExchangeRatesFetcher implements ExchangeRatesFetcherInterface
 {

@@ -22,6 +22,9 @@
         <testsuite name="All">
             <directory>../code/src/*/Tests</directory>
         </testsuite>
+        <testsuite name="All">
+            <directory>../code/src/*/*/Tests</directory>
+        </testsuite>
     </testsuites>
 
     <coverage processUncoveredFiles="true">

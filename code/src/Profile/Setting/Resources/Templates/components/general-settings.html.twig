@@ -6,7 +6,7 @@
 <div class="general-settings">
     <div class="form-group">
         <label for="language-select">{{ 'account.language'|trans }}</label>
-        <select id="language-select" name="language" class="form-control language-select">
+        <select id="language-select" name="language" class="form-select language-select">
             {% for locale in locales %}
                 <option value="{{ locale.code }}" {{ locale.code == app.request.locale ? 'selected' : '' }}>
                     {{ ('js.locales.' ~ locale.code)|trans }}
@@ -17,7 +17,7 @@
 
     <div class="form-group">
         <label for="currency-select">{{ 'account.currency'|trans }}</label>
-        <select id="currency-select" name="currency" class="form-control currency-select">
+        <select id="currency-select" name="currency" class="form-select currency-select">
             {% for currency in currencies %}
                 <option value="{{ currency.code }}" {{ currency.code == (app.request.cookies.get('appCurrency')|default(default_currency)) ? 'selected' : '' }}>
                     {{ currency.code }}
@@ -28,7 +28,7 @@
 
     <div class="form-group">
         <label for="theme-select">{{ 'account.theme'|trans }}</label>
-        <select id="theme-select" name="theme" class="form-control theme-select">
+        <select id="theme-select" name="theme" class="form-select theme-select">
             <option value="dark" {{ (app.request.cookies.get('appTheme')|default('light')) == 'dark' ? 'selected' : '' }}>
                 {{ 'account.dark'|trans }}
             </option>

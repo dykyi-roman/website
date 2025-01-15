@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Site\Money\Infrastructure\Client;
 
-use Site\Money\Domain\Exception\ExchangeRateApiException;
+use Site\Money\DomainModel\Exception\ExchangeRateApiException;
 
 interface ExchangeRatesFetcherInterface
 {

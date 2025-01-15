@@ -6,7 +6,7 @@ namespace Site\Registration\DomainModel\Service;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 
-final readonly class ReferralReceiver
+final readonly class ReferralReceiver implements ReferralReceiverInterface
 {
     public function __construct(
         private RequestStack $requestStack,

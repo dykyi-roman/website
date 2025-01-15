@@ -1,3 +1,13 @@
+.form-group input,
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+
 /* Settings Page Layout */
 .settings {
     display: flex;

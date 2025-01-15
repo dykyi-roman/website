@@ -139,7 +139,8 @@
         "not_found": "User not found",
         "invalid_input": "Invalid input data provided",
         "save_failed": "Failed to save account settings",
-        "invalid_verification_code": "Invalid verification code"
+        "invalid_verification_code": "Invalid verification code",
+        "error_send_verification_code": "Error send verification code"
       },
       "verification_code_title": "Verification Code",
       "verification_code_message": "Your verification code is:",

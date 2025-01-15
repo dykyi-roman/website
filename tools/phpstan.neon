@@ -7,4 +7,5 @@ parameters:
     paths:
         - ../code/src
     excludePaths:
-        - '../code/src/Healthcheck/Presentation/Console/*'
+        - '../code/src/Shared/Tests/*'
+        - '../code/src/Site/Registration/Tests/*'

@@ -25,9 +25,6 @@ final readonly class GetSettingsQueryHandler
         $result = [];
         foreach ($settings as $setting) {
             $property = $setting->getProperty();
-            if (!isset($result[$property->category->value])) {
-                $result[$property->category->value] = [];
-            }
             $result[strtolower($property->category->value)][$property->name->value] = $property->value();
         }
 

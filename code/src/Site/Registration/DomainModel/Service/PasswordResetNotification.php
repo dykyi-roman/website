@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment as TwigEnvironment;
 
-final readonly class PasswordResetNotification
+final readonly class PasswordResetNotification implements PasswordResetNotificationInterface
 {
     public function __construct(
         private NotificationInterface $notification,

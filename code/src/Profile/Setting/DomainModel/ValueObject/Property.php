@@ -30,6 +30,10 @@ final readonly class Property implements \JsonSerializable
             return (string) $this->value;
         }
 
+        if (is_array($this->value)) {
+            return (string) json_encode($this->value());
+        }
+
         if (is_null($this->value)) {
             return '';
         }

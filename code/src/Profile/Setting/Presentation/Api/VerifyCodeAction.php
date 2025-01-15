@@ -70,9 +70,8 @@ final readonly class VerifyCodeAction
         VerificationJsonResponder $responder,
         TranslatorInterface $translator,
     ): VerificationJsonResponder {
-        $user = $userFetcher->fetch();
-
         try {
+            $user = $userFetcher->fetch();
             $messageBus->dispatch(
                 new VerifyCodeCommand(
                     userId: $user->id(),
@@ -81,7 +80,7 @@ final readonly class VerifyCodeAction
                 )
             );
 
-            return $responder->success()->respond();
+            return $responder->success('Ok')->respond();
         } catch (\Throwable) {
             return $responder->error($translator->trans('settings.account.error.invalid_verification_code'))->respond();
         }

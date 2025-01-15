@@ -22,7 +22,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 use Twig\Environment;
 
-final class FacebookAuthenticator extends OAuth2Authenticator implements AuthenticationEntryPointInterface
+class FacebookAuthenticator extends OAuth2Authenticator implements AuthenticationEntryPointInterface
 {
     public function __construct(
         private readonly ClientRegistry $clientRegistry,

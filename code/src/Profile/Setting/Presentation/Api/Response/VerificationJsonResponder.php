@@ -18,10 +18,11 @@ final class VerificationJsonResponder implements ResponderInterface
         return $this->data;
     }
 
-    public function success(): self
+    public function success(string $message): self
     {
         $this->data = [
             'success' => true,
+            'message' => $message,
         ];
         $this->statusCode = 200;
 

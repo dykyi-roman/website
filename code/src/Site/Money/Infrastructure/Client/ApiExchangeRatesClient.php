@@ -6,7 +6,7 @@ namespace Site\Money\Infrastructure\Client;
 
 use Shared\DomainModel\ValueObject\Currency;
 use Shared\DomainModel\ValueObject\Money;
-use Site\Money\Domain\Services\ExchangeRatesClientInterface;
+use Site\Money\DomainModel\Services\ExchangeRatesClientInterface;
 
 final readonly class ApiExchangeRatesClient implements ExchangeRatesClientInterface
 {
@@ -17,7 +17,7 @@ final readonly class ApiExchangeRatesClient implements ExchangeRatesClientInterf
     }
 
     /**
-     * @throws \Site\Money\Domain\Exception\ExchangeRateApiException
+     * @throws \Site\Money\DomainModel\Exception\ExchangeRateApiException
      * @throws \InvalidArgumentException
      */
     public function convert(Money $money, Currency $toCurrency): Money

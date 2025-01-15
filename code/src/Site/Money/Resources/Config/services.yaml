@@ -28,7 +28,19 @@ services:
             - '../../**/Tests/'
         tags: ['controller.service_arguments']
 
-    Site\Money\Infrastructure\Client\CachedExchangeRatesFetcher: ~
+    # Exchange rates services
+    Site\Money\Infrastructure\Client\ExchangeRatesFetcher:
+        arguments:
+            $exchangeRateApiHost: '%exchange_rate_api_host%'
+            $exchangeRateApiKey: '%exchange_rate_api_key%'
+            $exchangeRateBaseCurrency: '%exchange_rate_base_currency%'
+
+    Site\Money\Infrastructure\Client\CachedExchangeRatesFetcher:
+        decorates: Site\Money\Infrastructure\Client\ExchangeRatesFetcher
+        arguments:
+            $exchangeRatesFetcher: '@.inner'
+            $exchangeRateCacheTtl: '%exchange_rate_cache_ttl%'
+
     Site\Money\Infrastructure\Client\ExchangeRatesFetcherInterface: '@Site\Money\Infrastructure\Client\CachedExchangeRatesFetcher'
 
     # Twig

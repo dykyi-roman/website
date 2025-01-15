@@ -7,7 +7,7 @@ namespace Site\Registration\Application\ForgontPassword\Command;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use Shared\DomainModel\ValueObject\Email;
-use Site\Registration\DomainModel\Service\PasswordResetNotification;
+use Site\Registration\DomainModel\Service\PasswordResetNotificationInterface;
 use Site\Registration\DomainModel\Service\TokenGeneratorInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -17,7 +17,7 @@ final readonly class ForgotPasswordCommandHandler
     public function __construct(
         private UserRepositoryInterface $userRepository,
         private TokenGeneratorInterface $tokenGenerator,
-        private PasswordResetNotification $passwordResetNotification,
+        private PasswordResetNotificationInterface $passwordResetNotification,
         private LoggerInterface $logger,
     ) {
     }

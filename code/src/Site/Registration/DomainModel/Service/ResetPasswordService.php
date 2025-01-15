@@ -10,7 +10,7 @@ use Site\Registration\DomainModel\Exception\InvalidPasswordException;
 use Site\Registration\DomainModel\Exception\TokenExpiredException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-final readonly class ResetPasswordService
+class ResetPasswordService
 {
     public function __construct(
         private UserRepositoryInterface $userRepository,

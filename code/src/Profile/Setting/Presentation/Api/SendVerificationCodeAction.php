@@ -13,6 +13,7 @@ use Shared\DomainModel\Services\MessageBusInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class SendVerificationCodeAction
 {
@@ -50,23 +51,28 @@ final readonly class SendVerificationCodeAction
         UserFetcherInterface $userFetcher,
         MessageBusInterface $messageBus,
         VerificationJsonResponder $responder,
+        TranslatorInterface $translator,
     ): VerificationJsonResponder {
-        $user = $userFetcher->fetch();
+        try {
+            $user = $userFetcher->fetch();
 
-        $recipient = match ($request->type) {
-            'email' => $user->email()->value,
-            'phone' => $user->getPhone() ?? throw new \InvalidArgumentException('Phone number is not set'),
-            default => throw new \InvalidArgumentException('Invalid verification type'),
-        };
+            $recipient = match ($request->type) {
+                'email' => $user->email()->value,
+                'phone' => $user->getPhone() ?? throw new \InvalidArgumentException('Phone number is not set'),
+                default => throw new \InvalidArgumentException('Invalid verification type'),
+            };
 
-        $messageBus->dispatch(
-            new SendVerificationCodeCommand(
-                userId: $user->id(),
-                type: $request->type,
-                recipient: $recipient
-            )
-        );
+            $messageBus->dispatch(
+                new SendVerificationCodeCommand(
+                    userId: $user->id(),
+                    type: $request->type,
+                    recipient: $recipient
+                )
+            );
 
-        return $responder->success()->respond();
+            return $responder->success('Ok')->respond();
+        } catch (\Throwable) {
+            return $responder->error($translator->trans('error_send_verification_code'))->respond();
+        }
     }
 }

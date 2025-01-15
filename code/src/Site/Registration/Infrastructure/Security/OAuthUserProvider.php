@@ -18,7 +18,7 @@ use Shared\DomainModel\ValueObject\Email;
 use Shared\DomainModel\ValueObject\Location;
 use Site\Registration\DomainModel\Event\UserRegisteredEvent;
 use Site\Registration\DomainModel\Service\CountryDetectorInterface;
-use Site\Registration\DomainModel\Service\ReferralReceiver;
+use Site\Registration\DomainModel\Service\ReferralReceiverInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -31,7 +31,7 @@ final readonly class OAuthUserProvider implements UserProviderInterface
     public function __construct(
         private UserRepositoryInterface $userRepository,
         private CountryDetectorInterface $countryDetector,
-        private ReferralReceiver $referralReceiver,
+        private ReferralReceiverInterface $referralReceiver,
         private MessageBusInterface $eventBus,
     ) {
     }
@@ -106,7 +106,7 @@ final readonly class OAuthUserProvider implements UserProviderInterface
             throw new \RuntimeException('Email is required for registration');
         }
 
-        $user = $this->userRepository->findByToken('googleToken', $facebookId);
+        $user = $this->userRepository->findByToken('facebookToken', $facebookId);
         if (null === $user) {
             $user = $this->userRepository->findByEmail(Email::fromString($email));
             if (null !== $user) {

@@ -21,7 +21,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 use Twig\Environment;
 
-final class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationEntryPointInterface
+class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationEntryPointInterface
 {
     public function __construct(
         private readonly ClientRegistry $clientRegistry,

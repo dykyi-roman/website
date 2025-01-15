@@ -6,4 +6,7 @@ namespace Shared\DomainModel\ValueObject;
 
 interface RecipientInterface
 {
+    public function getEmail(): string;
+
+    public function getPhone(): string;
 }

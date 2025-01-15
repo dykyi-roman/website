@@ -25,11 +25,11 @@ final readonly class ResetPasswordQueryHandler
 
     public function __invoke(ResetPasswordQuery $query): ResetPasswordResponse
     {
-        try {
-            if ($query->password !== $query->confirmPassword) {
-                throw new PasswordIsNotMatchException();
-            }
+        if ($query->password !== $query->confirmPassword) {
+            throw new PasswordIsNotMatchException();
+        }
 
+        try {
             $this->resetPassword->reset($query->token, $query->password);
 
             return new ResetPasswordResponse(

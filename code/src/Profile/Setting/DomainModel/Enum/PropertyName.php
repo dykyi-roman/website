@@ -6,8 +6,6 @@ namespace Profile\Setting\DomainModel\Enum;
 
 enum PropertyName: string
 {
-    case PHONE_VERIFIED_AT = 'phone_verified_at';
-    case EMAIL_VERIFIED_AT = 'email_verified_at';
     case ACCEPTED_COOKIES = 'accepted_cookies';
 
     case SETTINGS_GENERAL_LANGUAGE = 'language';

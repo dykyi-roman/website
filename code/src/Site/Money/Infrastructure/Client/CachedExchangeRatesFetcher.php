@@ -3,14 +3,14 @@
 namespace Site\Money\Infrastructure\Client;
 
 use Psr\SimpleCache\CacheInterface;
-use Site\Money\Domain\Exception\ExchangeRateApiException;
+use Site\Money\DomainModel\Exception\ExchangeRateApiException;
 
 final readonly class CachedExchangeRatesFetcher implements ExchangeRatesFetcherInterface
 {
     private const string CACHE_KEY = 'exchange_rates';
 
     public function __construct(
-        private ExchangeRatesFetcher $exchangeRatesFetcher,
+        private ExchangeRatesFetcherInterface $exchangeRatesFetcher,
         private CacheInterface $cache,
         private int $exchangeRateCacheTtl,
     ) {

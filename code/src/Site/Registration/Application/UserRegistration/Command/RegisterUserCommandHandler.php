@@ -11,7 +11,7 @@ use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Shared\DomainModel\ValueObject\Email;
 use Site\Registration\DomainModel\Event\UserRegisteredEvent;
-use Site\Registration\DomainModel\Service\ReferralReceiver;
+use Site\Registration\DomainModel\Service\ReferralReceiverInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -27,7 +27,7 @@ final readonly class RegisterUserCommandHandler
         private TranslatorInterface $translator,
         private UserRepositoryInterface $userRepository,
         private MessageBusInterface $eventBus,
-        private ReferralReceiver $referralReceiver,
+        private ReferralReceiverInterface $referralReceiver,
     ) {
     }
 
@@ -62,7 +62,7 @@ final readonly class RegisterUserCommandHandler
 
     private function checkIfEmailAlreadyExists(Email $email): void
     {
-        if (!$this->userRepository->isEmailUnique($email)) {
+        if (null !== $this->userRepository->findByEmail($email)) {
             throw new \DomainException(sprintf($this->translator->trans('user_email_exists_error'), (string) $email));
         }
     }
