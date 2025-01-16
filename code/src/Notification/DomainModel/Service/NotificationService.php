@@ -6,12 +6,28 @@ namespace Notification\DomainModel\Service;
 
 use Notification\DomainModel\Enum\NotificationType;
 use Notification\DomainModel\Model\Notification;
+use Notification\DomainModel\Repository\NotificationRepositoryInterface;
+use Notification\DomainModel\Repository\UserNotificationRepositoryInterface;
 use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\Services\MessageBusInterface;
 
-final class NotificationService implements NotificationServiceInterface
+final readonly class NotificationService implements NotificationServiceInterface
 {
-    public function createNotification(string $type, string $title, string $message, ?string $link = null): Notification
+    public function __construct(
+        private NotificationRepositoryInterface $notificationRepository,
+        private UserNotificationRepositoryInterface $userNotificationRepository,
+        private NotificationDispatcher $dispatcher,
+        private MessageBusInterface $messageBus,
+        private NotificationCache $cache
+    ) {}
+
+    public function createNotification(NotificationType $type, string $title, string $message, ?string $link = null): Notification
     {
+        $notification = new Notification(
+
+        );
+
+        $this->notificationRepository->save($notification);
     }
 
     public function createMassNotification(NotificationType $type, string $title, string $message): Notification
