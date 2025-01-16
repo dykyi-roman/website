@@ -29,4 +29,4 @@ services:
             $entityManager: '@doctrine.orm.site_entity_manager'
 
     Notification\DomainModel\Repository\UserNotificationRepositoryInterface:
-        alias: UserNotification\Infrastructure\Repository\UserNotificationRepository
+        alias: Notification\Infrastructure\Repository\UserNotificationRepository

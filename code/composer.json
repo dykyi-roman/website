@@ -60,7 +60,8 @@
             "Site\\": "src/Site/",
             "Profile\\": "src/Profile/",
             "Shared\\": "src/Shared/",
-            "EventStorage\\": "src/EventStorage/"
+            "EventStorage\\": "src/EventStorage/",
+            "Notification\\": "src/Notification/"
         }
     },
     "autoload-dev": {
@@ -71,7 +72,8 @@
             "Site\\": "src/Site/",
             "Profile\\": "src/Profile/",
             "Shared\\": "src/Shared/",
-            "EventStorage\\": "src/EventStorage/"
+            "EventStorage\\": "src/EventStorage/",
+            "Notification\\": "src/Notification/"
         }
     },
     "replace": {
