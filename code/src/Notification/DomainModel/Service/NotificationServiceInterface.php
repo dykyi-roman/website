@@ -9,7 +9,7 @@ use Profile\User\DomainModel\Enum\UserId;
 interface NotificationServiceInterface
 {
     public function createNotification(
-        string $type,
+        NotificationType $type,
         string $title,
         string $message,
         ?string $link = null
