@@ -19,9 +19,9 @@ final class NotificationRepository implements NotificationRepositoryInterface
         $this->repository = $this->entityManager->getRepository(Notification::class);
     }
 
-    public function save(Notification $event): void
+    public function save(Notification $notification): void
     {
-        $this->entityManager->persist($event);
+        $this->entityManager->persist($notification);
         $this->entityManager->flush();
     }
 
@@ -29,5 +29,23 @@ final class NotificationRepository implements NotificationRepositoryInterface
     {
         /* @var Notification|null */
         return $this->repository->find($id->toRfc4122());
+    }
+
+    public function getMassNotifications(\DateTimeImmutable $since): array
+    {
+        return $this->repository->createQueryBuilder('n')
+            ->where('n.createdAt >= :since')
+            ->andWhere('n.isMass = true')
+            ->setParameter('since', $since)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getActiveNotifications(): array
+    {
+        return $this->repository->createQueryBuilder('n')
+            ->where('n.isActive = true')
+            ->getQuery()
+            ->getResult();
     }
 }

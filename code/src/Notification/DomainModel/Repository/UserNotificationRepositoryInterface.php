@@ -10,7 +10,7 @@ use Profile\User\DomainModel\Enum\UserId;
 
 interface UserNotificationRepositoryInterface
 {
-    public function findForUser(UserId $userId, int $page = 1, int $perPage = 20): array;
+    public function findByUserId(UserId $userId, int $page = 1, int $perPage = 20): array;
 
     public function getUnreadCount(UserId $userId): int;
 

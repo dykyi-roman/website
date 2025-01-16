@@ -9,7 +9,7 @@ use Notification\DomainModel\Model\Notification;
 
 interface NotificationRepositoryInterface
 {
-    public function find(NotificationId $id): ?Notification;
+    public function findById(NotificationId $id): ?Notification;
 
     public function save(Notification $notification): void;
 
