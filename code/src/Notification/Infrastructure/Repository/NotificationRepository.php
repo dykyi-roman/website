@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Notification\Infrastructure\Repository;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Notification\DomainModel\Enum\NotificationId;

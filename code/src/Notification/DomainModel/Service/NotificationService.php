@@ -18,13 +18,13 @@ final readonly class NotificationService implements NotificationServiceInterface
         private UserNotificationRepositoryInterface $userNotificationRepository,
         private NotificationDispatcher $dispatcher,
         private MessageBusInterface $messageBus,
-        private NotificationCache $cache
-    ) {}
+        private NotificationCache $cache,
+    ) {
+    }
 
     public function createNotification(NotificationType $type, string $title, string $message, ?string $link = null): Notification
     {
         $notification = new Notification(
-
         );
 
         $this->notificationRepository->save($notification);

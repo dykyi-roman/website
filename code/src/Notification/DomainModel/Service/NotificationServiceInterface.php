@@ -12,7 +12,7 @@ interface NotificationServiceInterface
         NotificationType $type,
         string $title,
         string $message,
-        ?string $link = null
+        ?string $link = null,
     ): Notification;
 
     public function createMassNotification(NotificationType $type, string $title, string $message): Notification;

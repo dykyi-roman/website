@@ -6,5 +6,4 @@ namespace Notification\Infrastructure\Cache;
 
 final class NotificationCache
 {
-
 }

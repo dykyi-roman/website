@@ -20,7 +20,7 @@ interface UserServiceInterface
         string $name,
         string $email,
         string $phone,
-        ?string $avatar = null
+        ?string $avatar = null,
     ): void;
 
     /**
