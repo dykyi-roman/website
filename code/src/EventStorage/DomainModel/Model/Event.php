@@ -13,7 +13,7 @@ use EventStorage\DomainModel\Enum\EventId;
     name: 'unique_event_type_model',
     columns: ['model_id', 'type', 'occurred_on']
 )]
-#[ORM\Index(columns: ['priority', 'occurred_on'], name: 'idx_priority_occurred')]
+#[ORM\Index(name: 'idx_priority_occurred', columns: ['priority', 'occurred_on'])]
 class Event
 {
     #[ORM\Id]

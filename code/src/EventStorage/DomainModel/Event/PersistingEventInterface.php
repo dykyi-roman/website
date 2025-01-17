@@ -18,4 +18,6 @@ interface PersistingEventInterface extends DomainEventInterface
     public function getPayload(): array;
 
     public function getVersion(): int;
+
+    public function getPriority(): int;
 }

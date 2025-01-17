@@ -27,7 +27,8 @@ final readonly class PersistingEventHandler
                 $event->getAggregateType(),
                 $event->getPayload(),
                 $event->getOccurredOn(),
-                $event->getVersion()
+                $event->getVersion(),
+                $event->getPriority()
             )
         );
     }

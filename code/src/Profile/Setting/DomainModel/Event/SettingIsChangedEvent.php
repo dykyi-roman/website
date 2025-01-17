@@ -45,4 +45,9 @@ final readonly class SettingIsChangedEvent implements PersistingEventInterface
     {
         return 1;
     }
+
+    public function getPriority(): int
+    {
+        return 0;
+    }
 }

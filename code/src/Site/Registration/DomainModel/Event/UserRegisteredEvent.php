@@ -44,4 +44,9 @@ final readonly class UserRegisteredEvent implements PersistingEventInterface
     {
         return 1;
     }
+
+    public function getPriority(): int
+    {
+        return 0;
+    }
 }

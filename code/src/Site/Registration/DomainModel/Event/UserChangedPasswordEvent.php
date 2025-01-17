@@ -39,4 +39,9 @@ final readonly class UserChangedPasswordEvent implements PersistingEventInterfac
     {
         return 1;
     }
+
+    public function getPriority(): int
+    {
+        return 0;
+    }
 }

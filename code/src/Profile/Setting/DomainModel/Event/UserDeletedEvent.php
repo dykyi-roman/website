@@ -45,4 +45,9 @@ final readonly class UserDeletedEvent implements PersistingEventInterface
     {
         return 1;
     }
+
+    public function getPriority(): int
+    {
+        return 0;
+    }
 }
