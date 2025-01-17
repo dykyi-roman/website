@@ -46,11 +46,11 @@ final class SendNotificationCommand extends Command
             }
 
             $userIdOption = $input->getOption('user-id');
-            if ($userIdOption !== null && $userIdOption !== '') {
+            if (null !== $userIdOption && '' !== $userIdOption) {
                 if (!is_string($userIdOption)) {
                     throw new \InvalidArgumentException('User ID must be a string');
                 }
-                
+
                 $this->messageBus->dispatch(
                     new CreateNotificationMessageCommand(
                         NotificationId::from($notificationId),

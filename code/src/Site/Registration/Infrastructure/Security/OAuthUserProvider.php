@@ -7,7 +7,7 @@ namespace Site\Registration\Infrastructure\Security;
 use KnpU\OAuth2ClientBundle\Security\User\OAuthUser;
 use League\OAuth2\Client\Provider\FacebookUser;
 use League\OAuth2\Client\Provider\GoogleUser;
-use Profile\User\Application\FindSocialUser\Service\SocialRegistrationServiceInterface;
+use Profile\User\Application\SocialRegistration\Service\SocialRegistrationServiceInterface;
 use Profile\User\DomainModel\Enum\Roles;
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\UserInterface;
@@ -17,7 +17,6 @@ use Shared\DomainModel\ValueObject\Email;
 use Shared\DomainModel\ValueObject\Location;
 use Site\Registration\DomainModel\Event\UserRegisteredEvent;
 use Site\Registration\DomainModel\Service\CountryDetectorInterface;
-use Site\Registration\DomainModel\Service\ReferralReceiverInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -30,7 +29,6 @@ final readonly class OAuthUserProvider implements UserProviderInterface
     public function __construct(
         private SocialRegistrationServiceInterface $socialRegistrationService,
         private CountryDetectorInterface $countryDetector,
-        private ReferralReceiverInterface $referralReceiver,
         private MessageBusInterface $eventBus,
     ) {
     }
@@ -67,7 +65,6 @@ final readonly class OAuthUserProvider implements UserProviderInterface
             Email::fromString($email),
             new Location($country),
             $googleId,
-            $this->referralReceiver->referral(),
         );
 
         $this->eventBus->dispatch(
@@ -109,7 +106,6 @@ final readonly class OAuthUserProvider implements UserProviderInterface
             Email::fromString($email),
             new Location($country),
             $facebookId,
-            $this->referralReceiver->referral(),
         );
 
         $this->eventBus->dispatch(

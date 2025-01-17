@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace Site\Registration\Application\UserRegistration\Command;
 
-use Profile\User\DomainModel\Enum\UserId;
-use Profile\User\DomainModel\Model\User;
+use Profile\User\Application\ManualRegistration\Service\ManualRegistrationServiceInterface;
 use Profile\User\DomainModel\Model\UserInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Shared\DomainModel\ValueObject\Email;
 use Site\Registration\DomainModel\Event\UserRegisteredEvent;
-use Site\Registration\DomainModel\Service\ReferralReceiverInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -22,12 +19,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final readonly class RegisterUserCommandHandler
 {
     public function __construct(
-        private UserPasswordHasherInterface $passwordHasher,
         private TokenStorageInterface $tokenStorage,
         private TranslatorInterface $translator,
         private UserRepositoryInterface $userRepository,
         private MessageBusInterface $eventBus,
-        private ReferralReceiverInterface $referralReceiver,
+        private ManualRegistrationServiceInterface $manualRegistrationService,
     ) {
     }
 
@@ -35,10 +31,13 @@ final readonly class RegisterUserCommandHandler
     {
         $this->checkIfEmailAlreadyExists($command->email);
 
-        $user = $this->createUser($command);
-        $user->updatePassword($this->passwordHasher->hashPassword($user, $command->password));
-        $user->withReferral($this->referralReceiver->referral());
-        $this->saveUser($user);
+        $user = $this->manualRegistrationService->createUser(
+            $command->name,
+            $command->email,
+            $command->location,
+            $command->phone,
+            $command->password,
+        );
 
         $this->eventBus->dispatch(
             new UserRegisteredEvent(
@@ -49,15 +48,6 @@ final readonly class RegisterUserCommandHandler
         );
 
         $this->loginUserAfterRegistration($user);
-    }
-
-    private function saveUser(UserInterface $user): void
-    {
-        try {
-            $this->userRepository->save($user);
-        } catch (\Throwable $exception) {
-            throw new \DomainException(sprintf($this->translator->trans('user_registration_save_error'), $exception->getMessage()));
-        }
     }
 
     private function checkIfEmailAlreadyExists(Email $email): void
@@ -71,17 +61,5 @@ final readonly class RegisterUserCommandHandler
     {
         $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
         $this->tokenStorage->setToken($token);
-    }
-
-    private function createUser(RegisterUserCommand $command): UserInterface
-    {
-        return new User(
-            new UserId(),
-            $command->name,
-            $command->email,
-            $command->location,
-            $command->phone,
-            $command->roles,
-        );
     }
 }

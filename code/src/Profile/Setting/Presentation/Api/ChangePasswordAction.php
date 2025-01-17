@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Profile\Setting\Presentation\Api;
 
 use OpenApi\Attributes as OA;
-use Profile\Setting\Application\ChangePassword\Command\ChangePasswordCommand;
 use Profile\Setting\Presentation\Api\Request\ChangePasswordRequestDto;
 use Profile\Setting\Presentation\Api\Response\ChangePasswordJsonResponder;
+use Profile\User\Application\ChangePassword\Command\ChangePasswordCommand;
 use Profile\User\DomainModel\Service\UserFetcherInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;

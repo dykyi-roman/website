@@ -1,6 +1,6 @@
 <?php
 
-namespace Profile\User\Application\FindSocialUser\Service;
+namespace Profile\User\Application\SocialRegistration\Service;
 
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\User;
@@ -8,11 +8,13 @@ use Profile\User\DomainModel\Model\UserInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Shared\DomainModel\ValueObject\Email;
 use Shared\DomainModel\ValueObject\Location;
+use Site\Registration\DomainModel\Service\ReferralReceiverInterface;
 
 final readonly class SocialRegistrationService implements SocialRegistrationServiceInterface
 {
     public function __construct(
         private UserRepositoryInterface $userRepository,
+        private ReferralReceiverInterface $referralReceiver,
     ) {
     }
 
@@ -54,11 +56,10 @@ final readonly class SocialRegistrationService implements SocialRegistrationServ
         Email $email,
         Location $location,
         string $token,
-        string $referral,
     ): UserInterface {
         $user = new User($userId, $name, $email, $location, null, []);
         $user->setFacebookToken($token);
-        $user->withReferral($referral);
+        $user->withReferral($this->referralReceiver->referral());
         $this->userRepository->save($user);
 
         return $user;
@@ -70,11 +71,10 @@ final readonly class SocialRegistrationService implements SocialRegistrationServ
         Email $email,
         Location $location,
         string $token,
-        string $referral,
     ): UserInterface {
         $user = new User($userId, $name, $email, $location, null, []);
         $user->setGoogleToken($token);
-        $user->withReferral($referral);
+        $user->withReferral($this->referralReceiver->referral());
         $this->userRepository->save($user);
 
         return $user;

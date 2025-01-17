@@ -36,11 +36,11 @@ final readonly class NotificationCache
     {
         $key = sprintf(self::UNREAD_COUNT_KEY, $userId->toRfc4122());
         $value = $this->cache->get($key);
-        
-        if ($value === null) {
+
+        if (null === $value) {
             return null;
         }
-        
+
         return is_numeric($value) ? (int) $value : 0;
     }
 }

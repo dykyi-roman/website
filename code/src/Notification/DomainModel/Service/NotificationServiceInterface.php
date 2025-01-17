@@ -3,8 +3,8 @@
 namespace Notification\DomainModel\Service;
 
 use Notification\DomainModel\Enum\NotificationId;
-use Notification\DomainModel\Model\UserNotification;
 use Notification\DomainModel\Enum\UserNotificationId;
+use Notification\DomainModel\Model\UserNotification;
 use Profile\User\DomainModel\Enum\UserId;
 
 interface NotificationServiceInterface

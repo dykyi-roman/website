@@ -1,6 +1,6 @@
 <?php
 
-namespace Profile\User\Application\FindSocialUser\Service;
+namespace Profile\User\Application\SocialRegistration\Service;
 
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\UserInterface;
@@ -19,7 +19,6 @@ interface SocialRegistrationServiceInterface
         Email $email,
         Location $location,
         string $token,
-        string $referral,
     ): UserInterface;
 
     public function createGoogleUser(
@@ -28,6 +27,5 @@ interface SocialRegistrationServiceInterface
         Email $email,
         Location $location,
         string $token,
-        string $referral,
     ): UserInterface;
 }

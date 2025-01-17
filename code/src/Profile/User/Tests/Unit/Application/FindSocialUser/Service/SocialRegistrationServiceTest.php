@@ -7,7 +7,7 @@ namespace Profile\User\Tests\Unit\Application\FindSocialUser\Service;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Profile\User\Application\FindSocialUser\Service\SocialRegistrationService;
+use Profile\User\Application\SocialRegistration\Service\SocialRegistrationService;
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\User;
 use Profile\User\DomainModel\Model\UserInterface;
@@ -15,17 +15,20 @@ use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Shared\DomainModel\ValueObject\Country;
 use Shared\DomainModel\ValueObject\Email;
 use Shared\DomainModel\ValueObject\Location;
+use Site\Registration\DomainModel\Service\ReferralReceiverInterface;
 
 #[CoversClass(SocialRegistrationService::class)]
 final class SocialRegistrationServiceTest extends TestCase
 {
     private MockObject&UserRepositoryInterface $userRepository;
+    private MockObject&ReferralReceiverInterface $referralReceiver;
     private SocialRegistrationService $service;
 
     protected function setUp(): void
     {
         $this->userRepository = $this->createMock(UserRepositoryInterface::class);
-        $this->service = new SocialRegistrationService($this->userRepository);
+        $this->referralReceiver = $this->createMock(ReferralReceiverInterface::class);
+        $this->service = new SocialRegistrationService($this->userRepository, $this->referralReceiver);
     }
 
     public function testHasRegistrationByFacebookWhenUserExistsByFacebookId(): void
@@ -60,7 +63,7 @@ final class SocialRegistrationServiceTest extends TestCase
         $this->userRepository
             ->expects(self::once())
             ->method('findByEmail')
-            ->with($email)
+            ->with((string) $email)
             ->willReturn($existingUser);
 
         $existingUser
@@ -92,7 +95,7 @@ final class SocialRegistrationServiceTest extends TestCase
         $this->userRepository
             ->expects(self::once())
             ->method('findByEmail')
-            ->with($email)
+            ->with((string) $email)
             ->willReturn(null);
 
         $result = $this->service->hasRegistrationByFacebook($email, $facebookId);
@@ -132,7 +135,7 @@ final class SocialRegistrationServiceTest extends TestCase
         $this->userRepository
             ->expects(self::once())
             ->method('findByEmail')
-            ->with($email)
+            ->with((string) $email)
             ->willReturn($existingUser);
 
         $existingUser
@@ -164,7 +167,7 @@ final class SocialRegistrationServiceTest extends TestCase
         $this->userRepository
             ->expects(self::once())
             ->method('findByEmail')
-            ->with($email)
+            ->with((string) $email)
             ->willReturn(null);
 
         $result = $this->service->hasRegistrationByGoogle($email, $googleId);
@@ -181,19 +184,26 @@ final class SocialRegistrationServiceTest extends TestCase
         $token = 'facebook123';
         $referral = 'ref123';
 
+        $this->referralReceiver
+            ->expects(self::once())
+            ->method('referral')
+            ->willReturn($referral);
+
         $this->userRepository
             ->expects(self::once())
             ->method('save')
-            ->willReturnCallback(function (User $user) use ($userId, $name, $email, $location) {
+            ->willReturnCallback(function (User $user) use ($userId, $name, $email, $location, $token, $referral) {
                 self::assertSame($userId, $user->id());
                 self::assertSame($name, $user->name());
                 self::assertSame($email, $user->email());
                 self::assertSame($location, $user->getLocation());
+                self::assertSame($token, $user->getFacebookToken());
+                self::assertSame($referral, $user->getReferral());
 
                 return $user;
             });
 
-        $result = $this->service->createFacebookUser($userId, $name, $email, $location, $token, $referral);
+        $result = $this->service->createFacebookUser($userId, $name, $email, $location, $token);
 
         self::assertInstanceOf(UserInterface::class, $result);
     }
@@ -207,19 +217,26 @@ final class SocialRegistrationServiceTest extends TestCase
         $token = 'google123';
         $referral = 'ref123';
 
+        $this->referralReceiver
+            ->expects(self::once())
+            ->method('referral')
+            ->willReturn($referral);
+
         $this->userRepository
             ->expects(self::once())
             ->method('save')
-            ->willReturnCallback(function (User $user) use ($userId, $name, $email, $location) {
+            ->willReturnCallback(function (User $user) use ($userId, $name, $email, $location, $token, $referral) {
                 self::assertSame($userId, $user->id());
                 self::assertSame($name, $user->name());
                 self::assertSame($email, $user->email());
                 self::assertSame($location, $user->getLocation());
+                self::assertSame($token, $user->getGoogleToken());
+                self::assertSame($referral, $user->getReferral());
 
                 return $user;
             });
 
-        $result = $this->service->createGoogleUser($userId, $name, $email, $location, $token, $referral);
+        $result = $this->service->createGoogleUser($userId, $name, $email, $location, $token);
 
         self::assertInstanceOf(UserInterface::class, $result);
     }

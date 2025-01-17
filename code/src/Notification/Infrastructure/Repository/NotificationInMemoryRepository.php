@@ -49,14 +49,14 @@ final class NotificationInMemoryRepository implements NotificationRepositoryInte
     public function findById(NotificationId $id): ?Notification
     {
         $key = $id->value;
+
         return isset($this->notifications[$key]) ? $this->notifications[$key] : null;
     }
 
     /** @return array<Notification> */
     public function getMassNotifications(\DateTimeImmutable $since): array
     {
-        return array_filter($this->notifications, fn(Notification $notification) => 
-            $notification->getType() === NotificationType::SYSTEM
+        return array_filter($this->notifications, fn (Notification $notification) => NotificationType::SYSTEM === $notification->getType()
         );
     }
 

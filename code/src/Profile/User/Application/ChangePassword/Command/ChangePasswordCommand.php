@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Profile\Setting\Application\ChangePassword\Command;
+namespace Profile\User\Application\ChangePassword\Command;
 
 use Profile\User\DomainModel\Enum\UserId;
 
