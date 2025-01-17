@@ -12,16 +12,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class NotificationInMemoryRepository implements NotificationRepositoryInterface
 {
-    /**
-     * @var Notification[]
-     */
+    /** @var array<string, Notification> */
     private array $notifications;
 
     public function __construct(
         TranslatorInterface $translator,
     ) {
-        $this->notifications[] = [
-            new Notification(
+        $this->notifications = [
+            NotificationId::HAPPY_BIRTHDAY->value => new Notification(
                 NotificationId::HAPPY_BIRTHDAY,
                 NotificationType::PERSONAL,
                 $translator->trans('notification.happy-birthday.title'),
@@ -29,7 +27,7 @@ final class NotificationInMemoryRepository implements NotificationRepositoryInte
                 null,
                 null,
             ),
-            new Notification(
+            NotificationId::HAPPY_NEW_YEAR->value => new Notification(
                 NotificationId::HAPPY_NEW_YEAR,
                 NotificationType::PERSONAL,
                 $translator->trans('notification.happy-new_year.title'),
@@ -37,7 +35,7 @@ final class NotificationInMemoryRepository implements NotificationRepositoryInte
                 null,
                 null,
             ),
-            new Notification(
+            NotificationId::PASS_VERIFICATION->value => new Notification(
                 NotificationId::PASS_VERIFICATION,
                 NotificationType::INFORMATION,
                 $translator->trans('notification.pass-verification.title'),
@@ -50,16 +48,21 @@ final class NotificationInMemoryRepository implements NotificationRepositoryInte
 
     public function findById(NotificationId $id): ?Notification
     {
-        return null;
+        $key = $id->value;
+        return isset($this->notifications[$key]) ? $this->notifications[$key] : null;
     }
 
+    /** @return array<Notification> */
     public function getMassNotifications(\DateTimeImmutable $since): array
     {
-        return [];
+        return array_filter($this->notifications, fn(Notification $notification) => 
+            $notification->getType() === NotificationType::SYSTEM
+        );
     }
 
+    /** @return array<Notification> */
     public function getActiveNotifications(): array
     {
-        return [];
+        return array_values($this->notifications);
     }
 }

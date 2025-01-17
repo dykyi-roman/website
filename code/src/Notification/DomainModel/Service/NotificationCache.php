@@ -19,19 +19,28 @@ final readonly class NotificationCache
     public function incrementUnreadCount(UserId $userId): void
     {
         $key = sprintf(self::UNREAD_COUNT_KEY, $userId->toRfc4122());
-        $this->cache->increment($key);
+        $value = $this->cache->get($key);
+        $count = is_numeric($value) ? (int) $value : 0;
+        $this->cache->set($key, $count + 1);
     }
 
     public function decrementUnreadCount(UserId $userId): void
     {
         $key = sprintf(self::UNREAD_COUNT_KEY, $userId->toRfc4122());
-        $this->cache->decrement($key);
+        $value = $this->cache->get($key);
+        $count = is_numeric($value) ? (int) $value : 0;
+        $this->cache->set($key, max(0, $count - 1));
     }
 
     public function getUnreadCount(UserId $userId): ?int
     {
         $key = sprintf(self::UNREAD_COUNT_KEY, $userId->toRfc4122());
-
-        return $this->cache->get($key);
+        $value = $this->cache->get($key);
+        
+        if ($value === null) {
+            return null;
+        }
+        
+        return is_numeric($value) ? (int) $value : 0;
     }
 }

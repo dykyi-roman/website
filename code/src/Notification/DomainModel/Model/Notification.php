@@ -18,7 +18,7 @@ class Notification
         private ?string $icon,
         private bool $isMassNotification = false,
         private ?\DateTimeImmutable $expireAt = null,
-        private ?\DateTimeImmutable $createdAt = new \DateTimeImmutable(),
+        private \DateTimeImmutable $createdAt = new \DateTimeImmutable(),
     ) {
     }
 
@@ -57,7 +57,7 @@ class Notification
         return $this->createdAt;
     }
 
-    public function getExpireAt(): \DateTimeImmutable
+    public function getExpireAt(): ?\DateTimeImmutable
     {
         return $this->expireAt;
     }

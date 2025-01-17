@@ -23,12 +23,16 @@ final class UserNotificationRepository implements UserNotificationRepositoryInte
         $this->repository = $this->entityManager->getRepository(UserNotification::class);
     }
 
+    /**
+     * @return list<UserNotification>
+     */
     public function getUserNotifications(UserId $userId, int $page = 1, int $perPage = 20): array
     {
         $offset = ($page - 1) * $perPage;
 
+        /** @var list<UserNotification> */
         return $this->repository->createQueryBuilder('un')
-            ->where('un.userId = :userId')
+            ->andWhere('un.userId = :userId')
             ->andWhere('un.isDeleted is NULL')
             ->setParameter('userId', $userId->toRfc4122())
             ->setFirstResult($offset)
@@ -42,7 +46,7 @@ final class UserNotificationRepository implements UserNotificationRepositoryInte
     {
         return (int) $this->repository->createQueryBuilder('un')
             ->select('COUNT(un.id)')
-            ->where('un.userId = :userId')
+            ->andWhere('un.userId = :userId')
             ->andWhere('un.isRead is NULL')
             ->andWhere('un.isDeleted is NULL')
             ->setParameter('userId', $userId->toRfc4122())

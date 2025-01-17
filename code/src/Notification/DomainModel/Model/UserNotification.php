@@ -92,7 +92,7 @@ class UserNotification
         return $this->createdAt;
     }
 
-    public function getDeletedAt(): \DateTimeImmutable
+    public function getDeletedAt(): ?\DateTimeImmutable
     {
         return $this->deletedAt;
     }

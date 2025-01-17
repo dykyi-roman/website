@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Notification\DomainModel\Exception;
 
 use Notification\DomainModel\Enum\UserNotificationId;
+use Throwable;
 
 final class NotificationNotFoundException extends \RuntimeException
 {

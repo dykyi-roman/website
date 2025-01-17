@@ -40,15 +40,25 @@ final class SendNotificationCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
-            if ($userId = $input->getOption('user-id')) {
+            $notificationId = $input->getArgument('notification-id');
+            if (!is_string($notificationId)) {
+                throw new \InvalidArgumentException('Notification ID must be a string');
+            }
+
+            $userIdOption = $input->getOption('user-id');
+            if ($userIdOption !== null && $userIdOption !== '') {
+                if (!is_string($userIdOption)) {
+                    throw new \InvalidArgumentException('User ID must be a string');
+                }
+                
                 $this->messageBus->dispatch(
                     new CreateNotificationMessageCommand(
-                        NotificationId::from($input->getArgument('notification-id')),
-                        UserId::fromString($userId),
+                        NotificationId::from($notificationId),
+                        UserId::fromString($userIdOption),
                     ),
                 );
 
-                $output->writeln(sprintf('Send 1 notifications to %s', $userId));
+                $output->writeln(sprintf('Send 1 notifications to %s', $userIdOption));
 
                 return Command::SUCCESS;
             }
@@ -60,7 +70,7 @@ final class SendNotificationCommand extends Command
             foreach ($userIds as $userId) {
                 $this->messageBus->dispatch(
                     new CreateNotificationMessageCommand(
-                        NotificationId::from($input->getArgument('notification-id')),
+                        NotificationId::from($notificationId),
                         $userId,
                     ),
                 );
