@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Profile\Setting\Application\SettingsPrivacy\Command\ActivateUserAccountCommand;
 use Profile\Setting\Application\SettingsPrivacy\Command\ActivateUserAccountCommandHandler;
 use Profile\User\DomainModel\Enum\UserId;
+use Profile\User\DomainModel\Enum\UserStatus;
 use Profile\User\DomainModel\Model\User;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
@@ -28,14 +29,13 @@ final class ActivateUserAccountCommandHandlerTest extends TestCase
 
         $this->handler = new ActivateUserAccountCommandHandler(
             $this->userRepository,
-            $this->logger
         );
     }
 
     public function testSuccessfulUserActivation(): void
     {
         $userId = new UserId();
-        $command = new ActivateUserAccountCommand($userId, 1);
+        $command = new ActivateUserAccountCommand($userId, UserStatus::ACTIVATED);
 
         $user = $this->createMock(User::class);
         $user->expects(self::once())
@@ -62,7 +62,7 @@ final class ActivateUserAccountCommandHandlerTest extends TestCase
     public function testSuccessfulUserDeactivation(): void
     {
         $userId = new UserId();
-        $command = new ActivateUserAccountCommand($userId, 0);
+        $command = new ActivateUserAccountCommand($userId, UserStatus::DEACTIVATED);
 
         $user = $this->createMock(User::class);
         $user->expects(self::once())
@@ -89,7 +89,7 @@ final class ActivateUserAccountCommandHandlerTest extends TestCase
     public function testHandleException(): void
     {
         $userId = new UserId();
-        $command = new ActivateUserAccountCommand($userId, 1);
+        $command = new ActivateUserAccountCommand($userId, UserStatus::ACTIVATED);
         $errorMessage = 'User not found';
 
         $this->userRepository

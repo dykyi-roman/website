@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Profile\User\Application\UpdateUserSettings\Command;
 
-use Profile\User\DomainModel\Service\UserServiceInterface;
+use Profile\User\Application\UpdateUserSettings\Service\UpdateUserService;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
 final readonly class UpdateUserSettingsCommandHandler
 {
     public function __construct(
-        private UserServiceInterface $userService,
+        private UpdateUserService $userService,
     ) {
     }
 

@@ -2,27 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Profile\User\DomainModel\Service;
+namespace Profile\User\Application\UserPrivacyOperation\Service;
 
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Exception\ActivateUserException;
 use Profile\User\DomainModel\Exception\DeactivateUserException;
 use Profile\User\DomainModel\Exception\DeleteUserException;
-use Profile\User\DomainModel\Exception\UserExistException;
 
-interface UserServiceInterface
+interface UserPrivacyServiceInterface
 {
-    /**
-     * @throws UserExistException
-     */
-    public function update(
-        UserId $userId,
-        string $name,
-        string $email,
-        string $phone,
-        ?string $avatar = null,
-    ): void;
-
     /**
      * @throws DeleteUserException
      */

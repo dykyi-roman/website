@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Profile\Setting\Application\SettingsPrivacy\Command\ActivateUserAccountCommand;
 use Profile\User\DomainModel\Enum\UserId;
+use Profile\User\DomainModel\Enum\UserStatus;
 
 #[CoversClass(ActivateUserAccountCommand::class)]
 final class ActivateUserAccountCommandTest extends TestCase
@@ -15,7 +16,7 @@ final class ActivateUserAccountCommandTest extends TestCase
     public function testCreateCommand(): void
     {
         $userId = new UserId();
-        $userStatus = 1;
+        $userStatus = UserStatus::ACTIVATED;
 
         $command = new ActivateUserAccountCommand(
             userId: $userId,

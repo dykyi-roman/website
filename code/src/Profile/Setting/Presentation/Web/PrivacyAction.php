@@ -8,6 +8,7 @@ use Profile\Setting\Application\SettingsPrivacy\Command\ActivateUserAccountComma
 use Profile\Setting\Application\SettingsPrivacy\Command\DeleteUserAccountCommand;
 use Profile\Setting\Presentation\Web\Request\ActivateAccountRequestDTO;
 use Profile\Setting\Presentation\Web\Response\PrivacyJsonResponder;
+use Profile\User\DomainModel\Enum\UserStatus;
 use Profile\User\DomainModel\Service\UserFetcherInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
@@ -29,7 +30,12 @@ final readonly class PrivacyAction
         PrivacyJsonResponder $responder,
     ): PrivacyJsonResponder {
         try {
-            $this->messageBus->dispatch(new ActivateUserAccountCommand($userFetcher->fetch()->id(), $request->status));
+            $this->messageBus->dispatch(
+                new ActivateUserAccountCommand(
+                    $userFetcher->fetch()->id(),
+                    UserStatus::from($request->status),
+                ),
+            );
 
             return $responder->success('Ok')->respond();
         } catch (\Throwable) {

@@ -2,18 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Profile\User\DomainModel\Service;
+namespace Profile\User\Application\UserPrivacyOperation\Service;
 
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Exception\ActivateUserException;
 use Profile\User\DomainModel\Exception\DeactivateUserException;
 use Profile\User\DomainModel\Exception\DeleteUserException;
-use Profile\User\DomainModel\Exception\UserExistException;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
-use Shared\DomainModel\ValueObject\Email;
 
-final readonly class UserService implements UserServiceInterface
+final readonly class UserPrivacyService implements UserPrivacyServiceInterface
 {
     public function __construct(
         private UserRepositoryInterface $userRepository,
@@ -66,38 +64,6 @@ final readonly class UserService implements UserServiceInterface
             $this->logger->error($exception->getMessage());
 
             throw new DeactivateUserException($userId);
-        }
-    }
-
-    /**
-     * @throws UserExistException
-     */
-    public function update(
-        UserId $userId,
-        string $name,
-        string $email,
-        string $phone,
-        ?string $avatar = null,
-    ): void {
-        try {
-            $user = $this->userRepository->findById($userId);
-            $newEmail = Email::fromString($email);
-
-            if ($this->userRepository->findByEmail($newEmail) && !$user->email()->equals($newEmail)) {
-                throw new UserExistException($user->id());
-            }
-
-            $user->changeName($name);
-            $user->changeEmail($newEmail);
-            $user->changePhone($phone);
-
-            if (null !== $avatar) {
-                $user->changeAvatar($avatar);
-            }
-
-            $this->userRepository->save($user);
-        } catch (\Throwable $exception) {
-            $this->logger->error($exception->getMessage());
         }
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Profile\User\DomainModel\Exception;
+namespace Profile\User\Application\UpdateUserSettings\Exception;
 
 use Profile\User\DomainModel\Enum\UserId;
 

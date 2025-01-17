@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Profile\Setting\Application\SettingsPrivacy\Command;
 
-use Profile\User\DomainModel\Service\UserServiceInterface;
+use Profile\User\Application\UserPrivacyOperation\Service\UserPrivacyServiceInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 final readonly class DeleteUserAccountCommandHandler
 {
     public function __construct(
-        private UserServiceInterface $userService,
+        private UserPrivacyServiceInterface $userPrivacyService,
         private TokenStorageInterface $tokenStorage,
     ) {
     }
@@ -22,7 +22,7 @@ final readonly class DeleteUserAccountCommandHandler
      */
     public function __invoke(DeleteUserAccountCommand $command): void
     {
-        $this->userService->delete($command->userId);
+        $this->userPrivacyService->delete($command->userId);
         $this->tokenStorage->setToken(null);
     }
 }
