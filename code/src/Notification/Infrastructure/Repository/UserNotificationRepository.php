@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Notification\DomainModel\Enum\NotificationId;
 use Notification\DomainModel\Enum\UserNotificationId;
+use Notification\DomainModel\Exception\NotificationNotFoundException;
 use Notification\DomainModel\Model\UserNotification;
 use Notification\DomainModel\Repository\UserNotificationRepositoryInterface;
 use Profile\User\DomainModel\Enum\UserId;
@@ -23,13 +24,13 @@ final class UserNotificationRepository implements UserNotificationRepositoryInte
         $this->repository = $this->entityManager->getRepository(UserNotification::class);
     }
 
-    public function findByUserId(UserId $userId, int $page = 1, int $perPage = 20): array
+    public function getUserNotifications(UserId $userId, int $page = 1, int $perPage = 20): array
     {
         $offset = ($page - 1) * $perPage;
 
         return $this->repository->createQueryBuilder('un')
             ->where('un.userId = :userId')
-            ->andWhere('un.isDeleted = false')
+            ->andWhere('un.isDeleted is NULL')
             ->setParameter('userId', $userId->toRfc4122())
             ->setFirstResult($offset)
             ->setMaxResults($perPage)
@@ -43,41 +44,11 @@ final class UserNotificationRepository implements UserNotificationRepositoryInte
         return (int) $this->repository->createQueryBuilder('un')
             ->select('COUNT(un.id)')
             ->where('un.userId = :userId')
-            ->andWhere('un.isRead = false')
-            ->andWhere('un.isDeleted = false')
+            ->andWhere('un.isRead is NULL')
+            ->andWhere('un.isDeleted is NULL')
             ->setParameter('userId', $userId->toRfc4122())
             ->getQuery()
             ->getSingleScalarResult();
-    }
-
-    public function markAsRead(UserId $userId, NotificationId $notificationId): void
-    {
-        $this->repository->createQueryBuilder('un')
-            ->update()
-            ->set('un.isRead', true)
-            ->where('un.userId = :userId')
-            ->andWhere('un.notificationId = :notificationId')
-            ->setParameters([
-                'userId' => $userId->toRfc4122(),
-                'notificationId' => $notificationId->toRfc4122(),
-            ])
-            ->getQuery()
-            ->execute();
-    }
-
-    public function markAsDeleted(UserId $userId, NotificationId $notificationId): void
-    {
-        $this->repository->createQueryBuilder('un')
-            ->update()
-            ->set('un.isDeleted', true)
-            ->where('un.userId = :userId')
-            ->andWhere('un.notificationId = :notificationId')
-            ->setParameters([
-                'userId' => $userId->toRfc4122(),
-                'notificationId' => $notificationId->toRfc4122(),
-            ])
-            ->getQuery()
-            ->execute();
     }
 
     public function save(UserNotification $userNotification): void
@@ -86,9 +57,13 @@ final class UserNotificationRepository implements UserNotificationRepositoryInte
         $this->entityManager->flush();
     }
 
-    public function findById(UserNotificationId $id): ?UserNotification
+    public function findById(UserNotificationId $id): UserNotification
     {
-        /* @var UserNotification|null */
-        return $this->repository->find($id->toRfc4122());
+        $result =  $this->repository->find($id->toRfc4122());
+        if (null === $result) {
+            throw new NotificationNotFoundException($id);
+        }
+
+        return $result;
     }
 }

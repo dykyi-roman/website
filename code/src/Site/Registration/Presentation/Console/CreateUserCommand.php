@@ -63,9 +63,7 @@ final class CreateUserCommand extends Command
             return Command::SUCCESS;
         } catch (\Throwable $exception) {
             $this->logger->error($exception->getMessage(), [
-                'exception' => get_class($exception),
-                'file' => $exception->getFile(),
-                'line' => $exception->getLine(),
+                'exception' => $exception,
             ]);
 
             return Command::FAILURE;

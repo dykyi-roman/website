@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Site\Registration\Presentation\Api;
+namespace Profile\Setting\Presentation\Api;
 
 use OpenApi\Attributes as OA;
+use Profile\Setting\Application\ChangePassword\Command\ChangePasswordCommand;
+use Profile\Setting\Presentation\Api\Request\ChangePasswordRequestDto;
+use Profile\Setting\Presentation\Api\Response\ChangePasswordJsonResponder;
 use Profile\User\DomainModel\Service\UserFetcherInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
-use Site\Registration\Application\ChangePassword\Command\ChangePasswordCommand;
-use Site\Registration\Presentation\Api\Request\ChangePasswordRequestDto;
-use Site\Registration\Presentation\Api\Response\ChangePasswordJsonResponder;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;

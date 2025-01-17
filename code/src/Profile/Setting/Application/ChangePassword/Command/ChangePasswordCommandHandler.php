@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Site\Registration\Application\ChangePassword\Command;
+namespace Profile\Setting\Application\ChangePassword\Command;
 
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;

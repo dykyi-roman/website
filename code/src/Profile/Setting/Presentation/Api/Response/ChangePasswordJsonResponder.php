@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Site\Registration\Presentation\Api\Response;
+namespace Profile\Setting\Presentation\Api\Response;
 
 use Shared\Presentation\Responder\ResponderInterface;
 

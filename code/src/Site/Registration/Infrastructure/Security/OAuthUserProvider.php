@@ -7,11 +7,10 @@ namespace Site\Registration\Infrastructure\Security;
 use KnpU\OAuth2ClientBundle\Security\User\OAuthUser;
 use League\OAuth2\Client\Provider\FacebookUser;
 use League\OAuth2\Client\Provider\GoogleUser;
+use Profile\User\Application\FindSocialUser\Service\SocialRegistrationServiceInterface;
 use Profile\User\DomainModel\Enum\Roles;
 use Profile\User\DomainModel\Enum\UserId;
-use Profile\User\DomainModel\Model\User;
 use Profile\User\DomainModel\Model\UserInterface;
-use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Shared\DomainModel\ValueObject\Country;
 use Shared\DomainModel\ValueObject\Email;
@@ -29,7 +28,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 final readonly class OAuthUserProvider implements UserProviderInterface
 {
     public function __construct(
-        private UserRepositoryInterface $userRepository,
+        private SocialRegistrationServiceInterface $socialRegistrationService,
         private CountryDetectorInterface $countryDetector,
         private ReferralReceiverInterface $referralReceiver,
         private MessageBusInterface $eventBus,
@@ -54,41 +53,30 @@ final readonly class OAuthUserProvider implements UserProviderInterface
             throw new \RuntimeException('Email is required for registration');
         }
 
-        $user = $this->userRepository->findByToken('googleToken', $googleId);
-        if (null === $user) {
-            $user = $this->userRepository->findByEmail(Email::fromString($email));
-            if (null !== $user) {
-                $user->setGoogleToken($googleId);
-                $this->userRepository->save($user);
-
-                return $user;
-            }
+        $user = $this->socialRegistrationService->hasRegistrationByGoogle(Email::fromString($email), $googleId);
+        if ($user !== null) {
+            return $user;
         }
 
-        if (null === $user) {
-            if ($country = $this->countryDetector->detect()) {
-                $country = new Country($country->code);
-            }
-            $user = new User(
-                new UserId(),
-                $name,
-                Email::fromString($email),
-                new Location($country),
-                null,
-                []
-            );
-            $user->setGoogleToken($googleId);
-            $user->withReferral($this->referralReceiver->referral());
-            $this->userRepository->save($user);
-
-            $this->eventBus->dispatch(
-                new UserRegisteredEvent(
-                    $user->id(),
-                    $user->email(),
-                    'google',
-                ),
-            );
+        if ($country = $this->countryDetector->detect()) {
+            $country = new Country($country->code);
         }
+        $user = $this->socialRegistrationService->createGoogleUser(
+            new UserId(),
+            $name,
+            Email::fromString($email),
+            new Location($country),
+            $googleId,
+            $this->referralReceiver->referral(),
+        );
+
+        $this->eventBus->dispatch(
+            new UserRegisteredEvent(
+                $user->id(),
+                $user->email(),
+                'google',
+            ),
+        );
 
         return $user;
     }
@@ -106,41 +94,31 @@ final readonly class OAuthUserProvider implements UserProviderInterface
             throw new \RuntimeException('Email is required for registration');
         }
 
-        $user = $this->userRepository->findByToken('facebookToken', $facebookId);
-        if (null === $user) {
-            $user = $this->userRepository->findByEmail(Email::fromString($email));
-            if (null !== $user) {
-                $user->setFacebookToken($facebookId);
-                $this->userRepository->save($user);
-
-                return $user;
-            }
+        $user = $this->socialRegistrationService->hasRegistrationByFacebook(Email::fromString($email), $facebookId);
+        if (null !== $user) {
+            return $user;
         }
 
-        if (null === $user) {
-            if ($country = $this->countryDetector->detect()) {
-                $country = new Country($country->code);
-            }
-            $user = new User(
-                new UserId(),
-                $name,
-                Email::fromString($email),
-                new Location($country),
-                null,
-                []
-            );
-            $user->setFacebookToken($facebookId);
-            $user->withReferral($this->referralReceiver->referral());
-            $this->userRepository->save($user);
-
-            $this->eventBus->dispatch(
-                new UserRegisteredEvent(
-                    $user->id(),
-                    $user->email(),
-                    'facebook',
-                ),
-            );
+        if ($country = $this->countryDetector->detect()) {
+            $country = new Country($country->code);
         }
+
+        $user = $this->socialRegistrationService->createFacebookUser(
+            new UserId(),
+            $name,
+            Email::fromString($email),
+            new Location($country),
+            $facebookId,
+            $this->referralReceiver->referral(),
+        );
+
+        $this->eventBus->dispatch(
+            new UserRegisteredEvent(
+                $user->id(),
+                $user->email(),
+                'facebook',
+            ),
+        );
 
         return $user;
     }

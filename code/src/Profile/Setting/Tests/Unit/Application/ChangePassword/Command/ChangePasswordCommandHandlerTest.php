@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Site\Registration\Tests\Unit\Application\ChangePassword\Command;
+namespace Profile\Setting\Tests\Unit\Application\ChangePassword\Command;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Profile\Setting\Application\ChangePassword\Command\ChangePasswordCommand;
+use Profile\Setting\Application\ChangePassword\Command\ChangePasswordCommandHandler;
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\User;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
-use Site\Registration\Application\ChangePassword\Command\ChangePasswordCommand;
-use Site\Registration\Application\ChangePassword\Command\ChangePasswordCommandHandler;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[CoversClass(ChangePasswordCommandHandler::class)]

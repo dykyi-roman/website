@@ -23,11 +23,8 @@ class UserNotification
     #[ORM\Column(name: 'user_id', type: 'user_id', length: 16)]
     private UserId $userId;
 
-    #[ORM\Column(name: 'is_read', type: 'boolean')]
-    private bool $isRead;
-
-    #[ORM\Column(name: 'is_deleted', type: 'boolean')]
-    private bool $isDeleted;
+    #[ORM\Column(name: 'deleted_at', type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $deletedAt;
 
     #[ORM\Column(name: 'read_at', type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $readAt;
@@ -39,17 +36,25 @@ class UserNotification
         UserNotificationId $id,
         NotificationId $notificationId,
         UserId $userId,
-        bool $isRead = false,
-        bool $isDeleted = false,
+        ?\DateTimeImmutable $deletedAt = null,
         ?\DateTimeImmutable $readAt = null,
     ) {
         $this->id = $id;
         $this->notificationId = $notificationId;
         $this->userId = $userId;
-        $this->isRead = $isRead;
-        $this->isDeleted = $isDeleted;
+        $this->deletedAt = $deletedAt;
         $this->readAt = $readAt;
         $this->createdAt = new \DateTimeImmutable();
+    }
+
+    public function setIsRead(): void
+    {
+        $this->readAt = new \DateTimeImmutable();
+    }
+
+    public function setIsDelete(): void
+    {
+        $this->deletedAt = new \DateTimeImmutable();
     }
 
     public function getId(): UserNotificationId
@@ -69,12 +74,12 @@ class UserNotification
 
     public function isRead(): bool
     {
-        return $this->isRead;
+        return $this->readAt !== null;
     }
 
     public function isDeleted(): bool
     {
-        return $this->isDeleted;
+        return $this->deletedAt !== null;
     }
 
     public function getReadAt(): ?\DateTimeImmutable
@@ -85,5 +90,10 @@ class UserNotification
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function getDeletedAt(): \DateTimeImmutable
+    {
+        return $this->deletedAt;
     }
 }

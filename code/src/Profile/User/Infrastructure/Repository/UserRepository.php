@@ -60,4 +60,15 @@ final class UserRepository implements UserRepositoryInterface
         /* @var UserInterface|null */
         return $this->repository->findOneBy([$field => $token]);
     }
+
+    /**
+     * @return UserId[]
+     */
+    public function findAll(): array
+    {
+        return array_map(
+            static fn (UserInterface $user): UserId => UserId::fromString($user->getId()),
+            $this->repository->findAll(),
+        );
+    }
 }

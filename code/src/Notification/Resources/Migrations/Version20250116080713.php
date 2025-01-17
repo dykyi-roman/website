@@ -18,11 +18,10 @@ final class Version20250116080713 extends AbstractMigration
     {
         $this->addSql('CREATE TABLE user_notifications (
             id BINARY(16) NOT NULL,
-            notification_id BINARY(16) NOT NULL,
             user_id BINARY(16) NOT NULL,
-            is_read BOOLEAN DEFAULT FALSE,
-            is_deleted BOOLEAN DEFAULT FALSE,
+            notification_id VARCHAR(100) NOT NULL,
             read_at TIMESTAMP NULL,
+            deleted_at TIMESTAMP NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
             FOREIGN KEY (notification_id) REFERENCES notifications(id),

@@ -11,8 +11,6 @@ interface NotificationRepositoryInterface
 {
     public function findById(NotificationId $id): ?Notification;
 
-    public function save(Notification $notification): void;
-
     public function getMassNotifications(\DateTimeImmutable $since): array;
 
     public function getActiveNotifications(): array;

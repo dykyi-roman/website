@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace Notification\DomainModel\Enum;
 
-use Symfony\Component\Uid\Uuid;
-
-final class NotificationId extends Uuid
+enum NotificationId: string
 {
-    public function __construct(?string $uuid = null, bool $checkVariant = false)
-    {
-        parent::__construct($uuid ?? Uuid::v4()->toRfc4122(), $checkVariant);
-    }
+    case HAPPY_NEW_YEAR = 'HAPPY_NEW_YEAR';
+    case HAPPY_BIRTHDAY = 'HAPPY_BIRTHDAY';
+    case PASS_VERIFICATION = 'pass_verification';
 }
