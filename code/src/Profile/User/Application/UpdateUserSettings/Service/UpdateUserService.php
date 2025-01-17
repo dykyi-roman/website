@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Profile\User\Application\UpdateUserSettings\Service;
 
+use Profile\User\Application\UpdateUserSettings\Exception\UserChangeDataException;
 use Profile\User\Application\UpdateUserSettings\Exception\UserExistException;
 use Profile\User\DomainModel\Enum\UserId;
+use Profile\User\DomainModel\Exception\UserNotFoundException;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use Shared\DomainModel\ValueObject\Email;
@@ -20,6 +22,8 @@ final readonly class UpdateUserService
 
     /**
      * @throws UserExistException
+     * @throws UserNotFoundException
+     * @throws UserChangeDataException
      */
     public function update(
         UserId $userId,
@@ -28,14 +32,15 @@ final readonly class UpdateUserService
         string $phone,
         ?string $avatar = null,
     ): void {
+        $user = $this->userRepository->findById($userId);
+        $newEmail = Email::fromString($email);
+
+        if ($this->userRepository->findByEmail($newEmail) && !$user->email()->equals($newEmail)) {
+            $this->logger->error('Attempted to update user with existing email');
+            throw new UserExistException($user->id());
+        }
+
         try {
-            $user = $this->userRepository->findById($userId);
-            $newEmail = Email::fromString($email);
-
-            if ($this->userRepository->findByEmail($newEmail) && !$user->email()->equals($newEmail)) {
-                throw new UserExistException($user->id());
-            }
-
             $user->changeName($name);
             $user->changeEmail($newEmail);
             $user->changePhone($phone);
@@ -47,6 +52,8 @@ final readonly class UpdateUserService
             $this->userRepository->save($user);
         } catch (\Throwable $exception) {
             $this->logger->error($exception->getMessage());
+
+            throw new UserChangeDataException($userId);
         }
     }
 }

@@ -74,12 +74,12 @@ class UserNotification
 
     public function isRead(): bool
     {
-        return $this->readAt !== null;
+        return null !== $this->readAt;
     }
 
     public function isDeleted(): bool
     {
-        return $this->deletedAt !== null;
+        return null !== $this->deletedAt;
     }
 
     public function getReadAt(): ?\DateTimeImmutable

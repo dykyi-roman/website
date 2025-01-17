@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Notification\DomainModel\Repository;
 
-use Notification\DomainModel\Enum\NotificationId;
 use Notification\DomainModel\Enum\UserNotificationId;
 use Notification\DomainModel\Model\UserNotification;
 use Profile\User\DomainModel\Enum\UserId;

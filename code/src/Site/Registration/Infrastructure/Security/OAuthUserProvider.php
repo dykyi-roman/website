@@ -54,7 +54,7 @@ final readonly class OAuthUserProvider implements UserProviderInterface
         }
 
         $user = $this->socialRegistrationService->hasRegistrationByGoogle(Email::fromString($email), $googleId);
-        if ($user !== null) {
+        if (null !== $user) {
             return $user;
         }
 

@@ -9,26 +9,21 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Profile\Setting\Application\SettingsPrivacy\Command\ActivateUserAccountCommand;
 use Profile\Setting\Application\SettingsPrivacy\Command\ActivateUserAccountCommandHandler;
+use Profile\User\Application\UserPrivacyOperation\Service\UserPrivacyServiceInterface;
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Enum\UserStatus;
-use Profile\User\DomainModel\Model\User;
-use Profile\User\DomainModel\Repository\UserRepositoryInterface;
-use Psr\Log\LoggerInterface;
 
 #[CoversClass(ActivateUserAccountCommandHandler::class)]
 final class ActivateUserAccountCommandHandlerTest extends TestCase
 {
-    private MockObject&UserRepositoryInterface $userRepository;
-    private MockObject&LoggerInterface $logger;
+    private MockObject&UserPrivacyServiceInterface $userPrivacyService;
     private ActivateUserAccountCommandHandler $handler;
 
     protected function setUp(): void
     {
-        $this->userRepository = $this->createMock(UserRepositoryInterface::class);
-        $this->logger = $this->createMock(LoggerInterface::class);
-
+        $this->userPrivacyService = $this->createMock(UserPrivacyServiceInterface::class);
         $this->handler = new ActivateUserAccountCommandHandler(
-            $this->userRepository,
+            $this->userPrivacyService,
         );
     }
 
@@ -37,24 +32,10 @@ final class ActivateUserAccountCommandHandlerTest extends TestCase
         $userId = new UserId();
         $command = new ActivateUserAccountCommand($userId, UserStatus::ACTIVATED);
 
-        $user = $this->createMock(User::class);
-        $user->expects(self::once())
-            ->method('activate');
-
-        $this->userRepository
+        $this->userPrivacyService
             ->expects(self::once())
-            ->method('findById')
-            ->with($userId)
-            ->willReturn($user);
-
-        $this->userRepository
-            ->expects(self::once())
-            ->method('save')
-            ->with($user);
-
-        $this->logger
-            ->expects(self::never())
-            ->method('error');
+            ->method('activate')
+            ->with($userId);
 
         $this->handler->__invoke($command);
     }
@@ -64,24 +45,10 @@ final class ActivateUserAccountCommandHandlerTest extends TestCase
         $userId = new UserId();
         $command = new ActivateUserAccountCommand($userId, UserStatus::DEACTIVATED);
 
-        $user = $this->createMock(User::class);
-        $user->expects(self::once())
-            ->method('deactivate');
-
-        $this->userRepository
+        $this->userPrivacyService
             ->expects(self::once())
-            ->method('findById')
-            ->with($userId)
-            ->willReturn($user);
-
-        $this->userRepository
-            ->expects(self::once())
-            ->method('save')
-            ->with($user);
-
-        $this->logger
-            ->expects(self::never())
-            ->method('error');
+            ->method('deactivate')
+            ->with($userId);
 
         $this->handler->__invoke($command);
     }
@@ -91,20 +58,13 @@ final class ActivateUserAccountCommandHandlerTest extends TestCase
         $userId = new UserId();
         $command = new ActivateUserAccountCommand($userId, UserStatus::ACTIVATED);
         $errorMessage = 'User not found';
+        $exception = new \RuntimeException($errorMessage);
 
-        $this->userRepository
+        $this->userPrivacyService
             ->expects(self::once())
-            ->method('findById')
-            ->willThrowException(new \RuntimeException($errorMessage));
-
-        $this->userRepository
-            ->expects(self::never())
-            ->method('save');
-
-        $this->logger
-            ->expects(self::once())
-            ->method('error')
-            ->with($errorMessage);
+            ->method('activate')
+            ->with($userId)
+            ->willThrowException($exception);
 
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage($errorMessage);

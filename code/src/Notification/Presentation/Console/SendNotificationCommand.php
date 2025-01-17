@@ -53,7 +53,7 @@ final class SendNotificationCommand extends Command
                 return Command::SUCCESS;
             }
 
-            /** @var array<\Profile\User\DomainModel\Enum\UserId> $userIds */
+            /** @var array<UserId> $userIds */
             $userIds = $this->messageBus->dispatch(
                 new UsersNotificationQuery(),
             );

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Notification\Infrastructure\Cache;
+namespace Notification\DomainModel\Service;
 
 use Profile\User\DomainModel\Enum\UserId;
 use Psr\SimpleCache\CacheInterface;
@@ -13,7 +13,8 @@ final readonly class NotificationCache
 
     public function __construct(
         private CacheInterface $cache,
-    ) {}
+    ) {
+    }
 
     public function incrementUnreadCount(UserId $userId): void
     {
@@ -27,7 +28,7 @@ final readonly class NotificationCache
         $this->cache->decrement($key);
     }
 
-    public function getUnreadCount(UserId $userId): int|null
+    public function getUnreadCount(UserId $userId): ?int
     {
         $key = sprintf(self::UNREAD_COUNT_KEY, $userId->toRfc4122());
 

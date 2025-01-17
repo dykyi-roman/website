@@ -56,7 +56,7 @@ final readonly class SocialRegistrationService implements SocialRegistrationServ
         string $token,
         string $referral,
     ): UserInterface {
-        $user = new User($userId, $name, $email, $location, null, [],);
+        $user = new User($userId, $name, $email, $location, null, []);
         $user->setFacebookToken($token);
         $user->withReferral($referral);
         $this->userRepository->save($user);
@@ -72,7 +72,7 @@ final readonly class SocialRegistrationService implements SocialRegistrationServ
         string $token,
         string $referral,
     ): UserInterface {
-        $user = new User($userId, $name, $email, $location, null, [],);
+        $user = new User($userId, $name, $email, $location, null, []);
         $user->setGoogleToken($token);
         $user->withReferral($referral);
         $this->userRepository->save($user);

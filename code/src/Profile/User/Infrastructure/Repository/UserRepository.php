@@ -67,7 +67,7 @@ final class UserRepository implements UserRepositoryInterface
     public function findAll(): array
     {
         return array_map(
-            static fn (UserInterface $user): UserId => UserId::fromString($user->getId()),
+            static fn (UserInterface $user): UserId => UserId::fromString($user->id()->toRfc4122()),
             $this->repository->findAll(),
         );
     }

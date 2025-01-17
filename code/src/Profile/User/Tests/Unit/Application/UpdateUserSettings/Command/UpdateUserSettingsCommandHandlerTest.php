@@ -10,10 +10,12 @@ use PHPUnit\Framework\TestCase;
 use Profile\User\Application\UpdateUserSettings\Command\UpdateUserSettingsCommand;
 use Profile\User\Application\UpdateUserSettings\Command\UpdateUserSettingsCommandHandler;
 use Profile\User\Application\UpdateUserSettings\Exception\UserExistException;
+use Profile\User\Application\UpdateUserSettings\Service\UpdateUserService;
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\User;
 use Profile\User\DomainModel\Model\UserInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
+use Psr\Log\LoggerInterface;
 use Shared\DomainModel\ValueObject\Email;
 
 #[CoversClass(UpdateUserSettingsCommandHandler::class)]
@@ -25,7 +27,12 @@ final class UpdateUserSettingsCommandHandlerTest extends TestCase
     protected function setUp(): void
     {
         $this->userRepository = $this->createMock(UserRepositoryInterface::class);
-        $this->handler = new UpdateUserSettingsCommandHandler($this->userRepository);
+        $this->handler = new UpdateUserSettingsCommandHandler(
+            new UpdateUserService(
+                $this->userRepository,
+                $this->createMock(LoggerInterface::class),
+            )
+        );
     }
 
     public function testSuccessfulUpdate(): void

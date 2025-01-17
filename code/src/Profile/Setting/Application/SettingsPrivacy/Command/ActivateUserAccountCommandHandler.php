@@ -20,7 +20,7 @@ final readonly class ActivateUserAccountCommandHandler
      */
     public function __invoke(ActivateUserAccountCommand $command): void
     {
-        if ($command->userStatus) {
+        if ($command->userStatus->isActive()) {
             $this->userPrivacyService->activate($command->userId);
         } else {
             $this->userPrivacyService->deactivate($command->userId);

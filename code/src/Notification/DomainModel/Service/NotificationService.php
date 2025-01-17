@@ -8,7 +8,6 @@ use Notification\DomainModel\Enum\NotificationId;
 use Notification\DomainModel\Enum\UserNotificationId;
 use Notification\DomainModel\Model\UserNotification;
 use Notification\DomainModel\Repository\UserNotificationRepositoryInterface;
-use Notification\Infrastructure\Cache\NotificationCache;
 use Profile\User\DomainModel\Enum\UserId;
 
 final readonly class NotificationService implements NotificationServiceInterface
