@@ -35,7 +35,7 @@ final readonly class RegisterUserCommandHandler
             $command->name,
             $command->email,
             $command->location,
-            $command->phone,
+            $command->phone ?? '',
             $command->password,
         );
 
