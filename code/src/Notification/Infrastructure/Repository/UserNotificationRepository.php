@@ -30,8 +30,8 @@ final class UserNotificationRepository implements UserNotificationRepositoryInte
     {
         $offset = ($page - 1) * $perPage;
 
-        /* @var list<UserNotification> */
-        return $this->repository->createQueryBuilder('un')
+        /** @var list<UserNotification> */
+        return (array) $this->repository->createQueryBuilder('un')
             ->andWhere('un.userId = :userId')
             ->andWhere('un.isDeleted is NULL')
             ->setParameter('userId', $userId->toRfc4122())
