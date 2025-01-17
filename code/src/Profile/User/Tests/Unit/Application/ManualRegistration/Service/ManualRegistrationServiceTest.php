@@ -8,6 +8,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Profile\User\Application\ManualRegistration\Service\ManualRegistrationService;
 use Profile\User\DomainModel\Model\UserInterface;
+use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Shared\DomainModel\ValueObject\City;
 use Shared\DomainModel\ValueObject\Country;
 use Shared\DomainModel\ValueObject\Email;
@@ -19,15 +20,18 @@ final class ManualRegistrationServiceTest extends TestCase
 {
     private MockObject&UserPasswordHasherInterface $passwordHasher;
     private MockObject&ReferralReceiverInterface $referralReceiver;
+    private MockObject&UserRepositoryInterface $userRepository;
     private ManualRegistrationService $service;
 
     protected function setUp(): void
     {
         $this->passwordHasher = $this->createMock(UserPasswordHasherInterface::class);
         $this->referralReceiver = $this->createMock(ReferralReceiverInterface::class);
+        $this->userRepository = $this->createMock(UserRepositoryInterface::class);
         $this->service = new ManualRegistrationService(
             $this->passwordHasher,
             $this->referralReceiver,
+            $this->userRepository,
         );
     }
 
@@ -54,6 +58,10 @@ final class ManualRegistrationServiceTest extends TestCase
             ->expects($this->once())
             ->method('referral')
             ->willReturn($referral);
+
+        $this->userRepository
+            ->expects($this->once())
+            ->method('save');
 
         // Act
         $user = $this->service->createUser($name, $email, $location, $phone, $password);
@@ -87,6 +95,10 @@ final class ManualRegistrationServiceTest extends TestCase
             ->expects($this->once())
             ->method('referral')
             ->willReturn($referral);
+
+        $this->userRepository
+            ->expects($this->once())
+            ->method('save');
 
         // Act
         $user = $this->service->createUser($name, $email, $location, null, $password);

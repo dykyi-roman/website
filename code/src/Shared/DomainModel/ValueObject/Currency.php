@@ -6,6 +6,10 @@ namespace Shared\DomainModel\ValueObject;
 
 final readonly class Currency implements \Stringable
 {
+    private const array VALID_CURRENCIES = [
+        'USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'CHF', 'CNY', 'HKD', 'NZD'
+    ];
+
     private function __construct(
         private string $code,
     ) {
@@ -15,6 +19,10 @@ final readonly class Currency implements \Stringable
 
         if (!ctype_upper($code)) {
             throw new \InvalidArgumentException('Currency code must be in uppercase letters');
+        }
+
+        if (!in_array($code, self::VALID_CURRENCIES, true)) {
+            throw new \InvalidArgumentException(sprintf('Invalid currency code "%s". Valid codes are: %s', $code, implode(', ', self::VALID_CURRENCIES)));
         }
     }
 

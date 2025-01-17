@@ -28,7 +28,7 @@ final readonly class Email implements \Stringable
 
     private function validate(string $email): void
     {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new \InvalidArgumentException('Invalid email format');
         }
     }
