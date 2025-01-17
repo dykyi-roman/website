@@ -7,6 +7,7 @@ namespace Profile\User\Application\ManualRegistration\Service;
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\User;
 use Profile\User\DomainModel\Model\UserInterface;
+use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Shared\DomainModel\ValueObject\Email;
 use Shared\DomainModel\ValueObject\Location;
 use Site\Registration\DomainModel\Service\ReferralReceiverInterface;
@@ -17,6 +18,7 @@ final readonly class ManualRegistrationService implements ManualRegistrationServ
     public function __construct(
         private UserPasswordHasherInterface $passwordHasher,
         private ReferralReceiverInterface $referralReceiver,
+        private UserRepositoryInterface $userRepository,
     ) {
     }
 
@@ -37,6 +39,7 @@ final readonly class ManualRegistrationService implements ManualRegistrationServ
 
         $user->withReferral($this->referralReceiver->referral());
         $user->updatePassword($this->passwordHasher->hashPassword($user, $password));
+        $this->userRepository->save($user);
 
         return $user;
     }
