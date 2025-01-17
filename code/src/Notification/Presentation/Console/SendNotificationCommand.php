@@ -6,7 +6,7 @@ namespace Notification\Presentation\Console;
 
 use Notification\Application\CreateNotification\Command\CreateNotificationMessageCommand;
 use Notification\DomainModel\Enum\NotificationId;
-use Profile\User\Application\FindUsersForNotifications\Query\UsersNotificationQuery;
+use Profile\User\Application\FindUsersForSendNotifications\Query\UsersNotificationQuery;
 use Profile\User\DomainModel\Enum\UserId;
 use Psr\Log\LoggerInterface;
 use Shared\DomainModel\Services\MessageBusInterface;

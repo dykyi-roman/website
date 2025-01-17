@@ -7,8 +7,8 @@ namespace Profile\User\Tests\Unit\Application\FindUsersForNotifications\Query;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Profile\User\Application\FindUsersForNotifications\Query\UsersNotificationQuery;
-use Profile\User\Application\FindUsersForNotifications\Query\UsersNotificationQueryHandler;
+use Profile\User\Application\FindUsersForSendNotifications\Query\UsersNotificationQuery;
+use Profile\User\Application\FindUsersForSendNotifications\Query\UsersNotificationQueryHandler;
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Profile\User\Application\FindUsersForNotifications\Query;
+namespace Profile\User\Application\FindUsersForSendNotifications\Query;
 
 /**
  * @see UsersNotificationQueryHandler
