@@ -18,11 +18,6 @@ interface EventRepositoryInterface
     public function findById(EventId $id): ?Event;
 
     /**
-     * @param array<Event> $events
-     */
-    public function saveBatch(array $events): void;
-
-    /**
      * @return array<Event>
      */
     public function findByPriority(int $limit = 10, int $offset = 0): array;
@@ -41,9 +36,4 @@ interface EventRepositoryInterface
      * Delete archived events older than the specified date.
      */
     public function deleteArchivedEvents(\DateTimeImmutable $olderThan): void;
-
-    /**
-     * Check if an event with the same characteristics already exists.
-     */
-    public function isDuplicate(string $modelId, string $type, \DateTimeImmutable $occurredOn): bool;
 }

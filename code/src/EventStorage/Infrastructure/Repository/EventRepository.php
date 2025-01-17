@@ -13,8 +13,6 @@ use EventStorage\DomainModel\Repository\EventRepositoryInterface;
 
 final class EventRepository implements EventRepositoryInterface
 {
-    private const int BATCH_SIZE = 100;
-
     /** @var EntityRepository<Event> */
     private EntityRepository $repository;
 
@@ -29,10 +27,6 @@ final class EventRepository implements EventRepositoryInterface
      */
     public function save(Event $event): void
     {
-        if ($this->isDuplicate($event->getModelId(), $event->getType(), $event->getOccurredOn())) {
-            throw new DuplicateEventException();
-        }
-
         $this->entityManager->persist($event);
         $this->entityManager->flush();
     }
@@ -41,33 +35,6 @@ final class EventRepository implements EventRepositoryInterface
     {
         /* @var Event|null */
         return $this->repository->find($id->toRfc4122());
-    }
-
-    /**
-     * @param array<Event> $events
-     */
-    public function saveBatch(array $events): void
-    {
-        $batchSize = 0;
-
-        foreach ($events as $event) {
-            if ($this->isDuplicate($event->getModelId(), $event->getType(), $event->getOccurredOn())) {
-                continue;
-            }
-
-            $this->entityManager->persist($event);
-
-            if (self::BATCH_SIZE === ++$batchSize) {
-                $this->entityManager->flush();
-                $this->entityManager->clear();
-                $batchSize = 0;
-            }
-        }
-
-        if ($batchSize > 0) {
-            $this->entityManager->flush();
-            $this->entityManager->clear();
-        }
     }
 
     /**
@@ -127,21 +94,5 @@ final class EventRepository implements EventRepositoryInterface
             ->setParameter('olderThan', $olderThan)
             ->getQuery()
             ->execute();
-    }
-
-    public function isDuplicate(string $modelId, string $type, \DateTimeImmutable $occurredOn): bool
-    {
-        $result = $this->repository->createQueryBuilder('e')
-            ->select('COUNT(e.id)')
-            ->where('e.modelId = :modelId')
-            ->andWhere('e.type = :type')
-            ->andWhere('e.occurredOn = :occurredOn')
-            ->setParameter('modelId', $modelId)
-            ->setParameter('type', $type)
-            ->setParameter('occurredOn', $occurredOn)
-            ->getQuery()
-            ->getSingleScalarResult();
-
-        return $result > 0;
     }
 }
