@@ -21,6 +21,7 @@ final class Version20250107071812 extends AbstractMigration
             model_id VARCHAR(255) NOT NULL,
             type VARCHAR(255) NOT NULL,
             payload JSON NOT NULL,
+            archived BOOLEAN NOT NULL DEFAULT false,
             occurred_on DATETIME NOT NULL,
             version SMALLINT NOT NULL,
             created_at DATETIME NOT NULL,

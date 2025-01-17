@@ -9,6 +9,11 @@ use EventStorage\DomainModel\Enum\EventId;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'events')]
+#[ORM\UniqueConstraint(
+    name: 'unique_event_type_model',
+    columns: ['model_id', 'type', 'occurred_on']
+)]
+#[ORM\Index(columns: ['priority', 'occurred_on'], name: 'idx_priority_occurred')]
 class Event
 {
     #[ORM\Id]
@@ -34,6 +39,12 @@ class Event
     #[ORM\Column(name: 'created_at', type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
 
+    #[ORM\Column(type: 'smallint')]
+    private int $priority = 0;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $archived = false;
+
     /**
      * @param array<string, mixed> $payload
      */
@@ -44,6 +55,7 @@ class Event
         array $payload,
         \DateTimeImmutable $occurredOn,
         int $version,
+        int $priority = 0,
     ) {
         $this->id = $id;
         $this->modelId = $modelId;
@@ -52,6 +64,7 @@ class Event
         $this->occurredOn = $occurredOn;
         $this->version = $version;
         $this->createdAt = new \DateTimeImmutable();
+        $this->priority = $priority;
     }
 
     public function getId(): EventId
@@ -88,5 +101,20 @@ class Event
     public function getVersion(): int
     {
         return $this->version;
+    }
+
+    public function getPriority(): int
+    {
+        return $this->priority;
+    }
+
+    public function isArchived(): bool
+    {
+        return $this->archived;
+    }
+
+    public function archive(): void
+    {
+        $this->archived = true;
     }
 }

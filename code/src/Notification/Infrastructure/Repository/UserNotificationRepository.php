@@ -30,8 +30,8 @@ final class UserNotificationRepository implements UserNotificationRepositoryInte
     {
         $offset = ($page - 1) * $perPage;
 
-        /** @var list<UserNotification> */
-        return (array) $this->repository->createQueryBuilder('un')
+        /** @var list<UserNotification> $result */
+        $result = $this->repository->createQueryBuilder('un')
             ->andWhere('un.userId = :userId')
             ->andWhere('un.isDeleted is NULL')
             ->setParameter('userId', $userId->toRfc4122())
@@ -40,6 +40,8 @@ final class UserNotificationRepository implements UserNotificationRepositoryInte
             ->orderBy('un.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
+
+        return $result;
     }
 
     public function getUnreadCount(UserId $userId): int

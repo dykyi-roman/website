@@ -7,7 +7,7 @@ namespace Shared\DomainModel\ValueObject;
 final readonly class Currency implements \Stringable
 {
     private const array VALID_CURRENCIES = [
-        'USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'CHF', 'CNY', 'HKD', 'NZD'
+        'USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'CHF', 'CNY', 'HKD', 'NZD',
     ];
 
     private function __construct(
