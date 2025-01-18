@@ -280,7 +280,7 @@ class AccountSettingsManager {
     }
 
     async init() {
-        const currentLang = localStorage.getItem('locale') || 'en';
+        const currentLang = CookieService.get('locale') || 'en';
         this.t = await loadTranslations(currentLang);
         
         this.uiManager = new UIManager(this.t);

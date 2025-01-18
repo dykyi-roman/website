@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         input.addEventListener('input', debounce(async (e) => {
             const cityValue = e.target.value.trim();
             const countryCode = countrySelect.value;
-            const lang = localStorage.getItem('locale') || 'en';
+            const lang = CookieService.get('locale') || 'en';
 
             // Create or get dropdown element
             if (!citiesDropdown) {

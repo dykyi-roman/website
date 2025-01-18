@@ -75,7 +75,7 @@ function setupPasswordToggles() {
 // Initialize translations and setup password validation
 async function initializeApp() {
     // Get current language or default to English
-    const currentLang = localStorage.getItem('locale') || 'en';
+    const currentLang = CookieService.get('locale') || 'en';
     translations = await loadTranslations(currentLang);
 
     // Handle password change form submission
@@ -118,15 +118,15 @@ async function initializeApp() {
                 });
 
                 if (response.ok) {
-                    UIService.showSuccess(translations?.settings.password_changed_success);
+                    UIService.showSuccess(translations?.settings?.password_changed_success);
                     $('#change-password-popup').modal('hide');
                     changePasswordForm.reset();
                 } else {
                     const data = await response.json();
-                    UIService.showError(translations?.settings.error_changing_password);
+                    UIService.showError(translations?.settings?.error_changing_password);
                 }
             } catch (error) {
-                UIService.showError(translations?.settings.error_changing_password);
+                UIService.showError(translations?.settings?.error_changing_password);
                 console.error('Error changing password:', error);
             } finally {
                 ModalService.hideSpinner();
@@ -174,15 +174,15 @@ async function initializeApp() {
                 });
 
                 if (response.ok) {
-                    UIService.showSuccess(translations.settings.password_created_success);
-                    $('#change-password-popup').modal('hide');
-                    changePasswordForm.reset();
+                    UIService.showSuccess(translations?.settings?.password_created_success);
+                    $('#create-password-popup').modal('hide');
+                    createPasswordForm.reset();
                 } else {
                     const data = await response.json();
-                    UIService.showError(translations.settings.error_create_password);
+                    UIService.showError(translations?.settings?.error_create_password);
                 }
             } catch (error) {
-                UIService.showError(translations.settings.error_create_password);
+                UIService.showError(translations?.settings?.error_create_password);
                 console.error('Error changing password:', error);
             } finally {
                 ModalService.hideSpinner();
@@ -348,12 +348,12 @@ async function initializeApp() {
                 // After successful API call, switch to deactivation view
                 $(this).closest('.action-block').html(`
                     <div id="deactivate-block">
-                        <h3>${translations?.settings.deactivate_block.title}</h3>
+                        <h3>${translations?.settings?.deactivate_block?.title}</h3>
                         <p class="action-description">
-                            ${translations?.settings.deactivate_block.description}
+                            ${translations?.settings?.deactivate_block?.description}
                         </p>
                         <button class="btn btn-warning" data-toggle="modal" data-target="#deactivateModal">
-                            ${translations?.settings.deactivate_block.button}
+                            ${translations?.settings?.deactivate_block?.button}
                         </button>
                     </div>
                 `);
@@ -404,12 +404,12 @@ async function initializeApp() {
                 // After successful API call, switch to activation view
                 $('#deactivate-block').closest('.action-block').html(`
                     <div id="activate-block">
-                        <h3>${translations?.settings.activate_block.title}</h3>
+                        <h3>${translations?.settings?.activate_block?.title}</h3>
                         <p class="action-description">
-                            ${translations?.settings.activate_block.description}
+                            ${translations?.settings?.activate_block?.description}
                         </p>
                         <button class="btn btn-success" id="activateAccount">
-                            ${translations?.settings.activate_block.button}
+                            ${translations?.settings?.activate_block?.button}
                         </button>
                     </div>
                 `);

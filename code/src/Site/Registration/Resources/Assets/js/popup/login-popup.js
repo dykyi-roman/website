@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async function () {
     // Get current language or default to English
-    const currentLang = localStorage.getItem('locale') || 'en';
+    const currentLang = CookieService.get('locale') || 'en';
     const t = await loadTranslations(currentLang);
 
     // DOM Elements

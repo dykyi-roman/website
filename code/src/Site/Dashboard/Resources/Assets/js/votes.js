@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     voteButton.style.display = 'none';
 
     // Get current language or default to English
-    const currentLang = localStorage.getItem('locale') || 'en';
+    const currentLang = CookieService.get('locale') || 'en';
     const t = await loadTranslations(currentLang);
 
     // Generate a unique key for localStorage based on the app
