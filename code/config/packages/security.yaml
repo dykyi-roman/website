@@ -39,7 +39,7 @@ security:
         - { path: ^/reset-password, roles: PUBLIC_ACCESS }
         - { path: ^/connect, roles: PUBLIC_ACCESS }
         - { path: ^/api/v1/notifications, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/api/v1/users, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/v1/users, roles: [ROLE_PARTNER,ROLE_CLIENT] }
         - { path: ^/api/v1/settings/privacy/user, roles: [ROLE_PARTNER,ROLE_CLIENT] }
         - { path: ^/api/v1/settings, roles: PUBLIC_ACCESS, methods: [GET]  }
         - { path: ^/api/v1/settings, roles: [ROLE_PARTNER,ROLE_CLIENT], methods: [POST, PUT, DELETE] }

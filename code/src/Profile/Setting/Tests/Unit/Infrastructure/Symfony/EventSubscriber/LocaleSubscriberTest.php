@@ -13,7 +13,7 @@ use Profile\Setting\DomainModel\Model\Setting;
 use Profile\Setting\DomainModel\Repository\SettingRepositoryInterface;
 use Profile\Setting\DomainModel\ValueObject\Property;
 use Profile\Setting\Infrastructure\Symfony\EventSubscriber\LocaleSubscriber;
-use Profile\User\Application\GetCurrentUser\Service\UserFetcherInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Exception\AuthenticationException;
 use Profile\User\DomainModel\Model\User;
@@ -28,18 +28,18 @@ final class LocaleSubscriberTest extends TestCase
 {
     private LocaleSwitcher&MockObject $localeSwitcher;
     private SettingRepositoryInterface&MockObject $settingRepository;
-    private UserFetcherInterface&MockObject $userFetcher;
+    private Security&MockObject $security;
     private LocaleSubscriber $subscriber;
 
     protected function setUp(): void
     {
         $this->localeSwitcher = $this->createMock(LocaleSwitcher::class);
         $this->settingRepository = $this->createMock(SettingRepositoryInterface::class);
-        $this->userFetcher = $this->createMock(UserFetcherInterface::class);
+        $this->security = $this->createMock(Security::class);
         $this->subscriber = new LocaleSubscriber(
             $this->localeSwitcher,
             $this->settingRepository,
-            $this->userFetcher
+            $this->security
         );
     }
 
@@ -56,7 +56,7 @@ final class LocaleSubscriberTest extends TestCase
         $request = new Request(['lang' => 'en']);
         $event = $this->createRequestEvent($request);
 
-        $this->userFetcher->expects(self::never())->method('fetch');
+        $this->security->expects(self::never())->method('getToken');
         $this->settingRepository->expects(self::never())->method('findByName');
         $this->localeSwitcher->expects(self::never())->method('setLocale');
 
@@ -68,10 +68,10 @@ final class LocaleSubscriberTest extends TestCase
         $request = new Request();
         $event = $this->createRequestEvent($request);
 
-        $this->userFetcher
+        $this->security
             ->expects(self::once())
-            ->method('fetch')
-            ->willThrowException(new AuthenticationException());
+            ->method('getToken')
+            ->willReturn(null);
 
         $this->settingRepository->expects(self::never())->method('findByName');
         $this->localeSwitcher->expects(self::never())->method('setLocale');
@@ -88,10 +88,13 @@ final class LocaleSubscriberTest extends TestCase
         $request = new Request();
         $event = $this->createRequestEvent($request);
 
-        $this->userFetcher
+        $token = $this->createMock(\Symfony\Component\Security\Core\Authentication\Token\TokenInterface::class);
+        $token->method('getUser')->willReturn($user);
+        
+        $this->security
             ->expects(self::once())
-            ->method('fetch')
-            ->willReturn($user);
+            ->method('getToken')
+            ->willReturn($token);
 
         $this->settingRepository
             ->expects(self::once())
@@ -124,10 +127,13 @@ final class LocaleSubscriberTest extends TestCase
         $request = new Request();
         $event = $this->createRequestEvent($request);
 
-        $this->userFetcher
+        $token = $this->createMock(\Symfony\Component\Security\Core\Authentication\Token\TokenInterface::class);
+        $token->method('getUser')->willReturn($user);
+        
+        $this->security
             ->expects(self::once())
-            ->method('fetch')
-            ->willReturn($user);
+            ->method('getToken')
+            ->willReturn($token);
 
         $this->settingRepository
             ->expects(self::once())
