@@ -1,0 +1,28 @@
+parameters:
+
+twig:
+    paths:
+        '%kernel.project_dir%/src/Notifications/Resources/Templates': Notifications
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Notifications\:
+        resource: '../../'
+        exclude:
+            - '../../Resources/'
+            - '../../Application/**/*{Command,Query}.php'
+            - '../../DomainModel/{Dto,Event,Model,ValueObject}/'
+            - '../../Application/*/{Dto,Event,Model,ValueObject}/'
+            - '../../Tests/'
+        tags: ['controller.service_arguments']
+
+    Notifications\Infrastructure\Repository\UserNotificationRepository:
+        arguments:
+            $entityManager: '@doctrine.orm.site_entity_manager'
+
+    Notifications\DomainModel\Repository\UserNotificationRepositoryInterface:
+        alias: Notifications\Infrastructure\Repository\UserNotificationRepository

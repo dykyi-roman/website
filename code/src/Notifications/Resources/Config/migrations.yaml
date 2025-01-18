@@ -1,0 +1,5 @@
+migrations_paths:
+    'Notifications\Resources\Migrations': './src/Notifications/Resources/Migrations'
+
+connection: site
+em: site

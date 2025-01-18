@@ -1,7 +1,7 @@
 imports:
     - { resource: '../../src/Shared/Resources/Config/doctrine.yaml' }
     - { resource: '../../src/EventStorage/Resources/Config/doctrine.yaml' }
-    - { resource: '../../src/Notification/Resources/Config/doctrine.yaml' }
+    - { resource: '../../src/Notifications/Resources/Config/doctrine.yaml' }
     - { resource: '../../src/Site/Location/Resources/Config/doctrine.yaml' }
     - { resource: '../../src/Profile/User/Resources/Config/doctrine.yaml' }
     - { resource: '../../src/Profile/Setting/Resources/Config/doctrine.yaml' }

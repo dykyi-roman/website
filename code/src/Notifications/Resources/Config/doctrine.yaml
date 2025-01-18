@@ -1,0 +1,19 @@
+doctrine:
+    dbal:
+        connections:
+            site:
+                url: '%env(resolve:DATABASE_SITE_URL)%'
+        types:
+            notification_id: Notifications\Infrastructure\Doctrine\DoctrineType\NotificationIdType
+            user_notification_id: Notifications\Infrastructure\Doctrine\DoctrineType\UserNotificationIdType
+    orm:
+        entity_managers:
+            site:
+                connection: site
+                mappings:
+                    Notifications:
+                        type: attribute
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/Notifications/DomainModel/Model'
+                        prefix: 'Notifications\DomainModel\Model'
+                        alias: Notification

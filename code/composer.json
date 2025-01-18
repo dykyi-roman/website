@@ -61,7 +61,7 @@
             "Profile\\": "src/Profile/",
             "Shared\\": "src/Shared/",
             "EventStorage\\": "src/EventStorage/",
-            "Notification\\": "src/Notification/",
+            "Notifications\\": "src/Notifications/",
             "Messages\\": "src/Messages/"
         }
     },
@@ -74,7 +74,7 @@
             "Profile\\": "src/Profile/",
             "Shared\\": "src/Shared/",
             "EventStorage\\": "src/EventStorage/",
-            "Notification\\": "src/Notification/"
+            "Notifications\\": "src/Notifications/"
         }
     },
     "replace": {

@@ -8,7 +8,7 @@ framework:
             - src/Site/Dashboard/Resources/Assets/
             - src/Site/Registration/Resources/Assets/
             - src/Profile/Setting/Resources/Assets/
-            - src/Notification/Resources/Assets/
+            - src/Notifications/Resources/Assets/
         missing_import_mode: strict
 
 when@prod:
