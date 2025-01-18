@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Profile\User\Tests\Unit\Application\UserAuthentication\Command;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -18,8 +17,12 @@ use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 #[CoversClass(CreateUserPasswordCommandHandler::class)]
 final class CreateUserPasswordHandlerTest extends TestCase
 {
-    private UserRepositoryInterface|MockObject $userRepository;
-    private PasswordChangeServiceInterface|MockObject $passwordHasher;
+    /** @var UserRepositoryInterface&MockObject */
+    private UserRepositoryInterface $userRepository;
+
+    /** @var PasswordChangeServiceInterface&MockObject */
+    private PasswordChangeServiceInterface $passwordHasher;
+
     private CreateUserPasswordCommandHandler $handler;
 
     protected function setUp(): void
@@ -32,28 +35,27 @@ final class CreateUserPasswordHandlerTest extends TestCase
         );
     }
 
-    public function testThrowExceptionWhenPasswordsAreEqual(): void
+    public function testThrowExceptionWhenPasswordsAreNotEqual(): void
     {
         $command = new CreateUserPasswordCommand(
             new UserId(),
-            'password123',
+            'password13',
             'password123'
         );
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Current password is incorrect');
+        $this->expectException(\InvalidArgumentException::class);
 
         ($this->handler)($command);
     }
 
     public function testSuccessfulPasswordChange(): void
     {
-        $userId =  new UserId();
+        $userId = new UserId();
         $user = $this->createMock(UserInterface::class);
         $command = new CreateUserPasswordCommand(
             $userId,
             'newPassword123',
-            'differentPassword123'
+            'newPassword123'
         );
 
         $this->userRepository

@@ -7,10 +7,7 @@ namespace Profile\User\Presentation\Api;
 use OpenApi\Attributes as OA;
 use Profile\User\Application\UserAuthentication\Command\CreateUserPasswordCommand;
 use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
-use Profile\User\Application\UserManagement\Command\ChangeUserPasswordCommand;
-use Profile\User\Presentation\Api\Request\ChangePasswordRequestDto;
 use Profile\User\Presentation\Api\Request\CreatePasswordRequestDto;
-use Profile\User\Presentation\Api\Response\ChangePasswordJsonResponder;
 use Profile\User\Presentation\Api\Response\CreatePasswordJsonResponder;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
@@ -75,8 +72,7 @@ final readonly class CreatePasswordAction
             );
 
             return $responder->success('Ok');
-        } catch (\Throwable $throwable) {
-            dump($throwable->getMessage()); die();
+        } catch (\Throwable) {
             return $responder->validationError($translator->trans('password_create_error'));
         }
     }
