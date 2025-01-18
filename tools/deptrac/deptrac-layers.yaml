@@ -2,7 +2,6 @@ parameters:
   paths:
     - ../../code/src
   exclude_files:
-    - '#.*test.*#'
     - '#.*Tests.*#'
     - '#vendor#'
     - '#OAuthUserProvider\.php#'
