@@ -17,11 +17,11 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/v1/users', name: 'api_users_settings_update', methods: ['PUT'])]
+#[Route('/v1/users/self', name: 'api_users_self_update', methods: ['PUT'])]
 #[OA\Put(
-    path: '/v1/users',
-    description: 'Update user settings',
-    summary: 'Update user settings',
+    path: '/v1/users/self',
+    description: 'Update user data',
+    summary: 'Update user data',
     tags: ['Users']
 )]
 #[OA\RequestBody(
@@ -37,7 +37,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 )]
 #[OA\Response(
     response: 200,
-    description: 'Settings updated successfully',
+    description: 'User updated successfully',
     content: new OA\JsonContent(
         properties: [
             new OA\Property(property: 'message', type: 'string'),
@@ -102,7 +102,7 @@ final readonly class UpdateUserSettingsAction
             return $responder->error($translator->trans('settings.account.error.already_exists'))->respond();
         } catch (UserNotFoundException) {
             return $responder->error($translator->trans('settings.account.error.not_found'))->respond();
-        } catch (\InvalidArgumentException $exception) {
+        } catch (\InvalidArgumentException) {
             return $responder->error($translator->trans('settings.account.error.invalid_input'))->respond();
         } catch (\Throwable) {
             return $responder->error($translator->trans('settings.account.error.save_failed'))->respond();
