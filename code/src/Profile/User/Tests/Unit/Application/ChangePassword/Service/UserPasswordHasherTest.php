@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace Profile\User\Tests\Unit\Application\ChangePassword\Service;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Profile\User\Application\ChangeUserPassword\Service\UserPasswordHasher;
-use Profile\User\Application\DeleteUser\Command\DeleteUserAccountCommandHandler;
 use Profile\User\DomainModel\Model\UserInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
+use Profile\User\DomainModel\Enum\UserId;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use RuntimeException;
 
 #[CoversClass(UserPasswordHasher::class)]
 final class UserPasswordHasherTest extends TestCase
@@ -21,7 +24,7 @@ final class UserPasswordHasherTest extends TestCase
     private UserRepositoryInterface&MockObject $userRepository;
     private LoggerInterface&MockObject $logger;
     private UserInterface&MockObject $user;
-    private UserPasswordHasherInterface $service;
+    private UserPasswordHasher $service;
 
     protected function setUp(): void
     {
@@ -30,39 +33,42 @@ final class UserPasswordHasherTest extends TestCase
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->user = $this->createMock(UserInterface::class);
 
-        $this->service = $this->createMock(UserPasswordHasherInterface::class);
+        $this->service = new UserPasswordHasher(
+            $this->passwordHasher,
+            $this->userRepository,
+            $this->logger
+        );
     }
 
-    public function testIsValidReturnsTrue(): void
+    public static function passwordValidationProvider(): array
     {
-        $password = 'valid-password';
+        return [
+            'valid password' => ['valid-password', true],
+            'invalid password' => ['invalid-password', false],
+        ];
+    }
 
+    #[Test]
+    #[DataProvider('passwordValidationProvider')]
+    public function validatePasswordShouldReturnExpectedResult(string $password, bool $expected): void
+    {
         $this->passwordHasher
             ->expects($this->once())
             ->method('isPasswordValid')
             ->with($this->user, $password)
-            ->willReturn(true);
+            ->willReturn($expected);
 
-        $this->assertTrue($this->service->isValid($this->user, $password));
+        $result = $this->service->isValid($this->user, $password);
+        
+        $this->assertSame($expected, $result);
     }
 
-    public function testIsValidReturnsFalse(): void
-    {
-        $password = 'invalid-password';
-
-        $this->passwordHasher
-            ->expects($this->once())
-            ->method('isPasswordValid')
-            ->with($this->user, $password)
-            ->willReturn(false);
-
-        $this->assertFalse($this->service->isValid($this->user, $password));
-    }
-
-    public function testSuccessfulPasswordChange(): void
+    #[Test]
+    public function changePasswordShouldUpdateAndSaveUserPassword(): void
     {
         $password = 'new-password';
         $hashedPassword = 'hashed-password';
+
         $this->passwordHasher
             ->expects($this->once())
             ->method('hashPassword')
@@ -86,12 +92,13 @@ final class UserPasswordHasherTest extends TestCase
         $this->service->change($this->user, $password);
     }
 
-    public function testLogsErrorWhenPasswordChangeFails(): void
+    #[Test]
+    public function changePasswordShouldLogErrorWhenSaveFails(): void
     {
         $password = 'new-password';
         $hashedPassword = 'hashed-password';
-        $userId = new \Profile\User\DomainModel\Enum\UserId('00000000-0000-0000-0000-000000000001');
-        $exception = new \RuntimeException('Database error');
+        $userId = new UserId('00000000-0000-0000-0000-000000000001');
+        $exception = new RuntimeException('Database error');
 
         $this->user
             ->expects($this->once())
@@ -121,7 +128,7 @@ final class UserPasswordHasherTest extends TestCase
             ->with(
                 'Password change failed',
                 [
-                    'userId' => $userId,
+                    'userId' => $userId->toRfc4122(),
                     'password' => $password,
                     'error' => 'Database error',
                 ]

@@ -108,8 +108,8 @@ async function initializeApp() {
 
             try {
                 ModalService.showSpinner();
-                const response = await fetch('/api/v1/settings/change-password', {
-                    method: 'POST',
+                const response = await fetch('/api/v1/users/password', {
+                    method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'

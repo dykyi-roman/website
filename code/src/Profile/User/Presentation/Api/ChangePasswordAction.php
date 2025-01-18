@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Profile\Setting\Presentation\Api;
+namespace Profile\User\Presentation\Api;
 
 use OpenApi\Attributes as OA;
-use Profile\Setting\Presentation\Api\Request\ChangePasswordRequestDto;
-use Profile\Setting\Presentation\Api\Response\ChangePasswordJsonResponder;
-use Profile\User\Application\ChangePassword\Command\ChangePasswordCommand;
+use Profile\User\Application\ChangeUserPassword\Command\ChangePasswordCommand;
 use Profile\User\Application\GetCurrentUser\Service\UserFetcherInterface;
+use Profile\User\Presentation\Api\Request\ChangePasswordRequestDto;
+use Profile\User\Presentation\Api\Response\ChangePasswordJsonResponder;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
@@ -16,9 +16,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class ChangePasswordAction
 {
-    #[Route('/v1/settings/change-password', name: 'change-password', methods: ['POST'])]
+    #[Route('/v1/users/password', name: 'change_user_password', methods: ['PUT'])]
     #[OA\Post(
-        path: '/api/v1/settings/change-password',
+        path: '/api/v1/users/password',
         description: 'Changes the password for the authenticated user',
         summary: 'Change user password',
         requestBody: new OA\RequestBody(
