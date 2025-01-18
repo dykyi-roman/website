@@ -29,11 +29,11 @@
 
             {% if app.user %}
                 <!-- Notifications Icon -->
-                <button type="button"
-                        class="header-button notifications-button d-flex align-items-center justify-content-center"
-                        aria-label="{{ 'notifications.page_title'|trans }}"
-                        title="{{ 'notifications.page_title'|trans }}">
-                    <a href="{{ path('notifications') }}">
+                <a href="{{ path('notifications') }}">
+                    <button type="button"
+                            class="header-button notifications-button d-flex align-items-center justify-content-center"
+                            aria-label="{{ 'notifications.page_title'|trans }}"
+                            title="{{ 'notifications.page_title'|trans }}">
                         <i class="fas fa-bell position-relative">
                             {% if 8 > 0 %}
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -42,9 +42,8 @@
                         </span>
                             {% endif %}
                         </i>
-                    </a>
-                </button>
-
+                    </button>
+                </a>
                 <!-- Messages Icon -->
                 <button type="button"
                         class="header-button messages-button d-flex align-items-center justify-content-center"
