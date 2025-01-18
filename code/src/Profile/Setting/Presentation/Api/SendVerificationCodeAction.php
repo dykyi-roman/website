@@ -17,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class SendVerificationCodeAction
 {
-    #[Route('/v1/settings/profile/verification/send', methods: ['POST'])]
+    #[Route('/v1/settings/profile/verification/send', name: 'api_settings_profile_verification_send', methods: ['POST'])]
     #[OA\Post(
         path: '/api/v1/settings/profile/verification/send',
         description: 'Sends a 6-digit verification code to the user\'s email or phone',

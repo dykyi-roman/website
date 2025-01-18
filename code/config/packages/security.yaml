@@ -38,6 +38,9 @@ security:
         - { path: ^/forgot-password, roles: PUBLIC_ACCESS }
         - { path: ^/reset-password, roles: PUBLIC_ACCESS }
         - { path: ^/connect, roles: PUBLIC_ACCESS }
+        - { path: ^/api/v1/notifications, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/v1/users, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/v1/settings, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/settings, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: PUBLIC_ACCESS }
         - { path: ^/profile, roles: [ROLE_PARTNER,ROLE_CLIENT] }
