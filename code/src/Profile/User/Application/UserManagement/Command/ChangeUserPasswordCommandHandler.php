@@ -9,7 +9,7 @@ use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final readonly class ChangePasswordCommandHandler
+final readonly class ChangeUserPasswordCommandHandler
 {
     public function __construct(
         private UserRepositoryInterface $userRepository,
@@ -17,7 +17,7 @@ final readonly class ChangePasswordCommandHandler
     ) {
     }
 
-    public function __invoke(ChangePasswordCommand $command): void
+    public function __invoke(ChangeUserPasswordCommand $command): void
     {
         $user = $this->userRepository->findById($command->userId);
         if (!$this->passwordHasher->isValid($user, $command->currentPassword)) {

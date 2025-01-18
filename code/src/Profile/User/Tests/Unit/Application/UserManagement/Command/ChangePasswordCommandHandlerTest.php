@@ -7,19 +7,19 @@ namespace Profile\User\Tests\Unit\Application\UserManagement\Command;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Profile\User\Application\UserManagement\Command\ChangePasswordCommand;
-use Profile\User\Application\UserManagement\Command\ChangePasswordCommandHandler;
+use Profile\User\Application\UserManagement\Command\ChangeUserPasswordCommand;
+use Profile\User\Application\UserManagement\Command\ChangeUserPasswordCommandHandler;
 use Profile\User\Application\UserManagement\Service\PasswordChangeServiceInterface;
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\UserInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 
-#[CoversClass(ChangePasswordCommandHandler::class)]
+#[CoversClass(ChangeUserPasswordCommandHandler::class)]
 final class ChangePasswordCommandHandlerTest extends TestCase
 {
     private UserRepositoryInterface&MockObject $userRepository;
     private PasswordChangeServiceInterface&MockObject $passwordHasher;
-    private ChangePasswordCommandHandler $handler;
+    private ChangeUserPasswordCommandHandler $handler;
     private UserInterface&MockObject $user;
 
     protected function setUp(): void
@@ -27,7 +27,7 @@ final class ChangePasswordCommandHandlerTest extends TestCase
         $this->userRepository = $this->createMock(UserRepositoryInterface::class);
         $this->passwordHasher = $this->createMock(PasswordChangeServiceInterface::class);
         $this->user = $this->createMock(UserInterface::class);
-        $this->handler = new ChangePasswordCommandHandler(
+        $this->handler = new ChangeUserPasswordCommandHandler(
             $this->userRepository,
             $this->passwordHasher
         );
@@ -36,7 +36,7 @@ final class ChangePasswordCommandHandlerTest extends TestCase
     public function testSuccessfulPasswordChange(): void
     {
         $userId = UserId::fromString('00000000-0000-0000-0000-000000000001');
-        $command = new ChangePasswordCommand($userId, 'current-password', 'new-password');
+        $command = new ChangeUserPasswordCommand($userId, 'current-password', 'new-password');
 
         $this->userRepository
             ->expects($this->once())
@@ -61,7 +61,7 @@ final class ChangePasswordCommandHandlerTest extends TestCase
     public function testThrowsExceptionWhenCurrentPasswordIsIncorrect(): void
     {
         $userId = UserId::fromString('00000000-0000-0000-0000-000000000001');
-        $command = new ChangePasswordCommand($userId, 'wrong-password', 'new-password');
+        $command = new ChangeUserPasswordCommand($userId, 'wrong-password', 'new-password');
 
         $this->userRepository
             ->expects($this->once())

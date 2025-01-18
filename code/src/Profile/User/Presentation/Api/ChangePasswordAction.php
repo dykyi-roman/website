@@ -6,7 +6,7 @@ namespace Profile\User\Presentation\Api;
 
 use OpenApi\Attributes as OA;
 use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
-use Profile\User\Application\UserManagement\Command\ChangePasswordCommand;
+use Profile\User\Application\UserManagement\Command\ChangeUserPasswordCommand;
 use Profile\User\Presentation\Api\Request\ChangePasswordRequestDto;
 use Profile\User\Presentation\Api\Response\ChangePasswordJsonResponder;
 use Shared\DomainModel\Services\MessageBusInterface;
@@ -64,7 +64,7 @@ final readonly class ChangePasswordAction
     ): ChangePasswordJsonResponder {
         try {
             $messageBus->dispatch(
-                new ChangePasswordCommand(
+                new ChangeUserPasswordCommand(
                     $userFetcher->fetch()->id(),
                     $request->currentPassword,
                     $request->newPassword,

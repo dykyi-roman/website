@@ -7,9 +7,9 @@ namespace Profile\User\Application\UserManagement\Command;
 use Profile\User\DomainModel\Enum\UserId;
 
 /**
- * @see ChangePasswordCommandHandler
+ * @see ChangeUserPasswordCommandHandler
  */
-final readonly class ChangePasswordCommand
+final readonly class ChangeUserPasswordCommand
 {
     public function __construct(
         public UserId $userId,
