@@ -189,7 +189,7 @@ class VerificationHandler {
 
         try {
             this.verificationInProgress = true;
-            const response = await fetch('/api/v1/settings/profile/verification/send', {
+            const response = await fetch('/api/v1/profile/verifications', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -224,13 +224,13 @@ class VerificationHandler {
         ModalService.showSpinner();
 
         try {
-            const response = await fetch('/api/v1/settings/profile/verification/verify', {
-                method: 'POST',
+            const response = await fetch(`/api/v1/profile/verifications/${type}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                body: JSON.stringify({ code, type })
+                body: JSON.stringify({ code })
             });
 
             const data = await response.json();

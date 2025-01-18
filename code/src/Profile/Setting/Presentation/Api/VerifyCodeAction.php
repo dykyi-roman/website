@@ -17,23 +17,24 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class VerifyCodeAction
 {
-    #[Route('/v1/settings/profile/verification/verify', name: 'api_settings_profile_verification_verify', methods: ['POST'])]
-    #[OA\Post(
-        path: '/api/v1/settings/profile/verification/verify',
-        description: 'Verifies the 6-digit code sent to email or phone',
-        summary: 'Verify the code',
-        tags: ['Settings']
+    #[Route('/v1/profile/verifications/{type}', name: 'api_settings_profile_verification_verify', methods: ['PUT'])]
+    #[OA\Put(
+        path: '/api/v1/profile/verifications/{type}',
+        description: 'Verifies and completes a verification request',
+        summary: 'Complete verification',
+        tags: ['Profile']
+    )]
+    #[OA\Parameter(
+        name: 'type',
+        description: 'Type of verification (email or phone)',
+        in: 'path',
+        required: true,
+        schema: new OA\Schema(type: 'string', enum: ['email', 'phone'])
     )]
     #[OA\RequestBody(
         required: true,
         content: new OA\JsonContent(
             properties: [
-                new OA\Property(
-                    property: 'type',
-                    description: 'Verification type',
-                    type: 'string',
-                    enum: ['email', 'phone']
-                ),
                 new OA\Property(
                     property: 'code',
                     description: 'Verification code',
@@ -65,6 +66,7 @@ final readonly class VerifyCodeAction
     )]
     public function __invoke(
         #[MapRequestPayload] VerifyCodeRequestDto $request,
+        string $type,
         UserFetcherInterface $userFetcher,
         MessageBusInterface $messageBus,
         VerificationJsonResponder $responder,
@@ -75,7 +77,7 @@ final readonly class VerifyCodeAction
             $messageBus->dispatch(
                 new VerifyCodeCommand(
                     userId: $user->id(),
-                    type: $request->type,
+                    type: $type,
                     code: $request->code
                 )
             );

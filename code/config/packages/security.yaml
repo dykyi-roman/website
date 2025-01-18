@@ -44,6 +44,8 @@ security:
         - { path: ^/settings, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: PUBLIC_ACCESS }
         - { path: ^/profile, roles: [ROLE_PARTNER,ROLE_CLIENT] }
+        - { path: ^/favorites, roles: [ROLE_PARTNER,ROLE_CLIENT] }
+#        - { path: ^/notifications, roles: [ROLE_PARTNER,ROLE_CLIENT] }
 
 when@test:
     security:
