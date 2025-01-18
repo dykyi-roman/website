@@ -31,6 +31,6 @@ class NotificationListAction
             );
         }
 
-        return $responder->success($data, 'Notifications retrieved successfully', 200)->respond();
+        return $responder->success($data, 'Notifications retrieved successfully')->respond();
     }
 }

@@ -17,9 +17,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class ChangeUserStatusAction
 {
-    #[Route('/v1/user/status', name: 'api_user_status', methods: ['PUT'])]
+    #[Route('/v1/users/self/status', name: 'api_user_status', methods: ['PUT'])]
     #[OA\Put(
-        path: '/api/v1/user/status',
+        path: '/api/v1/users/self/status',
         description: 'Update user account status (activate/deactivate)',
         summary: 'Update user status',
         tags: ['Users']

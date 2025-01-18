@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class ChangeUserStatusDto
 {
     #[Assert\NotBlank(message: 'Status is required')]
-    private int $status;
+    public int $status;
 
     public function status(): UserStatus
     {

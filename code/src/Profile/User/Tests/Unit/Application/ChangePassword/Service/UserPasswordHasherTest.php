@@ -39,6 +39,9 @@ final class UserPasswordHasherTest extends TestCase
         );
     }
 
+    /**
+     * @return array<string, array{0: string, 1: bool}>
+     */
     public static function passwordValidationProvider(): array
     {
         return [

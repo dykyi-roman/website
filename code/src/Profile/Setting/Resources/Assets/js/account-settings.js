@@ -431,7 +431,7 @@ class AccountSettingsManager {
     }
 
     async _saveFormData(payload) {
-        const response = await fetch('/api/v1/users', {
+        const response = await fetch('/api/v1/users/self', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

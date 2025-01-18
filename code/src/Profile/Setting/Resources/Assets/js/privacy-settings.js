@@ -108,7 +108,7 @@ async function initializeApp() {
 
             try {
                 ModalService.showSpinner();
-                const response = await fetch('/api/v1/users/password', {
+                const response = await fetch('/api/v1/users/self/password', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -250,7 +250,7 @@ async function initializeApp() {
     // Use event delegation for dynamically added elements
     $(document).on('click', '#activateAccount', async function() {
         try {
-            const response = await fetch('/v1/user/status', {
+            const response = await fetch('/api/v1/users/self/status', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -305,7 +305,7 @@ async function initializeApp() {
     // Account deactivation confirmation
     $('#confirmDeactivate').on('click', async function() {
         try {
-            const response = await fetch('/v1/user/status', {
+            const response = await fetch('/api/v1/users/self/status', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -361,7 +361,7 @@ async function initializeApp() {
     // Account deletion confirmation
     $('#confirmDelete').on('click', async function() {
         try {
-            const response = await fetch('/api/v1/users', {
+            const response = await fetch('/api/v1/users/self', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

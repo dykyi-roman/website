@@ -134,7 +134,7 @@
   * Added preload directives for critical CSS and JavaScript
 
 ### Development
-  * API Spec + versioning
+  * API Spec + versioning https://jsonapi.org/format/ 
   * Asset versioning system
   * CI tools integration
   * Console hello message
