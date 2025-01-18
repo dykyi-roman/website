@@ -207,7 +207,7 @@ class VerificationHandler {
 
             return true;
         } catch (error) {
-            UIService.showError(this.t.settings.error_sending_verification_code);
+            UIService.showError('Error sending verification code');
             console.error('Verification error:', error);
             return false;
         } finally {
@@ -235,14 +235,14 @@ class VerificationHandler {
 
             const data = await response.json();
             if (!response.ok || !data.success) {
-                throw new Error(this.t.settings.error_verifying);
+                throw new Error(this.t.error_verifying || 'Error verifying');
             }
 
             this._updateVerificationUI(type);
             this._closeVerificationModal(type);
 
         } catch (error) {
-            UIService.showError(this.t.settings.error_verifying);
+            UIService.showError(this.t.error_verifying || 'Error verifying');
             console.error('Verification error:', error);
         } finally {
             this.verificationInProgress = false;
