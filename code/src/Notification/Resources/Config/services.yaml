@@ -1,5 +1,9 @@
 parameters:
 
+twig:
+    paths:
+        '%kernel.project_dir%/src/Notification/Resources/Templates': Notifications
+
 services:
     _defaults:
         autowire: true

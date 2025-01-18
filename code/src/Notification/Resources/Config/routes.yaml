@@ -1,8 +1,8 @@
-#web_routes:
-#    resource:
-#        path: ../../Presentation/Web
-#        namespace: Site\Partner\Presentation\Web
-#    type: attribute
+web_routes:
+    resource:
+        path: ../../Presentation/Web
+        namespace: Notification\Presentation\Web
+    type: attribute
 
 api_routes:
     resource:

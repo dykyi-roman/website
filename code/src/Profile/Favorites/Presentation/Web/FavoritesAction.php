@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Profile\Setting\Presentation\Web;
+namespace Profile\Favorites\Presentation\Web;
 
-use Profile\Setting\Presentation\Web\Response\FavoritesHtmlResponder;
+use Profile\Favorites\Presentation\Web\Response\FavoritesHtmlResponder;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 

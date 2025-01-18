@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Profile\Setting\Presentation\Web\Response;
+namespace Profile\Favorites\Presentation\Web\Response;
 
 use Shared\Presentation\Responder\TemplateResponderInterface;
 
@@ -13,7 +13,7 @@ final class FavoritesHtmlResponder implements TemplateResponderInterface
 
     public function template(): string
     {
-        return '@Setting/page/favorites.html.twig';
+        return '@Favorites/page/favorites.html.twig';
     }
 
     /** @return array<string, mixed> */
