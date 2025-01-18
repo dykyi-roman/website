@@ -255,7 +255,10 @@ async function initializeApp() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
-                }
+                },
+                body: JSON.stringify({
+                    status: 1 // Active status
+                })
             });
 
             const data = await response.json();
@@ -307,7 +310,10 @@ async function initializeApp() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
-                }
+                },
+                body: JSON.stringify({
+                    status: 0 // Inactive status
+                })
             });
 
             const data = await response.json();

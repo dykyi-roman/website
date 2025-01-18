@@ -14,7 +14,7 @@ final class DeleteUserAccountCommandTest extends TestCase
     {
         $userId = UserId::fromString('user-123');
         $command = new DeleteUserAccountCommand($userId);
-        
+
         self::assertEquals($userId, $command->userId);
     }
 }
