@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Profile\User\Tests\Unit\Application\FindSocialUser\Service;
+namespace Profile\User\Tests\Unit\Application\SocialRegistration\Service;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
