@@ -30,22 +30,24 @@
             {% if app.user %}
                 <!-- Notifications Icon -->
                 <button type="button"
-                        class="header-button d-flex align-items-center justify-content-center"
-                        aria-label="{{ 'notifications'|trans }}"
-                        title="{{ 'notifications'|trans }}">
-                    <i class="fas fa-bell position-relative">
-                        {% if 8 > 0 %}
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        class="header-button notifications-button d-flex align-items-center justify-content-center"
+                        aria-label="{{ 'notifications.page_title'|trans }}"
+                        title="{{ 'notifications.page_title'|trans }}">
+                    <a href="{{ path('notifications') }}">
+                        <i class="fas fa-bell position-relative">
+                            {% if 8 > 0 %}
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             {{ 8 }}
                             <span class="visually-hidden">{{ 'unread_notifications'|trans }}</span>
                         </span>
-                        {% endif %}
-                    </i>
+                            {% endif %}
+                        </i>
+                    </a>
                 </button>
 
-                <!-- Chat Icon -->
+                <!-- Messages Icon -->
                 <button type="button"
-                        class="header-button d-flex align-items-center justify-content-center"
+                        class="header-button messages-button d-flex align-items-center justify-content-center"
                         aria-label="{{ 'messages'|trans }}"
                         title="{{ 'messages'|trans }}">
                     <i class="fas fa-comment-dots position-relative">

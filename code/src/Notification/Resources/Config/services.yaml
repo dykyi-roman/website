@@ -14,7 +14,6 @@ services:
         resource: '../../'
         exclude:
             - '../../Resources/'
-            - '../../Presentation/**/Response'
             - '../../Application/**/*{Command,Query}.php'
             - '../../DomainModel/{Dto,Event,Model,ValueObject}/'
             - '../../Application/*/{Dto,Event,Model,ValueObject}/'
