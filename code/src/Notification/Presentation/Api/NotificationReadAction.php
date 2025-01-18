@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class NotificationReadAction
 {
-    #[Route('/v1/notifications/mark-read/{id}', methods: ['POST'])]
+    #[Route('/v1/notifications/mark-read/{id}', methods: ['PATCH'])]
     public function __invoke(
         string $id,
         UserFetcherInterface $userFetcher,

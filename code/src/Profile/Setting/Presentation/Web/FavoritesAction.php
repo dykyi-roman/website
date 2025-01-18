@@ -10,7 +10,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class FavoritesAction
 {
-    #[Route('/favorites', name: 'favorites')]
+    #[Route('/favorites', name: 'favorites', methods: ['GET'])]
     public function __invoke(
         FavoritesHtmlResponder $responder,
         TranslatorInterface $translator,

@@ -11,7 +11,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class SettingsAction
 {
-    #[Route('/settings', name: 'settings')]
+    #[Route('/settings', name: 'settings', methods: ['GET'])]
     public function __invoke(
         SettingsHtmlResponder $responder,
         TranslatorInterface $translator,

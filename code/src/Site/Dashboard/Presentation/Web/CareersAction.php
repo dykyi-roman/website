@@ -10,7 +10,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class CareersAction
 {
-    #[Route('/careers', name: 'careers')]
+    #[Route('/careers', name: 'careers', methods: ['GET'])]
     public function terms(
         CareersHtmlResponder $responder,
         TranslatorInterface $translator,
