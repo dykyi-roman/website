@@ -19,8 +19,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class CreatePasswordAction
 {
-    #[Route('/v1/users/self/password', name: 'change_user_password', methods: ['POST'])]
-    #[OA\Put(
+    #[Route('/v1/users/self/password', name: 'create_user_password', methods: ['POST'])]
+    #[OA\Post(
         path: '/api/v1/users/self/password',
         description: 'Create the password for the authenticated user',
         summary: 'Create user password',
@@ -75,7 +75,8 @@ final readonly class CreatePasswordAction
             );
 
             return $responder->success('Ok');
-        } catch (\Throwable) {
+        } catch (\Throwable $throwable) {
+            dump($throwable->getMessage()); die();
             return $responder->validationError($translator->trans('password_create_error'));
         }
     }

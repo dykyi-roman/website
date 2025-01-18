@@ -269,20 +269,20 @@
         "validation": {
           "current_password_required": "password is required",
           "new_password_required": "password is required"
-        },
-        "change_password": {
-          "title": "Change Password",
-          "description": "Update your account password to maintain security",
-          "button": "Change Password",
-          "current_password": "Current Password",
-          "new_password": "New Password",
-          "submit": "Update Password",
-          "success": "Password successfully changed",
-          "error": "Failed to change password",
-          "validation": {
-            "current_password_required": "Current password is required",
-            "new_password_required": "New password is required"
-          }
+        }
+      },
+      "change_password": {
+        "title": "Change Password",
+        "description": "Update your account password to maintain security",
+        "button": "Change Password",
+        "current_password": "Current Password",
+        "new_password": "New Password",
+        "submit": "Update Password",
+        "success": "Password successfully changed",
+        "error": "Failed to change password",
+        "validation": {
+          "current_password_required": "Current password is required",
+          "new_password_required": "New password is required"
         }
       },
       "page_title": "Privacy Policy",

@@ -19,7 +19,7 @@ final readonly class CreateUserPasswordCommandHandler
 
     public function __invoke(CreateUserPasswordCommand $command): void
     {
-        if ($command->isEqual()) {
+        if (!$command->isEqual()) {
             throw new \InvalidArgumentException('Current password is incorrect');
         }
 

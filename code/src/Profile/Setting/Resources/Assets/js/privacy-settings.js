@@ -77,7 +77,6 @@ async function initializeApp() {
     // Get current language or default to English
     const currentLang = localStorage.getItem('locale') || 'en';
     translations = await loadTranslations(currentLang);
-    console.log(translations);
 
     // Handle password change form submission
     const changePasswordForm = document.getElementById('changePasswordForm');

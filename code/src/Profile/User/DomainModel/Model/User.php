@@ -108,7 +108,7 @@ class User extends AbstractDomainModel implements PasswordAuthenticatedUserInter
 
     public function hasPassword(): bool
     {
-        return null !== $this->passwordToken;
+        return null !== $this->password;
     }
 
     public function activate(): void
