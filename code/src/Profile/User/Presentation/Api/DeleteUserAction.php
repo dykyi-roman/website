@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Profile\User\Presentation\Api;
 
 use OpenApi\Attributes as OA;
-use Profile\User\Application\DeleteUser\Command\DeleteUserAccountCommand;
-use Profile\User\Application\GetCurrentUser\Service\UserFetcherInterface;
+use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
+use Profile\User\Application\UserManagement\Command\DeleteUserAccountCommand;
 use Profile\User\Presentation\Api\Response\DeleteUserJsonResponder;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Symfony\Component\HttpFoundation\Response;

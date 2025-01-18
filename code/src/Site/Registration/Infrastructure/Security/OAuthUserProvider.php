@@ -7,7 +7,7 @@ namespace Site\Registration\Infrastructure\Security;
 use KnpU\OAuth2ClientBundle\Security\User\OAuthUser;
 use League\OAuth2\Client\Provider\FacebookUser;
 use League\OAuth2\Client\Provider\GoogleUser;
-use Profile\User\Application\SocialRegistration\Service\SocialRegistrationServiceInterface;
+use Profile\User\Application\UserRegistration\Service\SocialRegistrationServiceInterface;
 use Profile\User\DomainModel\Enum\Roles;
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\UserInterface;

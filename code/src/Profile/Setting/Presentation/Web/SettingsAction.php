@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Profile\Setting\Presentation\Web;
 
 use Profile\Setting\Presentation\Web\Response\SettingsHtmlResponder;
-use Profile\User\Application\GetCurrentUser\Service\UserFetcherInterface;
+use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 

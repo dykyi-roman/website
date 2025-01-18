@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Profile\User\Presentation\Api;
 
 use OpenApi\Attributes as OA;
-use Profile\User\Application\ChangeUserPassword\Command\ChangePasswordCommand;
-use Profile\User\Application\GetCurrentUser\Service\UserFetcherInterface;
+use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
+use Profile\User\Application\UserManagement\Command\ChangePasswordCommand;
 use Profile\User\Presentation\Api\Request\ChangePasswordRequestDto;
 use Profile\User\Presentation\Api\Response\ChangePasswordJsonResponder;
 use Shared\DomainModel\Services\MessageBusInterface;

@@ -7,7 +7,7 @@ namespace Notifications\Presentation\Api;
 use Notifications\DomainModel\Service\NotificationServiceInterface;
 use Notifications\Presentation\Api\Request\NotificationListDto;
 use Notifications\Presentation\Api\Response\NotificationListJsonResponder;
-use Profile\User\Application\GetCurrentUser\Service\UserFetcherInterface;
+use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
 

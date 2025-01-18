@@ -6,9 +6,9 @@ namespace Profile\Setting\Presentation\Web;
 
 use Profile\Setting\Presentation\Web\Request\ActivateAccountRequestDto;
 use Profile\Setting\Presentation\Web\Response\PrivacyJsonResponder;
-use Profile\User\Application\ChangeUserStatus\ActivateUserAccountCommand;
-use Profile\User\Application\DeleteUser\Command\DeleteUserAccountCommand;
-use Profile\User\Application\GetCurrentUser\Service\UserFetcherInterface;
+use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
+use Profile\User\Application\UserManagement\Command\ActivateUserAccountCommand;
+use Profile\User\Application\UserManagement\Command\DeleteUserAccountCommand;
 use Profile\User\DomainModel\Enum\UserStatus;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;

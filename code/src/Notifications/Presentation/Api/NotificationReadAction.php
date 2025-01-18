@@ -7,7 +7,7 @@ namespace Notifications\Presentation\Api;
 use Notifications\DomainModel\Enum\UserNotificationId;
 use Notifications\DomainModel\Service\NotificationServiceInterface;
 use Notifications\Presentation\Api\Response\NotificationReadJsonResponder;
-use Profile\User\Application\GetCurrentUser\Service\UserFetcherInterface;
+use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class NotificationReadAction

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Site\Registration\Application\UserRegistration\Command;
 
-use Profile\User\Application\ManualRegistration\Service\ManualRegistrationServiceInterface;
+use Profile\User\Application\UserRegistration\Service\ManualRegistrationServiceInterface;
 use Profile\User\DomainModel\Model\UserInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
