@@ -207,7 +207,7 @@ class VerificationHandler {
 
             return true;
         } catch (error) {
-            UIService.showError(this.uiManager.t.settings.error_sending_verification_code);
+            UIService.showError(this.t.settings.error_sending_verification_code);
             console.error('Verification error:', error);
             return false;
         } finally {
