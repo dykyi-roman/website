@@ -15,21 +15,21 @@
     </div>
 
     <div class="form-group user-status">
-        <h4>{{ 'account.status'|trans }}
+        <h4>{{ 'settings.account.status'|trans }}
             <span class="badge {% if app.user.isActive %}text-bg-success{% else %}text-bg-warning{% endif %}">
-                {% if app.user.isActive %} {{ 'account.active'|trans }} {% else %} {{ 'account.inactive'|trans }} {% endif %}
+                {% if app.user.isActive %} {{ 'settings.account.active'|trans }} {% else %} {{ 'settings.account.inactive'|trans }} {% endif %}
             </span></h4>
     </div>
 
     <div class="form-group">
-        <label for="name">{{ 'account.name'|trans }}</label>
+        <label for="name">{{ 'settings.account.name'|trans }}</label>
         <div class="input-group">
             <input type="text" id="name" name="name" class="form-control" value="{{ app.user.name }}">
         </div>
     </div>
 
     <div class="form-group">
-        <label for="email">{{ 'account.email'|trans }}</label>
+        <label for="email">{{ 'settings.account.email'|trans }}</label>
         <div class="input-group">
             <input type="email" id="email" name="email" class="form-control" value="{{ app.user.email }}">
             <div class="input-group-append">
@@ -40,14 +40,14 @@
                         </svg>
                     </span>
                 {% else %}
-                    <button type="button" class="verify-button verify-email-button">{{ 'account.verify'|trans }}</button>
+                    <button type="button" class="verify-button verify-email-button">{{ 'settings.account.verify'|trans }}</button>
                 {% endif %}
             </div>
         </div>
     </div>
 
     <div class="form-group">
-        <label for="phone">{{ 'account.phone'|trans }}</label>
+        <label for="phone">{{ 'settings.account.phone'|trans }}</label>
         <div class="input-group">
             <input type="tel" id="phone" name="phone" class="form-control" value="{{ app.user.phone }}">
             <div class="input-group-append">
@@ -58,7 +58,7 @@
                         </svg>
                     </span>
                 {% else %}
-                    <button type="button" class="verify-button verify-phone-button">{{ 'account.verify'|trans }}</button>
+                    <button type="button" class="verify-button verify-phone-button">{{ 'settings.account.verify'|trans }}</button>
                 {% endif %}
             </div>
         </div>
@@ -66,7 +66,7 @@
 
     <div class="form-actions">
         <button id="save-account-settings" class="btn btn-primary">
-            {{ 'account.save'|trans }}
+            {{ 'settings.account.save'|trans }}
         </button>
     </div>
 </div>

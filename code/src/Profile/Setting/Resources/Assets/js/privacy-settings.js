@@ -1,9 +1,6 @@
 // Password regex for complexity
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/;
 
-// Store translations globally
-let translations;
-
 // Field validation function
 function validateField(field) {
     const value = field.value.trim();
@@ -80,6 +77,7 @@ async function initializeApp() {
     // Get current language or default to English
     const currentLang = localStorage.getItem('locale') || 'en';
     translations = await loadTranslations(currentLang);
+    console.log(translations);
 
     // Handle password change form submission
     const changePasswordForm = document.getElementById('changePasswordForm');
@@ -165,7 +163,7 @@ async function initializeApp() {
             try {
                 ModalService.showSpinner();
                 const response = await fetch('/api/v1/users/self/password', {
-                    method: 'PUT',
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
@@ -177,15 +175,15 @@ async function initializeApp() {
                 });
 
                 if (response.ok) {
-                    UIService.showSuccess(translations?.settings.password_created_success);
+                    UIService.showSuccess(translations.settings.password_created_success);
                     $('#change-password-popup').modal('hide');
                     changePasswordForm.reset();
                 } else {
                     const data = await response.json();
-                    UIService.showError(translations?.settings.error_create_password);
+                    UIService.showError(translations.settings.error_create_password);
                 }
             } catch (error) {
-                UIService.showError(translations?.settings.error_create_password);
+                UIService.showError(translations.settings.error_create_password);
                 console.error('Error changing password:', error);
             } finally {
                 ModalService.hideSpinner();

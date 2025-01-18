@@ -1,5 +1,7 @@
 {
     "settings": {
+        "error_create_password": "Error creating password",
+        "password_created_success": "Password create successfully",
         "error_changing_password": "Error changing password",
         "password_changed_success": "Password changed successfully",
         "update_failed": "Failed to update settings",

@@ -5,7 +5,7 @@
 
 <div class="general-settings">
     <div class="form-group">
-        <label for="language-select">{{ 'account.language'|trans }}</label>
+        <label for="language-select">{{ 'settings.account.language'|trans }}</label>
         <select id="language-select" name="language" class="form-select language-select">
             {% for locale in locales %}
                 <option value="{{ locale.code }}" {{ locale.code == app.request.locale ? 'selected' : '' }}>
@@ -16,7 +16,7 @@
     </div>
 
     <div class="form-group">
-        <label for="currency-select">{{ 'account.currency'|trans }}</label>
+        <label for="currency-select">{{ 'settings.account.currency'|trans }}</label>
         <select id="currency-select" name="currency" class="form-select currency-select">
             {% for currency in currencies %}
                 <option value="{{ currency.code }}" {{ currency.code == (app.request.cookies.get('appCurrency')|default(default_currency)) ? 'selected' : '' }}>
@@ -27,19 +27,19 @@
     </div>
 
     <div class="form-group">
-        <label for="theme-select">{{ 'account.theme'|trans }}</label>
+        <label for="theme-select">{{ 'settings.account.theme'|trans }}</label>
         <select id="theme-select" name="theme" class="form-select theme-select">
             <option value="dark" {{ (app.request.cookies.get('appTheme')|default('light')) == 'dark' ? 'selected' : '' }}>
-                {{ 'account.dark'|trans }}
+                {{ 'settings.account.dark'|trans }}
             </option>
             <option value="light" {{ (app.request.cookies.get('appTheme')|default('light')) == 'light' ? 'selected' : '' }}>
-                {{ 'account.light'|trans }}
+                {{ 'settings.account.light'|trans }}
             </option>
         </select>
     </div>
     <div class="form-actions">
         <button id="save-general-settings" class="btn btn-primary">
-            {{ 'account.save'|trans }}
+            {{ 'settings.account.save'|trans }}
         </button>
     </div>
 </div>
