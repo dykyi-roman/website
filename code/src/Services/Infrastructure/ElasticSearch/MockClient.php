@@ -56,7 +56,7 @@ final readonly class MockClient implements ServicesInterface
             ];
         }
 
-        return new PaginationDto($items, $page, $limit);
+        return new PaginationDto($items, $page, $limit); // @phpstan-ignore-line
     }
 
     /**

@@ -9,7 +9,7 @@ use Shared\DomainModel\Dto\PaginationDto;
 
 interface OrdersInterface
 {
-        /**
+    /**
      * @return PaginationDto<array{
      *     id: int,
      *     title: string,

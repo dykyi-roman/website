@@ -8,7 +8,6 @@ use OpenApi\Attributes as OA;
 use Orders\DomainModel\Service\OrdersInterface;
 use Orders\Presentation\Api\Request\OrdersSearchRequestDto;
 use Orders\Presentation\Api\Response\OrderSearchJsonResponder;
-use Shared\DomainModel\Dto\PaginationDto;
 use Shared\DomainModel\ValueObject\Currency;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
@@ -134,7 +133,7 @@ final readonly class OrderSearchAction
          *     total_pages: int
          * } */
         $result = $data->jsonSerialize();
-        
+
         /** @var array{
          *     items: array<int, array{
          *         id: int,

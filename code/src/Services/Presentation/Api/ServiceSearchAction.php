@@ -134,7 +134,7 @@ final readonly class ServiceSearchAction
          *     total_pages: int
          * } */
         $result = $data->jsonSerialize();
-        
+
         /** @var array{
          *     items: array<int, array{
          *         id: int,

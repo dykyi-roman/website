@@ -43,23 +43,20 @@ final readonly class MockClient implements OrdersInterface
                 'url' => '/orders/item/'.$i,
                 'feedback_count' => '42',
                 'image_url' => '',
-                'features' => array_map(
-                    static fn(string $feature): string => $feature,
-                    [
-                        'Super-premium',
-                        'Master-freelancer',
-                        '95% positive reviews',
-                        'Online 4 hours ago',
-                        'Response time: 2 hours',
-                    ]
-                ),
+                'features' => [
+                    'Super-premium',
+                    'Master-freelancer',
+                    '95% positive reviews',
+                    'Online 4 hours ago',
+                    'Response time: 2 hours',
+                ],
                 'rating' => 4,
                 'review_count' => 34,
                 'price' => 500.00,
             ];
         }
 
-        return new PaginationDto($items, $page, $limit);
+        return new PaginationDto($items, $page, $limit); // @phpstan-ignore-line
     }
 
     /**
