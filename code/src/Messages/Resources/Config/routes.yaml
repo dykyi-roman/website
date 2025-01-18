@@ -1,0 +1,12 @@
+web_routes:
+    resource:
+        path: ../../Presentation/Web
+        namespace: Messages\Presentation\Web
+    type: attribute
+#
+#api_routes:
+#    resource:
+#        path: ../../Presentation/Api
+#        namespace: Messages\Presentation\Api
+#    type: attribute
+#    prefix: '/api'

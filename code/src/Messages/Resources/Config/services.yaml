@@ -1,0 +1,21 @@
+parameters:
+
+twig:
+    paths:
+        '%kernel.project_dir%/src/Messages/Resources/Templates': Messages
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Messages\:
+        resource: '../../'
+        exclude:
+            - '../../Resources/'
+            - '../../Application/**/*{Command,Query}.php'
+            - '../../DomainModel/{Dto,Event,Model,ValueObject}/'
+            - '../../Application/*/{Dto,Event,Model,ValueObject}/'
+            - '../../Tests/'
+        tags: ['controller.service_arguments']

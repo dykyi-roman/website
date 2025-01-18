@@ -45,20 +45,22 @@
                     </button>
                 </a>
                 <!-- Messages Icon -->
+            <a href="{{ path('messages') }}">
                 <button type="button"
                         class="header-button messages-button d-flex align-items-center justify-content-center"
-                        aria-label="{{ 'messages'|trans }}"
-                        title="{{ 'messages'|trans }}">
+                        aria-label="{{ 'messages.page_title'|trans }}"
+                        title="{{ 'messages.page_title'|trans }}">
                     <i class="fas fa-comment-dots position-relative">
                         {% if 7 > 0 %}
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             {{ 7 }}
                             <span class="visually-hidden">{{ 'unread_messages'|trans }}</span>
                         </span>
                         {% endif %}
                     </i>
                 </button>
-            {% endif %}
+                {% endif %}
+            </a>
 
             <!-- Currencies Menu -->
             <div class="nav-item dropdown combined-dropdown">

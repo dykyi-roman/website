@@ -121,8 +121,10 @@
   "notifications": {
     "page_title": "Notifications"
   },
+  "messages": {
+    "page_title": "Messages"
+  },
   "unread_notifications": "Unread notifications",
-  "messages": "Messages",
   "menu_favorites": "Favorites",
   "unread_messages": "Unread messages",
   "account_menu": "Menu",

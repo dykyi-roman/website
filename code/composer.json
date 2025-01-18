@@ -61,7 +61,8 @@
             "Profile\\": "src/Profile/",
             "Shared\\": "src/Shared/",
             "EventStorage\\": "src/EventStorage/",
-            "Notification\\": "src/Notification/"
+            "Notification\\": "src/Notification/",
+            "Messages\\": "src/Messages/"
         }
     },
     "autoload-dev": {
