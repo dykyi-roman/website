@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Profile\User\Tests\Unit\Application\VerifyUserProfile\Command;
+namespace Profile\User\Tests\Unit\Application\UserVerification\Command;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
