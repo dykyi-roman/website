@@ -250,9 +250,10 @@ async function initializeApp() {
     // Use event delegation for dynamically added elements
     $(document).on('click', '#activateAccount', async function() {
         try {
-            const response = await fetch('/settings/privacy/user-activate?status=1', {
-                method: 'GET',
+            const response = await fetch('/v1/user/status', {
+                method: 'PUT',
                 headers: {
+                    'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 }
             });
@@ -301,9 +302,10 @@ async function initializeApp() {
     // Account deactivation confirmation
     $('#confirmDeactivate').on('click', async function() {
         try {
-            const response = await fetch('/settings/privacy/user-activate?status=0', {
-                method: 'GET',
+            const response = await fetch('/v1/user/status', {
+                method: 'PUT',
                 headers: {
+                    'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 }
             });
@@ -353,9 +355,10 @@ async function initializeApp() {
     // Account deletion confirmation
     $('#confirmDelete').on('click', async function() {
         try {
-            const response = await fetch('/settings/privacy/account-delete', {
-                method: 'GET',
+            const response = await fetch('/api/v1/users', {
+                method: 'DELETE',
                 headers: {
+                    'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 }
             });

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Profile\Setting\Application\SettingsPrivacy\Command;
+namespace Profile\User\Application\ChangeUserStatus;
 
-use Profile\User\Application\UserPrivacyOperation\Service\UserPrivacyServiceInterface;
+use Profile\User\DomainModel\Service\UserPrivacyServiceInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Profile\Setting\Application\SettingsPrivacy\Command;
+namespace Profile\User\Application\ChangeUserStatus;
 
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Enum\UserStatus;

@@ -45,7 +45,7 @@ class User extends AbstractDomainModel implements PasswordAuthenticatedUserInter
     #[ORM\Column(type: 'location', nullable: true)]
     private Location $location;
 
-    #[ORM\Column(type: 'user_status', options: ['default' => UserStatus::ACTIVATED])]
+    #[ORM\Column(type: 'user_status', options: ['default' => UserStatus::ACTIVE])]
     private UserStatus $status;
 
     #[ORM\Column(name: 'phone_verified', type: 'boolean')]
@@ -98,7 +98,7 @@ class User extends AbstractDomainModel implements PasswordAuthenticatedUserInter
         $this->email = $email;
         $this->phone = $phone;
         $this->location = $location;
-        $this->status = UserStatus::ACTIVATED;
+        $this->status = UserStatus::ACTIVE;
         $this->roles = [] === $roles ? [Roles::ROLE_CLIENT->value, Roles::ROLE_PARTNER->value] : $roles;
         $this->emailVerified = false;
         $this->phoneVerified = false;
@@ -108,7 +108,7 @@ class User extends AbstractDomainModel implements PasswordAuthenticatedUserInter
 
     public function activate(): void
     {
-        $this->status = UserStatus::ACTIVATED;
+        $this->status = UserStatus::ACTIVE;
 
         $this->raise(
             new UserActivatedEvent(
@@ -121,7 +121,7 @@ class User extends AbstractDomainModel implements PasswordAuthenticatedUserInter
 
     public function deactivate(): void
     {
-        $this->status = UserStatus::DEACTIVATED;
+        $this->status = UserStatus::INACTIVE;
 
         $this->raise(
             new UserDeactivatedEvent(

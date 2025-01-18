@@ -2,38 +2,38 @@
 
 declare(strict_types=1);
 
-namespace Profile\Setting\Tests\Unit\Application\SettingsPrivacy\Command;
+namespace Profile\User\Tests\Unit\Application\DeleteUser;
 
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Profile\Setting\Application\SettingsPrivacy\Command\DeleteUserAccountCommand;
-use Profile\Setting\Application\SettingsPrivacy\Command\DeleteUserAccountCommandHandler;
-use Profile\User\Application\UserPrivacyOperation\Service\UserPrivacyServiceInterface;
+use Profile\User\Application\DeleteUser\Command\DeleteUserAccountCommand;
+use Profile\User\Application\DeleteUser\Command\DeleteUserAccountCommandHandler;
 use Profile\User\DomainModel\Enum\UserId;
+use Profile\User\DomainModel\Exception\DeleteUserException;
+use Profile\User\DomainModel\Service\UserPrivacyServiceInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-#[CoversClass(DeleteUserAccountCommandHandler::class)]
 final class DeleteUserAccountCommandHandlerTest extends TestCase
 {
-    private MockObject&UserPrivacyServiceInterface $userPrivacyService;
-    private MockObject&TokenStorageInterface $tokenStorage;
+    /** @var UserPrivacyServiceInterface&MockObject */
+    private MockObject $userPrivacyService;
+    /** @var TokenStorageInterface&MockObject */
+    private MockObject $tokenStorage;
     private DeleteUserAccountCommandHandler $handler;
 
     protected function setUp(): void
     {
         $this->userPrivacyService = $this->createMock(UserPrivacyServiceInterface::class);
         $this->tokenStorage = $this->createMock(TokenStorageInterface::class);
-
         $this->handler = new DeleteUserAccountCommandHandler(
             $this->userPrivacyService,
-            $this->tokenStorage,
+            $this->tokenStorage
         );
     }
 
     public function testSuccessfulUserDeletion(): void
     {
-        $userId = new UserId();
+        $userId = UserId::fromString('user-123');
         $command = new DeleteUserAccountCommand($userId);
 
         $this->userPrivacyService
@@ -49,25 +49,19 @@ final class DeleteUserAccountCommandHandlerTest extends TestCase
         $this->handler->__invoke($command);
     }
 
-    public function testHandleException(): void
+    public function testFailedUserDeletion(): void
     {
-        $userId = new UserId();
+        $userId = UserId::fromString('user-123');
         $command = new DeleteUserAccountCommand($userId);
-        $errorMessage = 'User not found';
-        $exception = new \RuntimeException($errorMessage);
 
         $this->userPrivacyService
             ->expects(self::once())
             ->method('delete')
             ->with($userId)
-            ->willThrowException($exception);
+            ->willThrowException(new DeleteUserException($userId));
 
-        $this->tokenStorage
-            ->expects(self::never())
-            ->method('setToken');
-
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage($errorMessage);
+        $this->expectException(DeleteUserException::class);
+        $this->expectExceptionMessage(sprintf('User not deleted by id: %s', $userId->toRfc4122()));
 
         $this->handler->__invoke($command);
     }

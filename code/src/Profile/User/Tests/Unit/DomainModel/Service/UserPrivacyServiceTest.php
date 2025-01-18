@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Profile\User\Tests\Unit\Application\UserPrivacyOperation\Service;
+namespace Profile\User\Tests\Unit\DomainModel\Service;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Profile\User\Application\UserPrivacyOperation\Service\UserPrivacyService;
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Exception\ActivateUserException;
 use Profile\User\DomainModel\Exception\DeactivateUserException;
@@ -15,6 +14,7 @@ use Profile\User\DomainModel\Exception\DeleteUserException;
 use Profile\User\DomainModel\Exception\UserNotFoundException;
 use Profile\User\DomainModel\Model\UserInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
+use Profile\User\DomainModel\Service\UserPrivacyService;
 use Psr\Log\LoggerInterface;
 
 #[CoversClass(UserPrivacyService::class)]

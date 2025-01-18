@@ -6,11 +6,11 @@ namespace Profile\User\DomainModel\Enum;
 
 enum UserStatus: int
 {
-    case ACTIVATED = 1;
-    case DEACTIVATED = 0;
+    case ACTIVE = 1;
+    case INACTIVE = 0;
 
     public function isActive(): bool
     {
-        return self::ACTIVATED === $this;
+        return self::ACTIVE === $this;
     }
 }

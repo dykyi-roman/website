@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Profile\Setting\Application\SettingsPrivacy\Command;
+namespace Profile\User\Application\DeleteUser\Command;
 
 use Profile\User\DomainModel\Enum\UserId;
 

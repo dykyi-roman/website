@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Profile\User\Application\UserPrivacyOperation\Service;
+namespace Profile\User\DomainModel\Service;
 
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Exception\ActivateUserException;

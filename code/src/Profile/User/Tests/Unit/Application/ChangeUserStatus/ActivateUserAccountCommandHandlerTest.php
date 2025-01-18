@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Profile\Setting\Tests\Unit\Application\SettingsPrivacy\Command;
+namespace Profile\User\Tests\Unit\Application\ChangeUserStatus;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Profile\Setting\Application\SettingsPrivacy\Command\ActivateUserAccountCommand;
-use Profile\Setting\Application\SettingsPrivacy\Command\ActivateUserAccountCommandHandler;
-use Profile\User\Application\UserPrivacyOperation\Service\UserPrivacyServiceInterface;
+use Profile\User\Application\ChangeUserStatus\ActivateUserAccountCommand;
+use Profile\User\Application\ChangeUserStatus\ActivateUserAccountCommandHandler;
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Enum\UserStatus;
+use Profile\User\DomainModel\Service\UserPrivacyServiceInterface;
 
 #[CoversClass(ActivateUserAccountCommandHandler::class)]
 final class ActivateUserAccountCommandHandlerTest extends TestCase
@@ -30,7 +30,7 @@ final class ActivateUserAccountCommandHandlerTest extends TestCase
     public function testSuccessfulUserActivation(): void
     {
         $userId = new UserId();
-        $command = new ActivateUserAccountCommand($userId, UserStatus::ACTIVATED);
+        $command = new ActivateUserAccountCommand($userId, UserStatus::ACTIVE);
 
         $this->userPrivacyService
             ->expects(self::once())
@@ -43,7 +43,7 @@ final class ActivateUserAccountCommandHandlerTest extends TestCase
     public function testSuccessfulUserDeactivation(): void
     {
         $userId = new UserId();
-        $command = new ActivateUserAccountCommand($userId, UserStatus::DEACTIVATED);
+        $command = new ActivateUserAccountCommand($userId, UserStatus::INACTIVE);
 
         $this->userPrivacyService
             ->expects(self::once())
@@ -56,7 +56,7 @@ final class ActivateUserAccountCommandHandlerTest extends TestCase
     public function testHandleException(): void
     {
         $userId = new UserId();
-        $command = new ActivateUserAccountCommand($userId, UserStatus::ACTIVATED);
+        $command = new ActivateUserAccountCommand($userId, UserStatus::ACTIVE);
         $errorMessage = 'User not found';
         $exception = new \RuntimeException($errorMessage);
 

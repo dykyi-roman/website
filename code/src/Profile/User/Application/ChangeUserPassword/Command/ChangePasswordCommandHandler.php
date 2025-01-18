@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Profile\User\Application\ChangePassword\Command;
+namespace Profile\User\Application\ChangeUserPassword\Command;
 
-use Profile\User\Application\ChangePassword\Service\PasswordChangeServiceInterface;
+use Profile\User\Application\ChangeUserPassword\Service\PasswordChangeServiceInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
