@@ -5,29 +5,32 @@ declare(strict_types=1);
 namespace Profile\User\Presentation\Api;
 
 use OpenApi\Attributes as OA;
+use Profile\User\Application\UserAuthentication\Command\CreateUserPasswordCommand;
 use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
 use Profile\User\Application\UserManagement\Command\ChangeUserPasswordCommand;
 use Profile\User\Presentation\Api\Request\ChangePasswordRequestDto;
+use Profile\User\Presentation\Api\Request\CreatePasswordRequestDto;
 use Profile\User\Presentation\Api\Response\ChangePasswordJsonResponder;
+use Profile\User\Presentation\Api\Response\CreatePasswordJsonResponder;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final readonly class ChangePasswordAction
+final readonly class CreatePasswordAction
 {
-    #[Route('/v1/users/self/password', name: 'change_user_password', methods: ['PUT'])]
+    #[Route('/v1/users/self/password', name: 'change_user_password', methods: ['POST'])]
     #[OA\Put(
         path: '/api/v1/users/self/password',
-        description: 'Changes the password for the authenticated user',
-        summary: 'Change user password',
+        description: 'Create the password for the authenticated user',
+        summary: 'Create user password',
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
-                required: ['currentPassword', 'newPassword'],
+                required: ['password', 'confirmationPassword'],
                 properties: [
-                    new OA\Property(property: 'currentPassword', type: 'string', example: 'current123'),
-                    new OA\Property(property: 'newPassword', type: 'string', example: 'new123'),
+                    new OA\Property(property: 'password', type: 'string', example: 'current123'),
+                    new OA\Property(property: 'confirmationPassword', type: 'string', example: 'new123'),
                 ]
             )
         ),
@@ -35,7 +38,7 @@ final readonly class ChangePasswordAction
         responses: [
             new OA\Response(
                 response: 200,
-                description: 'Password changed successfully',
+                description: 'Password created successfully',
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(property: 'success', type: 'boolean', example: true),
@@ -49,31 +52,31 @@ final readonly class ChangePasswordAction
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(property: 'success', type: 'boolean', example: false),
-                        new OA\Property(property: 'message', type: 'string', example: 'Password change failed'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Password created failed'),
                     ]
                 )
             ),
         ]
     )]
     public function __invoke(
-        #[MapRequestPayload] ChangePasswordRequestDto $request,
+        #[MapRequestPayload] CreatePasswordRequestDto $request,
         MessageBusInterface $messageBus,
         UserFetcherInterface $userFetcher,
-        ChangePasswordJsonResponder $responder,
+        CreatePasswordJsonResponder $responder,
         TranslatorInterface $translator,
-    ): ChangePasswordJsonResponder {
+    ): CreatePasswordJsonResponder {
         try {
             $messageBus->dispatch(
-                new ChangeUserPasswordCommand(
+                new CreateUserPasswordCommand(
                     $userFetcher->fetch()->id(),
-                    $request->currentPassword,
-                    $request->newPassword,
+                    $request->password,
+                    $request->confirmationPassword,
                 )
             );
 
             return $responder->success('Ok');
         } catch (\Throwable) {
-            return $responder->validationError($translator->trans('password_change_error'));
+            return $responder->validationError($translator->trans('password_create_error'));
         }
     }
 }

@@ -8,25 +8,25 @@ use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Profile\User\Application\UserAuthentication\Command\CreateUserPassword;
-use Profile\User\Application\UserAuthentication\Command\CreateUserPasswordHandler;
+use Profile\User\Application\UserAuthentication\Command\CreateUserPasswordCommand;
+use Profile\User\Application\UserAuthentication\Command\CreateUserPasswordCommandHandler;
 use Profile\User\Application\UserManagement\Service\PasswordChangeServiceInterface;
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\UserInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 
-#[CoversClass(CreateUserPasswordHandler::class)]
+#[CoversClass(CreateUserPasswordCommandHandler::class)]
 final class CreateUserPasswordHandlerTest extends TestCase
 {
     private UserRepositoryInterface|MockObject $userRepository;
     private PasswordChangeServiceInterface|MockObject $passwordHasher;
-    private CreateUserPasswordHandler $handler;
+    private CreateUserPasswordCommandHandler $handler;
 
     protected function setUp(): void
     {
         $this->userRepository = $this->createMock(UserRepositoryInterface::class);
         $this->passwordHasher = $this->createMock(PasswordChangeServiceInterface::class);
-        $this->handler = new CreateUserPasswordHandler(
+        $this->handler = new CreateUserPasswordCommandHandler(
             $this->userRepository,
             $this->passwordHasher
         );
@@ -34,7 +34,7 @@ final class CreateUserPasswordHandlerTest extends TestCase
 
     public function testThrowExceptionWhenPasswordsAreEqual(): void
     {
-        $command = new CreateUserPassword(
+        $command = new CreateUserPasswordCommand(
             new UserId(),
             'password123',
             'password123'
@@ -50,7 +50,7 @@ final class CreateUserPasswordHandlerTest extends TestCase
     {
         $userId =  new UserId();
         $user = $this->createMock(UserInterface::class);
-        $command = new CreateUserPassword(
+        $command = new CreateUserPasswordCommand(
             $userId,
             'newPassword123',
             'differentPassword123'

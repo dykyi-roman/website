@@ -7,9 +7,9 @@ namespace Profile\User\Application\UserAuthentication\Command;
 use Profile\User\DomainModel\Enum\UserId;
 
 /**
- * @see CreateUserPasswordHandler
+ * @see CreateUserPasswordCommandHandler
  */
-final readonly class CreateUserPassword
+final readonly class CreateUserPasswordCommand
 {
     public function __construct(
         public UserId $userId,

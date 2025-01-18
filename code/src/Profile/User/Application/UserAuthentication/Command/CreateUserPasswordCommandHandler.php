@@ -9,7 +9,7 @@ use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final readonly class CreateUserPasswordHandler
+final readonly class CreateUserPasswordCommandHandler
 {
     public function __construct(
         private UserRepositoryInterface $userRepository,
@@ -17,7 +17,7 @@ final readonly class CreateUserPasswordHandler
     ) {
     }
 
-    public function __invoke(CreateUserPassword $command): void
+    public function __invoke(CreateUserPasswordCommand $command): void
     {
         if ($command->isEqual()) {
             throw new \InvalidArgumentException('Current password is incorrect');

@@ -378,10 +378,6 @@
     "currency": "Currency",
     "language": "Language"
   },
-  "password_change": {
-    "success": "Password is changed!",
-    "error": {
-      "failed": "Failed to change password"
-    }
-  }
+  "password_change_error": "Failed to change password",
+  "password_create_error": "Failed to create password"
 }
