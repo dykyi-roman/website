@@ -60,6 +60,7 @@ final readonly class NotificationService implements NotificationServiceInterface
         return $count;
     }
 
+    /** @return PaginationDto<UserNotification> */
     public function getUserNotifications(UserId $userId, int $page = 1, int $perPage = 20): PaginationDto
     {
         return $this->userNotificationRepository->getUserNotifications($userId, $page, $perPage);

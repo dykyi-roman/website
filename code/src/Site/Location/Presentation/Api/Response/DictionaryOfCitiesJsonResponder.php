@@ -7,7 +7,7 @@ namespace Site\Location\Presentation\Api\Response;
 use Shared\Presentation\Responder\ResponderInterface;
 use Site\Location\DomainModel\Dto\CityDto;
 
-final readonly class DictionaryOfCitiesResponse implements ResponderInterface
+final readonly class DictionaryOfCitiesJsonResponder implements ResponderInterface
 {
     public function __construct(
         /** @var array<CityDto> $cities */

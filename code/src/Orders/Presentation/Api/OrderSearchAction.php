@@ -8,6 +8,7 @@ use OpenApi\Attributes as OA;
 use Orders\DomainModel\Service\OrdersInterface;
 use Orders\Presentation\Api\Request\OrdersSearchRequestDto;
 use Orders\Presentation\Api\Response\OrderSearchJsonResponder;
+use Shared\DomainModel\Dto\PaginationDto;
 use Shared\DomainModel\ValueObject\Currency;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
@@ -93,6 +94,19 @@ final readonly class OrderSearchAction
     ): OrderSearchJsonResponder {
         $currency = Currency::fromString($request->currency ?? $this->defaultCurrency);
 
+        /** @var \Shared\DomainModel\Dto\PaginationDto<array{
+         *     id: int,
+         *     title: string,
+         *     description: string,
+         *     category: string,
+         *     url: string,
+         *     feedback_count: string,
+         *     image_url: string,
+         *     features: array<int, string>,
+         *     rating: int,
+         *     review_count: int,
+         *     price: float
+         * }> $data */
         $data = $orders->search(
             $request->query,
             $request->order(),
@@ -100,13 +114,68 @@ final readonly class OrderSearchAction
             $request->limit,
         );
 
-        $data = $data->jsonSerialize();
-        $data['items'] = array_map(static function (array $item) use ($currency): array {
-            $item['price'] = $item['price'].' '.$currency->symbol();
+        /** @var array{
+         *     items: array<int, array{
+         *         id: int,
+         *         title: string,
+         *         description: string,
+         *         category: string,
+         *         url: string,
+         *         feedback_count: string,
+         *         image_url: string,
+         *         features: array<int, string>,
+         *         rating: int,
+         *         review_count: int,
+         *         price: float
+         *     }>,
+         *     total: int,
+         *     page: int,
+         *     limit: int,
+         *     total_pages: int
+         * } */
+        $result = $data->jsonSerialize();
+        
+        /** @var array{
+         *     items: array<int, array{
+         *         id: int,
+         *         title: string,
+         *         description: string,
+         *         category: string,
+         *         url: string,
+         *         feedback_count: string,
+         *         image_url: string,
+         *         features: array<int, string>,
+         *         rating: int,
+         *         review_count: int,
+         *         price: string
+         *     }>,
+         *     total: int,
+         *     page: int,
+         *     limit: int,
+         *     total_pages: int
+         * } $transformedResult */
+        $transformedResult = [
+            'items' => array_map(static function (array $item) use ($currency): array {
+                return [
+                    'id' => $item['id'],
+                    'title' => $item['title'],
+                    'description' => $item['description'],
+                    'category' => $item['category'],
+                    'url' => $item['url'],
+                    'feedback_count' => $item['feedback_count'],
+                    'image_url' => $item['image_url'],
+                    'features' => $item['features'],
+                    'rating' => $item['rating'],
+                    'review_count' => $item['review_count'],
+                    'price' => $item['price'].' '.$currency->symbol(),
+                ];
+            }, $result['items']),
+            'total' => $result['total'],
+            'page' => $result['page'],
+            'limit' => $result['limit'],
+            'total_pages' => $result['total_pages'],
+        ];
 
-            return $item;
-        }, $data['items']);
-
-        return $responder->success($data, 'Ok')->respond();
+        return $responder->success($transformedResult, 'Ok')->respond();
     }
 }

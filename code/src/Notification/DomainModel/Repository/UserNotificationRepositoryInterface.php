@@ -11,6 +11,7 @@ use Shared\DomainModel\Dto\PaginationDto;
 
 interface UserNotificationRepositoryInterface
 {
+    /** @return PaginationDto<UserNotification> */
     public function getUserNotifications(UserId $userId, int $page = 1, int $perPage = 20): PaginationDto;
 
     public function findById(UserNotificationId $id): UserNotification;

@@ -13,25 +13,19 @@ final readonly class MockClient implements OrdersInterface
     private const int COUNT = 10;
 
     /**
-     * @return array{
-     *     items: array<int, array{
-     *         id: int,
-     *         title: string,
-     *         description: string,
-     *         category: string,
-     *         url: string,
-     *         feedback_count: string,
-     *         image_url: string,
-     *         features: array<string>,
-     *         rating: int,
-     *         review_count: int,
-     *         price: float
-     *     }>,
-     *     total: int,
-     *     page: int,
-     *     limit: int,
-     *     total_pages: int
-     * }
+     * @return PaginationDto<array{
+     *     id: int,
+     *     title: string,
+     *     description: string,
+     *     category: string,
+     *     url: string,
+     *     feedback_count: string,
+     *     image_url: string,
+     *     features: array<string>,
+     *     rating: int,
+     *     review_count: int,
+     *     price: float
+     * }>
      */
     public function search(
         string $query,
@@ -49,13 +43,16 @@ final readonly class MockClient implements OrdersInterface
                 'url' => '/orders/item/'.$i,
                 'feedback_count' => '42',
                 'image_url' => '',
-                'features' => [
-                    'Super-premium',
-                    'Master-freelancer',
-                    '95% positive reviews',
-                    'Online 4 hours ago',
-                    'Response time: 2 hours',
-                ],
+                'features' => array_map(
+                    static fn(string $feature): string => $feature,
+                    [
+                        'Super-premium',
+                        'Master-freelancer',
+                        '95% positive reviews',
+                        'Online 4 hours ago',
+                        'Response time: 2 hours',
+                    ]
+                ),
                 'rating' => 4,
                 'review_count' => 34,
                 'price' => 500.00,

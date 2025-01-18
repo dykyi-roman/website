@@ -12,6 +12,27 @@ final class OrderSearchJsonResponder implements ResponderInterface
     private array $data = [];
     private int $statusCode = 200;
 
+    /**
+     * @param array{
+     *     items: array<int, array{
+     *         id: int,
+     *         title: string,
+     *         description: string,
+     *         category: string,
+     *         url: string,
+     *         feedback_count: string,
+     *         image_url: string,
+     *         features: array<int, string>,
+     *         rating: int,
+     *         review_count: int,
+     *         price: string
+     *     }>,
+     *     total: int,
+     *     page: int,
+     *     limit: int,
+     *     total_pages: int
+     * } $data
+     */
     public function success(array $data, string $message): self
     {
         $this->data = [

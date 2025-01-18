@@ -9,7 +9,7 @@ use Shared\DomainModel\Services\MessageBusInterface;
 use Shared\DomainModel\ValueObject\Location;
 use Site\Location\Application\DetectLocation\Query\DetectLocationQuery;
 use Site\Location\Presentation\Api\Request\DetectLocationRequest;
-use Site\Location\Presentation\Api\Response\DetectLocationResponse;
+use Site\Location\Presentation\Api\Response\DetectLocationJsonResponder;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -55,7 +55,7 @@ final readonly class DetectLocationAction
     public function __invoke(
         #[MapQueryString] DetectLocationRequest $request,
         MessageBusInterface $messageBus,
-    ): DetectLocationResponse {
+    ): DetectLocationJsonResponder {
         /** @var Location $location */
         $location = $messageBus->dispatch(
             new DetectLocationQuery(
@@ -64,6 +64,6 @@ final readonly class DetectLocationAction
             )
         );
 
-        return new DetectLocationResponse($location);
+        return new DetectLocationJsonResponder($location);
     }
 }

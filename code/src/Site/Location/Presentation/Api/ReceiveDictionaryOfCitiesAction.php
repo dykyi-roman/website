@@ -9,7 +9,7 @@ use Shared\DomainModel\Services\MessageBusInterface;
 use Site\Location\Application\CitiesDictionary\Query\GetCitiesDictionaryQuery;
 use Site\Location\DomainModel\Dto\CityDto;
 use Site\Location\Presentation\Api\Request\DictionaryOfCitiesRequest;
-use Site\Location\Presentation\Api\Response\DictionaryOfCitiesResponse;
+use Site\Location\Presentation\Api\Response\DictionaryOfCitiesJsonResponder;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -79,7 +79,7 @@ final readonly class ReceiveDictionaryOfCitiesAction
     public function __invoke(
         #[MapQueryString] DictionaryOfCitiesRequest $request,
         MessageBusInterface $messageBus,
-    ): DictionaryOfCitiesResponse {
+    ): DictionaryOfCitiesJsonResponder {
         /** @var array<CityDto> $cities */
         $cities = $messageBus->dispatch(
             new GetCitiesDictionaryQuery(
@@ -89,6 +89,6 @@ final readonly class ReceiveDictionaryOfCitiesAction
             )
         );
 
-        return new DictionaryOfCitiesResponse($cities);
+        return new DictionaryOfCitiesJsonResponder($cities);
     }
 }

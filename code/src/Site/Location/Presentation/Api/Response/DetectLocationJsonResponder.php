@@ -7,7 +7,7 @@ namespace Site\Location\Presentation\Api\Response;
 use Shared\DomainModel\ValueObject\Location;
 use Shared\Presentation\Responder\ResponderInterface;
 
-final readonly class DetectLocationResponse implements ResponderInterface
+final readonly class DetectLocationJsonResponder implements ResponderInterface
 {
     public function __construct(
         private Location $location,

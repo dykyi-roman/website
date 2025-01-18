@@ -6,7 +6,7 @@ namespace Notification\Presentation\Api;
 
 use Notification\DomainModel\Service\NotificationServiceInterface;
 use Notification\Presentation\Api\Request\NotificationListDto;
-use Notification\Presentation\Api\Response\NotificationResponder;
+use Notification\Presentation\Api\Response\NotificationListJsonResponder;
 use Profile\User\Application\GetCurrentUser\Service\UserFetcherInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
@@ -18,8 +18,8 @@ class NotificationListAction
         #[MapQueryString] NotificationListDto $request,
         NotificationServiceInterface $notificationService,
         UserFetcherInterface $userFetcher,
-        NotificationResponder $responder,
-    ): NotificationResponder {
+        NotificationListJsonResponder $responder,
+    ): NotificationListJsonResponder {
         $data = $notificationService->getUserNotifications(
             $userFetcher->fetch()->id(),
             $request->page,

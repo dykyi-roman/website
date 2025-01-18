@@ -6,25 +6,24 @@ namespace Notification\Presentation\Api\Response;
 
 use Shared\Presentation\Responder\ResponderInterface;
 
-final class NotificationResponder implements ResponderInterface
+final class NotificationReadJsonResponder implements ResponderInterface
 {
     /** @var array<string, mixed> */
     private array $data = [];
     private int $statusCode = 200;
 
-    public function success(\JsonSerializable|array $data, string $message): self
+    public function success(string $message): self
     {
         $this->data = [
             'success' => true,
             'message' => $message,
-            'data' => is_array($data) ? $data : $data->jsonSerialize(),
         ];
         $this->statusCode = 200;
 
         return $this;
     }
 
-    public function error(string $message, string $field = ''): self
+    public function error(string $message): self
     {
         $this->data = [
             'success' => false,

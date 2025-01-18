@@ -10,25 +10,20 @@ use Shared\DomainModel\Dto\PaginationDto;
 interface ServicesInterface
 {
     /**
-     * @return array{
-     *     items: array<int, array{
-     *         id: int,
-     *         title: string,
-     *         description: string,
-     *         category: string,
-     *         url: string,
-     *         feedback_count: string,
-     *         image_url: string,
-     *         features: array<int, string>,
-     *         rating: int,
-     *         review_count: int,
-     *         price: float
-     *     }>,
-     *     total: int,
-     *     page: int,
-     *     limit: int,
-     *     total_pages: int
-     * }
+     * @param array{
+     *     id: int,
+     *     title: string,
+     *     description: string,
+     *     category: string,
+     *     url: string,
+     *     feedback_count: string,
+     *     image_url: string,
+     *     features: array<int, string>,
+     *     rating: int,
+     *     review_count: int,
+     *     price: float
+     * } $T
+     * @return PaginationDto<$T>
      */
     public function search(
         string $query,

@@ -9,26 +9,20 @@ use Shared\DomainModel\Dto\PaginationDto;
 
 interface OrdersInterface
 {
-    /**
-     * @return array{
-     *     items: array<int, array{
-     *         id: int,
-     *         title: string,
-     *         description: string,
-     *         category: string,
-     *         url: string,
-     *         feedback_count: string,
-     *         image_url: string,
-     *         features: array<string>,
-     *         rating: int,
-     *         review_count: int,
-     *         price: float
-     *     }>,
-     *     total: int,
-     *     page: int,
-     *     limit: int,
-     *     total_pages: int
-     * }
+        /**
+     * @return PaginationDto<array{
+     *     id: int,
+     *     title: string,
+     *     description: string,
+     *     category: string,
+     *     url: string,
+     *     feedback_count: string,
+     *     image_url: string,
+     *     features: array<string>,
+     *     rating: int,
+     *     review_count: int,
+     *     price: float
+     * }>
      */
     public function search(
         string $query,

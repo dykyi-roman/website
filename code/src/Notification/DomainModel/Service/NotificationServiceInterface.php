@@ -18,5 +18,6 @@ interface NotificationServiceInterface
 
     public function getUnreadCount(UserId $userId): int;
 
+    /** @return PaginationDto<UserNotification> */
     public function getUserNotifications(UserId $userId, int $page = 1, int $perPage = 20): PaginationDto;
 }

@@ -2,50 +2,32 @@
 
 declare(strict_types=1);
 
-namespace Services\Presentation\Api\Response;
+namespace Notification\Presentation\Api\Response;
 
 use Shared\Presentation\Responder\ResponderInterface;
 
-final class ServiceSearchJsonResponder implements ResponderInterface
+final class NotificationListJsonResponder implements ResponderInterface
 {
     /** @var array<string, mixed> */
     private array $data = [];
     private int $statusCode = 200;
 
     /**
-     * @param array{
-     *     items: array<int, array{
-     *         id: int,
-     *         title: string,
-     *         description: string,
-     *         category: string,
-     *         url: string,
-     *         feedback_count: string,
-     *         image_url: string,
-     *         features: array<int, string>,
-     *         rating: int,
-     *         review_count: int,
-     *         price: string
-     *     }>,
-     *     total: int,
-     *     page: int,
-     *     limit: int,
-     *     total_pages: int
-     * } $data
+     * @param \JsonSerializable|array<string, mixed> $data
      */
-    public function success(array $data, string $message): self
+    public function success(\JsonSerializable|array $data, string $message): self
     {
         $this->data = [
             'success' => true,
             'message' => $message,
-            'data' => $data,
+            'data' => is_array($data) ? $data : $data->jsonSerialize(),
         ];
         $this->statusCode = 200;
 
         return $this;
     }
 
-    public function error(string $message, string $field = ''): self
+    public function error(string $message): self
     {
         $this->data = [
             'success' => false,
