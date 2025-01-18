@@ -10,7 +10,7 @@ use Shared\DomainModel\Dto\PaginationDto;
 interface ServicesInterface
 {
     /**
-     * @param array{
+     * @return PaginationDto<array{
      *     id: int,
      *     title: string,
      *     description: string,
@@ -22,8 +22,7 @@ interface ServicesInterface
      *     rating: int,
      *     review_count: int,
      *     price: float
-     * } $T
-     * @return PaginationDto<$T>
+     * }>
      */
     public function search(
         string $query,

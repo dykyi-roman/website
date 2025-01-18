@@ -13,7 +13,7 @@ final readonly class MockClient implements ServicesInterface
     private const int COUNT = 25;
 
     /**
-     * @param array{
+     * @return PaginationDto<array{
      *     id: int,
      *     title: string,
      *     description: string,
@@ -25,8 +25,7 @@ final readonly class MockClient implements ServicesInterface
      *     rating: int,
      *     review_count: int,
      *     price: float
-     * } $T
-     * @return PaginationDto<$T>
+     * }>
      */
     public function search(
         string $query,
