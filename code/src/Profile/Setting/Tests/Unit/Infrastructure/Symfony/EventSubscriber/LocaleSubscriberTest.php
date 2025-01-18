@@ -13,10 +13,9 @@ use Profile\Setting\DomainModel\Model\Setting;
 use Profile\Setting\DomainModel\Repository\SettingRepositoryInterface;
 use Profile\Setting\DomainModel\ValueObject\Property;
 use Profile\Setting\Infrastructure\Symfony\EventSubscriber\LocaleSubscriber;
-use Symfony\Bundle\SecurityBundle\Security;
 use Profile\User\DomainModel\Enum\UserId;
-use Profile\User\DomainModel\Exception\AuthenticationException;
 use Profile\User\DomainModel\Model\User;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -90,7 +89,7 @@ final class LocaleSubscriberTest extends TestCase
 
         $token = $this->createMock(\Symfony\Component\Security\Core\Authentication\Token\TokenInterface::class);
         $token->method('getUser')->willReturn($user);
-        
+
         $this->security
             ->expects(self::once())
             ->method('getToken')
@@ -129,7 +128,7 @@ final class LocaleSubscriberTest extends TestCase
 
         $token = $this->createMock(\Symfony\Component\Security\Core\Authentication\Token\TokenInterface::class);
         $token->method('getUser')->willReturn($user);
-        
+
         $this->security
             ->expects(self::once())
             ->method('getToken')
