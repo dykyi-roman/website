@@ -15,4 +15,7 @@ final class NotificationListDto
     #[Assert\Type('integer')]
     #[Assert\Range(min: 1, max: 100)]
     public int $limit = 20;
+
+    #[Assert\Type('boolean')]
+    public bool $includeCount = false;
 }

@@ -20,12 +20,17 @@ class NotificationListAction
         UserFetcherInterface $userFetcher,
         NotificationListJsonResponder $responder,
     ): NotificationListJsonResponder {
-        $data = $notificationService->getUserNotifications(
-            $userFetcher->fetch()->id(),
-            $request->page,
-            $request->limit,
-        );
+        $userId = $userFetcher->fetch()->id();
+        if ($request->includeCount) {
+            $data['unread_count'] = $notificationService->getUnreadCount($userId);
+        } else {
+            $data = $notificationService->getUserNotifications(
+                $userId,
+                $request->page,
+                $request->limit,
+            );
+        }
 
-        return $responder->success($data, 'Ok')->respond();
+        return $responder->success($data, 'Notifications retrieved successfully', 200)->respond();
     }
 }
