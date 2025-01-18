@@ -209,7 +209,20 @@
         "validation": {
           "current_password_required": "Current password is required",
           "new_password_required": "New password is required"
-        }
+        },
+        "create_password": {
+          "title": "Create Password",
+          "description": "Set your account password to maintain security",
+          "button": "Create Password",
+          "current_password": "Password",
+          "new_password": "Confirmation Password",
+          "submit": "Create Password",
+          "success": "Password successfully created",
+          "error": "Failed to create password",
+          "validation": {
+            "current_password_required": "password is required",
+            "new_password_required": "password is required"
+          }
       }
     }
   },

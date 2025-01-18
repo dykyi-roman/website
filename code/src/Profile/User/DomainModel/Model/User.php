@@ -106,6 +106,11 @@ class User extends AbstractDomainModel implements PasswordAuthenticatedUserInter
         $this->updatedAt = new \DateTimeImmutable();
     }
 
+    public function hasPassword(): bool
+    {
+        return null !== $this->passwordToken;
+    }
+
     public function activate(): void
     {
         $this->status = UserStatus::ACTIVE;

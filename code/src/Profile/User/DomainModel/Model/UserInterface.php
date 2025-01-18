@@ -20,6 +20,8 @@ interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterf
 
     public function status(): UserStatus;
 
+    public function hasPassword(): bool;
+
     public function isVerified(): bool;
 
     public function isPhoneVerified(): bool;
@@ -31,6 +33,7 @@ interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterf
     public function isDeleted(): bool;
 
     public function activate(): void;
+
 
     public function deactivate(): void;
 

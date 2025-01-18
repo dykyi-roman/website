@@ -50,7 +50,12 @@
 
     {% include '@Setting/popup/delete-account-popup.html.twig' %}
     {% include '@Setting/popup/deactivate-account-popup.html.twig' %}
-    {% include '@Setting/popup/change-password-popup.html.twig' %}
+
+    {% if app.user.hasPassword  %}
+        {% include '@Setting/popup/change-password-popup.html.twig' %}
+    {% else %}
+        {% include '@Setting/popup/create-password-popup.html.twig' %}
+    {% endif %}
 </div>
 
     {% block javascripts %}
