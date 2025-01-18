@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Profile\User\Tests\Unit\Application\DeleteUser;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Profile\User\Application\DeleteUser\Command\DeleteUserAccountCommand;
@@ -13,6 +14,7 @@ use Profile\User\DomainModel\Exception\DeleteUserException;
 use Profile\User\DomainModel\Service\UserPrivacyServiceInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+#[CoversClass(DeleteUserAccountCommandHandler::class)]
 final class DeleteUserAccountCommandHandlerTest extends TestCase
 {
     /** @var UserPrivacyServiceInterface&MockObject */
@@ -33,7 +35,7 @@ final class DeleteUserAccountCommandHandlerTest extends TestCase
 
     public function testSuccessfulUserDeletion(): void
     {
-        $userId = UserId::fromString('user-123');
+        $userId = new UserId();
         $command = new DeleteUserAccountCommand($userId);
 
         $this->userPrivacyService
@@ -51,7 +53,7 @@ final class DeleteUserAccountCommandHandlerTest extends TestCase
 
     public function testFailedUserDeletion(): void
     {
-        $userId = UserId::fromString('user-123');
+        $userId = new UserId();
         $command = new DeleteUserAccountCommand($userId);
 
         $this->userPrivacyService

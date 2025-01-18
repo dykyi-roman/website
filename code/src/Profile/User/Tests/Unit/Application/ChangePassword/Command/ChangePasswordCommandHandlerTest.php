@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace Profile\User\Tests\Unit\Application\ChangePassword\Command;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Profile\User\Application\ChangePassword\Command\ChangePasswordCommand;
-use Profile\User\Application\ChangePassword\Command\ChangePasswordCommandHandler;
-use Profile\User\Application\ChangePassword\Service\PasswordChangeServiceInterface;
+use Profile\User\Application\ChangeUserPassword\Command\ChangePasswordCommand;
+use Profile\User\Application\ChangeUserPassword\Command\ChangePasswordCommandHandler;
+use Profile\User\Application\ChangeUserPassword\Service\PasswordChangeServiceInterface;
 use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\UserInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 
+#[CoversClass(ChangePasswordCommandHandler::class)]
 final class ChangePasswordCommandHandlerTest extends TestCase
 {
     private UserRepositoryInterface&MockObject $userRepository;

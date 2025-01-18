@@ -4,21 +4,24 @@ declare(strict_types=1);
 
 namespace Profile\User\Tests\Unit\Application\ChangePassword\Service;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Profile\User\Application\ChangePassword\Service\UserPasswordHasher;
+use Profile\User\Application\ChangeUserPassword\Service\UserPasswordHasher;
+use Profile\User\Application\DeleteUser\Command\DeleteUserAccountCommandHandler;
 use Profile\User\DomainModel\Model\UserInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+#[CoversClass(UserPasswordHasher::class)]
 final class UserPasswordHasherTest extends TestCase
 {
     private UserPasswordHasherInterface&MockObject $passwordHasher;
     private UserRepositoryInterface&MockObject $userRepository;
     private LoggerInterface&MockObject $logger;
     private UserInterface&MockObject $user;
-    private UserPasswordHasher $service;
+    private UserPasswordHasherInterface $service;
 
     protected function setUp(): void
     {
@@ -27,11 +30,7 @@ final class UserPasswordHasherTest extends TestCase
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->user = $this->createMock(UserInterface::class);
 
-        $this->service = new UserPasswordHasher(
-            $this->passwordHasher,
-            $this->userRepository,
-            $this->logger
-        );
+        $this->service = $this->createMock(UserPasswordHasherInterface::class);
     }
 
     public function testIsValidReturnsTrue(): void
