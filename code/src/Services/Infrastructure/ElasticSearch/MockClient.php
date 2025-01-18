@@ -43,13 +43,13 @@ final readonly class MockClient implements ServicesInterface
                 'url' => '/services/item/'.$i,
                 'feedback_count' => '42',
                 'image_url' => '',
-                'features' => array_values([
+                'features' => [
                     'Super-premium',
                     'Master-freelancer',
                     '95% positive reviews',
                     'Online 4 hours ago',
                     'Response time: 2 hours',
-                ]),
+                ],
                 'rating' => 4,
                 'review_count' => 34,
                 'price' => 100.00,
