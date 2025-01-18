@@ -71,7 +71,7 @@ final readonly class SendVerificationCodeAction
             );
 
             return $responder->success('Ok')->respond();
-        } catch (\Throwable $throwable) {
+        } catch (\Throwable) {
             return $responder->error($translator->trans('settings.account.error.error_send_verification_code'))->respond();
         }
     }

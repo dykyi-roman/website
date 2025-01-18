@@ -200,14 +200,14 @@ class VerificationHandler {
 
             const data = await response.json();
             if (!response.ok || !data.success) {
-                UIService.showError(this.t.settings.error_sending_verification_code);
+                UIService.showError(data.errors.message);
                 console.log('Verification error:', data.errors.message);
                 return false;
             }
 
             return true;
         } catch (error) {
-            UIService.showError(this.t.settings.error_sending_verification_code);
+            UIService.showError(this.uiManager.t.settings.error_sending_verification_code);
             console.error('Verification error:', error);
             return false;
         } finally {
