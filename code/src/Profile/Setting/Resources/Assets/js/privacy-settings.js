@@ -137,6 +137,62 @@ async function initializeApp() {
         });
     }
 
+    // Handle password create form submission
+    const createPasswordForm = document.getElementById('createPasswordForm');
+    if (createPasswordForm) {
+        const createPassword = document.getElementById('password');
+        const confirmationPassword = document.getElementById('confirmation-password');
+
+        // Add input validation listeners
+        [createPassword, confirmationPassword].forEach(input => {
+            if (input) {
+                input.addEventListener('input', () => {
+                    validateField(input);
+                });
+            }
+        });
+
+        createPasswordForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const isCurrentPasswordValid = validateField(createPassword);
+            const isConfirmationPasswordValid = validateField(confirmationPassword);
+
+            if (!isCurrentPasswordValid || !isConfirmationPasswordValid) {
+                return;
+            }
+
+            try {
+                ModalService.showSpinner();
+                const response = await fetch('/api/v1/users/self/password', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        password: createPassword.value,
+                        confirmationPassword: confirmationPassword.value
+                    })
+                });
+
+                if (response.ok) {
+                    UIService.showSuccess(translations?.settings.password_created_success);
+                    $('#change-password-popup').modal('hide');
+                    changePasswordForm.reset();
+                } else {
+                    const data = await response.json();
+                    UIService.showError(translations?.settings.error_create_password);
+                }
+            } catch (error) {
+                UIService.showError(translations?.settings.error_create_password);
+                console.error('Error changing password:', error);
+            } finally {
+                ModalService.hideSpinner();
+            }
+        });
+    }
+
     // Initialize Bootstrap modals
     const modalOptions = {
         keyboard: true,
@@ -151,6 +207,27 @@ async function initializeApp() {
         // Add event listener for modal show
         changePasswordModal.addEventListener('show.bs.modal', () => {
             const form = document.getElementById('changePasswordForm');
+            if (form) {
+                form.reset();
+                form.querySelectorAll('.form-control').forEach(input => {
+                    input.classList.remove('is-invalid', 'is-valid');
+                });
+                form.querySelectorAll('.invalid-feedback').forEach(feedback => {
+                    feedback.style.display = 'none';
+                    feedback.textContent = '';
+                });
+            }
+        });
+    }
+
+    // Setup create password modal
+    const createPasswordModal = document.getElementById('create-password-popup');
+    if (createPasswordModal) {
+        const modal = new bootstrap.Modal(createPasswordModal, modalOptions);
+
+        // Add event listener for modal show
+        createPasswordModal.addEventListener('show.bs.modal', () => {
+            const form = document.getElementById('createPasswordForm');
             if (form) {
                 form.reset();
                 form.querySelectorAll('.form-control').forEach(input => {

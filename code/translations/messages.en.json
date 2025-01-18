@@ -124,6 +124,8 @@
   "messages": {
     "page_title": "Messages"
   },
+  "password_change_error": "Failed to change password",
+  "password_create_error": "Failed to create password",
   "unread_notifications": "Unread notifications",
   "menu_favorites": "Favorites",
   "unread_messages": "Unread messages",
@@ -150,7 +152,26 @@
       "verification_code_message": "Your verification code is:",
       "verification_code_expiry": "This code will expire in %minutes% minutes.",
       "verification_code_ignore": "If you didn't request this code, please ignore this email.",
-      "your_verification_code": "Your verification code is"
+      "your_verification_code": "Your verification code is",
+      "errors": {
+        "not_supported_image_format": "Please select a JPEG or PNG image.",
+        "not_supported_image_size": "Image size should not exceed 5MB."
+      },
+      "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "change_photo": "Change photo",
+      "verify": "Verify",
+      "profile_image": "Profile Image",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "save": "Save",
+      "light": "Light",
+      "dark": "Dark",
+      "theme": "Theme",
+      "currency": "Currency",
+      "language": "Language"
     },
     "page_title": "Settings",
     "menu": {
@@ -158,6 +179,123 @@
       "general": "General",
       "notifications": "Notifications",
       "privacy": "Privacy"
+    },
+    "app": {
+      "page_title": "App votes",
+      "page_head": "Your vote is important! Help us create the mobile app of your dreams",
+      "page_context": "We plan to develop a mobile application to make your experience even more convenient and better. Vote now and tell us how important it is to you! Your vote determines the priority of our work and will help us create what you really need.",
+      "vote_yes": "Yes"
+    },
+    "careers": {
+      "page_title": "Careers",
+      "content_head": "Build your career with us",
+      "no_open_positions": "There are no open positions"
+    },
+    "search_examples": {
+      "title": "For example:",
+      "examples": {
+        "1": "Refrigerator repair",
+        "2": "English courses",
+        "3": "Dog walking"
+      }
+    },
+    "js": {
+      "settings": {
+        "error_create_password": "Error creating password",
+        "password_created_success": "Password create successfully",
+        "error_changing_password": "Error changing password",
+        "password_changed_success": "Password changed successfully",
+        "update_failed": "Failed to update settings",
+        "error_invalid_image_type": "Please select a supported image.",
+        "error_image_too_large": "Image size should not exceed 5MB.",
+        "form_validation_error": "Please correct the form errors",
+        "unexpected_error": "Unexpected error during save settings",
+        "account_activation_requested": "Account activation requested",
+        "account_deactivation_confirmed": "Account deactivation confirmed",
+        "account_deletion_confirmed": "Account deletion confirmed",
+        "send_again_verification_code": "Send again",
+        "error_sending_verification_code": "Error sending verification code",
+        "error_verifying": "Invalid verification code. Please try again",
+        "deactivate_block": {
+          "title": "Account Deactivation",
+          "description": "Deactivating your account will temporarily hide your profile and all your content from other users. You can reactivate your account at any time by logging back in.",
+          "button": "Deactivate Account"
+        },
+        "activate_block": {
+          "title": "Account Activation",
+          "description": "Your account is currently deactivated. Activating your account will make your profile and content visible to other users again.",
+          "button": "Activate Account"
+        },
+        "verification_retry_timer": "Retrying in %seconds% seconds"
+      },
+      "locales": {
+        "uk": "Українська",
+        "en": "English",
+        "es": "Spain"
+      },
+      "countries": {
+        "ua": "Ukraine",
+        "us": "United States",
+        "es": "Spain"
+      },
+      "vote_thanks": "Thanks for your vote!",
+      "password_validation": "Invalid password",
+      "error_generic_message": "Something went wrong. Our team is working on it. Please try again later.",
+      "error_email_required": "Email is required",
+      "error_invalid_email": "Please enter a valid email address",
+      "error_network": "Network error. Please try again.",
+      "success_reset_link": "Password reset link sent to your email",
+      "label_email": "Email Address",
+      "error_invalid_credentials": "Invalid email or password",
+      "label_login": "Login",
+      "placeholder_email": "Enter your email",
+      "error_password_length": "Password must be at least 8 characters long",
+      "error_passwords_match": "Passwords must match",
+      "label_password": "Enter your password",
+      "label_confirm_password": "Confirm Password",
+      "password_length_validation": "Password must be at least 8 characters long",
+      "password_complexity_validation": "Password must contain at least one letter and one number",
+      "email_already_exists": "This email is already registered",
+      "find_your_orders": "Find Your Orders",
+      "what_order_looking_for": "What order are you looking for?",
+      "no_services_found": "No services found matching your search.",
+      "no_orders_found": "No orders found matching your search.",
+      "book_now": "Book Now",
+      "share": "Share",
+      "error_occurred": "An error occurred while searching. Please try again later.",
+      "share_link_copied": "Copied!",
+      "share_email_subject": "Check out this service",
+      "share_email_body": "I found this interesting service: ",
+      "name_validation": "Please enter a valid name (2-50 characters, letters only)",
+      "phone_validation": "Please enter a valid phone number",
+      "selection_validation": "Please make a selection",
+      "registration_error": "Registration failed. Please try again.",
+      "city_select_from_list": "Please select a city from the list",
+      "success_message": "Password is changed!",
+      "success_reset_password": "Password is changed!",
+      "error_reset_password": "An error occurred while resetting password",
+      "password_too_short": "Password must be at least 8 characters long",
+      "passwords_do_not_match": "Passwords do not match"
+    },
+    "terms": {
+      "page_title": "Terms of Service",
+      "content": "<p>Welcome to our platform, a comprehensive marketplace connecting orders and services.</p><h2>1. Platform Overview</h2><p>Our platform provides a unique ecosystem where:</p><ul><li>Clients can publish diverse advertisements for services they require</li><li>Partners can offer their professional services and respond to client needs</li></ul><h2>2. User Responsibilities</h2><p>All users must:</p><ul><li>Provide accurate and truthful information</li><li>Maintain professional communication</li><li>Respect the platform's guidelines and legal requirements</li></ul><h2>3. Client Responsibilities</h2><p>Clients using the platform to publish advertisements must:</p><ul><li>Clearly describe service requirements</li><li>Provide realistic expectations</li><li>Communicate transparently with potential service partners</li></ul><h2>4. Partner Responsibilities</h2><p>Service partners must:</p><ul><li>Possess necessary qualifications for offered services</li><li>Respond promptly to client inquiries</li><li>Deliver services with professionalism and integrity</li></ul><h2>5. Transaction and Communication</h2><p>The platform facilitates connections but is not directly responsible for:</p><ul><li>Service quality</li><li>Pricing negotiations</li><li>Final agreements between clients and partners</li></ul><h2>6. Intellectual Property and Privacy</h2><p>All content on the platform is protected. Users must respect intellectual property rights and adhere to privacy policies.</p><h2>7. Limitation of Liability</h2><p>Our platform provides a service marketplace and is not liable for direct or indirect damages arising from user interactions.</p><h2>8. Modifications to Terms</h2><p>We reserve the right to update these terms. Continued platform use constitutes acceptance of updated terms.</p><p class='last-updated'>Last Updated: %last_updated_date%</p>"
+    },
+    "contact": {
+      "page_title": "Contact Us",
+      "content": "<h2>Get in Touch</h2><p>We'd love to hear from you! Please use the contact information provided or visit us during business hours.</p>",
+      "business_hours": "We work for you 24/7"
+    },
+    "cookie_consent": {
+      "title": "Cookie Consent",
+      "description": "We use cookies to enhance your browsing experience and analyze our traffic. Please choose your preference below.",
+      "reject_button": "Reject",
+      "accept_button": "Accept"
+    },
+    "dashboard": {
+      "dashboard_page_title": "Welcome!",
+      "page_title": "Dashboard",
+      "search_placeholder": "Search services, partners, and more"
     },
     "privacy": {
       "deactivation": {
@@ -223,174 +361,35 @@
             "current_password_required": "password is required",
             "new_password_required": "password is required"
           }
+        }
+      },
+      "page_title": "Privacy Policy",
+      "content": "<h2>1. Introduction</h2><p>Welcome to %app_name%. This Privacy Policy outlines how we collect, use, protect, and manage your personal information when you use our service marketplace platform.</p><h2>2. Information We Collect</h2><ul><li>Personal identification information (Name, email address, phone number)</li><li>Profile information for service providers and clients</li><li>Communication records between clients and service providers</li><li>Usage data and platform interaction logs</li></ul><h2>3. How We Use Your Information</h2><ul><li>Facilitate service connections between clients and providers</li><li>Improve platform functionality and user experience</li><li>Send important notifications and updates</li><li>Respond to customer support requests</li></ul><h2>4. Data Protection</h2><ul><li>We implement industry-standard security measures to protect your data</li><li>Personal information is encrypted and stored securely</li><li>Access to data is strictly limited to authorized personnel</li></ul><h2>5. User Consent and Control</h2><ul><li>You can review and update your personal information</li><li>You can request data deletion or account closure</li><li>We obtain explicit consent before processing sensitive data</li></ul><h2>6. Third-Party Sharing</h2><p>We do not sell or rent your personal information to third parties. Information may be shared only:</p><ul><li>With your explicit consent</li><li>To comply with legal obligations</li><li>To protect our platform's rights and safety</li></ul><h2>7. Cookies and Tracking</h2><p>We use cookies to enhance user experience and platform functionality. You can manage cookie preferences in your browser settings.</p><h2>8. Contact Information</h2><p>For privacy-related questions or concerns, please contact us at:</p><ul><li>Email: %support_email%</li><li>Address: %support_address%</li></ul><h2>9. Policy Updates</h2><p>We may update this Privacy Policy periodically. The latest version will always be available on our platform.</p><p class='last-updated'>Last Updated: %last_updated_date%</p>"
+    },
+    "phone": {
+      "verification": {
+        "popup_title": "Phone Verification",
+        "instructions": "Please enter the 6-digit verification code that was sent to your phone",
+        "verify_button": "Verify Code"
+      }
+    },
+    "email": {
+      "forgot_password": {
+        "title": "Password Reset",
+        "body": "<p>We've received a request to reset your password.</p><p>If you didn't make the request, just ignore this message. Otherwise, click the button below:</p>",
+        "button_text": "Reset Your Password",
+        "signature": "Thanks,\nYour Team"
+      },
+      "verification": {
+        "popup_title": "Email Verification",
+        "instructions": "Please enter the 6-digit verification code that was sent to your email",
+        "verify_button": "Verify Code",
+        "resend_code": "Resend Code",
+        "code_sent": "Verification code has been sent to your email",
+        "invalid_code": "Invalid verification code. Please try again",
+        "success": "Email successfully verified",
+        "error": "Failed to verify email. Please try again"
       }
     }
-  },
-  "app": {
-    "page_title": "App votes",
-    "page_head": "Your vote is important! Help us create the mobile app of your dreams",
-    "page_context": "We plan to develop a mobile application to make your experience even more convenient and better. Vote now and tell us how important it is to you! Your vote determines the priority of our work and will help us create what you really need.",
-    "vote_yes": "Yes"
-  },
-  "careers": {
-    "page_title": "Careers",
-    "content_head": "Build your career with us",
-    "no_open_positions": "There are no open positions"
-  },
-  "search_examples": {
-    "title": "For example:",
-    "examples": {
-      "1": "Refrigerator repair",
-      "2": "English courses",
-      "3": "Dog walking"
-    }
-  },
-  "js": {
-    "settings": {
-      "error_changing_password": "Error changing password",
-      "password_changed_success": "Password changed successfully",
-      "update_failed": "Failed to update settings",
-      "error_invalid_image_type": "Please select a supported image.",
-      "error_image_too_large": "Image size should not exceed 5MB.",
-      "form_validation_error": "Please correct the form errors",
-      "unexpected_error": "Unexpected error during save settings",
-      "account_activation_requested": "Account activation requested",
-      "account_deactivation_confirmed": "Account deactivation confirmed",
-      "account_deletion_confirmed": "Account deletion confirmed",
-      "send_again_verification_code": "Send again",
-      "error_sending_verification_code": "Error sending verification code",
-      "error_verifying": "Invalid verification code. Please try again",
-      "deactivate_block": {
-        "title": "Account Deactivation",
-        "description": "Deactivating your account will temporarily hide your profile and all your content from other users. You can reactivate your account at any time by logging back in.",
-        "button": "Deactivate Account"
-      },
-      "activate_block": {
-        "title": "Account Activation",
-        "description": "Your account is currently deactivated. Activating your account will make your profile and content visible to other users again.",
-        "button": "Activate Account"
-      },
-      "verification_retry_timer": "Retrying in %seconds% seconds"
-    },
-    "locales": {
-      "uk": "Українська",
-      "en": "English",
-      "es": "Spain"
-    },
-    "countries": {
-      "ua": "Ukraine",
-      "us": "United States",
-      "es": "Spain"
-    },
-    "vote_thanks": "Thanks for your vote!",
-    "password_validation": "Invalid password",
-    "error_generic_message": "Something went wrong. Our team is working on it. Please try again later.",
-    "error_email_required": "Email is required",
-    "error_invalid_email": "Please enter a valid email address",
-    "error_network": "Network error. Please try again.",
-    "success_reset_link": "Password reset link sent to your email",
-    "label_email": "Email Address",
-    "error_invalid_credentials": "Invalid email or password",
-    "label_login": "Login",
-    "placeholder_email": "Enter your email",
-    "error_password_length": "Password must be at least 8 characters long",
-    "error_passwords_match": "Passwords must match",
-    "label_password": "Enter your password",
-    "label_confirm_password": "Confirm Password",
-    "password_length_validation": "Password must be at least 8 characters long",
-    "password_complexity_validation": "Password must contain at least one letter and one number",
-    "email_already_exists": "This email is already registered",
-    "find_your_orders": "Find Your Orders",
-    "what_order_looking_for": "What order are you looking for?",
-    "no_services_found": "No services found matching your search.",
-    "no_orders_found": "No orders found matching your search.",
-    "book_now": "Book Now",
-    "share": "Share",
-    "error_occurred": "An error occurred while searching. Please try again later.",
-    "share_link_copied": "Copied!",
-    "share_email_subject": "Check out this service",
-    "share_email_body": "I found this interesting service: ",
-    "name_validation": "Please enter a valid name (2-50 characters, letters only)",
-    "phone_validation": "Please enter a valid phone number",
-    "selection_validation": "Please make a selection",
-    "registration_error": "Registration failed. Please try again.",
-    "city_select_from_list": "Please select a city from the list",
-    "success_message": "Password is changed!",
-    "success_reset_password": "Password is changed!",
-    "error_reset_password": "An error occurred while resetting password",
-    "password_too_short": "Password must be at least 8 characters long",
-    "passwords_do_not_match": "Passwords do not match"
-  },
-  "terms": {
-    "page_title": "Terms of Service",
-    "content": "<p>Welcome to our platform, a comprehensive marketplace connecting orders and services.</p><h2>1. Platform Overview</h2><p>Our platform provides a unique ecosystem where:</p><ul><li>Clients can publish diverse advertisements for services they require</li><li>Partners can offer their professional services and respond to client needs</li></ul><h2>2. User Responsibilities</h2><p>All users must:</p><ul><li>Provide accurate and truthful information</li><li>Maintain professional communication</li><li>Respect the platform's guidelines and legal requirements</li></ul><h2>3. Client Responsibilities</h2><p>Clients using the platform to publish advertisements must:</p><ul><li>Clearly describe service requirements</li><li>Provide realistic expectations</li><li>Communicate transparently with potential service partners</li></ul><h2>4. Partner Responsibilities</h2><p>Service partners must:</p><ul><li>Possess necessary qualifications for offered services</li><li>Respond promptly to client inquiries</li><li>Deliver services with professionalism and integrity</li></ul><h2>5. Transaction and Communication</h2><p>The platform facilitates connections but is not directly responsible for:</p><ul><li>Service quality</li><li>Pricing negotiations</li><li>Final agreements between clients and partners</li></ul><h2>6. Intellectual Property and Privacy</h2><p>All content on the platform is protected. Users must respect intellectual property rights and adhere to privacy policies.</p><h2>7. Limitation of Liability</h2><p>Our platform provides a service marketplace and is not liable for direct or indirect damages arising from user interactions.</p><h2>8. Modifications to Terms</h2><p>We reserve the right to update these terms. Continued platform use constitutes acceptance of updated terms.</p><p class='last-updated'>Last Updated: %last_updated_date%</p>"
-  },
-  "contact": {
-    "page_title": "Contact Us",
-    "content": "<h2>Get in Touch</h2><p>We'd love to hear from you! Please use the contact information provided or visit us during business hours.</p>",
-    "business_hours": "We work for you 24/7"
-  },
-  "cookie_consent": {
-    "title": "Cookie Consent",
-    "description": "We use cookies to enhance your browsing experience and analyze our traffic. Please choose your preference below.",
-    "reject_button": "Reject",
-    "accept_button": "Accept"
-  },
-  "dashboard": {
-    "dashboard_page_title": "Welcome!",
-    "page_title": "Dashboard",
-    "search_placeholder": "Search services, partners, and more"
-  },
-  "privacy": {
-    "page_title": "Privacy Policy",
-    "content": "<h2>1. Introduction</h2><p>Welcome to %app_name%. This Privacy Policy outlines how we collect, use, protect, and manage your personal information when you use our service marketplace platform.</p><h2>2. Information We Collect</h2><ul><li>Personal identification information (Name, email address, phone number)</li><li>Profile information for service providers and clients</li><li>Communication records between clients and service providers</li><li>Usage data and platform interaction logs</li></ul><h2>3. How We Use Your Information</h2><ul><li>Facilitate service connections between clients and providers</li><li>Improve platform functionality and user experience</li><li>Send important notifications and updates</li><li>Respond to customer support requests</li></ul><h2>4. Data Protection</h2><ul><li>We implement industry-standard security measures to protect your data</li><li>Personal information is encrypted and stored securely</li><li>Access to data is strictly limited to authorized personnel</li></ul><h2>5. User Consent and Control</h2><ul><li>You can review and update your personal information</li><li>You can request data deletion or account closure</li><li>We obtain explicit consent before processing sensitive data</li></ul><h2>6. Third-Party Sharing</h2><p>We do not sell or rent your personal information to third parties. Information may be shared only:</p><ul><li>With your explicit consent</li><li>To comply with legal obligations</li><li>To protect our platform's rights and safety</li></ul><h2>7. Cookies and Tracking</h2><p>We use cookies to enhance user experience and platform functionality. You can manage cookie preferences in your browser settings.</p><h2>8. Contact Information</h2><p>For privacy-related questions or concerns, please contact us at:</p><ul><li>Email: %support_email%</li><li>Address: %support_address%</li></ul><h2>9. Policy Updates</h2><p>We may update this Privacy Policy periodically. The latest version will always be available on our platform.</p><p class='last-updated'>Last Updated: %last_updated_date%</p>"
-  },
-  "phone": {
-    "verification": {
-      "popup_title": "Phone Verification",
-      "instructions": "Please enter the 6-digit verification code that was sent to your phone",
-      "verify_button": "Verify Code"
-    }
-  },
-  "email": {
-    "forgot_password": {
-      "title": "Password Reset",
-      "body": "<p>We've received a request to reset your password.</p><p>If you didn't make the request, just ignore this message. Otherwise, click the button below:</p>",
-      "button_text": "Reset Your Password",
-      "signature": "Thanks,\nYour Team"
-    },
-    "verification": {
-      "popup_title": "Email Verification",
-      "instructions": "Please enter the 6-digit verification code that was sent to your email",
-      "verify_button": "Verify Code",
-      "resend_code": "Resend Code",
-      "code_sent": "Verification code has been sent to your email",
-      "invalid_code": "Invalid verification code. Please try again",
-      "success": "Email successfully verified",
-      "error": "Failed to verify email. Please try again"
-    }
-  },
-  "account": {
-    "errors": {
-      "not_supported_image_format": "Please select a JPEG or PNG image.",
-      "not_supported_image_size": "Image size should not exceed 5MB."
-    },
-    "status": "Status",
-    "active": "Active",
-    "inactive": "Inactive",
-    "change_photo": "Change photo",
-    "verify": "Verify",
-    "profile_image": "Profile Image",
-    "name": "Name",
-    "email": "Email",
-    "phone": "Phone",
-    "save": "Save",
-    "light": "Light",
-    "dark": "Dark",
-    "theme": "Theme",
-    "currency": "Currency",
-    "language": "Language"
-  },
-  "password_change_error": "Failed to change password",
-  "password_create_error": "Failed to create password"
+  }
 }

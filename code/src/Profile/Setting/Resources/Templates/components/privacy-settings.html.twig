@@ -1,15 +1,27 @@
 {% block privacy_settings %}
 <div class="privacy-settings">
     <div class="account-actions">
-        <div class="action-block mt-4">
-            <h3>{{ 'settings.privacy.change_password.title'|trans }}</h3>
-            <p class="action-description">
-                {{ 'settings.privacy.change_password.description'|trans }}
-            </p>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#change-password-popup">
-                {{ 'settings.privacy.change_password.button'|trans }}
-            </button>
-        </div>
+        {% if app.user.hasPassword  %}
+            <div class="action-block mt-4">
+                <h3>{{ 'settings.privacy.change_password.title'|trans }}</h3>
+                <p class="action-description">
+                    {{ 'settings.privacy.change_password.description'|trans }}
+                </p>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#change-password-popup">
+                    {{ 'settings.privacy.change_password.button'|trans }}
+                </button>
+            </div>
+        {% else %}
+            <div class="action-block mt-4">
+                <h3>{{ 'settings.privacy.create_password.title'|trans }}</h3>
+                <p class="action-description">
+                    {{ 'settings.privacy.create_password.description'|trans }}
+                </p>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create-password-popup">
+                    {{ 'settings.privacy.create_password.button'|trans }}
+                </button>
+            </div>
+        {% endif %}
         <hr>
 
         <div class="action-block mt-4">
