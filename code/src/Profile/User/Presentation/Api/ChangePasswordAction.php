@@ -17,7 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final readonly class ChangePasswordAction
 {
     #[Route('/v1/users/password', name: 'change_user_password', methods: ['PUT'])]
-    #[OA\Post(
+    #[OA\Put(
         path: '/api/v1/users/password',
         description: 'Changes the password for the authenticated user',
         summary: 'Change user password',

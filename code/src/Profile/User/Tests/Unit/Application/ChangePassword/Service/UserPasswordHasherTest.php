@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace Profile\User\Tests\Unit\Application\ChangePassword\Service;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Profile\User\Application\ChangeUserPassword\Service\UserPasswordHasher;
+use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\UserInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
-use Profile\User\DomainModel\Enum\UserId;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use RuntimeException;
 
 #[CoversClass(UserPasswordHasher::class)]
 final class UserPasswordHasherTest extends TestCase
@@ -59,7 +58,7 @@ final class UserPasswordHasherTest extends TestCase
             ->willReturn($expected);
 
         $result = $this->service->isValid($this->user, $password);
-        
+
         $this->assertSame($expected, $result);
     }
 
@@ -98,7 +97,7 @@ final class UserPasswordHasherTest extends TestCase
         $password = 'new-password';
         $hashedPassword = 'hashed-password';
         $userId = new UserId('00000000-0000-0000-0000-000000000001');
-        $exception = new RuntimeException('Database error');
+        $exception = new \RuntimeException('Database error');
 
         $this->user
             ->expects($this->once())
