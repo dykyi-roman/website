@@ -24,7 +24,6 @@ final class Version20250116080713 extends AbstractMigration
             deleted_at TIMESTAMP NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
-            FOREIGN KEY (notification_id) REFERENCES notifications(id),
             FOREIGN KEY (user_id) REFERENCES users(id)
         ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
     }
