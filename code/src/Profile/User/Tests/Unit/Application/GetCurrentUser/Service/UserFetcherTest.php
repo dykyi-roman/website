@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Profile\User\Tests\Unit\DomainModel\Service;
+namespace Profile\User\Tests\Unit\Application\GetCurrentUser\Service;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Profile\User\Application\GetCurrentUser\Service\UserFetcher;
 use Profile\User\DomainModel\Exception\AuthenticationException;
 use Profile\User\DomainModel\Model\UserInterface;
-use Profile\User\DomainModel\Service\UserFetcher;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 

@@ -333,12 +333,19 @@ document.addEventListener('DOMContentLoaded', async function() {
                 }
                 return response.json();
             })
-            .then(async data => {
+            .then(async response => {
                 // Clear previous results
                 servicesContainer.innerHTML = '';
 
+                // Handle API response structure
+                if (!response.success) {
+                    throw new Error(response.errors?.message || 'Search failed');
+                }
+
+                const data = response.data;
+
                 // Check if services exist
-                if (!data.items || data.items.length === 0) {
+                if (!data?.items || data.items.length === 0) {
                     servicesContainer.innerHTML = `
                     <div class="col-12 text-center">
                         <p class="text-muted">${t.no_services_found}</p>
@@ -412,7 +419,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 }
 
                 // Add pagination after the services grid if there are multiple pages
-                if (data.total_pages > 1) {
+                if (data?.total_pages > 1) {
                     const paginationElement = renderPagination(data.page, data.total_pages);
                     servicesGrid.parentNode.insertBefore(paginationElement, servicesGrid.nextSibling);
                 }
@@ -457,12 +464,19 @@ document.addEventListener('DOMContentLoaded', async function() {
                 }
                 return response.json();
             })
-            .then(async data => {
+            .then(async response => {
                 // Clear previous results
                 servicesContainer.innerHTML = '';
 
+                // Handle API response structure
+                if (!response.success) {
+                    throw new Error(response.errors?.message || 'Search failed');
+                }
+
+                const data = response.data;
+
                 // Check if orders exist
-                if (!data.items || data.items.length === 0) {
+                if (!data?.items || data.items.length === 0) {
                     servicesContainer.innerHTML = `
                     <div class="col-12 text-center">
                         <p class="text-muted">${t.no_orders_found}</p>
@@ -533,7 +547,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 }
 
                 // Add pagination after the orders grid if there are multiple pages
-                if (data.total_pages > 1) {
+                if (data?.total_pages > 1) {
                     const paginationElement = renderPagination(data.page, data.total_pages);
                     servicesGrid.parentNode.insertBefore(paginationElement, servicesGrid.nextSibling);
                 }

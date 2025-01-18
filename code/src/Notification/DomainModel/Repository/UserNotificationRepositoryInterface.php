@@ -7,11 +7,11 @@ namespace Notification\DomainModel\Repository;
 use Notification\DomainModel\Enum\UserNotificationId;
 use Notification\DomainModel\Model\UserNotification;
 use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\Dto\PaginationDto;
 
 interface UserNotificationRepositoryInterface
 {
-    /** @return list<UserNotification> */
-    public function getUserNotifications(UserId $userId, int $page = 1, int $perPage = 20): array;
+    public function getUserNotifications(UserId $userId, int $page = 1, int $perPage = 20): PaginationDto;
 
     public function findById(UserNotificationId $id): UserNotification;
 

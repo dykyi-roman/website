@@ -8,7 +8,7 @@ use Shared\DomainModel\Services\MessageBusInterface;
 use Site\Registration\Application\ResetPassword\Query\ResetPasswordQuery;
 use Site\Registration\Application\ResetPassword\ValueObject\ResetPasswordResponse;
 use Site\Registration\DomainModel\Service\TokenGeneratorInterface;
-use Site\Registration\Presentation\Web\Request\ResetPasswordFormRequestDTO;
+use Site\Registration\Presentation\Web\Request\ResetPasswordFormRequestDto;
 use Site\Registration\Presentation\Web\Request\ResetPasswordRequestDto;
 use Site\Registration\Presentation\Web\Response\ResetPasswordHtmlResponder;
 use Site\Registration\Presentation\Web\Response\ResetPasswordJsonResponder;
@@ -33,7 +33,7 @@ final readonly class ResetPasswordAction
 
     #[Route('/reset-password', name: 'reset-password-page', methods: ['GET'])]
     public function showResetPasswordPage(
-        #[MapQueryString] ResetPasswordFormRequestDTO $request,
+        #[MapQueryString] ResetPasswordFormRequestDto $request,
         ResetPasswordHtmlResponder $responder,
     ): ResetPasswordHtmlResponder|RedirectResponse {
         if ($this->security->isGranted('IS_AUTHENTICATED_FULLY')) {

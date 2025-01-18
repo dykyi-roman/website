@@ -8,7 +8,7 @@ use OpenApi\Attributes as OA;
 use Profile\Setting\Presentation\Api\Request\ChangePasswordRequestDto;
 use Profile\Setting\Presentation\Api\Response\ChangePasswordJsonResponder;
 use Profile\User\Application\ChangePassword\Command\ChangePasswordCommand;
-use Profile\User\DomainModel\Service\UserFetcherInterface;
+use Profile\User\Application\GetCurrentUser\Service\UserFetcherInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;

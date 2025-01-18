@@ -6,9 +6,9 @@ namespace Orders\Presentation\Api;
 
 use OpenApi\Attributes as OA;
 use Orders\DomainModel\Service\OrdersInterface;
-use Orders\Presentation\Api\Request\OrdersSearchRequestDTO;
+use Orders\Presentation\Api\Request\OrdersSearchRequestDto;
+use Orders\Presentation\Api\Response\OrderSearchJsonResponder;
 use Shared\DomainModel\ValueObject\Currency;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -87,24 +87,26 @@ final readonly class OrderSearchAction
     )]
     #[Route('/v1/orders/search', name: 'api_orders_search', methods: ['GET'])]
     public function __invoke(
-        #[MapQueryString] OrdersSearchRequestDTO $searchRequest,
+        #[MapQueryString] OrdersSearchRequestDto $request,
         OrdersInterface $orders,
-    ): JsonResponse {
-        $currency = Currency::fromString($searchRequest->currency ?? $this->defaultCurrency);
+        OrderSearchJsonResponder $responder,
+    ): OrderSearchJsonResponder {
+        $currency = Currency::fromString($request->currency ?? $this->defaultCurrency);
 
         $data = $orders->search(
-            $searchRequest->query,
-            $searchRequest->order(),
-            $searchRequest->page,
-            $searchRequest->limit,
+            $request->query,
+            $request->order(),
+            $request->page,
+            $request->limit,
         );
 
+        $data = $data->jsonSerialize();
         $data['items'] = array_map(static function (array $item) use ($currency): array {
             $item['price'] = $item['price'].' '.$currency->symbol();
 
             return $item;
         }, $data['items']);
 
-        return new JsonResponse($data);
+        return $responder->success($data, 'Ok')->respond();
     }
 }

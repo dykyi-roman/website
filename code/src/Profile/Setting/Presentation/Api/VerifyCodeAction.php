@@ -8,7 +8,7 @@ use OpenApi\Attributes as OA;
 use Profile\Setting\Application\SettingsAccount\Command\VerifyCodeCommand;
 use Profile\Setting\Presentation\Api\Request\VerifyCodeRequestDto;
 use Profile\Setting\Presentation\Api\Response\VerificationJsonResponder;
-use Profile\User\DomainModel\Service\UserFetcherInterface;
+use Profile\User\Application\GetCurrentUser\Service\UserFetcherInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;

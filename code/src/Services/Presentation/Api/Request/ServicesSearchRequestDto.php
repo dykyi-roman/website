@@ -7,7 +7,7 @@ namespace Services\Presentation\Api\Request;
 use Services\DomainModel\Enum\OrderType;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class ServicesSearchRequestDTO
+final class ServicesSearchRequestDto
 {
     #[Assert\Type('string')]
     #[Assert\Length(max: 255)]
@@ -27,7 +27,7 @@ final class ServicesSearchRequestDTO
 
     #[Assert\Type('integer')]
     #[Assert\Range(min: 1, max: 100)]
-    public int $limit = 10;
+    public int $limit = 20;
 
     public function order(): OrderType
     {

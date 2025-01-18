@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Profile\Setting\Presentation\Web\Request;
+namespace Site\Registration\Presentation\Web\Request;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final readonly class ActivateAccountRequestDTO
+final readonly class ResetPasswordFormRequestDto
 {
     public function __construct(
         #[Assert\NotBlank]
-        public int $status,
+        public string $token,
     ) {
     }
 }

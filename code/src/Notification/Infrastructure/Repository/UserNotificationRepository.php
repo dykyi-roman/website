@@ -11,6 +11,7 @@ use Notification\DomainModel\Exception\NotificationNotFoundException;
 use Notification\DomainModel\Model\UserNotification;
 use Notification\DomainModel\Repository\UserNotificationRepositoryInterface;
 use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\Dto\PaginationDto;
 
 final class UserNotificationRepository implements UserNotificationRepositoryInterface
 {
@@ -23,25 +24,22 @@ final class UserNotificationRepository implements UserNotificationRepositoryInte
         $this->repository = $this->entityManager->getRepository(UserNotification::class);
     }
 
-    /**
-     * @return list<UserNotification>
-     */
-    public function getUserNotifications(UserId $userId, int $page = 1, int $perPage = 20): array
+    public function getUserNotifications(UserId $userId, int $page = 1, int $perPage = 20): PaginationDto
     {
-        $offset = ($page - 1) * $perPage;
-
         /** @var list<UserNotification> $result */
         $result = $this->repository->createQueryBuilder('un')
             ->andWhere('un.userId = :userId')
             ->andWhere('un.isDeleted is NULL')
             ->setParameter('userId', $userId->toRfc4122())
-            ->setFirstResult($offset)
-            ->setMaxResults($perPage)
             ->orderBy('un.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
 
-        return $result;
+        return new PaginationDto(
+            items: $result,
+            page: $page,
+            limit: $perPage,
+        );
     }
 
     public function getUnreadCount(UserId $userId): int

@@ -7,7 +7,7 @@ namespace Orders\Presentation\Api\Request;
 use Orders\DomainModel\Enum\OrderType;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class OrdersSearchRequestDTO
+final class OrdersSearchRequestDto
 {
     #[Assert\Type('string')]
     #[Assert\Length(max: 255)]

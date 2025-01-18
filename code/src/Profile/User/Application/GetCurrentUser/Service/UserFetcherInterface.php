@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Profile\User\DomainModel\Service;
+namespace Profile\User\Application\GetCurrentUser\Service;
 
 use Profile\User\DomainModel\Model\UserInterface;
 

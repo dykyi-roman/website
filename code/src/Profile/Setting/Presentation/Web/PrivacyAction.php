@@ -6,10 +6,10 @@ namespace Profile\Setting\Presentation\Web;
 
 use Profile\Setting\Application\SettingsPrivacy\Command\ActivateUserAccountCommand;
 use Profile\Setting\Application\SettingsPrivacy\Command\DeleteUserAccountCommand;
-use Profile\Setting\Presentation\Web\Request\ActivateAccountRequestDTO;
+use Profile\Setting\Presentation\Web\Request\ActivateAccountRequestDto;
 use Profile\Setting\Presentation\Web\Response\PrivacyJsonResponder;
+use Profile\User\Application\GetCurrentUser\Service\UserFetcherInterface;
 use Profile\User\DomainModel\Enum\UserStatus;
-use Profile\User\DomainModel\Service\UserFetcherInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
@@ -25,7 +25,7 @@ final readonly class PrivacyAction
 
     #[Route('/settings/privacy/user-activate', name: 'settings-privacy-user-activate', methods: ['GET'])]
     public function activateUserAccount(
-        #[MapQueryString] ActivateAccountRequestDTO $request,
+        #[MapQueryString] ActivateAccountRequestDto $request,
         UserFetcherInterface $userFetcher,
         PrivacyJsonResponder $responder,
     ): PrivacyJsonResponder {

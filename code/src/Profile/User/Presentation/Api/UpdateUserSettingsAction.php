@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Profile\User\Presentation\Api;
 
 use OpenApi\Attributes as OA;
+use Profile\User\Application\GetCurrentUser\Service\UserFetcherInterface;
 use Profile\User\Application\UpdateUserSettings\Command\UpdateUserSettingsCommand;
 use Profile\User\Application\UpdateUserSettings\Exception\UserExistException;
 use Profile\User\DomainModel\Exception\AuthenticationException;
 use Profile\User\DomainModel\Exception\UserNotFoundException;
-use Profile\User\DomainModel\Service\UserFetcherInterface;
 use Profile\User\Presentation\Api\Request\UpdateUserSettingsRequestDto;
 use Profile\User\Presentation\Api\Response\UpdateUserSettingsJsonResponder;
 use Shared\DomainModel\Services\MessageBusInterface;

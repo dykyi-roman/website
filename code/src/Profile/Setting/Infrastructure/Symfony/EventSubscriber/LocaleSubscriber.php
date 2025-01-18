@@ -6,8 +6,8 @@ namespace Profile\Setting\Infrastructure\Symfony\EventSubscriber;
 
 use Profile\Setting\DomainModel\Enum\PropertyName;
 use Profile\Setting\DomainModel\Repository\SettingRepositoryInterface;
+use Profile\User\Application\GetCurrentUser\Service\UserFetcherInterface;
 use Profile\User\DomainModel\Exception\AuthenticationException;
-use Profile\User\DomainModel\Service\UserFetcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;

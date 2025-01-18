@@ -6,6 +6,7 @@ namespace Services\Infrastructure\ElasticSearch;
 
 use Services\DomainModel\Enum\OrderType;
 use Services\DomainModel\Service\ServicesInterface;
+use Shared\DomainModel\Dto\PaginationDto;
 
 final readonly class MockClient implements ServicesInterface
 {
@@ -37,7 +38,7 @@ final readonly class MockClient implements ServicesInterface
         OrderType $order,
         int $page,
         int $limit,
-    ): array {
+    ): PaginationDto {
         $items = [];
         for ($i = 0; $i < self::COUNT; ++$i) {
             $items[] = [
@@ -61,17 +62,7 @@ final readonly class MockClient implements ServicesInterface
             ];
         }
 
-        // Calculate pagination
-        $offset = ($page - 1) * $limit;
-        $paginatedItems = array_slice($items, $offset, $limit);
-
-        return [
-            'items' => $paginatedItems,
-            'total' => count($items),
-            'page' => $page,
-            'limit' => $limit,
-            'total_pages' => (int) ceil(count($items) / $limit),
-        ];
+        return new PaginationDto($items, $page, $limit);
     }
 
     /**

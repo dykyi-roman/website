@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Services\DomainModel\Service;
 
 use Services\DomainModel\Enum\OrderType;
+use Shared\DomainModel\Dto\PaginationDto;
 
 interface ServicesInterface
 {
@@ -34,7 +35,7 @@ interface ServicesInterface
         OrderType $order,
         int $page,
         int $limit,
-    ): array;
+    ): PaginationDto;
 
     /**
      * @return array<int, array{

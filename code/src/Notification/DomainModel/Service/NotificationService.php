@@ -9,6 +9,7 @@ use Notification\DomainModel\Enum\UserNotificationId;
 use Notification\DomainModel\Model\UserNotification;
 use Notification\DomainModel\Repository\UserNotificationRepositoryInterface;
 use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\Dto\PaginationDto;
 
 final readonly class NotificationService implements NotificationServiceInterface
 {
@@ -59,7 +60,7 @@ final readonly class NotificationService implements NotificationServiceInterface
         return $count;
     }
 
-    public function getUserNotifications(UserId $userId, int $page = 1, int $perPage = 20): array
+    public function getUserNotifications(UserId $userId, int $page = 1, int $perPage = 20): PaginationDto
     {
         return $this->userNotificationRepository->getUserNotifications($userId, $page, $perPage);
     }

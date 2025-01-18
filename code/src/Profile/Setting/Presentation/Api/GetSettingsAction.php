@@ -7,7 +7,7 @@ namespace Profile\Setting\Presentation\Api;
 use OpenApi\Attributes as OA;
 use Profile\Setting\Application\Settings\Query\GetSettingsQuery;
 use Profile\Setting\Presentation\Api\Response\GetSettingsJsonResponder;
-use Profile\User\DomainModel\Service\UserFetcherInterface;
+use Profile\User\Application\GetCurrentUser\Service\UserFetcherInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 

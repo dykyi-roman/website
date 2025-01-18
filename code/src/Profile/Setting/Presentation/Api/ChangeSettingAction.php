@@ -8,7 +8,7 @@ use OpenApi\Attributes as OA;
 use Profile\Setting\Application\Settings\Command\ChangePropertyCommand;
 use Profile\Setting\Presentation\Api\Request\ChangeSettingRequestDto;
 use Profile\Setting\Presentation\Api\Response\ChangeSettingJsonResponder;
-use Profile\User\DomainModel\Service\UserFetcherInterface;
+use Profile\User\Application\GetCurrentUser\Service\UserFetcherInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
