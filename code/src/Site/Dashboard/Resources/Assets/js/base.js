@@ -45,7 +45,7 @@ class ApiService {
         const settingsArray = Array.isArray(settings) ? settings : [[...arguments]];
         
         try {
-            const response = await fetch('/api/v1/settings', {
+            const response = await fetch('/api/v1/profile/settings', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ class ApiService {
 
     static async getSettings() {
         try {
-            const response = await fetch('/api/v1/settings', {
+            const response = await fetch('/api/v1/profile/settings', {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
