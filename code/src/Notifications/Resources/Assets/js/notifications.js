@@ -73,18 +73,24 @@ function initializeNotificationHandlers() {
 function markAsRead(notificationId, notificationElement) {
     if (!notificationId) return;
 
-    fetch(`/api/v1/notifications/${notificationId}/read`, {
-        method: 'POST',
+    // Immediately start the visual transition
+    notificationElement.style.pointerEvents = 'none'; // Prevent double-clicks
+
+    fetch(`/api/v1/notifications/${notificationId}`, {
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
         }
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
+            // Remove unread class first
             notificationElement.classList.remove('unread');
+            // Force a reflow to ensure the animation triggers
+            void notificationElement.offsetWidth;
+            // Add read class to trigger animation
             notificationElement.classList.add('read');
             
             // Update the unread count
@@ -93,18 +99,23 @@ function markAsRead(notificationId, notificationElement) {
     })
     .catch(error => {
         console.error('Error marking notification as read:', error);
+    })
+    .finally(() => {
+        notificationElement.style.pointerEvents = ''; // Re-enable clicks
     });
 }
 
 function removeNotification(notificationId, notificationElement) {
     if (!notificationId) return;
 
+    // Immediately start the visual transition
+    notificationElement.style.pointerEvents = 'none'; // Prevent double-clicks
+
     fetch(`/api/v1/notifications/${notificationId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
         }
     })
     .then(response => response.json())
@@ -123,5 +134,8 @@ function removeNotification(notificationId, notificationElement) {
     })
     .catch(error => {
         console.error('Error removing notification:', error);
+    })
+    .finally(() => {
+        notificationElement.style.pointerEvents = ''; // Re-enable clicks
     });
 }

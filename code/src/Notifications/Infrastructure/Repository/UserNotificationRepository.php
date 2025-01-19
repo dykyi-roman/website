@@ -29,8 +29,8 @@ final class UserNotificationRepository implements UserNotificationRepositoryInte
         /** @var list<UserNotification> $result */
         $result = $this->repository->createQueryBuilder('un')
             ->andWhere('un.userId = :userId')
-            ->andWhere('un.isDeleted is NULL')
-            ->setParameter('userId', $userId->toRfc4122())
+            ->andWhere('un.deletedAt is NULL')
+            ->setParameter('userId', $userId->toBinary())
             ->orderBy('un.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
@@ -47,9 +47,9 @@ final class UserNotificationRepository implements UserNotificationRepositoryInte
         return (int) $this->repository->createQueryBuilder('un')
             ->select('COUNT(un.id)')
             ->andWhere('un.userId = :userId')
-            ->andWhere('un.isRead is NULL')
-            ->andWhere('un.isDeleted is NULL')
-            ->setParameter('userId', $userId->toRfc4122())
+            ->andWhere('un.readAt is NULL')
+            ->andWhere('un.deletedAt is NULL')
+            ->setParameter('userId', $userId->toBinary())
             ->getQuery()
             ->getSingleScalarResult();
     }

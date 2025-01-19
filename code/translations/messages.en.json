@@ -127,7 +127,8 @@
   "guest": "guest",
   "toggle_theme": "Day/Night",
   "notifications": {
-    "page_title": "Notifications"
+    "page_title": "Notifications",
+    "no_notifications": "Not have yet"
   },
   "messages": {
     "page_title": "Messages"

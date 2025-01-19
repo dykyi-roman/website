@@ -18,6 +18,7 @@ final readonly class NotificationsAction
         return $responder->context([
             'page_title' => $translator->trans('notifications.page_title'),
             'content' => '',
+            'notifications' => [],
         ])->respond();
     }
 }
