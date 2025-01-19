@@ -16,6 +16,7 @@ final class SetReadNotificationAction
     #[Route('/v1/notifications/{id}', methods: ['PUT'])]
     #[OA\Put(
         path: '/api/v1/notifications/{id}',
+        operationId: 'markNotificationAsRead',
         description: 'Marks a specific notification as read for the authenticated user',
         summary: 'Mark notification as read',
         tags: ['Notifications']

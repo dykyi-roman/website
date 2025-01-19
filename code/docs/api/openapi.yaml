@@ -3,13 +3,38 @@ info:
   title: 'REST API'
   version: 1.0.0
 paths:
+  '/api/v1/notifications/{id}':
+    put:
+      tags:
+        - Notifications
+      summary: 'Mark notification as delete'
+      description: 'Marks a specific notification as delete for the authenticated user'
+      operationId: eec16055afb61ec9edb3be6b0868212e
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Notification ID'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Notification marked as delete successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: success }
+                  message: { type: string, example: Ok }
+                type: object
   /api/v1/notifications:
     get:
       tags:
         - Notifications
       summary: 'Get user notifications'
       description: 'Retrieves a list of notifications for the authenticated user'
-      operationId: dd58c75a7a3a33a4897d7266ad4a1fc1
+      operationId: a2eb7018b030d1523e0083886b1c0195
       parameters:
         -
           name: page
@@ -42,31 +67,6 @@ paths:
                   status: { type: string, example: success }
                   message: { type: string, example: 'Notifications retrieved successfully' }
                   data: { type: object }
-                type: object
-  '/api/v1/notifications/{id}':
-    put:
-      tags:
-        - Notifications
-      summary: 'Mark notification as read'
-      description: 'Marks a specific notification as read for the authenticated user'
-      operationId: 61865e9b4b80fb8837e11cd927044deb
-      parameters:
-        -
-          name: id
-          in: path
-          description: 'Notification ID'
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: 'Notification marked as read successfully'
-          content:
-            application/json:
-              schema:
-                properties:
-                  status: { type: string, example: success }
-                  message: { type: string, example: Ok }
                 type: object
   /api/v1/orders/search:
     get:

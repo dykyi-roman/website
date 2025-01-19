@@ -63,26 +63,30 @@ final readonly class NotificationService implements NotificationServiceInterface
         return $count;
     }
 
-    /** @return PaginationDto<UserNotification> */
+    /** @return PaginationDto<array<string, mixed>> */
     public function getUserNotifications(UserId $userId, int $page = 1, int $perPage = 20): PaginationDto
     {
         $userNotifications = $this->userNotificationRepository->getUserNotifications($userId, $page, $perPage);
 
+        /** @var array<string, mixed>[] $data */
         $data = [];
         foreach ($userNotifications->items as $userNotification) {
             $notification = $this->notificationRepository->findById($userNotification->getNotificationId());
             if (null === $notification) {
                 continue;
             }
-            $data[] = [
-                ...$notification->jsonSerialize(),
-                ...[
+
+            /** @var array<string, mixed> $notificationData */
+            $notificationData = array_merge(
+                $notification->jsonSerialize(),
+                [
                     'id' => $userNotification->getId()->toRfc4122(),
                     'readAt' => $userNotification->getReadAt()?->format('c'),
                     'createdAt' => $userNotification->getCreatedAt()->format('c'),
                     'deletedAt' => $userNotification->getDeletedAt()?->format('c'),
-                ],
-            ];
+                ]
+            );
+            $data[] = $notificationData;
         }
 
         return new PaginationDto($data, $userNotifications->page, $userNotifications->limit);

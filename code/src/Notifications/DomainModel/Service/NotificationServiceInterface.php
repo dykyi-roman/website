@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Notifications\DomainModel\Service;
 
 use Notifications\DomainModel\Enum\NotificationId;
 use Notifications\DomainModel\Enum\UserNotificationId;
-use Notifications\DomainModel\Model\UserNotification;
 use Profile\User\DomainModel\Enum\UserId;
 use Shared\DomainModel\Dto\PaginationDto;
 
@@ -18,6 +19,8 @@ interface NotificationServiceInterface
 
     public function getUnreadCount(UserId $userId): int;
 
-    /** @return PaginationDto<UserNotification> */
+    /**
+     * @return PaginationDto<array<string, mixed>>
+     */
     public function getUserNotifications(UserId $userId, int $page = 1, int $perPage = 20): PaginationDto;
 }
