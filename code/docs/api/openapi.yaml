@@ -7,9 +7,33 @@ paths:
     put:
       tags:
         - Notifications
+      summary: 'Mark notification as read'
+      description: 'Marks a specific notification as read for the authenticated user'
+      operationId: markNotificationAsRead
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Notification ID'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Notification marked as read successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: success }
+                  message: { type: string, example: Ok }
+                type: object
+    delete:
+      tags:
+        - Notifications
       summary: 'Mark notification as delete'
       description: 'Marks a specific notification as delete for the authenticated user'
-      operationId: eec16055afb61ec9edb3be6b0868212e
+      operationId: e78c4964bdd69ff32039f0f311b35cfe
       parameters:
         -
           name: id
