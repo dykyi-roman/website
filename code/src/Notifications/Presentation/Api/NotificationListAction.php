@@ -12,11 +12,11 @@ use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
 
-class NotificationListAction
+final class NotificationListAction
 {
     #[Route('/v1/notifications', name: 'api_notifications_list', methods: ['GET'])]
     #[OA\Get(
-        path: '/v1/notifications',
+        path: '/api/v1/notifications',
         description: 'Retrieves a list of notifications for the authenticated user',
         summary: 'Get user notifications',
         tags: ['Notifications']
@@ -58,7 +58,7 @@ class NotificationListAction
     ): NotificationListJsonResponder {
         $userId = $userFetcher->fetch()->id();
         if ($request->includeCount) {
-            $data['unread_count'] = $notificationService->getUnreadCount($userId);
+            $data['unreadCount'] = $notificationService->getUnreadCount($userId);
         } else {
             $data = $notificationService->getUserNotifications(
                 $userId,

@@ -9,7 +9,7 @@ use Psr\SimpleCache\CacheInterface;
 
 final readonly class NotificationCache
 {
-    private const string UNREAD_COUNT_KEY = 'user:%d:unread_notifications';
+    private const string UNREAD_COUNT_KEY = 'user.%s.unread_notifications';
 
     public function __construct(
         private CacheInterface $cache,

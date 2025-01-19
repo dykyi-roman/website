@@ -1,6 +1,3 @@
-// import { UIService, ModalService } from '../../../../../Site/Dashboard/Resources/Assets/js/base.js';
-
-// Constants
 const CONFIG = {
     IMAGE: {
         ALLOWED_TYPES: ['image/jpeg', 'image/png'],

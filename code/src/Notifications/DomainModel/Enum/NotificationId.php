@@ -8,5 +8,5 @@ enum NotificationId: string
 {
     case HAPPY_NEW_YEAR = 'HAPPY_NEW_YEAR';
     case HAPPY_BIRTHDAY = 'HAPPY_BIRTHDAY';
-    case PASS_VERIFICATION = 'pass_verification';
+    case PASS_VERIFICATION = 'PASS_VERIFICATION';
 }

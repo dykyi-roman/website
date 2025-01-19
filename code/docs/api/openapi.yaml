@@ -3,13 +3,13 @@ info:
   title: 'REST API'
   version: 1.0.0
 paths:
-  /v1/notifications:
+  /api/v1/notifications:
     get:
       tags:
         - Notifications
       summary: 'Get user notifications'
       description: 'Retrieves a list of notifications for the authenticated user'
-      operationId: 474a7c3002fa3e13fc9c4297d97b9329
+      operationId: dd58c75a7a3a33a4897d7266ad4a1fc1
       parameters:
         -
           name: page
@@ -43,13 +43,13 @@ paths:
                   message: { type: string, example: 'Notifications retrieved successfully' }
                   data: { type: object }
                 type: object
-  '/v1/notifications/{id}':
+  '/api/v1/notifications/{id}':
     put:
       tags:
         - Notifications
       summary: 'Mark notification as read'
       description: 'Marks a specific notification as read for the authenticated user'
-      operationId: 4865d1628fb7f7e5f28e62d89989d694
+      operationId: 61865e9b4b80fb8837e11cd927044deb
       parameters:
         -
           name: id
