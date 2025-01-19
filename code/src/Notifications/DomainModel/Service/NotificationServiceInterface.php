@@ -15,6 +15,8 @@ interface NotificationServiceInterface
 
     public function markAsRead(UserId $userId, UserNotificationId $userNotificationId): void;
 
+    public function markAllAsRead(UserId $userId): void;
+
     public function markAsDeleted(UserId $userId, UserNotificationId $userNotificationId): void;
 
     public function markAllAsDeleted(UserId $userId): void;

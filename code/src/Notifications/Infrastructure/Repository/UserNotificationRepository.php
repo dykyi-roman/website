@@ -65,7 +65,21 @@ final class UserNotificationRepository implements UserNotificationRepositoryInte
         $this->repository->createQueryBuilder('un')
             ->update()
             ->set('un.deletedAt', ':now')
-            ->where('un.userId = :userId')
+            ->andWhere('un.userId = :userId')
+            ->andWhere('un.deletedAt is NULL')
+            ->setParameter('userId', $userId->toBinary())
+            ->setParameter('now', new \DateTimeImmutable())
+            ->getQuery()
+            ->execute();
+    }
+
+    public function markAllAsRead(UserId $userId): void
+    {
+        $this->repository->createQueryBuilder('un')
+            ->update()
+            ->set('un.readAt', ':now')
+            ->andWhere('un.userId = :userId')
+            ->andWhere('un.readAt is NULL')
             ->andWhere('un.deletedAt is NULL')
             ->setParameter('userId', $userId->toBinary())
             ->setParameter('now', new \DateTimeImmutable())

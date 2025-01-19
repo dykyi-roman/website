@@ -32,6 +32,12 @@ final readonly class NotificationCache
         $this->cache->set($key, max(0, $count - 1));
     }
 
+    public function resetUnreadCount(UserId $userId): void
+    {
+        $key = sprintf(self::UNREAD_COUNT_KEY, $userId->toRfc4122());
+        $this->cache->set($key, 0);
+    }
+
     public function getUnreadCount(UserId $userId): ?int
     {
         $key = sprintf(self::UNREAD_COUNT_KEY, $userId->toRfc4122());

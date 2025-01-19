@@ -305,7 +305,7 @@
 
     function markAllAsRead() {
         fetch('/api/v1/notifications', {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'

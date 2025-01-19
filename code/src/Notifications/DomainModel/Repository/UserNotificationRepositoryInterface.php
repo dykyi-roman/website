@@ -25,4 +25,6 @@ interface UserNotificationRepositoryInterface
     public function save(UserNotification $userNotification): void;
 
     public function markAllAsDeleted(UserId $userId): void;
+
+    public function markAllAsRead(UserId $userId): void;
 }

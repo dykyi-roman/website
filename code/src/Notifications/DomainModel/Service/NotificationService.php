@@ -43,6 +43,12 @@ final readonly class NotificationService implements NotificationServiceInterface
         }
     }
 
+    public function markAllAsRead(UserId $userId): void
+    {
+        $this->userNotificationRepository->markAllAsRead($userId);
+        $this->cache->resetUnreadCount($userId);
+    }
+
     public function markAsDeleted(UserId $userId, UserNotificationId $userNotificationId): void
     {
         $userNotification = $this->userNotificationRepository->findById($userNotificationId);
