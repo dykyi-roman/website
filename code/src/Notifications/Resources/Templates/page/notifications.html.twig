@@ -32,7 +32,7 @@
             <div class="page-content">
                 <div class="notifications-section">
                     {% for notification in notifications %}
-                        <div class="notification-item {{ notification.isRead ? 'read' : 'unread' }}" data-notification-id="{{ notification.id }}">
+                        <div class="notification-item {{ notification.readAt != null ? 'read' : 'unread' }}" data-notification-id="{{ notification.id }}">
                             <div class="notification-icon">
                                 <i class="fas {{ notification.icon|default('fa-bell') }}"></i>
                             </div>

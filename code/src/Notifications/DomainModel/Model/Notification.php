@@ -7,7 +7,7 @@ namespace Notifications\DomainModel\Model;
 use Notifications\DomainModel\Enum\NotificationId;
 use Notifications\DomainModel\Enum\NotificationType;
 
-class Notification
+class Notification implements \JsonSerializable
 {
     public function __construct(
         private NotificationId $id,
@@ -16,7 +16,6 @@ class Notification
         private string $message,
         private ?string $link,
         private ?string $icon,
-        private bool $isMassNotification = false,
         private ?\DateTimeImmutable $expireAt = null,
         private \DateTimeImmutable $createdAt = new \DateTimeImmutable(),
     ) {
@@ -62,8 +61,15 @@ class Notification
         return $this->expireAt;
     }
 
-    public function isMassNotification(): bool
+
+    public function jsonSerialize(): array
     {
-        return $this->isMassNotification;
+        return [
+            'type' => $this->type,
+            'title' => $this->title,
+            'message' => $this->message,
+            'link' => $this->link,
+            'icon' => $this->icon,
+        ];
     }
 }
