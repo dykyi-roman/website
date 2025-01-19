@@ -1,6 +1,13 @@
+// Track initialization
+let isInitialized = false;
+
 document.addEventListener('DOMContentLoaded', function() {
+    if (isInitialized) {
+        return;
+    }
     fetchNotificationCount();
     initializeNotificationHandlers();
+    isInitialized = true;
 });
 
 function fetchNotificationCount() {
@@ -11,15 +18,15 @@ function fetchNotificationCount() {
             'Accept': 'application/json'
         }
     })
-        .then(response => response.json())
-        .then(data => {
-            if (data.data && typeof data.data.unreadCount !== 'undefined') {
-                updateNotificationBadge(data.data.unreadCount);
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching notification count:', error);
-        });
+    .then(response => response.json())
+    .then(data => {
+        if (data.data && typeof data.data.unreadCount !== 'undefined') {
+            updateNotificationBadge(data.data.unreadCount);
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching notification count:', error);
+    });
 }
 
 function updateNotificationBadge(count) {
@@ -41,13 +48,35 @@ function updateNotificationBadge(count) {
     }
 }
 
+function decrementNotificationCount() {
+    const notificationIcon = document.querySelector('.notifications-button .fa-bell');
+    if (!notificationIcon) return;
+
+    const existingBadge = notificationIcon.querySelector('.badge');
+    if (!existingBadge) return;
+
+    const currentCount = parseInt(existingBadge.textContent);
+    if (isNaN(currentCount)) return;
+
+    const newCount = Math.max(0, currentCount - 1);
+    
+    if (newCount > 0) {
+        existingBadge.innerHTML = `${newCount}<span class="visually-hidden">unread notifications</span>`;
+    } else {
+        existingBadge.remove();
+    }
+}
+
 function initializeNotificationHandlers() {
     const notifications = document.querySelectorAll('.notification-item');
     
-    notifications.forEach(notification => {
+    notifications.forEach((notification) => {
+        if (notification.dataset.handlersAttached === 'true') {
+            return;
+        }
+        
         // Handle notification click
         notification.addEventListener('click', function(event) {
-            // Don't mark as read if clicking the close button
             if (event.target.closest('.notification-close')) {
                 return;
             }
@@ -63,20 +92,22 @@ function initializeNotificationHandlers() {
         if (closeButton) {
             closeButton.addEventListener('click', function(event) {
                 event.stopPropagation();
-                const notificationId = this.closest('.notification-item').dataset.notificationId;
-                removeNotification(notificationId, this.closest('.notification-item'));
+                const notificationItem = this.closest('.notification-item');
+                const notificationId = notificationItem.dataset.notificationId;
+                removeNotification(notificationId, notificationItem);
             });
         }
+        
+        notification.dataset.handlersAttached = 'true';
     });
 }
 
 function markAsRead(notificationId, notificationElement) {
-    if (!notificationId) return;
+    if (!notificationId) return Promise.reject('No notification ID');
 
-    // Immediately start the visual transition
-    notificationElement.style.pointerEvents = 'none'; // Prevent double-clicks
+    notificationElement.style.pointerEvents = 'none';
 
-    fetch(`/api/v1/notifications/${notificationId}`, {
+    return fetch(`/api/v1/notifications/${notificationId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -86,32 +117,26 @@ function markAsRead(notificationId, notificationElement) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Remove unread class first
             notificationElement.classList.remove('unread');
-            // Force a reflow to ensure the animation triggers
             void notificationElement.offsetWidth;
-            // Add read class to trigger animation
             notificationElement.classList.add('read');
-            
-            // Update the unread count
-            fetchNotificationCount();
+            decrementNotificationCount();
         }
     })
     .catch(error => {
         console.error('Error marking notification as read:', error);
     })
     .finally(() => {
-        notificationElement.style.pointerEvents = ''; // Re-enable clicks
+        notificationElement.style.pointerEvents = '';
     });
 }
 
 function removeNotification(notificationId, notificationElement) {
-    if (!notificationId) return;
+    if (!notificationId) return Promise.reject('No notification ID');
 
-    // Immediately start the visual transition
-    notificationElement.style.pointerEvents = 'none'; // Prevent double-clicks
+    notificationElement.style.pointerEvents = 'none';
 
-    fetch(`/api/v1/notifications/${notificationId}`, {
+    return fetch(`/api/v1/notifications/${notificationId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -124,11 +149,13 @@ function removeNotification(notificationId, notificationElement) {
             notificationElement.style.opacity = '0';
             notificationElement.style.transform = 'translateX(-100%)';
             
-            // Remove the element after animation
+            const wasUnread = notificationElement.classList.contains('unread');
+            
             setTimeout(() => {
                 notificationElement.remove();
-                // Update the unread count
-                fetchNotificationCount();
+                if (wasUnread) {
+                    decrementNotificationCount();
+                }
             }, 300);
         }
     })
@@ -136,6 +163,6 @@ function removeNotification(notificationId, notificationElement) {
         console.error('Error removing notification:', error);
     })
     .finally(() => {
-        notificationElement.style.pointerEvents = ''; // Re-enable clicks
+        notificationElement.style.pointerEvents = '';
     });
 }
