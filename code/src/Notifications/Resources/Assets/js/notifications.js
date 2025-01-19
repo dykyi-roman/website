@@ -1,31 +1,203 @@
 (function() {
-    // Track initialization
+    // Configuration
+    const PAGE_SIZE = 20;
+    let currentPage = 1;
+    let isLoading = false;
+    let hasMoreNotifications = true;
     let isInitialized = false;
 
     document.addEventListener('DOMContentLoaded', function() {
         if (isInitialized) {
             return;
         }
+
+        // Only load notifications if we're on the notifications page
+        if (window.location.pathname === '/notifications') {
+            loadNotifications();
+        }
+        
         fetchNotificationCount();
         initializeNotificationHandlers();
+        initializeLoadMoreButton();
         isInitialized = true;
     });
 
+    function loadNotifications(page = 1) {
+        if (isLoading || (!hasMoreNotifications && page > 1)) return;
+
+        isLoading = true;
+        const notificationsSection = document.querySelector('.notifications-section');
+        const loadMoreBtn = document.querySelector('.load-more-btn');
+        const noNotificationsMessage = document.querySelector('.no-notifications-message');
+
+        fetch(`/api/v1/notifications?page=${page}&limit=${PAGE_SIZE}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (page === 1) {
+                notificationsSection.querySelectorAll('.notification-item').forEach(item => item.remove());
+            }
+
+            if (data.data && Array.isArray(data.data.items)) {
+                const notifications = data.data.items;
+                
+                if (notifications.length === 0 && page === 1) {
+                    noNotificationsMessage.style.display = 'block';
+                    loadMoreBtn.style.display = 'none';
+                    return;
+                }
+
+                notifications.forEach(notification => {
+                    const notificationElement = createNotificationElement(notification);
+                    notificationsSection.insertBefore(notificationElement, noNotificationsMessage);
+                    // Add click handlers to the new notification element
+                    initializeNotificationElement(notificationElement);
+                });
+
+                // Check if there are more pages
+                hasMoreNotifications = page < data.data.total_pages;
+                loadMoreBtn.style.display = hasMoreNotifications ? 'inline-block' : 'none';
+                currentPage = page;
+            }
+        })
+        .catch(error => {
+            console.error('Error loading notifications:', error);
+        })
+        .finally(() => {
+            isLoading = false;
+        });
+    }
+
+    function createNotificationElement(notification) {
+        const div = document.createElement('div');
+        div.className = `notification-item ${notification.readAt ? 'read' : 'unread'}`;
+        div.dataset.notificationId = notification.id;
+
+        div.innerHTML = `
+            <div class="notification-icon">
+                <i class="fas ${getNotificationIcon(notification.type)}"></i>
+            </div>
+            <div class="notification-details">
+                <h3>${notification.title}</h3>
+                <p>${notification.message}</p>
+            </div>
+            <span class="notification-date">${formatDate(notification.createdAt)}</span>
+            <button class="notification-close" aria-label="Close notification">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+
+        return div;
+    }
+
+    function initializeNotificationElement(element) {
+        // Add click handler for the entire notification
+        element.addEventListener('click', function(event) {
+            // Ignore clicks on the close button
+            if (!event.target.closest('.notification-close')) {
+                const notificationId = this.dataset.notificationId;
+                markAsRead(notificationId, this);
+            }
+        });
+
+        // Add click handler for the close button
+        const closeButton = element.querySelector('.notification-close');
+        if (closeButton) {
+            closeButton.addEventListener('click', function(event) {
+                event.stopPropagation(); // Prevent notification click event
+                const notificationItem = this.closest('.notification-item');
+                const notificationId = notificationItem.dataset.notificationId;
+                removeNotification(notificationId, notificationItem);
+            });
+        }
+    }
+
+    function getNotificationIcon(type) {
+        const icons = {
+            'personal': 'fa-user',
+            'system': 'fa-cog',
+            'information': 'fa-info-circle',
+            'warning': 'fa-exclamation-triangle',
+            'error': 'fa-exclamation-circle'
+        };
+        return icons[type] || 'fa-bell';
+    }
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    }
+
+    function initializeLoadMoreButton() {
+        const loadMoreBtn = document.querySelector('.load-more-btn');
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', () => {
+                loadNotifications(currentPage + 1);
+            });
+        }
+    }
+
     function showEmptyState() {
         const notificationsSection = document.querySelector('.notifications-section');
+        const noNotificationsMessage = document.querySelector('.no-notifications-message');
         if (!notificationsSection) return;
 
-        // Проверяем, остались ли еще уведомления
         const remainingNotifications = notificationsSection.querySelectorAll('.notification-item');
         if (remainingNotifications.length === 0) {
-            const emptyState = document.createElement('div');
-            emptyState.className = 'text-center text-muted mt-4';
-            emptyState.innerHTML = `
-                <i class="fas fa-bell fa-2x mb-3"></i>
-                <p>${notificationsSection.dataset.emptyMessage || 'No notifications'}</p>
-            `;
-            notificationsSection.appendChild(emptyState);
+            noNotificationsMessage.style.display = 'block';
+            document.querySelector('.load-more-btn').style.display = 'none';
         }
+    }
+
+    function markAsRead(notificationId, notificationElement) {
+        if (!notificationElement.classList.contains('read')) {
+            fetch(`/api/v1/notifications/${notificationId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    notificationElement.classList.add('read');
+                    notificationElement.classList.remove('unread');
+                    decrementNotificationCount();
+                }
+            })
+            .catch(error => {
+                console.error('Error marking notification as read:', error);
+            });
+        }
+    }
+
+    function removeNotification(notificationId, notificationElement) {
+        fetch(`/api/v1/notifications/${notificationId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                notificationElement.remove();
+                if (!notificationElement.classList.contains('read')) {
+                    decrementNotificationCount();
+                }
+                showEmptyState();
+            }
+        })
+        .catch(error => {
+            console.error('Error removing notification:', error);
+        });
     }
 
     function fetchNotificationCount() {
@@ -49,140 +221,32 @@
 
     function updateNotificationBadge(count) {
         const notificationIcon = document.querySelector('.notifications-button .fa-bell');
-        if (!notificationIcon) return;
-
-        // Remove existing badge if any
-        const existingBadge = notificationIcon.querySelector('.badge');
-        if (existingBadge) {
-            existingBadge.remove();
-        }
-
-        // Only show badge if count is greater than 0
-        if (count > 0) {
-            const badge = document.createElement('span');
-            badge.className = 'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger';
-            badge.innerHTML = `${count}<span class="visually-hidden">unread notifications</span>`;
-            notificationIcon.appendChild(badge);
+        const badge = document.querySelector('.notifications-button .badge');
+        
+        if (badge) {
+            if (count > 0) {
+                badge.textContent = count;
+                badge.style.display = 'inline-block';
+            } else {
+                badge.style.display = 'none';
+            }
         }
     }
 
     function decrementNotificationCount() {
-        const notificationIcon = document.querySelector('.notifications-button .fa-bell');
-        if (!notificationIcon) return;
-
-        const existingBadge = notificationIcon.querySelector('.badge');
-        if (!existingBadge) return;
-
-        const currentCount = parseInt(existingBadge.textContent);
-        if (isNaN(currentCount)) return;
-
-        const newCount = Math.max(0, currentCount - 1);
-        
-        if (newCount > 0) {
-            existingBadge.innerHTML = `${newCount}<span class="visually-hidden">unread notifications</span>`;
-        } else {
-            existingBadge.remove();
+        const badge = document.querySelector('.notifications-button .badge');
+        if (badge && badge.style.display !== 'none') {
+            const currentCount = parseInt(badge.textContent);
+            if (currentCount > 1) {
+                badge.textContent = currentCount - 1;
+            } else {
+                badge.style.display = 'none';
+            }
         }
     }
 
     function initializeNotificationHandlers() {
-        const notifications = document.querySelectorAll('.notification-item');
-        
-        notifications.forEach((notification) => {
-            if (notification.dataset.handlersAttached === 'true') {
-                return;
-            }
-            
-            // Handle notification click
-            notification.addEventListener('click', function(event) {
-                if (event.target.closest('.notification-close')) {
-                    return;
-                }
-                
-                const notificationId = this.dataset.notificationId;
-                if (this.classList.contains('unread')) {
-                    markAsRead(notificationId, this);
-                }
-            });
-
-            // Handle close button click
-            const closeButton = notification.querySelector('.notification-close');
-            if (closeButton) {
-                closeButton.addEventListener('click', function(event) {
-                    event.stopPropagation();
-                    const notificationItem = this.closest('.notification-item');
-                    const notificationId = notificationItem.dataset.notificationId;
-                    removeNotification(notificationId, notificationItem);
-                });
-            }
-            
-            notification.dataset.handlersAttached = 'true';
-        });
-    }
-
-    function markAsRead(notificationId, notificationElement) {
-        if (!notificationId) return Promise.reject('No notification ID');
-
-        notificationElement.style.pointerEvents = 'none';
-
-        return fetch(`/api/v1/notifications/${notificationId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                notificationElement.classList.remove('unread');
-                void notificationElement.offsetWidth;
-                notificationElement.classList.add('read');
-                decrementNotificationCount();
-            }
-        })
-        .catch(error => {
-            console.error('Error marking notification as read:', error);
-        })
-        .finally(() => {
-            notificationElement.style.pointerEvents = '';
-        });
-    }
-
-    function removeNotification(notificationId, notificationElement) {
-        if (!notificationId) return Promise.reject('No notification ID');
-
-        notificationElement.style.pointerEvents = 'none';
-
-        return fetch(`/api/v1/notifications/${notificationId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                notificationElement.style.opacity = '0';
-                notificationElement.style.transform = 'translateX(-100%)';
-                
-                const wasUnread = notificationElement.classList.contains('unread');
-                
-                setTimeout(() => {
-                    notificationElement.remove();
-                    if (wasUnread) {
-                        decrementNotificationCount();
-                    }
-                    showEmptyState();
-                }, 300);
-            }
-        })
-        .catch(error => {
-            console.error('Error removing notification:', error);
-        })
-        .finally(() => {
-            notificationElement.style.pointerEvents = '';
-        });
+        // This is now only used for initial setup of any static elements
+        // Dynamic elements are handled by initializeNotificationElement
     }
 })();
