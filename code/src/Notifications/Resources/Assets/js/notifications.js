@@ -241,13 +241,12 @@
 
     function updateNotificationBadge(count) {
         const badge = document.querySelector('.notifications-button .badge');
-        if (badge) {
-            if (count > 0) {
-                badge.textContent = count;
-                badge.style.display = 'inline-block';
-            } else {
-                badge.style.display = 'none';
-            }
+        if (badge && count > 0) {
+            badge.textContent = count;
+            badge.style.display = 'inline-block';
+        } else if (badge) {
+            badge.style.display = 'none';
+            badge.textContent = '';
         }
     }
 

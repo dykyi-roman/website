@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class SetReadNotificationAction
 {
-    #[Route('/v1/notifications/{id}', methods: ['PUT'])]
+    #[Route('/v1/notifications/{id}', name: 'read_notifications', methods: ['PUT'])]
     #[OA\Put(
         path: '/api/v1/notifications/{id}',
         operationId: 'markNotificationAsRead',

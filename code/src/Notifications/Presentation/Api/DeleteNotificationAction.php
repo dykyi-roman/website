@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class DeleteNotificationAction
 {
-    #[Route('/v1/notifications/{id}', methods: ['DELETE'])]
+    #[Route('/v1/notifications/{id}', name: 'delete_notification', methods: ['DELETE'])]
     #[OA\Delete(
         path: '/api/v1/notifications/{id}',
         description: 'Marks a specific notification as delete for the authenticated user',
