@@ -188,11 +188,17 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                notificationElement.remove();
-                if (!notificationElement.classList.contains('read')) {
-                    decrementNotificationCount();
-                }
-                showEmptyState();
+                // Add removing class to trigger animation
+                notificationElement.classList.add('removing');
+                
+                // Wait for animation to complete before removing element
+                setTimeout(() => {
+                    notificationElement.remove();
+                    if (!notificationElement.classList.contains('read')) {
+                        decrementNotificationCount();
+                    }
+                    showEmptyState();
+                }, 300); // Match the CSS transition duration
             }
         })
         .catch(error => {
@@ -222,7 +228,6 @@
     function updateNotificationBadge(count) {
         const notificationIcon = document.querySelector('.notifications-button .fa-bell');
         const badge = document.querySelector('.notifications-button .badge');
-        
         if (badge) {
             if (count > 0) {
                 badge.textContent = count;
