@@ -60,6 +60,19 @@ final class UserNotificationRepository implements UserNotificationRepositoryInte
         $this->entityManager->flush();
     }
 
+    public function markAllAsDeleted(UserId $userId): void
+    {
+        $this->repository->createQueryBuilder('un')
+            ->update()
+            ->set('un.deletedAt', ':now')
+            ->where('un.userId = :userId')
+            ->andWhere('un.deletedAt is NULL')
+            ->setParameter('userId', $userId->toBinary())
+            ->setParameter('now', new \DateTimeImmutable())
+            ->getQuery()
+            ->execute();
+    }
+
     /**
      * @throws NotificationNotFoundException
      */

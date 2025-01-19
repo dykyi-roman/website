@@ -23,4 +23,6 @@ interface UserNotificationRepositoryInterface
     public function getUnreadCount(UserId $userId): int;
 
     public function save(UserNotification $userNotification): void;
+
+    public function markAllAsDeleted(UserId $userId): void;
 }

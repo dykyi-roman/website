@@ -304,7 +304,7 @@
     }
 
     function markAllAsRead() {
-        fetch('/api/v1/notifications/read-all', {
+        fetch('/api/v1/notifications', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -325,8 +325,8 @@
     }
 
     function clearAllNotifications() {
-        fetch('/api/v1/notifications/clear-all', {
-            method: 'POST',
+        fetch('/api/v1/notifications', {
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'

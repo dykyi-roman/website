@@ -17,6 +17,8 @@ interface NotificationServiceInterface
 
     public function markAsDeleted(UserId $userId, UserNotificationId $userNotificationId): void;
 
+    public function markAllAsDeleted(UserId $userId): void;
+
     public function getUnreadCount(UserId $userId): int;
 
     /**
