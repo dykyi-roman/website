@@ -19,6 +19,7 @@
         fetchNotificationCount();
         initializeNotificationHandlers();
         initializeLoadMoreButton();
+        initializeNotificationsMenu();
         isInitialized = true;
     });
 
@@ -265,7 +266,102 @@
     }
 
     function initializeNotificationHandlers() {
-        // This is now only used for initial setup of any static elements
-        // Dynamic elements are handled by initializeNotificationElement
+        initializeNotificationsMenu();
+    }
+
+    function initializeNotificationsMenu() {
+        // Create menu button and add to body
+        const menuButton = document.createElement('div');
+        menuButton.className = 'notifications-menu-button';
+        menuButton.innerHTML = '<i class="fas fa-ellipsis-v"></i>';
+        document.body.appendChild(menuButton);
+
+        // Create menu container
+        const menu = document.createElement('div');
+        menu.className = 'notifications-menu';
+        menu.innerHTML = `
+            <div class="notifications-menu-item" data-action="read-all">
+                <i class="fas fa-check-double"></i>
+                Read all notifications
+            </div>
+            <div class="notifications-menu-item" data-action="clear-all">
+                <i class="fas fa-trash"></i>
+                Clear all notifications
+            </div>
+        `;
+        document.body.appendChild(menu);
+
+        // Toggle menu on button click
+        menuButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            menu.classList.toggle('show');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!menu.contains(e.target) && !menuButton.contains(e.target)) {
+                menu.classList.remove('show');
+            }
+        });
+
+        // Handle menu item clicks
+        menu.addEventListener('click', function(e) {
+            const menuItem = e.target.closest('.notifications-menu-item');
+            if (!menuItem) return;
+
+            const action = menuItem.dataset.action;
+            menu.classList.remove('show');
+
+            if (action === 'read-all') {
+                markAllAsRead();
+            } else if (action === 'clear-all') {
+                clearAllNotifications();
+            }
+        });
+    }
+
+    function markAllAsRead() {
+        fetch('/api/v1/notifications/read-all', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.querySelectorAll('.notification-item.unread').forEach(item => {
+                    item.classList.remove('unread');
+                    item.classList.add('read');
+                });
+                updateNotificationBadge(0);
+            }
+        })
+        .catch(error => console.error('Error marking all notifications as read:', error));
+    }
+
+    function clearAllNotifications() {
+        fetch('/api/v1/notifications/clear-all', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const notificationsSection = document.querySelector('.notifications-section');
+                if (notificationsSection) {
+                    notificationsSection.querySelectorAll('.notification-item').forEach(item => {
+                        item.remove();
+                    });
+                    showEmptyState();
+                }
+                updateNotificationBadge(0);
+            }
+        })
+        .catch(error => console.error('Error clearing all notifications:', error));
     }
 })();

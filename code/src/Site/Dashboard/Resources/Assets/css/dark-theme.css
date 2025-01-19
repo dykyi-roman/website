@@ -518,6 +518,38 @@
     box-shadow: 0 4px 8px rgba(255, 139, 96, 0.3);
 }
 
+/* Notifications menu button */
+[data-theme="dark"] .notifications-menu {
+    background-color: var(--dark-surface);
+    border-color: var(--dark-border);
+}
+
+[data-theme="dark"] .notifications-menu-button {
+    background-color: var(--dark-surface);
+    color: var(--primary-orange);
+    border: 1px solid var(--primary-orange);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .notifications-menu-button:hover {
+    background-color: var(--primary-orange);
+    color: var(--dark-bg);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(255, 139, 96, 0.3);
+}
+
+[data-theme="dark"] .notifications-menu-item i {
+    color: var(--primary-orange);
+}
+
+[data-theme="dark"] .notifications-menu-item {
+    color: var(--text-lighter);
+}
+
+[data-theme="dark"] .notifications-menu-item:hover {
+    background-color: var(--dark-surface-lighter);
+}
+
 /* Back button */
 [data-theme="dark"] .back-button {
     background-color: var(--dark-surface);
