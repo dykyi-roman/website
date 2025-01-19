@@ -127,8 +127,8 @@
   "guest": "guest",
   "toggle_theme": "Day/Night",
   "notifications": {
-    "show_more": "Show more",
     "page_title": "Notifications",
+    "show_more": "Show more",
     "no_notifications": "Not have yet",
     "notification": {
       "happy-birthday": {
@@ -146,7 +146,9 @@
     }
   },
   "messages": {
-    "page_title": "Messages"
+    "page_title": "Messages",
+    "show_more": "Show more",
+    "no_messages": "Not have yet"
   },
   "password_change_error": "Failed to change password",
   "password_create_error": "Failed to create password",

@@ -35,7 +35,7 @@
                             aria-label="{{ 'notifications.page_title'|trans }}"
                             title="{{ 'notifications.page_title'|trans }}">
                         <i class="fas fa-bell position-relative">
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none;">
                                 0
                                 <span class="visually-hidden">{{ 'unread_notifications'|trans }}</span>
                             </span>
@@ -49,12 +49,10 @@
                         aria-label="{{ 'messages.page_title'|trans }}"
                         title="{{ 'messages.page_title'|trans }}">
                     <i class="fas fa-comment-dots position-relative">
-                        {% if 7 > 0 %}
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            {{ 7 }}
-                            <span class="visually-hidden">{{ 'unread_messages'|trans }}</span>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none;">
+                                0
+                                <span class="visually-hidden">{{ 'unread_messages'|trans }}</span>
                         </span>
-                        {% endif %}
                     </i>
                 </button>
                 {% endif %}
