@@ -7,9 +7,9 @@ namespace Notifications\Presentation\Api;
 use Notifications\DomainModel\Enum\UserNotificationId;
 use Notifications\DomainModel\Service\NotificationServiceInterface;
 use Notifications\Presentation\Api\Response\NotificationReadJsonResponder;
+use OpenApi\Attributes as OA;
 use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use OpenApi\Attributes as OA;
 
 final class NotificationReadAction
 {
@@ -33,7 +33,7 @@ final class NotificationReadAction
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(property: 'status', type: 'string', example: 'success'),
-                new OA\Property(property: 'message', type: 'string', example: 'Ok')
+                new OA\Property(property: 'message', type: 'string', example: 'Ok'),
             ]
         )
     )]

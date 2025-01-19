@@ -7,10 +7,10 @@ namespace Notifications\Presentation\Api;
 use Notifications\DomainModel\Service\NotificationServiceInterface;
 use Notifications\Presentation\Api\Request\NotificationListDto;
 use Notifications\Presentation\Api\Response\NotificationListJsonResponder;
+use OpenApi\Attributes as OA;
 use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
-use OpenApi\Attributes as OA;
 
 class NotificationListAction
 {
@@ -46,7 +46,7 @@ class NotificationListAction
             properties: [
                 new OA\Property(property: 'status', type: 'string', example: 'success'),
                 new OA\Property(property: 'message', type: 'string', example: 'Notifications retrieved successfully'),
-                new OA\Property(property: 'data', type: 'object')
+                new OA\Property(property: 'data', type: 'object'),
             ]
         )
     )]
