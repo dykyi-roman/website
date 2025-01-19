@@ -26,7 +26,12 @@
                     {% for notification in notifications %}
                         <div class="notification-item {{ notification.readAt != null ? 'read' : 'unread' }}" data-notification-id="{{ notification.id }}">
                             <div class="notification-icon">
-                                <i class="fas {{ notification.icon|default('fa-bell') }}"></i>
+                                <i class="fas {% if notification.type == 'personal' %}fa-user
+                                    {% elseif notification.type == 'system' %}fa-cog
+                                    {% elseif notification.type == 'information' %}fa-info-circle
+                                    {% elseif notification.type == 'warning' %}fa-exclamation-triangle
+                                    {% elseif notification.type == 'error' %}fa-exclamation-circle
+                                    {% else %}fa-bell{% endif %}"></i>
                             </div>
                             <div class="notification-details">
                                 <h3>{{ notification.title }}</h3>

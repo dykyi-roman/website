@@ -60,9 +60,12 @@ final class UserNotificationRepository implements UserNotificationRepositoryInte
         $this->entityManager->flush();
     }
 
+    /**
+     * @throws NotificationNotFoundException
+     */
     public function findById(UserNotificationId $id): UserNotification
     {
-        $result = $this->repository->find($id->toRfc4122());
+        $result = $this->repository->find($id);
         if (null === $result) {
             throw new NotificationNotFoundException($id);
         }

@@ -35,6 +35,7 @@ final readonly class NotificationService implements NotificationServiceInterface
     public function markAsRead(UserId $userId, UserNotificationId $userNotificationId): void
     {
         $userNotification = $this->userNotificationRepository->findById($userNotificationId);
+
         if (!$userNotification->isRead()) {
             $userNotification->setIsRead();
             $this->userNotificationRepository->save($userNotification);

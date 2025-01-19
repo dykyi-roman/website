@@ -128,7 +128,21 @@
   "toggle_theme": "Day/Night",
   "notifications": {
     "page_title": "Notifications",
-    "no_notifications": "Not have yet"
+    "no_notifications": "Not have yet",
+    "notification": {
+      "happy-birthday": {
+        "title": "Happy birthday",
+        "message": "Happy birthday"
+      },
+      "happy-new_year": {
+        "title": "Happy Ney Year",
+        "message": "Happy Ney Year"
+      },
+      "pass-verification": {
+        "title": "Pass verification",
+        "message": "Pass verification"
+      }
+    }
   },
   "messages": {
     "page_title": "Messages"
