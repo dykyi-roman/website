@@ -7,7 +7,6 @@ namespace Notifications\Presentation\Api;
 use Notifications\DomainModel\Enum\UserNotificationId;
 use Notifications\DomainModel\Service\NotificationServiceInterface;
 use Notifications\Presentation\Api\Response\DeleteNotificationJsonResponder;
-use Notifications\Presentation\Api\Response\ReadNotificationJsonResponder;
 use OpenApi\Attributes as OA;
 use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
 use Symfony\Component\Routing\Attribute\Route;
