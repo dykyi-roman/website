@@ -61,6 +61,7 @@ class Notification implements \JsonSerializable
         return $this->expireAt;
     }
 
+    /** @return array<string, mixed> */
     public function jsonSerialize(): array
     {
         return [

@@ -63,7 +63,7 @@ final readonly class NotificationService implements NotificationServiceInterface
         return $count;
     }
 
-    /** @return PaginationDto<UserNotification> */
+    /** @return PaginationDto<array<string, mixed>> */
     public function getUserNotifications(UserId $userId, int $page = 1, int $perPage = 20): PaginationDto
     {
         $userNotifications = $this->userNotificationRepository->getUserNotifications($userId, $page, $perPage);
@@ -79,7 +79,7 @@ final readonly class NotificationService implements NotificationServiceInterface
                 ...[
                     'id' => $userNotification->getId()->toRfc4122(),
                     'readAt' => $userNotification->getReadAt()?->format('c'),
-                    'createdAt' => $userNotification->getCreatedAt()?->format('c'),
+                    'createdAt' => $userNotification->getCreatedAt()->format('c'),
                     'deletedAt' => $userNotification->getDeletedAt()?->format('c'),
                 ],
             ];
