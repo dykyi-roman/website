@@ -17,12 +17,12 @@ use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route('/v1/users/self', name: 'api_users_self_update', methods: ['PUT'])]
+#[Route('/v1/profile/user', name: 'api_users_self_update', methods: ['PUT'])]
 #[OA\Put(
-    path: '/v1/users/self',
+    path: '/v1/profile/user',
     description: 'Update user data',
     summary: 'Update user data',
-    tags: ['Users']
+    tags: ['Profile']
 )]
 #[OA\RequestBody(
     required: true,

@@ -105,7 +105,7 @@ async function initializeApp() {
 
             try {
                 ModalService.showSpinner();
-                const response = await fetch('/api/v1/users/self/password', {
+                const response = await fetch('/api/v1/profile/user/password', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -161,7 +161,7 @@ async function initializeApp() {
 
             try {
                 ModalService.showSpinner();
-                const response = await fetch('/api/v1/users/self/password', {
+                const response = await fetch('/api/v1/profile/user/password', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -324,7 +324,7 @@ async function initializeApp() {
     // Use event delegation for dynamically added elements
     $(document).on('click', '#activateAccount', async function() {
         try {
-            const response = await fetch('/api/v1/users/self/status', {
+            const response = await fetch('/api/v1/profile/user/status', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -379,7 +379,7 @@ async function initializeApp() {
     // Account deactivation confirmation
     $('#confirmDeactivate').on('click', async function() {
         try {
-            const response = await fetch('/api/v1/users/self/status', {
+            const response = await fetch('/api/v1/profile/user/status', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -435,7 +435,7 @@ async function initializeApp() {
     // Account deletion confirmation
     $('#confirmDelete').on('click', async function() {
         try {
-            const response = await fetch('/api/v1/users/self', {
+            const response = await fetch('/api/v1/profile/user', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

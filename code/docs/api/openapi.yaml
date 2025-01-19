@@ -3,6 +3,71 @@ info:
   title: 'REST API'
   version: 1.0.0
 paths:
+  /v1/notifications:
+    get:
+      tags:
+        - Notifications
+      summary: 'Get user notifications'
+      description: 'Retrieves a list of notifications for the authenticated user'
+      operationId: 474a7c3002fa3e13fc9c4297d97b9329
+      parameters:
+        -
+          name: page
+          in: query
+          description: 'Page number'
+          schema:
+            type: integer
+            default: 1
+        -
+          name: limit
+          in: query
+          description: 'Number of items per page'
+          schema:
+            type: integer
+            default: 10
+        -
+          name: includeCount
+          in: query
+          description: 'Include unread notifications count'
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: 'Notifications retrieved successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: success }
+                  message: { type: string, example: 'Notifications retrieved successfully' }
+                  data: { type: object }
+                type: object
+  '/v1/notifications/{id}':
+    put:
+      tags:
+        - Notifications
+      summary: 'Mark notification as read'
+      description: 'Marks a specific notification as read for the authenticated user'
+      operationId: 4865d1628fb7f7e5f28e62d89989d694
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Notification ID'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Notification marked as read successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: success }
+                  message: { type: string, example: Ok }
+                type: object
   /api/v1/orders/search:
     get:
       tags:
@@ -58,13 +123,13 @@ paths:
                   limit: { type: integer }
                   total_pages: { type: integer }
                 type: object
-  /api/v1/settings:
+  /api/v1/profile/settings:
     get:
       tags:
-        - Settings
+        - Profile
       summary: 'Get settings'
       description: 'Get all user settings grouped by category'
-      operationId: 4b919a0157f29a9a653f26bb15facc9f
+      operationId: fa868c3419e45d10528e357cb7dc708d
       responses:
         '200':
           description: 'Returns user settings grouped by category'
@@ -76,10 +141,10 @@ paths:
                 type: object
     put:
       tags:
-        - Settings
+        - Profile
       summary: 'Change settings'
       description: 'Updates settings based on provided parameters'
-      operationId: 070608c9b01d31e510e48d244cf61645
+      operationId: 42286e8aa955d872524f5600156f96c7
       requestBody:
         required: true
         content:
@@ -110,13 +175,13 @@ paths:
                   message: { type: string, example: 'Validation failed' }
                   errors: { type: array, items: { type: string } }
                 type: object
-  /api/v1/profile/verifications:
+  /api/v1/profile/setting/verifications:
     post:
       tags:
-        - Settings
+        - Profile
       summary: 'Create verification request'
       description: 'Creates a new verification request and sends a 6-digit code'
-      operationId: 6159d077419eae776a6ee92c3400967f
+      operationId: db5e8ecb9f53e0bb70ddafa0efb2aa8e
       requestBody:
         required: true
         content:
@@ -137,13 +202,13 @@ paths:
                 properties:
                   status: { type: string, example: success }
                 type: object
-  '/api/v1/profile/verifications/{type}':
+  '/api/v1/profile/setting/verifications/{type}':
     put:
       tags:
         - Profile
       summary: 'Complete verification'
       description: 'Verifies and completes a verification request'
-      operationId: 1dbec83d2d2ce3820562dd821bf1efea
+      operationId: 691de1108cbe54162ba0516e822fe581
       parameters:
         -
           name: type
@@ -185,13 +250,13 @@ paths:
                   status: { type: string, example: error }
                   message: { type: string, example: 'Invalid verification code' }
                 type: object
-  /api/v1/users/self/password:
+  /api/v1/profile/user/password:
     put:
       tags:
-        - Settings
+        - Profile
       summary: 'Change user password'
       description: 'Changes the password for the authenticated user'
-      operationId: 02da6aeb1fd89b062e019e8a4cfbc4dd
+      operationId: e612eff67a2cf0133671fcb0503eb233
       requestBody:
         required: true
         content:
@@ -229,10 +294,10 @@ paths:
                 type: object
     post:
       tags:
-        - Settings
+        - Profile
       summary: 'Create user password'
       description: 'Create the password for the authenticated user'
-      operationId: fd4766870e01c46d94c59c3c7a4c561b
+      operationId: 68e4bb483437d99c91fbc985909b1fb8
       requestBody:
         required: true
         content:
@@ -268,13 +333,13 @@ paths:
                   success: { type: boolean, example: false }
                   message: { type: string, example: 'Password created failed' }
                 type: object
-  /api/v1/users/self/status:
+  /api/v1/profile/user/status:
     put:
       tags:
-        - Users
+        - Profile
       summary: 'Update user status'
       description: 'Update user account status (activate/deactivate)'
-      operationId: cf89aafae0fd9596fe51189534d9b8e9
+      operationId: f7dc9b813faf06d50d3ec060a7d63576
       requestBody:
         required: true
         content:
@@ -288,23 +353,23 @@ paths:
       responses:
         '200':
           description: 'User status updated successfully'
-  /api/v1/users/self:
+  /api/v1/profile/user:
     delete:
       tags:
-        - Users
+        - Profile
       summary: 'Delete user account'
       description: 'Delete user account'
-      operationId: 279e3aef06da17b6dc4ab318e0eddb2b
+      operationId: c2e3fca9b6f9198432a5b597e5332e27
       responses:
         '200':
           description: 'Account deleted successfully'
-  /v1/users/self:
+  /v1/profile/user:
     put:
       tags:
-        - Users
+        - Profile
       summary: 'Update user data'
       description: 'Update user data'
-      operationId: a7b9902087eedb5202932d81cfe6b3ab
+      operationId: e7022ce0348fba50f851eeb152f1a002
       requestBody:
         required: true
         content:
@@ -486,17 +551,14 @@ paths:
                 type: object
 tags:
   -
+    name: Notifications
+    description: Notifications
+  -
     name: Orders
     description: Orders
   -
-    name: Settings
-    description: Settings
-  -
     name: Profile
     description: Profile
-  -
-    name: Users
-    description: Users
   -
     name: Services
     description: Services

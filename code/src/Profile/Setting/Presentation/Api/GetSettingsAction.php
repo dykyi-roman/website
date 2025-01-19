@@ -13,12 +13,12 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final readonly class GetSettingsAction
 {
-    #[Route('/v1/settings', name: 'api_settings_get', methods: ['GET'])]
+    #[Route('/v1/profile/settings', name: 'api_profile_settings_get', methods: ['GET'])]
     #[OA\Get(
-        path: '/api/v1/settings',
+        path: '/api/v1/profile/settings',
         description: 'Get all user settings grouped by category',
         summary: 'Get settings',
-        tags: ['Settings']
+        tags: ['Profile']
     )]
     #[OA\Response(
         response: 200,

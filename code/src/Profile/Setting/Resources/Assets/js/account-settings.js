@@ -189,7 +189,7 @@ class VerificationHandler {
 
         try {
             this.verificationInProgress = true;
-            const response = await fetch('/api/v1/profile/verifications', {
+            const response = await fetch('/api/v1/profile/setting/verifications', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -224,7 +224,7 @@ class VerificationHandler {
         ModalService.showSpinner();
 
         try {
-            const response = await fetch(`/api/v1/profile/verifications/${type}`, {
+            const response = await fetch(`/api/v1/profile/setting/verifications/${type}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -431,7 +431,7 @@ class AccountSettingsManager {
     }
 
     async _saveFormData(payload) {
-        const response = await fetch('/api/v1/users/self', {
+        const response = await fetch('/api/v1/profile/user', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

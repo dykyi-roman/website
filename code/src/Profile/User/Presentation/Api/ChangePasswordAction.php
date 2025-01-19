@@ -16,9 +16,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class ChangePasswordAction
 {
-    #[Route('/v1/users/self/password', name: 'change_user_password', methods: ['PUT'])]
+    #[Route('/v1/profile/user/password', name: 'change_profile_user_password', methods: ['PUT'])]
     #[OA\Put(
-        path: '/api/v1/users/self/password',
+        path: '/api/v1/profile/user/password',
         description: 'Changes the password for the authenticated user',
         summary: 'Change user password',
         requestBody: new OA\RequestBody(
@@ -31,7 +31,7 @@ final readonly class ChangePasswordAction
                 ]
             )
         ),
-        tags: ['Settings'],
+        tags: ['Profile'],
         responses: [
             new OA\Response(
                 response: 200,

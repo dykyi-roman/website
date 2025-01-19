@@ -17,9 +17,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class VerifyCodeAction
 {
-    #[Route('/v1/profile/verifications/{type}', name: 'api_settings_profile_verification_verify', methods: ['PUT'])]
+    #[Route('/v1/profile/setting/verifications/{type}', name: 'api_profile_setting_verification_verify', methods: ['PUT'])]
     #[OA\Put(
-        path: '/api/v1/profile/verifications/{type}',
+        path: '/api/v1/profile/setting/verifications/{type}',
         description: 'Verifies and completes a verification request',
         summary: 'Complete verification',
         tags: ['Profile']

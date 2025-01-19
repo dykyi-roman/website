@@ -17,12 +17,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class SendVerificationCodeAction
 {
-    #[Route('/v1/profile/verifications', name: 'api_settings_profile_verification_send', methods: ['POST'])]
+    #[Route('/v1/profile/setting/verifications', name: 'api_profile_setting_verification_send', methods: ['POST'])]
     #[OA\Post(
-        path: '/api/v1/profile/verifications',
+        path: '/api/v1/profile/setting/verifications',
         description: 'Creates a new verification request and sends a 6-digit code',
         summary: 'Create verification request',
-        tags: ['Settings']
+        tags: ['Profile']
     )]
     #[OA\RequestBody(
         required: true,

@@ -15,12 +15,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class DeleteUserAction
 {
-    #[Route('/v1/users/self', name: 'api_user_delete', methods: ['DELETE'])]
+    #[Route('/v1/profile/user', name: 'api_user_delete', methods: ['DELETE'])]
     #[OA\Delete(
-        path: '/api/v1/users/self',
+        path: '/api/v1/profile/user',
         description: 'Delete user account',
         summary: 'Delete user account',
-        tags: ['Users']
+        tags: ['Profile']
     )]
     #[OA\Response(
         response: Response::HTTP_OK,

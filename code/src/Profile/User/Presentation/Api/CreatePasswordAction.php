@@ -16,9 +16,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class CreatePasswordAction
 {
-    #[Route('/v1/users/self/password', name: 'create_user_password', methods: ['POST'])]
+    #[Route('/v1/profile/user/password', name: 'create_user_password', methods: ['POST'])]
     #[OA\Post(
-        path: '/api/v1/users/self/password',
+        path: '/api/v1/profile/user/password',
         description: 'Create the password for the authenticated user',
         summary: 'Create user password',
         requestBody: new OA\RequestBody(
@@ -31,7 +31,7 @@ final readonly class CreatePasswordAction
                 ]
             )
         ),
-        tags: ['Settings'],
+        tags: ['Profile'],
         responses: [
             new OA\Response(
                 response: 200,
