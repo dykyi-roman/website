@@ -6,18 +6,19 @@ namespace Notifications\Presentation\Api;
 
 use Notifications\DomainModel\Enum\UserNotificationId;
 use Notifications\DomainModel\Service\NotificationServiceInterface;
-use Notifications\Presentation\Api\Response\NotificationReadJsonResponder;
+use Notifications\Presentation\Api\Response\DeleteNotificationJsonResponder;
+use Notifications\Presentation\Api\Response\ReadNotificationJsonResponder;
 use OpenApi\Attributes as OA;
 use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
-final class NotificationReadAction
+final class DeleteNotificationAction
 {
-    #[Route('/v1/notifications/{id}', methods: ['PUT'])]
+    #[Route('/v1/notifications/{id}', methods: ['DELETE'])]
     #[OA\Put(
         path: '/api/v1/notifications/{id}',
-        description: 'Marks a specific notification as read for the authenticated user',
-        summary: 'Mark notification as read',
+        description: 'Marks a specific notification as delete for the authenticated user',
+        summary: 'Mark notification as delete',
         tags: ['Notifications']
     )]
     #[OA\Parameter(
@@ -29,7 +30,7 @@ final class NotificationReadAction
     )]
     #[OA\Response(
         response: 200,
-        description: 'Notification marked as read successfully',
+        description: 'Notification marked as delete successfully',
         content: new OA\JsonContent(
             properties: [
                 new OA\Property(property: 'status', type: 'string', example: 'success'),
@@ -41,9 +42,9 @@ final class NotificationReadAction
         string $id,
         UserFetcherInterface $userFetcher,
         NotificationServiceInterface $notificationService,
-        NotificationReadJsonResponder $responder,
-    ): NotificationReadJsonResponder {
-        $notificationService->markAsRead($userFetcher->fetch()->id(), UserNotificationId::fromString($id));
+        DeleteNotificationJsonResponder $responder,
+    ): DeleteNotificationJsonResponder {
+        $notificationService->markAsDeleted($userFetcher->fetch()->id(), UserNotificationId::fromString($id));
 
         return $responder->success('Ok')->respond();
     }

@@ -6,7 +6,7 @@ namespace Notifications\Presentation\Api\Response;
 
 use Shared\Presentation\Responder\ResponderInterface;
 
-final class NotificationListJsonResponder implements ResponderInterface
+final class ListOfNotificationJsonResponder implements ResponderInterface
 {
     /** @var array<string, mixed> */
     private array $data = [];

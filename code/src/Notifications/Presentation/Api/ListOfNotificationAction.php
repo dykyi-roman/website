@@ -6,13 +6,13 @@ namespace Notifications\Presentation\Api;
 
 use Notifications\DomainModel\Service\NotificationServiceInterface;
 use Notifications\Presentation\Api\Request\NotificationListDto;
-use Notifications\Presentation\Api\Response\NotificationListJsonResponder;
+use Notifications\Presentation\Api\Response\ListOfNotificationJsonResponder;
 use OpenApi\Attributes as OA;
 use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
 
-final class NotificationListAction
+final class ListOfNotificationAction
 {
     #[Route('/v1/notifications', name: 'api_notifications_list', methods: ['GET'])]
     #[OA\Get(
@@ -54,8 +54,8 @@ final class NotificationListAction
         #[MapQueryString] NotificationListDto $request,
         NotificationServiceInterface $notificationService,
         UserFetcherInterface $userFetcher,
-        NotificationListJsonResponder $responder,
-    ): NotificationListJsonResponder {
+        ListOfNotificationJsonResponder $responder,
+    ): ListOfNotificationJsonResponder {
         $userId = $userFetcher->fetch()->id();
         if ($request->includeCount) {
             $data['unreadCount'] = $notificationService->getUnreadCount($userId);
