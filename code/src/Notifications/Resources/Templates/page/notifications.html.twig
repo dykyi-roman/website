@@ -4,6 +4,8 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link href="{{ asset('css/notifications.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 {% endblock %}
 
 {% block body %}
@@ -14,6 +16,49 @@
         </div>
         <div class="container">
             <div class="page-content">
+                <div class="notifications-section">
+                    <div class="notification-item unread" data-notification-id="1">
+                        <div class="notification-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="notification-details">
+                            <h3>New Message</h3>
+                            <p>You have received a new message from John Doe</p>
+                            <span class="notification-date">19 Jan 2025</span>
+                        </div>
+                        <button class="notification-close" aria-label="Close notification">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <div class="notification-item read" data-notification-id="2">
+                        <div class="notification-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="notification-details">
+                            <h3>Task Completed</h3>
+                            <p>Your task "Project Review" has been completed</p>
+                            <span class="notification-date">19 Jan 2025</span>
+                        </div>
+                        <button class="notification-close" aria-label="Close notification">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <div class="notification-item unread" data-notification-id="3">
+                        <div class="notification-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="notification-details">
+                            <h3>Upcoming Event</h3>
+                            <p>Team meeting scheduled for tomorrow at 10:00 AM</p>
+                            <span class="notification-date">19 Jan 2025</span>
+                        </div>
+                        <button class="notification-close" aria-label="Close notification">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
