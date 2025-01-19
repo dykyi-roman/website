@@ -20,11 +20,12 @@
 * User-friendly error pages (401, 403, 404, 500)
 * Event storage
 
+
 ### Settings
 * Privacy
   - Activation/Deactivation
   - Delete user account
-  - Change password
+  - Change password/Create password
 * General
   - Change language 
   - Change currency 
@@ -34,6 +35,9 @@
   - Change name
   - Verify phone
   - Verify email
+
+### Notifications
+ - Receive/Read/Delete
 
 ### Login
 * Manual

@@ -3,6 +3,78 @@ info:
   title: 'REST API'
   version: 1.0.0
 paths:
+  /api/v1/notifications:
+    get:
+      tags:
+        - Notifications
+      summary: 'Get user notifications'
+      description: 'Retrieves a list of notifications for the authenticated user'
+      operationId: a2eb7018b030d1523e0083886b1c0195
+      parameters:
+        -
+          name: page
+          in: query
+          description: 'Page number'
+          schema:
+            type: integer
+            default: 1
+        -
+          name: limit
+          in: query
+          description: 'Number of items per page'
+          schema:
+            type: integer
+            default: 10
+        -
+          name: includeCount
+          in: query
+          description: 'Include unread notifications count'
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: 'Notifications retrieved successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: success }
+                  message: { type: string, example: 'Notifications retrieved successfully' }
+                  data: { type: object }
+                type: object
+    put:
+      tags:
+        - Notifications
+      summary: 'Mark all notifications as read'
+      description: 'Marks all notifications as read for the authenticated user'
+      operationId: 361ad839c669bd8f6dfcf902673a38b0
+      responses:
+        '200':
+          description: 'All notifications marked as read successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: success }
+                  message: { type: string, example: Ok }
+                type: object
+    delete:
+      tags:
+        - Notifications
+      summary: 'Mark all notifications as deleted'
+      description: 'Marks all notifications as deleted for the authenticated user'
+      operationId: 6b0b3474ce67e08d018005bb23b3ea7e
+      responses:
+        '200':
+          description: 'All notifications marked as deleted successfully'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: success }
+                  message: { type: string, example: 'All notifications deleted' }
+                type: object
   '/api/v1/notifications/{id}':
     put:
       tags:
@@ -51,46 +123,6 @@ paths:
                 properties:
                   status: { type: string, example: success }
                   message: { type: string, example: Ok }
-                type: object
-  /api/v1/notifications:
-    get:
-      tags:
-        - Notifications
-      summary: 'Get user notifications'
-      description: 'Retrieves a list of notifications for the authenticated user'
-      operationId: a2eb7018b030d1523e0083886b1c0195
-      parameters:
-        -
-          name: page
-          in: query
-          description: 'Page number'
-          schema:
-            type: integer
-            default: 1
-        -
-          name: limit
-          in: query
-          description: 'Number of items per page'
-          schema:
-            type: integer
-            default: 10
-        -
-          name: includeCount
-          in: query
-          description: 'Include unread notifications count'
-          schema:
-            type: boolean
-            default: false
-      responses:
-        '200':
-          description: 'Notifications retrieved successfully'
-          content:
-            application/json:
-              schema:
-                properties:
-                  status: { type: string, example: success }
-                  message: { type: string, example: 'Notifications retrieved successfully' }
-                  data: { type: object }
                 type: object
   /api/v1/orders/search:
     get:
