@@ -65,7 +65,7 @@ class Notification implements \JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'type' => $this->type,
+            'type' => $this->type->value,
             'title' => $this->title,
             'message' => $this->message,
             'link' => $this->link,
