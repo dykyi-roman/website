@@ -78,9 +78,9 @@ final readonly class NotificationService implements NotificationServiceInterface
                 ...$notification->jsonSerialize(),
                 ...[
                     'id' => $userNotification->getId()->toRfc4122(),
-                    'readAt' => $userNotification->getReadAt(),
-                    'createdAt' => $userNotification->getCreatedAt(),
-                    'deletedAt' => $userNotification->getDeletedAt(),
+                    'readAt' => $userNotification->getReadAt()?->format('c'),
+                    'createdAt' => $userNotification->getCreatedAt()?->format('c'),
+                    'deletedAt' => $userNotification->getDeletedAt()?->format('c'),
                 ],
             ];
         }
