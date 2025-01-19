@@ -11,6 +11,23 @@
         isInitialized = true;
     });
 
+    function showEmptyState() {
+        const notificationsSection = document.querySelector('.notifications-section');
+        if (!notificationsSection) return;
+
+        // Проверяем, остались ли еще уведомления
+        const remainingNotifications = notificationsSection.querySelectorAll('.notification-item');
+        if (remainingNotifications.length === 0) {
+            const emptyState = document.createElement('div');
+            emptyState.className = 'text-center text-muted mt-4';
+            emptyState.innerHTML = `
+                <i class="fas fa-bell fa-2x mb-3"></i>
+                <p>${notificationsSection.dataset.emptyMessage || 'No notifications'}</p>
+            `;
+            notificationsSection.appendChild(emptyState);
+        }
+    }
+
     function fetchNotificationCount() {
         fetch('/api/v1/notifications?includeCount=true', {
             method: 'GET',
@@ -157,6 +174,7 @@
                     if (wasUnread) {
                         decrementNotificationCount();
                     }
+                    showEmptyState();
                 }, 300);
             }
         })

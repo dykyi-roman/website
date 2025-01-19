@@ -22,7 +22,7 @@
         </div>
         <div class="container">
             <div class="page-content">
-                <div class="notifications-section">
+                <div class="notifications-section" data-empty-message="{{ 'notifications.no_notifications'|trans }}">
                     {% for notification in notifications %}
                         <div class="notification-item {{ notification.readAt != null ? 'read' : 'unread' }}" data-notification-id="{{ notification.id }}">
                             <div class="notification-icon">
