@@ -86,7 +86,7 @@
                 <h3>${notification.title}</h3>
                 <p>${notification.message}</p>
             </div>
-            <span class="notification-date">${formatDate(notification.createdAt)}</span>
+            <span class="notification-date" title="${formatDate(notification.createdAt, true)}">${formatDate(notification.createdAt)}</span>
             <button class="notification-close" aria-label="Close notification">
                 <i class="fas fa-times"></i>
             </button>
@@ -128,9 +128,23 @@
         return icons[type] || 'fa-bell';
     }
 
-    function formatDate(dateString) {
+    function formatDate(dateString, includeTime = false) {
         const date = new Date(dateString);
-        return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+        if (includeTime) {
+            return date.toLocaleString('en-GB', { 
+                day: '2-digit', 
+                month: 'short', 
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+        return date.toLocaleDateString('en-GB', { 
+            day: '2-digit', 
+            month: 'short', 
+            year: 'numeric' 
+        });
     }
 
     function initializeLoadMoreButton() {
@@ -226,7 +240,6 @@
     }
 
     function updateNotificationBadge(count) {
-        const notificationIcon = document.querySelector('.notifications-button .fa-bell');
         const badge = document.querySelector('.notifications-button .badge');
         if (badge) {
             if (count > 0) {

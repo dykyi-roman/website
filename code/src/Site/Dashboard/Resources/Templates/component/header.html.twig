@@ -34,7 +34,12 @@
                             class="header-button notifications-button d-flex align-items-center justify-content-center"
                             aria-label="{{ 'notifications.page_title'|trans }}"
                             title="{{ 'notifications.page_title'|trans }}">
-                        <i class="fas fa-bell position-relative"></i>
+                        <i class="fas fa-bell position-relative">
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                0
+                                <span class="visually-hidden">{{ 'unread_notifications'|trans }}</span>
+                            </span>
+                        </i>
                     </button>
                 </a>
                 <!-- Messages Icon -->
