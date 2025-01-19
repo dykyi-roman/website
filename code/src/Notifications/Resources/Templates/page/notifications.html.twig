@@ -22,6 +22,21 @@
 {% endblock %}
 
 {% block body %}
+    <!-- Notifications Menu Button -->
+    <div class="notifications-menu-button">
+        <i class="fas fa-ellipsis-v"></i>
+    </div>
+    <!-- Notifications Menu -->
+    <div class="notifications-menu">
+        <div class="notifications-menu-item" data-action="read-all">
+            <i class="fas fa-check-double"></i>
+            {{ 'notifications.read_all'|trans }}
+        </div>
+        <div class="notifications-menu-item" data-action="clear-all">
+            <i class="fas fa-trash"></i>
+            {{ 'notifications.clear_all'|trans }}
+        </div>
+    </div>
     <!-- Main Content -->
     <div class="content-wrapper">
         <div class="row page-title">

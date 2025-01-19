@@ -19,7 +19,6 @@
         fetchNotificationCount();
         initializeNotificationHandlers();
         initializeLoadMoreButton();
-        initializeNotificationsMenu();
         isInitialized = true;
     });
 
@@ -270,26 +269,10 @@
     }
 
     function initializeNotificationsMenu() {
-        // Create menu button and add to body
-        const menuButton = document.createElement('div');
-        menuButton.className = 'notifications-menu-button';
-        menuButton.innerHTML = '<i class="fas fa-ellipsis-v"></i>';
-        document.body.appendChild(menuButton);
+        const menuButton = document.querySelector('.notifications-menu-button');
+        const menu = document.querySelector('.notifications-menu');
 
-        // Create menu container
-        const menu = document.createElement('div');
-        menu.className = 'notifications-menu';
-        menu.innerHTML = `
-            <div class="notifications-menu-item" data-action="read-all">
-                <i class="fas fa-check-double"></i>
-                Read all notifications
-            </div>
-            <div class="notifications-menu-item" data-action="clear-all">
-                <i class="fas fa-trash"></i>
-                Clear all notifications
-            </div>
-        `;
-        document.body.appendChild(menu);
+        if (!menuButton || !menu) return;
 
         // Toggle menu on button click
         menuButton.addEventListener('click', function(e) {

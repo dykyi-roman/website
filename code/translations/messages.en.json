@@ -127,6 +127,8 @@
   "guest": "guest",
   "toggle_theme": "Day/Night",
   "notifications": {
+    "read_all": "Read all",
+    "clear_all": "Clear all",
     "page_title": "Notifications",
     "show_more": "Show more",
     "no_notifications": "Not have yet",
