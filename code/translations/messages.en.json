@@ -166,7 +166,8 @@
   "get_it_on_google_play": "Download on the Google play",
   "download_on_app_store": "Download on the Apple store",
   "favorites": {
-    "page_title": "Favorites"
+    "page_title": "Favorites",
+    "no_messages": "Not have yet"
   },
   "app": {
     "page_title": "App votes",
