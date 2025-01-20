@@ -281,14 +281,15 @@ class VerificationHandler {
 
 class AccountSettingsManager {
     constructor() {
+        this.translations = window.translations || {};  // Initialize translations from global scope
         this.init();
     }
 
     async init() {
         this.uiManager = new UIManager();
-        this.validationService = new ValidationService(translations);
+        this.validationService = new ValidationService(this.translations);
         this.imageHandler = new ImageHandler(CONFIG, this.uiManager);
-        this.verificationHandler = new VerificationHandler(translations, this.uiManager);
+        this.verificationHandler = new VerificationHandler(this.translations, this.uiManager);
         
         this.form = document.querySelector('.account-settings');
         this.saveButton = document.getElementById('save-account-settings');
@@ -298,7 +299,9 @@ class AccountSettingsManager {
         this._initializeVerification();
         
         this._updateSaveButtonState();
-        UIService.showError(translations.settings.error_image_type);
+        if (this.translations.settings) {
+            UIService.showError(this.translations.settings.error_image_type);
+        }
     }
 
     _setupFormElements() {

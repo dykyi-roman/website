@@ -88,7 +88,7 @@ final readonly class NotificationService implements NotificationServiceInterface
                 continue;
             }
 
-            $data[] =  [
+            $data[] = [
                 'type' => $notification->getType()->value,
                 'title' => $this->translator->trans($notification->getTitle()),
                 'message' => $this->translator->trans($notification->getMessage()),
