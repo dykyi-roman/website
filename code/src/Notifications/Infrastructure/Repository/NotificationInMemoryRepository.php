@@ -56,7 +56,7 @@ final class NotificationInMemoryRepository implements NotificationRepositoryInte
     {
         return array_filter(
             $this->notifications,
-            fn(Notification $notification) => NotificationType::SYSTEM === $notification->getType()
+            fn (Notification $notification) => NotificationType::SYSTEM === $notification->getType()
         );
     }
 

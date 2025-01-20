@@ -18,6 +18,7 @@ final readonly class NotificationFormatter
 
     /**
      * @throws NotificationNotFoundException
+     * @return array<string, string|int|float|bool|\DateTimeInterface|null>
      */
     public function transform(UserNotification $userNotification): array
     {
@@ -30,7 +31,7 @@ final readonly class NotificationFormatter
                 'readAt' => $userNotification->getReadAt()?->format('c'),
                 'createdAt' => $userNotification->getCreatedAt()->format('c'),
                 'deletedAt' => $userNotification->getDeletedAt()?->format('c'),
-            ]
+            ],
         ];
     }
 }

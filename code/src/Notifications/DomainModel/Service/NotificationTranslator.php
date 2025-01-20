@@ -15,6 +15,15 @@ final readonly class NotificationTranslator
     ) {
     }
 
+    /**
+     * @return array{
+     *     type: string,
+     *     title: string,
+     *     message: string,
+     *     link: string|null,
+     *     icon: string|null
+     * }
+     */
     public function translateNotification(Notification $notification): array
     {
         return [

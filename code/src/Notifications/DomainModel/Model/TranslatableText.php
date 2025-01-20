@@ -8,7 +8,8 @@ final readonly class TranslatableText
 {
     public function __construct(
         private string $messageId,
-        private array $parameters = []
+        /** @var array<string, string|int|float|bool|null> */
+        private array $parameters = [],
     ) {
     }
 
@@ -17,6 +18,9 @@ final readonly class TranslatableText
         return $this->messageId;
     }
 
+    /** 
+     * @return array<string, string|int|float|bool|null> 
+     */
     public function getParameters(): array
     {
         return $this->parameters;
