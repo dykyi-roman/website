@@ -6,20 +6,20 @@ namespace Notifications\DomainModel\Service;
 
 use Notifications\DomainModel\Enum\NotificationId;
 use Notifications\DomainModel\Enum\UserNotificationId;
+use Notifications\DomainModel\Exception\NotificationNotFoundException;
 use Notifications\DomainModel\Model\UserNotification;
-use Notifications\DomainModel\Repository\NotificationRepositoryInterface;
 use Notifications\DomainModel\Repository\UserNotificationRepositoryInterface;
 use Profile\User\DomainModel\Enum\UserId;
+use Psr\Log\LoggerInterface;
 use Shared\DomainModel\Dto\PaginationDto;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class NotificationService implements NotificationServiceInterface
 {
     public function __construct(
         private UserNotificationRepositoryInterface $userNotificationRepository,
         private RealTimeNotificationDispatcher $notificationDispatcher,
-        private NotificationRepositoryInterface $notificationRepository,
-        private TranslatorInterface $translator,
+        private NotificationFormatter $notificationFormatter,
+        private LoggerInterface $logger,
         private NotificationCache $cache,
     ) {
     }
@@ -37,7 +37,6 @@ final readonly class NotificationService implements NotificationServiceInterface
     public function markAsRead(UserId $userId, UserNotificationId $userNotificationId): void
     {
         $userNotification = $this->userNotificationRepository->findById($userNotificationId);
-
         if (!$userNotification->isRead()) {
             $userNotification->setIsRead();
             $this->userNotificationRepository->save($userNotification);
@@ -83,22 +82,15 @@ final readonly class NotificationService implements NotificationServiceInterface
         /** @var array<string, mixed>[] $data */
         $data = [];
         foreach ($userNotifications->items as $userNotification) {
-            $notification = $this->notificationRepository->findById($userNotification->getNotificationId());
-            if (null === $notification) {
+            try {
+                $transformed = $this->notificationFormatter->transform($userNotification);
+            } catch (NotificationNotFoundException $exception) {
+                $this->logger->error($exception->getMessage());
+
                 continue;
             }
 
-            $data[] = [
-                'type' => $notification->getType()->value,
-                'title' => $this->translator->trans($notification->getTitle()),
-                'message' => $this->translator->trans($notification->getMessage()),
-                'link' => $notification->getLink(),
-                'icon' => $notification->getIcon(),
-                'id' => $userNotification->getId()->toRfc4122(),
-                'readAt' => $userNotification->getReadAt()?->format('c'),
-                'createdAt' => $userNotification->getCreatedAt()->format('c'),
-                'deletedAt' => $userNotification->getDeletedAt()?->format('c'),
-            ];
+            $data[] = $transformed;
         }
 
         return new PaginationDto($data, $userNotifications->page, $userNotifications->limit);

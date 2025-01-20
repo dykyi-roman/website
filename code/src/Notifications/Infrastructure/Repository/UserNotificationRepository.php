@@ -7,7 +7,7 @@ namespace Notifications\Infrastructure\Repository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Notifications\DomainModel\Enum\UserNotificationId;
-use Notifications\DomainModel\Exception\NotificationNotFoundException;
+use Notifications\DomainModel\Exception\UserNotificationNotFoundException;
 use Notifications\DomainModel\Model\UserNotification;
 use Notifications\DomainModel\Repository\UserNotificationRepositoryInterface;
 use Profile\User\DomainModel\Enum\UserId;
@@ -88,13 +88,13 @@ final class UserNotificationRepository implements UserNotificationRepositoryInte
     }
 
     /**
-     * @throws NotificationNotFoundException
+     * @throws UserNotificationNotFoundException
      */
     public function findById(UserNotificationId $id): UserNotification
     {
         $result = $this->repository->find($id);
         if (null === $result) {
-            throw new NotificationNotFoundException($id);
+            throw new UserNotificationNotFoundException($id);
         }
 
         return $result;

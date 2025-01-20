@@ -7,16 +7,15 @@ namespace Notifications\DomainModel\Model;
 use Notifications\DomainModel\Enum\NotificationId;
 use Notifications\DomainModel\Enum\NotificationType;
 
-class Notification
+readonly class Notification
 {
     public function __construct(
         private NotificationId $id,
         private NotificationType $type,
-        private string $title,
-        private string $message,
+        private TranslatableText $title,
+        private TranslatableText $message,
         private ?string $link,
         private ?string $icon,
-        private ?\DateTimeImmutable $expireAt = null,
         private \DateTimeImmutable $createdAt = new \DateTimeImmutable(),
     ) {
     }
@@ -31,12 +30,12 @@ class Notification
         return $this->type;
     }
 
-    public function getTitle(): string
+    public function getTitle(): TranslatableText
     {
         return $this->title;
     }
 
-    public function getMessage(): string
+    public function getMessage(): TranslatableText
     {
         return $this->message;
     }
@@ -54,10 +53,5 @@ class Notification
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
-    }
-
-    public function getExpireAt(): ?\DateTimeImmutable
-    {
-        return $this->expireAt;
     }
 }

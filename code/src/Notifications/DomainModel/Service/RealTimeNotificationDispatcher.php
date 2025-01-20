@@ -8,8 +8,27 @@ use Notifications\DomainModel\Model\UserNotification;
 
 final class RealTimeNotificationDispatcher
 {
-    public function dispatch(UserNotification $notification): void
+    /** @var array<array-key, array<string, mixed>> */
+    private array $notifications = [];
+
+    public function __construct(
+        private readonly NotificationFormatter $notificationFormatter,
+    ) {
+    }
+
+    public function dispatch(UserNotification $userNotification): void
     {
-        // TODO:: implement
+        $this->notifications[] = $this->notificationFormatter->transform($userNotification);
+    }
+
+    /**
+     * @return array<array-key, array<string, mixed>>
+     */
+    public function getNotifications(): array
+    {
+        $notifications = $this->notifications;
+        $this->notifications = []; // Clear the queue after retrieving
+
+        return $notifications;
     }
 }

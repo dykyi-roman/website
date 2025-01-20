@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Notifications\DomainModel\Repository;
 
 use Notifications\DomainModel\Enum\UserNotificationId;
-use Notifications\DomainModel\Exception\NotificationNotFoundException;
+use Notifications\DomainModel\Exception\UserNotificationNotFoundException;
 use Notifications\DomainModel\Model\UserNotification;
 use Profile\User\DomainModel\Enum\UserId;
 use Shared\DomainModel\Dto\PaginationDto;
@@ -16,7 +16,7 @@ interface UserNotificationRepositoryInterface
     public function getUserNotifications(UserId $userId, int $page = 1, int $perPage = 20): PaginationDto;
 
     /**
-     * @throws NotificationNotFoundException
+     * @throws UserNotificationNotFoundException
      */
     public function findById(UserNotificationId $id): UserNotification;
 
