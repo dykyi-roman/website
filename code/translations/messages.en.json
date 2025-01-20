@@ -127,6 +127,7 @@
   "guest": "guest",
   "toggle_theme": "Day/Night",
   "notifications": {
+    "settings": "Settings",
     "today": "Today",
     "this_week": "This week",
     "earlier": "Earlier",
