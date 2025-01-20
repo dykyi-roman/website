@@ -11,6 +11,7 @@ use Notifications\DomainModel\Repository\NotificationRepositoryInterface;
 use Notifications\DomainModel\Repository\UserNotificationRepositoryInterface;
 use Profile\User\DomainModel\Enum\UserId;
 use Shared\DomainModel\Dto\PaginationDto;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class NotificationService implements NotificationServiceInterface
 {
@@ -18,6 +19,7 @@ final readonly class NotificationService implements NotificationServiceInterface
         private UserNotificationRepositoryInterface $userNotificationRepository,
         private RealTimeNotificationDispatcher $notificationDispatcher,
         private NotificationRepositoryInterface $notificationRepository,
+        private TranslatorInterface $translator,
         private NotificationCache $cache,
     ) {
     }
@@ -86,17 +88,17 @@ final readonly class NotificationService implements NotificationServiceInterface
                 continue;
             }
 
-            /** @var array<string, mixed> $notificationData */
-            $notificationData = array_merge(
-                $notification->jsonSerialize(),
-                [
-                    'id' => $userNotification->getId()->toRfc4122(),
-                    'readAt' => $userNotification->getReadAt()?->format('c'),
-                    'createdAt' => $userNotification->getCreatedAt()->format('c'),
-                    'deletedAt' => $userNotification->getDeletedAt()?->format('c'),
-                ]
-            );
-            $data[] = $notificationData;
+            $data[] =  [
+                'type' => $notification->getType()->value,
+                'title' => $this->translator->trans($notification->getTitle()),
+                'message' => $this->translator->trans($notification->getMessage()),
+                'link' => $notification->getLink(),
+                'icon' => $notification->getIcon(),
+                'id' => $userNotification->getId()->toRfc4122(),
+                'readAt' => $userNotification->getReadAt()?->format('c'),
+                'createdAt' => $userNotification->getCreatedAt()->format('c'),
+                'deletedAt' => $userNotification->getDeletedAt()?->format('c'),
+            ];
         }
 
         return new PaginationDto($data, $userNotifications->page, $userNotifications->limit);

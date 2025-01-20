@@ -7,7 +7,7 @@ namespace Notifications\DomainModel\Model;
 use Notifications\DomainModel\Enum\NotificationId;
 use Notifications\DomainModel\Enum\NotificationType;
 
-class Notification implements \JsonSerializable
+class Notification
 {
     public function __construct(
         private NotificationId $id,
@@ -59,17 +59,5 @@ class Notification implements \JsonSerializable
     public function getExpireAt(): ?\DateTimeImmutable
     {
         return $this->expireAt;
-    }
-
-    /** @return array<string, mixed> */
-    public function jsonSerialize(): array
-    {
-        return [
-            'type' => $this->type->value,
-            'title' => $this->title,
-            'message' => $this->message,
-            'link' => $this->link,
-            'icon' => $this->icon,
-        ];
     }
 }

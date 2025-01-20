@@ -133,7 +133,7 @@
     "read_all": "Read all",
     "clear_all": "Clear all",
     "page_title": "Notifications",
-    "show_more": "Show more",
+    "show_more": "See previous notifications",
     "no_notifications": "Not have yet",
     "notification": {
       "happy-birthday": {
@@ -152,7 +152,7 @@
   },
   "messages": {
     "page_title": "Messages",
-    "show_more": "Show more",
+    "show_more": "See previous messages",
     "no_messages": "Not have yet"
   },
   "password_change_error": "Failed to change password",
@@ -338,6 +338,36 @@
     }
   },
   "js": {
+    "notifications": {
+      "time": {
+        "just_now": "just now",
+        "minute": {
+          "one": "minute ago",
+          "few": "minutes ago",
+          "many": "minutes ago"
+        },
+        "hour": {
+          "one": "hour ago",
+          "few": "hours ago",
+          "many": "hours ago"
+        },
+        "day": {
+          "one": "day ago",
+          "few": "days ago",
+          "many": "days ago"
+        },
+        "month": {
+          "one": "month ago",
+          "few": "months ago",
+          "many": "months ago"
+        },
+        "year": {
+          "one": "year ago",
+          "few": "years ago",
+          "many": "years ago"
+        }
+      }
+    },
     "settings": {
       "error_create_password": "Error creating password",
       "password_created_success": "Password create successfully",

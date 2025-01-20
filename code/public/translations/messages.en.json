@@ -1,4 +1,34 @@
 {
+    "notifications": {
+        "time": {
+            "just_now": "just now",
+            "minute": {
+                "one": "minute ago",
+                "few": "minutes ago",
+                "many": "minutes ago"
+            },
+            "hour": {
+                "one": "hour ago",
+                "few": "hours ago",
+                "many": "hours ago"
+            },
+            "day": {
+                "one": "day ago",
+                "few": "days ago",
+                "many": "days ago"
+            },
+            "month": {
+                "one": "month ago",
+                "few": "months ago",
+                "many": "months ago"
+            },
+            "year": {
+                "one": "year ago",
+                "few": "years ago",
+                "many": "years ago"
+            }
+        }
+    },
     "settings": {
         "error_create_password": "Error creating password",
         "password_created_success": "Password create successfully",

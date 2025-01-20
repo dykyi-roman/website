@@ -5,17 +5,31 @@
     let isLoading = false;
     let hasMoreNotifications = true;
     let isInitialized = false;
+    let translations = {};
 
-    document.addEventListener('DOMContentLoaded', function() {
+    async function initializeTranslations() {
+        const lang = document.documentElement.lang || 'en';
+        translations = await window.loadTranslations(lang);
+    }
+
+    function getTranslation(path) {
+        return path.split('.').reduce((obj, key) => obj && obj[key], translations) || path;
+    }
+
+    document.addEventListener('DOMContentLoaded', async function() {
         if (isInitialized) {
             return;
         }
 
+        // Load translations first
+        await initializeTranslations();
+
         // Only load notifications if we're on the notifications page
         if (window.location.pathname === '/notifications') {
             loadNotifications();
+            initializeTimeUpdates();
         }
-        
+
         fetchNotificationCount();
         initializeNotificationHandlers();
         initializeLoadMoreButton();
@@ -52,7 +66,7 @@
 
             if (data.data && Array.isArray(data.data.items)) {
                 const notifications = data.data.items;
-                
+
                 if (notifications.length === 0 && page === 1) {
                     noNotificationsMessage.style.display = 'block';
                     loadMoreBtn.style.display = 'none';
@@ -66,12 +80,12 @@
                     const notificationElement = createNotificationElement(notification);
                     const groupId = getNotificationGroup(notification.createdAt);
                     const group = document.getElementById(groupId);
-                    
+
                     if (group) {
                         group.appendChild(notificationElement);
                         group.style.display = 'block';
                     }
-                    
+
                     // Add click handlers to the new notification element
                     initializeNotificationElement(notificationElement);
                 });
@@ -123,6 +137,8 @@
         div.className = `notification-item ${notification.readAt ? 'read' : 'unread'}`;
         div.dataset.notificationId = notification.id;
 
+        const timestamp = new Date(notification.createdAt).getTime();
+
         div.innerHTML = `
             <div class="notification-icon">
                 <i class="fas ${getNotificationIcon(notification.type)}"></i>
@@ -131,7 +147,7 @@
                 <h3>${notification.title}</h3>
                 <p>${notification.message}</p>
             </div>
-            <span class="notification-date" title="${formatDate(notification.createdAt, true)}">${formatDate(notification.createdAt)}</span>
+            <span class="notification-date" data-timestamp="${timestamp}" title="${new Date(notification.createdAt).toLocaleString()}">${getTimeAgo(new Date(notification.createdAt))}</span>
             <button class="notification-close" aria-label="Close notification">
                 <i class="fas fa-times"></i>
             </button>
@@ -173,37 +189,84 @@
         return icons[type] || 'fa-bell';
     }
 
-    function formatDate(dateString, includeTime = false) {
-        const date = new Date(dateString);
-        if (includeTime) {
-            return date.toLocaleString('en-GB', { 
-                day: '2-digit', 
-                month: 'short', 
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
+    function getPluralForm(number) {
+        if (number % 10 === 1 && number % 100 !== 11) {
+            return 'one';
+        } else if ([2, 3, 4].includes(number % 10) && ![12, 13, 14].includes(number % 100)) {
+            return 'few';
+        } else {
+            return 'many';
         }
-        return date.toLocaleDateString('en-GB', { 
-            day: '2-digit', 
-            month: 'short', 
-            year: 'numeric' 
+    }
+
+    function getTimeAgo(date) {
+        const now = new Date();
+        const diff = Math.floor((now - date) / 1000);
+
+        // Меньше минуты
+        if (diff < 60) {
+            return getTranslation('notifications.time.just_now');
+        }
+
+        // Меньше часа (в минутах)
+        if (diff < 3600) {
+            const minutes = Math.floor(diff / 60);
+            const form = getPluralForm(minutes);
+            return `${minutes} ${getTranslation(`notifications.time.minute.${form}`)}`;
+        }
+
+        // Меньше суток (в часах)
+        if (diff < 86400) {
+            const hours = Math.floor(diff / 3600);
+            const form = getPluralForm(hours);
+            return `${hours} ${getTranslation(`notifications.time.hour.${form}`)}`;
+        }
+
+        // Меньше 30 дней (в днях)
+        if (diff < 2592000) {
+            const days = Math.floor(diff / 86400);
+            const form = getPluralForm(days);
+            return `${days} ${getTranslation(`notifications.time.day.${form}`)}`;
+        }
+
+        // Меньше года (в месяцах)
+        if (diff < 31536000) {
+            const months = Math.floor(diff / 2592000);
+            const form = getPluralForm(months);
+            return `${months} ${getTranslation(`notifications.time.month.${form}`)}`;
+        }
+
+        // Больше года (в годах)
+        const years = Math.floor(diff / 31536000);
+        const form = getPluralForm(years);
+        return `${years} ${getTranslation(`notifications.time.year.${form}`)}`;
+    }
+
+    function updateAllNotificationTimes() {
+        document.querySelectorAll('.notification-item').forEach(item => {
+            const dateSpan = item.querySelector('.notification-date');
+            if (dateSpan) {
+                const timestamp = dateSpan.getAttribute('data-timestamp');
+                if (timestamp) {
+                    const date = new Date(parseInt(timestamp));
+                    dateSpan.textContent = getTimeAgo(date);
+                }
+            }
         });
     }
 
     function getNotificationGroup(createdAt) {
         const now = new Date();
         const notificationDate = new Date(createdAt);
-        
+
         // Reset hours to compare just the dates
         const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         const notifDay = new Date(notificationDate.getFullYear(), notificationDate.getMonth(), notificationDate.getDate());
-        
+
         // Calculate the difference in days
         const diffTime = today.getTime() - notifDay.getTime();
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        
+
         if (diffDays === 0) {
             return 'today-notifications';
         } else if (diffDays <= 7) {
@@ -272,11 +335,11 @@
                 // Add fade out animation
                 notificationElement.style.opacity = '0';
                 notificationElement.style.transform = 'translateX(20px)';
-                
+
                 setTimeout(() => {
                     notificationElement.remove();
                     decrementNotificationCount();
-                    
+
                     // Update visibility of all groups after removing notification
                     updateGroupsVisibility();
                 }, 300);
@@ -429,7 +492,7 @@
             // Проверяем, есть ли уведомления в группе (исключая заголовок)
             const notifications = group.querySelectorAll('.notification-item');
             const hasNotifications = notifications.length > 0;
-            
+
             // Анимируем скрытие/показ группы
             if (hasNotifications) {
                 group.style.display = 'block';
@@ -473,5 +536,23 @@
                 loadMoreBtn.style.opacity = '1';
             }
         }
+    }
+
+    // Инициализация обновления времени
+    let timeUpdateInterval;
+
+    function initializeTimeUpdates() {
+        // Обновляем время каждую минуту
+        timeUpdateInterval = setInterval(updateAllNotificationTimes, 60000);
+
+        // Останавливаем обновление, когда страница скрыта
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                clearInterval(timeUpdateInterval);
+            } else {
+                updateAllNotificationTimes();
+                timeUpdateInterval = setInterval(updateAllNotificationTimes, 60000);
+            }
+        });
     }
 })();
