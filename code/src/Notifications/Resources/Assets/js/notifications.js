@@ -110,7 +110,6 @@
     function updateGroupsVisibility() {
         let hasVisibleGroups = false;
         document.querySelectorAll('.notification-group').forEach(group => {
-            // Проверяем, есть ли уведомления в группе (исключая заголовок)
             const notifications = group.querySelectorAll('.notification-item');
             const hasNotifications = notifications.length > 0;
             group.style.display = hasNotifications ? 'block' : 'none';
@@ -119,13 +118,11 @@
             }
         });
 
-        // Показываем сообщение о пустом списке, если нет видимых групп
         const noNotificationsMessage = document.querySelector('.no-notifications-message');
         if (noNotificationsMessage) {
             noNotificationsMessage.style.display = hasVisibleGroups ? 'none' : 'block';
         }
 
-        // Скрываем кнопку "Загрузить еще", если нет видимых групп
         const loadMoreBtn = document.querySelector('.load-more-btn');
         if (loadMoreBtn && !hasVisibleGroups) {
             loadMoreBtn.style.display = 'none';
@@ -148,7 +145,7 @@
                 <p>${notification.message}</p>
             </div>
             <span class="notification-date" data-timestamp="${timestamp}" title="${new Date(notification.createdAt).toLocaleString()}">${getTimeAgo(new Date(notification.createdAt))}</span>
-            <button class="notification-close" aria-label="Close notification">
+            <button class="notification-close" aria-label="X">
                 <i class="fas fa-times"></i>
             </button>
         `;

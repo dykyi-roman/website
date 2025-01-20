@@ -15,6 +15,17 @@ const CONFIG = {
     }
 };
 
+let translations = {};
+
+async function initializeTranslations() {
+    const lang = document.documentElement.lang || 'en';
+    translations = await window.loadTranslations(lang);
+}
+
+function getTranslation(path) {
+    return path.split('.').reduce((obj, key) => obj && obj[key], translations) || path;
+}
+
 // Utility function to debounce function calls
 function debounce(func, wait) {
     let timeout;
@@ -84,16 +95,13 @@ class ValidationService {
 }
 
 class UIManager {
-    constructor(translations) {
-        this.t = translations;
-    }
 
     updateUserStatus(isActive) {
         const statusBadge = document.querySelector('.user-status .badge');
         if (statusBadge) {
             statusBadge.classList.remove('text-bg-success', 'text-bg-warning');
             statusBadge.classList.add(isActive ? 'text-bg-success' : 'text-bg-warning');
-            statusBadge.textContent = isActive ? this.t.account?.active || 'Active' : this.t.account?.inactive || 'Inactive';
+            statusBadge.textContent = isActive ? translations.settings?.active : translations.settings.inactive;
         }
     }
 
@@ -155,12 +163,12 @@ class ImageHandler {
 
     _validateImage(file) {
         if (!this.config.IMAGE.ALLOWED_TYPES.includes(file.type)) {
-            UIService.showError(this.uiManager.t.settings?.error_image_type || 'Please select a JPEG or PNG image.');
+            UIService.showError(translations.settings.error_image_type);
             return false;
         }
 
         if (file.size > this.config.IMAGE.MAX_SIZE_BYTES) {
-            UIService.showError(this.uiManager.t.settings?.error_image_size || 'Image size should not exceed 5MB.');
+            UIService.showError(translations.settings.error_image_size);
             return false;
         }
 
@@ -232,14 +240,14 @@ class VerificationHandler {
 
             const data = await response.json();
             if (!response.ok || !data.success) {
-                throw new Error(this.t.error_verifying || 'Error verifying');
+                throw new Error(translations.settings.error_verifying);
             }
 
             this._updateVerificationUI(type);
             this._closeVerificationModal(type);
 
         } catch (error) {
-            UIService.showError(this.t.error_verifying || 'Error verifying');
+            UIService.showError(translations.settings.error_verifying);
             console.error('Verification error:', error);
         } finally {
             this.verificationInProgress = false;
@@ -277,13 +285,10 @@ class AccountSettingsManager {
     }
 
     async init() {
-        const currentLang = CookieService.get('locale') || 'en';
-        this.t = await loadTranslations(currentLang);
-        
-        this.uiManager = new UIManager(this.t);
-        this.validationService = new ValidationService(this.t);
+        this.uiManager = new UIManager();
+        this.validationService = new ValidationService(translations);
         this.imageHandler = new ImageHandler(CONFIG, this.uiManager);
-        this.verificationHandler = new VerificationHandler(this.t, this.uiManager);
+        this.verificationHandler = new VerificationHandler(translations, this.uiManager);
         
         this.form = document.querySelector('.account-settings');
         this.saveButton = document.getElementById('save-account-settings');
@@ -293,6 +298,7 @@ class AccountSettingsManager {
         this._initializeVerification();
         
         this._updateSaveButtonState();
+        UIService.showError(translations.settings.error_image_type);
     }
 
     _setupFormElements() {
@@ -392,20 +398,20 @@ class AccountSettingsManager {
         
         try {
             if (!this._validateForm()) {
-                throw new Error(this.t.settings.form_validation_error);
+                throw new Error(translations.settings.form_validation_error);
             }
 
             const payload = this._getFormData();
             const response = await this._saveFormData(payload);
 
             if (!response.success) {
-                throw new Error(response.errors?.message || this.t.settings.update_failed);
+                throw new Error(response.errors?.message || translations.settings.update_failed);
             }
 
             this._updateAfterSuccessfulSave();
 
         } catch (error) {
-            UIService.showError(this.t.settings.unexpected_error);
+            UIService.showError(translations.settings.unexpected_error);
         }
     }
 
@@ -476,7 +482,7 @@ class AccountSettingsManager {
                     const verifyButton = document.createElement('button');
                     verifyButton.type = 'button';
                     verifyButton.className = `verify-button verify-${fieldType}-button`;
-                    verifyButton.textContent = this.t.settings?.verify || 'Verify';
+                    verifyButton.textContent = translations.settings.verify || 'Verify';
                     appendContainer.appendChild(verifyButton);
 
                     // Setup the new verify button
@@ -604,7 +610,7 @@ class AccountSettingsManager {
         const updateTimer = () => {
             if (timeLeft <= 0) {
                 clearInterval(timer);
-                container.innerHTML = `<a href="#" class="resend-verification">${this.t.settings.send_again_verification_code}</a>`;
+                container.innerHTML = `<a href="#" class="resend-verification">${translations.settings.send_again_verification_code}</a>`;
                 
                 const resendLink = container.querySelector('.resend-verification');
                 if (resendLink) {
@@ -624,7 +630,7 @@ class AccountSettingsManager {
                 return;
             }
 
-            container.textContent = this.t.settings.verification_retry_timer.replace('%seconds%', timeLeft);
+            container.textContent = translations.settings.verification_retry_timer.replace('%seconds%', timeLeft);
             timeLeft--;
         };
 

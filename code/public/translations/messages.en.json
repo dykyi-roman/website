@@ -30,6 +30,8 @@
         }
     },
     "settings": {
+        "error_image_size": "Image size should not exceed 5MB.",
+        "error_image_type": "Please select a JPEG or PNG image.",
         "error_create_password": "Error creating password",
         "password_created_success": "Password create successfully",
         "error_changing_password": "Error changing password",
