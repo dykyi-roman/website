@@ -40,7 +40,14 @@
         .then(response => response.json())
         .then(data => {
             if (page === 1) {
-                notificationsSection.querySelectorAll('.notification-item').forEach(item => item.remove());
+                // Clear all groups
+                document.querySelectorAll('.notification-group').forEach(group => {
+                    const title = group.querySelector('.notification-group-title');
+                    // Remove all notifications but keep the title
+                    while (group.lastChild !== title) {
+                        group.removeChild(group.lastChild);
+                    }
+                });
             }
 
             if (data.data && Array.isArray(data.data.items)) {
@@ -49,20 +56,33 @@
                 if (notifications.length === 0 && page === 1) {
                     noNotificationsMessage.style.display = 'block';
                     loadMoreBtn.style.display = 'none';
+                    document.querySelectorAll('.notification-group').forEach(group => {
+                        group.style.display = 'none';
+                    });
                     return;
                 }
 
                 notifications.forEach(notification => {
                     const notificationElement = createNotificationElement(notification);
-                    notificationsSection.insertBefore(notificationElement, noNotificationsMessage);
+                    const groupId = getNotificationGroup(notification.createdAt);
+                    const group = document.getElementById(groupId);
+                    
+                    if (group) {
+                        group.appendChild(notificationElement);
+                        group.style.display = 'block';
+                    }
+                    
                     // Add click handlers to the new notification element
                     initializeNotificationElement(notificationElement);
                 });
+
+                updateGroupsVisibility();
 
                 // Check if there are more pages
                 hasMoreNotifications = page < data.data.total_pages;
                 loadMoreBtn.style.display = hasMoreNotifications ? 'inline-block' : 'none';
                 currentPage = page;
+                noNotificationsMessage.style.display = 'none';
             }
         })
         .catch(error => {
@@ -71,6 +91,31 @@
         .finally(() => {
             isLoading = false;
         });
+    }
+
+    function updateGroupsVisibility() {
+        let hasVisibleGroups = false;
+        document.querySelectorAll('.notification-group').forEach(group => {
+            // Проверяем, есть ли уведомления в группе (исключая заголовок)
+            const notifications = group.querySelectorAll('.notification-item');
+            const hasNotifications = notifications.length > 0;
+            group.style.display = hasNotifications ? 'block' : 'none';
+            if (hasNotifications) {
+                hasVisibleGroups = true;
+            }
+        });
+
+        // Показываем сообщение о пустом списке, если нет видимых групп
+        const noNotificationsMessage = document.querySelector('.no-notifications-message');
+        if (noNotificationsMessage) {
+            noNotificationsMessage.style.display = hasVisibleGroups ? 'none' : 'block';
+        }
+
+        // Скрываем кнопку "Загрузить еще", если нет видимых групп
+        const loadMoreBtn = document.querySelector('.load-more-btn');
+        if (loadMoreBtn && !hasVisibleGroups) {
+            loadMoreBtn.style.display = 'none';
+        }
     }
 
     function createNotificationElement(notification) {
@@ -147,6 +192,27 @@
         });
     }
 
+    function getNotificationGroup(createdAt) {
+        const now = new Date();
+        const notificationDate = new Date(createdAt);
+        
+        // Reset hours to compare just the dates
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const notifDay = new Date(notificationDate.getFullYear(), notificationDate.getMonth(), notificationDate.getDate());
+        
+        // Calculate the difference in days
+        const diffTime = today.getTime() - notifDay.getTime();
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (diffDays === 0) {
+            return 'today-notifications';
+        } else if (diffDays <= 7) {
+            return 'week-notifications';
+        } else {
+            return 'earlier-notifications';
+        }
+    }
+
     function initializeLoadMoreButton() {
         const loadMoreBtn = document.querySelector('.load-more-btn');
         if (loadMoreBtn) {
@@ -192,6 +258,8 @@
     }
 
     function removeNotification(notificationId, notificationElement) {
+        if (!notificationId || !notificationElement) return;
+
         fetch(`/api/v1/notifications/${notificationId}`, {
             method: 'DELETE',
             headers: {
@@ -199,20 +267,19 @@
                 'Accept': 'application/json'
             }
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Add removing class to trigger animation
-                notificationElement.classList.add('removing');
+        .then(response => {
+            if (response.ok) {
+                // Add fade out animation
+                notificationElement.style.opacity = '0';
+                notificationElement.style.transform = 'translateX(20px)';
                 
-                // Wait for animation to complete before removing element
                 setTimeout(() => {
                     notificationElement.remove();
-                    if (!notificationElement.classList.contains('read')) {
-                        decrementNotificationCount();
-                    }
-                    showEmptyState();
-                }, 300); // Match the CSS transition duration
+                    decrementNotificationCount();
+                    
+                    // Update visibility of all groups after removing notification
+                    updateGroupsVisibility();
+                }, 300);
             }
         })
         .catch(error => {
@@ -332,19 +399,79 @@
                 'Accept': 'application/json'
             }
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const notificationsSection = document.querySelector('.notifications-section');
-                if (notificationsSection) {
-                    notificationsSection.querySelectorAll('.notification-item').forEach(item => {
-                        item.remove();
-                    });
-                    showEmptyState();
-                }
-                updateNotificationBadge(0);
+        .then(response => {
+            if (response.ok) {
+                // Анимация удаления для всех уведомлений
+                const notifications = document.querySelectorAll('.notification-item');
+                notifications.forEach(notification => {
+                    notification.style.opacity = '0';
+                    notification.style.transform = 'translateX(20px)';
+                });
+
+                // Удаляем все уведомления после анимации
+                setTimeout(() => {
+                    notifications.forEach(notification => notification.remove());
+                    // Обновляем счетчик уведомлений
+                    updateNotificationBadge(0);
+                    // Обновляем видимость групп
+                    updateGroupsVisibility();
+                }, 300);
             }
         })
-        .catch(error => console.error('Error clearing all notifications:', error));
+        .catch(error => {
+            console.error('Error clearing all notifications:', error);
+        });
+    }
+
+    function updateGroupsVisibility() {
+        let hasVisibleGroups = false;
+        document.querySelectorAll('.notification-group').forEach(group => {
+            // Проверяем, есть ли уведомления в группе (исключая заголовок)
+            const notifications = group.querySelectorAll('.notification-item');
+            const hasNotifications = notifications.length > 0;
+            
+            // Анимируем скрытие/показ группы
+            if (hasNotifications) {
+                group.style.display = 'block';
+                group.style.opacity = '1';
+                hasVisibleGroups = true;
+            } else {
+                group.style.opacity = '0';
+                setTimeout(() => {
+                    group.style.display = 'none';
+                }, 300);
+            }
+        });
+
+        // Показываем сообщение о пустом списке, если нет видимых групп
+        const noNotificationsMessage = document.querySelector('.no-notifications-message');
+        if (noNotificationsMessage) {
+            if (!hasVisibleGroups) {
+                noNotificationsMessage.style.display = 'block';
+                noNotificationsMessage.style.opacity = '0';
+                setTimeout(() => {
+                    noNotificationsMessage.style.opacity = '1';
+                }, 10);
+            } else {
+                noNotificationsMessage.style.opacity = '0';
+                setTimeout(() => {
+                    noNotificationsMessage.style.display = 'none';
+                }, 300);
+            }
+        }
+
+        // Скрываем кнопку "Загрузить еще", если нет видимых групп
+        const loadMoreBtn = document.querySelector('.load-more-btn');
+        if (loadMoreBtn) {
+            if (!hasVisibleGroups) {
+                loadMoreBtn.style.opacity = '0';
+                setTimeout(() => {
+                    loadMoreBtn.style.display = 'none';
+                }, 300);
+            } else {
+                loadMoreBtn.style.display = 'block';
+                loadMoreBtn.style.opacity = '1';
+            }
+        }
     }
 })();

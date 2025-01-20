@@ -255,3 +255,25 @@
     margin-right: 10px;
     color: var(--primary-color);
 }
+
+.notification-group {
+    margin-bottom: 30px;
+    display: none;
+}
+.notification-group-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--text-dark);
+}
+.notification-item {
+    padding-bottom: 35px;
+    position: relative;
+}
+.no-notifications-message {
+    display: none;
+}
+.load-more-btn {
+    display: none;
+    margin-top: 20px;
+}

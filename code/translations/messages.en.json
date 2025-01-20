@@ -127,6 +127,9 @@
   "guest": "guest",
   "toggle_theme": "Day/Night",
   "notifications": {
+    "today": "Today",
+    "this_week": "This week",
+    "earlier": "Earlier",
     "read_all": "Read all",
     "clear_all": "Clear all",
     "page_title": "Notifications",

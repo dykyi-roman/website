@@ -6,19 +6,6 @@
     {{ parent() }}
     <link href="{{ asset('css/notifications.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .notification-item {
-            padding-bottom: 35px;
-            position: relative;
-        }
-        .no-notifications-message {
-            display: none;
-        }
-        .load-more-btn {
-            display: none;
-            margin-top: 20px;
-        }
-    </style>
 {% endblock %}
 
 {% block body %}
@@ -45,6 +32,18 @@
         <div class="container">
             <div class="page-content">
                 <div class="notifications-section" data-empty-message="{{ 'notifications.no_notifications'|trans }}">
+                    <!-- Today's notifications -->
+                    <div class="notification-group" id="today-notifications">
+                        <h2 class="notification-group-title">{{ 'notifications.today'|trans }}</h2>
+                    </div>
+                    <!-- This week's notifications -->
+                    <div class="notification-group" id="week-notifications">
+                        <h2 class="notification-group-title">{{ 'notifications.this_week'|trans }}</h2>
+                    </div>
+                    <!-- Earlier notifications -->
+                    <div class="notification-group" id="earlier-notifications">
+                        <h2 class="notification-group-title">{{ 'notifications.earlier'|trans }}</h2>
+                    </div>
                     <!-- Empty state message -->
                     <div class="no-notifications-message text-center text-muted mt-4">
                         <i class="fas fa-bell fa-2x mb-3"></i>
