@@ -65,6 +65,13 @@ final class WebSocketServer
     private function setupEventHandlers(): void
     {
         $this->worker->onConnect = function (TcpConnection $connection): void {
+            $connection->protocol = 'websocket';
+            $connection->headers = [
+                'Access-Control-Allow-Origin' => '*',
+                'Access-Control-Allow-Methods' => 'GET, POST, OPTIONS',
+                'Access-Control-Allow-Headers' => 'Origin, Content-Type, Accept, Authorization'
+            ];
+
             self::$connections[$connection->id] = $connection;
             $this->logger->info("New connection established", [
                 'connection_id' => $connection->id,

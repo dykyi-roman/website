@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Dynamically determine WebSocket connection parameters
     const socketConfig = {
-        protocol: 'ws',
-        host: '127.0.0.1',
+        protocol: window.location.protocol === 'https:' ? 'wss' : 'ws',
+        host: window.location.hostname || '127.0.0.1',
         port: 1001,
         path: ''
     };
@@ -28,7 +28,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function createWebSocket() {
         try {
-            console.log('Attempting to connect to:', host);
+            console.log('Creating WebSocket connection to:', host, {
+                readyState: socket?.readyState,
+                protocol: socketConfig.protocol,
+                host: socketConfig.host,
+                port: socketConfig.port
+            });
+
             socket = new WebSocket(host);
 
             socket.onopen = function(event) {
@@ -50,10 +56,16 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             socket.onerror = function(error) {
-                console.error('WebSocket connection error:', {
-                    host: host,
-                    error: error,
-                    readyState: socket.readyState
+                console.error('WebSocket error:', {
+                    error,
+                    readyState: socket.readyState,
+                    host,
+                    timestamp: new Date().toISOString(),
+                    browserInfo: {
+                        userAgent: navigator.userAgent,
+                        platform: navigator.platform,
+                        vendor: navigator.vendor
+                    }
                 });
             };
 
@@ -103,8 +115,9 @@ document.addEventListener('DOMContentLoaded', () => {
             };
         } catch (error) {
             console.error('Error creating WebSocket:', {
-                host: host,
-                error: error
+                error,
+                host,
+                stack: error.stack
             });
         }
     }
