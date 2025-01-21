@@ -43,169 +43,110 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 reconnectAttempts = 0;
 
-                // Send initial connection message with protocol version
-                socket.send(JSON.stringify({
-                    type: 'connect',
-                    message: 'Client connected',
-                    version: '13',  // WebSocket protocol version
-                    timestamp: new Date().toISOString()
-                }));
-
-                // Check connection status after a short delay
-                setTimeout(() => {
-                    socket.send(JSON.stringify({
-                        type: 'status',
-                        timestamp: new Date().toISOString()
-                    }));
-                }, 1000);
-
-                // Set up periodic ping
-                setInterval(() => {
-                    if (socket.readyState === WebSocket.OPEN) {
-                        socket.send(JSON.stringify({
-                            type: 'ping',
-                            timestamp: new Date().toISOString()
-                        }));
-                    }
-                }, 30000);
-
-                // Optional: Authenticate if user is logged in
+                // Get user ID and authenticate
                 const userId = getUserId();
                 if (userId) {
                     authenticateUser(userId);
+                } else {
+                    console.error('No user ID found in meta tag');
                 }
-            };
-
-            socket.onerror = function(error) {
-                console.error('WebSocket connection error', {
-                    error,
-                    url,
-                    readyState: socket.readyState,
-                    timestamp: new Date().toISOString(),
-                    browserInfo: {
-                        userAgent: navigator.userAgent,
-                        platform: navigator.platform
-                    }
-                });
             };
 
             socket.onclose = function(event) {
                 console.log('WebSocket connection closed', {
-                    wasClean: event.wasClean,
                     code: event.code,
-                    reason: event.reason || 'No reason',
-                    url,
+                    reason: event.reason,
+                    wasClean: event.wasClean,
                     timestamp: new Date().toISOString()
                 });
-                
+
+                // Attempt to reconnect if not max attempts
                 if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
                     reconnectAttempts++;
                     console.log(`Attempting to reconnect (${reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS})...`);
-                    
-                    setTimeout(createWebSocket, RECONNECT_TIMEOUT * reconnectAttempts);
-                } else {
-                    console.error('Max reconnection attempts reached. Please refresh the page or check the server.');
+                    setTimeout(createWebSocket, RECONNECT_TIMEOUT);
                 }
+            };
+
+            socket.onerror = function(error) {
+                console.error('WebSocket error:', error);
             };
 
             socket.onmessage = function(event) {
                 try {
-                    const message = JSON.parse(event.data);
-                    console.log('Received message:', message);
+                    const data = JSON.parse(event.data);
+                    console.log('Received message:', data);
 
-                    switch (message.type) {
-                        case 'connection_ack':
-                            console.log('Connection acknowledged by server', message);
-                            break;
-
-                        case 'status':
-                            console.log('Connection status:', message.status);
-                            break;
-
-                        case 'pong':
-                            console.log('Server responded to ping', message);
-                            break;
-
-                        case 'notification':
-                            displayNotification(message.data);
-                            break;
-
-                        case 'personal_notification':
-                            displayPersonalNotification(message.data);
-                            break;
-
-                        case 'message':
-                            displayMessage(message.content);
+                    switch (data.type) {
+                        case 'auth_success':
+                            console.log('Successfully authenticated:', data);
                             break;
 
                         case 'error':
-                            console.error('Server error:', message);
+                            console.error('Server error:', data.message);
+                            break;
+
+                        case 'notification':
+                            displayNotification(data);
                             break;
 
                         default:
-                            console.log('Unhandled message type:', message);
+                            console.log('Unhandled message type:', data.type);
                     }
                 } catch (error) {
-                    console.error('Error processing message:', error, event.data);
+                    console.error('Error processing message:', error);
                 }
             };
+
         } catch (error) {
-            console.error('Error creating WebSocket', {
-                error,
-                url,
-                stack: error.stack,
-                timestamp: new Date().toISOString()
-            });
+            console.error('Error creating WebSocket:', error);
         }
     }
 
     function authenticateUser(userId) {
         if (socket && socket.readyState === WebSocket.OPEN) {
-            socket.send(JSON.stringify({
+            const authMessage = {
                 type: 'authenticate',
                 userId: userId,
                 timestamp: new Date().toISOString()
-            }));
-            console.log('Sent authentication request for user:', userId);
+            };
+            
+            console.log('Sending authentication request:', authMessage);
+            socket.send(JSON.stringify(authMessage));
+        } else {
+            console.error('Cannot authenticate: WebSocket is not open');
         }
     }
 
     function getUserId() {
-        // Implement logic to retrieve current user ID
-        return document.querySelector('meta[name="user-id"]')?.getAttribute('content');
+        const userIdMeta = document.querySelector('meta[name="user-id"]');
+        if (!userIdMeta) {
+            console.error('User ID meta tag not found');
+            return null;
+        }
+        
+        const userId = userIdMeta.getAttribute('content');
+        if (!userId) {
+            console.error('User ID meta tag is empty');
+            return null;
+        }
+        
+        return userId;
     }
 
     function displayNotification(notification) {
         const notificationContainer = document.getElementById('notifications');
         if (notificationContainer) {
             const notificationElement = document.createElement('div');
-            notificationElement.classList.add('notification', 'global-notification');
-            notificationElement.textContent = JSON.stringify(notification);
+            notificationElement.className = 'notification';
+            notificationElement.textContent = notification.message;
             notificationContainer.appendChild(notificationElement);
-        }
-        console.log('Global Notification:', notification);
-    }
 
-    function displayPersonalNotification(notification) {
-        const notificationContainer = document.getElementById('personal-notifications');
-        if (notificationContainer) {
-            const notificationElement = document.createElement('div');
-            notificationElement.classList.add('notification', 'personal-notification');
-            notificationElement.textContent = JSON.stringify(notification);
-            notificationContainer.appendChild(notificationElement);
+            // Auto-remove notification after 5 seconds
+            setTimeout(() => {
+                notificationElement.remove();
+            }, 5000);
         }
-        console.log('Personal Notification:', notification);
-    }
-
-    function displayMessage(message) {
-        const messagesContainer = document.getElementById('messages');
-        if (messagesContainer) {
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('message');
-            messageElement.textContent = message;
-            messagesContainer.appendChild(messageElement);
-        }
-        console.log('Message:', message);
     }
 
     // Initial WebSocket connection

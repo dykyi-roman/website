@@ -17,7 +17,7 @@ final readonly class NotificationService implements NotificationServiceInterface
 {
     public function __construct(
         private UserNotificationRepositoryInterface $userNotificationRepository,
-        private RealTimeNotificationDispatcher $notificationDispatcher,
+        private UnixSocketNotificationDispatcher $notificationDispatcher,
         private NotificationFormatter $notificationFormatter,
         private LoggerInterface $logger,
         private NotificationCache $cache,
