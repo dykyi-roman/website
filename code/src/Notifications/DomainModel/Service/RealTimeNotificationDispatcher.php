@@ -18,17 +18,6 @@ final class RealTimeNotificationDispatcher
 
     public function dispatch(UserNotification $userNotification): void
     {
-        $this->notifications[] = $this->notificationFormatter->transform($userNotification);
-    }
 
-    /**
-     * @return array<array-key, array<string, mixed>>
-     */
-    public function getNotifications(): array
-    {
-        $notifications = $this->notifications;
-        $this->notifications = []; // Clear the queue after retrieving
-
-        return $notifications;
     }
 }
