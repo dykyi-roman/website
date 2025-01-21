@@ -29,21 +29,19 @@ final class WebSocketServer
         readonly string $websocketHost,
         readonly int $websocketPort,
     ) {
-        // Try alternative ports if the primary port is in use
-        $actualPort = $this->findAvailablePort($websocketHost, $websocketPort);
-        
+
         // Explicitly set host and port
-        $this->worker = new Worker(sprintf('websocket://%s:%d', $websocketHost, $actualPort));
+        $this->worker = new Worker(sprintf('websocket://%s:%d', $websocketHost, $websocketPort));
         $this->worker->count = 4;
         
         // Set process name to help with identification and management
         $this->worker->name = 'WebSocketServer';
         
         // Add error handling for worker
-        $this->worker->onWorkerStart = function () use ($actualPort) {
+        $this->worker->onWorkerStart = function () use ($websocketHost, $websocketPort) {
             $this->logger->info('WebSocket worker started successfully', [
-//                'host' => $bindAddress,
-                'port' => $actualPort
+                'host' => $websocketHost,
+                'port' => $websocketPort
             ]);
         };
 
@@ -290,41 +288,6 @@ final class WebSocketServer
         // Здесь должна быть ваша логика валидации токена
         // Возвращает ID пользователя или null
         return null;
-    }
-
-    /**
-     * Find an available port, starting from the specified port
-     */
-    private function findAvailablePort(string $host, int $startPort, int $maxAttempts = 10): int
-    {
-        $currentPort = $startPort;
-        
-        for ($attempt = 0; $attempt < $maxAttempts; $attempt++) {
-            try {
-                $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-                $bindResult = @socket_bind($socket, $host, $currentPort);
-                socket_close($socket);
-                
-                if ($bindResult) {
-                    $this->logger->info('Found available port', [
-                        'host' => $host,
-                        'port' => $currentPort,
-                        'attempt' => $attempt + 1
-                    ]);
-                    return $currentPort;
-                }
-            } catch (\Throwable $e) {
-                $this->logger->warning('Port binding attempt failed', [
-                    'host' => $host,
-                    'port' => $currentPort,
-                    'error' => $e->getMessage()
-                ]);
-            }
-            
-            $currentPort++;
-        }
-        
-        throw new \RuntimeException("Could not find an available port after $maxAttempts attempts");
     }
 
     /**
