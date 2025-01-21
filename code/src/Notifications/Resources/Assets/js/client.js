@@ -2,14 +2,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Dynamically determine WebSocket connection parameters
     const socketConfig = {
         protocol: window.location.protocol === 'https:' ? 'wss' : 'ws',
-        host: '127.0.0.1:1004',
-        port: 1004,
+        host: window.location.host,
         path: '/ws'
     };
 
     // Construct WebSocket URL dynamically
     function constructWebSocketUrl() {
-        return `${socketConfig.protocol}://${socketConfig.host}${socketConfig.path}`;
+        const url = `${socketConfig.protocol}://${socketConfig.host}${socketConfig.path}`;
+        console.log('Constructed WebSocket URL:', {
+            url,
+            protocol: socketConfig.protocol,
+            host: socketConfig.host,
+            path: socketConfig.path,
+            fullLocation: window.location
+        });
+        return url;
     }
 
     let socket = null;
@@ -18,30 +25,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const RECONNECT_TIMEOUT = 3000; // 3 seconds
 
     function createWebSocket() {
-        const host = constructWebSocketUrl();
+        const url = constructWebSocketUrl();
         
         try {
             console.log('Attempting WebSocket connection:', {
-                url: host,
+                url,
                 timestamp: new Date().toISOString()
             });
 
-            socket = new WebSocket(host);
+            socket = new WebSocket(url);
 
             socket.onopen = function(event) {
                 console.log('WebSocket connection established', {
-                    host,
+                    url,
                     timestamp: new Date().toISOString()
                 });
                 
                 reconnectAttempts = 0;
 
-                // Send initial connection message
+                // Send initial connection message with protocol version
                 socket.send(JSON.stringify({
                     type: 'connect',
                     message: 'Client connected',
+                    version: '13',  // WebSocket protocol version
                     timestamp: new Date().toISOString()
                 }));
+
+                // Check connection status after a short delay
+                setTimeout(() => {
+                    socket.send(JSON.stringify({
+                        type: 'status',
+                        timestamp: new Date().toISOString()
+                    }));
+                }, 1000);
+
+                // Set up periodic ping
+                setInterval(() => {
+                    if (socket.readyState === WebSocket.OPEN) {
+                        socket.send(JSON.stringify({
+                            type: 'ping',
+                            timestamp: new Date().toISOString()
+                        }));
+                    }
+                }, 30000);
 
                 // Optional: Authenticate if user is logged in
                 const userId = getUserId();
@@ -53,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
             socket.onerror = function(error) {
                 console.error('WebSocket connection error', {
                     error,
-                    host,
+                    url,
                     readyState: socket.readyState,
                     timestamp: new Date().toISOString(),
                     browserInfo: {
@@ -68,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     wasClean: event.wasClean,
                     code: event.code,
                     reason: event.reason || 'No reason',
-                    host,
+                    url,
                     timestamp: new Date().toISOString()
                 });
                 
@@ -84,34 +110,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
             socket.onmessage = function(event) {
                 try {
-                    const data = JSON.parse(event.data);
-                    console.log('Received WebSocket message:', data);
+                    const message = JSON.parse(event.data);
+                    console.log('Received message:', message);
 
-                    // Handle different message types
-                    switch(data.type) {
+                    switch (message.type) {
                         case 'connection_ack':
-                            console.log('Connection acknowledged by server');
+                            console.log('Connection acknowledged by server', message);
                             break;
+
+                        case 'status':
+                            console.log('Connection status:', message.status);
+                            break;
+
+                        case 'pong':
+                            console.log('Server responded to ping', message);
+                            break;
+
                         case 'notification':
-                            displayNotification(data.data);
+                            displayNotification(message.data);
                             break;
+
                         case 'personal_notification':
-                            displayPersonalNotification(data.data);
+                            displayPersonalNotification(message.data);
                             break;
+
                         case 'message':
-                            displayMessage(data.content);
+                            displayMessage(message.content);
                             break;
+
+                        case 'error':
+                            console.error('Server error:', message);
+                            break;
+
                         default:
-                            console.warn('Unknown message type:', data.type);
+                            console.log('Unhandled message type:', message);
                     }
                 } catch (error) {
-                    console.error('Error parsing WebSocket message:', error);
+                    console.error('Error processing message:', error, event.data);
                 }
             };
         } catch (error) {
             console.error('Error creating WebSocket', {
                 error,
-                host,
+                url,
                 stack: error.stack,
                 timestamp: new Date().toISOString()
             });

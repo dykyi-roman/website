@@ -61,6 +61,7 @@ services:
             - ../code:/var/www/html/code
             - ../tools:/var/www/html/tools
             - ./containers/php/php.ini:/usr/local/etc/php/php.ini
+            - ./containers/nginx/ssl:/etc/nginx/ssl:ro
         networks:
             - es-network
         healthcheck:

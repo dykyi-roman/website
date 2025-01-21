@@ -12,7 +12,7 @@ final class WebSocketServer
 {
     /**
      * Хранение всех активных соединений
-     * @var array<\Workerman\Connection\TcpConnection>
+     * @var array<int, \Workerman\Connection\TcpConnection>
      */
     public static array $connections = [];
 
@@ -29,15 +29,14 @@ final class WebSocketServer
         readonly string $websocketHost,
         readonly int $websocketPort,
     ) {
-
-        // Explicitly set host and port
+        // Create WebSocket worker with explicit protocol
         $this->worker = new Worker(sprintf('websocket://%s:%d', $websocketHost, $websocketPort));
         $this->worker->count = 4;
         
         // Set process name to help with identification and management
         $this->worker->name = 'WebSocketServer';
-        
-        // Add error handling for worker
+
+        // Set up protocol handlers
         $this->worker->onWorkerStart = function () use ($websocketHost, $websocketPort) {
             $this->logger->info('WebSocket worker started successfully', [
                 'host' => $websocketHost,
@@ -45,17 +44,20 @@ final class WebSocketServer
             ]);
         };
 
-        $this->worker->onWorkerStop = function () {
-            $this->logger->info('WebSocket worker stopped');
-        };
-
-        $this->worker->onError = function ($connection, $code, $msg) {
-            $this->logger->error('WebSocket server error', [
-                'code' => $code,
-                'message' => $msg
+        $this->worker->onConnect = function ($connection) {
+            // Set protocol handler
+            $connection->protocol = 'Workerman\\Protocols\\Websocket';
+            
+            // Store the connection
+            self::$connections[$connection->id] = $connection;
+            
+            $this->logger->info("New connection established", [
+                'connection_id' => $connection->id,
+                'ip' => $connection->getRemoteIp(),
+                'total_connections' => count(self::$connections)
             ]);
         };
-        
+
         $this->setupEventHandlers();
     }
 
@@ -64,92 +66,154 @@ final class WebSocketServer
      */
     private function setupEventHandlers(): void
     {
-        $this->worker->onConnect = function (TcpConnection $connection): void {
-            $connection->protocol = 'websocket';
-            $connection->headers = [
-                'Access-Control-Allow-Origin' => '*',
-                'Access-Control-Allow-Methods' => 'GET, POST, OPTIONS',
-                'Access-Control-Allow-Headers' => 'Origin, Content-Type, Accept, Authorization'
-            ];
+        $this->worker->onMessage = function (TcpConnection $connection, $data) {
+            try {
+                $this->logger->info("Raw message received", [
+                    'data' => $data,
+                    'connection_id' => $connection->id,
+                    'active_connections' => count(self::$connections)
+                ]);
 
-            self::$connections[$connection->id] = $connection;
-            $this->logger->info("New connection established", [
-                'connection_id' => $connection->id,
-                'ip' => $connection->getRemoteIp(),
-                'total_connections' => count(self::$connections)
-            ]);
+                $message = json_decode($data, true);
+                
+                $this->logger->info("Decoded message", [
+                    'connection_id' => $connection->id,
+                    'message_type' => $message['type'] ?? 'unknown',
+                    'message_content' => $message
+                ]);
 
-            // Set message handling for this connection
-            $connection->onMessage = function (TcpConnection $connection, $data) {
-                try {
-                    $message = json_decode($data, true);
+                // Handle different message types
+                switch ($message['type'] ?? null) {
+                    case 'connect':
+                        // Send acknowledgment
+                        $response = [
+                            'type' => 'connection_ack',
+                            'message' => 'Connection established successfully',
+                            'timestamp' => date('c'),
+                            'debug' => [
+                                'connection_id' => $connection->id,
+                                'active_connections' => count(self::$connections),
+                                'authorized_users' => count(self::$authorizedConnections)
+                            ]
+                        ];
+                        $connection->send(json_encode($response));
+                        $this->logger->info("Sent connection acknowledgment", [
+                            'response' => $response,
+                            'active_connections' => count(self::$connections)
+                        ]);
+                        break;
+
+                    case 'status':
+                        // Return connection status
+                        $response = [
+                            'type' => 'status',
+                            'timestamp' => date('c'),
+                            'status' => [
+                                'active_connections' => count(self::$connections),
+                                'authorized_users' => count(self::$authorizedConnections),
+                                'connection_id' => $connection->id,
+                                'is_authorized' => in_array($connection, self::$authorizedConnections, true)
+                            ]
+                        ];
+                        $connection->send(json_encode($response));
+                        break;
                     
-                    $this->logger->info("Received message", [
-                        'connection_id' => $connection->id,
-                        'message_type' => $message['type'] ?? 'unknown',
-                        'message_content' => $data
-                    ]);
-
-                    // Handle different message types
-                    switch ($message['type'] ?? null) {
-                        case 'connect':
-                            // Optional: Additional logic for connection message
-                            $connection->send(json_encode([
-                                'type' => 'connection_ack',
-                                'message' => 'Connection established successfully'
-                            ]));
-                            break;
-                        
-                        case 'authenticate':
-                            // Example authentication logic
-                            if (isset($message['userId'])) {
-                                $this->authorizeConnection($connection, $message['userId']);
-                            }
-                            break;
-                        
-                        default:
-                            $this->logger->warning("Unhandled message type", [
-                                'type' => $message['type'] ?? 'null',
-                                'connection_id' => $connection->id
+                    case 'authenticate':
+                        if (isset($message['userId'])) {
+                            $this->authorizeConnection($connection, $message['userId']);
+                            $response = [
+                                'type' => 'auth_success',
+                                'userId' => $message['userId'],
+                                'timestamp' => date('c'),
+                                'debug' => [
+                                    'connection_id' => $connection->id,
+                                    'active_connections' => count(self::$connections),
+                                    'authorized_users' => count(self::$authorizedConnections)
+                                ]
+                            ];
+                            $connection->send(json_encode($response));
+                            $this->logger->info("User authenticated", [
+                                'userId' => $message['userId'],
+                                'active_connections' => count(self::$connections),
+                                'authorized_users' => count(self::$authorizedConnections)
                             ]);
-                    }
+                        }
+                        break;
+                    
+                    case 'ping':
+                        $connection->send(json_encode([
+                            'type' => 'pong',
+                            'timestamp' => date('c'),
+                            'debug' => [
+                                'connection_id' => $connection->id,
+                                'active_connections' => count(self::$connections)
+                            ]
+                        ]));
+                        break;
+
+                    default:
+                        $this->logger->warning("Unhandled message type", [
+                            'type' => $message['type'] ?? 'null',
+                            'connection_id' => $connection->id,
+                            'message' => $message,
+                            'active_connections' => count(self::$connections)
+                        ]);
+                }
+            } catch (\Throwable $e) {
+                $this->logger->error("Error processing message", [
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString(),
+                    'raw_data' => $data,
+                    'active_connections' => count(self::$connections)
+                ]);
+
+                // Send error response to client
+                try {
+                    $connection->send(json_encode([
+                        'type' => 'error',
+                        'message' => 'Failed to process message',
+                        'timestamp' => date('c')
+                    ]));
                 } catch (\Throwable $e) {
-                    $this->logger->error("Error processing message", [
-                        'error' => $e->getMessage(),
-                        'trace' => $e->getTraceAsString(),
-                        'raw_data' => $data
+                    $this->logger->error("Failed to send error response", [
+                        'error' => $e->getMessage()
                     ]);
                 }
-            };
+            }
         };
 
-        $this->worker->onClose = function (TcpConnection $connection): void {
-            // Remove from connections
-            if (isset(self::$connections[$connection->id])) {
-                unset(self::$connections[$connection->id]);
-            }
-
-            // Find and remove from authorized connections if applicable
-            foreach (self::$authorizedConnections as $userId => $authorizedConnection) {
-                if ($authorizedConnection === $connection) {
+        $this->worker->onClose = function (TcpConnection $connection) {
+            // Remove from active connections
+            unset(self::$connections[$connection->id]);
+            
+            // Remove from authorized users if present
+            foreach (self::$authorizedConnections as $userId => $conn) {
+                if ($conn === $connection) {
                     unset(self::$authorizedConnections[$userId]);
                     break;
                 }
             }
-
+            
             $this->logger->info("Connection closed", [
                 'connection_id' => $connection->id,
-                'total_connections' => count(self::$connections)
+                'remaining_connections' => count(self::$connections),
+                'authorized_users' => count(self::$authorizedConnections)
             ]);
         };
+    }
 
-        $this->worker->onError = function (TcpConnection $connection, \Throwable $e): void {
-            $this->logger->error("Connection error:", [
-                'connection_id' => $connection->id,
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-        };
+    /**
+     * Авторизация соединения для конкретного пользователя
+     */
+    private function authorizeConnection(TcpConnection $connection, string $userId): void
+    {
+        self::$authorizedConnections[$userId] = $connection;
+        
+        $this->logger->info("Connection authorized", [
+            'connection_id' => $connection->id,
+            'user_id' => $userId,
+            'total_authorized' => count(self::$authorizedConnections)
+        ]);
     }
 
     /**
@@ -205,26 +269,6 @@ final class WebSocketServer
         } else {
             $this->sendError($connection, 'auth_failed', 'Неверный токен');
         }
-    }
-
-    /**
-     * Authorize a connection for a specific user
-     */
-    public function authorizeConnection(TcpConnection $connection, string $userId): void
-    {
-        // Remove any previous connection for this user
-        if (isset(self::$authorizedConnections[$userId])) {
-            $this->logger->info("Replacing existing connection for user", ['userId' => $userId]);
-            unset(self::$authorizedConnections[$userId]);
-        }
-
-        // Store the authorized connection
-        self::$authorizedConnections[$userId] = $connection;
-        
-        $this->logger->info("User connection authorized", [
-            'userId' => $userId,
-            'connectionId' => $connection->id
-        ]);
     }
 
     /**
