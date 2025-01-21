@@ -12,12 +12,14 @@ final class RealTimeNotificationDispatcher
     private array $notifications = [];
 
     public function __construct(
+        private readonly WebSocketServer $webSocketServer,
         private readonly NotificationFormatter $notificationFormatter,
     ) {
     }
 
     public function dispatch(UserNotification $userNotification): void
     {
-
+        $message = $this->notificationFormatter->transform($userNotification);
+        // send $message usage webSocketServer
     }
 }
