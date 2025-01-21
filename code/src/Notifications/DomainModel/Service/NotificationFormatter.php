@@ -17,8 +17,9 @@ final readonly class NotificationFormatter
     }
 
     /**
-     * @throws NotificationNotFoundException
      * @return array<string, string|int|float|bool|\DateTimeInterface|null>
+     *
+     * @throws NotificationNotFoundException
      */
     public function transform(UserNotification $userNotification): array
     {

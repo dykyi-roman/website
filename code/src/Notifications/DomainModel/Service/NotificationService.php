@@ -17,7 +17,7 @@ final readonly class NotificationService implements NotificationServiceInterface
 {
     public function __construct(
         private UserNotificationRepositoryInterface $userNotificationRepository,
-        private UnixSocketNotificationDispatcher $notificationDispatcher,
+        private NotificationDispatcherInterface $notificationDispatcher,
         private NotificationFormatter $notificationFormatter,
         private LoggerInterface $logger,
         private NotificationCache $cache,
@@ -31,7 +31,14 @@ final readonly class NotificationService implements NotificationServiceInterface
 
         $this->cache->incrementUnreadCount($userId);
 
-        $this->notificationDispatcher->dispatch($userNotification);
+        try {
+            $this->notificationDispatcher->dispatch(
+                $userNotification->getUserId(),
+                $this->notificationFormatter->transform($userNotification),
+            );
+        } catch (\Throwable $exception) {
+            $this->logger->error($exception->getMessage());
+        }
     }
 
     public function markAsRead(UserId $userId, UserNotificationId $userNotificationId): void

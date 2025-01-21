@@ -18,8 +18,8 @@ final readonly class TranslatableText
         return $this->messageId;
     }
 
-    /** 
-     * @return array<string, string|int|float|bool|null> 
+    /**
+     * @return array<string, string|int|float|bool|null>
      */
     public function getParameters(): array
     {

@@ -12,6 +12,7 @@ services:
         bind:
             $websocketHost: '%env(WEB_SOCKET_HOST)%'
             $websocketPort: '%env(WEB_SOCKET_PORT)%'
+            $websocketInternalPort: '%env(WEB_SOCKET_INTERNAL_PORT)%'
 
     Notifications\:
         resource: '../../'

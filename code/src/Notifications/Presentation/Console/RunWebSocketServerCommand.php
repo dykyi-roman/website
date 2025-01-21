@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Notifications\Presentation\Console;
 
-use Notifications\DomainModel\Service\WebSocketServer;
+use Notifications\Application\CreateNotification\Service\WebSocketServer;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
@@ -46,22 +46,24 @@ final class RunWebSocketServerCommand extends Command
 
                     $this->logger->info('Starting WebSocket server', [
                         'host' => $this->websocketHost,
-                        'port' => $this->websocketPort
+                        'port' => $this->websocketPort,
                     ]);
                     $this->webSocketServer->run();
                     break;
                 default:
                     $output->writeln("Invalid action. Currently only 'start' is supported.");
+
                     return Command::FAILURE;
             }
 
             return Command::SUCCESS;
-        } catch (\Throwable $e) {
-            $output->writeln('Error: ' . $e->getMessage());
+        } catch (\Throwable $exception) {
+            $output->writeln('Error: '.$exception->getMessage());
             $this->logger->error('WebSocket server startup failed', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'error' => $exception->getMessage(),
+                'trace' => $exception->getTraceAsString(),
             ]);
+
             return Command::FAILURE;
         }
     }
