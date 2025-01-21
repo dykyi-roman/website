@@ -6,20 +6,42 @@ namespace Notifications\DomainModel\Service;
 
 use Notifications\DomainModel\Model\UserNotification;
 
-final class RealTimeNotificationDispatcher
+final readonly class RealTimeNotificationDispatcher
 {
-    /** @var array<array-key, array<string, mixed>> */
-    private array $notifications = [];
-
     public function __construct(
-        private readonly WebSocketServer $webSocketServer,
-        private readonly NotificationFormatter $notificationFormatter,
+        private WebSocketServer $webSocketServer,
+        private NotificationFormatter $notificationFormatter,
     ) {
     }
 
     public function dispatch(UserNotification $userNotification): void
     {
         $message = $this->notificationFormatter->transform($userNotification);
-        // send $message usage webSocketServer
+        
+        // Broadcast the message to all connected WebSocket clients
+        foreach (WebSocketServer::$connections as $connection) {
+            $connection->send(json_encode([
+                'type' => 'notification',
+                'data' => $message
+            ]));
+        }
+    }
+
+    /**
+     * Send a message to a specific user
+     */
+    public function sendToUser(string $userId, UserNotification $userNotification): void
+    {
+        $message = $this->notificationFormatter->transform($userNotification);
+        
+        // Find and send to the specific user's connection
+        if (isset(WebSocketServer::$authorizedConnections[$userId])) {
+            $connection = WebSocketServer::$authorizedConnections[$userId];
+            $connection->send(json_encode([
+                'type' => 'personal_notification',
+                'userId' => $userId,
+                'data' => $message
+            ]));
+        }
     }
 }

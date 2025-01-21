@@ -14,13 +14,13 @@ final class WebSocketServer
      * Хранение всех активных соединений
      * @var array<\Workerman\Connection\TcpConnection>
      */
-    private static array $connections = [];
+    public static array $connections = [];
 
     /**
      * Хранение авторизованных пользователей
      * @var array<string, \Workerman\Connection\TcpConnection>
      */
-    private static array $authorizedConnections = [];
+    public static array $authorizedConnections = [];
 
     private Worker $worker;
 
@@ -29,16 +29,25 @@ final class WebSocketServer
         readonly string $websocketHost,
         readonly int $websocketPort,
     ) {
+        // More flexible host binding
+        $bindAddress = $websocketHost === '127.0.0.1' ? '0.0.0.0' : $websocketHost;
+        
+        // Try alternative ports if the primary port is in use
+        $actualPort = $this->findAvailablePort($bindAddress, $websocketPort);
+        
         // Explicitly set host and port
-        $this->worker = new Worker(sprintf('websocket://%s:%d', $websocketHost, $websocketPort));
+        $this->worker = new Worker(sprintf('websocket://%s:%d', $bindAddress, $actualPort));
         $this->worker->count = 4;
         
         // Set process name to help with identification and management
         $this->worker->name = 'WebSocketServer';
         
         // Add error handling for worker
-        $this->worker->onWorkerStart = function () {
-            $this->logger->info('WebSocket worker started successfully');
+        $this->worker->onWorkerStart = function () use ($actualPort) {
+            $this->logger->info('WebSocket worker started successfully', [
+//                'host' => $bindAddress,
+                'port' => $actualPort
+            ]);
         };
 
         $this->worker->onWorkerStop = function () {
@@ -62,39 +71,73 @@ final class WebSocketServer
     {
         $this->worker->onConnect = function (TcpConnection $connection): void {
             self::$connections[$connection->id] = $connection;
-            $this->logger->info("Start new connection", [
+            $this->logger->info("New connection established", [
                 'connection_id' => $connection->id,
-                'ip' => $connection->getRemoteIp()
+                'ip' => $connection->getRemoteIp(),
+                'total_connections' => count(self::$connections)
             ]);
-        };
 
-        $this->worker->onMessage = function (TcpConnection $connection, string $message): void {
-            try {
-                $data = json_decode($message, true, 512, JSON_THROW_ON_ERROR);
-                $this->handleMessage($connection, $data);
-            } catch (\JsonException $e) {
-                $this->logger->error("Ошибка декодирования сообщения", [
-                    'error' => $e->getMessage(),
-                    'message' => $message
-                ]);
-                $this->sendError($connection, 'invalid_message', 'Неверный формат сообщения');
-            }
+            // Set message handling for this connection
+            $connection->onMessage = function (TcpConnection $connection, $data) {
+                try {
+                    $message = json_decode($data, true);
+                    
+                    $this->logger->info("Received message", [
+                        'connection_id' => $connection->id,
+                        'message_type' => $message['type'] ?? 'unknown',
+                        'message_content' => $data
+                    ]);
+
+                    // Handle different message types
+                    switch ($message['type'] ?? null) {
+                        case 'connect':
+                            // Optional: Additional logic for connection message
+                            $connection->send(json_encode([
+                                'type' => 'connection_ack',
+                                'message' => 'Connection established successfully'
+                            ]));
+                            break;
+                        
+                        case 'authenticate':
+                            // Example authentication logic
+                            if (isset($message['userId'])) {
+                                $this->authorizeConnection($connection, $message['userId']);
+                            }
+                            break;
+                        
+                        default:
+                            $this->logger->warning("Unhandled message type", [
+                                'type' => $message['type'] ?? 'null',
+                                'connection_id' => $connection->id
+                            ]);
+                    }
+                } catch (\Throwable $e) {
+                    $this->logger->error("Error processing message", [
+                        'error' => $e->getMessage(),
+                        'trace' => $e->getTraceAsString(),
+                        'raw_data' => $data
+                    ]);
+                }
+            };
         };
 
         $this->worker->onClose = function (TcpConnection $connection): void {
-            unset(self::$connections[$connection->id]);
-
-            $userId = array_search($connection, self::$authorizedConnections, true);
-            if ($userId !== false) {
-                unset(self::$authorizedConnections[$userId]);
-                $this->logger->info("Auth user close connection", [
-                    'user_id' => $userId,
-                    'connection_id' => $connection->id
-                ]);
+            // Remove from connections
+            if (isset(self::$connections[$connection->id])) {
+                unset(self::$connections[$connection->id]);
             }
 
-            $this->logger->info("Close connection", [
-                'connection_id' => $connection->id
+            // Find and remove from authorized connections if applicable
+            foreach (self::$authorizedConnections as $userId => $authorizedConnection) {
+                if ($authorizedConnection === $connection) {
+                    unset(self::$authorizedConnections[$userId]);
+                    break;
+                }
+            }
+
+            $this->logger->info("Connection closed", [
+                'connection_id' => $connection->id,
+                'total_connections' => count(self::$connections)
             ]);
         };
 
@@ -163,6 +206,37 @@ final class WebSocketServer
     }
 
     /**
+     * Authorize a connection for a specific user
+     */
+    public function authorizeConnection(TcpConnection $connection, string $userId): void
+    {
+        // Remove any previous connection for this user
+        if (isset(self::$authorizedConnections[$userId])) {
+            $this->logger->info("Replacing existing connection for user", ['userId' => $userId]);
+            unset(self::$authorizedConnections[$userId]);
+        }
+
+        // Store the authorized connection
+        self::$authorizedConnections[$userId] = $connection;
+        
+        $this->logger->info("User connection authorized", [
+            'userId' => $userId,
+            'connectionId' => $connection->id
+        ]);
+    }
+
+    /**
+     * Remove user's authorized connection
+     */
+    public function removeAuthorizedConnection(string $userId): void
+    {
+        if (isset(self::$authorizedConnections[$userId])) {
+            unset(self::$authorizedConnections[$userId]);
+            $this->logger->info("User connection removed", ['userId' => $userId]);
+        }
+    }
+
+    /**
      * Отправка сообщения конкретному пользователю
      */
     public static function pushToUser(string $userId, array $data): bool
@@ -219,6 +293,41 @@ final class WebSocketServer
         // Здесь должна быть ваша логика валидации токена
         // Возвращает ID пользователя или null
         return null;
+    }
+
+    /**
+     * Find an available port, starting from the specified port
+     */
+    private function findAvailablePort(string $host, int $startPort, int $maxAttempts = 10): int
+    {
+        $currentPort = $startPort;
+        
+        for ($attempt = 0; $attempt < $maxAttempts; $attempt++) {
+            try {
+                $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+                $bindResult = @socket_bind($socket, $host, $currentPort);
+                socket_close($socket);
+                
+                if ($bindResult) {
+                    $this->logger->info('Found available port', [
+                        'host' => $host,
+                        'port' => $currentPort,
+                        'attempt' => $attempt + 1
+                    ]);
+                    return $currentPort;
+                }
+            } catch (\Throwable $e) {
+                $this->logger->warning('Port binding attempt failed', [
+                    'host' => $host,
+                    'port' => $currentPort,
+                    'error' => $e->getMessage()
+                ]);
+            }
+            
+            $currentPort++;
+        }
+        
+        throw new \RuntimeException("Could not find an available port after $maxAttempts attempts");
     }
 
     /**

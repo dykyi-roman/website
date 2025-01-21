@@ -6,7 +6,7 @@
     style-src 'self' 'unsafe-inline' https: cdn.jsdelivr.net cdnjs.cloudflare.com; 
     img-src 'self' data: https: blob:;
     font-src 'self' https: data:;
-    connect-src 'self' https:;
+    connect-src 'self' https: ws: wss: *;
     media-src 'self' https:;
     object-src 'none';
     frame-src 'self' https:;
@@ -20,6 +20,7 @@
     default-src 'self' https:;
     script-src 'self' 'unsafe-inline' https: cdn.jsdelivr.net cdnjs.cloudflare.com;
     style-src 'self' 'unsafe-inline' https: cdn.jsdelivr.net cdnjs.cloudflare.com;
+    connect-src 'self' https: ws: wss: *;
     report-uri /api/csp-report-only;
     report-to csp-endpoint-report-only;">
 <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
