@@ -2,43 +2,38 @@ document.addEventListener('DOMContentLoaded', () => {
     // Dynamically determine WebSocket connection parameters
     const socketConfig = {
         protocol: window.location.protocol === 'https:' ? 'wss' : 'ws',
-        host: window.location.hostname || '127.0.0.1',
-        port: 1001,
-        path: ''
+        host: '127.0.0.1:1004',
+        port: 1004,
+        path: '/ws'
     };
 
-    // Allow overriding socket config via meta tags
-    const socketConfigMeta = document.querySelector('meta[name="websocket-config"]');
-    if (socketConfigMeta) {
-        try {
-            const configData = JSON.parse(socketConfigMeta.getAttribute('content'));
-            Object.assign(socketConfig, configData);
-        } catch (error) {
-            console.warn('Invalid WebSocket configuration:', error);
-        }
+    // Construct WebSocket URL dynamically
+    function constructWebSocketUrl() {
+        return `${socketConfig.protocol}://${socketConfig.host}${socketConfig.path}`;
     }
 
-    // Construct WebSocket URL
-    const host = `${socketConfig.protocol}://${socketConfig.host}:${socketConfig.port}${socketConfig.path}`;
-    
     let socket = null;
     let reconnectAttempts = 0;
     const MAX_RECONNECT_ATTEMPTS = 5;
     const RECONNECT_TIMEOUT = 3000; // 3 seconds
 
     function createWebSocket() {
+        const host = constructWebSocketUrl();
+        
         try {
-            console.log('Creating WebSocket connection to:', host, {
-                readyState: socket?.readyState,
-                protocol: socketConfig.protocol,
-                host: socketConfig.host,
-                port: socketConfig.port
+            console.log('Attempting WebSocket connection:', {
+                url: host,
+                timestamp: new Date().toISOString()
             });
 
             socket = new WebSocket(host);
 
             socket.onopen = function(event) {
-                console.log('WebSocket connection established to:', host);
+                console.log('WebSocket connection established', {
+                    host,
+                    timestamp: new Date().toISOString()
+                });
+                
                 reconnectAttempts = 0;
 
                 // Send initial connection message
@@ -49,22 +44,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 }));
 
                 // Optional: Authenticate if user is logged in
-                const userId = getUserId(); // Implement this function to get current user ID
+                const userId = getUserId();
                 if (userId) {
                     authenticateUser(userId);
                 }
             };
 
             socket.onerror = function(error) {
-                console.error('WebSocket error:', {
+                console.error('WebSocket connection error', {
                     error,
-                    readyState: socket.readyState,
                     host,
+                    readyState: socket.readyState,
                     timestamp: new Date().toISOString(),
                     browserInfo: {
                         userAgent: navigator.userAgent,
-                        platform: navigator.platform,
-                        vendor: navigator.vendor
+                        platform: navigator.platform
                     }
                 });
             };
@@ -73,15 +67,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('WebSocket connection closed', {
                     wasClean: event.wasClean,
                     code: event.code,
-                    reason: event.reason,
-                    host: host
+                    reason: event.reason || 'No reason',
+                    host,
+                    timestamp: new Date().toISOString()
                 });
                 
                 if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
                     reconnectAttempts++;
                     console.log(`Attempting to reconnect (${reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS})...`);
                     
-                    setTimeout(createWebSocket, RECONNECT_TIMEOUT);
+                    setTimeout(createWebSocket, RECONNECT_TIMEOUT * reconnectAttempts);
                 } else {
                     console.error('Max reconnection attempts reached. Please refresh the page or check the server.');
                 }
@@ -90,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
             socket.onmessage = function(event) {
                 try {
                     const data = JSON.parse(event.data);
-                    console.log('Received message:', data);
+                    console.log('Received WebSocket message:', data);
 
                     // Handle different message types
                     switch(data.type) {
@@ -114,10 +109,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             };
         } catch (error) {
-            console.error('Error creating WebSocket:', {
+            console.error('Error creating WebSocket', {
                 error,
                 host,
-                stack: error.stack
+                stack: error.stack,
+                timestamp: new Date().toISOString()
             });
         }
     }
@@ -135,7 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getUserId() {
         // Implement logic to retrieve current user ID
-        // This could be from a cookie, local storage, or a meta tag
         return document.querySelector('meta[name="user-id"]')?.getAttribute('content');
     }
 
