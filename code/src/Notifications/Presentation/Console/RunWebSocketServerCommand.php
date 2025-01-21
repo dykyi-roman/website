@@ -21,8 +21,8 @@ final class RunWebSocketServerCommand extends Command
     public function __construct(
         private readonly WebSocketServer $webSocketServer,
         private readonly LoggerInterface $logger,
-        private readonly string $websocketHost = '127.0.0.1',
-        private readonly int $websocketPort = 1001
+        private readonly string $websocketHost,
+        private readonly int $websocketPort,
     ) {
         parent::__construct();
     }
@@ -41,6 +41,9 @@ final class RunWebSocketServerCommand extends Command
             // Perform the requested action
             switch ($action) {
                 case 'start':
+                    // Stop any existing processes on the port before starting
+                    exec(sprintf('sudo lsof -t -i:%d | xargs kill -9 2>/dev/null', $this->websocketPort));
+
                     $this->logger->info('Starting WebSocket server', [
                         'host' => $this->websocketHost,
                         'port' => $this->websocketPort
@@ -53,14 +56,12 @@ final class RunWebSocketServerCommand extends Command
             }
 
             return Command::SUCCESS;
-        } catch (\Throwable $exception) {
-            $this->logger->error('WebSocket server action failed', [
-                'exception' => $exception,
-                'action' => $action
+        } catch (\Throwable $e) {
+            $output->writeln('Error: ' . $e->getMessage());
+            $this->logger->error('WebSocket server startup failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
             ]);
-
-            $output->writeln(sprintf('Error: %s', $exception->getMessage()));
-
             return Command::FAILURE;
         }
     }

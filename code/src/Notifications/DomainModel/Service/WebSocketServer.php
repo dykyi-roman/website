@@ -26,14 +26,31 @@ final class WebSocketServer
 
     public function __construct(
         private readonly LoggerInterface $logger,
-        private readonly string $websocketHost,
+        readonly string $websocketHost,
+        readonly int $websocketPort,
     ) {
         // Explicitly set host and port
-        $this->worker = new Worker(sprintf('websocket://%s', $websocketHost));
+        $this->worker = new Worker(sprintf('websocket://%s:%d', $websocketHost, $websocketPort));
         $this->worker->count = 4;
         
         // Set process name to help with identification and management
         $this->worker->name = 'WebSocketServer';
+        
+        // Add error handling for worker
+        $this->worker->onWorkerStart = function () {
+            $this->logger->info('WebSocket worker started successfully');
+        };
+
+        $this->worker->onWorkerStop = function () {
+            $this->logger->info('WebSocket worker stopped');
+        };
+
+        $this->worker->onError = function ($connection, $code, $msg) {
+            $this->logger->error('WebSocket server error', [
+                'code' => $code,
+                'message' => $msg
+            ]);
+        };
         
         $this->setupEventHandlers();
     }
@@ -209,32 +226,7 @@ final class WebSocketServer
      */
     public function run(): void
     {
-        try {
-            $this->logger->info("Attempting to start WebSocket server", [
-                'host' => $this->websocketHost,
-                'port' => $this->websocketPort
-            ]);
-
-            // Check if the port is already in use
-            $socket = @fsockopen($this->websocketHost, $this->websocketPort, $errno, $errstr, 5);
-            if ($socket) {
-                fclose($socket);
-                $this->logger->error("Port is already in use", [
-                    'host' => $this->websocketHost,
-                    'port' => $this->websocketPort
-                ]);
-                throw new \RuntimeException("Cannot start WebSocket server: Port {$this->websocketPort} is already in use");
-            }
-
-            $this->logger->info("WebSocket сервер запущен на {$this->websocketHost}:{$this->websocketPort}");
-            Worker::runAll();
-        } catch (\Throwable $e) {
-            $this->logger->error("Failed to start WebSocket server", [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-            throw $e;
-        }
+        Worker::runAll();
     }
 
     /**

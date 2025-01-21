@@ -9,3 +9,32 @@
 2025-01-21 09:02:41 pid:2139 Workerman[console] already running
 2025-01-21 09:04:36 pid:2234 Workerman[console] start in DEBUG mode
 2025-01-21 09:04:36 pid:2234 Workerman[console] already running
+2025-01-21 09:10:18 pid:2517 Workerman[console] start in DEBUG mode
+2025-01-21 09:10:18 pid:2517 Workerman[console] already running
+2025-01-21 09:12:19 pid:9 Workerman[console] start in DEBUG mode
+2025-01-21 09:12:19 pid:9 Master pid:344 is not alive
+2025-01-21 09:13:57 pid:9 Workerman[console] received signal SIGINT
+2025-01-21 09:13:57 pid:9 Workerman[console] stopping
+2025-01-21 09:13:57 pid:9 Workerman[console] has been stopped
+2025-01-21 09:14:05 pid:98 Workerman[console] start in DEBUG mode
+2025-01-21 09:14:05 pid:98 ErrorException: Warning: stream_socket_server(): Unable to connect to tcp://127.0.0.1 (Failed to parse address "127.0.0.1") in /var/www/html/code/vendor/workerman/workerman/src/Worker.php:2374
+Stack trace:
+#0 /var/www/html/code/vendor/workerman/workerman/src/Worker.php(867): Workerman\Worker->listen()
+#1 /var/www/html/code/vendor/workerman/workerman/src/Worker.php(580): Workerman\Worker::initWorkers()
+#2 /var/www/html/code/src/Notifications/DomainModel/Service/WebSocketServer.php(228): Workerman\Worker::runAll()
+#3 /var/www/html/code/src/Notifications/Presentation/Console/RunWebSocketServerCommand.php(51): Notifications\DomainModel\Service\WebSocketServer->run()
+#4 /var/www/html/code/vendor/symfony/console/Command/Command.php(279): Notifications\Presentation\Console\RunWebSocketServerCommand->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#5 /var/www/html/code/vendor/symfony/console/Application.php(1049): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 /var/www/html/code/vendor/symfony/framework-bundle/Console/Application.php(125): Symfony\Component\Console\Application->doRunCommand(Object(Notifications\Presentation\Console\RunWebSocketServerCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 /var/www/html/code/vendor/symfony/console/Application.php(318): Symfony\Bundle\FrameworkBundle\Console\Application->doRunCommand(Object(Notifications\Presentation\Console\RunWebSocketServerCommand), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#8 /var/www/html/code/vendor/symfony/framework-bundle/Console/Application.php(79): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#9 /var/www/html/code/vendor/symfony/console/Application.php(169): Symfony\Bundle\FrameworkBundle\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#10 /var/www/html/code/vendor/symfony/runtime/Runner/Symfony/ConsoleApplicationRunner.php(49): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#11 /var/www/html/code/vendor/autoload_runtime.php(29): Symfony\Component\Runtime\Runner\Symfony\ConsoleApplicationRunner->run()
+#12 /var/www/html/code/bin/console(15): require_once('/var/www/html/c...')
+#13 {main}
+2025-01-21 09:15:23 pid:169 Workerman[console] start in DEBUG mode
+2025-01-21 09:15:26 pid:169 Workerman[console] received signal SIGINT
+2025-01-21 09:15:26 pid:169 Workerman[console] stopping
+2025-01-21 09:15:26 pid:169 Workerman[console] has been stopped
+2025-01-21 09:17:51 pid:331 Workerman[console] start in DEBUG mode

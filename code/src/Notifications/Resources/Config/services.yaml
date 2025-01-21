@@ -10,7 +10,8 @@ services:
         autoconfigure: true
         public: false
         bind:
-            $websocketHost: '127.0.0.1:1001'
+            $websocketHost: '127.0.0.1'
+            $websocketPort: 1001
 
     Notifications\:
         resource: '../../'
