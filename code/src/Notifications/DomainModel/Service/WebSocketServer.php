@@ -29,14 +29,11 @@ final class WebSocketServer
         readonly string $websocketHost,
         readonly int $websocketPort,
     ) {
-        // More flexible host binding
-        $bindAddress = $websocketHost === '127.0.0.1' ? '0.0.0.0' : $websocketHost;
-        
         // Try alternative ports if the primary port is in use
-        $actualPort = $this->findAvailablePort($bindAddress, $websocketPort);
+        $actualPort = $this->findAvailablePort($websocketHost, $websocketPort);
         
         // Explicitly set host and port
-        $this->worker = new Worker(sprintf('websocket://%s:%d', $bindAddress, $actualPort));
+        $this->worker = new Worker(sprintf('websocket://%s:%d', $websocketHost, $actualPort));
         $this->worker->count = 4;
         
         // Set process name to help with identification and management
