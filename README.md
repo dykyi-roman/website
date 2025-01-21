@@ -20,7 +20,6 @@
 * User-friendly error pages (401, 403, 404, 500)
 * Event storage
 
-
 ### Settings
 * Privacy
   - Activation/Deactivation
@@ -38,6 +37,62 @@
 
 ### Notifications
  - Receive/Read/Delete
+
+#### Current Architecture
+
+The notification system uses WebSocket for real-time communication with a TCP-based internal messaging system:
+
+```
+Browser <---(WebSocket/1004)---> WebSocketServer <---(TCP/{port})---> PHP Backend
+```
+
+Components:
+1. **WebSocket Server** (port 1004):
+   - Handles client connections and authentication
+   - Maintains active user connections
+   - Single process for connection consistency
+
+2. **Internal Communication** (TCP/{port}):
+   - Connects PHP backend with WebSocket server
+   - Uses JSON format for messages
+   - Runs in same process as WebSocket
+
+3. **Message Flow**:
+   - Client connects via WebSocket and authenticates
+   - PHP creates notification and sends via TCP
+   - WebSocket server delivers to specific user
+
+#### Scaling Architecture
+
+To support multiple servers, the architecture needs to change:
+
+```
+Browser ---> Load Balancer ---> WebSocket Servers <---> Redis Pub/Sub <--- PHP Backend
+```
+
+Required Changes:
+
+1. **Message Broker (Redis)**:
+   - Replace TCP with Redis Pub/Sub
+   - Add user-to-server mapping
+   - Implement message persistence
+
+2. **Load Balancer**:
+   - Add sticky sessions
+   - Configure health checks
+   - Setup SSL termination
+
+3. **High Availability**:
+   - Redis Sentinel/Cluster
+   - Multiple WebSocket servers
+   - Automatic failover
+   - Connection migration
+
+Benefits:
+- Horizontal scalability
+- Better fault tolerance
+- Geographic distribution
+- Easier maintenance
 
 ### Login
 * Manual
