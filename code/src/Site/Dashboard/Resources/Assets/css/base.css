@@ -688,6 +688,61 @@ footer h5 {
     color: white;
 }
 
+/* Notification styles */
+.notification-toast {
+    position: relative;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notification-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.notification-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.notification-title {
+    flex-grow: 1;
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.notification-body {
+    margin-left: 1.8rem;
+    color: inherit;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    transition: color var(--transition-speed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.notification-close i {
+    color: #000000;
+    font-size: 14px;
+}
+
+.notification-close:hover i {
+    color: var(--primary-orange);
+}
+
 /* Notification toast */
 
 .notification-toast {
@@ -712,4 +767,17 @@ footer h5 {
     .mx-1 {
         display: none !important;
     }
+}
+
+/* Notification close button */
+.notification-close {
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    transition: color var(--transition-speed);
+}
+
+.notification-close:hover i {
+    color: var(--primary-orange);
 }

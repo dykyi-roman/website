@@ -121,12 +121,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const icon = getNotificationIcon(notification.type);
             notificationElement.innerHTML = `
                 <div class="notification-content">
-                    <i class="fas ${icon} me-2"></i>
-                    <span>${notification.message}</span>
+                    <div class="notification-header">
+                        <i class="fas ${icon} me-2"></i>
+                        <strong class="notification-title">${notification.title || ''}</strong>
+                        <button type="button" class="notification-close" aria-label="Close">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="notification-body">
+                        ${notification.message || ''}
+                    </div>
                 </div>
-                <button type="button" class="notification-close" aria-label="Close">
-                    <i class="fas fa-times"></i>
-                </button>
             `;
             
             // Add click event listener for close button

@@ -790,8 +790,29 @@
 /* Notification toast styles for dark theme */
 [data-theme="dark"] .notification-toast {
     background-color: var(--dark-surface);
-    box-shadow: var(--shadow-md);
+    border: 1px solid var(--dark-border);
     color: var(--text-lighter);
+    box-shadow: 0 2px 10px var(--primary-orange);
+}
+
+[data-theme="dark"] .notification-toast .toast-header {
+    background-color: var(--dark-surface-lighter);
+    border-bottom: 1px solid var(--dark-border);
+    color: var(--text-brightest);
+}
+
+[data-theme="dark"] .notification-toast .toast-body {
+    background-color: var(--dark-surface);
+    color: var(--text-dark);
+}
+
+[data-theme="dark"] .notification-toast .btn-close {
+    filter: invert(1) brightness(200%);
+    opacity: 0.8;
+}
+
+[data-theme="dark"] .notification-toast .btn-close:hover {
+    opacity: 1;
 }
 
 [data-theme="dark"] .notification-toast i {
@@ -810,4 +831,35 @@
 
 [data-theme="dark"] .notification-close:focus {
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+/* Notification close button dark theme */
+[data-theme="dark"] .notification-close i {
+    color: #808080;
+}
+
+[data-theme="dark"] .notification-close:hover i {
+    color: var(--primary-orange);
+}
+
+/* Notification styles for dark theme */
+[data-theme="dark"] .notification-toast {
+    background-color: var(--dark-surface);
+    border: 1px solid var(--dark-border);
+}
+
+[data-theme="dark"] .notification-title {
+    color: var(--text-brightest);
+}
+
+[data-theme="dark"] .notification-body {
+    color: var(--text-dark);
+}
+
+[data-theme="dark"] .notification-close i {
+    color: #808080;
+}
+
+[data-theme="dark"] .notification-close:hover i {
+    color: var(--primary-orange);
 }
