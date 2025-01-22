@@ -729,7 +729,10 @@ footer h5 {
     color: inherit;
 }
 
-.notification-close {
+.notification-toast .notification-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
     background: none;
     border: none;
     padding: 5px;
@@ -740,14 +743,16 @@ footer h5 {
     justify-content: center;
     width: 24px;
     height: 24px;
+    opacity: 1 !important;
 }
 
-.notification-close .fa-xmark {
+.notification-toast .notification-close .fa-xmark {
     font-size: 16px;
     color: #333333;
+    opacity: 1 !important;
 }
 
-.notification-close:hover .fa-xmark {
+.notification-toast .notification-close:hover .fa-xmark {
     color: var(--primary-orange);
 }
 

@@ -809,18 +809,17 @@
 }
 
 /* Dark theme styles for notification close button */
-[data-theme="dark"] .notification-close {
+[data-theme="dark"] .notification-toast .notification-close {
     color: var(--text-lighter);
 }
 
-[data-theme="dark"] .notification-close i.fa-times {
+[data-theme="dark"] .notification-toast .notification-close i.fa-times {
     color: var(--text-lighter);
-    opacity: 0.8;
+    opacity: 1 !important;
 }
 
-[data-theme="dark"] .notification-close:hover i.fa-times {
+[data-theme="dark"] .notification-toast .notification-close:hover i.fa-times {
     color: var(--primary-orange);
-    opacity: 1;
 }
 
 /* Notification styles for dark theme */

@@ -44,8 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
             socket.onmessage = function(event) {
                 try {
                     const data = JSON.parse(event.data);
-                    console.log('Received message:', data);
-
                     switch (data.type) {
                         case 'auth_success':
                             console.log('Successfully authenticated:', data);
@@ -80,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 timestamp: new Date().toISOString()
             };
             
-            console.log('Sending authentication request:', authMessage);
             socket.send(JSON.stringify(authMessage));
         } else {
             console.error('Cannot authenticate: WebSocket is not open');
