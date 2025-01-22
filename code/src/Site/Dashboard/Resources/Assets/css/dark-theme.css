@@ -791,8 +791,9 @@
 [data-theme="dark"] .notification-toast {
     background-color: var(--dark-surface);
     border: 1px solid var(--dark-border);
+    border-left: 4px solid var(--primary-orange);
     color: var(--text-lighter);
-    box-shadow: 0 2px 10px var(--primary-orange);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="dark"] .notification-toast .toast-header {
@@ -816,7 +817,7 @@
 }
 
 [data-theme="dark"] .notification-toast i {
-    color: var(--text-lighter);
+    color: var(--primary-orange);
 }
 
 /* Dark theme styles for notification close button */
