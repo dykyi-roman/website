@@ -282,18 +282,6 @@
         }
     }
 
-    function showEmptyState() {
-        const notificationsSection = document.querySelector('.notifications-section');
-        const noNotificationsMessage = document.querySelector('.no-notifications-message');
-        if (!notificationsSection) return;
-
-        const remainingNotifications = notificationsSection.querySelectorAll('.notification-item');
-        if (remainingNotifications.length === 0) {
-            noNotificationsMessage.style.display = 'block';
-            document.querySelector('.load-more-btn').style.display = 'none';
-        }
-    }
-
     function markAsRead(notificationId, notificationElement) {
         if (!notificationElement.classList.contains('read')) {
             fetch(`/api/v1/notifications/${notificationId}`, {

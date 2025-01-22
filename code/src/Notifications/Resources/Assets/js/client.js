@@ -6,41 +6,17 @@ document.addEventListener('DOMContentLoaded', () => {
         path: '/ws'
     };
 
-    // Construct WebSocket URL dynamically
-    function constructWebSocketUrl() {
-        const url = `${socketConfig.protocol}://${socketConfig.host}${socketConfig.path}`;
-        console.log('Constructed WebSocket URL:', {
-            url,
-            protocol: socketConfig.protocol,
-            host: socketConfig.host,
-            path: socketConfig.path,
-            fullLocation: window.location
-        });
-        return url;
-    }
-
     let socket = null;
     let reconnectAttempts = 0;
     const MAX_RECONNECT_ATTEMPTS = 5;
     const RECONNECT_TIMEOUT = 3000; // 3 seconds
 
     function createWebSocket() {
-        const url = constructWebSocketUrl();
+        const url = `${socketConfig.protocol}://${socketConfig.host}${socketConfig.path}`
         
         try {
-            console.log('Attempting WebSocket connection:', {
-                url,
-                timestamp: new Date().toISOString()
-            });
-
             socket = new WebSocket(url);
-
             socket.onopen = function(event) {
-                console.log('WebSocket connection established', {
-                    url,
-                    timestamp: new Date().toISOString()
-                });
-                
                 reconnectAttempts = 0;
 
                 // Get user ID and authenticate
@@ -53,13 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             socket.onclose = function(event) {
-                console.log('WebSocket connection closed', {
-                    code: event.code,
-                    reason: event.reason,
-                    wasClean: event.wasClean,
-                    timestamp: new Date().toISOString()
-                });
-
                 // Attempt to reconnect if not max attempts
                 if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
                     reconnectAttempts++;
@@ -139,13 +108,66 @@ document.addEventListener('DOMContentLoaded', () => {
         if (notificationContainer) {
             const notificationElement = document.createElement('div');
             notificationElement.className = 'notification';
-            notificationElement.textContent = notification.message;
+            
+            // Create notification content with flex layout
+            notificationElement.style.display = 'flex';
+            notificationElement.style.alignItems = 'flex-start';
+            notificationElement.style.gap = '10px';
+            
+            // Left type icon
+            const typeIcon = document.createElement('i');
+            typeIcon.className = `fas ${getNotificationIcon(notification.type)}`;
+            
+            // Content container for title and message
+            const contentContainer = document.createElement('div');
+            contentContainer.style.flex = '1';
+            
+            // Title
+            const titleElement = document.createElement('div');
+            titleElement.style.fontWeight = 'bold';
+            titleElement.textContent = notification.title;
+            
+            // Message
+            const messageElement = document.createElement('div');
+            messageElement.textContent = notification.message.length > 100 
+                ? notification.message.substring(0, 100) + '...' 
+                : notification.message;
+            
+            contentContainer.appendChild(titleElement);
+            contentContainer.appendChild(messageElement);
+            
+            // Append elements
+            notificationElement.appendChild(typeIcon);
+            notificationElement.appendChild(contentContainer);
+            
+            // Right icon if provided
+            if (notification.icon) {
+                const rightIcon = document.createElement('i');
+                rightIcon.className = `fas ${notification.icon}`;
+                notificationElement.appendChild(rightIcon);
+            }
+            
             notificationContainer.appendChild(notificationElement);
 
             // Auto-remove notification after 5 seconds
             setTimeout(() => {
                 notificationElement.remove();
             }, 5000);
+        }
+    }
+
+    function getNotificationIcon(type) {
+        // Add logic to return the correct icon class based on the notification type
+        // For example:
+        switch (type) {
+            case 'success':
+                return 'fa-check-circle';
+            case 'error':
+                return 'fa-exclamation-circle';
+            case 'info':
+                return 'fa-info-circle';
+            default:
+                return 'fa-bell';
         }
     }
 
