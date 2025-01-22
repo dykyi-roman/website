@@ -105,7 +105,12 @@ final class WebSocketServer implements WebSocketServerInterface
                 return;
             }
 
-            $userConnection->send(json_encode($message['message']));
+            $userConnection->send(
+                json_encode([
+                    'type' => 'notification',
+                    'message' => $message['message'],
+                ])
+            );
             $this->logger->info('Message sent to user', [
                 'user_id' => $userId,
                 'connection_id' => $userConnection->id,

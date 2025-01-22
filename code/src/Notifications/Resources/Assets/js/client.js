@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             break;
 
                         case 'notification':
-                            displayNotification(data);
+                            displayNotification(data.message);
                             break;
 
                         default:
