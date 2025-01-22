@@ -137,7 +137,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Add click event listener for close button
             const closeButton = notificationElement.querySelector('.notification-close');
             closeButton.addEventListener('click', () => {
-                notificationElement.remove();
+                notificationElement.classList.add('closing');
+                // Wait for animation to complete before removing
+                setTimeout(() => {
+                    notificationElement.remove();
+                }, 300); // Match animation duration (0.3s = 300ms)
             });
             
             notificationsContainer.appendChild(notificationElement);
@@ -148,7 +152,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Auto-remove notification after 5 seconds
             setTimeout(() => {
                 if (notificationElement.parentElement) {
-                    notificationElement.remove();
+                    notificationElement.classList.add('closing');
+                    setTimeout(() => {
+                        if (notificationElement.parentElement) {
+                            notificationElement.remove();
+                        }
+                    }, 300);
                 }
             }, 5000);
         }

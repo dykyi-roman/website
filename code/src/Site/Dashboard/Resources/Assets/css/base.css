@@ -697,6 +697,12 @@ footer h5 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-left: 4px solid var(--primary-orange);
     background: #fff;
+    animation: slideInRight 0.3s ease-out;
+    transform-origin: right;
+}
+
+.notification-toast.closing {
+    animation: fadeOutRight 0.3s ease-out forwards;
 }
 
 .notification-content {
@@ -736,16 +742,16 @@ footer h5 {
     height: 24px;
 }
 
-.notification-close i {
-    font-size: 14px;
-    color: rgba(0, 0, 0, 0.6);
+.notification-close .fa-xmark {
+    font-size: 16px;
+    color: #333333;
 }
 
-.notification-close:hover i {
+.notification-close:hover .fa-xmark {
     color: var(--primary-orange);
 }
 
-.notification-toast i:not(.fa-times) {
+.notification-toast i:not(.fa-xmark) {
     color: var(--primary-orange);
 }
 
@@ -786,4 +792,27 @@ footer h5 {
 
 .notification-close:hover i {
     color: var(--primary-orange);
+}
+
+/* Notification animations */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
 }
