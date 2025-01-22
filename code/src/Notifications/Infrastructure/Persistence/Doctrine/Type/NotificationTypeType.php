@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Notifications\Infrastructure\Doctrine\DoctrineType;
+namespace Notifications\Infrastructure\Persistence\Doctrine\Type;
 
 use Notifications\DomainModel\Enum\NotificationType;
 use Shared\Infrastructure\Doctrine\DoctrineType\StringEnumType;

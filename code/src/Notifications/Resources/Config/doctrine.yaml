@@ -4,8 +4,8 @@ doctrine:
             site:
                 url: '%env(resolve:DATABASE_SITE_URL)%'
         types:
-            notification_id: Notifications\Infrastructure\Doctrine\DoctrineType\NotificationIdType
-            user_notification_id: Notifications\Infrastructure\Doctrine\DoctrineType\UserNotificationIdType
+            notification_id: Notifications\Infrastructure\Persistence\Doctrine\Type\NotificationIdType
+            user_notification_id: Notifications\Infrastructure\Persistence\Doctrine\Type\UserNotificationIdType
     orm:
         entity_managers:
             site:

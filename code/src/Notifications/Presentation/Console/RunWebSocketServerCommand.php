@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Notifications\Presentation\Console;
 
-use Notifications\Application\CreateNotification\Service\WebSocketServer;
+use Notifications\DomainModel\Server\WebSocketServerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class RunWebSocketServerCommand extends Command
 {
     public function __construct(
-        private readonly WebSocketServer $webSocketServer,
+        private readonly WebSocketServerInterface $webSocketServer,
         private readonly LoggerInterface $logger,
         private readonly string $websocketHost,
         private readonly int $websocketPort,

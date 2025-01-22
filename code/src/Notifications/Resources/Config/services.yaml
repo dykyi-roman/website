@@ -24,9 +24,9 @@ services:
             - '../../Tests/'
         tags: ['controller.service_arguments']
 
-    Notifications\Infrastructure\Repository\UserNotificationRepository:
+    Notifications\Infrastructure\Persistence\Doctrine\Repository\UserNotificationRepository:
         arguments:
             $entityManager: '@doctrine.orm.site_entity_manager'
 
     Notifications\DomainModel\Repository\UserNotificationRepositoryInterface:
-        alias: Notifications\Infrastructure\Repository\UserNotificationRepository
+        alias: Notifications\Infrastructure\Persistence\Doctrine\Repository\UserNotificationRepository

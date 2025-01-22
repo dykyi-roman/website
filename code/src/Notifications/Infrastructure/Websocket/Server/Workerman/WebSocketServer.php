@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Notifications\Application\CreateNotification\Service;
+namespace Notifications\Infrastructure\Websocket\Server\Workerman;
 
+use Notifications\DomainModel\Server\WebSocketServerInterface;
 use Psr\Log\LoggerInterface;
 use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Websocket;
 use Workerman\Worker;
 
-final class WebSocketServer
+final class WebSocketServer implements WebSocketServerInterface
 {
     private static array $connections = [];
     private static array $authorizedConnections = [];
@@ -20,6 +21,7 @@ final class WebSocketServer
         private readonly LoggerInterface $logger,
         readonly string $websocketHost,
         readonly int $websocketPort,
+        readonly int $websocketInternalPort,
     ) {
         // Create WebSocket worker
         $this->worker = new Worker(sprintf('websocket://%s:%d', $websocketHost, $websocketPort));
@@ -27,17 +29,18 @@ final class WebSocketServer
         $this->worker->name = 'WebSocketServer';
 
         // Set up protocol handlers
-        $this->worker->onWorkerStart = function () {
+        $this->worker->onWorkerStart = function () use ($websocketHost, $websocketInternalPort) {
             // Create TCP server in the same process after WebSocket server starts
-            $this->tcpWorker = new Worker('tcp://127.0.0.1:2206');
+            $connectionString = sprintf('tcp://%s:%d', $websocketHost, $websocketInternalPort);
+            $this->tcpWorker = new Worker($connectionString);
             $this->tcpWorker->reusePort = false;
 
-            $this->tcpWorker->onMessage = [$this, 'handleTcpMessage'];
+            $this->tcpWorker->onMessage = [$this, 'handleMessage'];
             $this->tcpWorker->listen();
 
             $this->logger->info('Workers started successfully', [
-                'websocket' => sprintf('%s:%d', $this->websocketHost, $this->websocketPort),
-                'tcp' => '127.0.0.1:2206',
+                'websocket' => $connectionString,
+                'tcp' => $connectionString,
                 'pid' => getmypid(),
             ]);
         };
@@ -56,7 +59,7 @@ final class WebSocketServer
         $this->setupWebSocketHandlers();
     }
 
-    public function handleTcpMessage($connection, $data): void
+    public function handleMessage($connection, $data): void
     {
         $this->logger->info('Received TCP message', [
             'data' => $data,
@@ -107,10 +110,10 @@ final class WebSocketServer
                 'user_id' => $userId,
                 'connection_id' => $userConnection->id,
             ]);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $exception) {
             $this->logger->error('Error processing TCP message', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
+                'error' => $exception->getMessage(),
+                'trace' => $exception->getTraceAsString(),
             ]);
         }
     }
@@ -172,16 +175,16 @@ final class WebSocketServer
                             'connection_id' => $connection->id,
                         ]);
                 }
-            } catch (\Throwable $e) {
+            } catch (\Throwable $exception) {
                 $this->logger->error('Error processing WebSocket message', [
-                    'error' => $e->getMessage(),
-                    'trace' => $e->getTraceAsString(),
+                    'error' => $exception->getMessage(),
+                    'trace' => $exception->getTraceAsString(),
                     'connection_id' => $connection->id,
                 ]);
 
                 $connection->send(json_encode([
                     'type' => 'error',
-                    'message' => $e->getMessage(),
+                    'message' => $exception->getMessage(),
                 ]));
             }
         };

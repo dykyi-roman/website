@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Notifications\Infrastructure\Repository;
+namespace Notifications\Infrastructure\Persistence\InMemory\Repository;
 
 use Notifications\DomainModel\Enum\NotificationId;
 use Notifications\DomainModel\Enum\NotificationType;

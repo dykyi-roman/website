@@ -17,7 +17,6 @@ final readonly class NotificationsAction
     ): NotificationsHtmlResponder {
         return $responder->context([
             'page_title' => $translator->trans('notifications.page_title'),
-            'content' => '',
         ])->respond();
     }
 }

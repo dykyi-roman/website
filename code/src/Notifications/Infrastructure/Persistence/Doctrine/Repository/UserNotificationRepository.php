@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Notifications\Infrastructure\Repository;
+namespace Notifications\Infrastructure\Persistence\Doctrine\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -26,7 +26,7 @@ final class UserNotificationRepository implements UserNotificationRepositoryInte
 
     public function getUserNotifications(UserId $userId, int $page = 1, int $perPage = 20): PaginationDto
     {
-        /** @var list<UserNotification> $result */
+        /** @var UserNotification $result */
         $result = $this->repository->createQueryBuilder('un')
             ->andWhere('un.userId = :userId')
             ->andWhere('un.deletedAt is NULL')

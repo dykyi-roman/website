@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Notifications\Infrastructure\Websocket;
+namespace Notifications\Infrastructure\Websocket\Client;
 
 use Notifications\DomainModel\Exception\SendSocketMessageException;
 use Notifications\DomainModel\Service\NotificationDispatcherInterface;
