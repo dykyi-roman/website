@@ -103,52 +103,32 @@ document.addEventListener('DOMContentLoaded', () => {
         return userId;
     }
 
-    function displayNotification(notification) {
-        const notificationContainer = document.getElementById('notifications');
-        if (notificationContainer) {
-            const notificationElement = document.createElement('div');
-            notificationElement.className = 'notification';
-            
-            // Create notification content with flex layout
-            notificationElement.style.display = 'flex';
-            notificationElement.style.alignItems = 'flex-start';
-            notificationElement.style.gap = '10px';
-            
-            // Left type icon
-            const typeIcon = document.createElement('i');
-            typeIcon.className = `fas ${getNotificationIcon(notification.type)}`;
-            
-            // Content container for title and message
-            const contentContainer = document.createElement('div');
-            contentContainer.style.flex = '1';
-            
-            // Title
-            const titleElement = document.createElement('div');
-            titleElement.style.fontWeight = 'bold';
-            titleElement.textContent = notification.title;
-            
-            // Message
-            const messageElement = document.createElement('div');
-            messageElement.textContent = notification.message.length > 100 
-                ? notification.message.substring(0, 100) + '...' 
-                : notification.message;
-            
-            contentContainer.appendChild(titleElement);
-            contentContainer.appendChild(messageElement);
-            
-            // Append elements
-            notificationElement.appendChild(typeIcon);
-            notificationElement.appendChild(contentContainer);
-            
-            // Right icon if provided
-            if (notification.icon) {
-                const rightIcon = document.createElement('i');
-                rightIcon.className = `fas ${notification.icon}`;
-                notificationElement.appendChild(rightIcon);
-            }
-            
-            notificationContainer.appendChild(notificationElement);
+    function updateNotificationBadge() {
+        const badge = document.querySelector('.notifications-button .badge');
+        if (badge) {
+            const currentCount = parseInt(badge.textContent) || 0;
+            badge.textContent = currentCount + 1;
+            badge.style.display = 'block';
+        }
+    }
 
+    function displayNotification(notification) {
+        const notificationsContainer = document.getElementById('notifications');
+        if (notificationsContainer) {
+            const notificationElement = document.createElement('div');
+            notificationElement.className = 'notification-toast alert alert-' + (notification.type || 'info');
+            
+            const icon = getNotificationIcon(notification.type);
+            notificationElement.innerHTML = `
+                <i class="fas ${icon} me-2"></i>
+                <span>${notification.message}</span>
+            `;
+            
+            notificationsContainer.appendChild(notificationElement);
+            
+            // Update the notification badge
+            updateNotificationBadge();
+            
             // Auto-remove notification after 5 seconds
             setTimeout(() => {
                 notificationElement.remove();

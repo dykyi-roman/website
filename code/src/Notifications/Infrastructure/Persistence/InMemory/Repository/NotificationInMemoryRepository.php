@@ -25,7 +25,6 @@ final class NotificationInMemoryRepository implements NotificationRepositoryInte
                 new TranslatableText('notifications.notification.happy-birthday.title'),
                 new TranslatableText('notifications.notification.happy-birthday.message'),
                 null,
-                null,
             ),
             NotificationId::HAPPY_NEW_YEAR->value => new Notification(
                 NotificationId::HAPPY_NEW_YEAR,
@@ -33,14 +32,12 @@ final class NotificationInMemoryRepository implements NotificationRepositoryInte
                 new TranslatableText('notifications.notification.happy-new_year.title'),
                 new TranslatableText('notifications.notification.happy-new_year.message'),
                 null,
-                null,
             ),
             NotificationId::PASS_VERIFICATION->value => new Notification(
                 NotificationId::PASS_VERIFICATION,
                 NotificationType::INFORMATION,
                 new TranslatableText('notifications.notification.pass-verification.title'),
                 new TranslatableText('notifications.notification.pass-verification.message'),
-                null,
                 null,
             ),
         ];

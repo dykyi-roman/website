@@ -20,7 +20,6 @@ final readonly class NotificationTranslator
      *     type: string,
      *     title: string,
      *     message: string,
-     *     link: string|null,
      *     icon: string|null
      * }
      */
@@ -30,7 +29,6 @@ final readonly class NotificationTranslator
             'type' => $notification->getType()->value,
             'title' => $this->translateText($notification->getTitle()),
             'message' => $this->translateText($notification->getMessage()),
-            'link' => $notification->getLink(),
             'icon' => $notification->getIcon(),
         ];
     }

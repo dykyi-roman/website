@@ -277,3 +277,31 @@
     display: none;
     margin-top: 20px;
 }
+
+/* Toast notifications container */
+#notifications {
+    position: fixed;
+    top: 80px; /* Position below the navbar */
+    right: 20px;
+    z-index: 9999; /* Ensure it's above other elements */
+    max-width: 350px;
+    width: 100%;
+}
+
+.notification-toast {
+    position: relative;
+    margin-bottom: 10px;
+    z-index: 9999;
+    animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
