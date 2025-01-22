@@ -288,13 +288,6 @@
     width: 100%;
 }
 
-.notification-toast {
-    position: relative;
-    margin-bottom: 10px;
-    z-index: 9999;
-    animation: slideIn 0.3s ease-in-out;
-}
-
 @keyframes slideIn {
     from {
         transform: translateX(100%);

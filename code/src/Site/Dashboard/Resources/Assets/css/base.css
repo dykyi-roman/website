@@ -688,6 +688,23 @@ footer h5 {
     color: white;
 }
 
+/* Notification toast */
+
+.notification-toast {
+    position: relative;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.3s ease-in-out;
+    border-left: 4px solid;
+}
+
+.notification-toast i {
+    margin-right: 8px;
+}
+
 /* Hide language and currency elements on mobile */
 @media screen and (max-width: 768px) {
     .language-code,

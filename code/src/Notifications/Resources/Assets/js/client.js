@@ -120,9 +120,20 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const icon = getNotificationIcon(notification.type);
             notificationElement.innerHTML = `
-                <i class="fas ${icon} me-2"></i>
-                <span>${notification.message}</span>
+                <div class="notification-content">
+                    <i class="fas ${icon} me-2"></i>
+                    <span>${notification.message}</span>
+                </div>
+                <button type="button" class="notification-close" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
             `;
+            
+            // Add click event listener for close button
+            const closeButton = notificationElement.querySelector('.notification-close');
+            closeButton.addEventListener('click', () => {
+                notificationElement.remove();
+            });
             
             notificationsContainer.appendChild(notificationElement);
             
@@ -131,24 +142,22 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Auto-remove notification after 5 seconds
             setTimeout(() => {
-                notificationElement.remove();
+                if (notificationElement.parentElement) {
+                    notificationElement.remove();
+                }
             }, 5000);
         }
     }
 
     function getNotificationIcon(type) {
-        // Add logic to return the correct icon class based on the notification type
-        // For example:
-        switch (type) {
-            case 'success':
-                return 'fa-check-circle';
-            case 'error':
-                return 'fa-exclamation-circle';
-            case 'info':
-                return 'fa-info-circle';
-            default:
-                return 'fa-bell';
-        }
+        const icons = {
+            'personal': 'fa-user',
+            'system': 'fa-cog',
+            'information': 'fa-info-circle',
+            'warning': 'fa-exclamation-triangle',
+            'error': 'fa-exclamation-circle'
+        };
+        return icons[type] || 'fa-bell';
     }
 
     // Initial WebSocket connection

@@ -786,3 +786,28 @@
     border-color: var(--primary-orange);
     box-shadow: 0 0 0 0.25rem rgba(255, 139, 96, 0.25);
 }
+
+/* Notification toast styles for dark theme */
+[data-theme="dark"] .notification-toast {
+    background-color: var(--dark-surface);
+    box-shadow: var(--shadow-md);
+    color: var(--text-lighter);
+}
+
+[data-theme="dark"] .notification-toast i {
+    color: var(--text-lighter);
+}
+
+/* Dark theme styles for notification close button */
+[data-theme="dark"] .notification-close {
+    color: var(--text-muted);
+}
+
+[data-theme="dark"] .notification-close:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-lighter);
+}
+
+[data-theme="dark"] .notification-close:focus {
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}

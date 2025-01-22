@@ -64,6 +64,7 @@ final readonly class NotificationService implements NotificationServiceInterface
             $userNotification->setIsDelete();
             $this->userNotificationRepository->save($userNotification);
         }
+        $this->cache->resetUnreadCount($userId);
     }
 
     public function markAllAsDeleted(UserId $userId): void
