@@ -696,6 +696,7 @@ footer h5 {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-left: 4px solid var(--primary-orange);
+    background: #fff;
 }
 
 .notification-content {
@@ -736,11 +737,15 @@ footer h5 {
 }
 
 .notification-close i {
-    color: #000000;
     font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
 }
 
 .notification-close:hover i {
+    color: var(--primary-orange);
+}
+
+.notification-toast i:not(.fa-times) {
     color: var(--primary-orange);
 }
 
