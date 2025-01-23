@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Notifications\Infrastructure\Persistence\Doctrine\Type;
 
 use Notifications\DomainModel\Enum\NotificationType;
-use Shared\Infrastructure\Doctrine\DoctrineType\StringEnumType;
+use Shared\Infrastructure\Persistence\Doctrine\Type\StringEnumType;
 
 final class NotificationTypeType extends StringEnumType
 {

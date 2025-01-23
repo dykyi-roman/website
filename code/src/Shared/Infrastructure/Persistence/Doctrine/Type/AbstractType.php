@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shared\Infrastructure\Doctrine\DoctrineType;
+namespace Shared\Infrastructure\Persistence\Doctrine\Type;
 
 use Doctrine\DBAL\Types\Type;
 

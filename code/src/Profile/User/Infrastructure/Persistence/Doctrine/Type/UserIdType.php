@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Profile\User\Infrastructure\Persistence\Doctrine\Type;
 
 use Profile\User\DomainModel\Enum\UserId;
-use Shared\Infrastructure\Doctrine\DoctrineType\UuidType;
+use Shared\Infrastructure\Persistence\Doctrine\Type\UuidType;
 
 final class UserIdType extends UuidType
 {

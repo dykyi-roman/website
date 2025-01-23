@@ -1,6 +1,6 @@
 <?php
 
-namespace Shared\Infrastructure\Doctrine\DoctrineType;
+namespace Shared\Infrastructure\Persistence\Doctrine\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;

@@ -1,7 +1,71 @@
 {
+    "notifications": {
+        "time": {
+            "just_now": "justo ahora",
+            "minute": {
+                "one": "minuto atrás",
+                "few": "minutos atrás",
+                "many": "minutos atrás"
+            },
+            "hour": {
+                "one": "hora atrás",
+                "few": "horas atrás",
+                "many": "horas atrás"
+            },
+            "day": {
+                "one": "día atrás",
+                "few": "días atrás",
+                "many": "días atrás"
+            },
+            "month": {
+                "one": "mes atrás",
+                "few": "meses atrás",
+                "many": "meses atrás"
+            },
+            "year": {
+                "one": "año atrás",
+                "few": "años atrás",
+                "many": "años atrás"
+            }
+        }
+    },
+    "settings": {
+        "account": {
+            "active": "Activo",
+            "inactive": "Inactivo"
+        },
+        "error_image_size": "El tamaño de la imagen no debe exceder 5MB.",
+        "error_image_type": "Por favor, selecciona una imagen JPEG o PNG.",
+        "error_create_password": "Error al crear la contraseña",
+        "password_created_success": "Contraseña creada exitosamente",
+        "error_changing_password": "Error al cambiar la contraseña",
+        "password_changed_success": "Contraseña cambiada exitosamente",
+        "update_failed": "Error al actualizar la configuración",
+        "error_invalid_image_type": "Por favor, selecciona una imagen compatible.",
+        "error_image_too_large": "El tamaño de la imagen no debe exceder 5MB.",
+        "form_validation_error": "Por favor, corrige los errores del formulario",
+        "unexpected_error": "Error inesperado durante el guardado de configuración",
+        "account_activation_requested": "Activación de cuenta solicitada",
+        "account_deactivation_confirmed": "Desactivación de cuenta confirmada",
+        "account_deletion_confirmed": "Eliminación de cuenta confirmada",
+        "send_again_verification_code": "Enviar nuevamente",
+        "error_sending_verification_code": "Error al enviar el código de verificación",
+        "error_verifying": "Código de verificación inválido. Por favor, intenta nuevamente",
+        "deactivate_block": {
+            "title": "Desactivación de cuenta",
+            "description": "Desactivar tu cuenta ocultará temporalmente tu perfil y todo tu contenido de otros usuarios. Puedes reactivar tu cuenta en cualquier momento iniciando sesión nuevamente.",
+            "button": "Desactivar cuenta"
+        },
+        "activate_block": {
+            "title": "Activación de cuenta",
+            "description": "Tu cuenta está actualmente desactivada. Activar tu cuenta hará que tu perfil y contenido sean visibles nuevamente para otros usuarios.",
+            "button": "Activar cuenta"
+        },
+        "verification_retry_timer": "Reintentando en %seconds% segundos"
+    },
     "locales": {
         "uk": "Українська",
-        "en": "Inglés",
+        "en": "English",
         "es": "Español"
     },
     "countries": {
@@ -9,20 +73,21 @@
         "us": "Estados Unidos",
         "es": "España"
     },
+    "vote_thanks": "¡Gracias por tu voto!",
     "password_validation": "Contraseña inválida",
-    "error_generic_message": "Algo salió mal. Nuestro equipo está trabajando en ello. Por favor, inténtalo de nuevo más tarde.",
-    "error_email_required": "El correo electrónico es obligatorio",
+    "error_generic_message": "Algo salió mal. Nuestro equipo está trabajando en ello. Por favor, intenta nuevamente más tarde.",
+    "error_email_required": "El correo electrónico es requerido",
     "error_invalid_email": "Por favor, introduce una dirección de correo electrónico válida",
-    "error_network": "Error de red. Por favor, inténtalo de nuevo.",
+    "error_network": "Error de red. Por favor, intenta nuevamente.",
     "success_reset_link": "Enlace de restablecimiento de contraseña enviado a tu correo electrónico",
     "label_email": "Dirección de correo electrónico",
     "error_invalid_credentials": "Correo electrónico o contraseña inválidos",
     "label_login": "Iniciar sesión",
-    "placeholder_email": "Introduce tu correo electrónico",
+    "placeholder_email": "Ingresa tu correo electrónico",
     "error_password_length": "La contraseña debe tener al menos 8 caracteres",
     "error_passwords_match": "Las contraseñas deben coincidir",
-    "label_password": "Introduce tu contraseña",
-    "label_confirm_password": "Confirma tu contraseña",
+    "label_password": "Ingresa tu contraseña",
+    "label_confirm_password": "Confirmar contraseña",
     "password_length_validation": "La contraseña debe tener al menos 8 caracteres",
     "password_complexity_validation": "La contraseña debe contener al menos una letra y un número",
     "email_already_exists": "Este correo electrónico ya está registrado",
@@ -32,18 +97,18 @@
     "no_orders_found": "No se encontraron pedidos que coincidan con tu búsqueda.",
     "book_now": "Reservar ahora",
     "share": "Compartir",
-    "error_occurred": "Se produjo un error al buscar. Por favor, inténtalo de nuevo más tarde.",
+    "error_occurred": "Ocurrió un error durante la búsqueda. Por favor, intenta nuevamente más tarde.",
     "share_link_copied": "¡Copiado!",
-    "share_email_subject": "Echa un vistazo a este servicio",
+    "share_email_subject": "Mira este servicio",
     "share_email_body": "Encontré este servicio interesante: ",
-    "name_validation": "Por favor, introduce un nombre válido (2-50 caracteres, solo letras)",
-    "phone_validation": "Por favor, introduce un número de teléfono válido",
+    "name_validation": "Por favor, ingresa un nombre válido (2-50 caracteres, solo letras)",
+    "phone_validation": "Por favor, ingresa un número de teléfono válido",
     "selection_validation": "Por favor, realiza una selección",
-    "registration_error": "Error al registrarse. Por favor, inténtalo de nuevo.",
+    "registration_error": "Error en el registro. Por favor, intenta nuevamente.",
     "city_select_from_list": "Por favor, selecciona una ciudad de la lista",
-    "success_message": "¡Contraseña cambiada!",
-    "success_reset_password": "¡Contraseña cambiada!",
-    "error_reset_password": "Se produjo un error al restablecer la contraseña",
+    "success_message": "¡La contraseña ha sido cambiada!",
+    "success_reset_password": "¡La contraseña ha sido cambiada!",
+    "error_reset_password": "Ocurrió un error al restablecer la contraseña",
     "password_too_short": "La contraseña debe tener al menos 8 caracteres",
     "passwords_do_not_match": "Las contraseñas no coinciden"
 }

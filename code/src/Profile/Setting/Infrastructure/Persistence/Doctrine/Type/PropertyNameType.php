@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Profile\Setting\Infrastructure\Persistence\Doctrine\Type;
 
 use Profile\Setting\DomainModel\Enum\PropertyName;
-use Shared\Infrastructure\Doctrine\DoctrineType\StringEnumType;
+use Shared\Infrastructure\Persistence\Doctrine\Type\StringEnumType;
 
 final class PropertyNameType extends StringEnumType
 {

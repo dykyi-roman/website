@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Profile\User\Infrastructure\Persistence\Doctrine\Type;
 
 use Profile\User\DomainModel\Enum\UserStatus;
-use Shared\Infrastructure\Doctrine\DoctrineType\IntEnumType;
+use Shared\Infrastructure\Persistence\Doctrine\Type\IntEnumType;
 
 final class UserStatusType extends IntEnumType
 {

@@ -4,6 +4,7 @@ doctrine:
             site:
                 url: '%env(resolve:DATABASE_SITE_URL)%'
         types:
+            email: Profile\User\Infrastructure\Persistence\Doctrine\Type\EmailType
             user_id: Profile\User\Infrastructure\Persistence\Doctrine\Type\UserIdType
             user_status: Profile\User\Infrastructure\Persistence\Doctrine\Type\UserStatusType
     orm:

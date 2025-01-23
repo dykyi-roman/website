@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Shared\Infrastructure\Doctrine\DoctrineType;
+namespace Shared\Infrastructure\Persistence\Doctrine\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
-abstract class IntEnumType extends AbstractType
+abstract class StringEnumType extends AbstractType
 {
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
-        return $platform->getSmallIntTypeDeclarationSQL($column);
+        return $platform->getStringTypeDeclarationSQL($column);
     }
 
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?int
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
         if (null === $value) {
             return null;
@@ -24,8 +24,8 @@ abstract class IntEnumType extends AbstractType
         }
 
         $enumValue = $value->value;
-        if (!is_int($enumValue)) {
-            throw new \InvalidArgumentException('Enum value must be an integer');
+        if (!is_string($enumValue)) {
+            throw new \InvalidArgumentException('Enum value must be a string');
         }
 
         return $enumValue;
@@ -37,10 +37,10 @@ abstract class IntEnumType extends AbstractType
             return null;
         }
 
-        if (!is_numeric($value)) {
-            throw new \InvalidArgumentException('Database value must be numeric');
+        if (!is_scalar($value)) {
+            throw new \InvalidArgumentException('Database value must be a scalar value');
         }
 
-        return ($this->getIdClassName())::tryFrom(intval($value));
+        return ($this->getIdClassName())::tryFrom((string) $value);
     }
 }

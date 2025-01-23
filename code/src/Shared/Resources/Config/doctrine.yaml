@@ -1,4 +1,0 @@
-doctrine:
-    dbal:
-        types:
-            email: Shared\Infrastructure\Doctrine\DoctrineType\EmailType
