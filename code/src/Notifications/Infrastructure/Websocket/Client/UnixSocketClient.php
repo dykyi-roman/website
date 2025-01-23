@@ -20,6 +20,7 @@ final readonly class UnixSocketClient implements NotificationDispatcherInterface
 
     /**
      * @param array<string, mixed> $message
+     *
      * @throws SendSocketMessageException
      */
     public function dispatch(UserId $userId, array $message): void
@@ -46,8 +47,8 @@ final readonly class UnixSocketClient implements NotificationDispatcherInterface
                 'user_id' => $userId->toRfc4122(),
                 'message' => $message,
             ]);
-            
-            if ($data === false) {
+
+            if (false === $data) {
                 throw new \RuntimeException('Failed to encode message data as JSON');
             }
 

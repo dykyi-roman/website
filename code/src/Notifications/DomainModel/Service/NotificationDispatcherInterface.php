@@ -10,6 +10,7 @@ interface NotificationDispatcherInterface
 {
     /**
      * @param array<string, mixed> $message
+     *
      * @throws \Notifications\DomainModel\Exception\SendSocketMessageException
      */
     public function dispatch(UserId $userId, array $message): void;
