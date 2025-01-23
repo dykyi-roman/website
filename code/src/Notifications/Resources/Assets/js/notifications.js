@@ -560,6 +560,7 @@
             if (currentCount > 1) {
                 badge.textContent = currentCount - 1;
             } else {
+                badge.textContent = '0';
                 badge.style.display = 'none';
             }
         }
