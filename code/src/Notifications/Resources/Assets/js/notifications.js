@@ -108,9 +108,17 @@
                 </div>
             `;
             
+            // Add close button functionality
+            const closeButton = notificationElement.querySelector('.notification-close');
+            closeButton.addEventListener('click', () => {
+                removeToastNotification(notificationElement);
+            });
+            
             notificationsContainer.appendChild(notificationElement);
+            
+            // Auto-remove with animation
             setTimeout(() => {
-                notificationElement.remove();
+                removeToastNotification(notificationElement);
             }, 5000);
         }
 
@@ -158,6 +166,18 @@
                 todayGroup.style.display = 'block';
             }
         }
+    }
+
+    function removeToastNotification(notificationElement) {
+        // Add closing class for animation
+        notificationElement.classList.add('closing');
+        
+        // Remove element after animation completes
+        setTimeout(() => {
+            if (notificationElement.parentElement) {
+                notificationElement.parentElement.removeChild(notificationElement);
+            }
+        }, 500); // Match the CSS transition duration
     }
 
     function createNotificationElement(notification) {
