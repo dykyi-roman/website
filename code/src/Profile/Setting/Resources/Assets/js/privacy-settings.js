@@ -345,6 +345,11 @@ async function initializeApp() {
                     detail: { isActive: true }
                 }));
                 
+                // Update user status
+                if (window.updateUserStatus) {
+                    window.updateUserStatus(true);
+                }
+                
                 // After successful API call, switch to deactivation view
                 $(this).closest('.action-block').html(`
                     <div id="deactivate-block">
@@ -400,6 +405,11 @@ async function initializeApp() {
                 document.dispatchEvent(new CustomEvent('userStatusChanged', { 
                     detail: { isActive: false }
                 }));
+
+                // Update user status
+                if (window.updateUserStatus) {
+                    window.updateUserStatus(false);
+                }
                 
                 // After successful API call, switch to activation view
                 $('#deactivate-block').closest('.action-block').html(`

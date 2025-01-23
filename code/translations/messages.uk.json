@@ -10,177 +10,447 @@
   "Settings": "Налаштування",
   "Logout": "Вийти",
   "Login": "Увійти",
-  "Register": "Зареєструватися",
-  "Internal Server Error": "Помилка сервера",
-  "Back to Dashboard": "Назад на панель управління",
-  "Sorry, something went wrong on our servers. We are working to fix the issue.": "Вибачте, на наших серверах сталася помилка. Ми працюємо над її усуненням.",
-  "find_everything_placeholder": "Знайдіть все необхідне",
-  "services_and_orders_title": "Послуги та замовлення в одному місці",
-  "terms_of_service": "Умови використання",
-  "contact_us": "Контакти",
-  "privacy_policy": "Політика конфіденційності",
-  "error_invalid_email": "Введіть коректну адресу електронної пошти",
-  "enter_email_address": "Введіть свою електронну адресу",
-  "or": "або",
+  "Register": "Реєстрація",
+  "Language": "Мова",
+  "Currency": "Валюта",
+  "error_social_login": "Error social login",
+  "Internal Server Error": "Internal Server Error",
+  "Back to Dashboard": "Back to Dashboard",
+  "Sorry, something went wrong on our servers. We are working to fix the issue.": "Sorry, something went wrong on our servers. We are working to fix the issue.",
+  "find_everything_placeholder": "Find everything you need",
+  "services_and_orders_title": "Services and orders in one place",
+  "terms_of_service": "Terms of Service",
+  "contact_us": "Contact Us",
+  "privacy_policy": "Privacy Policy",
+  "error_invalid_email": "Please enter a valid email address",
+  "enter_email_address": "Enter your email address",
+  "or": "or",
+  "promotion_information_text": "Free for the first year! Enjoy unlimited ad postings for your first year with us.",
   "logout_menu_item": "Вийти",
   "email_section_title": "Електронна пошта",
   "phone_section_title": "Телефон",
   "address_section_title": "Адреса",
-  "business_hours_section_title": "Години роботи",
-  "send_forgot_password_button": "Надіслати",
-  "letter_sent_success": "Лист відправлено. Перевірте вашу електронну пошту.",
-  "forgot_password_error": "Несподівана помилка під час відновлення пароля",
-  "copyright_text": "© %year% %organization%. Всі права захищено.",
-  "meta_description": "%organization% - Знаходьте та бронюйте професійні послуги. Переглядайте широкий вибір перевірених постачальників послуг для всіх ваших потреб.",
-  "meta_keywords": "послуги, бронювання, професійні послуги, постачальники послуг, місцеві послуги",
-  "this_field_is_required": "Це поле обов'язкове",
-  "reset_password_page_title": "Скидання пароля",
-  "reset_password_button": "Скинути пароль",
-  "registration_success": "Реєстрація успішна!",
-  "unexpected_registration_error": "Несподівана помилка під час реєстрації",
-  "password_reset_success": "Пароль успішно скинуто",
-  "reset_token_expired": "Токен скидання пароля недійсний або закінчився термін його дії",
-  "invalid_password": "Невірний пароль",
-  "unexpected_reset_error": "Сталася несподівана помилка",
-  "user_registration_save_error": "Не вдалося зареєструвати користувача: %s",
-  "user_email_exists_error": "Електронна пошта \"%s\" вже існує",
-  "orders_search_title": "Пошук замовлень",
-  "services_search_title": "Пошук послуг",
-  "list_view_title": "Список",
-  "grid_view_title": "Сітка",
+  "business_hours_section_title": "Business Hours",
+  "send_forgot_password_button": "Send",
+  "letter_sent_success": "Letter sent. Check your email.",
+  "forgot_password_error": "Unexpected error during restore password",
+  "copyright_text": " %year% %organization%. All rights reserved.",
+  "meta_description": "%organization% - Find and book professional services. Browse through our wide selection of verified service providers for all your needs.",
+  "meta_keywords": "services, booking, professional services, service providers, local services",
+  "this_field_is_required": "This field is required",
+  "reset_password_page_title": "Reset Password",
+  "reset_password_button": "Reset Password",
+  "registration_success": "Registration successful!",
+  "unexpected_registration_error": "Unexpected error during registration",
+  "unexpected_registration_save_settings": "Unexpected error during save settings",
+  "password_reset_success": "Password successfully reset",
+  "reset_token_expired": "Reset token is invalid or has expired",
+  "invalid_password": "Invalid password",
+  "unexpected_reset_error": "An unexpected error occurred",
+  "user_registration_save_error": "Failed to register user: %s",
+  "user_email_exists_error": "Email \"%s\" already exists",
+  "orders_search_title": "Orders Search",
+  "services_search_title": "Services Search",
+  "list_view_title": "List View",
+  "grid_view_title": "Grid View",
   "settings_menu_item": "Налаштування",
-  "forgot_password_email_instructions": "Введіть адресу електронної пошти, пов'язану з вашим обліковим записом, і ми надішлемо вам посилання для скидання пароля.",
+  "order": {
+    "price": {
+      "asc": "Price: Low to High",
+      "desc": "Price: High to Low"
+    },
+    "date": {
+      "desc": "Date: Newest First",
+      "asc": "Date: Oldest First"
+    },
+    "rating": {
+      "desc": "Rating: Highest First",
+      "asc": "Rating: Lowest First"
+    }
+  },
+  "search_examples": {
+    "title": "For example:",
+    "examples": {
+      "1": "Refrigerator repair",
+      "2": "English courses",
+      "3": "Dog walking"
+    }
+  },
+  "forgot_password_email_instructions": "Enter the email address associated with your account, and we'll email you a link to reset your password.",
   "auth_menu_login": "Увійти",
-  "auth_menu_register": "Зареєструватися",
-  "register_popup_title": "Реєстрація",
+  "auth_menu_register": "Registration",
+  "register_popup_title": "Registration",
   "register_popup_close": "Закрити",
-  "register_client_type": "Тип клієнта",
-  "register_partner_type": "Тип партнера",
-  "register_already_have_account": "Вже є обліковий запис? Увійти.",
-  "register_name_placeholder": "Ім'я",
-  "register_field_required": "Поле обов'язкове",
+  "register_already_have_account": "Already Have Account? Login.",
+  "register_name_placeholder": "Name",
+  "register_field_required": "Field Required",
   "register_email_placeholder": "Електронна пошта",
   "register_phone_placeholder": "Телефон",
-  "register_phone_invalid": "Невірний номер телефону",
-  "register_password_placeholder": "Пароль",
-  "register_password_invalid": "Невірний пароль",
-  "register_country_placeholder": "Країна",
-  "register_country_invalid": "Недійсний формат країни",
-  "register_client_button": "Створити обліковий запис клієнта",
-  "register_partner_button": "Створити обліковий запис партнера",
-  "register_terms_agreement": "Реєструючись, ви погоджуєтеся з нашими Умовами використання та Політикою конфіденційності",
-  "register_or": "або",
-  "register_google_login": "Увійти через Google",
-  "register_facebook_login": "Увійти через Facebook",
+  "register_phone_invalid": "Phone Invalid",
+  "register_password_placeholder": "Password",
+  "register_password_invalid": "Password Invalid",
+  "register_country_placeholder": "Country",
+  "register_country_invalid": "Country Invalid",
+  "register_button": "Create Account",
+  "register_terms_agreement": "By registering, you agree to our Terms of Service and Privacy Policy",
+  "register_invalid_captcha": "Invalid Captcha",
+  "register_or": "or",
+  "register_current_country": "Your location:",
+  "register_manual": "Manual",
+  "register_google_login": "Google",
+  "register_facebook_login": "Facebook",
   "login_popup_title": "Увійти",
   "login_email_placeholder": "Електронна пошта",
-  "login_password_placeholder": "Пароль",
-  "share_popup_title": "Поділитися",
+  "login_password_placeholder": "Password",
+  "share_popup_title": "Share",
   "share_popup_close": "Закрити",
-  "share_copy_link": "Копіювати посилання",
-  "share_email_button": "Надіслати поштою",
+  "share_copy_link": "Copy Link",
+  "share_email_button": "Електронна пошта",
   "share_twitter": "Twitter",
   "share_whatsapp": "WhatsApp",
   "share_messenger": "Messenger",
   "share_facebook": "Facebook",
-  "login_remember_me": "Запам'ятати мене",
-  "login_forgot_password_link": "Забули пароль?",
+  "login_remember_me": "Remember Me",
+  "login_forgot_password_link": "Forgot Password",
   "login_button": "Увійти",
-  "reset_password_new_password": "Новий пароль",
-  "reset_password_confirm_password": "Підтвердити пароль",
-  "reset_password_token_expired": "Токен скидання пароля недійсний або закінчився термін його дії",
-  "forgot_password": "Забули пароль?",
-  "access_denied": "Доступ заборонено",
-  "you_not_have_permission_message": "На жаль, у вас немає дозволу для доступу до цієї сторінки.",
-  "page_might_have_been_removed_message": "Сторінка, яку ви шукаєте, може бути видалена, змінена або тимчасово недоступна.",
-  "back_to_dashboard": "Назад на панель управління",
-  "page_not_found": "Сторінка не знайдена",
-  "careers": {
-    "page_title": "Вакансії",
-    "content_head": "Побудуйте свою кар'єру з нами",
-    "no_open_positions": "Відкритих вакансій немає"
+  "reset_password_new_password": "New Password",
+  "reset_password_confirm_password": "Confirm New Password",
+  "reset_password_token_expired": "Token has expired or invalid",
+  "forgot_password": "Forgot password",
+  "unauthorized_title": "Unauthorized",
+  "you_need_to_be_authorized_message": "Sorry, you need to be authorized to access this page.",
+  "access_denied": "Access Denied",
+  "you_not_have_permission_message": "Sorry, you don't have permission to access this page.",
+  "page_might_have_been_removed_message": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+  "back_to_dashboard": "Back to Dashboard",
+  "page_not_found": "Page Not Found",
+  "guest": "guest",
+  "toggle_theme": "Day/Night",
+  "notifications": {
+    "settings": "Налаштування",
+    "today": "Today",
+    "this_week": "This week",
+    "earlier": "Earlier",
+    "read_all": "Read all",
+    "clear_all": "Clear all",
+    "page_title": "Notifications",
+    "show_more": "See previous notifications",
+    "no_notifications": "Not have yet",
+    "notification": {
+      "happy-birthday": {
+        "title": "Happy birthday",
+        "message": "Happy birthday"
+      },
+      "happy-new_year": {
+        "title": "Happy New Year",
+        "message": "Happy New Year"
+      },
+      "pass-verification": {
+        "title": "Pass verification",
+        "message": "Pass verification"
+      }
+    }
   },
-  "search_examples": {
-    "title": "Наприклад:",
-    "examples": {
-      "1": "Ремонт холодильника",
-      "2": "Курси англійської мови",
-      "3": "Вигул собак"
+  "messages": {
+    "page_title": "Messages",
+    "show_more": "See previous messages",
+    "no_messages": "Not have yet"
+  },
+  "password_change_error": "Failed to change password",
+  "password_create_error": "Failed to create password",
+  "unread_notifications": "Unread notifications",
+  "menu_favorites": "Favorites",
+  "unread_messages": "Unread messages",
+  "account_menu": "Menu",
+  "profile_picture": "Profile picture",
+  "get_it_on_google_play": "Download on the Google play",
+  "download_on_app_store": "Download on the Apple store",
+  "favorites": {
+    "page_title": "Favorites",
+    "no_messages": "Not have yet"
+  },
+  "app": {
+    "page_title": "App votes",
+    "page_head": "Your vote is important! Help us create the mobile app of your dreams",
+    "page_context": "We plan to develop a mobile application to make your experience even more convenient and better. Vote now and tell us how important it is to you! Your vote determines the priority of our work and will help us create what you really need.",
+    "vote_yes": "Yes"
+  },
+  "careers": {
+    "page_title": "Careers",
+    "content_head": "Build your career with us",
+    "no_open_positions": "There are no open positions"
+  },
+  "terms": {
+    "page_title": "Terms of Service",
+    "content": "<p>Welcome to our platform, a comprehensive marketplace connecting orders and services.</p><h2>1. Platform Overview</h2><p>Our platform provides a unique ecosystem where:</p><ul><li>Clients can publish diverse advertisements for services they require</li><li>Partners can offer their professional services and respond to client needs</li></ul><h2>2. User Responsibilities</h2><p>All users must:</p><ul><li>Provide accurate and truthful information</li><li>Maintain professional communication</li><li>Respect the platform's guidelines and legal requirements</li></ul><h2>3. Client Responsibilities</h2><p>Clients using the platform to publish advertisements must:</p><ul><li>Clearly describe service requirements</li><li>Provide realistic expectations</li><li>Communicate transparently with potential service partners</li></ul><h2>4. Partner Responsibilities</h2><p>Service partners must:</p><ul><li>Possess necessary qualifications for offered services</li><li>Respond promptly to client inquiries</li><li>Deliver services with professionalism and integrity</li></ul><h2>5. Transaction and Communication</h2><p>The platform facilitates connections but is not directly responsible for:</p><ul><li>Service quality</li><li>Pricing negotiations</li><li>Final agreements between clients and partners</li></ul><h2>6. Intellectual Property and Privacy</h2><p>All content on the platform is protected. Users must respect intellectual property rights and adhere to privacy policies.</p><h2>7. Limitation of Liability</h2><p>Our platform provides a service marketplace and is not liable for direct or indirect damages arising from user interactions.</p><h2>8. Modifications to Terms</h2><p>We reserve the right to update these terms. Continued platform use constitutes acceptance of updated terms.</p><p class='last-updated'>Last Updated: %last_updated_date%</p>"
+  },
+  "contact": {
+    "page_title": "Contact Us",
+    "content": "<h2>Get in Touch</h2><p>We'd love to hear from you! Please use the contact information provided or visit us during business hours.</p>",
+    "business_hours": "We work for you 24/7"
+  },
+  "cookie_consent": {
+    "title": "Cookie Consent",
+    "description": "We use cookies to enhance your browsing experience and analyze our traffic. Please choose your preference below.",
+    "reject_button": "Reject",
+    "accept_button": "Accept"
+  },
+  "dashboard": {
+    "dashboard_page_title": "Ласкаво просимо!",
+    "page_title": "Dashboard",
+    "search_placeholder": "Search services, partners, and more"
+  },
+  "settings": {
+    "account": {
+      "success": "Settings updated successfully",
+      "error": {
+        "not_authenticated": "User not authenticated",
+        "already_exists": "User already exist with this email",
+        "not_found": "User not found",
+        "invalid_input": "Invalid input data provided",
+        "save_failed": "Failed to save account settings",
+        "invalid_verification_code": "Invalid verification code",
+        "error_send_verification_code": "Error send verification code"
+      },
+      "verification_code_title": "Verification Code",
+      "verification_code_message": "Your verification code is:",
+      "verification_code_expiry": "This code will expire in %minutes% minutes.",
+      "verification_code_ignore": "If you didn't request this code, please ignore this email.",
+      "your_verification_code": "Your verification code is",
+      "errors": {
+        "not_supported_image_format": "Please select a JPEG or PNG image.",
+        "not_supported_image_size": "Image size should not exceed 5MB."
+      },
+      "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "change_photo": "Change photo",
+      "verify": "Verify",
+      "profile_image": "Profile Image",
+      "name": "Name",
+      "email": "Електронна пошта",
+      "phone": "Телефон",
+      "save": "Save",
+      "light": "Light",
+      "dark": "Dark",
+      "theme": "Theme",
+      "currency": "Валюта",
+      "language": "Мова"
+    },
+    "page_title": "Налаштування",
+    "menu": {
+      "account": "Account",
+      "general": "General",
+      "notifications": "Notifications",
+      "privacy": "Privacy"
+    },
+    "privacy": {
+      "deactivation": {
+        "title": "Account Deactivation",
+        "description": "Deactivating your account will temporarily hide your profile and all your content from other users. You can reactivate your account at any time by logging back in.",
+        "button": "Deactivate Account",
+        "modal": {
+          "title": "Confirm Account Deactivation",
+          "message": "Are you sure you want to deactivate your account? Your profile and content will be hidden until you reactivate.",
+          "effects": {
+            "profile_invisible": "Your profile will become invisible to other users",
+            "content_hidden": "Your content will be temporarily hidden",
+            "can_reactivate": "You can reactivate by logging back in"
+          },
+          "cancel": "No, Cancel",
+          "confirm": "Yes, Deactivate"
+        }
+      },
+      "activation": {
+        "title": "Account Activation",
+        "description": "Your account is currently deactivated. Activating your account will make your profile and content visible to other users again.",
+        "button": "Activate Account"
+      },
+      "deletion": {
+        "title": "Account Deletion",
+        "description": "Deleting your account is permanent. All your data, including profile information, history, and content will be permanently removed and cannot be recovered.",
+        "button": "Delete Account",
+        "modal": {
+          "title": "Confirm Account Deletion",
+          "message": "Are you sure you want to permanently delete your account? This action cannot be undone.",
+          "effects": {
+            "data_deleted": "All your personal data will be permanently deleted",
+            "profile_removed": "Your profile and content will be removed forever",
+            "no_recovery": "You cannot recover your account after deletion"
+          },
+          "cancel": "No, Cancel",
+          "confirm": "Yes, Delete"
+        }
+      },
+      "create_password": {
+        "title": "Create Password",
+        "description": "Set your account password to maintain security",
+        "button": "Create Password",
+        "current_password": "Password",
+        "new_password": "Confirmation Password",
+        "submit": "Create Password",
+        "success": "Password successfully created",
+        "error": "Failed to create password",
+        "validation": {
+          "current_password_required": "password is required",
+          "new_password_required": "password is required"
+        }
+      },
+      "change_password": {
+        "title": "Change Password",
+        "description": "Update your account password to maintain security",
+        "button": "Change Password",
+        "current_password": "Current Password",
+        "new_password": "New Password",
+        "submit": "Update Password",
+        "success": "Password successfully changed",
+        "error": "Failed to change password",
+        "validation": {
+          "current_password_required": "Current password is required",
+          "new_password_required": "New password is required"
+        }
+      },
+      "page_title": "Privacy Policy",
+      "content": "<h2>1. Introduction</h2><p>Welcome to %app_name%. This Privacy Policy outlines how we collect, use, protect, and manage your personal information when you use our service marketplace platform.</p><h2>2. Information We Collect</h2><ul><li>Personal identification information (Name, email address, phone number)</li><li>Profile information for service providers and clients</li><li>Communication records between clients and service providers</li><li>Usage data and platform interaction logs</li></ul><h2>3. How We Use Your Information</h2><ul><li>Facilitate service connections between clients and providers</li><li>Improve platform functionality and user experience</li><li>Send important notifications and updates</li><li>Respond to customer support requests</li></ul><h2>4. Data Protection</h2><ul><li>We implement industry-standard security measures to protect your data</li><li>Personal information is encrypted and stored securely</li><li>Access to data is strictly limited to authorized personnel</li></ul><h2>5. User Consent and Control</h2><ul><li>You can review and update your personal information</li><li>You can request data deletion or account closure</li><li>We obtain explicit consent before processing sensitive data</li></ul><h2>6. Third-Party Sharing</h2><p>We do not sell or rent your personal information to third parties. Information may be shared only:</p><ul><li>With your explicit consent</li><li>To comply with legal obligations</li><li>To protect our platform's rights and safety</li></ul><h2>7. Cookies and Tracking</h2><p>We use cookies to enhance user experience and platform functionality. You can manage cookie preferences in your browser settings.</p><h2>8. Contact Information</h2><p>For privacy-related questions or concerns, please contact us at:</p><ul><li>Email: %support_email%</li><li>Address: %support_address%</li></ul><h2>9. Policy Updates</h2><p>We may update this Privacy Policy periodically. The latest version will always be available on our platform.</p><p class='last-updated'>Last Updated: %last_updated_date%</p>"
+    },
+    "phone": {
+      "verification": {
+        "popup_title": "Phone Verification",
+        "instructions": "Please enter the 6-digit verification code that was sent to your phone",
+        "verify_button": "Verify Code"
+      }
+    },
+    "email": {
+      "forgot_password": {
+        "title": "Password Reset",
+        "body": "<p>We've received a request to reset your password.</p><p>If you didn't make the request, just ignore this message. Otherwise, click the button below:</p>",
+        "button_text": "Reset Your Password",
+        "signature": "Thanks,\nYour Team"
+      },
+      "verification": {
+        "popup_title": "Email Verification",
+        "instructions": "Please enter the 6-digit verification code that was sent to your email",
+        "verify_button": "Verify Code",
+        "resend_code": "Resend Code",
+        "code_sent": "Verification code has been sent to your email",
+        "invalid_code": "Invalid verification code. Please try again",
+        "success": "Email successfully verified",
+        "error": "Failed to verify email. Please try again"
+      }
     }
   },
   "js": {
+    "notifications": {
+      "time": {
+        "just_now": "just now",
+        "minute": {
+          "one": "minute ago",
+          "few": "minutes ago",
+          "many": "minutes ago"
+        },
+        "hour": {
+          "one": "hour ago",
+          "few": "hours ago",
+          "many": "hours ago"
+        },
+        "day": {
+          "one": "day ago",
+          "few": "days ago",
+          "many": "days ago"
+        },
+        "month": {
+          "one": "month ago",
+          "few": "months ago",
+          "many": "months ago"
+        },
+        "year": {
+          "one": "year ago",
+          "few": "years ago",
+          "many": "years ago"
+        }
+      }
+    },
+    "settings": {
+      "account": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "error_image_size": "Image size should not exceed 5MB.",
+      "error_image_type": "Please select a JPEG or PNG image.",
+      "error_create_password": "Error creating password",
+      "password_created_success": "Password create successfully",
+      "error_changing_password": "Error changing password",
+      "password_changed_success": "Password changed successfully",
+      "update_failed": "Failed to update settings",
+      "error_invalid_image_type": "Please select a supported image.",
+      "error_image_too_large": "Image size should not exceed 5MB.",
+      "form_validation_error": "Please correct the form errors",
+      "unexpected_error": "Unexpected error during save settings",
+      "account_activation_requested": "Account activation requested",
+      "account_deactivation_confirmed": "Account deactivation confirmed",
+      "account_deletion_confirmed": "Account deletion confirmed",
+      "send_again_verification_code": "Send again",
+      "error_sending_verification_code": "Error sending verification code",
+      "error_verifying": "Invalid verification code. Please try again",
+      "deactivate_block": {
+        "title": "Account Deactivation",
+        "description": "Deactivating your account will temporarily hide your profile and all your content from other users. You can reactivate your account at any time by logging back in.",
+        "button": "Deactivate Account"
+      },
+      "activate_block": {
+        "title": "Account Activation",
+        "description": "Your account is currently deactivated. Activating your account will make your profile and content visible to other users again.",
+        "button": "Activate Account"
+      },
+      "verification_retry_timer": "Retrying in %seconds% seconds"
+    },
     "locales": {
       "uk": "Українська",
       "en": "English",
       "es": "Spain"
     },
     "countries": {
-      "ua": "Україна",
-      "us": "США",
-      "es": "Іспанія"
+      "ua": "Ukraine",
+      "us": "United States",
+      "es": "Spain"
     },
-    "password_validation": "Невірний пароль",
-    "error_generic_message": "Сталася помилка. Наша команда працює над її виправленням. Будь ласка, спробуйте пізніше.",
-    "error_email_required": "Email обов'язковий",
-    "error_invalid_email": "Введіть коректну адресу електронної пошти",
-    "error_network": "Помилка мережі. Будь ласка, спробуйте ще раз.",
-    "success_reset_link": "Посилання для скидання пароля відправлено на вашу електронну пошту",
-    "label_email": "Адреса електронної пошти",
-    "error_invalid_credentials": "Невірний email або пароль",
+    "vote_thanks": "Thanks for your vote!",
+    "password_validation": "Invalid password",
+    "error_generic_message": "Something went wrong. Our team is working on it. Please try again later.",
+    "error_email_required": "Email is required",
+    "error_invalid_email": "Please enter a valid email address",
+    "error_network": "Network error. Please try again.",
+    "success_reset_link": "Password reset link sent to your email",
+    "label_email": "Email Address",
+    "error_invalid_credentials": "Invalid email or password",
     "label_login": "Увійти",
-    "placeholder_email": "Введіть вашу електронну адресу",
-    "error_password_length": "Пароль повинен містити щонайменше 8 символів",
-    "error_passwords_match": "Паролі не співпадають",
-    "label_password": "Введіть пароль",
-    "label_confirm_password": "Підтвердити пароль",
-    "password_length_validation": "Пароль повинен містити щонайменше 8 символів",
-    "password_complexity_validation": "Пароль повинен містити принаймні одну літеру та одну цифру",
-    "email_already_exists": "Цей email вже зареєстрований",
-    "find_your_orders": "Знайдіть свої замовлення",
-    "what_order_looking_for": "Яке замовлення ви шукаєте?",
-    "no_services_found": "Не знайдено послуг, що відповідають вашому запиту.",
-    "no_orders_found": "Не знайдено замовлень, що відповідають вашому запиту.",
-    "book_now": "Забронювати зараз",
-    "share": "Поділитися",
-    "error_occurred": "Сталася помилка під час пошуку. Будь ласка, спробуйте пізніше.",
-    "share_link_copied": "Скопійовано!",
-    "share_email_subject": "Перегляньте цю послугу",
-    "share_email_body": "Я знайшов цю цікаву послугу: ",
-    "name_validation": "Введіть коректне ім'я (2-50 символів, лише літери)",
-    "phone_validation": "Введіть коректний номер телефону",
-    "selection_validation": "Будь ласка, зробіть вибір",
-    "registration_error": "Сталася помилка реєстрації. Будь ласка, спробуйте ще раз.",
-    "city_select_from_list": "Будь ласка, оберіть місто зі списку",
-    "success_message": "Пароль змінено!",
-    "success_reset_password": "Пароль змінено!",
-    "error_reset_password": "Сталася помилка під час скидання пароля",
-    "password_too_short": "Пароль повинен містити щонайменше 8 символів",
-    "passwords_do_not_match": "Паролі не співпадають"
-  },
-  "terms": {
-    "page_title": "Умови використання",
-    "content": "<p>Ласкаво просимо на нашу платформу, всебічний ринок, що об'єднує клієнтів та партнерів з надання послуг.</p><h2>1. Огляд платформи</h2><p>Наша платформа надає унікальну екосистему, де:</p><ul><li>Клієнти можуть публікувати різноманітні оголошення про послуги, які їм необхідні</li><li>Партнери можуть пропонувати свої професійні послуги та відповідати на потреби клієнтів</li></ul><h2>2. Відповідальність користувачів</h2><p>Всі користувачі повинні:</p><ul><li>Надавати точну та правдиву інформацію</li><li>Підтримувати професійне спілкування</li><li>Дотримуватися правил платформи та законодавчих вимог</li></ul><h2>3. Відповідальність клієнтів</h2><p>Клієнти, які використовують платформу для публікації оголошень, повинні:</p><ul><li>Чітко описувати вимоги до послуг</li><li>Надавати реалістичні очікування</li><li>Спілкуватися прозоро з потенційними партнерами з надання послуг</li></ul><h2>4. Відповідальність партнерів</h2><p>Партнери з надання послуг повинні:</p><ul><li>Мати необхідну кваліфікацію для пропонованих послуг</li><li>Пунктуально відповідати на запити клієнтів</li><li>Надавати послуги з професіоналізмом та добросовісністю</li></ul><h2>5. Транзакції та комунікація</h2><p>Платформа сприяє встановленню зв'язків, але не несе безпосередньої відповідальності за:</p><ul><li>Якість послуг</li><li>Переговори щодо ціноутворення</li><li>Остаточні угоди між клієнтами та партнерами</li></ul><h2>6. Інтелектуальна власність та конфіденційність</h2><p>Весь контент на платформі захищений. Користувачі повинні дотримуватися прав інтелектуальної власності та дотримуватися політики конфіденційності.</p><h2>7. Обмеження відповідальності</h2><p>Наша платформа надає ринок послуг і не несе відповідальності за прямі чи непрямі збитки, що виникають в результаті взаємодії користувачів.</p><h2>8. Зміни умов</h2><p>Ми маємо право оновлювати ці умови. Продовження використання платформи означає прийняття оновлених умов.</p><p class='last-updated'>Останнє оновлення: %last_updated_date%</p>"
-  },
-  "contact": {
-    "page_title": "Контакти",
-    "content": "<h2>Зв'яжіться з нами</h2><p>Ми раді чути від вас! Будь ласка, скористайтеся наданою контактною інформацією або відвідайте нас під час робочого часу.</p>",
-    "business_hours": "Ми працюємо для вас 24/7"
-  },
-  "dashboard": {
-    "dashboard_page_title": "Ласкаво просимо!",
-    "page_title": "Панель управління",
-    "search_placeholder": "Пошук послуг, партнерів та іншого"
-  },
-  "privacy": {
-    "page_title": "Політика конфіденційності",
-    "content": "<h2>1. Вступ</h2><p>Ласкаво просимо до %app_name%. Ця Політика конфіденційності визначає, як ми збираємо, використовуємо, захищаємо та управляємо вашою особистою інформацією під час використання вами нашої платформи ринку послуг.</p><h2>2. Інформація, яку ми збираємо</h2><ul><li>Особиста ідентифікаційна інформація (Ім'я, адреса електронної пошти, номер телефону)</li><li>Інформація про профіль для постачальників послуг та клієнтів</li><li>Записи комунікацій між клієнтами та постачальниками послуг</li><li>Дані використання та журнали взаємодії з платформою</li></ul><h2>3. Як ми використовуємо вашу інформацію</h2><ul><li>Сприяти встановленню зв'язків між клієнтами та постачальниками послуг</li><li>Покращувати функціональність платформи та користувацький досвід</li><li>Надсилати важливі повідомлення та оновлення</li><li>Відповідати на запити служби підтримки клієнтів</li></ul><h2>4. Захист даних</h2><ul><li>Ми впроваджуємо стандартні для галузі заходи безпеки для захисту ваших даних</li><li>Особиста інформація шифрується та зберігається безпечно</li><li>Доступ до даних строго обмежений для уповноваженого персоналу</li></ul><h2>5. Згода користувача та контроль</h2><ul><li>Ви можете переглядати та оновлювати свою особисту інформацію</li><li>Ви можете запитати про видалення даних або закриття облікового запису</li><li>Ми отримуємо явну згоду перед обробкою конфіденційних даних</li></ul><h2>6. Обмін даними з третіми сторонами</h2><p>Ми не продаємо та не здаємо в оренду вашу особисту інформацію третім особам. Інформація може бути передана лише:</p><ul><li>З вашої явною згоди</li><li>Для виконання юридичних зобов'язань</li><li>Для захисту прав та безпеки нашої платформи</li></ul><h2>7. Файли cookie та відстеження</h2><p>Ми використовуємо файли cookie для покращення користувацького досвіду та функціональності платформи. Ви можете керувати налаштуваннями файлів cookie в налаштуваннях свого браузера.</p><h2>8. Контактна інформація</h2><p>З питань конфіденційності чи проблем, будь ласка, зв'яжіться з нами за адресою:</p><ul><li>Електронна пошта: %support_email%</li><li>Адреса: %support_address%</li></ul><h2>9. Оновлення політики</h2><p>Ми можемо періодично оновлювати цю Політику конфіденційності. Остання версія завжди буде доступна на нашій платформі.</p><p class='last-updated'>Останнє оновлення: %last_updated_date%</p>"
-  },
-  "email": {
-    "forgot_password": {
-      "title": "Скидання пароля",
-      "body": "<p>Ми отримали запит на скидання пароля.</p><p>Якщо ви не надсилали цей запит, просто проігноруйте це повідомлення. В іншому випадку натисніть на кнопку нижче:</p>",
-      "button_text": "Скинути пароль",
-      "signature": "З повагою,\nВаша команда"
-    }
+    "placeholder_email": "Enter your email",
+    "error_password_length": "Password must be at least 8 characters long",
+    "error_passwords_match": "Passwords must match",
+    "label_password": "Enter your password",
+    "label_confirm_password": "Confirm Password",
+    "password_length_validation": "Password must be at least 8 characters long",
+    "password_complexity_validation": "Password must contain at least one letter and one number",
+    "email_already_exists": "This email is already registered",
+    "find_your_orders": "Find Your Orders",
+    "what_order_looking_for": "What order are you looking for?",
+    "no_services_found": "No services found matching your search.",
+    "no_orders_found": "No orders found matching your search.",
+    "book_now": "Book Now",
+    "share": "Share",
+    "error_occurred": "An error occurred while searching. Please try again later.",
+    "share_link_copied": "Copied!",
+    "share_email_subject": "Check out this service",
+    "share_email_body": "I found this interesting service: ",
+    "name_validation": "Please enter a valid name (2-50 characters, letters only)",
+    "phone_validation": "Please enter a valid phone number",
+    "selection_validation": "Please make a selection",
+    "registration_error": "Registration failed. Please try again.",
+    "city_select_from_list": "Please select a city from the list",
+    "success_message": "Password is changed!",
+    "success_reset_password": "Password is changed!",
+    "error_reset_password": "An error occurred while resetting password",
+    "password_too_short": "Password must be at least 8 characters long",
+    "passwords_do_not_match": "Passwords do not match"
   }
 }
