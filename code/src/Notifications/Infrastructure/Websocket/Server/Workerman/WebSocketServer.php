@@ -73,20 +73,38 @@ final class WebSocketServer implements WebSocketServerInterface
 
         try {
             $message = json_decode($data, true);
-            if (!is_array($message)
-                || !isset($message['user_id'])
-                || !isset($message['message'])
-                || !is_string($message['user_id'])
-                || !is_string($message['message'])
-            ) {
-                throw new \InvalidArgumentException('Invalid message format');
+            if (!is_array($message)) {
+                throw new \InvalidArgumentException('Message must be a JSON object');
             }
 
-            /** @var array{user_id: string, message: string} $message */
+            if (!isset($message['user_id'])) {
+                throw new \InvalidArgumentException('Missing required field: user_id');
+            }
+
+            if (!isset($message['message'])) {
+                throw new \InvalidArgumentException('Missing required field: message');
+            }
+
+            if (!is_string($message['user_id'])) {
+                throw new \InvalidArgumentException('Field user_id must be a string');
+            }
+
+            if (!is_array($message['message'])) {
+                throw new \InvalidArgumentException('Field message must be an object containing notification data');
+            }
+
+            // Validate notification message structure
+            $notification = $message['message'];
+            if (!isset($notification['type'], $notification['message'])) {
+                throw new \InvalidArgumentException('Notification must contain type and message fields');
+            }
+
+            /** @var array{user_id: string, message: array{type: string, title: string, message: string, icon: ?string, id: string, readAt: ?string, createdAt: string, deletedAt: ?string}} $message */
             $userId = $message['user_id'];
 
             $this->logger->info('Processing TCP message', [
                 'user_id' => $userId,
+                'notification_type' => $notification['type'],
                 'authorized_connections' => array_keys(self::$authorizedConnections),
                 'has_connection' => isset(self::$authorizedConnections[$userId]),
                 'pid' => getmypid(),

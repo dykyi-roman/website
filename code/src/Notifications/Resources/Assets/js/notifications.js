@@ -33,10 +33,14 @@
             state.socket = new WebSocket(url);
             
             state.socket.onopen = function(event) {
+                const wasReconnecting = state.reconnectAttempts > 0;
                 state.reconnectAttempts = 0;
                 const userId = getUserId();
                 if (userId) {
                     authenticateUser(userId);
+                    if (wasReconnecting) {
+                        fetchNotificationCount();
+                    }
                 } else {
                     console.error('No user ID found in meta tag');
                 }
@@ -502,9 +506,13 @@
                 notificationElement.style.transform = 'translateX(20px)';
 
                 setTimeout(() => {
+                    // Only decrement count if notification was unread
+                    const isUnread = !notificationElement.classList.contains('read');
+                    if (isUnread) {
+                        decrementNotificationCount();
+                    }
+                    
                     notificationElement.remove();
-                    decrementNotificationCount();
-
                     // Update visibility of all groups after removing notification
                     updateGroupsVisibility();
                 }, 300);
