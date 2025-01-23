@@ -14,7 +14,9 @@ final class WebSocketServer implements WebSocketServerInterface
 {
     private const int WORKER_COUNT = 1;
 
+    /** @var array<int, TcpConnection> */
     private static array $connections = [];
+    /** @var array<string, TcpConnection> */
     private static array $authorizedConnections = [];
     private Worker $worker;
     private Worker $tcpWorker;
@@ -61,7 +63,7 @@ final class WebSocketServer implements WebSocketServerInterface
         $this->setupWebSocketHandlers();
     }
 
-    public function handleMessage($connection, $data): void
+    public function handleMessage(TcpConnection $connection, string $data): void
     {
         $this->logger->info('Received TCP message', [
             'data' => $data,
@@ -70,6 +72,7 @@ final class WebSocketServer implements WebSocketServerInterface
         ]);
 
         try {
+            /** @var array{user_id: string, message: string}|null */
             $message = json_decode($data, true);
             if (!$message || !isset($message['user_id']) || !isset($message['message'])) {
                 throw new \InvalidArgumentException('Invalid message format');
@@ -135,6 +138,7 @@ final class WebSocketServer implements WebSocketServerInterface
                     'pid' => getmypid(),
                 ]);
 
+                /** @var array{type?: string, userId?: string}|null */
                 $message = json_decode($data, true);
                 if (!$message) {
                     throw new \InvalidArgumentException('Invalid JSON message');
