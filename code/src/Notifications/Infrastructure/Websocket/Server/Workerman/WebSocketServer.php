@@ -12,6 +12,8 @@ use Workerman\Worker;
 
 final class WebSocketServer implements WebSocketServerInterface
 {
+    private const int WORKER_COUNT = 1;
+
     private static array $connections = [];
     private static array $authorizedConnections = [];
     private Worker $worker;
@@ -25,7 +27,7 @@ final class WebSocketServer implements WebSocketServerInterface
     ) {
         // Create WebSocket worker
         $this->worker = new Worker(sprintf('websocket://%s:%d', $websocketHost, $websocketPort));
-        $this->worker->count = 1;
+        $this->worker->count = self::WORKER_COUNT;
         $this->worker->name = 'WebSocketServer';
 
         // Set up protocol handlers

@@ -1,50 +1,175 @@
-(function() {
+(() => {
     // Configuration
-    const PAGE_SIZE = 20;
-    let currentPage = 1;
-    let isLoading = false;
-    let hasMoreNotifications = true;
-    let isInitialized = false;
-    let translations = {};
+    const CONFIG = {
+        PAGE_SIZE: 20,
+        WEBSOCKET: {
+            MAX_RECONNECT_ATTEMPTS: 5,
+            RECONNECT_TIMEOUT: 3000
+        }
+    };
 
+    // State management
+    const state = {
+        currentPage: 1,
+        isLoading: false,
+        hasMoreNotifications: true,
+        isInitialized: false,
+        translations: {},
+        socket: null,
+        reconnectAttempts: 0
+    };
+
+    // WebSocket Management
+    const socketConfig = {
+        protocol: window.location.protocol === 'https:' ? 'wss' : 'ws',
+        host: window.location.host,
+        path: '/ws'
+    };
+
+    function createWebSocket() {
+        const url = `${socketConfig.protocol}://${socketConfig.host}${socketConfig.path}`;
+        
+        try {
+            state.socket = new WebSocket(url);
+            
+            state.socket.onopen = function(event) {
+                state.reconnectAttempts = 0;
+                const userId = getUserId();
+                if (userId) {
+                    authenticateUser(userId);
+                } else {
+                    console.error('No user ID found in meta tag');
+                }
+            };
+
+            state.socket.onclose = function(event) {
+                if (state.reconnectAttempts < CONFIG.WEBSOCKET.MAX_RECONNECT_ATTEMPTS) {
+                    state.reconnectAttempts++;
+                    console.log(`Attempting to reconnect (${state.reconnectAttempts}/${CONFIG.WEBSOCKET.MAX_RECONNECT_ATTEMPTS})...`);
+                    setTimeout(createWebSocket, CONFIG.WEBSOCKET.RECONNECT_TIMEOUT);
+                }
+            };
+
+            state.socket.onerror = function(error) {
+                console.error('WebSocket error:', error);
+            };
+
+            state.socket.onmessage = handleWebSocketMessage;
+
+        } catch (error) {
+            console.error('Error creating WebSocket:', error);
+        }
+    }
+
+    function handleWebSocketMessage(event) {
+        try {
+            const data = JSON.parse(event.data);
+            switch (data.type) {
+                case 'auth_success':
+                    console.log('Successfully authenticated!');
+                    break;
+                case 'error':
+                    console.error('Server error:', data.message);
+                    break;
+                case 'notification':
+                    displayNotification(data.message);
+                    break;
+                default:
+                    console.log('Unhandled message type:', data.type);
+            }
+        } catch (error) {
+            console.error('Error processing message:', error);
+        }
+    }
+
+    function displayNotification(notification) {
+        const notificationsContainer = document.getElementById('notifications');
+        if (notificationsContainer) {
+            const notificationElement = document.createElement('div');
+            notificationElement.className = 'notification-toast alert alert-' + (notification.type || 'info');
+            
+            const icon = getNotificationIcon(notification.type);
+            notificationElement.innerHTML = `
+                <div class="notification-content">
+                    <div class="notification-header">
+                        <i class="fas ${icon} me-2"></i>
+                        <strong class="notification-title">${notification.title || ''}</strong>
+                        <button type="button" class="notification-close" aria-label="Close">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="notification-body">
+                        ${notification.message || ''}
+                    </div>
+                </div>
+            `;
+            
+            // Add click event listener for close button
+            const closeButton = notificationElement.querySelector('.notification-close');
+            closeButton.addEventListener('click', () => {
+                notificationElement.classList.add('closing');
+                // Wait for animation to complete before removing
+                setTimeout(() => {
+                    notificationElement.remove();
+                }, 300); // Match animation duration (0.3s = 300ms)
+            });
+            
+            notificationsContainer.appendChild(notificationElement);
+            
+            // Increment the notification badge count
+            incrementNotificationCount();
+            
+            // Auto-remove notification after 5 seconds
+            setTimeout(() => {
+                if (notificationElement.parentElement) {
+                    notificationElement.classList.add('closing');
+                    setTimeout(() => {
+                        if (notificationElement.parentElement) {
+                            notificationElement.remove();
+                        }
+                    }, 300);
+                }
+            }, 5000);
+        }
+    }
+
+    function authenticateUser(userId) {
+        if (state.socket?.readyState === WebSocket.OPEN) {
+            const authMessage = {
+                type: 'authenticate',
+                userId: userId,
+                timestamp: new Date().toISOString()
+            };
+            state.socket.send(JSON.stringify(authMessage));
+        } else {
+            console.error('Cannot authenticate: WebSocket is not open');
+        }
+    }
+
+    function getUserId() {
+        const userIdMeta = document.querySelector('meta[name="user-id"]');
+        return userIdMeta?.getAttribute('content') || null;
+    }
+
+    // Notification Display and Management
     async function initializeTranslations() {
         const lang = document.documentElement.lang || 'en';
-        translations = await window.loadTranslations(lang);
+        state.translations = await window.loadTranslations(lang);
     }
 
     function getTranslation(path) {
-        return path.split('.').reduce((obj, key) => obj && obj[key], translations) || path;
+        return path.split('.').reduce((obj, key) => obj && obj[key], state.translations) || path;
     }
 
-    document.addEventListener('DOMContentLoaded', async function() {
-        if (isInitialized) {
-            return;
-        }
-
-        // Load translations first
-        await initializeTranslations();
-
-        // Only load notifications if we're on the notifications page
-        if (window.location.pathname === '/notifications') {
-            loadNotifications();
-            initializeTimeUpdates();
-        }
-
-        fetchNotificationCount();
-        initializeNotificationHandlers();
-        initializeLoadMoreButton();
-        isInitialized = true;
-    });
-
     function loadNotifications(page = 1) {
-        if (isLoading || (!hasMoreNotifications && page > 1)) return;
+        if (state.isLoading || (!state.hasMoreNotifications && page > 1)) return;
 
-        isLoading = true;
+        state.isLoading = true;
         const notificationsSection = document.querySelector('.notifications-section');
         const loadMoreBtn = document.querySelector('.load-more-btn');
         const noNotificationsMessage = document.querySelector('.no-notifications-message');
 
-        fetch(`/api/v1/notifications?page=${page}&limit=${PAGE_SIZE}`, {
+        fetch(`/api/v1/notifications?page=${page}&limit=${CONFIG.PAGE_SIZE}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -54,79 +179,66 @@
         .then(response => response.json())
         .then(data => {
             if (page === 1) {
-                // Clear all groups
-                document.querySelectorAll('.notification-group').forEach(group => {
-                    const title = group.querySelector('.notification-group-title');
-                    // Remove all notifications but keep the title
-                    while (group.lastChild !== title) {
-                        group.removeChild(group.lastChild);
-                    }
-                });
+                clearNotificationGroups();
             }
 
-            if (data.data && Array.isArray(data.data.items)) {
-                const notifications = data.data.items;
-
-                if (notifications.length === 0 && page === 1) {
-                    noNotificationsMessage.style.display = 'block';
-                    loadMoreBtn.style.display = 'none';
-                    document.querySelectorAll('.notification-group').forEach(group => {
-                        group.style.display = 'none';
-                    });
-                    return;
-                }
-
-                notifications.forEach(notification => {
-                    const notificationElement = createNotificationElement(notification);
-                    const groupId = getNotificationGroup(notification.createdAt);
-                    const group = document.getElementById(groupId);
-
-                    if (group) {
-                        group.appendChild(notificationElement);
-                        group.style.display = 'block';
-                    }
-
-                    // Add click handlers to the new notification element
-                    initializeNotificationElement(notificationElement);
-                });
-
-                updateGroupsVisibility();
-
-                // Check if there are more pages
-                hasMoreNotifications = page < data.data.total_pages;
-                loadMoreBtn.style.display = hasMoreNotifications ? 'inline-block' : 'none';
-                currentPage = page;
-                noNotificationsMessage.style.display = 'none';
+            if (data.data?.items) {
+                handleNotificationsResponse(data, page);
             }
         })
         .catch(error => {
             console.error('Error loading notifications:', error);
         })
         .finally(() => {
-            isLoading = false;
+            state.isLoading = false;
         });
     }
 
-    function updateGroupsVisibility() {
-        let hasVisibleGroups = false;
-        document.querySelectorAll('.notification-group').forEach(group => {
-            const notifications = group.querySelectorAll('.notification-item');
-            const hasNotifications = notifications.length > 0;
-            group.style.display = hasNotifications ? 'block' : 'none';
-            if (hasNotifications) {
-                hasVisibleGroups = true;
+    function handleNotificationsResponse(data, page) {
+        const notifications = data.data.items;
+        const noNotificationsMessage = document.querySelector('.no-notifications-message');
+        const loadMoreBtn = document.querySelector('.load-more-btn');
+
+        if (notifications.length === 0 && page === 1) {
+            showEmptyState(noNotificationsMessage, loadMoreBtn);
+            return;
+        }
+
+        notifications.forEach(notification => {
+            const notificationElement = createNotificationElement(notification);
+            const groupId = getNotificationGroup(notification.createdAt);
+            const group = document.getElementById(groupId);
+
+            if (group) {
+                group.appendChild(notificationElement);
+                group.style.display = 'block';
+                initializeNotificationElement(notificationElement);
             }
         });
 
-        const noNotificationsMessage = document.querySelector('.no-notifications-message');
-        if (noNotificationsMessage) {
-            noNotificationsMessage.style.display = hasVisibleGroups ? 'none' : 'block';
-        }
+        updateGroupsVisibility();
+        state.hasMoreNotifications = page < data.data.total_pages;
+        state.currentPage = page;
+        
+        loadMoreBtn.style.display = state.hasMoreNotifications ? 'inline-block' : 'none';
+        noNotificationsMessage.style.display = 'none';
+    }
 
-        const loadMoreBtn = document.querySelector('.load-more-btn');
-        if (loadMoreBtn && !hasVisibleGroups) {
-            loadMoreBtn.style.display = 'none';
-        }
+    function clearNotificationGroups() {
+        document.querySelectorAll('.notification-group').forEach(group => {
+            const title = group.querySelector('.notification-group-title');
+            while (group.lastChild !== title) {
+                group.removeChild(group.lastChild);
+            }
+        });
+    }
+
+    function showEmptyState(noNotificationsMessage, loadMoreBtn) {
+        noNotificationsMessage.style.display = 'block';
+        loadMoreBtn.style.display = 'none';
+        document.querySelectorAll('.notification-group').forEach(group => {
+            group.style.display = 'none';
+        });
     }
 
     function createNotificationElement(notification) {
@@ -273,12 +385,25 @@
         }
     }
 
-    function initializeLoadMoreButton() {
+    function updateGroupsVisibility() {
+        let hasVisibleGroups = false;
+        document.querySelectorAll('.notification-group').forEach(group => {
+            const notifications = group.querySelectorAll('.notification-item');
+            const hasNotifications = notifications.length > 0;
+            group.style.display = hasNotifications ? 'block' : 'none';
+            if (hasNotifications) {
+                hasVisibleGroups = true;
+            }
+        });
+
+        const noNotificationsMessage = document.querySelector('.no-notifications-message');
+        if (noNotificationsMessage) {
+            noNotificationsMessage.style.display = hasVisibleGroups ? 'none' : 'block';
+        }
+
         const loadMoreBtn = document.querySelector('.load-more-btn');
-        if (loadMoreBtn) {
-            loadMoreBtn.addEventListener('click', () => {
-                loadNotifications(currentPage + 1);
-            });
+        if (loadMoreBtn && !hasVisibleGroups) {
+            loadMoreBtn.style.display = 'none';
         }
     }
 
@@ -357,13 +482,19 @@
     function updateNotificationBadge(count) {
         const badge = document.querySelector('.notifications-button .badge');
         if (badge) {
-            if (count > 0) {
+            if (typeof count === 'number') {
                 badge.textContent = count;
-                badge.style.display = 'inline-block';
-            } else {
-                badge.style.display = 'none';
-                badge.textContent = '';
+                badge.style.display = count > 0 ? 'block' : 'none';
             }
+        }
+    }
+
+    function incrementNotificationCount() {
+        const badge = document.querySelector('.notifications-button .badge');
+        if (badge) {
+            const currentCount = parseInt(badge.textContent) || 0;
+            badge.textContent = currentCount + 1;
+            badge.style.display = 'block';
         }
     }
 
@@ -471,73 +602,46 @@
         });
     }
 
-    function updateGroupsVisibility() {
-        let hasVisibleGroups = false;
-        document.querySelectorAll('.notification-group').forEach(group => {
-            // Проверяем, есть ли уведомления в группе (исключая заголовок)
-            const notifications = group.querySelectorAll('.notification-item');
-            const hasNotifications = notifications.length > 0;
-
-            // Анимируем скрытие/показ группы
-            if (hasNotifications) {
-                group.style.display = 'block';
-                group.style.opacity = '1';
-                hasVisibleGroups = true;
-            } else {
-                group.style.opacity = '0';
-                setTimeout(() => {
-                    group.style.display = 'none';
-                }, 300);
-            }
-        });
-
-        // Показываем сообщение о пустом списке, если нет видимых групп
-        const noNotificationsMessage = document.querySelector('.no-notifications-message');
-        if (noNotificationsMessage) {
-            if (!hasVisibleGroups) {
-                noNotificationsMessage.style.display = 'block';
-                noNotificationsMessage.style.opacity = '0';
-                setTimeout(() => {
-                    noNotificationsMessage.style.opacity = '1';
-                }, 10);
-            } else {
-                noNotificationsMessage.style.opacity = '0';
-                setTimeout(() => {
-                    noNotificationsMessage.style.display = 'none';
-                }, 300);
-            }
-        }
-
-        // Скрываем кнопку "Загрузить еще", если нет видимых групп
+    function initializeLoadMoreButton() {
         const loadMoreBtn = document.querySelector('.load-more-btn');
         if (loadMoreBtn) {
-            if (!hasVisibleGroups) {
-                loadMoreBtn.style.opacity = '0';
-                setTimeout(() => {
-                    loadMoreBtn.style.display = 'none';
-                }, 300);
-            } else {
-                loadMoreBtn.style.display = 'block';
-                loadMoreBtn.style.opacity = '1';
-            }
+            loadMoreBtn.addEventListener('click', () => {
+                loadNotifications(state.currentPage + 1);
+            });
         }
     }
 
-    // Инициализация обновления времени
-    let timeUpdateInterval;
-
     function initializeTimeUpdates() {
         // Обновляем время каждую минуту
-        timeUpdateInterval = setInterval(updateAllNotificationTimes, 60000);
+        setInterval(updateAllNotificationTimes, 60000);
 
         // Останавливаем обновление, когда страница скрыта
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
-                clearInterval(timeUpdateInterval);
+                clearInterval();
             } else {
                 updateAllNotificationTimes();
-                timeUpdateInterval = setInterval(updateAllNotificationTimes, 60000);
+                setInterval(updateAllNotificationTimes, 60000);
             }
         });
     }
+
+    // Event Handlers and Initialization
+    document.addEventListener('DOMContentLoaded', async function() {
+        if (state.isInitialized) return;
+
+        await initializeTranslations();
+
+        if (window.location.pathname === '/notifications') {
+            loadNotifications();
+            initializeTimeUpdates();
+        }
+
+        fetchNotificationCount();
+        initializeNotificationHandlers();
+        initializeLoadMoreButton();
+        createWebSocket();
+        
+        state.isInitialized = true;
+    });
 })();

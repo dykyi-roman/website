@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
-    name: 'app:websocket:run',
+    name: 'app:notification:websocket',
     description: 'Run WebSocket server'
 )]
 final class RunWebSocketServerCommand extends Command
