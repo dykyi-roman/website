@@ -185,195 +185,195 @@
     "content": "<p>Ласкаво просимо на нашу платформу, всебічний ринок, що об'єднує замовлення та послуги.</p><h2>1. Огляд платформи</h2><p>Наша платформа надає унікальну екосистему, де:</p><ul><li>Клієнти можуть публікувати різноманітні оголошення про необхідні їм послуги</li><li>Партнери можуть пропонувати свої професійні послуги та відповідати на потреби клієнтів</li></ul><h2>2. Відповідальність користувачів</h2><p>Усі користувачі повинні:</p><ul><li>Надавати точну та правдиву інформацію</li><li>Підтримувати професійний рівень спілкування</li><li>Дотримуватися правил платформи та законодавчих вимог</li></ul><h2>3. Відповідальність клієнтів</h2><p>Клієнти, які використовують платформу для публікації оголошень, повинні:</p><ul><li>Чітко описувати вимоги до послуг</li><li>Забезпечувати реалістичні очікування</li><li>Спілкуватися прозоро з потенційними партнерами з надання послуг</li></ul><h2>4. Відповідальність партнерів</h2><p>Партнери з надання послуг повинні:</p><ul><li>Мати необхідну кваліфікацію для пропонованих послуг</li><li>Оперативно відповідати на запити клієнтів</li><li>Надавати послуги з професіоналізмом та добросовісністю</li></ul><h2>5. Транзакції та комунікація</h2><p>Платформа сприяє встановленню зв'язків, але не несе безпосередньої відповідальності за:</p><ul><li>Якість послуг</li><li>Переговори щодо ціни</li><li>Остаточні угоди між клієнтами та партнерами</li></ul><h2>6. Інтелектуальна власність та конфіденційність</h2><p>Весь контент на платформі захищений. Користувачі повинні поважати права інтелектуальної власності та дотримуватися політики конфіденційності.</p><h2>7. Обмеження відповідальності</h2><p>Наша платформа надає ринок послуг і не несе відповідальності за прямі чи непрямі збитки, що виникають в результаті взаємодії користувачів.</p><h2>8. Зміни умов</h2><p>Ми маємо право оновлювати ці умови. Продовження використання платформи означає прийняття оновлених умов.</p><p class='last_updated'>Останнє оновлення: %last_updated_date%</p>"
   },
   "contact": {
-    "page_title": "Contact Us",
-    "content": "<h2>Get in Touch</h2><p>We'd love to hear from you! Please use the contact information provided or visit us during business hours.</p>",
-    "business_hours": "We work for you 24/7"
+    "page_title": "Контакти",
+    "content": "<h2>Зв'яжіться з нами</h2><p>Ми будемо раді почути вас! Будь ласка, використовуйте надану контактну інформацію або відвідайте нас в робочий час.</p>",
+    "business_hours": "Ми працюємо для вас 24/7"
   },
   "cookie_consent": {
-    "title": "Cookie Consent",
-    "description": "We use cookies to enhance your browsing experience and analyze our traffic. Please choose your preference below.",
-    "reject_button": "Reject",
-    "accept_button": "Accept"
+    "title": "Згода на використання файлів cookie",
+    "description": "Ми використовуємо файли cookie для покращення вашого досвіду перегляду та аналізу нашого трафіку. Будь ласка, виберіть свої налаштування нижче.",
+    "reject_button": "Відхилити",
+    "accept_button": "Прийняти"
   },
   "dashboard": {
     "dashboard_page_title": "Ласкаво просимо!",
-    "page_title": "Dashboard",
-    "search_placeholder": "Search services, partners, and more"
+    "page_title": "Панель керування",
+    "search_placeholder": "Пошук послуг, партнерів та інше"
   },
   "settings": {
     "account": {
-      "success": "Settings updated successfully",
+      "success": "Налаштування успішно оновлено",
       "error": {
-        "not_authenticated": "User not authenticated",
-        "already_exists": "User already exist with this email",
-        "not_found": "User not found",
-        "invalid_input": "Invalid input data provided",
-        "save_failed": "Failed to save account settings",
-        "invalid_verification_code": "Invalid verification code",
-        "error_send_verification_code": "Error send verification code"
+        "not_authenticated": "Користувач не автентифікований",
+        "already_exists": "Користувач з цією електронною поштою вже існує",
+        "not_found": "Користувача не знайдено",
+        "invalid_input": "Надано недійсні вхідні дані",
+        "save_failed": "Не вдалося зберегти налаштування облікового запису",
+        "invalid_verification_code": "Недійсний код підтвердження",
+        "error_send_verification_code": "Помилка надсилання коду підтвердження"
       },
-      "verification_code_title": "Verification Code",
-      "verification_code_message": "Your verification code is:",
-      "verification_code_expiry": "This code will expire in %minutes% minutes.",
-      "verification_code_ignore": "If you didn't request this code, please ignore this email.",
-      "your_verification_code": "Your verification code is",
+      "verification_code_title": "Код підтвердження",
+      "verification_code_message": "Ваш код підтвердження:",
+      "verification_code_expiry": "Цей код закінчиться через %minutes% хвилин.",
+      "verification_code_ignore": "Якщо ви не запитували цей код, будь ласка, проігноруйте цей лист.",
+      "your_verification_code": "Ваш код підтвердження",
       "errors": {
-        "not_supported_image_format": "Please select a JPEG or PNG image.",
-        "not_supported_image_size": "Image size should not exceed 5MB."
+        "not_supported_image_format": "Будь ласка, виберіть зображення у форматі JPEG або PNG.",
+        "not_supported_image_size": "Розмір зображення не повинен перевищувати 5МБ."
       },
-      "status": "Status",
-      "active": "Active",
-      "inactive": "Inactive",
-      "change_photo": "Change photo",
-      "verify": "Verify",
-      "profile_image": "Profile Image",
-      "name": "Name",
+      "status": "Статус",
+      "active": "Активний",
+      "inactive": "Неактивний",
+      "change_photo": "Змінити фото",
+      "verify": "Підтвердити",
+      "profile_image": "Зображення профілю",
+      "name": "Ім'я",
       "email": "Електронна пошта",
       "phone": "Телефон",
-      "save": "Save",
-      "light": "Light",
-      "dark": "Dark",
-      "theme": "Theme",
+      "save": "Зберегти",
+      "light": "Світла",
+      "dark": "Темна",
+      "theme": "Тема",
       "currency": "Валюта",
       "language": "Мова"
     },
     "page_title": "Налаштування",
     "menu": {
-      "account": "Account",
-      "general": "General",
-      "notifications": "Notifications",
-      "privacy": "Privacy"
+      "account": "Обліковий запис",
+      "general": "Загальні",
+      "notifications": "Сповіщення",
+      "privacy": "Конфіденційність"
     },
     "privacy": {
       "deactivation": {
-        "title": "Account Deactivation",
-        "description": "Deactivating your account will temporarily hide your profile and all your content from other users. You can reactivate your account at any time by logging back in.",
-        "button": "Deactivate Account",
+        "title": "Деактивація облікового запису",
+        "description": "Деактивація вашого облікового запису тимчасово приховає ваш профіль та весь ваш контент від інших користувачів. Ви можете повторно активувати свій обліковий запис у будь-який час, увійшовши знову.",
+        "button": "Деактивувати обліковий запис",
         "modal": {
-          "title": "Confirm Account Deactivation",
-          "message": "Are you sure you want to deactivate your account? Your profile and content will be hidden until you reactivate.",
+          "title": "Підтвердження деактивації облікового запису",
+          "message": "Ви впевнені, що хочете деактивувати свій обліковий запис? Ваш профіль та контент будуть приховані до повторної активації.",
           "effects": {
-            "profile_invisible": "Your profile will become invisible to other users",
-            "content_hidden": "Your content will be temporarily hidden",
-            "can_reactivate": "You can reactivate by logging back in"
+            "profile_invisible": "Ваш профіль стане невидимим для інших користувачів",
+            "content_hidden": "Ваш контент буде тимчасово прихований",
+            "can_reactivate": "Ви можете повторно активувати, увійшовши знову"
           },
-          "cancel": "No, Cancel",
-          "confirm": "Yes, Deactivate"
+          "cancel": "Ні, скасувати",
+          "confirm": "Так, деактивувати"
         }
       },
       "activation": {
-        "title": "Account Activation",
-        "description": "Your account is currently deactivated. Activating your account will make your profile and content visible to other users again.",
-        "button": "Activate Account"
+        "title": "Активація облікового запису",
+        "description": "Ваш обліковий запис наразі деактивовано. Активація вашого облікового запису знову зробить ваш профіль та контент видимими для інших користувачів.",
+        "button": "Активувати обліковий запис"
       },
       "deletion": {
-        "title": "Account Deletion",
-        "description": "Deleting your account is permanent. All your data, including profile information, history, and content will be permanently removed and cannot be recovered.",
-        "button": "Delete Account",
+        "title": "Видалення облікового запису",
+        "description": "Видалення вашого облікового запису є незворотним. Усі ваші дані, включаючи інформацію профілю, історію та контент, будуть назавжди видалені та не можуть бути відновлені.",
+        "button": "Видалити обліковий запис",
         "modal": {
-          "title": "Confirm Account Deletion",
-          "message": "Are you sure you want to permanently delete your account? This action cannot be undone.",
+          "title": "Підтвердження видалення облікового запису",
+          "message": "Ви впевнені, що хочете назавжди видалити свій обліковий запис? Цю дію неможливо скасувати.",
           "effects": {
-            "data_deleted": "All your personal data will be permanently deleted",
-            "profile_removed": "Your profile and content will be removed forever",
-            "no_recovery": "You cannot recover your account after deletion"
+            "data_deleted": "Усі ваші особисті дані будуть назавжди видалені",
+            "profile_removed": "Ваш профіль та контент будуть видалені назавжди",
+            "no_recovery": "Ви не зможете відновити свій обліковий запис після видалення"
           },
-          "cancel": "No, Cancel",
-          "confirm": "Yes, Delete"
+          "cancel": "Ні, скасувати",
+          "confirm": "Так, видалити"
         }
       },
       "create_password": {
-        "title": "Create Password",
-        "description": "Set your account password to maintain security",
-        "button": "Create Password",
-        "current_password": "Password",
-        "new_password": "Confirmation Password",
-        "submit": "Create Password",
-        "success": "Password successfully created",
-        "error": "Failed to create password",
+        "title": "Створити пароль",
+        "description": "Встановіть пароль для вашого облікового запису для забезпечення безпеки",
+        "button": "Створити пароль",
+        "current_password": "Пароль",
+        "new_password": "Підтвердження пароля",
+        "submit": "Створити пароль",
+        "success": "Пароль успішно створено",
+        "error": "Не вдалося створити пароль",
         "validation": {
-          "current_password_required": "password is required",
-          "new_password_required": "password is required"
+          "current_password_required": "пароль обов'язковий",
+          "new_password_required": "пароль обов'язковий"
         }
       },
       "change_password": {
-        "title": "Change Password",
-        "description": "Update your account password to maintain security",
-        "button": "Change Password",
-        "current_password": "Current Password",
-        "new_password": "New Password",
-        "submit": "Update Password",
-        "success": "Password successfully changed",
-        "error": "Failed to change password",
+        "title": "Змінити пароль",
+        "description": "Оновіть пароль вашого облікового запису для підтримки безпеки",
+        "button": "Змінити пароль",
+        "current_password": "Поточний пароль",
+        "new_password": "Новий пароль",
+        "submit": "Оновити пароль",
+        "success": "Пароль успішно змінено",
+        "error": "Не вдалося змінити пароль",
         "validation": {
-          "current_password_required": "Current password is required",
-          "new_password_required": "New password is required"
+          "current_password_required": "Поточний пароль обов'язковий",
+          "new_password_required": "Новий пароль обов'язковий"
         }
       },
-      "page_title": "Privacy Policy",
-      "content": "<h2>1. Introduction</h2><p>Welcome to %app_name%. This Privacy Policy outlines how we collect, use, protect, and manage your personal information when you use our service marketplace platform.</p><h2>2. Information We Collect</h2><ul><li>Personal identification information (Name, email address, phone number)</li><li>Profile information for service providers and clients</li><li>Communication records between clients and service providers</li><li>Usage data and platform interaction logs</li></ul><h2>3. How We Use Your Information</h2><ul><li>Facilitate service connections between clients and providers</li><li>Improve platform functionality and user experience</li><li>Send important notifications and updates</li><li>Respond to customer support requests</li></ul><h2>4. Data Protection</h2><ul><li>We implement industry-standard security measures to protect your data</li><li>Personal information is encrypted and stored securely</li><li>Access to data is strictly limited to authorized personnel</li></ul><h2>5. User Consent and Control</h2><ul><li>You can review and update your personal information</li><li>You can request data deletion or account closure</li><li>We obtain explicit consent before processing sensitive data</li></ul><h2>6. Third-Party Sharing</h2><p>We do not sell or rent your personal information to third parties. Information may be shared only:</p><ul><li>With your explicit consent</li><li>To comply with legal obligations</li><li>To protect our platform's rights and safety</li></ul><h2>7. Cookies and Tracking</h2><p>We use cookies to enhance user experience and platform functionality. You can manage cookie preferences in your browser settings.</p><h2>8. Contact Information</h2><p>For privacy-related questions or concerns, please contact us at:</p><ul><li>Email: %support_email%</li><li>Address: %support_address%</li></ul><h2>9. Policy Updates</h2><p>We may update this Privacy Policy periodically. The latest version will always be available on our platform.</p><p class='last-updated'>Last Updated: %last_updated_date%</p>"
+      "page_title": "Політика конфіденційності",
+      "content": "<h2>1. Вступ</h2><p>Ласкаво просимо до %app_name%. Ця Політика конфіденційності описує, як ми збираємо, використовуємо, захищаємо та керуємо вашою особистою інформацією при використанні нашої платформи ринку послуг.</p><h2>2. Інформація, яку ми збираємо</h2><ul><li>Особиста ідентифікаційна інформація (Ім'я, електронна адреса, номер телефону)</li><li>Інформація профілю для постачальників послуг та клієнтів</li><li>Записи комунікацій між клієнтами та постачальниками послуг</li><li>Дані про використання та журнали взаємодії з платформою</li></ul><h2>3. Як ми використовуємо вашу інформацію</h2><ul><li>Сприяння зв'язкам між клієнтами та постачальниками послуг</li><li>Покращення функціональності платформи та досвіду користувача</li><li>Надсилання важливих сповіщень та оновлень</li><li>Відповідь на запити підтримки клієнтів</li></ul><h2>4. Захист даних</h2><ul><li>Ми впроваджуємо стандартні галузеві заходи безпеки для захисту ваших даних</li><li>Особиста інформація шифрується та зберігається безпечно</li><li>Доступ до даних суворо обмежений уповноваженим персоналом</li></ul><h2>5. Згода користувача та контроль</h2><ul><li>Ви можете переглядати та оновлювати свою особисту інформацію</li><li>Ви можете запитати видалення даних або закриття облікового запису</li><li>Ми отримуємо явну згоду перед обробкою конфіденційних даних</li></ul><h2>6. Передача третім сторонам</h2><p>Ми не продаємо і не здаємо в оренду вашу особисту інформацію третім сторонам. Інформація може бути передана лише:</p><ul><li>З вашої явної згоди</li><li>Для виконання юридичних зобов'язань</li><li>Для захисту прав та безпеки нашої платформи</li></ul><h2>7. Файли cookie та відстеження</h2><p>Ми використовуємо файли cookie для покращення досвіду користувача та функціональності платформи. Ви можете керувати налаштуваннями файлів cookie у своєму браузері.</p><h2>8. Контактна інформація</h2><p>З питань щодо конфіденційності, будь ласка, зв'яжіться з нами:</p><ul><li>Електронна пошта: %support_email%</li><li>Адреса: %support_address%</li></ul><h2>9. Оновлення політики</h2><p>Ми можемо періодично оновлювати цю Політику конфіденційності. Остання версія завжди буде доступна на нашій платформі.</p><p class='last-updated'>Останнє оновлення: %last_updated_date%</p>"
     },
     "phone": {
       "verification": {
-        "popup_title": "Phone Verification",
-        "instructions": "Please enter the 6-digit verification code that was sent to your phone",
-        "verify_button": "Verify Code"
+        "popup_title": "Підтвердження телефону",
+        "instructions": "Будь ласка, введіть 6-значний код підтвердження, який було надіслано на ваш телефон",
+        "verify_button": "Підтвердити код"
       }
     },
     "email": {
       "forgot_password": {
-        "title": "Password Reset",
-        "body": "<p>We've received a request to reset your password.</p><p>If you didn't make the request, just ignore this message. Otherwise, click the button below:</p>",
-        "button_text": "Reset Your Password",
-        "signature": "Thanks,\nYour Team"
+        "title": "Скидання пароля",
+        "body": "<p>Ми отримали запит на скидання вашого пароля.</p><p>Якщо ви не робили цей запит, просто проігноруйте це повідомлення. В іншому випадку, натисніть кнопку нижче:</p>",
+        "button_text": "Скинути ваш пароль",
+        "signature": "Дякуємо,\nВаша команда"
       },
       "verification": {
-        "popup_title": "Email Verification",
-        "instructions": "Please enter the 6-digit verification code that was sent to your email",
-        "verify_button": "Verify Code",
-        "resend_code": "Resend Code",
-        "code_sent": "Verification code has been sent to your email",
-        "invalid_code": "Invalid verification code. Please try again",
-        "success": "Email successfully verified",
-        "error": "Failed to verify email. Please try again"
+        "popup_title": "Підтвердження електронної пошти",
+        "instructions": "Будь ласка, введіть 6-значний код підтвердження, який було надіслано на вашу електронну пошту",
+        "verify_button": "Підтвердити код",
+        "resend_code": "Надіслати код повторно",
+        "code_sent": "Код підтвердження надіслано на вашу електронну пошту",
+        "invalid_code": "Недійсний код підтвердження. Будь ласка, спробуйте ще раз",
+        "success": "Електронну пошту успішно підтверджено",
+        "error": "Не вдалося підтвердити електронну пошту. Будь ласка, спробуйте ще раз"
       }
     }
   },
   "js": {
     "notifications": {
       "time": {
-        "just_now": "just now",
+        "just_now": "щойно",
         "minute": {
-          "one": "minute ago",
-          "few": "minutes ago",
-          "many": "minutes ago"
+          "one": "хвилину тому",
+          "few": "хвилини тому",
+          "many": "хвилин тому"
         },
         "hour": {
-          "one": "hour ago",
-          "few": "hours ago",
-          "many": "hours ago"
+          "one": "годину тому",
+          "few": "години тому",
+          "many": "годин тому"
         },
         "day": {
-          "one": "day ago",
-          "few": "days ago",
-          "many": "days ago"
+          "one": "день тому",
+          "few": "дні тому",
+          "many": "днів тому"
         },
         "month": {
-          "one": "month ago",
-          "few": "months ago",
-          "many": "months ago"
+          "one": "місяць тому",
+          "few": "місяці тому",
+          "many": "місяців тому"
         },
         "year": {
-          "one": "year ago",
-          "few": "years ago",
-          "many": "years ago"
+          "one": "рік тому",
+          "few": "роки тому",
+          "many": "років тому"
         }
       }
     },
     "settings": {
       "account": {
-        "active": "Active",
-        "inactive": "Inactive"
+        "active": "Активний",
+        "inactive": "Неактивний"
       },
       "error_image_size": "Image size should not exceed 5MB.",
       "error_image_type": "Please select a JPEG or PNG image.",
@@ -423,7 +423,7 @@
     "success_reset_link": "Password reset link sent to your email",
     "label_email": "Email Address",
     "error_invalid_credentials": "Invalid email or password",
-    "label_login": "Увійти",
+    "label_login": "Login",
     "placeholder_email": "Enter your email",
     "error_password_length": "Password must be at least 8 characters long",
     "error_passwords_match": "Passwords must match",
