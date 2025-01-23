@@ -12,7 +12,7 @@ final readonly class NotificationFormatter
 {
     public function __construct(
         private NotificationRepositoryInterface $notificationRepository,
-        private NotificationTranslator $notificationTranslator,
+        private NotificationTranslatorInterface $notificationTranslator,
     ) {
     }
 

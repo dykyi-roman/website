@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Notifications\Tests\Unit\DomainModel\Service;
 
-use DateTimeImmutable;
 use Notifications\DomainModel\Enum\NotificationId;
 use Notifications\DomainModel\Enum\NotificationType;
 use Notifications\DomainModel\Enum\UserNotificationId;
@@ -14,24 +13,23 @@ use Notifications\DomainModel\Model\TranslatableText;
 use Notifications\DomainModel\Model\UserNotification;
 use Notifications\DomainModel\Repository\NotificationRepositoryInterface;
 use Notifications\DomainModel\Service\NotificationFormatter;
-use Notifications\DomainModel\Service\NotificationTranslator;
+use Notifications\DomainModel\Service\NotificationTranslatorInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Profile\User\DomainModel\Enum\UserId;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[CoversClass(NotificationFormatter::class)]
 final class NotificationFormatterTest extends TestCase
 {
     private NotificationRepositoryInterface&MockObject $notificationRepository;
-    private NotificationTranslator&MockObject $notificationTranslator;
+    private NotificationTranslatorInterface&MockObject $notificationTranslator;
     private NotificationFormatter $notificationFormatter;
 
     protected function setUp(): void
     {
         $this->notificationRepository = $this->createMock(NotificationRepositoryInterface::class);
-        $this->notificationTranslator = $this->createMock(NotificationTranslator::class);
+        $this->notificationTranslator = $this->createMock(NotificationTranslatorInterface::class);
         $this->notificationFormatter = new NotificationFormatter(
             $this->notificationRepository,
             $this->notificationTranslator

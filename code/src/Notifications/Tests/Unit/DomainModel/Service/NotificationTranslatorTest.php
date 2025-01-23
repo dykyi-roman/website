@@ -31,7 +31,7 @@ final class NotificationTranslatorTest extends TestCase
         $type = NotificationType::INFORMATION;
         $title = new TranslatableText('title.id', ['param1' => 'value1']);
         $message = new TranslatableText('message.id', ['param2' => 'value2']);
-        
+
         $notification = new Notification(
             NotificationId::HAPPY_NEW_YEAR,
             $type,
@@ -65,7 +65,7 @@ final class NotificationTranslatorTest extends TestCase
         $type = NotificationType::INFORMATION;
         $title = new TranslatableText('title.id');
         $message = new TranslatableText('message.id');
-        
+
         $notification = new Notification(
             NotificationId::HAPPY_BIRTHDAY,
             $type,
@@ -109,7 +109,7 @@ final class NotificationTranslatorTest extends TestCase
         ];
         $title = new TranslatableText('title.complex', $titleParams);
         $message = new TranslatableText('message.complex', $messageParams);
-        
+
         $notification = new Notification(
             NotificationId::PASS_VERIFICATION,
             $type,

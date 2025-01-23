@@ -8,7 +8,7 @@ use Notifications\DomainModel\Model\Notification;
 use Notifications\DomainModel\Model\TranslatableText;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final readonly class NotificationTranslator
+final readonly class NotificationTranslator implements NotificationTranslatorInterface
 {
     public function __construct(
         private TranslatorInterface $translator,

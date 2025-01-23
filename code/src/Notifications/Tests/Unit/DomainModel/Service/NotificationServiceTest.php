@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Notifications\Tests\Unit\DomainModel\Service;
 
-use DateTimeImmutable;
 use Notifications\DomainModel\Enum\NotificationId;
 use Notifications\DomainModel\Enum\NotificationType;
 use Notifications\DomainModel\Enum\UserNotificationId;
@@ -27,7 +26,6 @@ use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
 use Shared\DomainModel\Dto\PaginationDto;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Throwable;
 
 #[CoversClass(NotificationService::class)]
 final class NotificationServiceTest extends TestCase
@@ -166,12 +164,12 @@ final class NotificationServiceTest extends TestCase
     {
         $userId = new UserId();
         $userNotificationId = new UserNotificationId();
-        $userNotification = $this->createMock(UserNotification::class);
-
-        $userNotification->method('isRead')->willReturn(false);
-        $userNotification
-            ->expects($this->once())
-            ->method('setIsRead');
+        $notificationId = NotificationId::HAPPY_NEW_YEAR;
+        $userNotification = new UserNotification(
+            $userNotificationId,
+            $notificationId,
+            $userId
+        );
 
         $this->userNotificationRepository
             ->expects($this->once())
@@ -200,12 +198,13 @@ final class NotificationServiceTest extends TestCase
     {
         $userId = new UserId();
         $userNotificationId = new UserNotificationId();
-        $userNotification = $this->createMock(UserNotification::class);
-
-        $userNotification->method('isRead')->willReturn(true);
-        $userNotification
-            ->expects($this->never())
-            ->method('setIsRead');
+        $notificationId = NotificationId::HAPPY_NEW_YEAR;
+        $userNotification = new UserNotification(
+            $userNotificationId,
+            $notificationId,
+            $userId
+        );
+        $userNotification->setIsRead();
 
         $this->userNotificationRepository
             ->expects($this->once())
@@ -248,13 +247,12 @@ final class NotificationServiceTest extends TestCase
     {
         $userId = new UserId();
         $userNotificationId = new UserNotificationId();
-        $userNotification = $this->createMock(UserNotification::class);
-
-        $userNotification->method('isDeleted')->willReturn(false);
-        $userNotification->method('isRead')->willReturn(false);
-        $userNotification
-            ->expects($this->once())
-            ->method('setIsDelete');
+        $notificationId = NotificationId::HAPPY_NEW_YEAR;
+        $userNotification = new UserNotification(
+            $userNotificationId,
+            $notificationId,
+            $userId
+        );
 
         $this->userNotificationRepository
             ->expects($this->once())
@@ -283,12 +281,13 @@ final class NotificationServiceTest extends TestCase
     {
         $userId = new UserId();
         $userNotificationId = new UserNotificationId();
-        $userNotification = $this->createMock(UserNotification::class);
-
-        $userNotification->method('isDeleted')->willReturn(true);
-        $userNotification
-            ->expects($this->never())
-            ->method('setIsDelete');
+        $notificationId = NotificationId::HAPPY_NEW_YEAR;
+        $userNotification = new UserNotification(
+            $userNotificationId,
+            $notificationId,
+            $userId
+        );
+        $userNotification->setIsDelete();
 
         $this->userNotificationRepository
             ->expects($this->once())
@@ -366,14 +365,22 @@ final class NotificationServiceTest extends TestCase
     public function testGetUserNotifications(): void
     {
         $userId = new UserId();
-        $userNotification = $this->createMock(UserNotification::class);
+        $notificationId = NotificationId::HAPPY_NEW_YEAR;
+        $userNotificationId = new UserNotificationId();
+        $userNotification = new UserNotification(
+            $userNotificationId,
+            $notificationId,
+            $userId
+        );
+
         $notification = new Notification(
-            NotificationId::HAPPY_NEW_YEAR,
+            $notificationId,
             NotificationType::SYSTEM,
             new TranslatableText('notification.title'),
             new TranslatableText('notification.message'),
             'test-icon'
         );
+
         $paginationDto = new PaginationDto([$userNotification], 1, 20);
 
         $this->userNotificationRepository
@@ -385,6 +392,7 @@ final class NotificationServiceTest extends TestCase
         $this->notificationRepository
             ->expects($this->once())
             ->method('findById')
+            ->with($notificationId)
             ->willReturn($notification);
 
         $this->translator
@@ -402,10 +410,15 @@ final class NotificationServiceTest extends TestCase
     public function testGetUserNotificationsHandlesNotFoundNotification(): void
     {
         $userId = new UserId();
-        $userNotification = $this->createMock(UserNotification::class);
-        $paginationDto = new PaginationDto([$userNotification], 1, 20);
+        $notificationId = NotificationId::HAPPY_NEW_YEAR;
+        $userNotificationId = new UserNotificationId();
+        $userNotification = new UserNotification(
+            $userNotificationId,
+            $notificationId,
+            $userId
+        );
 
-        $userNotification->method('getNotificationId')->willReturn(NotificationId::HAPPY_NEW_YEAR);
+        $paginationDto = new PaginationDto([$userNotification], 1, 20);
 
         $this->userNotificationRepository
             ->expects($this->once())
