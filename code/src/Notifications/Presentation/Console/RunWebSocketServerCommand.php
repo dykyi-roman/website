@@ -36,6 +36,7 @@ final class RunWebSocketServerCommand extends Command
     {
         try {
             $action = $input->getArgument('action');
+            assert(is_string($action), 'Action argument must be a string');
             $output->writeln(sprintf('Performing WebSocket server action: %s', $action));
 
             // Perform the requested action

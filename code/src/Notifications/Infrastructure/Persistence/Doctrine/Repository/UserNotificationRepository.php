@@ -24,9 +24,12 @@ final class UserNotificationRepository implements UserNotificationRepositoryInte
         $this->repository = $this->entityManager->getRepository(UserNotification::class);
     }
 
+    /**
+     * @return PaginationDto<UserNotification>
+     */
     public function getUserNotifications(UserId $userId, int $page = 1, int $perPage = 20): PaginationDto
     {
-        /** @var UserNotification $result */
+        /** @var array<array-key, UserNotification> $result */
         $result = $this->repository->createQueryBuilder('un')
             ->andWhere('un.userId = :userId')
             ->andWhere('un.deletedAt is NULL')

@@ -103,7 +103,7 @@ final class NotificationTranslatorTest extends TestCase
             'date' => '2024-01-01',
         ];
         $messageParams = [
-            'items' => ['item1', 'item2'],
+            'items' => 'item1, item2',  // Convert array to string
             'total' => 100.50,
             'status' => true,
         ];
