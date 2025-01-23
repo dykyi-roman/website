@@ -72,12 +72,17 @@ final class WebSocketServer implements WebSocketServerInterface
         ]);
 
         try {
-            /** @var array{user_id: string, message: string}|null */
             $message = json_decode($data, true);
-            if (!$message || !isset($message['user_id']) || !isset($message['message'])) {
+            if (!is_array($message)
+                || !isset($message['user_id'])
+                || !isset($message['message'])
+                || !is_string($message['user_id'])
+                || !is_string($message['message'])
+            ) {
                 throw new \InvalidArgumentException('Invalid message format');
             }
 
+            /** @var array{user_id: string, message: string} $message */
             $userId = $message['user_id'];
 
             $this->logger->info('Processing TCP message', [
