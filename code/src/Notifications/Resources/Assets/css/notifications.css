@@ -196,8 +196,8 @@
     position: fixed;
     right: 20px;
     top: 80px; /* Moved higher, similar to back button */
-    background-color: var(--background-light);
-    color: var(--text-dark);
+    background-color: #FFB347;
+    color: white;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -212,8 +212,8 @@
 }
 
 .notifications-menu-button:hover {
-    background-color: var(--primary-color);
-    color: white;
+    background-color: var(--primary-hover);
+    transform: scale(1.1);
 }
 
 .notifications-menu {
