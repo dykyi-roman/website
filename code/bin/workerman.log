@@ -9,3 +9,7 @@
 2025-01-22 09:08:44 pid:19060 Workerman[console] start in DEBUG mode
 2025-01-23 07:47:12 pid:218 Workerman[console] start in DEBUG mode
 2025-01-23 07:47:12 pid:218 Master pid:19060 is not alive
+2025-01-23 08:03:00 pid:218 Workerman[console] received signal SIGTSTP
+2025-01-23 08:03:00 pid:218 Workerman[console] stopping
+2025-01-23 08:03:00 pid:218 Workerman[console] has been stopped
+2025-01-23 08:03:33 pid:1203 Workerman[console] start in DEBUG mode

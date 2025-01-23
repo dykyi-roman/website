@@ -83,6 +83,10 @@
     }
 
     function displayNotification(notification) {
+        // Increment the notification badge count first
+        incrementNotificationCount();
+
+        // Display toast notification
         const notificationsContainer = document.getElementById('notifications');
         if (notificationsContainer) {
             const notificationElement = document.createElement('div');
@@ -99,37 +103,58 @@
                         </button>
                     </div>
                     <div class="notification-body">
-                        ${notification.message || ''}
+                        ${notification.message}
                     </div>
                 </div>
             `;
             
-            // Add click event listener for close button
-            const closeButton = notificationElement.querySelector('.notification-close');
-            closeButton.addEventListener('click', () => {
-                notificationElement.classList.add('closing');
-                // Wait for animation to complete before removing
-                setTimeout(() => {
-                    notificationElement.remove();
-                }, 300); // Match animation duration (0.3s = 300ms)
-            });
-            
             notificationsContainer.appendChild(notificationElement);
-            
-            // Increment the notification badge count
-            incrementNotificationCount();
-            
-            // Auto-remove notification after 5 seconds
             setTimeout(() => {
-                if (notificationElement.parentElement) {
-                    notificationElement.classList.add('closing');
-                    setTimeout(() => {
-                        if (notificationElement.parentElement) {
-                            notificationElement.remove();
-                        }
-                    }, 300);
-                }
+                notificationElement.remove();
             }, 5000);
+        }
+
+        // Update notifications page if we're on it
+        if (window.location.pathname === '/notifications') {
+            // Create the new notification element
+            const notificationData = {
+                id: notification.id,
+                type: notification.type,
+                title: notification.title,
+                message: notification.message,
+                created_at: new Date().toISOString(),
+                is_read: false
+            };
+
+            const newNotificationElement = createNotificationElement(notificationData);
+
+            // Add to today's notifications group
+            const todayGroup = document.getElementById('today-notifications');
+            if (todayGroup) {
+                // Insert after the title
+                const titleElement = todayGroup.querySelector('.notification-group-title');
+                if (titleElement) {
+                    if (titleElement.nextSibling) {
+                        todayGroup.insertBefore(newNotificationElement, titleElement.nextSibling);
+                    } else {
+                        todayGroup.appendChild(newNotificationElement);
+                    }
+                } else {
+                    todayGroup.appendChild(newNotificationElement);
+                }
+
+                // Initialize the notification element
+                initializeNotificationElement(newNotificationElement);
+
+                // Hide empty state message if it exists
+                const emptyMessage = document.querySelector('.no-notifications-message');
+                if (emptyMessage) {
+                    emptyMessage.style.display = 'none';
+                }
+
+                // Show today's group if it was hidden
+                todayGroup.style.display = 'block';
+            }
         }
     }
 

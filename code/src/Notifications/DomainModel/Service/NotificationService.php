@@ -62,6 +62,9 @@ final readonly class NotificationService implements NotificationServiceInterface
         $userNotification = $this->userNotificationRepository->findById($userNotificationId);
         if (!$userNotification->isDeleted()) {
             $userNotification->setIsDelete();
+            if (!$userNotification->isRead()) {
+                $this->cache->decrementUnreadCount($userId);
+            }
             $this->userNotificationRepository->save($userNotification);
         }
     }
