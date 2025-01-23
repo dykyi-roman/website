@@ -13,444 +13,444 @@
   "Register": "Registrarse",
   "Language": "Idioma",
   "Currency": "Moneda",
-  "error_social_login": "Error social login",
-  "Internal Server Error": "Internal Server Error",
-  "Back to Dashboard": "Back to Dashboard",
-  "Sorry, something went wrong on our servers. We are working to fix the issue.": "Sorry, something went wrong on our servers. We are working to fix the issue.",
-  "find_everything_placeholder": "Find everything you need",
-  "services_and_orders_title": "Services and orders in one place",
-  "terms_of_service": "Terms of Service",
-  "contact_us": "Contact Us",
-  "privacy_policy": "Privacy Policy",
-  "error_invalid_email": "Please enter a valid email address",
-  "enter_email_address": "Enter your email address",
-  "or": "or",
-  "promotion_information_text": "Free for the first year! Enjoy unlimited ad postings for your first year with us.",
+  "error_social_login": "Error de inicio de sesión social",
+  "Internal Server Error": "Error interno del servidor",
+  "Back to Dashboard": "Volver al panel",
+  "Sorry, something went wrong on our servers. We are working to fix the issue.": "Lo sentimos, algo salió mal en nuestros servidores. Estamos trabajando para solucionar el problema.",
+  "find_everything_placeholder": "Encuentra todo lo que necesitas",
+  "services_and_orders_title": "Servicios y pedidos en un solo lugar",
+  "terms_of_service": "Términos de servicio",
+  "contact_us": "Contáctenos",
+  "privacy_policy": "Política de privacidad",
+  "error_invalid_email": "Por favor, introduce una dirección de correo electrónico válida",
+  "enter_email_address": "Introduce tu dirección de correo electrónico",
+  "or": "o",
+  "promotion_information_text": "¡Gratis el primer año! Disfruta de publicaciones ilimitadas durante tu primer año con nosotros.",
   "logout_menu_item": "Cerrar sesión",
   "email_section_title": "Correo electrónico",
   "phone_section_title": "Teléfono",
   "address_section_title": "Dirección",
-  "business_hours_section_title": "Business Hours",
-  "send_forgot_password_button": "Send",
-  "letter_sent_success": "Letter sent. Check your email.",
-  "forgot_password_error": "Unexpected error during restore password",
-  "copyright_text": " %year% %organization%. All rights reserved.",
-  "meta_description": "%organization% - Find and book professional services. Browse through our wide selection of verified service providers for all your needs.",
-  "meta_keywords": "services, booking, professional services, service providers, local services",
-  "this_field_is_required": "This field is required",
-  "reset_password_page_title": "Reset Password",
-  "reset_password_button": "Reset Password",
-  "registration_success": "Registration successful!",
-  "unexpected_registration_error": "Unexpected error during registration",
-  "unexpected_registration_save_settings": "Unexpected error during save settings",
-  "password_reset_success": "Password successfully reset",
-  "reset_token_expired": "Reset token is invalid or has expired",
-  "invalid_password": "Invalid password",
-  "unexpected_reset_error": "An unexpected error occurred",
-  "user_registration_save_error": "Failed to register user: %s",
-  "user_email_exists_error": "Email \"%s\" already exists",
-  "orders_search_title": "Orders Search",
-  "services_search_title": "Services Search",
-  "list_view_title": "List View",
-  "grid_view_title": "Grid View",
+  "business_hours_section_title": "Horario de atención",
+  "send_forgot_password_button": "Enviar",
+  "letter_sent_success": "Correo enviado. Revisa tu email.",
+  "forgot_password_error": "Error inesperado durante la restauración de la contraseña",
+  "copyright_text": " %year% %organization%. Todos los derechos reservados.",
+  "meta_description": "%organization% - Encuentra y reserva servicios profesionales. Explora nuestra amplia selección de proveedores de servicios verificados para todas tus necesidades.",
+  "meta_keywords": "servicios, reservas, servicios profesionales, proveedores de servicios, servicios locales",
+  "this_field_is_required": "Este campo es obligatorio",
+  "reset_password_page_title": "Restablecer contraseña",
+  "reset_password_button": "Restablecer contraseña",
+  "registration_success": "¡Registro exitoso!",
+  "unexpected_registration_error": "Error inesperado durante el registro",
+  "unexpected_registration_save_settings": "Error inesperado durante el guardado de configuración",
+  "password_reset_success": "Contraseña restablecida exitosamente",
+  "reset_token_expired": "El token de restablecimiento no es válido o ha expirado",
+  "invalid_password": "Contraseña inválida",
+  "unexpected_reset_error": "Ha ocurrido un error inesperado",
+  "user_registration_save_error": "Error al registrar usuario: %s",
+  "user_email_exists_error": "El correo \"%s\" ya existe",
+  "orders_search_title": "Búsqueda de pedidos",
+  "services_search_title": "Búsqueda de servicios",
+  "list_view_title": "Vista de lista",
+  "grid_view_title": "Vista de cuadrícula",
   "settings_menu_item": "Configuraciones",
   "order": {
     "price": {
-      "asc": "Price: Low to High",
-      "desc": "Price: High to Low"
+      "asc": "Precio: De menor a mayor",
+      "desc": "Precio: De mayor a menor"
     },
     "date": {
-      "desc": "Date: Newest First",
-      "asc": "Date: Oldest First"
+      "desc": "Fecha: Más reciente primero",
+      "asc": "Fecha: Más antiguo primero"
     },
     "rating": {
-      "desc": "Rating: Highest First",
-      "asc": "Rating: Lowest First"
+      "desc": "Calificación: Mayor primero",
+      "asc": "Calificación: Menor primero"
     }
   },
   "search_examples": {
-    "title": "For example:",
+    "title": "Por ejemplo:",
     "examples": {
-      "1": "Refrigerator repair",
-      "2": "English courses",
-      "3": "Dog walking"
+      "1": "Reparación de refrigerador",
+      "2": "Cursos de inglés",
+      "3": "Paseo de perros"
     }
   },
-  "forgot_password_email_instructions": "Enter the email address associated with your account, and we'll email you a link to reset your password.",
+  "forgot_password_email_instructions": "Ingresa la dirección de correo electrónico asociada a tu cuenta y te enviaremos un enlace para restablecer tu contraseña.",
   "auth_menu_login": "Iniciar sesión",
-  "auth_menu_register": "Registration",
-  "register_popup_title": "Registration",
+  "auth_menu_register": "Registro",
+  "register_popup_title": "Registro",
   "register_popup_close": "Cerrar",
-  "register_already_have_account": "Already Have Account? Login.",
-  "register_name_placeholder": "Name",
-  "register_field_required": "Field Required",
+  "register_already_have_account": "¿Ya tienes una cuenta? Inicia sesión.",
+  "register_name_placeholder": "Nombre",
+  "register_field_required": "Campo requerido",
   "register_email_placeholder": "Correo electrónico",
   "register_phone_placeholder": "Teléfono",
-  "register_phone_invalid": "Phone Invalid",
-  "register_password_placeholder": "Password",
-  "register_password_invalid": "Password Invalid",
-  "register_country_placeholder": "Country",
-  "register_country_invalid": "Country Invalid",
-  "register_button": "Create Account",
-  "register_terms_agreement": "By registering, you agree to our Terms of Service and Privacy Policy",
-  "register_invalid_captcha": "Invalid Captcha",
-  "register_or": "or",
-  "register_current_country": "Your location:",
+  "register_phone_invalid": "Teléfono inválido",
+  "register_password_placeholder": "Contraseña",
+  "register_password_invalid": "Contraseña inválida",
+  "register_country_placeholder": "País",
+  "register_country_invalid": "País inválido",
+  "register_button": "Crear cuenta",
+  "register_terms_agreement": "Al registrarte, aceptas nuestros Términos de servicio y Política de privacidad",
+  "register_invalid_captcha": "Captcha inválido",
+  "register_or": "o",
+  "register_current_country": "Tu ubicación:",
   "register_manual": "Manual",
   "register_google_login": "Google",
   "register_facebook_login": "Facebook",
   "login_popup_title": "Iniciar sesión",
   "login_email_placeholder": "Correo electrónico",
-  "login_password_placeholder": "Password",
-  "share_popup_title": "Share",
+  "login_password_placeholder": "Contraseña",
+  "share_popup_title": "Compartir",
   "share_popup_close": "Cerrar",
-  "share_copy_link": "Copy Link",
+  "share_copy_link": "Copiar enlace",
   "share_email_button": "Correo electrónico",
   "share_twitter": "Twitter",
   "share_whatsapp": "WhatsApp",
   "share_messenger": "Messenger",
   "share_facebook": "Facebook",
-  "login_remember_me": "Remember Me",
-  "login_forgot_password_link": "Forgot Password",
+  "login_remember_me": "Recordarme",
+  "login_forgot_password_link": "Olvidé mi contraseña",
   "login_button": "Iniciar sesión",
-  "reset_password_new_password": "New Password",
-  "reset_password_confirm_password": "Confirm New Password",
-  "reset_password_token_expired": "Token has expired or invalid",
-  "forgot_password": "Forgot password",
-  "unauthorized_title": "Unauthorized",
-  "you_need_to_be_authorized_message": "Sorry, you need to be authorized to access this page.",
-  "access_denied": "Access Denied",
-  "you_not_have_permission_message": "Sorry, you don't have permission to access this page.",
-  "page_might_have_been_removed_message": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
-  "back_to_dashboard": "Back to Dashboard",
-  "page_not_found": "Page Not Found",
-  "guest": "guest",
-  "toggle_theme": "Day/Night",
+  "reset_password_new_password": "Nueva contraseña",
+  "reset_password_confirm_password": "Confirmar nueva contraseña",
+  "reset_password_token_expired": "El token ha expirado o no es válido",
+  "forgot_password": "Olvidé mi contraseña",
+  "unauthorized_title": "No autorizado",
+  "you_need_to_be_authorized_message": "Lo sentimos, necesitas estar autorizado para acceder a esta página.",
+  "access_denied": "Acceso denegado",
+  "you_not_have_permission_message": "Lo sentimos, no tienes permiso para acceder a esta página.",
+  "page_might_have_been_removed_message": "La página que buscas puede haber sido eliminada, su nombre ha cambiado o no está disponible temporalmente.",
+  "back_to_dashboard": "Volver al panel",
+  "page_not_found": "Página no encontrada",
+  "guest": "invitado",
+  "toggle_theme": "Día/Noche",
   "notifications": {
     "settings": "Configuraciones",
-    "today": "Today",
-    "this_week": "This week",
-    "earlier": "Earlier",
-    "read_all": "Read all",
-    "clear_all": "Clear all",
-    "page_title": "Notifications",
-    "show_more": "See previous notifications",
-    "no_notifications": "Not have yet",
+    "today": "Hoy",
+    "this_week": "Esta semana",
+    "earlier": "Anterior",
+    "read_all": "Leer todo",
+    "clear_all": "Borrar todo",
+    "page_title": "Notificaciones",
+    "show_more": "Ver notificaciones anteriores",
+    "no_notifications": "No hay notificaciones",
     "notification": {
       "happy-birthday": {
-        "title": "Happy birthday",
-        "message": "Happy birthday"
+        "title": "Feliz cumpleaños",
+        "message": "Feliz cumpleaños"
       },
       "happy-new_year": {
-        "title": "Happy New Year",
-        "message": "Happy New Year"
+        "title": "Feliz Año Nuevo",
+        "message": "Feliz Año Nuevo"
       },
       "pass-verification": {
-        "title": "Pass verification",
-        "message": "Pass verification"
+        "title": "Verificación aprobada",
+        "message": "Verificación aprobada"
       }
     }
   },
   "messages": {
-    "page_title": "Messages",
-    "show_more": "See previous messages",
-    "no_messages": "Not have yet"
+    "page_title": "Mensajes",
+    "show_more": "Ver mensajes anteriores",
+    "no_messages": "No hay mensajes"
   },
-  "password_change_error": "Failed to change password",
-  "password_create_error": "Failed to create password",
-  "unread_notifications": "Unread notifications",
-  "menu_favorites": "Favorites",
-  "unread_messages": "Unread messages",
-  "account_menu": "Menu",
-  "profile_picture": "Profile picture",
-  "get_it_on_google_play": "Download on the Google play",
-  "download_on_app_store": "Download on the Apple store",
+  "password_change_error": "Error al cambiar la contraseña",
+  "password_create_error": "Error al crear la contraseña",
+  "unread_notifications": "Notificaciones no leídas",
+  "menu_favorites": "Favoritos",
+  "unread_messages": "Mensajes no leídos",
+  "account_menu": "Menú",
+  "profile_picture": "Foto de perfil",
+  "get_it_on_google_play": "Descargar en Google Play",
+  "download_on_app_store": "Descargar en la App Store",
   "favorites": {
-    "page_title": "Favorites",
-    "no_messages": "Not have yet"
+    "page_title": "Favoritos",
+    "no_messages": "No hay favoritos"
   },
   "app": {
-    "page_title": "App votes",
-    "page_head": "Your vote is important! Help us create the mobile app of your dreams",
-    "page_context": "We plan to develop a mobile application to make your experience even more convenient and better. Vote now and tell us how important it is to you! Your vote determines the priority of our work and will help us create what you really need.",
-    "vote_yes": "Yes"
+    "page_title": "Votos de la aplicación",
+    "page_head": "¡Tu voto es importante! Ayúdanos a crear la aplicación móvil de tus sueños",
+    "page_context": "Planeamos desarrollar una aplicación móvil para hacer tu experiencia aún más conveniente y mejor. ¡Vota ahora y dinos qué tan importante es para ti! Tu voto determina la prioridad de nuestro trabajo y nos ayudará a crear lo que realmente necesitas.",
+    "vote_yes": "Sí"
   },
   "careers": {
-    "page_title": "Careers",
-    "content_head": "Build your career with us",
-    "no_open_positions": "There are no open positions"
+    "page_title": "Carreras",
+    "content_head": "Construye tu carrera con nosotros",
+    "no_open_positions": "No hay posiciones abiertas"
   },
   "terms": {
-    "page_title": "Terms of Service",
-    "content": "<p>Welcome to our platform, a comprehensive marketplace connecting orders and services.</p><h2>1. Platform Overview</h2><p>Our platform provides a unique ecosystem where:</p><ul><li>Clients can publish diverse advertisements for services they require</li><li>Partners can offer their professional services and respond to client needs</li></ul><h2>2. User Responsibilities</h2><p>All users must:</p><ul><li>Provide accurate and truthful information</li><li>Maintain professional communication</li><li>Respect the platform's guidelines and legal requirements</li></ul><h2>3. Client Responsibilities</h2><p>Clients using the platform to publish advertisements must:</p><ul><li>Clearly describe service requirements</li><li>Provide realistic expectations</li><li>Communicate transparently with potential service partners</li></ul><h2>4. Partner Responsibilities</h2><p>Service partners must:</p><ul><li>Possess necessary qualifications for offered services</li><li>Respond promptly to client inquiries</li><li>Deliver services with professionalism and integrity</li></ul><h2>5. Transaction and Communication</h2><p>The platform facilitates connections but is not directly responsible for:</p><ul><li>Service quality</li><li>Pricing negotiations</li><li>Final agreements between clients and partners</li></ul><h2>6. Intellectual Property and Privacy</h2><p>All content on the platform is protected. Users must respect intellectual property rights and adhere to privacy policies.</p><h2>7. Limitation of Liability</h2><p>Our platform provides a service marketplace and is not liable for direct or indirect damages arising from user interactions.</p><h2>8. Modifications to Terms</h2><p>We reserve the right to update these terms. Continued platform use constitutes acceptance of updated terms.</p><p class='last-updated'>Last Updated: %last_updated_date%</p>"
+    "page_title": "Términos de servicio",
+    "content": "<p>Bienvenido a nuestra plataforma, un mercado integral que conecta pedidos y servicios.</p><h2>1. Descripción general de la plataforma</h2><p>Nuestra plataforma proporciona un ecosistema único donde:</p><ul><li>Los clientes pueden publicar diversos anuncios para los servicios que requieren</li><li>Los socios pueden ofrecer sus servicios profesionales y responder a las necesidades de los clientes</li></ul><h2>2. Responsabilidades del usuario</h2><p>Todos los usuarios deben:</p><ul><li>Proporcionar información precisa y verdadera</li><li>Mantener una comunicación profesional</li><li>Respetar las pautas de la plataforma y los requisitos legales</li></ul><h2>3. Responsabilidades del cliente</h2><p>Los clientes que utilizan la plataforma para publicar anuncios deben:</p><ul><li>Describir claramente los requisitos del servicio</li><li>Proporcionar expectativas realistas</li><li>Comunicarse de manera transparente con los posibles socios de servicio</li></ul><h2>4. Responsabilidades del socio</h2><p>Los socios de servicio deben:</p><ul><li>Poseer las calificaciones necesarias para los servicios ofrecidos</li><li>Responder rápidamente a las consultas de los clientes</li><li>Entregar servicios con profesionalismo e integridad</li></ul><h2>5. Transacción y comunicación</h2><p>La plataforma facilita las conexiones pero no es directamente responsable de:</p><ul><li>Calidad del servicio</li><li>Negociaciones de precios</li><li>Acuerdos finales entre clientes y socios</li></ul><h2>6. Propiedad intelectual y privacidad</h2><p>Todo el contenido en la plataforma está protegido. Los usuarios deben respetar los derechos de propiedad intelectual y adherirse a las políticas de privacidad.</p><h2>7. Limitación de responsabilidad</h2><p>Nuestra plataforma proporciona un mercado de servicios y no es responsable de daños directos o indirectos que surjan de las interacciones de los usuarios.</p><h2>8. Modificaciones a los términos</h2><p>Nos reservamos el derecho de actualizar estos términos. El uso continuado de la plataforma constituye la aceptación de los términos actualizados.</p><p class='last-updated'>Última actualización: %last_updated_date%</p>"
   },
   "contact": {
-    "page_title": "Contact Us",
-    "content": "<h2>Get in Touch</h2><p>We'd love to hear from you! Please use the contact information provided or visit us during business hours.</p>",
-    "business_hours": "We work for you 24/7"
+    "page_title": "Contáctenos",
+    "content": "<h2>Ponte en contacto</h2><p>¡Nos encantaría saber de ti! Por favor, utiliza la información de contacto proporcionada o visítanos durante el horario de atención.</p>",
+    "business_hours": "Trabajamos para ti 24/7"
   },
   "cookie_consent": {
-    "title": "Cookie Consent",
-    "description": "We use cookies to enhance your browsing experience and analyze our traffic. Please choose your preference below.",
-    "reject_button": "Reject",
-    "accept_button": "Accept"
+    "title": "Consentimiento de cookies",
+    "description": "Utilizamos cookies para mejorar tu experiencia de navegación y analizar nuestro tráfico. Por favor, elige tu preferencia a continuación.",
+    "reject_button": "Rechazar",
+    "accept_button": "Aceptar"
   },
   "dashboard": {
     "dashboard_page_title": "¡Bienvenido!",
-    "page_title": "Dashboard",
-    "search_placeholder": "Search services, partners, and more"
+    "page_title": "Panel",
+    "search_placeholder": "Buscar servicios, socios y más"
   },
   "settings": {
     "account": {
-      "success": "Settings updated successfully",
+      "success": "Configuración actualizada exitosamente",
       "error": {
-        "not_authenticated": "User not authenticated",
-        "already_exists": "User already exist with this email",
-        "not_found": "User not found",
-        "invalid_input": "Invalid input data provided",
-        "save_failed": "Failed to save account settings",
-        "invalid_verification_code": "Invalid verification code",
-        "error_send_verification_code": "Error send verification code"
+        "not_authenticated": "Usuario no autenticado",
+        "already_exists": "Ya existe un usuario con este correo electrónico",
+        "not_found": "Usuario no encontrado",
+        "invalid_input": "Datos de entrada inválidos",
+        "save_failed": "Error al guardar la configuración de la cuenta",
+        "invalid_verification_code": "Código de verificación inválido",
+        "error_send_verification_code": "Error al enviar el código de verificación"
       },
-      "verification_code_title": "Verification Code",
-      "verification_code_message": "Your verification code is:",
-      "verification_code_expiry": "This code will expire in %minutes% minutes.",
-      "verification_code_ignore": "If you didn't request this code, please ignore this email.",
-      "your_verification_code": "Your verification code is",
+      "verification_code_title": "Código de verificación",
+      "verification_code_message": "Tu código de verificación es:",
+      "verification_code_expiry": "Este código expirará en %minutes% minutos.",
+      "verification_code_ignore": "Si no solicitaste este código, ignora este correo.",
+      "your_verification_code": "Tu código de verificación es",
       "errors": {
-        "not_supported_image_format": "Please select a JPEG or PNG image.",
-        "not_supported_image_size": "Image size should not exceed 5MB."
+        "not_supported_image_format": "Por favor, selecciona una imagen JPEG o PNG.",
+        "not_supported_image_size": "El tamaño de la imagen no debe exceder 5MB."
       },
-      "status": "Status",
-      "active": "Active",
-      "inactive": "Inactive",
-      "change_photo": "Change photo",
-      "verify": "Verify",
-      "profile_image": "Profile Image",
-      "name": "Name",
+      "status": "Estado",
+      "active": "Activo",
+      "inactive": "Inactivo",
+      "change_photo": "Cambiar foto",
+      "verify": "Verificar",
+      "profile_image": "Imagen de perfil",
+      "name": "Nombre",
       "email": "Correo electrónico",
       "phone": "Teléfono",
-      "save": "Save",
-      "light": "Light",
-      "dark": "Dark",
-      "theme": "Theme",
+      "save": "Guardar",
+      "light": "Claro",
+      "dark": "Oscuro",
+      "theme": "Tema",
       "currency": "Moneda",
       "language": "Idioma"
     },
     "page_title": "Configuraciones",
     "menu": {
-      "account": "Account",
+      "account": "Cuenta",
       "general": "General",
-      "notifications": "Notifications",
-      "privacy": "Privacy"
+      "notifications": "Notificaciones",
+      "privacy": "Privacidad"
     },
     "privacy": {
       "deactivation": {
-        "title": "Account Deactivation",
-        "description": "Deactivating your account will temporarily hide your profile and all your content from other users. You can reactivate your account at any time by logging back in.",
-        "button": "Deactivate Account",
+        "title": "Desactivación de cuenta",
+        "description": "Desactivar tu cuenta ocultará temporalmente tu perfil y todo tu contenido de otros usuarios. Puedes reactivar tu cuenta en cualquier momento iniciando sesión nuevamente.",
+        "button": "Desactivar cuenta",
         "modal": {
-          "title": "Confirm Account Deactivation",
-          "message": "Are you sure you want to deactivate your account? Your profile and content will be hidden until you reactivate.",
+          "title": "Confirmar desactivación de cuenta",
+          "message": "¿Estás seguro de que quieres desactivar tu cuenta? Tu perfil y contenido estarán ocultos hasta que reactives.",
           "effects": {
-            "profile_invisible": "Your profile will become invisible to other users",
-            "content_hidden": "Your content will be temporarily hidden",
-            "can_reactivate": "You can reactivate by logging back in"
+            "profile_invisible": "Tu perfil será invisible para otros usuarios",
+            "content_hidden": "Tu contenido estará temporalmente oculto",
+            "can_reactivate": "Puedes reactivar iniciando sesión nuevamente"
           },
-          "cancel": "No, Cancel",
-          "confirm": "Yes, Deactivate"
+          "cancel": "No, cancelar",
+          "confirm": "Sí, desactivar"
         }
       },
       "activation": {
-        "title": "Account Activation",
-        "description": "Your account is currently deactivated. Activating your account will make your profile and content visible to other users again.",
-        "button": "Activate Account"
+        "title": "Activación de cuenta",
+        "description": "Tu cuenta está actualmente desactivada. Activar tu cuenta hará que tu perfil y contenido sean visibles nuevamente para otros usuarios.",
+        "button": "Activar cuenta"
       },
       "deletion": {
-        "title": "Account Deletion",
-        "description": "Deleting your account is permanent. All your data, including profile information, history, and content will be permanently removed and cannot be recovered.",
-        "button": "Delete Account",
+        "title": "Eliminación de cuenta",
+        "description": "Eliminar tu cuenta es permanente. Todos tus datos, incluyendo información de perfil, historial y contenido serán eliminados permanentemente y no podrán ser recuperados.",
+        "button": "Eliminar cuenta",
         "modal": {
-          "title": "Confirm Account Deletion",
-          "message": "Are you sure you want to permanently delete your account? This action cannot be undone.",
+          "title": "Confirmar eliminación de cuenta",
+          "message": "¿Estás seguro de que quieres eliminar permanentemente tu cuenta? Esta acción no se puede deshacer.",
           "effects": {
-            "data_deleted": "All your personal data will be permanently deleted",
-            "profile_removed": "Your profile and content will be removed forever",
-            "no_recovery": "You cannot recover your account after deletion"
+            "data_deleted": "Todos tus datos personales serán eliminados permanentemente",
+            "profile_removed": "Tu perfil y contenido serán eliminados para siempre",
+            "no_recovery": "No podrás recuperar tu cuenta después de la eliminación"
           },
-          "cancel": "No, Cancel",
-          "confirm": "Yes, Delete"
+          "cancel": "No, cancelar",
+          "confirm": "Sí, eliminar"
         }
       },
       "create_password": {
-        "title": "Create Password",
-        "description": "Set your account password to maintain security",
-        "button": "Create Password",
-        "current_password": "Password",
-        "new_password": "Confirmation Password",
-        "submit": "Create Password",
-        "success": "Password successfully created",
-        "error": "Failed to create password",
+        "title": "Crear contraseña",
+        "description": "Establece la contraseña de tu cuenta para mantener la seguridad",
+        "button": "Crear contraseña",
+        "current_password": "Contraseña",
+        "new_password": "Confirmar contraseña",
+        "submit": "Crear contraseña",
+        "success": "Contraseña creada exitosamente",
+        "error": "Error al crear la contraseña",
         "validation": {
-          "current_password_required": "password is required",
-          "new_password_required": "password is required"
+          "current_password_required": "La contraseña es requerida",
+          "new_password_required": "La contraseña es requerida"
         }
       },
       "change_password": {
-        "title": "Change Password",
-        "description": "Update your account password to maintain security",
-        "button": "Change Password",
-        "current_password": "Current Password",
-        "new_password": "New Password",
-        "submit": "Update Password",
-        "success": "Password successfully changed",
-        "error": "Failed to change password",
+        "title": "Cambiar contraseña",
+        "description": "Actualiza la contraseña de tu cuenta para mantener la seguridad",
+        "button": "Cambiar contraseña",
+        "current_password": "Contraseña actual",
+        "new_password": "Nueva contraseña",
+        "submit": "Actualizar contraseña",
+        "success": "Contraseña cambiada exitosamente",
+        "error": "Error al cambiar la contraseña",
         "validation": {
-          "current_password_required": "Current password is required",
-          "new_password_required": "New password is required"
+          "current_password_required": "La contraseña actual es requerida",
+          "new_password_required": "La nueva contraseña es requerida"
         }
       },
-      "page_title": "Privacy Policy",
-      "content": "<h2>1. Introduction</h2><p>Welcome to %app_name%. This Privacy Policy outlines how we collect, use, protect, and manage your personal information when you use our service marketplace platform.</p><h2>2. Information We Collect</h2><ul><li>Personal identification information (Name, email address, phone number)</li><li>Profile information for service providers and clients</li><li>Communication records between clients and service providers</li><li>Usage data and platform interaction logs</li></ul><h2>3. How We Use Your Information</h2><ul><li>Facilitate service connections between clients and providers</li><li>Improve platform functionality and user experience</li><li>Send important notifications and updates</li><li>Respond to customer support requests</li></ul><h2>4. Data Protection</h2><ul><li>We implement industry-standard security measures to protect your data</li><li>Personal information is encrypted and stored securely</li><li>Access to data is strictly limited to authorized personnel</li></ul><h2>5. User Consent and Control</h2><ul><li>You can review and update your personal information</li><li>You can request data deletion or account closure</li><li>We obtain explicit consent before processing sensitive data</li></ul><h2>6. Third-Party Sharing</h2><p>We do not sell or rent your personal information to third parties. Information may be shared only:</p><ul><li>With your explicit consent</li><li>To comply with legal obligations</li><li>To protect our platform's rights and safety</li></ul><h2>7. Cookies and Tracking</h2><p>We use cookies to enhance user experience and platform functionality. You can manage cookie preferences in your browser settings.</p><h2>8. Contact Information</h2><p>For privacy-related questions or concerns, please contact us at:</p><ul><li>Email: %support_email%</li><li>Address: %support_address%</li></ul><h2>9. Policy Updates</h2><p>We may update this Privacy Policy periodically. The latest version will always be available on our platform.</p><p class='last-updated'>Last Updated: %last_updated_date%</p>"
+      "page_title": "Política de privacidad",
+      "content": "<h2>1. Introducción</h2><p>Bienvenido a %app_name%. Esta Política de Privacidad describe cómo recopilamos, usamos, protegemos y gestionamos tu información personal cuando utilizas nuestra plataforma de mercado de servicios.</p><h2>2. Información que recopilamos</h2><ul><li>Información de identificación personal (Nombre, dirección de correo electrónico, número de teléfono)</li><li>Información de perfil para proveedores de servicios y clientes</li><li>Registros de comunicación entre clientes y proveedores de servicios</li><li>Datos de uso y registros de interacción con la plataforma</li></ul><h2>3. Cómo usamos tu información</h2><ul><li>Facilitar conexiones de servicio entre clientes y proveedores</li><li>Mejorar la funcionalidad de la plataforma y la experiencia del usuario</li><li>Enviar notificaciones y actualizaciones importantes</li><li>Responder a solicitudes de soporte al cliente</li></ul><h2>4. Protección de datos</h2><ul><li>Implementamos medidas de seguridad estándar de la industria para proteger tus datos</li><li>La información personal está encriptada y almacenada de forma segura</li><li>El acceso a los datos está estrictamente limitado al personal autorizado</li></ul><h2>5. Consentimiento y control del usuario</h2><ul><li>Puedes revisar y actualizar tu información personal</li><li>Puedes solicitar la eliminación de datos o el cierre de cuenta</li><li>Obtenemos consentimiento explícito antes de procesar datos sensibles</li></ul><h2>6. Compartir con terceros</h2><p>No vendemos ni alquilamos tu información personal a terceros. La información puede compartirse solo:</p><ul><li>Con tu consentimiento explícito</li><li>Para cumplir con obligaciones legales</li><li>Para proteger los derechos y la seguridad de nuestra plataforma</li></ul><h2>7. Cookies y seguimiento</h2><p>Utilizamos cookies para mejorar la experiencia del usuario y la funcionalidad de la plataforma. Puedes gestionar las preferencias de cookies en la configuración de tu navegador.</p><h2>8. Información de contacto</h2><p>Para preguntas relacionadas con la privacidad o inquietudes, contáctanos en:</p><ul><li>Correo electrónico: %support_email%</li><li>Dirección: %support_address%</li></ul><h2>9. Actualizaciones de la política</h2><p>Podemos actualizar esta Política de Privacidad periódicamente. La última versión siempre estará disponible en nuestra plataforma.</p><p class='last-updated'>Última actualización: %last_updated_date%</p>"
     },
     "phone": {
       "verification": {
-        "popup_title": "Phone Verification",
-        "instructions": "Please enter the 6-digit verification code that was sent to your phone",
-        "verify_button": "Verify Code"
+        "popup_title": "Verificación de teléfono",
+        "instructions": "Por favor, ingresa el código de verificación de 6 dígitos que fue enviado a tu teléfono",
+        "verify_button": "Verificar código"
       }
     },
     "email": {
       "forgot_password": {
-        "title": "Password Reset",
-        "body": "<p>We've received a request to reset your password.</p><p>If you didn't make the request, just ignore this message. Otherwise, click the button below:</p>",
-        "button_text": "Reset Your Password",
-        "signature": "Thanks,\nYour Team"
+        "title": "Restablecer contraseña",
+        "body": "<p>Hemos recibido una solicitud para restablecer tu contraseña.</p><p>Si no realizaste esta solicitud, ignora este mensaje. De lo contrario, haz clic en el botón a continuación:</p>",
+        "button_text": "Restablecer tu contraseña",
+        "signature": "Gracias,\nTu equipo"
       },
       "verification": {
-        "popup_title": "Email Verification",
-        "instructions": "Please enter the 6-digit verification code that was sent to your email",
-        "verify_button": "Verify Code",
-        "resend_code": "Resend Code",
-        "code_sent": "Verification code has been sent to your email",
-        "invalid_code": "Invalid verification code. Please try again",
-        "success": "Email successfully verified",
-        "error": "Failed to verify email. Please try again"
+        "popup_title": "Verificación de correo electrónico",
+        "instructions": "Por favor, ingresa el código de verificación de 6 dígitos que fue enviado a tu correo electrónico",
+        "verify_button": "Verificar código",
+        "resend_code": "Reenviar código",
+        "code_sent": "El código de verificación ha sido enviado a tu correo electrónico",
+        "invalid_code": "Código de verificación inválido. Por favor, intenta nuevamente",
+        "success": "Correo electrónico verificado exitosamente",
+        "error": "Error al verificar el correo electrónico. Por favor, intenta nuevamente"
       }
     }
   },
   "js": {
     "notifications": {
       "time": {
-        "just_now": "just now",
+        "just_now": "justo ahora",
         "minute": {
-          "one": "minute ago",
-          "few": "minutes ago",
-          "many": "minutes ago"
+          "one": "minuto atrás",
+          "few": "minutos atrás",
+          "many": "minutos atrás"
         },
         "hour": {
-          "one": "hour ago",
-          "few": "hours ago",
-          "many": "hours ago"
+          "one": "hora atrás",
+          "few": "horas atrás",
+          "many": "horas atrás"
         },
         "day": {
-          "one": "day ago",
-          "few": "days ago",
-          "many": "days ago"
+          "one": "día atrás",
+          "few": "días atrás",
+          "many": "días atrás"
         },
         "month": {
-          "one": "month ago",
-          "few": "months ago",
-          "many": "months ago"
+          "one": "mes atrás",
+          "few": "meses atrás",
+          "many": "meses atrás"
         },
         "year": {
-          "one": "year ago",
-          "few": "years ago",
-          "many": "years ago"
+          "one": "año atrás",
+          "few": "años atrás",
+          "many": "años atrás"
         }
       }
     },
     "settings": {
       "account": {
-        "active": "Active",
-        "inactive": "Inactive"
+        "active": "Activo",
+        "inactive": "Inactivo"
       },
-      "error_image_size": "Image size should not exceed 5MB.",
-      "error_image_type": "Please select a JPEG or PNG image.",
-      "error_create_password": "Error creating password",
-      "password_created_success": "Password create successfully",
-      "error_changing_password": "Error changing password",
-      "password_changed_success": "Password changed successfully",
-      "update_failed": "Failed to update settings",
-      "error_invalid_image_type": "Please select a supported image.",
-      "error_image_too_large": "Image size should not exceed 5MB.",
-      "form_validation_error": "Please correct the form errors",
-      "unexpected_error": "Unexpected error during save settings",
-      "account_activation_requested": "Account activation requested",
-      "account_deactivation_confirmed": "Account deactivation confirmed",
-      "account_deletion_confirmed": "Account deletion confirmed",
-      "send_again_verification_code": "Send again",
-      "error_sending_verification_code": "Error sending verification code",
-      "error_verifying": "Invalid verification code. Please try again",
+      "error_image_size": "El tamaño de la imagen no debe exceder 5MB.",
+      "error_image_type": "Por favor, selecciona una imagen JPEG o PNG.",
+      "error_create_password": "Error al crear la contraseña",
+      "password_created_success": "Contraseña creada exitosamente",
+      "error_changing_password": "Error al cambiar la contraseña",
+      "password_changed_success": "Contraseña cambiada exitosamente",
+      "update_failed": "Error al actualizar la configuración",
+      "error_invalid_image_type": "Por favor, selecciona una imagen compatible.",
+      "error_image_too_large": "El tamaño de la imagen no debe exceder 5MB.",
+      "form_validation_error": "Por favor, corrige los errores del formulario",
+      "unexpected_error": "Error inesperado durante el guardado de configuración",
+      "account_activation_requested": "Activación de cuenta solicitada",
+      "account_deactivation_confirmed": "Desactivación de cuenta confirmada",
+      "account_deletion_confirmed": "Eliminación de cuenta confirmada",
+      "send_again_verification_code": "Enviar nuevamente",
+      "error_sending_verification_code": "Error al enviar el código de verificación",
+      "error_verifying": "Código de verificación inválido. Por favor, intenta nuevamente",
       "deactivate_block": {
-        "title": "Account Deactivation",
-        "description": "Deactivating your account will temporarily hide your profile and all your content from other users. You can reactivate your account at any time by logging back in.",
-        "button": "Deactivate Account"
+        "title": "Desactivación de cuenta",
+        "description": "Desactivar tu cuenta ocultará temporalmente tu perfil y todo tu contenido de otros usuarios. Puedes reactivar tu cuenta en cualquier momento iniciando sesión nuevamente.",
+        "button": "Desactivar cuenta"
       },
       "activate_block": {
-        "title": "Account Activation",
-        "description": "Your account is currently deactivated. Activating your account will make your profile and content visible to other users again.",
-        "button": "Activate Account"
+        "title": "Activación de cuenta",
+        "description": "Tu cuenta está actualmente desactivada. Activar tu cuenta hará que tu perfil y contenido sean visibles nuevamente para otros usuarios.",
+        "button": "Activar cuenta"
       },
-      "verification_retry_timer": "Retrying in %seconds% seconds"
+      "verification_retry_timer": "Reintentando en %seconds% segundos"
     },
     "locales": {
       "uk": "Українська",
       "en": "English",
-      "es": "Spain"
+      "es": "Español"
     },
     "countries": {
-      "ua": "Ukraine",
-      "us": "United States",
-      "es": "Spain"
+      "ua": "Ucrania",
+      "us": "Estados Unidos",
+      "es": "España"
     },
-    "vote_thanks": "Thanks for your vote!",
-    "password_validation": "Invalid password",
-    "error_generic_message": "Something went wrong. Our team is working on it. Please try again later.",
-    "error_email_required": "Email is required",
-    "error_invalid_email": "Please enter a valid email address",
-    "error_network": "Network error. Please try again.",
-    "success_reset_link": "Password reset link sent to your email",
-    "label_email": "Email Address",
-    "error_invalid_credentials": "Invalid email or password",
+    "vote_thanks": "¡Gracias por tu voto!",
+    "password_validation": "Contraseña inválida",
+    "error_generic_message": "Algo salió mal. Nuestro equipo está trabajando en ello. Por favor, intenta nuevamente más tarde.",
+    "error_email_required": "El correo electrónico es requerido",
+    "error_invalid_email": "Por favor, introduce una dirección de correo electrónico válida",
+    "error_network": "Error de red. Por favor, intenta nuevamente.",
+    "success_reset_link": "Enlace de restablecimiento de contraseña enviado a tu correo electrónico",
+    "label_email": "Dirección de correo electrónico",
+    "error_invalid_credentials": "Correo electrónico o contraseña inválidos",
     "label_login": "Iniciar sesión",
-    "placeholder_email": "Enter your email",
-    "error_password_length": "Password must be at least 8 characters long",
-    "error_passwords_match": "Passwords must match",
-    "label_password": "Enter your password",
-    "label_confirm_password": "Confirm Password",
-    "password_length_validation": "Password must be at least 8 characters long",
-    "password_complexity_validation": "Password must contain at least one letter and one number",
-    "email_already_exists": "This email is already registered",
-    "find_your_orders": "Find Your Orders",
-    "what_order_looking_for": "What order are you looking for?",
-    "no_services_found": "No services found matching your search.",
-    "no_orders_found": "No orders found matching your search.",
-    "book_now": "Book Now",
-    "share": "Share",
-    "error_occurred": "An error occurred while searching. Please try again later.",
-    "share_link_copied": "Copied!",
-    "share_email_subject": "Check out this service",
-    "share_email_body": "I found this interesting service: ",
-    "name_validation": "Please enter a valid name (2-50 characters, letters only)",
-    "phone_validation": "Please enter a valid phone number",
-    "selection_validation": "Please make a selection",
-    "registration_error": "Registration failed. Please try again.",
-    "city_select_from_list": "Please select a city from the list",
-    "success_message": "Password is changed!",
-    "success_reset_password": "Password is changed!",
-    "error_reset_password": "An error occurred while resetting password",
-    "password_too_short": "Password must be at least 8 characters long",
-    "passwords_do_not_match": "Passwords do not match"
+    "placeholder_email": "Ingresa tu correo electrónico",
+    "error_password_length": "La contraseña debe tener al menos 8 caracteres",
+    "error_passwords_match": "Las contraseñas deben coincidir",
+    "label_password": "Ingresa tu contraseña",
+    "label_confirm_password": "Confirmar contraseña",
+    "password_length_validation": "La contraseña debe tener al menos 8 caracteres",
+    "password_complexity_validation": "La contraseña debe contener al menos una letra y un número",
+    "email_already_exists": "Este correo electrónico ya está registrado",
+    "find_your_orders": "Encuentra tus pedidos",
+    "what_order_looking_for": "¿Qué pedido estás buscando?",
+    "no_services_found": "No se encontraron servicios que coincidan con tu búsqueda.",
+    "no_orders_found": "No se encontraron pedidos que coincidan con tu búsqueda.",
+    "book_now": "Reservar ahora",
+    "share": "Compartir",
+    "error_occurred": "Ocurrió un error durante la búsqueda. Por favor, intenta nuevamente más tarde.",
+    "share_link_copied": "¡Copiado!",
+    "share_email_subject": "Mira este servicio",
+    "share_email_body": "Encontré este servicio interesante: ",
+    "name_validation": "Por favor, ingresa un nombre válido (2-50 caracteres, solo letras)",
+    "phone_validation": "Por favor, ingresa un número de teléfono válido",
+    "selection_validation": "Por favor, realiza una selección",
+    "registration_error": "Error en el registro. Por favor, intenta nuevamente.",
+    "city_select_from_list": "Por favor, selecciona una ciudad de la lista",
+    "success_message": "¡La contraseña ha sido cambiada!",
+    "success_reset_password": "¡La contraseña ha sido cambiada!",
+    "error_reset_password": "Ocurrió un error al restablecer la contraseña",
+    "password_too_short": "La contraseña debe tener al menos 8 caracteres",
+    "passwords_do_not_match": "Las contraseñas no coinciden"
   }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Profile\Setting\Infrastructure\Repository;
+namespace Profile\Setting\Infrastructure\Persistence\Doctrine\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Profile\Setting\DomainModel\Enum\PropertyName;

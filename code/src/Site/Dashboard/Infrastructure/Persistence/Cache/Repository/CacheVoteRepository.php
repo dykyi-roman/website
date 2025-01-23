@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Site\Dashboard\Infrastructure\Repository;
+namespace Site\Dashboard\Infrastructure\Persistence\Cache\Repository;
 
 use Psr\SimpleCache\CacheInterface;
 use Site\Dashboard\DomainModel\Repository\VoteRepositoryInterface;

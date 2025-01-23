@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Site\Location\Infrastructure\Doctrine\DoctrineType;
+namespace Site\Location\Infrastructure\Persistence\Doctrine\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;

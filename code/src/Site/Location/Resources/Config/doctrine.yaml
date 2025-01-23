@@ -1,4 +1,4 @@
 doctrine:
     dbal:
         types:
-            location: Site\Location\Infrastructure\Doctrine\DoctrineType\LocationType
+            location: Site\Location\Infrastructure\Persistence\Doctrine\Type\LocationType

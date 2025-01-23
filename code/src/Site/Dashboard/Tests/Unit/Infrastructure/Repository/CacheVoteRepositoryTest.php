@@ -9,7 +9,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\SimpleCache\CacheInterface;
 use Site\Dashboard\DomainModel\ValueObject\Vote;
-use Site\Dashboard\Infrastructure\Repository\CacheVoteRepository;
+use Site\Dashboard\Infrastructure\Persistence\Cache\Repository\CacheVoteRepository;
 
 #[CoversClass(CacheVoteRepository::class)]
 final class CacheVoteRepositoryTest extends TestCase

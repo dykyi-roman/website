@@ -17,9 +17,9 @@ services:
             - '../../Tests/'
         tags: ['controller.service_arguments']
 
-    EventStorage\Infrastructure\Repository\EventRepository:
+    EventStorage\Infrastructure\Persistence\Doctrine\Repository\EventRepository:
         arguments:
             $entityManager: '@doctrine.orm.site_entity_manager'
 
     EventStorage\DomainModel\Repository\EventRepositoryInterface:
-        alias: EventStorage\Infrastructure\Repository\EventRepository
+        alias: EventStorage\Infrastructure\Persistence\Doctrine\Repository\EventRepository

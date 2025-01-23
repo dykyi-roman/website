@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Profile\User\Infrastructure\Repository;
+namespace Profile\User\Infrastructure\Persistence\Doctrine\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;

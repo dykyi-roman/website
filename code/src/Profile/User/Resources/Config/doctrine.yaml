@@ -4,8 +4,8 @@ doctrine:
             site:
                 url: '%env(resolve:DATABASE_SITE_URL)%'
         types:
-            user_id: Profile\User\Infrastructure\Doctrine\DoctrineType\UserIdType
-            user_status: Profile\User\Infrastructure\Doctrine\DoctrineType\UserStatusType
+            user_id: Profile\User\Infrastructure\Persistence\Doctrine\Type\UserIdType
+            user_status: Profile\User\Infrastructure\Persistence\Doctrine\Type\UserStatusType
     orm:
         entity_managers:
             site:

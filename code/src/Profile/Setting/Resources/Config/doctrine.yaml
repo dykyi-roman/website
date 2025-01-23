@@ -1,9 +1,9 @@
 doctrine:
     dbal:
         types:
-            property_category: Profile\Setting\Infrastructure\Doctrine\DoctrineType\PropertyCategoryType
-            property_name: Profile\Setting\Infrastructure\Doctrine\DoctrineType\PropertyNameType
-            setting_id: Profile\Setting\Infrastructure\Doctrine\DoctrineType\SettingIdType
+            property_category: Profile\Setting\Infrastructure\Persistence\Doctrine\Type\PropertyCategoryType
+            property_name: Profile\Setting\Infrastructure\Persistence\Doctrine\Type\PropertyNameType
+            setting_id: Profile\Setting\Infrastructure\Persistence\Doctrine\Type\SettingIdType
         connections:
             site:
                 url: '%env(resolve:DATABASE_SITE_URL)%'

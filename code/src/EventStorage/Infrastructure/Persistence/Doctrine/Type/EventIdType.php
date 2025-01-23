@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EventStorage\Infrastructure\Doctrine\DoctrineType;
+namespace EventStorage\Infrastructure\Persistence\Doctrine\Type;
 
 use EventStorage\DomainModel\Enum\EventId;
 use Shared\Infrastructure\Doctrine\DoctrineType\UuidType;

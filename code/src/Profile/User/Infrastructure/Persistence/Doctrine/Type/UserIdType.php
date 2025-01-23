@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Profile\User\Infrastructure\Doctrine\DoctrineType;
+namespace Profile\User\Infrastructure\Persistence\Doctrine\Type;
 
 use Profile\User\DomainModel\Enum\UserId;
 use Shared\Infrastructure\Doctrine\DoctrineType\UuidType;

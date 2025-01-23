@@ -4,7 +4,7 @@ doctrine:
             site:
                 url: '%env(resolve:DATABASE_SITE_URL)%'
         types:
-            event_id: EventStorage\Infrastructure\Doctrine\DoctrineType\EventIdType
+            event_id: EventStorage\Infrastructure\Persistence\Doctrine\Type\EventIdType
     orm:
         entity_managers:
             site:
