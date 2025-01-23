@@ -303,6 +303,13 @@ PHONE - your phone number from Twilio
 
 ## DEV
 
+- Phpstan
+- Psalm
+- CS Fixer
+- Deptrac
+- PHP Unit
+- PHP Metrics
+
 ### Ngrok: Secure Tunneling for Local Development
 
 #### Overview

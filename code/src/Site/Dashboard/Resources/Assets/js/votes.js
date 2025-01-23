@@ -63,6 +63,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     checkVoteStatus();
 
     voteButton.addEventListener('click', function() {
+        // Disable button immediately to prevent multiple clicks
+        voteButton.disabled = true;
+        voteButton.classList.add('disabled');
+
         // Get current votes
         const currentVotes = parseInt(progressBar.getAttribute('aria-valuenow') || 0);
         const newVotes = currentVotes + 1;
@@ -84,7 +88,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 // Save to localStorage
                 localStorage.setItem(localStorageKey, 'true');
                 
-                // Disable and hide button
+                // Hide button
                 voteButton.style.display = 'none';
                 
                 // Create and insert thank you message
@@ -97,6 +101,9 @@ document.addEventListener('DOMContentLoaded', async function() {
             })
             .catch(error => {
                 console.error('Error recording vote:', error);
+                // Re-enable button in case of error
+                voteButton.disabled = false;
+                voteButton.classList.remove('disabled');
             });
         }
     });
