@@ -101,7 +101,7 @@ class UIManager {
         if (statusBadge) {
             statusBadge.classList.remove('text-bg-success', 'text-bg-warning');
             statusBadge.classList.add(isActive ? 'text-bg-success' : 'text-bg-warning');
-            statusBadge.textContent = isActive ? translations.settings?.active : translations.settings.inactive;
+            statusBadge.textContent = isActive ? translations.settings.account.active : translations.settings.account.inactive;
         }
     }
 
