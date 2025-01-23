@@ -726,7 +726,7 @@ footer h5 {
 
 .notification-body {
     margin-left: 1.8rem;
-    color: inherit;
+    color: black;
 }
 
 .notification-toast .notification-close {
@@ -797,6 +797,27 @@ footer h5 {
 
 .notification-close:hover i {
     color: var(--primary-orange);
+}
+
+/* Toast notifications container */
+#notifications {
+    position: fixed;
+    top: 80px; /* Position below the navbar */
+    right: 20px;
+    z-index: 9999; /* Ensure it's above other elements */
+    max-width: 350px;
+    width: 100%;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
 /* Notification animations */

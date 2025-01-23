@@ -801,7 +801,7 @@
 }
 
 [data-theme="dark"] .notification-toast .notification-body {
-    color: var(--text-dark);
+    color: var(--text-muted);
 }
 
 [data-theme="dark"] .notification-toast i:not(.fa-times) {
@@ -820,6 +820,34 @@
 
 [data-theme="dark"] .notification-toast .notification-close:hover i.fa-times {
     color: var(--primary-orange);
+}
+
+/* Dark theme styles */
+[data-theme="dark"] .notification-item {
+    background: var(--dark-surface);
+    border-color: var(--dark-border);
+}
+
+[data-theme="dark"] .notification-item.unread {
+    background: var(--dark-surface-lighter);
+    border-left-color: var(--primary-orange);
+}
+
+[data-theme="dark"] .notification-item.read {
+    background: var(--dark-surface);
+    border-left-color: var(--secondary-color);
+}
+
+[data-theme="dark"] .notification-details h3 {
+    color: var(--text-lighter);
+}
+
+[data-theme="dark"] .notification-details p {
+    color: var(--text-dark);
+}
+
+[data-theme="dark"] .notification-date {
+    color: var(--text-muted);
 }
 
 /* Notification styles for dark theme */
