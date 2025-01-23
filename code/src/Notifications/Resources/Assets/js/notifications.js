@@ -116,13 +116,15 @@
 
         // Update notifications page if we're on it
         if (window.location.pathname === '/notifications') {
+            const timestamp = Date.now(); // Current timestamp in milliseconds
+            
             // Create the new notification element
             const notificationData = {
                 id: notification.id,
                 type: notification.type,
                 title: notification.title,
                 message: notification.message,
-                created_at: new Date().toISOString(),
+                createdAt: timestamp, // Use timestamp instead of ISO string
                 is_read: false
             };
 
@@ -156,6 +158,31 @@
                 todayGroup.style.display = 'block';
             }
         }
+    }
+
+    function createNotificationElement(notification) {
+        const div = document.createElement('div');
+        div.className = `notification-item ${notification.is_read ? 'read' : 'unread'}`;
+        div.dataset.notificationId = notification.id;
+
+        const date = new Date(notification.createdAt);
+        const timestamp = date.getTime();
+
+        div.innerHTML = `
+            <div class="notification-icon">
+                <i class="fas ${getNotificationIcon(notification.type)}"></i>
+            </div>
+            <div class="notification-details">
+                <h3>${notification.title}</h3>
+                <p>${notification.message}</p>
+            </div>
+            <span class="notification-date" data-timestamp="${timestamp}" title="${date.toLocaleString()}">${getTimeAgo(date)}</span>
+            <button class="notification-close" aria-label="X">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+
+        return div;
     }
 
     function authenticateUser(userId) {
@@ -266,30 +293,6 @@
         });
     }
 
-    function createNotificationElement(notification) {
-        const div = document.createElement('div');
-        div.className = `notification-item ${notification.readAt ? 'read' : 'unread'}`;
-        div.dataset.notificationId = notification.id;
-
-        const timestamp = new Date(notification.createdAt).getTime();
-
-        div.innerHTML = `
-            <div class="notification-icon">
-                <i class="fas ${getNotificationIcon(notification.type)}"></i>
-            </div>
-            <div class="notification-details">
-                <h3>${notification.title}</h3>
-                <p>${notification.message}</p>
-            </div>
-            <span class="notification-date" data-timestamp="${timestamp}" title="${new Date(notification.createdAt).toLocaleString()}">${getTimeAgo(new Date(notification.createdAt))}</span>
-            <button class="notification-close" aria-label="X">
-                <i class="fas fa-times"></i>
-            </button>
-        `;
-
-        return div;
-    }
-
     function initializeNotificationElement(element) {
         // Add click handler for the entire notification
         element.addEventListener('click', function(event) {
@@ -377,14 +380,11 @@
     }
 
     function updateAllNotificationTimes() {
-        document.querySelectorAll('.notification-item').forEach(item => {
-            const dateSpan = item.querySelector('.notification-date');
-            if (dateSpan) {
-                const timestamp = dateSpan.getAttribute('data-timestamp');
-                if (timestamp) {
-                    const date = new Date(parseInt(timestamp));
-                    dateSpan.textContent = getTimeAgo(date);
-                }
+        document.querySelectorAll('.notification-date[data-timestamp]').forEach(dateSpan => {
+            const timestamp = parseInt(dateSpan.dataset.timestamp);
+            if (!isNaN(timestamp)) {
+                const date = new Date(timestamp);
+                dateSpan.textContent = getTimeAgo(date);
             }
         });
     }
@@ -637,18 +637,11 @@
     }
 
     function initializeTimeUpdates() {
-        // Обновляем время каждую минуту
+        // Обновляем время сразу при загрузке
+        updateAllNotificationTimes();
+        
+        // Устанавливаем интервал обновления каждую минуту
         setInterval(updateAllNotificationTimes, 60000);
-
-        // Останавливаем обновление, когда страница скрыта
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                clearInterval();
-            } else {
-                updateAllNotificationTimes();
-                setInterval(updateAllNotificationTimes, 60000);
-            }
-        });
     }
 
     // Event Handlers and Initialization
