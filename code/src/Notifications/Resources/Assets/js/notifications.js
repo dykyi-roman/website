@@ -182,7 +182,9 @@
 
     function createNotificationElement(notification) {
         const div = document.createElement('div');
-        div.className = `notification-item ${notification.is_read ? 'read' : 'unread'}`;
+        // Проверяем readAt для определения статуса прочтения
+        const isRead = notification.readAt;
+        div.className = `notification-item ${isRead ? 'read' : 'unread'}`;
         div.dataset.notificationId = notification.id;
 
         const date = new Date(notification.createdAt);
@@ -277,7 +279,15 @@
         }
 
         notifications.forEach(notification => {
-            const notificationElement = createNotificationElement(notification);
+            const notificationElement = createNotificationElement({
+                id: notification.id,
+                type: notification.type,
+                title: notification.title,
+                message: notification.message,
+                createdAt: notification.createdAt,
+                readAt: notification.readAt
+            });
+            
             const groupId = getNotificationGroup(notification.createdAt);
             const group = document.getElementById(groupId);
 
