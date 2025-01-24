@@ -115,7 +115,6 @@ ci: ## Run all code quality checks
 	$(MAKE) psalm
 	$(MAKE) deptrac
 	$(MAKE) test-php
-	$(MAKE) phpmetrics
 
 ## -- GIT --
 

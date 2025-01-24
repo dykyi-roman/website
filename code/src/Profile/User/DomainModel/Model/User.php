@@ -183,7 +183,12 @@ class User extends AbstractDomainModel implements PasswordAuthenticatedUserInter
 
     public function getUserIdentifier(): string
     {
-        return $this->email->value;
+        $identifier = $this->email->value;
+        if (empty($identifier)) {
+            throw new \InvalidArgumentException('User identifier cannot be empty');
+        }
+
+        return $identifier;
     }
 
     #[ORM\PreUpdate]

@@ -24,7 +24,8 @@ final class NotificationInMemoryRepository implements NotificationRepositoryInte
                 NotificationType::PERSONAL,
                 new TranslatableText('notifications.notification.happy-birthday.title'),
                 new TranslatableText('notifications.notification.happy-birthday.message'),
-                null,
+                'https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API/Using_the_Notifications_API/desktop-notification.png',
+                'https://www.google.com',
             ),
             NotificationId::HAPPY_NEW_YEAR->value => new Notification(
                 NotificationId::HAPPY_NEW_YEAR,

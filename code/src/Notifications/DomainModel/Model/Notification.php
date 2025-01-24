@@ -14,7 +14,8 @@ readonly class Notification
         private NotificationType $type,
         private TranslatableText $title,
         private TranslatableText $message,
-        private ?string $icon,
+        private ?string $icon = null,
+        private ?string $link = null,
         private \DateTimeImmutable $createdAt = new \DateTimeImmutable(),
     ) {
     }
@@ -42,6 +43,11 @@ readonly class Notification
     public function getIcon(): ?string
     {
         return $this->icon;
+    }
+
+    public function getLink(): ?string
+    {
+        return $this->link;
     }
 
     public function getCreatedAt(): \DateTimeImmutable
