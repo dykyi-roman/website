@@ -53,7 +53,7 @@ final class NotificationTranslatorTest extends TestCase
         $result = $this->notificationTranslator->translateNotification($notification);
 
         $expectedResult = [
-            'type' => 'information',
+            'type' => 'INFORMATION',
             'title' => 'Translated Title',
             'message' => 'Translated Message',
             'icon' => 'test-icon',
@@ -88,7 +88,7 @@ final class NotificationTranslatorTest extends TestCase
         $result = $this->notificationTranslator->translateNotification($notification);
 
         $expectedResult = [
-            'type' => 'information',
+            'type' => 'INFORMATION',
             'title' => 'Translated Title',
             'message' => 'Translated Message',
             'icon' => null,
@@ -133,7 +133,7 @@ final class NotificationTranslatorTest extends TestCase
         $result = $this->notificationTranslator->translateNotification($notification);
 
         $expectedResult = [
-            'type' => 'information',
+            'type' => 'INFORMATION',
             'title' => 'Title with John, 5 items on 2024-01-01',
             'message' => 'Message with 2 items, total: 100.50',
             'icon' => 'test-icon',
