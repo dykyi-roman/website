@@ -44,7 +44,8 @@ final readonly class TranslatableText implements \JsonSerializable
                 $parameters = $data['parameters'];
             }
 
-            // Validate parameter values
+            // Validate parameter values and build a new array with validated values
+            $validatedParameters = [];
             foreach ($parameters as $key => $value) {
                 if (!is_string($key)) {
                     throw new \InvalidArgumentException('Parameter keys must be strings');
@@ -52,7 +53,10 @@ final readonly class TranslatableText implements \JsonSerializable
                 if (!is_null($value) && !is_string($value) && !is_int($value) && !is_float($value) && !is_bool($value)) {
                     throw new \InvalidArgumentException('Parameter values must be string, int, float, bool, or null');
                 }
+                /* @var bool|float|int|string|null $value */
+                $validatedParameters[$key] = $value;
             }
+            $parameters = $validatedParameters;
         }
 
         /* @var array<string, string|int|float|bool|null> $parameters */
