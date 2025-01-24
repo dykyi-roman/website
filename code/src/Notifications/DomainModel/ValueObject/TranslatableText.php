@@ -26,14 +26,37 @@ final readonly class TranslatableText implements \JsonSerializable
      */
     public static function fromArray(array $data): self
     {
-        $parameters = is_string($data['parameters']) 
-            ? json_decode($data['parameters'], true) 
-            : $data['parameters'];
-            
-        return new self(
-            $data['messageId'],
-            $parameters ?? []
-        );
+        if (!isset($data['messageId']) || !is_string($data['messageId'])) {
+            throw new \InvalidArgumentException('Invalid or missing messageId');
+        }
+
+        if (!isset($data['parameters'])) {
+            return new self($data['messageId'], []);
+        }
+
+        if (is_string($data['parameters'])) {
+            $decoded = json_decode($data['parameters'], true);
+            if (!is_array($decoded)) {
+                throw new \InvalidArgumentException('Invalid JSON in parameters string');
+            }
+            $parameters = $decoded;
+        } else if (!is_array($data['parameters'])) {
+            throw new \InvalidArgumentException('Parameters must be string or array');
+        } else {
+            $parameters = $data['parameters'];
+        }
+
+        // Validate parameter values
+        foreach ($parameters as $key => $value) {
+            if (!is_string($key)) {
+                throw new \InvalidArgumentException('Parameter keys must be strings');
+            }
+            if (!is_null($value) && !is_string($value) && !is_int($value) && !is_float($value) && !is_bool($value)) {
+                throw new \InvalidArgumentException('Parameter values must be string, int, float, bool, or null');
+            }
+        }
+
+        return new self($data['messageId'], $parameters);
     }
 
     public function getMessageId(): string
