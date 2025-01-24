@@ -9,7 +9,6 @@ use Notifications\DomainModel\Enum\NotificationType;
 use Notifications\DomainModel\Exception\NotificationNotFoundException;
 use Notifications\DomainModel\Model\Notification;
 use Notifications\DomainModel\Model\UserNotification;
-use Notifications\DomainModel\Repository\NotificationRepositoryInterface;
 use Notifications\DomainModel\Service\NotificationFormatter;
 use Notifications\DomainModel\Service\NotificationTranslatorInterface;
 use Notifications\DomainModel\ValueObject\NotificationId;
@@ -23,16 +22,13 @@ use Shared\DomainModel\ValueObject\UserId;
 #[CoversClass(NotificationFormatter::class)]
 final class NotificationFormatterTest extends TestCase
 {
-    private NotificationRepositoryInterface&MockObject $notificationRepository;
     private NotificationTranslatorInterface&MockObject $notificationTranslator;
     private NotificationFormatter $notificationFormatter;
 
     protected function setUp(): void
     {
-        $this->notificationRepository = $this->createMock(NotificationRepositoryInterface::class);
         $this->notificationTranslator = $this->createMock(NotificationTranslatorInterface::class);
         $this->notificationFormatter = new NotificationFormatter(
-            $this->notificationRepository,
             $this->notificationTranslator
         );
     }
@@ -54,19 +50,13 @@ final class NotificationFormatterTest extends TestCase
 
         $userNotification = new UserNotification(
             $userNotificationId,
-            $notificationId,
+            $notification,
             $userId
         );
 
         // Set read and delete times for testing
         $userNotification->setIsRead();
         $userNotification->setIsDelete();
-
-        $this->notificationRepository
-            ->expects($this->once())
-            ->method('findById')
-            ->with($notificationId)
-            ->willReturn($notification);
 
         $translatedData = [
             'type' => 'test_type',
@@ -114,12 +104,6 @@ final class NotificationFormatterTest extends TestCase
             $userId
         );
 
-        $this->notificationRepository
-            ->expects($this->once())
-            ->method('findById')
-            ->with($notificationId)
-            ->willReturn($notification);
-
         $translatedData = [
             'type' => 'test_type',
             'message' => 'Test message',
@@ -145,7 +129,7 @@ final class NotificationFormatterTest extends TestCase
         $this->assertSame($expectedResult, $result);
     }
 
-    public function testTransformThrowsExceptionWhenNotificationNotFound(): void
+    public function testTransformThrowsExceptionWhenTranslatorFails(): void
     {
         $notificationId = new NotificationId();
         $notification = new Notification(
@@ -165,10 +149,10 @@ final class NotificationFormatterTest extends TestCase
             $userId
         );
 
-        $this->notificationRepository
+        $this->notificationTranslator
             ->expects($this->once())
-            ->method('findById')
-            ->with($notificationId)
+            ->method('translateNotification')
+            ->with($notification)
             ->willThrowException(new NotificationNotFoundException($notificationId));
 
         $this->expectException(NotificationNotFoundException::class);

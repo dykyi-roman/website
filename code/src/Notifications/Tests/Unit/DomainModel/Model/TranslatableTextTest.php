@@ -16,7 +16,7 @@ final class TranslatableTextTest extends TestCase
         $messageId = 'test.message.id';
         $parameters = ['param1' => 'value1', 'param2' => 'value2'];
 
-        $text = new TranslatableText($messageId, $parameters);
+        $text = TranslatableText::create($messageId, $parameters);
 
         $this->assertSame($messageId, $text->getMessageId());
         $this->assertSame($parameters, $text->getParameters());
@@ -25,7 +25,7 @@ final class TranslatableTextTest extends TestCase
     public function testCreateTranslatableTextWithEmptyParameters(): void
     {
         $messageId = 'test.message.id';
-        $text = new TranslatableText($messageId);
+        $text = TranslatableText::create($messageId);
 
         $this->assertSame($messageId, $text->getMessageId());
         $this->assertSame([], $text->getParameters());
@@ -34,7 +34,7 @@ final class TranslatableTextTest extends TestCase
     public function testCreateTranslatableTextWithNullParameters(): void
     {
         $messageId = 'test.message.id';
-        $text = new TranslatableText($messageId, []);
+        $text = TranslatableText::create($messageId, []);
 
         $this->assertSame($messageId, $text->getMessageId());
         $this->assertSame([], $text->getParameters());
