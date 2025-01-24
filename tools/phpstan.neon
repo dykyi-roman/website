@@ -9,3 +9,4 @@ parameters:
     excludePaths:
         - '../code/src/Shared/Tests/*'
         - '../code/src/Site/Registration/Tests/*'
+    treatPhpDocTypesAsCertain: false

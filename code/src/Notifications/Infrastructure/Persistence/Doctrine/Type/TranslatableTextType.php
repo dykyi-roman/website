@@ -28,9 +28,10 @@ class TranslatableTextType extends Type
         }
 
         $result = json_encode($value->jsonSerialize());
-        if ($result === false) {
+        if (false === $result) {
             throw new \InvalidArgumentException('Failed to encode TranslatableText to JSON.');
         }
+
         return $result;
     }
 
@@ -49,19 +50,19 @@ class TranslatableTextType extends Type
             throw new \InvalidArgumentException('Invalid JSON data for TranslatableText.');
         }
 
-        if (!isset($data['messageId']) || !isset($data['parameters'])) {
-            throw new \InvalidArgumentException('Invalid TranslatableText data structure: missing required fields.');
+        if (!isset($data['messageId'])) {
+            throw new \InvalidArgumentException('Invalid TranslatableText data structure: missing messageId field.');
         }
 
         if (!is_string($data['messageId'])) {
             throw new \InvalidArgumentException('Invalid messageId: must be a string.');
         }
 
-        if (!is_string($data['parameters']) && !is_array($data['parameters'])) {
+        if (isset($data['parameters']) && !is_string($data['parameters']) && !is_array($data['parameters'])) {
             throw new \InvalidArgumentException('Invalid parameters: must be a string or array.');
         }
 
-        if (is_array($data['parameters'])) {
+        if (isset($data['parameters']) && is_array($data['parameters'])) {
             foreach ($data['parameters'] as $key => $value) {
                 if (!is_string($key)) {
                     throw new \InvalidArgumentException('Parameter keys must be strings.');
@@ -72,6 +73,7 @@ class TranslatableTextType extends Type
             }
         }
 
+        /* @var array{messageId: string, parameters?: string|array<string, string|int|float|bool|null>} $data */
         return TranslatableText::fromArray($data);
     }
 
