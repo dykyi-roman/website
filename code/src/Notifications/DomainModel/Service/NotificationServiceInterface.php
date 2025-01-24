@@ -11,9 +11,9 @@ use Shared\DomainModel\ValueObject\UserId;
 
 interface NotificationServiceInterface
 {
-    public function createNotification(Notification $notification, UserId $userId): void;
+    public function createUserNotification(Notification $notification, UserId $userId): void;
 
-    public function createMassNotification(Notification $notification): void;
+    public function createNotification(Notification $notification): void;
 
     public function markAsRead(UserId $userId, UserNotificationId $userNotificationId): void;
 

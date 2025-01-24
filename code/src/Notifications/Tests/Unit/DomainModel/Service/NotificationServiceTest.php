@@ -107,7 +107,7 @@ final class NotificationServiceTest extends TestCase
             ->method('dispatch')
             ->with($userId, $this->isType('array'));
 
-        $this->notificationService->createNotification($notificationId, $userId);
+        $this->notificationService->createUserNotification($notificationId, $userId);
     }
 
     public function testCreateNotificationHandlesDispatcherException(): void
@@ -157,7 +157,7 @@ final class NotificationServiceTest extends TestCase
             ->method('error')
             ->with($exception->getMessage());
 
-        $this->notificationService->createNotification($notificationId, $userId);
+        $this->notificationService->createUserNotification($notificationId, $userId);
     }
 
     public function testMarkAsRead(): void

@@ -19,14 +19,12 @@ class TranslatableTextType extends Type
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
-        if ($value === null) {
+        if (null === $value) {
             return null;
         }
 
         if (!$value instanceof TranslatableText) {
-            throw new \InvalidArgumentException(
-                sprintf('Expected instance of %s, got %s instead.', TranslatableText::class, get_debug_type($value))
-            );
+            throw new \InvalidArgumentException(sprintf('Expected instance of %s, got %s instead.', TranslatableText::class, get_debug_type($value)));
         }
 
         return json_encode($value->jsonSerialize());
@@ -34,7 +32,7 @@ class TranslatableTextType extends Type
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?TranslatableText
     {
-        if ($value === null || $value === '') {
+        if (null === $value || '' === $value) {
             return null;
         }
 

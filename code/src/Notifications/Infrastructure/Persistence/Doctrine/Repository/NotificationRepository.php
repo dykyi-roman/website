@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Notifications\DomainModel\Exception\NotificationNotFoundException;
 use Notifications\DomainModel\Model\Notification;
-use Notifications\DomainModel\Model\UserNotification;
 use Notifications\DomainModel\Repository\NotificationRepositoryInterface;
 use Notifications\DomainModel\ValueObject\NotificationId;
 

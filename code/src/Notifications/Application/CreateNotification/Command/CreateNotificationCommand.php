@@ -6,16 +6,16 @@ namespace Notifications\Application\CreateNotification\Command;
 
 use Notifications\DomainModel\Enum\NotificationName;
 use Notifications\DomainModel\Enum\NotificationType;
+use Notifications\DomainModel\ValueObject\NotificationId;
 use Notifications\DomainModel\ValueObject\TranslatableText;
-use Shared\DomainModel\ValueObject\UserId;
 
 /**
- * @see CreateNotificationMessageCommandHandler
+ * @see CreateNotificationCommandHandler
  */
-final class CreateNotificationMessageCommand
+final readonly class CreateNotificationCommand
 {
     public function __construct(
-        public UserId $userId,
+        public NotificationId $id,
         public NotificationName $name,
         public NotificationType $type,
         public TranslatableText $title,

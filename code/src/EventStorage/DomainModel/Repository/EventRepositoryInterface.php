@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace EventStorage\DomainModel\Repository;
 
-use EventStorage\DomainModel\ValueObject\EventId;
 use EventStorage\DomainModel\Exception\DuplicateEventException;
 use EventStorage\DomainModel\Model\Event;
+use EventStorage\DomainModel\ValueObject\EventId;
 
 interface EventRepositoryInterface
 {

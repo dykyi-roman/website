@@ -26,7 +26,7 @@ final readonly class NotificationService implements NotificationServiceInterface
     ) {
     }
 
-    public function createNotification(Notification $notification, UserId $userId): void
+    public function createUserNotification(Notification $notification, UserId $userId): void
     {
         $userNotification = new UserNotification(new UserNotificationId(), $notification, $userId);
         $this->userNotificationRepository->save($userNotification);
@@ -43,7 +43,7 @@ final readonly class NotificationService implements NotificationServiceInterface
         }
     }
 
-    public function createMassNotification(Notification $notification): void
+    public function createNotification(Notification $notification): void
     {
         $this->notificationRepository->save($notification);
     }

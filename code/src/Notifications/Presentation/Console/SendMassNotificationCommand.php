@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Notifications\Presentation\Console;
 
-use Notifications\Application\CreateNotification\Command\CreateUserNotificationCommand;
+use Notifications\Application\CreateNotification\Command\CreateMassUserNotificationCommand;
+use Notifications\Application\CreateNotification\Command\CreateNotificationCommand;
 use Notifications\DomainModel\Enum\NotificationName;
 use Notifications\DomainModel\Enum\NotificationType;
+use Notifications\DomainModel\ValueObject\NotificationId;
 use Notifications\DomainModel\ValueObject\TranslatableText;
+use Profile\User\Application\Notifications\Query\UsersNotificationQuery;
 use Psr\Log\LoggerInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Shared\DomainModel\ValueObject\UserId;
@@ -18,10 +21,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
-    name: 'app:notification:send:one',
+    name: 'app:notification:send:mass',
     description: 'Send notifications'
 )]
-final class SendNotificationCommand extends Command
+final class SendMassNotificationCommand extends Command
 {
     public function __construct(
         private readonly MessageBusInterface $messageBus,
@@ -33,7 +36,6 @@ final class SendNotificationCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('user-id', InputArgument::REQUIRED, 'User ID')
             ->addArgument('notification-name', InputArgument::REQUIRED, 'Notification name')
             ->addArgument('notification-type', InputArgument::REQUIRED, 'Notification type')
             ->addArgument('notification-title', InputArgument::REQUIRED, 'Notification title')
@@ -43,23 +45,36 @@ final class SendNotificationCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
-            $userId = $this->getInputValue($input, 'user-id');
+            /** @var array<UserId> $userIds */
+            $userIds = $this->messageBus->dispatch(
+                new UsersNotificationQuery(),
+            );
 
             $this->messageBus->dispatch(
-                new CreateUserNotificationCommand(
-                    UserId::fromString($userId),
+                new CreateNotificationCommand(
+                    $notificationId = new NotificationId(),
                     NotificationName::from($this->getInputValue($input, 'notification-name')),
                     NotificationType::from($this->getInputValue($input, 'notification-type')),
                     TranslatableText::create($this->getInputValue($input, 'notification-title')),
                     TranslatableText::create($this->getInputValue($input, 'notification-message')),
                 ),
             );
+            foreach ($userIds as $userId) {
+                $this->messageBus->dispatch(
+                    new CreateMassUserNotificationCommand(
+                        $notificationId,
+                        $userId
+                    ),
+                );
 
-            $output->writeln(sprintf('Send 1 notifications to %s', $userId));
+                $output->writeln(sprintf('Send %d notifications', count($userIds)));
+            }
 
             return Command::SUCCESS;
         } catch (\Throwable $exception) {
-            $this->logger->error($exception->getMessage(), ['exception' => $exception]);
+            $this->logger->error($exception->getMessage(), [
+                'exception' => $exception,
+            ]);
 
             $output->writeln(sprintf('Error: %s', $exception->getMessage()));
 

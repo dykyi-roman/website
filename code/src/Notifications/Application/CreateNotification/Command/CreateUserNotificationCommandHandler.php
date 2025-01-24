@@ -10,16 +10,16 @@ use Notifications\DomainModel\ValueObject\NotificationId;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final readonly class CreateNotificationMessageCommandHandler
+final readonly class CreateUserNotificationCommandHandler
 {
     public function __construct(
         private NotificationServiceInterface $notificationService,
     ) {
     }
 
-    public function __invoke(CreateNotificationMessageCommand $command): void
+    public function __invoke(CreateUserNotificationCommand $command): void
     {
-        $this->notificationService->createNotification(
+        $this->notificationService->createUserNotification(
             new Notification(
                 new NotificationId(),
                 $command->name,

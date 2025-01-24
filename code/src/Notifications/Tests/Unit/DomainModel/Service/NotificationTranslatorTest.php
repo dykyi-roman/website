@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Notifications\Tests\Unit\DomainModel\Service;
 
+use Notifications\DomainModel\Enum\NotificationName;
 use Notifications\DomainModel\Enum\NotificationType;
 use Notifications\DomainModel\Model\Notification;
 use Notifications\DomainModel\Service\NotificationTranslator;
@@ -29,11 +30,12 @@ final class NotificationTranslatorTest extends TestCase
     public function testTranslateNotification(): void
     {
         $type = NotificationType::INFORMATION;
-        $title = new TranslatableText('title.id', ['param1' => 'value1']);
-        $message = new TranslatableText('message.id', ['param2' => 'value2']);
+        $title = TranslatableText::create('title.id', ['param1' => 'value1']);
+        $message = TranslatableText::create('message.id', ['param2' => 'value2']);
 
         $notification = new Notification(
-            NotificationId::HAPPY_NEW_YEAR,
+            new NotificationId(),
+            NotificationName::HAPPY_NEW_YEAR,
             $type,
             $title,
             $message,
@@ -63,11 +65,12 @@ final class NotificationTranslatorTest extends TestCase
     public function testTranslateNotificationWithNullIcon(): void
     {
         $type = NotificationType::INFORMATION;
-        $title = new TranslatableText('title.id');
-        $message = new TranslatableText('message.id');
+        $title = TranslatableText::create('title.id');
+        $message = TranslatableText::create('message.id');
 
         $notification = new Notification(
-            NotificationId::HAPPY_BIRTHDAY,
+            new NotificationId(),
+            NotificationName::HAPPY_BIRTHDAY,
             $type,
             $title,
             $message,
@@ -107,11 +110,12 @@ final class NotificationTranslatorTest extends TestCase
             'total' => 100.50,
             'status' => true,
         ];
-        $title = new TranslatableText('title.complex', $titleParams);
-        $message = new TranslatableText('message.complex', $messageParams);
+        $title = TranslatableText::create('title.complex', $titleParams);
+        $message = TranslatableText::create('message.complex', $messageParams);
 
         $notification = new Notification(
-            NotificationId::PASS_VERIFICATION,
+            new NotificationId(),
+            NotificationName::PASS_VERIFICATION,
             $type,
             $title,
             $message,
