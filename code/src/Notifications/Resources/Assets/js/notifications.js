@@ -136,7 +136,9 @@
                 type: notification.type,
                 title: notification.title,
                 message: notification.message,
-                createdAt: timestamp, // Use timestamp instead of ISO string
+                icon: notification.icon,
+                link: notification.link,
+                createdAt: timestamp,
                 is_read: false
             };
 
@@ -194,6 +196,10 @@
         const date = new Date(notification.createdAt);
         const timestamp = date.getTime();
 
+        const iconHtml = notification.icon 
+            ? `<div class="notification-custom-icon"><img src="${notification.icon}" alt=""></div>` 
+            : '';
+
         div.innerHTML = `
             <div class="notification-icon">
                 <i class="fas ${getNotificationIcon(notification.type)}"></i>
@@ -202,6 +208,7 @@
                 <h3>${notification.title}</h3>
                 <p>${notification.message}</p>
             </div>
+            ${iconHtml}
             <span class="notification-date" data-timestamp="${timestamp}" title="${date.toLocaleString()}">${getTimeAgo(date)}</span>
             <button class="notification-close" aria-label="X">
                 <i class="fas fa-times"></i>
@@ -283,11 +290,13 @@
         }
 
         notifications.forEach(notification => {
+            console.log('Processing notification from API:', notification);
             const notificationElement = createNotificationElement({
                 id: notification.id,
                 type: notification.type,
                 title: notification.title,
                 message: notification.message,
+                icon: notification.icon, // Add icon property
                 createdAt: notification.createdAt,
                 readAt: notification.readAt
             });
