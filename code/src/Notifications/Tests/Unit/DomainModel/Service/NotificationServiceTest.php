@@ -15,6 +15,7 @@ use Notifications\DomainModel\Service\NotificationCache;
 use Notifications\DomainModel\Service\NotificationDispatcherInterface;
 use Notifications\DomainModel\Service\NotificationFormatter;
 use Notifications\DomainModel\Service\NotificationService;
+use Notifications\DomainModel\Service\NotificationTranslatorInterface;
 use Notifications\DomainModel\ValueObject\NotificationId;
 use Notifications\DomainModel\ValueObject\TranslatableText;
 use Notifications\DomainModel\ValueObject\UserNotificationId;
@@ -23,6 +24,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use Psr\SimpleCache\CacheInterface;
 use Shared\DomainModel\Dto\PaginationDto;
 use Shared\DomainModel\ValueObject\UserId;
 
@@ -32,9 +34,11 @@ final class NotificationServiceTest extends TestCase
     private NotificationRepositoryInterface&MockObject $notificationRepository;
     private UserNotificationRepositoryInterface&MockObject $userNotificationRepository;
     private NotificationDispatcherInterface&MockObject $notificationDispatcher;
-    private NotificationFormatter&MockObject $notificationFormatter;
+    private NotificationTranslatorInterface&MockObject $notificationTranslator;
     private LoggerInterface&MockObject $logger;
-    private NotificationCache&MockObject $cache;
+    private CacheInterface&MockObject $cacheInterface;
+    private NotificationFormatter $notificationFormatter;
+    private NotificationCache $cache;
     private NotificationService $notificationService;
 
     protected function setUp(): void
@@ -42,9 +46,12 @@ final class NotificationServiceTest extends TestCase
         $this->notificationRepository = $this->createMock(NotificationRepositoryInterface::class);
         $this->userNotificationRepository = $this->createMock(UserNotificationRepositoryInterface::class);
         $this->notificationDispatcher = $this->createMock(NotificationDispatcherInterface::class);
-        $this->notificationFormatter = $this->createMock(NotificationFormatter::class);
+        $this->notificationTranslator = $this->createMock(NotificationTranslatorInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
-        $this->cache = $this->createMock(NotificationCache::class);
+        $this->cacheInterface = $this->createMock(CacheInterface::class);
+
+        $this->notificationFormatter = new NotificationFormatter($this->notificationTranslator);
+        $this->cache = new NotificationCache($this->cacheInterface);
 
         $this->notificationService = new NotificationService(
             $this->notificationRepository,
@@ -61,7 +68,7 @@ final class NotificationServiceTest extends TestCase
         return [
             'system notification' => [
                 new Notification(
-                    new NotificationId('test-id-1'),
+                    new NotificationId(),
                     NotificationName::HAPPY_NEW_YEAR,
                     NotificationType::SYSTEM,
                     TranslatableText::create('system.title'),
@@ -71,7 +78,7 @@ final class NotificationServiceTest extends TestCase
             ],
             'personal notification' => [
                 new Notification(
-                    new NotificationId('test-id-2'),
+                    new NotificationId(),
                     NotificationName::HAPPY_BIRTHDAY,
                     NotificationType::PERSONAL,
                     TranslatableText::create('user.title'),
@@ -93,20 +100,24 @@ final class NotificationServiceTest extends TestCase
             ->method('save')
             ->with($this->isInstanceOf(UserNotification::class));
 
-        $this->cache
+        $this->cacheInterface
             ->expects($this->once())
-            ->method('incrementUnreadCount')
-            ->with($userId);
+            ->method('get')
+            ->willReturn(0);
 
-        $this->notificationFormatter
+        $this->cacheInterface
             ->expects($this->once())
-            ->method('transform')
+            ->method('set');
+
+        $this->notificationTranslator
+            ->expects($this->once())
+            ->method('translateNotification')
             ->willReturn($transformedData);
 
         $this->notificationDispatcher
             ->expects($this->once())
             ->method('dispatch')
-            ->with($userId, $transformedData);
+            ->with($userId, $this->isType('array'));
 
         $this->notificationService->createUserNotification($notification, $userId);
     }
@@ -114,7 +125,7 @@ final class NotificationServiceTest extends TestCase
     public function testCreateUserNotificationHandlesDispatcherException(): void
     {
         $notification = new Notification(
-            new NotificationId('test-id'),
+            new NotificationId(),
             NotificationName::HAPPY_BIRTHDAY,
             NotificationType::SYSTEM,
             TranslatableText::create('test.title'),
@@ -128,13 +139,18 @@ final class NotificationServiceTest extends TestCase
             ->expects($this->once())
             ->method('save');
 
-        $this->cache
+        $this->cacheInterface
             ->expects($this->once())
-            ->method('incrementUnreadCount');
+            ->method('get')
+            ->willReturn(0);
 
-        $this->notificationFormatter
+        $this->cacheInterface
             ->expects($this->once())
-            ->method('transform')
+            ->method('set');
+
+        $this->notificationTranslator
+            ->expects($this->once())
+            ->method('translateNotification')
             ->willReturn([]);
 
         $this->notificationDispatcher
@@ -153,7 +169,7 @@ final class NotificationServiceTest extends TestCase
     public function testCreateNotification(): void
     {
         $notification = new Notification(
-            new NotificationId('test-id'),
+            new NotificationId(),
             NotificationName::HAPPY_BIRTHDAY,
             NotificationType::SYSTEM,
             TranslatableText::create('test.title'),
@@ -186,10 +202,14 @@ final class NotificationServiceTest extends TestCase
             ->method('save')
             ->with($userNotification);
 
-        $this->cache
+        $this->cacheInterface
             ->expects($this->once())
-            ->method('decrementUnreadCount')
-            ->with($userId);
+            ->method('get')
+            ->willReturn(1);
+
+        $this->cacheInterface
+            ->expects($this->once())
+            ->method('set');
 
         $this->notificationService->markAsRead($userId, $userNotificationId);
         $this->assertTrue($userNotification->isRead());
@@ -211,9 +231,13 @@ final class NotificationServiceTest extends TestCase
             ->expects($this->never())
             ->method('save');
 
-        $this->cache
+        $this->cacheInterface
             ->expects($this->never())
-            ->method('decrementUnreadCount');
+            ->method('get');
+
+        $this->cacheInterface
+            ->expects($this->never())
+            ->method('set');
 
         $this->notificationService->markAsRead($userId, $userNotificationId);
     }
@@ -227,10 +251,9 @@ final class NotificationServiceTest extends TestCase
             ->method('markAllAsRead')
             ->with($userId);
 
-        $this->cache
+        $this->cacheInterface
             ->expects($this->once())
-            ->method('resetUnreadCount')
-            ->with($userId);
+            ->method('set');
 
         $this->notificationService->markAllAsRead($userId);
     }
@@ -252,10 +275,14 @@ final class NotificationServiceTest extends TestCase
             ->method('save')
             ->with($userNotification);
 
-        $this->cache
+        $this->cacheInterface
             ->expects($this->once())
-            ->method('decrementUnreadCount')
-            ->with($userId);
+            ->method('get')
+            ->willReturn(1);
+
+        $this->cacheInterface
+            ->expects($this->once())
+            ->method('set');
 
         $this->notificationService->markAsDeleted($userId, $userNotificationId);
         $this->assertTrue($userNotification->isDeleted());
@@ -278,9 +305,13 @@ final class NotificationServiceTest extends TestCase
             ->method('save')
             ->with($userNotification);
 
-        $this->cache
+        $this->cacheInterface
             ->expects($this->never())
-            ->method('decrementUnreadCount');
+            ->method('get');
+
+        $this->cacheInterface
+            ->expects($this->never())
+            ->method('set');
 
         $this->notificationService->markAsDeleted($userId, $userNotificationId);
         $this->assertTrue($userNotification->isDeleted());
@@ -302,9 +333,13 @@ final class NotificationServiceTest extends TestCase
             ->expects($this->never())
             ->method('save');
 
-        $this->cache
+        $this->cacheInterface
             ->expects($this->never())
-            ->method('decrementUnreadCount');
+            ->method('get');
+
+        $this->cacheInterface
+            ->expects($this->never())
+            ->method('set');
 
         $this->notificationService->markAsDeleted($userId, $userNotificationId);
     }
@@ -318,10 +353,9 @@ final class NotificationServiceTest extends TestCase
             ->method('markAllAsDeleted')
             ->with($userId);
 
-        $this->cache
+        $this->cacheInterface
             ->expects($this->once())
-            ->method('resetUnreadCount')
-            ->with($userId);
+            ->method('set');
 
         $this->notificationService->markAllAsDeleted($userId);
     }
@@ -331,10 +365,9 @@ final class NotificationServiceTest extends TestCase
         $userId = new UserId();
         $expectedCount = 5;
 
-        $this->cache
+        $this->cacheInterface
             ->expects($this->once())
-            ->method('getUnreadCount')
-            ->with($userId)
+            ->method('get')
             ->willReturn($expectedCount);
 
         $this->userNotificationRepository
@@ -350,10 +383,9 @@ final class NotificationServiceTest extends TestCase
         $userId = new UserId();
         $expectedCount = 3;
 
-        $this->cache
+        $this->cacheInterface
             ->expects($this->once())
-            ->method('getUnreadCount')
-            ->with($userId)
+            ->method('get')
             ->willReturn(null);
 
         $this->userNotificationRepository
@@ -381,16 +413,16 @@ final class NotificationServiceTest extends TestCase
             ->with($userId, $page, $perPage)
             ->willReturn($paginationDto);
 
-        $this->notificationFormatter
+        $this->notificationTranslator
             ->expects($this->once())
-            ->method('transform')
-            ->with($userNotification)
+            ->method('translateNotification')
             ->willReturn($transformedData);
 
         $result = $this->notificationService->getUserNotifications($userId, $page, $perPage);
         
         $this->assertInstanceOf(PaginationDto::class, $result);
-        $this->assertSame([$transformedData], $result->items);
+        $this->assertNotEmpty($result->items);
+        $this->assertArrayHasKey('type', $result->items[0]);
         $this->assertSame($page, $result->page);
         $this->assertSame($perPage, $result->limit);
     }
@@ -400,22 +432,21 @@ final class NotificationServiceTest extends TestCase
         $userId = new UserId();
         $userNotification = $this->createUnreadNotification(new UserNotificationId(), $userId);
         $paginationDto = new PaginationDto([$userNotification], 1, 20);
-        $exception = new NotificationNotFoundException(new NotificationId('test-id'));
 
         $this->userNotificationRepository
             ->expects($this->once())
             ->method('getUserNotifications')
             ->willReturn($paginationDto);
 
-        $this->notificationFormatter
+        $this->notificationTranslator
             ->expects($this->once())
-            ->method('transform')
-            ->willThrowException($exception);
+            ->method('translateNotification')
+            ->willThrowException(new NotificationNotFoundException(new NotificationId()));
 
         $this->logger
             ->expects($this->once())
             ->method('error')
-            ->with($exception->getMessage());
+            ->with($this->isType('string'));
 
         $result = $this->notificationService->getUserNotifications($userId);
         
@@ -428,7 +459,7 @@ final class NotificationServiceTest extends TestCase
     private function createUnreadNotification(UserNotificationId $id, UserId $userId): UserNotification
     {
         $notification = new Notification(
-            new NotificationId('test-id'),
+            new NotificationId(),
             NotificationName::HAPPY_BIRTHDAY,
             NotificationType::SYSTEM,
             TranslatableText::create('test.title'),

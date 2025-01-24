@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Notifications\Tests\Unit\DomainModel\Service;
 
+use Notifications\DomainModel\Enum\NotificationName;
 use Notifications\DomainModel\Enum\NotificationType;
 use Notifications\DomainModel\Exception\NotificationNotFoundException;
 use Notifications\DomainModel\Model\Notification;
@@ -38,15 +39,16 @@ final class NotificationFormatterTest extends TestCase
 
     public function testTransformWithAllFields(): void
     {
-        $notificationId = NotificationId::PASS_VERIFICATION;
+        $notificationId = new NotificationId();
         $userId = new UserId('550e8400-e29b-41d4-a716-446655440000');
         $userNotificationId = new UserNotificationId('660e8400-e29b-41d4-a716-446655440000');
 
         $notification = new Notification(
             $notificationId,
+            NotificationName::HAPPY_BIRTHDAY,
             NotificationType::SYSTEM,
-            new TranslatableText('notification.title'),
-            new TranslatableText('notification.message'),
+            TranslatableText::create('notification.title'),
+            TranslatableText::create('notification.message'),
             'icon-name'
         );
 
@@ -93,21 +95,22 @@ final class NotificationFormatterTest extends TestCase
 
     public function testTransformWithNullOptionalFields(): void
     {
-        $notificationId = NotificationId::PASS_VERIFICATION;
+        $notificationId = new NotificationId();
         $userId = new UserId('550e8400-e29b-41d4-a716-446655440000');
         $userNotificationId = new UserNotificationId('660e8400-e29b-41d4-a716-446655440000');
 
         $notification = new Notification(
             $notificationId,
+            NotificationName::PASS_VERIFICATION,
             NotificationType::SYSTEM,
-            new TranslatableText('notification.title'),
-            new TranslatableText('notification.message'),
+            TranslatableText::create('notification.title'),
+            TranslatableText::create('notification.message'),
             'icon-name'
         );
 
         $userNotification = new UserNotification(
             $userNotificationId,
-            $notificationId,
+            $notification,
             $userId
         );
 
@@ -144,12 +147,21 @@ final class NotificationFormatterTest extends TestCase
 
     public function testTransformThrowsExceptionWhenNotificationNotFound(): void
     {
-        $notificationId = NotificationId::PASS_VERIFICATION;
+        $notificationId = new NotificationId();
+        $notification = new Notification(
+            $notificationId,
+            NotificationName::PASS_VERIFICATION,
+            NotificationType::SYSTEM,
+            TranslatableText::create('notification.title'),
+            TranslatableText::create('notification.message'),
+            'icon-name'
+        );
+
         $userId = new UserId('550e8400-e29b-41d4-a716-446655440000');
         $userNotificationId = new UserNotificationId('660e8400-e29b-41d4-a716-446655440000');
         $userNotification = new UserNotification(
             $userNotificationId,
-            $notificationId,
+            $notification,
             $userId
         );
 
