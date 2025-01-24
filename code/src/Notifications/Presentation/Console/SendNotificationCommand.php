@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Notifications\Presentation\Console;
 
-use Notifications\Application\CreateNotification\Command\CreateUserNotificationCommand;
+use Notifications\Application\CreateUserNotification\Command\CreateUserNotificationCommand;
 use Notifications\DomainModel\Enum\NotificationName;
 use Notifications\DomainModel\Enum\NotificationType;
 use Notifications\DomainModel\ValueObject\TranslatableText;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Notifications\Application\CreateNotification\Command;
+namespace Notifications\Application\CreateUserNotification\Command;
 
 use Notifications\DomainModel\Repository\NotificationRepositoryInterface;
 use Notifications\DomainModel\Service\NotificationServiceInterface;

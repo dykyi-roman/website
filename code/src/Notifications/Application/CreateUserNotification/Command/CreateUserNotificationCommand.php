@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Notifications\Application\CreateNotification\Command;
+namespace Notifications\Application\CreateUserNotification\Command;
 
 use Notifications\DomainModel\Enum\NotificationName;
 use Notifications\DomainModel\Enum\NotificationType;

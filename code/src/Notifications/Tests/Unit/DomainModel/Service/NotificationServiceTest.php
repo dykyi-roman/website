@@ -74,7 +74,7 @@ final class NotificationServiceTest extends TestCase
                     TranslatableText::create('system.title'),
                     TranslatableText::create('system.message'),
                     'system-icon'
-                )
+                ),
             ],
             'personal notification' => [
                 new Notification(
@@ -84,8 +84,8 @@ final class NotificationServiceTest extends TestCase
                     TranslatableText::create('user.title'),
                     TranslatableText::create('user.message'),
                     'user-icon'
-                )
-            ]
+                ),
+            ],
         ];
     }
 
@@ -419,7 +419,7 @@ final class NotificationServiceTest extends TestCase
             ->willReturn($transformedData);
 
         $result = $this->notificationService->getUserNotifications($userId, $page, $perPage);
-        
+
         $this->assertInstanceOf(PaginationDto::class, $result);
         $this->assertNotEmpty($result->items);
         $this->assertArrayHasKey('type', $result->items[0]);
@@ -449,7 +449,7 @@ final class NotificationServiceTest extends TestCase
             ->with($this->isType('string'));
 
         $result = $this->notificationService->getUserNotifications($userId);
-        
+
         $this->assertInstanceOf(PaginationDto::class, $result);
         $this->assertEmpty($result->items);
         $this->assertSame(1, $result->page);
@@ -466,6 +466,7 @@ final class NotificationServiceTest extends TestCase
             TranslatableText::create('test.message'),
             'test-icon'
         );
+
         return new UserNotification($id, $notification, $userId);
     }
 
@@ -473,6 +474,7 @@ final class NotificationServiceTest extends TestCase
     {
         $notification = $this->createUnreadNotification($id, $userId);
         $notification->setIsRead();
+
         return $notification;
     }
 
@@ -480,6 +482,7 @@ final class NotificationServiceTest extends TestCase
     {
         $notification = $this->createUnreadNotification($id, $userId);
         $notification->setIsDelete();
+
         return $notification;
     }
 }

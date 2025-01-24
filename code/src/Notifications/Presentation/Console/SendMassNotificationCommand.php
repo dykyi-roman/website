@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Notifications\Presentation\Console;
 
-use Notifications\Application\CreateNotification\Command\CreateMassUserNotificationCommand;
 use Notifications\Application\CreateNotification\Command\CreateNotificationCommand;
+use Notifications\Application\CreateUserNotification\Command\CreateMassUserNotificationCommand;
 use Notifications\DomainModel\Enum\NotificationName;
 use Notifications\DomainModel\Enum\NotificationType;
 use Notifications\DomainModel\ValueObject\NotificationId;
@@ -64,7 +64,7 @@ final class SendMassNotificationCommand extends Command
                 ),
             );
 
-            $batchSize = (int)$input->getOption('batch-size');
+            $batchSize = (int) $input->getOption('batch-size');
             $totalUsers = count($userIds);
             $batches = array_chunk($userIds, $batchSize);
 
