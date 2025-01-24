@@ -10,8 +10,8 @@ use PHPUnit\Framework\TestCase;
 use Profile\Setting\DomainModel\Enum\VerificationType;
 use Profile\Setting\DomainModel\Service\CacheVerificationService;
 use Profile\Setting\DomainModel\ValueObject\VerificationCode;
-use Profile\User\DomainModel\Enum\UserId;
 use Psr\SimpleCache\CacheInterface;
+use Shared\DomainModel\ValueObject\UserId;
 use Symfony\Component\Uid\Uuid;
 
 #[CoversClass(CacheVerificationService::class)]

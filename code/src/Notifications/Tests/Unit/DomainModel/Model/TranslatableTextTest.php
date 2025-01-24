@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Notifications\Tests\Unit\DomainModel\Model;
 
-use Notifications\DomainModel\Model\TranslatableText;
+use Notifications\DomainModel\ValueObject\TranslatableText;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

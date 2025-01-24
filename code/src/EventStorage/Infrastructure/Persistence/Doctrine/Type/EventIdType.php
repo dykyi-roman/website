@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EventStorage\Infrastructure\Persistence\Doctrine\Type;
 
-use EventStorage\DomainModel\Enum\EventId;
+use EventStorage\DomainModel\ValueObject\EventId;
 use Shared\Infrastructure\Persistence\Doctrine\Type\UuidType;
 
 final class EventIdType extends UuidType

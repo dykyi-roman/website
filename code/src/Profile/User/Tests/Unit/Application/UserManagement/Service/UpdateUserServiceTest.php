@@ -10,12 +10,12 @@ use PHPUnit\Framework\TestCase;
 use Profile\User\Application\UserManagement\Exception\UserChangeDataException;
 use Profile\User\Application\UserManagement\Exception\UserExistException;
 use Profile\User\Application\UserManagement\Service\UpdateUserService;
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Exception\UserNotFoundException;
 use Profile\User\DomainModel\Model\UserInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use Shared\DomainModel\ValueObject\Email;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(UpdateUserService::class)]
 final class UpdateUserServiceTest extends TestCase

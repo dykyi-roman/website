@@ -7,7 +7,7 @@ namespace Profile\Setting\Tests\Unit\Application\SettingsAccount\Command;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Profile\Setting\Application\SettingsAccount\Command\SendVerificationCodeCommand;
-use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(SendVerificationCodeCommand::class)]
 final class SendVerificationCodeCommandTest extends TestCase

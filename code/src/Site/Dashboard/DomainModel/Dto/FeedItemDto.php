@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Site\Dashboard\DomainModel\Dto;
 
-final readonly class FeedItem
+final readonly class FeedItemDto
 {
     public function __construct(
         public int $id,

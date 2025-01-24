@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace EventStorage\DomainModel\Enum;
+namespace Profile\Setting\DomainModel\ValueObject;
 
 use Symfony\Component\Uid\Uuid;
 
-final class EventId extends Uuid
+final class SettingId extends Uuid
 {
     public function __construct(?string $uuid = null, bool $checkVariant = false)
     {

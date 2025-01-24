@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Notifications\Infrastructure\Persistence\Doctrine\Type;
 
-use Notifications\DomainModel\Enum\UserNotificationId;
+use Notifications\DomainModel\ValueObject\UserNotificationId;
 use Shared\Infrastructure\Persistence\Doctrine\Type\UuidType;
 
 final class UserNotificationIdType extends UuidType

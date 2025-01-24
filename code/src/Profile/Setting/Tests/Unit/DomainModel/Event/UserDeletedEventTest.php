@@ -7,8 +7,8 @@ namespace Profile\Setting\Tests\Unit\DomainModel\Event;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Profile\Setting\DomainModel\Event\UserDeletedEvent;
-use Profile\User\DomainModel\Enum\UserId;
 use Shared\DomainModel\ValueObject\Email;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(UserDeletedEvent::class)]
 final class UserDeletedEventTest extends TestCase

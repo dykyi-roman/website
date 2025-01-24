@@ -6,7 +6,7 @@ namespace EventStorage\Infrastructure\Persistence\Doctrine\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use EventStorage\DomainModel\Enum\EventId;
+use EventStorage\DomainModel\ValueObject\EventId;
 use EventStorage\DomainModel\Exception\DuplicateEventException;
 use EventStorage\DomainModel\Model\Event;
 use EventStorage\DomainModel\Repository\EventRepositoryInterface;

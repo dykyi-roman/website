@@ -6,12 +6,10 @@ namespace Notifications\DomainModel\Service;
 
 use Notifications\DomainModel\Exception\NotificationNotFoundException;
 use Notifications\DomainModel\Model\UserNotification;
-use Notifications\DomainModel\Repository\NotificationRepositoryInterface;
 
 final readonly class NotificationFormatter
 {
     public function __construct(
-        private NotificationRepositoryInterface $notificationRepository,
         private NotificationTranslatorInterface $notificationTranslator,
     ) {
     }
@@ -23,10 +21,8 @@ final readonly class NotificationFormatter
      */
     public function transform(UserNotification $userNotification): array
     {
-        $notification = $this->notificationRepository->findById($userNotification->getNotificationId());
-
         return [
-            ...$this->notificationTranslator->translateNotification($notification),
+            ...$this->notificationTranslator->translateNotification($userNotification->notification()),
             ...[
                 'id' => $userNotification->getId()->toRfc4122(),
                 'readAt' => $userNotification->getReadAt()?->format('c'),

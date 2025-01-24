@@ -2,10 +2,10 @@
 
 namespace Profile\User\Application\UserRegistration\Service;
 
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\UserInterface;
 use Shared\DomainModel\ValueObject\Email;
 use Shared\DomainModel\ValueObject\Location;
+use Shared\DomainModel\ValueObject\UserId;
 
 interface SocialRegistrationServiceInterface
 {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Notifications\DomainModel\Service;
 
 use Notifications\DomainModel\Model\Notification;
-use Notifications\DomainModel\Model\TranslatableText;
+use Notifications\DomainModel\ValueObject\TranslatableText;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class NotificationTranslator implements NotificationTranslatorInterface

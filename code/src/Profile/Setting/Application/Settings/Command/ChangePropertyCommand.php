@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Profile\Setting\Application\Settings\Command;
 
 use Profile\Setting\DomainModel\ValueObject\Property;
-use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\ValueObject\UserId;
 
 /**
  * @see ChangePropertyCommandHandler

@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace Notifications\DomainModel\Service;
 
-use Notifications\DomainModel\Enum\NotificationId;
-use Notifications\DomainModel\Enum\UserNotificationId;
 use Notifications\DomainModel\Exception\NotificationNotFoundException;
+use Notifications\DomainModel\Model\Notification;
 use Notifications\DomainModel\Model\UserNotification;
+use Notifications\DomainModel\Repository\NotificationRepositoryInterface;
 use Notifications\DomainModel\Repository\UserNotificationRepositoryInterface;
-use Profile\User\DomainModel\Enum\UserId;
+use Notifications\DomainModel\ValueObject\UserNotificationId;
 use Psr\Log\LoggerInterface;
 use Shared\DomainModel\Dto\PaginationDto;
+use Shared\DomainModel\ValueObject\UserId;
 
 final readonly class NotificationService implements NotificationServiceInterface
 {
     public function __construct(
+        private NotificationRepositoryInterface $notificationRepository,
         private UserNotificationRepositoryInterface $userNotificationRepository,
         private NotificationDispatcherInterface $notificationDispatcher,
         private NotificationFormatter $notificationFormatter,
@@ -24,9 +26,9 @@ final readonly class NotificationService implements NotificationServiceInterface
     ) {
     }
 
-    public function createNotification(NotificationId $notificationId, UserId $userId): void
+    public function createNotification(Notification $notification, UserId $userId): void
     {
-        $userNotification = new UserNotification(new UserNotificationId(), $notificationId, $userId);
+        $userNotification = new UserNotification(new UserNotificationId(), $notification, $userId);
         $this->userNotificationRepository->save($userNotification);
 
         $this->cache->incrementUnreadCount($userId);
@@ -39,6 +41,11 @@ final readonly class NotificationService implements NotificationServiceInterface
         } catch (\Throwable $exception) {
             $this->logger->error($exception->getMessage());
         }
+    }
+
+    public function createMassNotification(Notification $notification): void
+    {
+        $this->notificationRepository->save($notification);
     }
 
     public function markAsRead(UserId $userId, UserNotificationId $userNotificationId): void

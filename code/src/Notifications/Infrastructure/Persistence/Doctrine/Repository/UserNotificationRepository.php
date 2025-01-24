@@ -6,12 +6,12 @@ namespace Notifications\Infrastructure\Persistence\Doctrine\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Notifications\DomainModel\Enum\UserNotificationId;
 use Notifications\DomainModel\Exception\UserNotificationNotFoundException;
 use Notifications\DomainModel\Model\UserNotification;
 use Notifications\DomainModel\Repository\UserNotificationRepositoryInterface;
-use Profile\User\DomainModel\Enum\UserId;
+use Notifications\DomainModel\ValueObject\UserNotificationId;
 use Shared\DomainModel\Dto\PaginationDto;
+use Shared\DomainModel\ValueObject\UserId;
 
 final class UserNotificationRepository implements UserNotificationRepositoryInterface
 {
@@ -57,9 +57,11 @@ final class UserNotificationRepository implements UserNotificationRepositoryInte
             ->getSingleScalarResult();
     }
 
-    public function save(UserNotification $userNotification): void
+    public function save(UserNotification ...$userNotifications): void
     {
-        $this->entityManager->persist($userNotification);
+        foreach ($userNotifications as $userNotification) {
+            $this->entityManager->persist($userNotification);
+        }
         $this->entityManager->flush();
     }
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Notifications\DomainModel\Exception;
 
-use Notifications\DomainModel\Enum\NotificationId;
+use Notifications\DomainModel\ValueObject\NotificationId;
 
 final class NotificationNotFoundException extends \RuntimeException
 {

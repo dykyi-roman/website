@@ -6,6 +6,9 @@ doctrine:
         types:
             notification_id: Notifications\Infrastructure\Persistence\Doctrine\Type\NotificationIdType
             user_notification_id: Notifications\Infrastructure\Persistence\Doctrine\Type\UserNotificationIdType
+            notification_type: Notifications\Infrastructure\Persistence\Doctrine\Type\NotificationTypeType
+            notification_name: Notifications\Infrastructure\Persistence\Doctrine\Type\NotificationNameType
+            translatable_text: Notifications\Infrastructure\Persistence\Doctrine\Type\TranslatableTextType
     orm:
         entity_managers:
             site:

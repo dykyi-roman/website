@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Notifications\Tests\Unit\DomainModel\Service;
 
-use Notifications\DomainModel\Enum\NotificationId;
 use Notifications\DomainModel\Enum\NotificationType;
-use Notifications\DomainModel\Enum\UserNotificationId;
 use Notifications\DomainModel\Exception\NotificationNotFoundException;
 use Notifications\DomainModel\Model\Notification;
-use Notifications\DomainModel\Model\TranslatableText;
 use Notifications\DomainModel\Model\UserNotification;
 use Notifications\DomainModel\Repository\NotificationRepositoryInterface;
 use Notifications\DomainModel\Service\NotificationFormatter;
 use Notifications\DomainModel\Service\NotificationTranslatorInterface;
+use Notifications\DomainModel\ValueObject\NotificationId;
+use Notifications\DomainModel\ValueObject\TranslatableText;
+use Notifications\DomainModel\ValueObject\UserNotificationId;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(NotificationFormatter::class)]
 final class NotificationFormatterTest extends TestCase

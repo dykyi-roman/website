@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace Notifications\Tests\Unit\DomainModel\Service;
 
-use Notifications\DomainModel\Enum\NotificationId;
 use Notifications\DomainModel\Enum\NotificationType;
-use Notifications\DomainModel\Enum\UserNotificationId;
 use Notifications\DomainModel\Exception\NotificationNotFoundException;
 use Notifications\DomainModel\Model\Notification;
-use Notifications\DomainModel\Model\TranslatableText;
 use Notifications\DomainModel\Model\UserNotification;
 use Notifications\DomainModel\Repository\NotificationRepositoryInterface;
 use Notifications\DomainModel\Repository\UserNotificationRepositoryInterface;
@@ -18,13 +15,16 @@ use Notifications\DomainModel\Service\NotificationDispatcherInterface;
 use Notifications\DomainModel\Service\NotificationFormatter;
 use Notifications\DomainModel\Service\NotificationService;
 use Notifications\DomainModel\Service\NotificationTranslator;
+use Notifications\DomainModel\ValueObject\NotificationId;
+use Notifications\DomainModel\ValueObject\TranslatableText;
+use Notifications\DomainModel\ValueObject\UserNotificationId;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Profile\User\DomainModel\Enum\UserId;
 use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
 use Shared\DomainModel\Dto\PaginationDto;
+use Shared\DomainModel\ValueObject\UserId;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[CoversClass(NotificationService::class)]

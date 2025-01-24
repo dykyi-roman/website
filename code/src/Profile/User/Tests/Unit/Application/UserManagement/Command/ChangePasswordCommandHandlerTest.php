@@ -10,9 +10,9 @@ use PHPUnit\Framework\TestCase;
 use Profile\User\Application\UserManagement\Command\ChangeUserPasswordCommand;
 use Profile\User\Application\UserManagement\Command\ChangeUserPasswordCommandHandler;
 use Profile\User\Application\UserManagement\Service\PasswordChangeServiceInterface;
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\UserInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(ChangeUserPasswordCommandHandler::class)]
 final class ChangePasswordCommandHandlerTest extends TestCase

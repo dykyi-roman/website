@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Notifications\DomainModel\Enum;
+namespace Shared\DomainModel\ValueObject;
 
 use Symfony\Component\Uid\Uuid;
 
-final class UserNotificationId extends Uuid
+final class UserId extends Uuid
 {
     public function __construct(?string $uuid = null, bool $checkVariant = false)
     {

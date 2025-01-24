@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Notifications\DomainModel\Repository;
 
-use Notifications\DomainModel\Enum\NotificationId;
 use Notifications\DomainModel\Exception\NotificationNotFoundException;
 use Notifications\DomainModel\Model\Notification;
+use Notifications\DomainModel\ValueObject\NotificationId;
 
 interface NotificationRepositoryInterface
 {
@@ -15,9 +15,5 @@ interface NotificationRepositoryInterface
      */
     public function findById(NotificationId $id): Notification;
 
-    /** @return array<Notification> */
-    public function getMassNotifications(\DateTimeImmutable $since): array;
-
-    /** @return array<Notification> */
-    public function getActiveNotifications(): array;
+    public function save(Notification ...$notifications): void;
 }

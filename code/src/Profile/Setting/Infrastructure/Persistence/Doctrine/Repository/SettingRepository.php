@@ -6,12 +6,12 @@ namespace Profile\Setting\Infrastructure\Persistence\Doctrine\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Profile\Setting\DomainModel\Enum\PropertyName;
-use Profile\Setting\DomainModel\Enum\SettingId;
 use Profile\Setting\DomainModel\Model\Setting;
 use Profile\Setting\DomainModel\Repository\SettingRepositoryInterface;
 use Profile\Setting\DomainModel\ValueObject\Property;
-use Profile\User\DomainModel\Enum\UserId;
+use Profile\Setting\DomainModel\ValueObject\SettingId;
 use Shared\DomainModel\Services\MessageBusInterface;
+use Shared\DomainModel\ValueObject\UserId;
 
 final readonly class SettingRepository implements SettingRepositoryInterface
 {

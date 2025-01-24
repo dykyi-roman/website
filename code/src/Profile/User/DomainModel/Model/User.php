@@ -9,7 +9,6 @@ use Profile\Setting\DomainModel\Event\UserActivatedEvent;
 use Profile\Setting\DomainModel\Event\UserDeactivatedEvent;
 use Profile\Setting\DomainModel\Event\UserDeletedEvent;
 use Profile\User\DomainModel\Enum\Roles;
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Enum\UserStatus;
 use Profile\User\DomainModel\Event\UserChangedEmailEvent;
 use Profile\User\DomainModel\Event\UserChangedPhoneEvent;
@@ -18,6 +17,7 @@ use Profile\User\DomainModel\Event\UserVerifiedPhoneEvent;
 use Shared\DomainModel\Model\AbstractDomainModel;
 use Shared\DomainModel\ValueObject\Email;
 use Shared\DomainModel\ValueObject\Location;
+use Shared\DomainModel\ValueObject\UserId;
 use Site\Registration\DomainModel\Event\UserChangedPasswordEvent;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 

@@ -10,10 +10,10 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Profile\User\Application\UserManagement\Service\UserPasswordHasher;
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\UserInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
+use Shared\DomainModel\ValueObject\UserId;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[CoversClass(UserPasswordHasher::class)]

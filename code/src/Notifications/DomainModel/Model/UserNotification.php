@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Notifications\DomainModel\Model;
 
 use Doctrine\ORM\Mapping as ORM;
-use Notifications\DomainModel\Enum\NotificationId;
-use Notifications\DomainModel\Enum\UserNotificationId;
-use Profile\User\DomainModel\Enum\UserId;
+use Notifications\DomainModel\ValueObject\NotificationId;
+use Notifications\DomainModel\ValueObject\UserNotificationId;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'user_notifications')]
@@ -16,6 +16,10 @@ class UserNotification
     #[ORM\Id]
     #[ORM\Column(type: 'user_notification_id', unique: true)]
     private UserNotificationId $id;
+
+    #[ORM\ManyToOne(targetEntity: Notification::class, cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'notification_id', referencedColumnName: 'id')]
+    private Notification $notification;
 
     #[ORM\Column(name: 'notification_id', type: 'notification_id')]
     private NotificationId $notificationId;
@@ -34,13 +38,14 @@ class UserNotification
 
     public function __construct(
         UserNotificationId $id,
-        NotificationId $notificationId,
+        Notification $notification,
         UserId $userId,
         ?\DateTimeImmutable $deletedAt = null,
         ?\DateTimeImmutable $readAt = null,
     ) {
         $this->id = $id;
-        $this->notificationId = $notificationId;
+        $this->notification = $notification;
+        $this->notificationId = $notification->getId();
         $this->userId = $userId;
         $this->deletedAt = $deletedAt;
         $this->readAt = $readAt;
@@ -65,6 +70,11 @@ class UserNotification
     public function getNotificationId(): NotificationId
     {
         return $this->notificationId;
+    }
+
+    public function notification(): Notification
+    {
+        return $this->notification;
     }
 
     public function getUserId(): UserId

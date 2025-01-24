@@ -6,12 +6,12 @@ namespace Notifications\Tests\Unit\Application\CreateNotification\Command;
 
 use Notifications\Application\CreateNotification\Command\CreateNotificationMessageCommand;
 use Notifications\Application\CreateNotification\Command\CreateNotificationMessageCommandHandler;
-use Notifications\DomainModel\Enum\NotificationId;
 use Notifications\DomainModel\Service\NotificationServiceInterface;
+use Notifications\DomainModel\ValueObject\NotificationId;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(CreateNotificationMessageCommandHandler::class)]
 final class CreateNotificationMessageCommandHandlerTest extends TestCase

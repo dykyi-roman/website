@@ -6,11 +6,11 @@ namespace Profile\User\Application\UserManagement\Service;
 
 use Profile\User\Application\UserManagement\Exception\UserChangeDataException;
 use Profile\User\Application\UserManagement\Exception\UserExistException;
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Exception\UserNotFoundException;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use Shared\DomainModel\ValueObject\Email;
+use Shared\DomainModel\ValueObject\UserId;
 
 final readonly class UpdateUserService
 {

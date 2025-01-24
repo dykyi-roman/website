@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Profile\User\DomainModel\Service;
 
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Exception\ActivateUserException;
 use Profile\User\DomainModel\Exception\DeactivateUserException;
 use Profile\User\DomainModel\Exception\DeleteUserException;
+use Shared\DomainModel\ValueObject\UserId;
 
 interface UserPrivacyServiceInterface
 {

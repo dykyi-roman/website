@@ -8,8 +8,8 @@ use Notifications\DomainModel\Service\NotificationCache;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Profile\User\DomainModel\Enum\UserId;
 use Psr\SimpleCache\CacheInterface;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(NotificationCache::class)]
 final class NotificationCacheTest extends TestCase

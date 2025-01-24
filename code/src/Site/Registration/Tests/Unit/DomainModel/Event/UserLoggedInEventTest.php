@@ -6,8 +6,8 @@ namespace Site\Registration\Tests\Unit\DomainModel\Event;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use Profile\User\DomainModel\Enum\UserId;
 use Shared\DomainModel\ValueObject\Email;
+use Shared\DomainModel\ValueObject\UserId;
 use Site\Registration\DomainModel\Event\UserLoggedInEvent;
 
 #[CoversClass(UserLoggedInEvent::class)]

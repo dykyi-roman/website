@@ -7,8 +7,8 @@ namespace Profile\Setting\Tests\Unit\DomainModel\Event;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Profile\Setting\DomainModel\Event\UserActivatedEvent;
-use Profile\User\DomainModel\Enum\UserId;
 use Shared\DomainModel\ValueObject\Email;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(UserActivatedEvent::class)]
 final class UserActivatedEventTest extends TestCase

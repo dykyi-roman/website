@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Profile\Setting\Application\SettingsAccount\Command;
 
-use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\ValueObject\UserId;
 
 /**
  * @see SendVerificationCodeHandler

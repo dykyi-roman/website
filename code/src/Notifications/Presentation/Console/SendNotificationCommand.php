@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Notifications\Presentation\Console;
 
 use Notifications\Application\CreateNotification\Command\CreateNotificationMessageCommand;
-use Notifications\DomainModel\Enum\NotificationId;
+use Notifications\DomainModel\Enum\NotificationName;
+use Notifications\DomainModel\Enum\NotificationType;
+use Notifications\DomainModel\ValueObject\TranslatableText;
 use Profile\User\Application\Notifications\Query\UsersNotificationQuery;
-use Profile\User\DomainModel\Enum\UserId;
 use Psr\Log\LoggerInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
+use Shared\DomainModel\ValueObject\UserId;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -53,8 +55,11 @@ final class SendNotificationCommand extends Command
 
                 $this->messageBus->dispatch(
                     new CreateNotificationMessageCommand(
-                        NotificationId::from($notificationId),
                         UserId::fromString($userIdOption),
+                        NotificationName::HAPPY_BIRTHDAY,
+                        NotificationType::PERSONAL,
+                        TranslatableText::create('notifications.notification.happy-birthday.title'),
+                        TranslatableText::create('notifications.notification.happy-birthday.message', ['%name%' => 'Roman']),
                     ),
                 );
 
@@ -70,8 +75,11 @@ final class SendNotificationCommand extends Command
             foreach ($userIds as $userId) {
                 $this->messageBus->dispatch(
                     new CreateNotificationMessageCommand(
-                        NotificationId::from($notificationId),
                         $userId,
+                        NotificationName::HAPPY_BIRTHDAY,
+                        NotificationType::PERSONAL,
+                        TranslatableText::create('notifications.notification.happy-birthday.title'),
+                        TranslatableText::create('notifications.notification.happy-birthday.message', ['name' => 'Roman']),
                     ),
                 );
             }

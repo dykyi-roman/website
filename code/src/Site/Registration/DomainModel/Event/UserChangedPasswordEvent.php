@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Site\Registration\DomainModel\Event;
 
 use EventStorage\DomainModel\Event\PersistingEventInterface;
-use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\ValueObject\UserId;
 
 final readonly class UserChangedPasswordEvent implements PersistingEventInterface
 {

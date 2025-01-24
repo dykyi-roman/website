@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Notifications\Tests\Unit\DomainModel\Service;
 
-use Notifications\DomainModel\Enum\NotificationId;
 use Notifications\DomainModel\Enum\NotificationType;
 use Notifications\DomainModel\Model\Notification;
-use Notifications\DomainModel\Model\TranslatableText;
 use Notifications\DomainModel\Service\NotificationTranslator;
+use Notifications\DomainModel\ValueObject\NotificationId;
+use Notifications\DomainModel\ValueObject\TranslatableText;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

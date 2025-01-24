@@ -13,8 +13,8 @@ use Profile\Setting\DomainModel\Enum\PropertyCategory;
 use Profile\Setting\DomainModel\Enum\PropertyName;
 use Profile\Setting\DomainModel\Repository\SettingRepositoryInterface;
 use Profile\Setting\DomainModel\ValueObject\Property;
-use Profile\User\DomainModel\Enum\UserId;
 use Psr\Log\LoggerInterface;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(ChangePropertyCommandHandler::class)]
 final class ChangePropertyCommandHandlerTest extends TestCase

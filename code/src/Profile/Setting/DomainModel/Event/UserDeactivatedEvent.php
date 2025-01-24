@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Profile\Setting\DomainModel\Event;
 
 use EventStorage\DomainModel\Event\PersistingEventInterface;
-use Profile\User\DomainModel\Enum\UserId;
 use Shared\DomainModel\ValueObject\Email;
+use Shared\DomainModel\ValueObject\UserId;
 
 final readonly class UserDeactivatedEvent implements PersistingEventInterface
 {

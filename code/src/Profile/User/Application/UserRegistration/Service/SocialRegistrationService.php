@@ -2,12 +2,12 @@
 
 namespace Profile\User\Application\UserRegistration\Service;
 
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\User;
 use Profile\User\DomainModel\Model\UserInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Shared\DomainModel\ValueObject\Email;
 use Shared\DomainModel\ValueObject\Location;
+use Shared\DomainModel\ValueObject\UserId;
 use Site\Registration\DomainModel\Service\ReferralReceiverInterface;
 
 final readonly class SocialRegistrationService implements SocialRegistrationServiceInterface

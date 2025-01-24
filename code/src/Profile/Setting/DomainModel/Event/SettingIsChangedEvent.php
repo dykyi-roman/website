@@ -6,7 +6,7 @@ namespace Profile\Setting\DomainModel\Event;
 
 use EventStorage\DomainModel\Event\PersistingEventInterface;
 use Profile\Setting\DomainModel\ValueObject\Property;
-use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\ValueObject\UserId;
 
 final readonly class SettingIsChangedEvent implements PersistingEventInterface
 {

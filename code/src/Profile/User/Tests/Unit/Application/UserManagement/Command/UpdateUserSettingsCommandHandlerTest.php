@@ -11,12 +11,12 @@ use Profile\User\Application\UserManagement\Command\UpdateUserSettingsCommand;
 use Profile\User\Application\UserManagement\Command\UpdateUserSettingsCommandHandler;
 use Profile\User\Application\UserManagement\Exception\UserExistException;
 use Profile\User\Application\UserManagement\Service\UpdateUserService;
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\User;
 use Profile\User\DomainModel\Model\UserInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use Shared\DomainModel\ValueObject\Email;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(UpdateUserSettingsCommandHandler::class)]
 final class UpdateUserSettingsCommandHandlerTest extends TestCase

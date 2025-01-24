@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Profile\User\DomainModel\Exception;
 
-use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\ValueObject\UserId;
 
 final class ActivateUserException extends \DomainException
 {

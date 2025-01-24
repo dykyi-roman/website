@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Notifications\DomainModel\Service;
 
-use Profile\User\DomainModel\Enum\UserId;
 use Psr\SimpleCache\CacheInterface;
+use Shared\DomainModel\ValueObject\UserId;
 
 final readonly class NotificationCache
 {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EventStorage\DomainModel\Model;
 
 use Doctrine\ORM\Mapping as ORM;
-use EventStorage\DomainModel\Enum\EventId;
+use EventStorage\DomainModel\ValueObject\EventId;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'events')]

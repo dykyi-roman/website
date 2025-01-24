@@ -6,8 +6,8 @@ namespace Notifications\Infrastructure\Websocket\Client;
 
 use Notifications\DomainModel\Exception\SendSocketMessageException;
 use Notifications\DomainModel\Service\NotificationDispatcherInterface;
-use Profile\User\DomainModel\Enum\UserId;
 use Psr\Log\LoggerInterface;
+use Shared\DomainModel\ValueObject\UserId;
 
 final readonly class UnixSocketClient implements NotificationDispatcherInterface
 {

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Notifications\DomainModel\Repository;
 
-use Notifications\DomainModel\Enum\UserNotificationId;
 use Notifications\DomainModel\Exception\UserNotificationNotFoundException;
 use Notifications\DomainModel\Model\UserNotification;
-use Profile\User\DomainModel\Enum\UserId;
+use Notifications\DomainModel\ValueObject\UserNotificationId;
 use Shared\DomainModel\Dto\PaginationDto;
+use Shared\DomainModel\ValueObject\UserId;
 
 interface UserNotificationRepositoryInterface
 {

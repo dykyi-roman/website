@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Profile\User\Application\Notifications\Query;
 
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
+use Shared\DomainModel\ValueObject\UserId;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

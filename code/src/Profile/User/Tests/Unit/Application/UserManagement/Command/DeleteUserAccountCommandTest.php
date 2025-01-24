@@ -7,7 +7,7 @@ namespace Profile\User\Tests\Unit\Application\UserManagement\Command;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Profile\User\Application\UserManagement\Command\DeleteUserAccountCommand;
-use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(DeleteUserAccountCommand::class)]
 final class DeleteUserAccountCommandTest extends TestCase

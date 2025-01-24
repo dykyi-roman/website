@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Notifications\DomainModel\Service;
 
-use Notifications\DomainModel\Enum\NotificationId;
-use Notifications\DomainModel\Enum\UserNotificationId;
-use Profile\User\DomainModel\Enum\UserId;
+use Notifications\DomainModel\Model\Notification;
+use Notifications\DomainModel\ValueObject\UserNotificationId;
 use Shared\DomainModel\Dto\PaginationDto;
+use Shared\DomainModel\ValueObject\UserId;
 
 interface NotificationServiceInterface
 {
-    public function createNotification(NotificationId $notificationId, UserId $userId): void;
+    public function createNotification(Notification $notification, UserId $userId): void;
+
+    public function createMassNotification(Notification $notification): void;
 
     public function markAsRead(UserId $userId, UserNotificationId $userNotificationId): void;
 

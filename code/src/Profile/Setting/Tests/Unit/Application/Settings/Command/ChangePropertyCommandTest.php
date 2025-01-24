@@ -10,7 +10,7 @@ use Profile\Setting\Application\Settings\Command\ChangePropertyCommand;
 use Profile\Setting\DomainModel\Enum\PropertyCategory;
 use Profile\Setting\DomainModel\Enum\PropertyName;
 use Profile\Setting\DomainModel\ValueObject\Property;
-use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(ChangePropertyCommand::class)]
 final class ChangePropertyCommandTest extends TestCase

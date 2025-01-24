@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Notifications\DomainModel\Service;
 
-use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\ValueObject\UserId;
 
 interface NotificationDispatcherInterface
 {

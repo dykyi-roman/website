@@ -6,7 +6,7 @@ namespace Profile\User\Tests\Unit\Application\UserVerification\Command;
 
 use PHPUnit\Framework\TestCase;
 use Profile\User\Application\UserVerification\Command\VerifyUserPhoneCommand;
-use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\ValueObject\UserId;
 
 final class VerifyUserPhoneCommandTest extends TestCase
 {

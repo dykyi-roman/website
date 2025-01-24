@@ -9,8 +9,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Profile\User\Application\Notifications\Query\UsersNotificationQuery;
 use Profile\User\Application\Notifications\Query\UsersNotificationQueryHandler;
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(UsersNotificationQueryHandler::class)]
 final class UsersNotificationQueryHandlerTest extends TestCase

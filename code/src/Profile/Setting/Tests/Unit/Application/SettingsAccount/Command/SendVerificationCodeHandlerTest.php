@@ -14,11 +14,11 @@ use Profile\Setting\DomainModel\Exception\VerificationException;
 use Profile\Setting\DomainModel\Service\SendNotificationService;
 use Profile\Setting\DomainModel\Service\VerificationService;
 use Profile\Setting\DomainModel\ValueObject\VerificationCode;
-use Profile\User\DomainModel\Enum\UserId;
 use Psr\Log\LoggerInterface;
 use Shared\DomainModel\Services\NotificationInterface;
 use Shared\DomainModel\ValueObject\Notification;
 use Shared\DomainModel\ValueObject\Recipient;
+use Shared\DomainModel\ValueObject\UserId;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EventStorage\DomainModel\EventHandler;
 
-use EventStorage\DomainModel\Enum\EventId;
+use EventStorage\DomainModel\ValueObject\EventId;
 use EventStorage\DomainModel\Event\PersistingEventInterface;
 use EventStorage\DomainModel\Model\Event;
 use EventStorage\DomainModel\Repository\EventRepositoryInterface;

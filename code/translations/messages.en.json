@@ -139,7 +139,7 @@
     "notification": {
       "happy-birthday": {
         "title": "Happy birthday",
-        "message": "Happy birthday"
+        "message": "Happy birthday %name%"
       },
       "happy-new_year": {
         "title": "Happy New Year",

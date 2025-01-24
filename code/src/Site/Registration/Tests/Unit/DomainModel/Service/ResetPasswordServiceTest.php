@@ -6,11 +6,11 @@ namespace Site\Registration\Tests\Unit\DomainModel\Service;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\User;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use Shared\DomainModel\ValueObject\Email;
+use Shared\DomainModel\ValueObject\UserId;
 use Site\Registration\DomainModel\Exception\InvalidPasswordException;
 use Site\Registration\DomainModel\Exception\TokenExpiredException;
 use Site\Registration\DomainModel\Service\ResetPasswordService;

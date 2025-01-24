@@ -8,13 +8,13 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Profile\User\Application\UserRegistration\Service\SocialRegistrationService;
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\User;
 use Profile\User\DomainModel\Model\UserInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Shared\DomainModel\ValueObject\Country;
 use Shared\DomainModel\ValueObject\Email;
 use Shared\DomainModel\ValueObject\Location;
+use Shared\DomainModel\ValueObject\UserId;
 use Site\Registration\DomainModel\Service\ReferralReceiverInterface;
 
 #[CoversClass(SocialRegistrationService::class)]

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Site\Dashboard\Presentation\Web;
 
-use Site\Dashboard\DomainModel\Dto\FeedItem;
+use Site\Dashboard\DomainModel\Dto\FeedItemDto;
 use Site\Dashboard\Presentation\Web\Response\FeedAtomHtmlResponder;
 use Site\Dashboard\Presentation\Web\Response\FeedRssHtmlResponder;
 use Symfony\Component\Routing\Attribute\Route;
@@ -38,7 +38,7 @@ final readonly class SeoFeedAction
         $arrayItems = [];
 
         return array_map(
-            static fn (array $item): FeedItem => new FeedItem(
+            static fn (array $item): FeedItemDto => new FeedItemDto(
                 id: $item['id'],
                 title: $item['title'],
                 description: $item['description'],

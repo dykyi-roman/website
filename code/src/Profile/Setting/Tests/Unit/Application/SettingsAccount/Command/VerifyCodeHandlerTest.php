@@ -15,9 +15,9 @@ use Profile\Setting\DomainModel\Service\VerificationService;
 use Profile\Setting\DomainModel\ValueObject\VerificationCode;
 use Profile\User\Application\UserVerification\Command\VerifyUserEmailCommand;
 use Profile\User\Application\UserVerification\Command\VerifyUserPhoneCommand;
-use Profile\User\DomainModel\Enum\UserId;
 use Psr\Log\LoggerInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(VerifyCodeHandler::class)]
 final class VerifyCodeHandlerTest extends TestCase

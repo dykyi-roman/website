@@ -6,13 +6,13 @@ namespace Profile\User\Infrastructure\Persistence\Doctrine\Repository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Exception\UserNotFoundException;
 use Profile\User\DomainModel\Model\User;
 use Profile\User\DomainModel\Model\UserInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Shared\DomainModel\ValueObject\Email;
+use Shared\DomainModel\ValueObject\UserId;
 
 final class UserRepository implements UserRepositoryInterface
 {

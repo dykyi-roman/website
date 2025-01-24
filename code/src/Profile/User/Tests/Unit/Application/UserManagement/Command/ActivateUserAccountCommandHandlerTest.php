@@ -9,9 +9,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Profile\User\Application\UserManagement\Command\ActivateUserAccountCommand;
 use Profile\User\Application\UserManagement\Command\ActivateUserAccountCommandHandler;
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Enum\UserStatus;
 use Profile\User\DomainModel\Service\UserPrivacyServiceInterface;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(ActivateUserAccountCommandHandler::class)]
 final class ActivateUserAccountCommandHandlerTest extends TestCase

@@ -9,9 +9,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Profile\User\Application\UserManagement\Command\DeleteUserAccountCommand;
 use Profile\User\Application\UserManagement\Command\DeleteUserAccountCommandHandler;
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Exception\DeleteUserException;
 use Profile\User\DomainModel\Service\UserPrivacyServiceInterface;
+use Shared\DomainModel\ValueObject\UserId;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 #[CoversClass(DeleteUserAccountCommandHandler::class)]

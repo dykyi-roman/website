@@ -7,11 +7,11 @@ namespace Profile\Setting\DomainModel\Model;
 use Doctrine\ORM\Mapping as ORM;
 use Profile\Setting\DomainModel\Enum\PropertyCategory;
 use Profile\Setting\DomainModel\Enum\PropertyName;
-use Profile\Setting\DomainModel\Enum\SettingId;
 use Profile\Setting\DomainModel\Event\SettingIsChangedEvent;
 use Profile\Setting\DomainModel\ValueObject\Property;
-use Profile\User\DomainModel\Enum\UserId;
+use Profile\Setting\DomainModel\ValueObject\SettingId;
 use Shared\DomainModel\Model\AbstractDomainModel;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'settings')]

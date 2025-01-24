@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Notifications\Presentation\Api;
 
-use Notifications\DomainModel\Enum\UserNotificationId;
 use Notifications\DomainModel\Service\NotificationServiceInterface;
+use Notifications\DomainModel\ValueObject\UserNotificationId;
 use Notifications\Presentation\Api\Response\DeleteNotificationJsonResponder;
 use OpenApi\Attributes as OA;
 use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;

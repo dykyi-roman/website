@@ -7,7 +7,7 @@ namespace Profile\Setting\Tests\Unit\Application\Settings\Query;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Profile\Setting\Application\Settings\Query\GetSettingsQuery;
-use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(GetSettingsQuery::class)]
 final class GetSettingsQueryTest extends TestCase

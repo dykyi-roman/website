@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Profile\User\DomainModel\Model;
 
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Enum\UserStatus;
 use Shared\DomainModel\Model\DomainModelInterface;
 use Shared\DomainModel\ValueObject\Email;
+use Shared\DomainModel\ValueObject\UserId;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterface, PasswordAuthenticatedUserInterface, DomainModelInterface

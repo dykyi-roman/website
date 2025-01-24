@@ -6,7 +6,7 @@ namespace Profile\User\Tests\Unit\DomainModel\Enum;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(UserId::class)]
 final class UserIdTest extends TestCase

@@ -7,8 +7,8 @@ namespace Profile\User\Tests\Unit\Application\UserManagement\Command;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Profile\User\Application\UserManagement\Command\ActivateUserAccountCommand;
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Enum\UserStatus;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(ActivateUserAccountCommand::class)]
 final class ActivateUserAccountCommandTest extends TestCase

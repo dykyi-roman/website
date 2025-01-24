@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Profile\User\DomainModel\Repository;
 
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\UserInterface;
 use Shared\DomainModel\ValueObject\Email;
+use Shared\DomainModel\ValueObject\UserId;
 
 interface UserRepositoryInterface
 {

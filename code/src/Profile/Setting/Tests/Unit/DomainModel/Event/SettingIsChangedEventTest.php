@@ -10,7 +10,7 @@ use Profile\Setting\DomainModel\Enum\PropertyCategory;
 use Profile\Setting\DomainModel\Enum\PropertyName;
 use Profile\Setting\DomainModel\Event\SettingIsChangedEvent;
 use Profile\Setting\DomainModel\ValueObject\Property;
-use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(SettingIsChangedEvent::class)]
 final class SettingIsChangedEventTest extends TestCase

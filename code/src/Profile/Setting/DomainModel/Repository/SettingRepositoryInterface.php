@@ -7,7 +7,7 @@ namespace Profile\Setting\DomainModel\Repository;
 use Profile\Setting\DomainModel\Enum\PropertyName;
 use Profile\Setting\DomainModel\Model\Setting;
 use Profile\Setting\DomainModel\ValueObject\Property;
-use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\ValueObject\UserId;
 
 interface SettingRepositoryInterface
 {

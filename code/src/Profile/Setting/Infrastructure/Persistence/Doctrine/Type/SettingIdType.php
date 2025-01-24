@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Profile\Setting\Infrastructure\Persistence\Doctrine\Type;
 
-use Profile\Setting\DomainModel\Enum\SettingId;
+use Profile\Setting\DomainModel\ValueObject\SettingId;
 use Shared\Infrastructure\Persistence\Doctrine\Type\UuidType;
 
 final class SettingIdType extends UuidType

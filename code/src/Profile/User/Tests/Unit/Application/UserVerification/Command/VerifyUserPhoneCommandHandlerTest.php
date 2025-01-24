@@ -8,10 +8,10 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Profile\User\Application\UserVerification\Command\VerifyUserPhoneCommand;
 use Profile\User\Application\UserVerification\Command\VerifyUserPhoneCommandHandler;
-use Profile\User\DomainModel\Enum\UserId;
 use Profile\User\DomainModel\Model\UserInterface;
 use Profile\User\DomainModel\Repository\UserRepositoryInterface;
 use Psr\Log\LoggerInterface;
+use Shared\DomainModel\ValueObject\UserId;
 
 final class VerifyUserPhoneCommandHandlerTest extends TestCase
 {

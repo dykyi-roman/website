@@ -14,7 +14,7 @@ use Profile\Setting\DomainModel\Enum\PropertyName;
 use Profile\Setting\DomainModel\Model\Setting;
 use Profile\Setting\DomainModel\Repository\SettingRepositoryInterface;
 use Profile\Setting\DomainModel\ValueObject\Property;
-use Profile\User\DomainModel\Enum\UserId;
+use Shared\DomainModel\ValueObject\UserId;
 
 #[CoversClass(GetSettingsQueryHandler::class)]
 final class GetSettingsQueryHandlerTest extends TestCase
