@@ -23,8 +23,8 @@ final class NotificationInMemoryRepository implements NotificationRepositoryInte
                 NotificationId::HAPPY_BIRTHDAY,
                 NotificationType::PERSONAL,
                 new TranslatableText('notifications.notification.happy-birthday.title'),
-                new TranslatableText('notifications.notification.happy-birthday.messagenotifications.notification.happy-birthday.messagenotifications.notification.happy-birthday.messagenotifications.notification.happy-birthday.messagenotifications.notification.happy-birthday.messagenotifications.notification.happy-birthday.messagenotifications.notification.happy-birthday.messagenotinotifications.notification.happy-birthday.messagenotifications.notification.happy-birthday.messagenotifications.notification.happy-birthday.messagenotifications.notification.happy-birthday.messagenotifications.notification.happy-birthday.messagenotifications.notification.happy-birthday.messagenotifications.notification.happy-birthday.messagenotifications.notification.happy-birthday.messagenotifications.notification.happy-birthday.messagenotifications.notification.happy-birthday.messagenotifications.notification.happy-birthday.messagefications.notification.happy-birthday.messagenotifications.notification.happy-birthday.message'),
-                'https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API/Using_the_Notifications_API/desktop-notification.png',
+                new TranslatableText('notifications.notification.happy-birthday.message'),
+                null,
                 null,
             ),
             NotificationId::HAPPY_NEW_YEAR->value => new Notification(

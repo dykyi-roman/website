@@ -106,7 +106,7 @@
                     <div class="notification-header">
                         <i class="fas ${icon} me-2"></i>
                         <strong class="notification-title">${notification.title || ''}</strong>
-                        <button type="button" class="notification-close" aria-label="Close">
+                        <button type="button" class="notification-close" aria-label="X">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
