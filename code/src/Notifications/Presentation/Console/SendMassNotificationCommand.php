@@ -57,15 +57,16 @@ final class SendMassNotificationCommand extends Command
             $this->messageBus->dispatch(
                 new CreateNotificationCommand(
                     $notificationId = new NotificationId(),
-                    NotificationName::from($this->getInputValue($input, 'notification-name')),
-                    NotificationType::from($this->getInputValue($input, 'notification-type')),
-                    TranslatableText::create($this->getInputValue($input, 'notification-title')),
-                    TranslatableText::create($this->getInputValue($input, 'notification-message')),
+                    NotificationName::from($this->getStringInputValue($input, 'notification-name')),
+                    NotificationType::from($this->getStringInputValue($input, 'notification-type')),
+                    TranslatableText::create($this->getStringInputValue($input, 'notification-title')),
+                    TranslatableText::create($this->getStringInputValue($input, 'notification-message')),
                 ),
             );
 
-            $batchSize = (int) $input->getOption('batch-size');
+            $batchSize = max(1, (int) $this->getIntOption($input, 'batch-size'));
             $totalUsers = count($userIds);
+            /** @var array<array<UserId>> $batches */
             $batches = array_chunk($userIds, $batchSize);
 
             foreach ($batches as $batch) {
@@ -91,11 +92,21 @@ final class SendMassNotificationCommand extends Command
         }
     }
 
-    private function getInputValue(InputInterface $input, string $name): string
+    private function getStringInputValue(InputInterface $input, string $name): string
     {
         $value = $input->getArgument($name);
         if (!is_string($value)) {
             throw new \InvalidArgumentException(sprintf('%s must be a string', $name));
+        }
+
+        return $value;
+    }
+
+    private function getIntOption(InputInterface $input, string $name): int
+    {
+        $value = $input->getOption($name);
+        if (!is_int($value)) {
+            throw new \InvalidArgumentException(sprintf('%s must be a int', $name));
         }
 
         return $value;

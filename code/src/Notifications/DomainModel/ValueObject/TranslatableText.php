@@ -13,16 +13,26 @@ final readonly class TranslatableText implements \JsonSerializable
     ) {
     }
 
+    /**
+     * @param array<string, string|int|float|bool|null> $parameters
+     */
     public static function create(string $messageId, array $parameters = []): self
     {
         return new self($messageId, $parameters);
     }
 
+    /**
+     * @param array{messageId: string, parameters: string|array<string, string|int|float|bool|null>} $data
+     */
     public static function fromArray(array $data): self
     {
+        $parameters = is_string($data['parameters']) 
+            ? json_decode($data['parameters'], true) 
+            : $data['parameters'];
+            
         return new self(
             $data['messageId'],
-            (array) json_decode($data['parameters']),
+            $parameters ?? []
         );
     }
 
@@ -39,6 +49,9 @@ final readonly class TranslatableText implements \JsonSerializable
         return $this->parameters;
     }
 
+    /**
+     * @return array{messageId: string, parameters: string|false}
+     */
     public function jsonSerialize(): array
     {
         return [

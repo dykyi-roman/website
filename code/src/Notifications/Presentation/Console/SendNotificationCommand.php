@@ -43,15 +43,15 @@ final class SendNotificationCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
-            $userId = $this->getInputValue($input, 'user-id');
+            $userId = $this->getStringInputValue($input, 'user-id');
 
             $this->messageBus->dispatch(
                 new CreateUserNotificationCommand(
                     UserId::fromString($userId),
-                    NotificationName::from($this->getInputValue($input, 'notification-name')),
-                    NotificationType::from($this->getInputValue($input, 'notification-type')),
-                    TranslatableText::create($this->getInputValue($input, 'notification-title')),
-                    TranslatableText::create($this->getInputValue($input, 'notification-message')),
+                    NotificationName::from($this->getStringInputValue($input, 'notification-name')),
+                    NotificationType::from($this->getStringInputValue($input, 'notification-type')),
+                    TranslatableText::create($this->getStringInputValue($input, 'notification-title')),
+                    TranslatableText::create($this->getStringInputValue($input, 'notification-message')),
                 ),
             );
 
@@ -67,7 +67,7 @@ final class SendNotificationCommand extends Command
         }
     }
 
-    private function getInputValue(InputInterface $input, string $name): string
+    private function getStringInputValue(InputInterface $input, string $name): string
     {
         $value = $input->getArgument($name);
         if (!is_string($value)) {

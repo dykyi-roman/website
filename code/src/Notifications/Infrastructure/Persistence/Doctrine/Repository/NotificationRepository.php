@@ -35,6 +35,7 @@ final readonly class NotificationRepository implements NotificationRepositoryInt
      */
     public function findById(NotificationId $id): Notification
     {
+        /** @var Notification|null */
         $result = $this->repository->createQueryBuilder('n')
             ->andWhere('n.id = :id')
             ->setParameter('id', $id->toBinary())

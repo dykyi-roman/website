@@ -63,6 +63,9 @@ final class NotificationServiceTest extends TestCase
         );
     }
 
+    /**
+     * @return array<string, array{0: Notification}>
+     */
     public static function notificationDataProvider(): array
     {
         return [

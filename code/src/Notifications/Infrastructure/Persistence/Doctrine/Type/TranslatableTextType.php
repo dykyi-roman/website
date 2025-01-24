@@ -27,13 +27,21 @@ class TranslatableTextType extends Type
             throw new \InvalidArgumentException(sprintf('Expected instance of %s, got %s instead.', TranslatableText::class, get_debug_type($value)));
         }
 
-        return json_encode($value->jsonSerialize());
+        $result = json_encode($value->jsonSerialize());
+        if ($result === false) {
+            throw new \InvalidArgumentException('Failed to encode TranslatableText to JSON.');
+        }
+        return $result;
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?TranslatableText
+    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?TranslatableText
     {
         if (null === $value || '' === $value) {
             return null;
+        }
+
+        if (!is_string($value)) {
+            throw new \InvalidArgumentException(sprintf('Expected string, got %s instead.', get_debug_type($value)));
         }
 
         $data = json_decode($value, true);

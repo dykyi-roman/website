@@ -14,7 +14,7 @@ final class NotificationNotFoundException extends \RuntimeException
         ?\Throwable $previous = null,
     ) {
         parent::__construct(
-            sprintf('Notification not found by Id: %s', $id->value),
+            sprintf('Notification not found by Id: %s', $id->toRfc4122()),
             $code,
             $previous
         );
