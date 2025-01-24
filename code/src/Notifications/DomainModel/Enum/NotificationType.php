@@ -6,9 +6,9 @@ namespace Notifications\DomainModel\Enum;
 
 enum NotificationType: string
 {
-    case PERSONAL = 'personal';
-    case SYSTEM = 'system';
-    case INFORMATION = 'information';
-    case WARNING = 'warning';
-    case ERROR = 'error';
+    case PERSONAL = 'PERSONAL';
+    case SYSTEM = 'SYSTEM';
+    case INFORMATION = 'INFORMATION';
+    case WARNING = 'WARNING';
+    case ERROR = 'ERROR';
 }

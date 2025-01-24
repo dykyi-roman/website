@@ -1,1 +1,4 @@
 2025-01-24 10:26:49 pid:251 Workerman[console] start in DEBUG mode
+2025-01-24 11:55:46 pid:251 Workerman[console] received signal SIGTSTP
+2025-01-24 11:55:46 pid:251 Workerman[console] stopping
+2025-01-24 11:55:46 pid:251 Workerman[console] has been stopped
