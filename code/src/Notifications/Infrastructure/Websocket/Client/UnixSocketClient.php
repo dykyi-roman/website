@@ -9,7 +9,6 @@ use Notifications\DomainModel\Service\NotificationDispatcherInterface;
 use Psr\Log\LoggerInterface;
 use Shared\DomainModel\ValueObject\UserId;
 
-// TODO:: Add logic to send only user who is online
 final readonly class UnixSocketClient implements NotificationDispatcherInterface
 {
     public function __construct(
