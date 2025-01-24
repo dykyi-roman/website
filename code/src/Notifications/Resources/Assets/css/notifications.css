@@ -89,30 +89,6 @@
     transition: opacity var(--transition-speed) ease-in-out;
 }
 
-.notification-custom-icon {
-    position: absolute;
-    top: 50%;
-    right: 60px;
-    transform: translateY(-50%);
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-    background: var(--bg-color);
-    border-radius: 4px;
-    padding: 1px;
-    overflow: hidden;
-}
-
-.notification-custom-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 2px;
-}
-
 .notification-close {
     position: absolute;
     top: 15px;

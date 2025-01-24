@@ -95,7 +95,11 @@
         if (notificationsContainer) {
             const notificationElement = document.createElement('div');
             notificationElement.className = 'notification-toast alert alert-' + (notification.type || 'info');
-            
+
+            const iconHtml = notification.icon
+                ? `<div class="notification-custom-icon"><img src="${notification.icon}" alt=""></div>`
+                : '';
+
             const icon = getNotificationIcon(notification.type);
             notificationElement.innerHTML = `
                 <div class="notification-content">
@@ -107,8 +111,9 @@
                         </button>
                     </div>
                     <div class="notification-body">
-                        ${notification.message}
+                        ${notification.message.length > 100 ? notification.message.substring(0, 100) + '...' : notification.message}
                     </div>
+                    ${iconHtml}
                 </div>
             `;
             
@@ -206,7 +211,7 @@
             </div>
             <div class="notification-details">
                 <h3>${notification.title}</h3>
-                <p>${notification.message}</p>
+                <p>${notification.message.length > 500 ? notification.message.substring(0, 500) + '...' : notification.message}</p>
             </div>
             ${iconHtml}
             <span class="notification-date" data-timestamp="${timestamp}" title="${date.toLocaleString()}">${getTimeAgo(date)}</span>
@@ -290,7 +295,6 @@
         }
 
         notifications.forEach(notification => {
-            console.log('Processing notification from API:', notification);
             const notificationElement = createNotificationElement({
                 id: notification.id,
                 type: notification.type,
