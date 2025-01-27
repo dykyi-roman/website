@@ -73,6 +73,10 @@ final class SynchronizeUserStatusCommand extends Command
         }
     }
 
+    /**
+     * @param positive-int $batchSize
+     * @throws \Throwable
+     */
     private function synchronizeOfflineUsers(OutputInterface $output, int $batchSize): void
     {
         $onlineUsersFromRedis = $this->userStatusService->getAllUserStatuses();
@@ -94,6 +98,10 @@ final class SynchronizeUserStatusCommand extends Command
         $output->writeln('');
     }
 
+    /**
+     * @param positive-int $batchSize
+     * @throws \Throwable
+     */
     private function synchronizeOnlineUsers(OutputInterface $output, int $batchSize): void
     {
         $onlineUsersFromRedis = $this->userStatusService->getAllUserStatuses();
@@ -117,7 +125,6 @@ final class SynchronizeUserStatusCommand extends Command
     /**
      * @param UserStatus[] $batch
      * @param array<string|\Shared\DomainModel\ValueObject\UserId> $onlineUserIdsFromRedis
-     *
      * @return UpdateUserStatusCommand[]
      */
     private function createOfflineStatusCommands(array $batch, array $onlineUserIdsFromRedis): array
@@ -137,7 +144,6 @@ final class SynchronizeUserStatusCommand extends Command
 
     /**
      * @param UserUpdateStatus[] $batch
-     *
      * @return UpdateUserStatusCommand[]
      */
     private function createOnlineStatusCommands(array $batch): array
@@ -154,7 +160,6 @@ final class SynchronizeUserStatusCommand extends Command
 
     /**
      * @param UpdateUserStatusCommand[] $commands
-     *
      * @throws \Throwable
      */
     private function dispatchCommands(array $commands): void
@@ -166,12 +171,12 @@ final class SynchronizeUserStatusCommand extends Command
     {
         $progressBar = new ProgressBar($output, $max);
         $progressBar->setFormat(' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%');
-
         return $progressBar;
     }
 
     /**
      * @throws \InvalidArgumentException When batch size is invalid
+     * @return positive-int
      */
     private function getValidatedBatchSize(InputInterface $input): int
     {
@@ -187,6 +192,7 @@ final class SynchronizeUserStatusCommand extends Command
             );
         }
 
+        /** @var positive-int */
         return min($batchSize, self::BATCH_SIZE);
     }
 }
