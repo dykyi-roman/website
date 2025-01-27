@@ -19,6 +19,7 @@
 * Light and dark themas
 * User-friendly error pages (401, 403, 404, 500)
 * Event storage
+* User Online/Offline Statuses
 
 ### Settings
 * Privacy
@@ -34,6 +35,15 @@
   - Change name
   - Verify phone
   - Verify email
+
+### User Online/Offline Statuses
+
+At load (>500k concurrent users): 
+- use a separate microservice for statuses 
+- use a NoSQL database for statuses (MongoDB, Cassandra)
+- implement event sourcing
+- websocket for real-time updates
+- circuit breaker for fault tolerance
 
 ### Notifications
  - Receive/Read/Delete

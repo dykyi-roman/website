@@ -74,6 +74,8 @@ final class SynchronizeUserStatusCommand extends Command
     }
 
     /**
+     * @param int<1, max> $batchCount
+     *
      * @throws \Throwable
      */
     private function synchronizeOfflineUsers(OutputInterface $output, int $batchCount): void
@@ -99,6 +101,8 @@ final class SynchronizeUserStatusCommand extends Command
     }
 
     /**
+     * @param int<1, max> $batchCount
+     *
      * @throws \Throwable
      */
     private function synchronizeOnlineUsers(OutputInterface $output, int $batchCount): void
@@ -168,6 +172,9 @@ final class SynchronizeUserStatusCommand extends Command
         return $progressBar;
     }
 
+    /**
+     * @return int<1, max>
+     */
     private function getValidatedBatchCount(InputInterface $input): int
     {
         $value = $input->getOption('batch-count');
