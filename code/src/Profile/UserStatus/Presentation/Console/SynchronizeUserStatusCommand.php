@@ -69,7 +69,7 @@ final class SynchronizeUserStatusCommand extends Command
                 }
             }
 
-            if (!empty($updateItems)) {
+            if ($updateItems !== []) {
                 $this->messageBus->dispatch(new UpdateUserStatusCommand($updateItems));
             }
         }

@@ -95,9 +95,9 @@ final readonly class UserStatusCache implements UserStatusInterface
     }
 
     /**
-     * Remove expired keys from the keys list
-     * 
-     * @param array<string> $keys
+     * Remove expired keys from the keys list.
+     *
+     * @param array<string>   $keys
      * @param iterable<mixed> $values
      */
     private function cleanupExpiredKeys(array $keys, iterable $values): void
@@ -106,10 +106,10 @@ final readonly class UserStatusCache implements UserStatusInterface
             $activeKeys = [];
             $index = 0;
             foreach ($values as $value) {
-                if ($value !== null) {
+                if (null !== $value) {
                     $activeKeys[] = $keys[$index];
                 }
-                $index++;
+                ++$index;
             }
 
             if (count($activeKeys) !== count($keys)) {

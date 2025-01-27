@@ -31,14 +31,14 @@ final readonly class UpdateUserStatusCommandHandler
 
                     /** @var array<mixed, mixed> $rawItem */
                     $rawItem = $item;
-                    
+
                     // Ensure the array has string keys
                     $typedItem = array_combine(
                         array_map('strval', array_keys($rawItem)),
                         array_values($rawItem)
                     );
-                    
-                    /** @var array<string, mixed> $typedItem */
+
+                    /* @var array<string, mixed> $typedItem */
                     return UserStatus::fromArray($typedItem);
                 },
                 $command->items
