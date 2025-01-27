@@ -47,8 +47,25 @@ final readonly class UserStatusCache
         return null;
     }
 
-    public function getAllKeys(): array
+    /**
+     * @return UserUpdateStatus[]
+     *
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function getAllUserStatuses(): array
     {
-        // Implement
+        $keys = array_keys($this->cache->getMultiple(['user:status:*']) ?? []);
+        $statuses = [];
+        
+        if (!empty($keys)) {
+            $data = $this->cache->getMultiple($keys);
+            foreach ($data as $value) {
+                if (is_array($value)) {
+                    $statuses[] = UserUpdateStatus::fromArray($value);
+                }
+            }
+        }
+        
+        return $statuses;
     }
 }
