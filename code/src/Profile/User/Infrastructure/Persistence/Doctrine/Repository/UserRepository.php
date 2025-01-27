@@ -37,7 +37,7 @@ final class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * @throws \Symfony\Component\Security\Core\Exception\UserNotFoundException
+     * @throws UserNotFoundException
      */
     public function findById(UserId $userId): UserInterface
     {

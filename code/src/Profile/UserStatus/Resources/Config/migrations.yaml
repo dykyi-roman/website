@@ -1,0 +1,5 @@
+migrations_paths:
+    'Profile\UserStatus\Resources\Migrations': './src/Profile/UserStatus/Resources/Migrations'
+
+connection: site
+em: site

@@ -1,0 +1,12 @@
+#web_routes:
+#    resource:
+#        path: ../../Presentation/Web
+#        namespace: Profile\UserStatus\Presentation\Web
+#    type: attribute
+
+#api_routes:
+#    resource:
+#        path: ../../Presentation/Api
+#        namespace: Profile\UserStatus\Presentation\Api
+#    type: attribute
+#    prefix: '/api'

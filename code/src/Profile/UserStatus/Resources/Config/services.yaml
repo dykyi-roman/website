@@ -1,0 +1,32 @@
+parameters:
+    _ttl: 300 # 5 minutes
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $verificationCodeTtl: '%verification_code_ttl%'
+
+    Profile\UserStatus\:
+        resource: '../../'
+        exclude:
+            - '../../Resources/'
+            - '../../Application/**/*{Command,Query}.php'
+            - '../../DomainModel/{Dto,Event,Model,ValueObject}/'
+            - '../../Application/*/{Dto,Event,Model,ValueObject}/'
+            - '../../Tests/'
+        tags: ['controller.service_arguments']
+
+    Profile\UserStatus\Infrastructure\Persistence\Doctrine\Repository\UserStatusRepository:
+        arguments:
+            $entityManager: '@doctrine.orm.site_entity_manager'
+
+    Profile\UserStatus\DomainModel\Repository\UserStatusRepositoryInterface:
+        alias: UserStatus\Infrastructure\Persistence\Doctrine\Repository\UserStatusRepository
+
+#    # EventSubscriber
+#    UserStatus\Infrastructure\Symfony\EventSubscriber\LocaleSubscriber:
+#        tags:
+#            - { name: kernel.event_subscriber }

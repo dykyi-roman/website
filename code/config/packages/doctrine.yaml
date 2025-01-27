@@ -3,6 +3,7 @@ imports:
     - { resource: '../../src/Notifications/Resources/Config/doctrine.yaml' }
     - { resource: '../../src/Site/Location/Resources/Config/doctrine.yaml' }
     - { resource: '../../src/Profile/User/Resources/Config/doctrine.yaml' }
+    - { resource: '../../src/Profile/UserStatus/Resources/Config/doctrine.yaml' }
     - { resource: '../../src/Profile/Setting/Resources/Config/doctrine.yaml' }
 
 doctrine:

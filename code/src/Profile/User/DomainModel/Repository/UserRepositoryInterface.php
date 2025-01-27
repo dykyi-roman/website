@@ -18,7 +18,7 @@ interface UserRepositoryInterface
     public function findAll(): array;
 
     /**
-     * @throws \Symfony\Component\Security\Core\Exception\UserNotFoundException
+     * @throws \Profile\User\DomainModel\Exception\UserNotFoundException
      */
     public function findById(UserId $userId): UserInterface;
 
