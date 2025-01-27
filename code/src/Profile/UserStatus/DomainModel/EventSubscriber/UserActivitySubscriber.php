@@ -34,6 +34,6 @@ final readonly class UserActivitySubscriber implements EventSubscriberInterface
             return;
         }
 
-        $this->userStatusCache->changeStatus(UserUpdateStatus::isOnline($user->id()));
+        $this->userStatusCache->changeStatus(UserUpdateStatus::createOnline($user->id()));
     }
 }

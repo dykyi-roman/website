@@ -15,7 +15,7 @@ final readonly class UserUpdateStatus implements \JsonSerializable
     ) {
     }
 
-    public static function isOnline(UserId $userId): self
+    public static function createOnline(UserId $userId): self
     {
         return new self(
             $userId,

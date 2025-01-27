@@ -18,12 +18,11 @@ final readonly class UpdateUserStatusCommandHandler
 
     public function __invoke(UpdateUserStatusCommand $command): void
     {
-        $this->userStatusRepository->save(
-            new UserStatus(
-                $command->userId,
-                $command->isOnline,
-                $command->lastOnlineAt,
-            ),
-        );
+        $statuses = [];
+        foreach ($command->items as $item) {
+            $statuses[] = UserStatus::fromArray($item);
+        }
+
+        $this->userStatusRepository->save(...$statuses);
     }
 }

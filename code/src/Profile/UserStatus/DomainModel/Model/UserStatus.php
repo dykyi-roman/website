@@ -33,6 +33,15 @@ class UserStatus
         $this->lastOnlineAt = $lastOnlineAt;
     }
 
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            new UserId($data['user_id']),
+            (bool) $data['is_online'],
+            new \DateTimeImmutable($data['last_online_at']),
+        );
+    }
+
     public function transformToUserUpdateStatus(): UserUpdateStatus
     {
         return new UserUpdateStatus($this->userId, $this->isOnline, $this->lastOnlineAt);
