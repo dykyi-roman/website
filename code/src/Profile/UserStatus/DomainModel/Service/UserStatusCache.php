@@ -8,7 +8,7 @@ use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 use Shared\DomainModel\ValueObject\UserId;
 
-final readonly class UserStatusCache
+final readonly class UserStatusCache implements UserStatusInterface
 {
     public function __construct(
         private CacheInterface $cache,

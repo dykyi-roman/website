@@ -13,7 +13,12 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+#[AsCommand(
+    name: 'app:profile:user-status:sync',
+    description: 'Create a migration for a specific domain'
+)]
 final class SynchronizeUserStatusCommand extends Command
 {
     private const int BATCH_SIZE = 100;

@@ -7,7 +7,7 @@ namespace Profile\UserStatus\DomainModel\EventSubscriber;
 use Profile\User\DomainModel\Model\UserInterface;
 use Profile\UserStatus\DomainModel\Dto\UserUpdateStatus;
 use Profile\UserStatus\DomainModel\Event\UserWentOnlineEvent;
-use Profile\UserStatus\DomainModel\Service\UserStatusCache;
+use Profile\UserStatus\DomainModel\Service\UserStatusInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -17,7 +17,7 @@ final readonly class UserActivitySubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private Security $security,
-        private UserStatusCache $userStatusCache,
+        private UserStatusInterface $userStatus,
         private MessageBusInterface $eventBus,
     ) {
     }
@@ -41,7 +41,7 @@ final readonly class UserActivitySubscriber implements EventSubscriberInterface
             return;
         }
 
-        $this->userStatusCache->changeStatus(UserUpdateStatus::createOnline($user->id()));
+        $this->userStatus->changeStatus(UserUpdateStatus::createOnline($user->id()));
 
         $this->eventBus->dispatch(new UserWentOnlineEvent($user->id()));
     }

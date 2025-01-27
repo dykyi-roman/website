@@ -6,21 +6,21 @@ namespace Profile\UserStatus\Application\GetUserStatus\Query;
 
 use Profile\UserStatus\DomainModel\Dto\UserUpdateStatus;
 use Profile\UserStatus\DomainModel\Repository\UserStatusRepositoryInterface;
-use Profile\UserStatus\DomainModel\Service\UserStatusCache;
+use Profile\UserStatus\DomainModel\Service\UserStatusInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
 final readonly class GetUserStatusQueryHandler
 {
     public function __construct(
-        private UserStatusCache $userStatusCache,
+        private UserStatusInterface $userStatus,
         private UserStatusRepositoryInterface $userStatusRepository,
     ) {
     }
 
     public function __invoke(GetUserStatusQuery $query): ?UserUpdateStatus
     {
-        $status = $this->userStatusCache->getStatus($query->userId);
+        $status = $this->userStatus->getStatus($query->userId);
         if (null === $status) {
             $userStatus = $this->userStatusRepository->findByUserId($query->userId);
             if (null !== $userStatus) {
