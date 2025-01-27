@@ -10,6 +10,7 @@ namespace Profile\UserStatus\Application\UpdateUserStatus\Command;
 final readonly class UpdateUserStatusCommand
 {
     public function __construct(
+        /** @var array<string, mixed> */
         public array $items,
     ) {
     }

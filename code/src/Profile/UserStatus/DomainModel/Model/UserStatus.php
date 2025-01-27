@@ -51,7 +51,7 @@ class UserStatus
         return $this->isOnline;
     }
 
-    public function getLastOnlineAt(): ?\DateTimeImmutable
+    public function getLastOnlineAt(): \DateTimeImmutable
     {
         return $this->lastOnlineAt;
     }
