@@ -6,6 +6,7 @@ namespace Profile\UserStatus\Presentation\Console;
 
 use Profile\UserStatus\DomainModel\Repository\UserStatusRepositoryInterface;
 use Profile\UserStatus\DomainModel\Service\UserStatusCache;
+use Shared\DomainModel\Services\MessageBusInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,7 +17,7 @@ final class SynchronizeUserStatusCommand extends Command
 
     public function __construct(
         private readonly UserStatusCache $userStatusCache,
-        private readonly UserStatusRepositoryInterface $userStatusRepository,
+        private readonly MessageBusInterface $messageBus,
     ) {
         parent::__construct();
     }
@@ -38,14 +39,7 @@ final class SynchronizeUserStatusCommand extends Command
 
         foreach (array_chunk($userStatuses, self::BATCH_SIZE) as $batchStatuses) {
             foreach ($batchStatuses as $userStatus) {
-                $existingStatus = $this->userStatusRepository->findByUserId($userStatus->userId);
-                
-                if ($existingStatus === null) {
-                    $this->userStatusRepository->create($userStatus->userId, $userStatus->isOnline);
-                } else {
-                    $this->userStatusRepository->update($userStatus->userId, $userStatus->isOnline);
-                }
-                
+                // ...
                 $processedStatuses++;
             }
             
