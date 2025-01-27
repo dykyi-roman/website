@@ -8,6 +8,7 @@ use Profile\UserStatus\DomainModel\Event\UserWentOnlineEvent;
 use Profile\UserStatus\DomainModel\Model\UserStatus;
 use Profile\UserStatus\DomainModel\Repository\UserStatusRepositoryInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
+use Shared\DomainModel\ValueObject\UserId;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -22,12 +23,24 @@ final readonly class UpdateUserStatusCommandHandler
     public function __invoke(UpdateUserStatusCommand $command): void
     {
         $this->userStatusRepository->saveOrUpdate(
-            ...array_map(static fn (array $item): UserStatus => UserStatus::fromArray($item), $command->items)
+            ...array_map(
+                /** @param array<string, mixed> $item */
+                static fn (array $item): UserStatus => UserStatus::fromArray($item),
+                $command->items
+            )
         );
 
         foreach ($command->items as $item) {
+            if (!is_array($item)) {
+                throw new \InvalidArgumentException('Item must be an array');
+            }
+
+            if (!isset($item['is_online']) || !isset($item['user_id'])) {
+                throw new \InvalidArgumentException('Item must contain is_online and user_id keys');
+            }
+
             if (false === $item['is_online']) {
-                $this->eventBus->dispatch(new UserWentOnlineEvent($item['user_id']));
+                $this->eventBus->dispatch(new UserWentOnlineEvent(new UserId($item['user_id'])));
             }
         }
     }

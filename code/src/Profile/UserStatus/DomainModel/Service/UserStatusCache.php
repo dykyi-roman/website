@@ -36,9 +36,11 @@ final readonly class UserStatusCache implements UserStatusInterface
         $key = sprintf('user:status:%s', $userId->toRfc4122());
         try {
             $data = $this->cache->get($key);
-            if (is_array($data)) {
-                return UserUpdateStatus::fromArray($data);
+            if (!is_array($data)) {
+                return null;
             }
+            /** @var array<string, mixed> $data */
+            return UserUpdateStatus::fromArray($data);
         } catch (InvalidArgumentException $exception) {
             $this->logger->error($exception->getMessage());
         }
@@ -57,9 +59,11 @@ final readonly class UserStatusCache implements UserStatusInterface
             $itemsArray = is_array($items) ? $items : iterator_to_array($items);
             
             foreach ($itemsArray as $key => $value) {
-                if (is_array($value)) {
-                    $statuses[] = UserUpdateStatus::fromArray($value);
+                if (!is_array($value)) {
+                    continue;
                 }
+                /** @var array<string, mixed> $value */
+                $statuses[] = UserUpdateStatus::fromArray($value);
             }
         } catch (InvalidArgumentException $exception) {
             $this->logger->error($exception->getMessage());

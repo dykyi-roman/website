@@ -55,22 +55,24 @@ final class SynchronizeUserStatusCommand extends Command
         $batchSize = $this->getIntOption($input, 'batch-size');
 
         $onlineUserIdsFromRedis = array_column($onlineUsersFromRedis, 'userId');
-        foreach ($onlineUsersInDb as $userStatus) {
-            if (!in_array($userStatus->getUserId(), $onlineUserIdsFromRedis, true)) {
-                /** @var array<string, mixed> */
-                $data = [
-                    'user_id' => $userStatus->getUserId()->toRfc4122(),
-                    'is_online' => false,
-                    'last_online_at' => $userStatus->getLastOnlineAt()->format('c'),
-                ];
-                
-                $this->messageBus->dispatch(
-                    new UpdateUserStatusCommand([$data])
-                );
+        $validBatchSize = max(1, min($batchSize, self::BATCH_SIZE));
+        foreach (array_chunk($onlineUsersInDb, $validBatchSize) as $batch) {
+            $updateItems = [];
+            foreach ($batch as $userStatus) {
+                if (!in_array($userStatus->getUserId(), $onlineUserIdsFromRedis, true)) {
+                    $updateItems[] = [
+                        'user_id' => $userStatus->getUserId()->toRfc4122(),
+                        'is_online' => false,
+                        'last_online_at' => $userStatus->getLastOnlineAt()->format('c'),
+                    ];
+                }
+            }
+            
+            if (!empty($updateItems)) {
+                $this->messageBus->dispatch(new UpdateUserStatusCommand($updateItems));
             }
         }
 
-        $validBatchSize = max(1, min($batchSize, self::BATCH_SIZE));
         /** @var UserUpdateStatus[] $batch */
         foreach (array_chunk($onlineUsersFromRedis, $validBatchSize) as $batch) {
             /** @var array<string, mixed>[] $updateItems */
