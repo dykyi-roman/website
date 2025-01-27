@@ -24,8 +24,14 @@ final readonly class UpdateUserStatusCommandHandler
     {
         $this->userStatusRepository->saveOrUpdate(
             ...array_map(
-                /** @param array<string, mixed> $item */
-                static fn (array $item): UserStatus => UserStatus::fromArray($item),
+                /** @param mixed $item */
+                static function (mixed $item): UserStatus {
+                    if (!is_array($item)) {
+                        throw new \InvalidArgumentException('Item must be an array');
+                    }
+                    /** @var array<string, mixed> $item */
+                    return UserStatus::fromArray($item);
+                },
                 $command->items
             )
         );
@@ -35,7 +41,7 @@ final readonly class UpdateUserStatusCommandHandler
                 throw new \InvalidArgumentException('Item must be an array');
             }
 
-            if (!isset($item['is_online']) || !isset($item['user_id'])) {
+            if (!isset($item['is_online'], $item['user_id'])) {
                 throw new \InvalidArgumentException('Item must contain is_online and user_id keys');
             }
 

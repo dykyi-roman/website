@@ -57,11 +57,13 @@ final class SynchronizeUserStatusCommand extends Command
         $onlineUserIdsFromRedis = array_column($onlineUsersFromRedis, 'userId');
         $validBatchSize = max(1, min($batchSize, self::BATCH_SIZE));
         foreach (array_chunk($onlineUsersInDb, $validBatchSize) as $batch) {
+            /** @var array<string, array<string, mixed>> $updateItems */
             $updateItems = [];
             foreach ($batch as $userStatus) {
                 if (!in_array($userStatus->getUserId(), $onlineUserIdsFromRedis, true)) {
-                    $updateItems[] = [
-                        'user_id' => $userStatus->getUserId()->toRfc4122(),
+                    $userId = $userStatus->getUserId()->toRfc4122();
+                    $updateItems[$userId] = [
+                        'user_id' => $userId,
                         'is_online' => false,
                         'last_online_at' => $userStatus->getLastOnlineAt()->format('c'),
                     ];
@@ -75,15 +77,16 @@ final class SynchronizeUserStatusCommand extends Command
 
         /** @var UserUpdateStatus[] $batch */
         foreach (array_chunk($onlineUsersFromRedis, $validBatchSize) as $batch) {
-            /** @var array<string, mixed>[] $updateItems */
-            $updateItems = array_map(
-                static fn (UserUpdateStatus $status): array => [
-                    'user_id' => $status->userId->toRfc4122(),
+            /** @var array<string, array<string, mixed>> $updateItems */
+            $updateItems = [];
+            foreach ($batch as $status) {
+                $userId = $status->userId->toRfc4122();
+                $updateItems[$userId] = [
+                    'user_id' => $userId,
                     'is_online' => $status->isOnline,
                     'last_online_at' => $status->lastOnlineAt->format('c'),
-                ],
-                $batch
-            );
+                ];
+            }
             $this->messageBus->dispatch(new UpdateUserStatusCommand($updateItems));
 
             $progress = round((count($batch) / count($onlineUsersFromRedis)) * 100, 2);
