@@ -54,39 +54,35 @@ final class SynchronizeUserStatusCommand extends Command
 
         $batchSize = $this->getIntOption($input, 'batch-size');
 
+        $items = [];
         $onlineUserIdsFromRedis = array_column($onlineUsersFromRedis, 'userId');
         $validBatchSize = max(1, min($batchSize, self::BATCH_SIZE));
         foreach (array_chunk($onlineUsersInDb, $validBatchSize) as $batch) {
-            /** @var array<string, array<string, mixed>> $updateItems */
-            $updateItems = [];
             foreach ($batch as $userStatus) {
                 if (!in_array($userStatus->getUserId(), $onlineUserIdsFromRedis, true)) {
-                    $updateItems[] = [
+                   $items[] = new UpdateUserStatusCommand([
                         'user_id' => $userStatus->getUserId()->toRfc4122(),
                         'is_online' => false,
                         'last_online_at' => $userStatus->getLastOnlineAt()->format('c'),
-                    ];
+                    ]);
                 }
             }
 
-            if ($updateItems !== []) {
-                $this->messageBus->dispatch(new UpdateUserStatusCommand($updateItems));
-            }
+            $this->messageBus->dispatch(...$items);
         }
 
-        /** @var UserUpdateStatus[] $batch */
+        $items = [];
         foreach (array_chunk($onlineUsersFromRedis, $validBatchSize) as $batch) {
-            /** @var array<string, array<string, mixed>> $updateItems */
-            $updateItems = [];
+            /** @var UserUpdateStatus[] $batch */
             foreach ($batch as $status) {
-                $updateItems[] = [
+                $items[] = new UpdateUserStatusCommand([
                     'user_id' => $status->userId->toRfc4122(),
                     'is_online' => $status->isOnline,
                     'last_online_at' => $status->lastOnlineAt->format('c'),
-                ];
+                ]);
             }
 
-            $this->messageBus->dispatch(new UpdateUserStatusCommand($updateItems));
+            $this->messageBus->dispatch(...$items);
 
             $progress = round((count($batch) / count($onlineUsersFromRedis)) * 100, 2);
             $output->writeln(sprintf('<info>Progress: %s%%</info>', $progress));
