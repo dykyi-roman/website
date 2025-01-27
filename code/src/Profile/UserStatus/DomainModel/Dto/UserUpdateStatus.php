@@ -29,10 +29,13 @@ final readonly class UserUpdateStatus implements \JsonSerializable
      */
     public static function fromArray(array $data): self
     {
+        $userId = is_string($data['user_id']) ? $data['user_id'] : throw new \InvalidArgumentException('user_id must be a string');
+        $lastOnlineAt = is_string($data['last_online_at']) ? $data['last_online_at'] : throw new \InvalidArgumentException('last_online_at must be a string');
+
         return new self(
-            new UserId($data['user_id']),
+            new UserId($userId),
             (bool) $data['is_online'],
-            new \DateTimeImmutable($data['last_online_at']),
+            new \DateTimeImmutable($lastOnlineAt),
         );
     }
 

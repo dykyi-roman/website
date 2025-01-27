@@ -14,7 +14,7 @@ class UserStatus
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'bigint')]
-    private ?int $id = null;
+    private mixed $id = null;
 
     #[ORM\Column(name: 'user_id', type: 'uuid')]
     private UserId $userId;
@@ -23,21 +23,29 @@ class UserStatus
     private bool $isOnline = false;
 
     #[ORM\Column(name: 'last_online_at', type: 'datetime_immutable', nullable: true)]
-    private \DateTimeImmutable $lastOnlineAt;
+    private ?\DateTimeImmutable $lastOnlineAt;
 
-    public function __construct(UserId $userId, bool $isOnline, \DateTimeImmutable $lastOnlineAt = null)
+    public function __construct(UserId $userId, bool $isOnline, ?\DateTimeImmutable $lastOnlineAt = null)
     {
         $this->userId = $userId;
         $this->isOnline = $isOnline;
         $this->lastOnlineAt = $lastOnlineAt;
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public static function fromArray(array $data): self
     {
+        $userId = is_string($data['user_id']) ? $data['user_id'] : throw new \InvalidArgumentException('user_id must be a string');
+        $lastOnlineAt = isset($data['last_online_at']) && is_string($data['last_online_at']) 
+            ? new \DateTimeImmutable($data['last_online_at'])
+            : null;
+
         return new self(
-            new UserId($data['user_id']),
+            new UserId($userId),
             (bool) $data['is_online'],
-            new \DateTimeImmutable($data['last_online_at']),
+            $lastOnlineAt,
         );
     }
 
@@ -51,8 +59,14 @@ class UserStatus
         return $this->isOnline;
     }
 
-    public function getLastOnlineAt(): \DateTimeImmutable
+    public function getLastOnlineAt(): ?\DateTimeImmutable
     {
         return $this->lastOnlineAt;
+    }
+
+    public function updateStatus(bool $isOnline, ?\DateTimeImmutable $lastActivityAt): void
+    {
+        $this->isOnline = $isOnline;
+        $this->lastOnlineAt = $lastActivityAt;
     }
 }

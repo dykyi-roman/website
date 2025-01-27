@@ -57,21 +57,31 @@ final class SynchronizeUserStatusCommand extends Command
         $onlineUserIdsFromRedis = array_column($onlineUsersFromRedis, 'userId');
         foreach ($onlineUsersInDb as $userStatus) {
             if (!in_array($userStatus->getUserId(), $onlineUserIdsFromRedis, true)) {
+                /** @var array<string, mixed> */
+                $data = [
+                    'user_id' => $userStatus->getUserId()->toRfc4122(),
+                    'is_online' => false,
+                    'last_online_at' => $userStatus->getLastOnlineAt()?->format('c'),
+                ];
+                
                 $this->messageBus->dispatch(
-                    new UpdateUserStatusCommand([
-                        [
-                            'user_id' => $userStatus->getUserId(),
-                            'is_online' => false,
-                            'last_online_at' => $userStatus->getLastOnlineAt(),
-                        ],
-                    ])
+                    new UpdateUserStatusCommand([$data])
                 );
             }
         }
 
+        $validBatchSize = max(1, min($batchSize, self::BATCH_SIZE));
         /** @var UserUpdateStatus[] $batch */
-        foreach (array_chunk($onlineUsersFromRedis, $batchSize) as $batch) {
-            $updateItems = array_map(static fn (UserUpdateStatus $status) => $status->jsonSerialize(), $batch);
+        foreach (array_chunk($onlineUsersFromRedis, $validBatchSize) as $batch) {
+            /** @var array<string, mixed>[] $updateItems */
+            $updateItems = array_map(
+                static fn (UserUpdateStatus $status): array => [
+                    'user_id' => $status->userId->toRfc4122(),
+                    'is_online' => $status->isOnline,
+                    'last_online_at' => $status->lastOnlineAt->format('c'),
+                ],
+                $batch
+            );
             $this->messageBus->dispatch(new UpdateUserStatusCommand($updateItems));
 
             $progress = round((count($batch) / count($onlineUsersFromRedis)) * 100, 2);

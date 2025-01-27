@@ -32,9 +32,9 @@ final class UserStatusRepository implements UserStatusRepositoryInterface
             $userStatuses
         );
 
-        /** @var UserStatus $existingStatuses */
+        /** @var UserStatus[] $existingStatuses */
         $existingStatuses = $this->repository->createQueryBuilder('us')
-            ->andWhere('us.id IN (:userIds)')
+            ->andWhere('us.userId IN (:userIds)')
             ->setParameter('userIds', $userIds)
             ->getQuery()
             ->getResult();
@@ -71,11 +71,15 @@ final class UserStatusRepository implements UserStatusRepositoryInterface
      */
     public function findAllOnline(): array
     {
-        $qb = $this->entityManager->createQueryBuilder();
-
-        return $qb->select('us')
+        /** @var UserStatus[] $result */
+        $result = $this->entityManager->createQueryBuilder()
+            ->select('us')
+            ->from(UserStatus::class, 'us')
             ->andWhere('us.isOnline = :status')
             ->setParameter('status', true)
-            ->getQuery()->getResult();
+            ->getQuery()
+            ->getResult();
+
+        return $result;
     }
 }

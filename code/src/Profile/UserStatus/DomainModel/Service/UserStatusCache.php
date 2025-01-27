@@ -53,10 +53,12 @@ final readonly class UserStatusCache implements UserStatusInterface
     {
         $statuses = [];
         try {
-            $keys = array_keys($this->cache->getMultiple(['user:status:*']) ?? []);
-            foreach ($keys as $key) {
-                if (is_array($key)) {
-                    $statuses[] = UserUpdateStatus::fromArray($key);
+            $items = $this->cache->getMultiple(['user:status:*']);
+            $itemsArray = is_array($items) ? $items : iterator_to_array($items);
+            
+            foreach ($itemsArray as $key => $value) {
+                if (is_array($value)) {
+                    $statuses[] = UserUpdateStatus::fromArray($value);
                 }
             }
         } catch (InvalidArgumentException $exception) {
