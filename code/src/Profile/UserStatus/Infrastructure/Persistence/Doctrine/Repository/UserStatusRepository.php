@@ -28,14 +28,14 @@ final class UserStatusRepository implements UserStatusRepositoryInterface
         }
 
         $userIds = array_map(
-            static fn (UserStatus $status): string => $status->getUserId()->toRfc4122(),
+            static fn (UserStatus $status): string => $status->getUserId()->toBinary(),
             $userStatuses
         );
 
         /** @var UserStatus[] $existingStatuses */
         $existingStatuses = $this->repository->createQueryBuilder('us')
             ->andWhere('us.userId IN (:userIds)')
-            ->setParameter('userIds', $userIds)
+            ->setParameter('userIds', implode(',', $userIds))
             ->getQuery()
             ->getResult();
 

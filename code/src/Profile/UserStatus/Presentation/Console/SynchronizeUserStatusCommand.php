@@ -51,7 +51,7 @@ final class SynchronizeUserStatusCommand extends Command
 
         $onlineUsersFromRedis = $this->userStatusService->getAllUserStatuses();
         $onlineUsersInDb = $this->userStatusRepository->findAllOnline();
-dump($onlineUsersFromRedis, $onlineUsersInDb); die();
+
         $batchSize = $this->getIntOption($input, 'batch-size');
 
         $onlineUserIdsFromRedis = array_column($onlineUsersFromRedis, 'userId');
@@ -61,9 +61,8 @@ dump($onlineUsersFromRedis, $onlineUsersInDb); die();
             $updateItems = [];
             foreach ($batch as $userStatus) {
                 if (!in_array($userStatus->getUserId(), $onlineUserIdsFromRedis, true)) {
-                    $userId = $userStatus->getUserId()->toRfc4122();
-                    $updateItems[$userId] = [
-                        'user_id' => $userId,
+                    $updateItems[] = [
+                        'user_id' => $userStatus->getUserId()->toRfc4122(),
                         'is_online' => false,
                         'last_online_at' => $userStatus->getLastOnlineAt()->format('c'),
                     ];
@@ -80,13 +79,13 @@ dump($onlineUsersFromRedis, $onlineUsersInDb); die();
             /** @var array<string, array<string, mixed>> $updateItems */
             $updateItems = [];
             foreach ($batch as $status) {
-                $userId = $status->userId->toRfc4122();
-                $updateItems[$userId] = [
-                    'user_id' => $userId,
+                $updateItems[] = [
+                    'user_id' => $status->userId->toRfc4122(),
                     'is_online' => $status->isOnline,
                     'last_online_at' => $status->lastOnlineAt->format('c'),
                 ];
             }
+
             $this->messageBus->dispatch(new UpdateUserStatusCommand($updateItems));
 
             $progress = round((count($batch) / count($onlineUsersFromRedis)) * 100, 2);

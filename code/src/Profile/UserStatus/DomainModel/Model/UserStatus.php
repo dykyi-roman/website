@@ -16,7 +16,7 @@ class UserStatus
     #[ORM\Column(type: 'bigint')]
     private int $id; // @phpstan-ignore-line
 
-    #[ORM\Column(name: 'user_id', type: 'uuid')]
+    #[ORM\Column(name: 'user_id', type: 'user_id')]
     private UserId $userId;
 
     #[ORM\Column(name: 'is_online', type: 'boolean')]
