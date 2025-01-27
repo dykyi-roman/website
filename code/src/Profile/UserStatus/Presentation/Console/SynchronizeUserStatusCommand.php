@@ -57,24 +57,26 @@ final class SynchronizeUserStatusCommand extends Command
             $output->writeln('<info>Starting synchronization...</info>');
 
             $batchSize = $this->getValidatedBatchSize($input);
-            
+
             // Synchronize offline users
             $this->synchronizeOfflineUsers($output, $batchSize);
-            
+
             // Synchronize online users
             $this->synchronizeOnlineUsers($output, $batchSize);
 
             $output->writeln('<info>Synchronization completed successfully.</info>');
-            
+
             return Command::SUCCESS;
         } catch (\Throwable $e) {
             $output->writeln(sprintf('<error>Error during synchronization: %s</error>', $e->getMessage()));
+
             return Command::FAILURE;
         }
     }
 
     /**
      * @param positive-int $batchSize
+     *
      * @throws \Throwable
      */
     private function synchronizeOfflineUsers(OutputInterface $output, int $batchSize): void
@@ -100,6 +102,7 @@ final class SynchronizeUserStatusCommand extends Command
 
     /**
      * @param positive-int $batchSize
+     *
      * @throws \Throwable
      */
     private function synchronizeOnlineUsers(OutputInterface $output, int $batchSize): void
@@ -123,8 +126,9 @@ final class SynchronizeUserStatusCommand extends Command
     }
 
     /**
-     * @param UserStatus[] $batch
+     * @param UserStatus[]                                         $batch
      * @param array<string|\Shared\DomainModel\ValueObject\UserId> $onlineUserIdsFromRedis
+     *
      * @return UpdateUserStatusCommand[]
      */
     private function createOfflineStatusCommands(array $batch, array $onlineUserIdsFromRedis): array
@@ -139,17 +143,19 @@ final class SynchronizeUserStatusCommand extends Command
                 ]);
             }
         }
+
         return $commands;
     }
 
     /**
      * @param UserUpdateStatus[] $batch
+     *
      * @return UpdateUserStatusCommand[]
      */
     private function createOnlineStatusCommands(array $batch): array
     {
         return array_map(
-            static fn(UserUpdateStatus $status): UpdateUserStatusCommand => new UpdateUserStatusCommand([
+            static fn (UserUpdateStatus $status): UpdateUserStatusCommand => new UpdateUserStatusCommand([
                 'user_id' => $status->userId->toRfc4122(),
                 'is_online' => $status->isOnline,
                 'last_online_at' => $status->lastOnlineAt->format('c'),
@@ -160,6 +166,7 @@ final class SynchronizeUserStatusCommand extends Command
 
     /**
      * @param UpdateUserStatusCommand[] $commands
+     *
      * @throws \Throwable
      */
     private function dispatchCommands(array $commands): void
@@ -171,12 +178,14 @@ final class SynchronizeUserStatusCommand extends Command
     {
         $progressBar = new ProgressBar($output, $max);
         $progressBar->setFormat(' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%');
+
         return $progressBar;
     }
 
     /**
-     * @throws \InvalidArgumentException When batch size is invalid
      * @return positive-int
+     *
+     * @throws \InvalidArgumentException When batch size is invalid
      */
     private function getValidatedBatchSize(InputInterface $input): int
     {
@@ -187,12 +196,10 @@ final class SynchronizeUserStatusCommand extends Command
 
         $batchSize = (int) $value;
         if ($batchSize < self::MIN_BATCH_SIZE) {
-            throw new \InvalidArgumentException(
-                sprintf('Batch size must be at least %d', self::MIN_BATCH_SIZE)
-            );
+            throw new \InvalidArgumentException(sprintf('Batch size must be at least %d', self::MIN_BATCH_SIZE));
         }
 
-        /** @var positive-int */
+        /* @var positive-int */
         return min($batchSize, self::BATCH_SIZE);
     }
 }

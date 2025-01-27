@@ -75,6 +75,7 @@ final readonly class UserStatusCache implements UserStatusInterface
                 return [];
             }
 
+            /** @var array<string> $keys */
             $values = $this->cache->getMultiple($keys);
             foreach ($values as $value) {
                 if (!is_array($value)) {
@@ -85,7 +86,7 @@ final readonly class UserStatusCache implements UserStatusInterface
                 $statuses[] = UserUpdateStatus::fromArray($value);
             }
 
-            // Clean up expired keys
+            /* @var array<string> $keys */
             $this->cleanupExpiredKeys($keys, $values);
         } catch (InvalidArgumentException $exception) {
             $this->logger->error($exception->getMessage());
