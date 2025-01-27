@@ -9,7 +9,7 @@ use Psr\SimpleCache\CacheInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Shared\DomainModel\ValueObject\UserId;
 
-final readonly class UserStatusCache implements UserStatusCacheInterface
+final readonly class UserStatusCache
 {
     public function __construct(
         private CacheInterface $cache,

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Profile\UserStatus\Application\GetUserStatus\Command;
+namespace Profile\UserStatus\Application\UpdateUserStatus\Command;
 
 use Shared\DomainModel\ValueObject\UserId;
 
