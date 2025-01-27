@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Profile\UserStatus\Presentation\Console;
 
+use Profile\UserStatus\Application\GetUserStatus\Service\UserStatusService;
 use Profile\UserStatus\Application\UpdateUserStatus\Command\UpdateUserStatusCommand;
 use Profile\UserStatus\DomainModel\Dto\UserUpdateStatus;
 use Profile\UserStatus\DomainModel\Repository\UserStatusRepositoryInterface;
-use Profile\UserStatus\DomainModel\Service\UserStatusCache;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,7 +19,7 @@ final class SynchronizeUserStatusCommand extends Command
     private const int BATCH_SIZE = 100;
 
     public function __construct(
-        private readonly UserStatusCache $userStatusCache,
+        private readonly UserStatusService $userStatusService,
         private readonly UserStatusRepositoryInterface $userStatusRepository,
         private readonly MessageBusInterface $messageBus,
     ) {
@@ -44,7 +44,7 @@ final class SynchronizeUserStatusCommand extends Command
     {
         $output->writeln('<info>Starting synchronization...</info>');
 
-        $onlineUsersFromRedis = $this->userStatusCache->getAllUserStatuses();
+        $onlineUsersFromRedis = $this->userStatusService->getAllUserStatuses();
         $onlineUsersInDb = $this->userStatusRepository->findAllOnline();
 
         $batchSize = (int) $input->getOption('batch-size');
