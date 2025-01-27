@@ -14,7 +14,7 @@ class UserStatus
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'bigint')]
-    private mixed $id = null;
+    private int $id;
 
     #[ORM\Column(name: 'user_id', type: 'uuid')]
     private UserId $userId;
@@ -23,9 +23,9 @@ class UserStatus
     private bool $isOnline = false;
 
     #[ORM\Column(name: 'last_online_at', type: 'datetime_immutable', nullable: true)]
-    private ?\DateTimeImmutable $lastOnlineAt;
+    private \DateTimeImmutable $lastOnlineAt;
 
-    public function __construct(UserId $userId, bool $isOnline, ?\DateTimeImmutable $lastOnlineAt = null)
+    public function __construct(UserId $userId, bool $isOnline, \DateTimeImmutable $lastOnlineAt)
     {
         $this->userId = $userId;
         $this->isOnline = $isOnline;
@@ -59,7 +59,7 @@ class UserStatus
         return $this->isOnline;
     }
 
-    public function getLastOnlineAt(): ?\DateTimeImmutable
+    public function getLastOnlineAt(): \DateTimeImmutable
     {
         return $this->lastOnlineAt;
     }
