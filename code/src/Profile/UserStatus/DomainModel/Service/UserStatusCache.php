@@ -5,7 +5,9 @@ namespace Profile\UserStatus\DomainModel\Service;
 use Profile\UserStatus\DomainModel\Dto\UserUpdateStatus;
 use Profile\UserStatus\DomainModel\Event\UserWentOfflineEvent;
 use Profile\UserStatus\DomainModel\Event\UserWentOnlineEvent;
+use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
+use Psr\SimpleCache\InvalidArgumentException;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Shared\DomainModel\ValueObject\UserId;
 
@@ -14,6 +16,7 @@ final readonly class UserStatusCache
     public function __construct(
         private CacheInterface $cache,
         private MessageBusInterface $eventBus,
+        private LoggerInterface $logger,
         private int $isOnlineTtl,
     ) {
     }
@@ -49,23 +52,21 @@ final readonly class UserStatusCache
 
     /**
      * @return UserUpdateStatus[]
-     *
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getAllUserStatuses(): array
     {
-        $keys = array_keys($this->cache->getMultiple(['user:status:*']) ?? []);
         $statuses = [];
-        
-        if (!empty($keys)) {
-            $data = $this->cache->getMultiple($keys);
-            foreach ($data as $value) {
-                if (is_array($value)) {
-                    $statuses[] = UserUpdateStatus::fromArray($value);
+        try {
+            $keys = array_keys($this->cache->getMultiple(['user:status:*']) ?? []);
+            foreach ($keys as $key) {
+                if (is_array($key)) {
+                    $statuses[] = UserUpdateStatus::fromArray($key);
                 }
             }
+        } catch (InvalidArgumentException $exception) {
+            $this->logger->error($exception->getMessage());
         }
-        
+
         return $statuses;
     }
 }
