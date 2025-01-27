@@ -21,9 +21,12 @@ final class UserStatusRepository implements UserStatusRepositoryInterface
         $this->repository = $this->entityManager->getRepository(UserStatus::class);
     }
 
-    public function save(UserStatus $userStatus): void
+    public function save(UserStatus ...$userStatues): void
     {
-        $this->entityManager->persist($userStatus);
+        foreach ($userStatues as $userStatus) {
+            $this->entityManager->persist($userStatus);
+        }
+
         $this->entityManager->flush();
     }
 
