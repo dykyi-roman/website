@@ -18,3 +18,5 @@ framework:
 
         routing:
             EventStorage\DomainModel\Event\PersistingEventInterface: sync
+            Profile\UserStatus\DomainModel\Event\UserWentOnlineEvent: sync
+            Profile\UserStatus\DomainModel\Event\UserWentOfflineEvent: sync

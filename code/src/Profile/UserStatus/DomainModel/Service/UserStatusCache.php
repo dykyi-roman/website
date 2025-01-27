@@ -10,6 +10,8 @@ use Shared\DomainModel\ValueObject\UserId;
 
 final readonly class UserStatusCache implements UserStatusInterface
 {
+    private const string CACHE_PREFIX = 'user_status_%s';
+
     public function __construct(
         private CacheInterface $cache,
         private LoggerInterface $logger,
@@ -19,13 +21,15 @@ final readonly class UserStatusCache implements UserStatusInterface
 
     public function changeStatus(UserUpdateStatus $userUpdateStatus): void
     {
-        $key = sprintf('user:status:%s', $userUpdateStatus->userId->toRfc4122());
+        $key = sprintf(self::CACHE_PREFIX, $userUpdateStatus->userId->toRfc4122());
         try {
             $this->cache->set(
                 $key,
                 $userUpdateStatus->jsonSerialize(),
                 true === $userUpdateStatus->isOnline ? $this->isOnlineTtl : null,
             );
+
+            $this->getAllUserStatuses();
         } catch (InvalidArgumentException $exception) {
             $this->logger->error($exception->getMessage());
         }
@@ -33,7 +37,7 @@ final readonly class UserStatusCache implements UserStatusInterface
 
     public function getStatus(UserId $userId): ?UserUpdateStatus
     {
-        $key = sprintf('user:status:%s', $userId->toRfc4122());
+        $key = sprintf(self::CACHE_PREFIX, $userId->toRfc4122());
         try {
             $data = $this->cache->get($key);
             if (!is_array($data)) {
@@ -56,7 +60,7 @@ final readonly class UserStatusCache implements UserStatusInterface
     {
         $statuses = [];
         try {
-            $items = $this->cache->getMultiple(['user:status:*']);
+            $items = $this->cache->getMultiple([sprintf(self::CACHE_PREFIX, '') . '*']);
             $itemsArray = is_array($items) ? $items : iterator_to_array($items);
 
             foreach ($itemsArray as $key => $value) {

@@ -51,7 +51,7 @@ final class SynchronizeUserStatusCommand extends Command
 
         $onlineUsersFromRedis = $this->userStatusService->getAllUserStatuses();
         $onlineUsersInDb = $this->userStatusRepository->findAllOnline();
-
+dump($onlineUsersFromRedis, $onlineUsersInDb); die();
         $batchSize = $this->getIntOption($input, 'batch-size');
 
         $onlineUserIdsFromRedis = array_column($onlineUsersFromRedis, 'userId');
