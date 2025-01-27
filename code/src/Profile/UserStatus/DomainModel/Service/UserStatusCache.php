@@ -39,7 +39,8 @@ final readonly class UserStatusCache implements UserStatusInterface
             if (!is_array($data)) {
                 return null;
             }
-            /** @var array<string, mixed> $data */
+
+            /* @var array<string, mixed> $data */
             return UserUpdateStatus::fromArray($data);
         } catch (InvalidArgumentException $exception) {
             $this->logger->error($exception->getMessage());
@@ -57,12 +58,12 @@ final readonly class UserStatusCache implements UserStatusInterface
         try {
             $items = $this->cache->getMultiple(['user:status:*']);
             $itemsArray = is_array($items) ? $items : iterator_to_array($items);
-            
+
             foreach ($itemsArray as $key => $value) {
                 if (!is_array($value)) {
                     continue;
                 }
-                /** @var array<string, mixed> $value */
+                /* @var array<string, mixed> $value */
                 $statuses[] = UserUpdateStatus::fromArray($value);
             }
         } catch (InvalidArgumentException $exception) {

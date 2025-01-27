@@ -9,11 +9,11 @@ use Profile\UserStatus\Application\UpdateUserStatus\Command\UpdateUserStatusComm
 use Profile\UserStatus\DomainModel\Dto\UserUpdateStatus;
 use Profile\UserStatus\DomainModel\Repository\UserStatusRepositoryInterface;
 use Shared\DomainModel\Services\MessageBusInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(
     name: 'app:profile:user-status:sync',
@@ -69,7 +69,7 @@ final class SynchronizeUserStatusCommand extends Command
                     ];
                 }
             }
-            
+
             if (!empty($updateItems)) {
                 $this->messageBus->dispatch(new UpdateUserStatusCommand($updateItems));
             }

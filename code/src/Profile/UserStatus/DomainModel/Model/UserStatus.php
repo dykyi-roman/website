@@ -14,7 +14,7 @@ class UserStatus
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'bigint')]
-    private int $id;
+    private int $id; // @phpstan-ignore-line
 
     #[ORM\Column(name: 'user_id', type: 'uuid')]
     private UserId $userId;
@@ -40,7 +40,7 @@ class UserStatus
         $userId = is_string($data['user_id']) ? $data['user_id'] : throw new \InvalidArgumentException('user_id must be a string');
         $lastOnlineAt = isset($data['last_online_at']) && is_string($data['last_online_at'])
             ? new \DateTimeImmutable($data['last_online_at'])
-            : null;
+            : new \DateTimeImmutable();
 
         return new self(
             new UserId($userId),
@@ -69,7 +69,7 @@ class UserStatus
         return $this->lastOnlineAt;
     }
 
-    public function updateStatus(bool $isOnline, ?\DateTimeImmutable $lastActivityAt): void
+    public function updateStatus(bool $isOnline, \DateTimeImmutable $lastActivityAt): void
     {
         $this->isOnline = $isOnline;
         $this->lastOnlineAt = $lastActivityAt;
