@@ -14,9 +14,9 @@ doctrine:
             site:
                 connection: site
                 mappings:
-                    Setting:
+                    UserStatus:
                         type: attribute
                         is_bundle: false
                         dir: '%kernel.project_dir%/src/Profile/UserStatus/DomainModel/Model'
                         prefix: 'Profile\UserStatus\DomainModel\Model'
-                        alias: Setting
+                        alias: UserStatus

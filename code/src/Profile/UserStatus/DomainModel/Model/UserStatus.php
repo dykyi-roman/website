@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Profile\UserStatus\DomainModel\Model;
 
 use Doctrine\ORM\Mapping as ORM;
+use Profile\UserStatus\DomainModel\Dto\UserUpdateStatus;
 use Shared\DomainModel\ValueObject\UserId;
 
 #[ORM\Entity]
@@ -12,21 +13,28 @@ use Shared\DomainModel\ValueObject\UserId;
 class UserStatus
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'uuid')]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "bigint")]
+    private ?int $id = null;
+
+    #[ORM\Column(name: 'user_id', type: 'uuid')]
     private UserId $userId;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(name: 'is_online', type: 'boolean')]
     private bool $isOnline = false;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(name: 'last_online_at', type: 'datetime_immutable', nullable: true)]
     private ?\DateTimeImmutable $lastOnlineAt = null;
 
-    public function markOnline(): void {
-        $this->isOnline = true;
-        $this->lastOnlineAt = new \DateTimeImmutable();
+    public function __construct(UserId $userId, bool $isOnline, ?\DateTimeImmutable $lastOnlineAt = null)
+    {
+        $this->userId = $userId;
+        $this->isOnline = $isOnline;
+        $this->lastOnlineAt = $lastOnlineAt;
     }
 
-    public function markOffline(): void {
-        $this->isOnline = false;
+    public function transformToUserUpdateStatus(): UserUpdateStatus
+    {
+        return new UserUpdateStatus($this->userId, $this->isOnline, $this->lastOnlineAt);
     }
 }
