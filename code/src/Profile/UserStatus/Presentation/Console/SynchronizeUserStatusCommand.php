@@ -52,7 +52,7 @@ final class SynchronizeUserStatusCommand extends Command
         $onlineUsersFromRedis = $this->userStatusService->getAllUserStatuses();
         $onlineUsersInDb = $this->userStatusRepository->findAllOnline();
 
-        $batchSize = (int) $input->getOption('batch-size');
+        $batchSize = $this->getIntOption($input, 'batch-size');
 
         $onlineUserIdsFromRedis = array_column($onlineUsersFromRedis, 'userId');
         foreach ($onlineUsersInDb as $userStatus) {
@@ -79,5 +79,15 @@ final class SynchronizeUserStatusCommand extends Command
         }
 
         return Command::SUCCESS;
+    }
+
+    private function getIntOption(InputInterface $input, string $name): int
+    {
+        $value = $input->getOption($name);
+        if (!is_int($value)) {
+            throw new \InvalidArgumentException(sprintf('%s must be a int', $name));
+        }
+
+        return $value;
     }
 }

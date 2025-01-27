@@ -23,9 +23,9 @@ class UserStatus
     private bool $isOnline = false;
 
     #[ORM\Column(name: 'last_online_at', type: 'datetime_immutable', nullable: true)]
-    private ?\DateTimeImmutable $lastOnlineAt = null;
+    private \DateTimeImmutable $lastOnlineAt;
 
-    public function __construct(UserId $userId, bool $isOnline, ?\DateTimeImmutable $lastOnlineAt = null)
+    public function __construct(UserId $userId, bool $isOnline, \DateTimeImmutable $lastOnlineAt = null)
     {
         $this->userId = $userId;
         $this->isOnline = $isOnline;
