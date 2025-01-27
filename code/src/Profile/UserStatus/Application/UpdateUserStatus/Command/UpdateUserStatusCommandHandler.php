@@ -18,11 +18,8 @@ final readonly class UpdateUserStatusCommandHandler
 
     public function __invoke(UpdateUserStatusCommand $command): void
     {
-        $statuses = [];
-        foreach ($command->items as $item) {
-            $statuses[] = UserStatus::fromArray($item);
-        }
-
-        $this->userStatusRepository->save(...$statuses);
+        $this->userStatusRepository->saveOrUpdate(
+            ...array_map(static fn(array $item): UserStatus => UserStatus::fromArray($item), $command->items)
+        );
     }
 }

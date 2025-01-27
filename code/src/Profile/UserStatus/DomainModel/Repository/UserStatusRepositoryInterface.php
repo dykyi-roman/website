@@ -9,7 +9,7 @@ use Shared\DomainModel\ValueObject\UserId;
 
 interface UserStatusRepositoryInterface
 {
-    public function save(UserStatus ...$userStatuses): void;
+    public function saveOrUpdate(UserStatus ...$userStatuses): void;
 
     public function findByUserId(UserId $userId): ?UserStatus;
 }

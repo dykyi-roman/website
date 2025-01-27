@@ -24,25 +24,33 @@ final readonly class UserStatusCache
     public function changeStatus(UserUpdateStatus $userUpdateStatus): void
     {
         $key = sprintf("user:status:%s", $userUpdateStatus->userId->toRfc4122());
-        $this->cache->set(
-            $key,
-            $userUpdateStatus->jsonSerialize(),
-            true === $userUpdateStatus->isOnline ? $this->isOnlineTtl : null,
-        );
+        try {
+            $this->cache->set(
+                $key,
+                $userUpdateStatus->jsonSerialize(),
+                true === $userUpdateStatus->isOnline ? $this->isOnlineTtl : null,
+            );
 
-        if ($userUpdateStatus->isOnline) {
-            $this->eventBus->dispatch(new UserWentOnlineEvent($userUpdateStatus->userId));
-        } else {
-            $this->eventBus->dispatch(new UserWentOfflineEvent($userUpdateStatus->userId));
+            if ($userUpdateStatus->isOnline) {
+                $this->eventBus->dispatch(new UserWentOnlineEvent($userUpdateStatus->userId));
+            } else {
+                $this->eventBus->dispatch(new UserWentOfflineEvent($userUpdateStatus->userId));
+            }
+        } catch (InvalidArgumentException $exception) {
+            $this->logger->error($exception->getMessage());
         }
     }
 
     public function getStatus(UserId $userId): ?UserUpdateStatus
     {
         $key = sprintf("user:status:%s", $userId->toRfc4122());
-        $data = $this->cache->get($key);
-        if (is_array($data)) {
-            return UserUpdateStatus::fromArray($data);
+        try {
+            $data = $this->cache->get($key);
+            if (is_array($data)) {
+                return UserUpdateStatus::fromArray($data);
+            }
+        } catch (InvalidArgumentException $exception) {
+            $this->logger->error($exception->getMessage());
         }
 
         $this->eventBus->dispatch(new UserWentOfflineEvent($userId));

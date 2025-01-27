@@ -21,10 +21,41 @@ final class UserStatusRepository implements UserStatusRepositoryInterface
         $this->repository = $this->entityManager->getRepository(UserStatus::class);
     }
 
-    public function save(UserStatus ...$userStatues): void
+    public function saveOrUpdate(UserStatus ...$userStatuses): void
     {
-        foreach ($userStatues as $userStatus) {
-            $this->entityManager->persist($userStatus);
+        if (empty($userStatuses)) {
+            return;
+        }
+
+        $userIds = array_map(
+            static fn (UserStatus $status): string => $status->getUserId()->toRfc4122(),
+            $userStatuses
+        );
+
+        /** @var UserStatus $existingStatuses */
+        $existingStatuses = $this->repository->createQueryBuilder('us')
+            ->where('us.id IN (:userIds)')
+            ->setParameter('userIds', $userIds)
+            ->getQuery()
+            ->getResult();
+
+
+        $existingStatusMap = [];
+        foreach ($existingStatuses as $status) {
+            $existingStatusMap[$status->getUserId()->toRfc4122()] = $status;
+        }
+
+        foreach ($userStatuses as $userStatus) {
+            $userId = $userStatus->getUserId()->toRfc4122();
+            
+            if (isset($existingStatusMap[$userId])) {
+                $existingStatusMap[$userId]->updateStatus(
+                    isOnline: $userStatus->isOnline(),
+                    lastActivityAt: $userStatus->getLastActivityAt()
+                );
+            } else {
+                $this->entityManager->persist($userStatus);
+            }
         }
 
         $this->entityManager->flush();
@@ -32,7 +63,7 @@ final class UserStatusRepository implements UserStatusRepositoryInterface
 
     public function findByUserId(UserId $userId): ?UserStatus
     {
-        /* @var UserStatus|null */
+        /** @var UserStatus|null */
         return $this->repository->find($userId->toRfc4122());
     }
 }

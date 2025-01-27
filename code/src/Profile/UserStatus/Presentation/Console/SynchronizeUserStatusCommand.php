@@ -42,14 +42,14 @@ final class SynchronizeUserStatusCommand extends Command
         $output->writeln('<info>Starting synchronization...</info>');
 
         $batchSize = (int) $input->getOption('batch-size');
-        $userStatuses = $this->userStatusCache->getAllUserStatuses();
-        $totalStatuses = count($userStatuses);
+        $userUpdateStatuses = $this->userStatusCache->getAllUserStatuses();
+        $totalStatuses = count($userUpdateStatuses);
         $processedStatuses = 0;
 
-        foreach (array_chunk($userStatuses, $batchSize) as $batchStatuses) {
+        foreach (array_chunk($userUpdateStatuses, $batchSize) as $batchUserUpdateStatuses) {
             $updateItems = [];
-            foreach ($batchStatuses as $userStatus) {
-                $updateItems[] = $userStatus::jsonSerialize();
+            foreach ($batchUserUpdateStatuses as $userUpdateStatus) {
+                $updateItems[] = $userUpdateStatus::jsonSerialize();
                 $processedStatuses++;
             }
             

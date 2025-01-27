@@ -37,7 +37,7 @@ class UserStatus
     {
         return new self(
             new UserId($data['user_id']),
-            (bool) $data['is_online'],
+            (bool)$data['is_online'],
             new \DateTimeImmutable($data['last_online_at']),
         );
     }
@@ -45,5 +45,20 @@ class UserStatus
     public function transformToUserUpdateStatus(): UserUpdateStatus
     {
         return new UserUpdateStatus($this->userId, $this->isOnline, $this->lastOnlineAt);
+    }
+
+    public function getUserId(): UserId
+    {
+        return $this->userId;
+    }
+
+    public function isOnline(): bool
+    {
+        return $this->isOnline;
+    }
+
+    public function getLastActivityAt(): ?\DateTimeImmutable
+    {
+        return $this->lastOnlineAt;
     }
 }
