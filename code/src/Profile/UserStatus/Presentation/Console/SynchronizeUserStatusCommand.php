@@ -61,7 +61,7 @@ final class SynchronizeUserStatusCommand extends Command
                 $data = [
                     'user_id' => $userStatus->getUserId()->toRfc4122(),
                     'is_online' => false,
-                    'last_online_at' => $userStatus->getLastOnlineAt()?->format('c'),
+                    'last_online_at' => $userStatus->getLastOnlineAt()->format('c'),
                 ];
                 
                 $this->messageBus->dispatch(
