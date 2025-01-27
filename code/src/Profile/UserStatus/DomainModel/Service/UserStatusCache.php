@@ -46,4 +46,9 @@ final readonly class UserStatusCache
 
         return null;
     }
+
+    public function getAllKeys(): array
+    {
+
+    }
 }
