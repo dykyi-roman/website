@@ -24,7 +24,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class SynchronizeUserStatusCommand extends Command
 {
     private const int BATCH_SIZE = 100;
-    private const int MIN_BATCH_SIZE = 1;
 
     public function __construct(
         private readonly UserStatusService $userStatusService,
@@ -40,10 +39,10 @@ final class SynchronizeUserStatusCommand extends Command
             ->setDescription('Synchronizes user online/offline status from Redis to the database.')
             ->setHelp('This command retrieves user statuses from Redis and updates them in the database.')
             ->addOption(
-                'batch-size',
-                'b',
+                'batch-count',
+                'c',
                 InputOption::VALUE_OPTIONAL,
-                'Number of records to process in one batch',
+                'Number of batches to process simultaneously',
                 self::BATCH_SIZE,
             );
     }
@@ -56,13 +55,13 @@ final class SynchronizeUserStatusCommand extends Command
         try {
             $output->writeln('<info>Starting synchronization...</info>');
 
-            $batchSize = $this->getValidatedBatchSize($input);
+            $batchCount = $this->getValidatedBatchCount($input);
 
             // Synchronize offline users
-            $this->synchronizeOfflineUsers($output, $batchSize);
+            $this->synchronizeOfflineUsers($output, $batchCount);
 
             // Synchronize online users
-            $this->synchronizeOnlineUsers($output, $batchSize);
+            $this->synchronizeOnlineUsers($output, $batchCount);
 
             $output->writeln('<info>Synchronization completed successfully.</info>');
 
@@ -75,11 +74,9 @@ final class SynchronizeUserStatusCommand extends Command
     }
 
     /**
-     * @param positive-int $batchSize
-     *
      * @throws \Throwable
      */
-    private function synchronizeOfflineUsers(OutputInterface $output, int $batchSize): void
+    private function synchronizeOfflineUsers(OutputInterface $output, int $batchCount): void
     {
         $onlineUsersFromRedis = $this->userStatusService->getAllUserStatuses();
         $onlineUsersInDb = $this->userStatusRepository->findAllOnline();
@@ -88,12 +85,13 @@ final class SynchronizeUserStatusCommand extends Command
         $output->writeln('<info>Processing offline users...</info>');
         $progressBar = $this->createProgressBar($output, count($onlineUsersInDb));
 
-        foreach (array_chunk($onlineUsersInDb, $batchSize) as $batch) {
-            $commands = $this->createOfflineStatusCommands($batch, $onlineUserIdsFromRedis);
-            if (!empty($commands)) {
-                $this->dispatchCommands($commands);
-            }
+        $batches = array_chunk($onlineUsersInDb, $batchCount);
+        foreach ($batches as $batch) {
+            $updates = $this->createOfflineStatusUpdates($batch, $onlineUserIdsFromRedis);
             $progressBar->advance(count($batch));
+            if (!empty($updates)) {
+                $this->messageBus->dispatch(new UpdateUserStatusCommand($updates));
+            }
         }
 
         $progressBar->finish();
@@ -101,24 +99,22 @@ final class SynchronizeUserStatusCommand extends Command
     }
 
     /**
-     * @param positive-int $batchSize
-     *
      * @throws \Throwable
      */
-    private function synchronizeOnlineUsers(OutputInterface $output, int $batchSize): void
+    private function synchronizeOnlineUsers(OutputInterface $output, int $batchCount): void
     {
         $onlineUsersFromRedis = $this->userStatusService->getAllUserStatuses();
 
         $output->writeln('<info>Processing online users...</info>');
         $progressBar = $this->createProgressBar($output, count($onlineUsersFromRedis));
 
-        foreach (array_chunk($onlineUsersFromRedis, $batchSize) as $batch) {
-            /** @var UserUpdateStatus[] $batch */
-            $commands = $this->createOnlineStatusCommands($batch);
-            if (!empty($commands)) {
-                $this->dispatchCommands($commands);
-            }
+        $batches = array_chunk($onlineUsersFromRedis, $batchCount);
+        foreach ($batches as $batch) {
+            $updates = $this->createOnlineStatusUpdates($batch);
             $progressBar->advance(count($batch));
+            if (!empty($updates)) {
+                $this->messageBus->dispatch(new UpdateUserStatusCommand($updates));
+            }
         }
 
         $progressBar->finish();
@@ -129,49 +125,39 @@ final class SynchronizeUserStatusCommand extends Command
      * @param UserStatus[]                                         $batch
      * @param array<string|\Shared\DomainModel\ValueObject\UserId> $onlineUserIdsFromRedis
      *
-     * @return UpdateUserStatusCommand[]
+     * @return array<array{user_id: string, is_online: bool, last_online_at: string}>
      */
-    private function createOfflineStatusCommands(array $batch, array $onlineUserIdsFromRedis): array
+    private function createOfflineStatusUpdates(array $batch, array $onlineUserIdsFromRedis): array
     {
-        $commands = [];
+        $updates = [];
         foreach ($batch as $userStatus) {
             if (!in_array($userStatus->getUserId(), $onlineUserIdsFromRedis, true)) {
-                $commands[] = new UpdateUserStatusCommand([
+                $updates[] = [
                     'user_id' => $userStatus->getUserId()->toRfc4122(),
                     'is_online' => false,
                     'last_online_at' => $userStatus->getLastOnlineAt()->format('c'),
-                ]);
+                ];
             }
         }
 
-        return $commands;
+        return $updates;
     }
 
     /**
      * @param UserUpdateStatus[] $batch
      *
-     * @return UpdateUserStatusCommand[]
+     * @return array<array{user_id: string, is_online: bool, last_online_at: string}>
      */
-    private function createOnlineStatusCommands(array $batch): array
+    private function createOnlineStatusUpdates(array $batch): array
     {
         return array_map(
-            static fn (UserUpdateStatus $status): UpdateUserStatusCommand => new UpdateUserStatusCommand([
+            static fn (UserUpdateStatus $status): array => [
                 'user_id' => $status->userId->toRfc4122(),
                 'is_online' => $status->isOnline,
                 'last_online_at' => $status->lastOnlineAt->format('c'),
-            ]),
+            ],
             $batch
         );
-    }
-
-    /**
-     * @param UpdateUserStatusCommand[] $commands
-     *
-     * @throws \Throwable
-     */
-    private function dispatchCommands(array $commands): void
-    {
-        $this->messageBus->dispatch(...$commands);
     }
 
     private function createProgressBar(OutputInterface $output, int $max): ProgressBar
@@ -182,24 +168,18 @@ final class SynchronizeUserStatusCommand extends Command
         return $progressBar;
     }
 
-    /**
-     * @return positive-int
-     *
-     * @throws \InvalidArgumentException When batch size is invalid
-     */
-    private function getValidatedBatchSize(InputInterface $input): int
+    private function getValidatedBatchCount(InputInterface $input): int
     {
-        $value = $input->getOption('batch-size');
+        $value = $input->getOption('batch-count');
         if (!is_numeric($value)) {
-            throw new \InvalidArgumentException('Batch size must be a number');
+            throw new \InvalidArgumentException('Batch count must be a number');
         }
 
-        $batchSize = (int) $value;
-        if ($batchSize < self::MIN_BATCH_SIZE) {
-            throw new \InvalidArgumentException(sprintf('Batch size must be at least %d', self::MIN_BATCH_SIZE));
+        $batchCount = (int) $value;
+        if ($batchCount < 1) {
+            throw new \InvalidArgumentException('Batch count must be at least 1');
         }
 
-        /* @var positive-int */
-        return min($batchSize, self::BATCH_SIZE);
+        return $batchCount;
     }
 }
