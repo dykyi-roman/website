@@ -29,8 +29,17 @@ final readonly class UpdateUserStatusCommandHandler
                         throw new \InvalidArgumentException('Item must be an array');
                     }
 
-                    /* @var array<string, mixed> $item */
-                    return UserStatus::fromArray($item);
+                    /** @var array<mixed, mixed> $rawItem */
+                    $rawItem = $item;
+                    
+                    // Ensure the array has string keys
+                    $typedItem = array_combine(
+                        array_map('strval', array_keys($rawItem)),
+                        array_values($rawItem)
+                    );
+                    
+                    /** @var array<string, mixed> $typedItem */
+                    return UserStatus::fromArray($typedItem);
                 },
                 $command->items
             )

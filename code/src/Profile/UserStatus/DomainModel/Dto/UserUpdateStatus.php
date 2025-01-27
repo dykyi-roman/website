@@ -25,7 +25,7 @@ final readonly class UserUpdateStatus implements \JsonSerializable
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param array<mixed, mixed> $data
      */
     public static function fromArray(array $data): self
     {

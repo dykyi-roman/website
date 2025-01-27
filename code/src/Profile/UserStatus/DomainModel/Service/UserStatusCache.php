@@ -40,7 +40,7 @@ final readonly class UserStatusCache implements UserStatusInterface
                 return null;
             }
 
-            /* @var array<string, mixed> $data */
+            /* @var array<mixed, mixed> $data */
             return UserUpdateStatus::fromArray($data);
         } catch (InvalidArgumentException $exception) {
             $this->logger->error($exception->getMessage());
@@ -63,7 +63,7 @@ final readonly class UserStatusCache implements UserStatusInterface
                 if (!is_array($value)) {
                     continue;
                 }
-                /* @var array<string, mixed> $value */
+                /* @var array<mixed, mixed> $value */
                 $statuses[] = UserUpdateStatus::fromArray($value);
             }
         } catch (InvalidArgumentException $exception) {
