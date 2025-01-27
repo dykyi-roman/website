@@ -6,6 +6,7 @@ namespace Profile\UserStatus\Application\UpdateUserStatus\Command;
 
 use Profile\UserStatus\DomainModel\Model\UserStatus;
 use Profile\UserStatus\DomainModel\Repository\UserStatusRepositoryInterface;
+use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
@@ -13,6 +14,7 @@ final readonly class UpdateUserStatusCommandHandler
 {
     public function __construct(
         private UserStatusRepositoryInterface $userStatusRepository,
+        private CacheInterface $cache,
     ) {
     }
 
