@@ -22,7 +22,7 @@ class UserStatus
     #[ORM\Column(name: 'is_online', type: 'boolean')]
     private bool $isOnline = false;
 
-    #[ORM\Column(name: 'last_online_at', type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(name: 'last_online_at', type: 'datetime_immutable')]
     private \DateTimeImmutable $lastOnlineAt;
 
     public function __construct(UserId $userId, bool $isOnline, \DateTimeImmutable $lastOnlineAt)
@@ -38,7 +38,7 @@ class UserStatus
     public static function fromArray(array $data): self
     {
         $userId = is_string($data['user_id']) ? $data['user_id'] : throw new \InvalidArgumentException('user_id must be a string');
-        $lastOnlineAt = isset($data['last_online_at']) && is_string($data['last_online_at']) 
+        $lastOnlineAt = isset($data['last_online_at']) && is_string($data['last_online_at'])
             ? new \DateTimeImmutable($data['last_online_at'])
             : null;
 
