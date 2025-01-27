@@ -24,7 +24,11 @@ final readonly class GetUserStatusQueryHandler
         if (null === $status) {
             $userStatus = $this->userStatusRepository->findByUserId($query->userId);
             if (null !== $userStatus) {
-                return $userStatus->transformToUserUpdateStatus();
+                return new UserUpdateStatus(
+                    $userStatus->getUserId(),
+                    $userStatus->isOnline(),
+                    $userStatus->getLastOnlineAt(),
+                );
             }
         }
 

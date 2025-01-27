@@ -12,4 +12,9 @@ interface UserStatusRepositoryInterface
     public function saveOrUpdate(UserStatus ...$userStatuses): void;
 
     public function findByUserId(UserId $userId): ?UserStatus;
+
+    /**
+     * @return UserStatus[]
+     */
+    public function findAllOnline(): array;
 }

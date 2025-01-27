@@ -3,19 +3,15 @@
 namespace Profile\UserStatus\DomainModel\Service;
 
 use Profile\UserStatus\DomainModel\Dto\UserUpdateStatus;
-use Profile\UserStatus\DomainModel\Event\UserWentOfflineEvent;
-use Profile\UserStatus\DomainModel\Event\UserWentOnlineEvent;
 use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
-use Shared\DomainModel\Services\MessageBusInterface;
 use Shared\DomainModel\ValueObject\UserId;
 
 final readonly class UserStatusCache
 {
     public function __construct(
         private CacheInterface $cache,
-        private MessageBusInterface $eventBus,
         private LoggerInterface $logger,
         private int $isOnlineTtl,
     ) {
@@ -23,19 +19,13 @@ final readonly class UserStatusCache
 
     public function changeStatus(UserUpdateStatus $userUpdateStatus): void
     {
-        $key = sprintf("user:status:%s", $userUpdateStatus->userId->toRfc4122());
+        $key = sprintf('user:status:%s', $userUpdateStatus->userId->toRfc4122());
         try {
             $this->cache->set(
                 $key,
                 $userUpdateStatus->jsonSerialize(),
                 true === $userUpdateStatus->isOnline ? $this->isOnlineTtl : null,
             );
-
-            if ($userUpdateStatus->isOnline) {
-                $this->eventBus->dispatch(new UserWentOnlineEvent($userUpdateStatus->userId));
-            } else {
-                $this->eventBus->dispatch(new UserWentOfflineEvent($userUpdateStatus->userId));
-            }
         } catch (InvalidArgumentException $exception) {
             $this->logger->error($exception->getMessage());
         }
@@ -43,7 +33,7 @@ final readonly class UserStatusCache
 
     public function getStatus(UserId $userId): ?UserUpdateStatus
     {
-        $key = sprintf("user:status:%s", $userId->toRfc4122());
+        $key = sprintf('user:status:%s', $userId->toRfc4122());
         try {
             $data = $this->cache->get($key);
             if (is_array($data)) {
@@ -52,8 +42,6 @@ final readonly class UserStatusCache
         } catch (InvalidArgumentException $exception) {
             $this->logger->error($exception->getMessage());
         }
-
-        $this->eventBus->dispatch(new UserWentOfflineEvent($userId));
 
         return null;
     }

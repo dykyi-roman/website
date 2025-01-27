@@ -34,11 +34,10 @@ final class UserStatusRepository implements UserStatusRepositoryInterface
 
         /** @var UserStatus $existingStatuses */
         $existingStatuses = $this->repository->createQueryBuilder('us')
-            ->where('us.id IN (:userIds)')
+            ->andWhere('us.id IN (:userIds)')
             ->setParameter('userIds', $userIds)
             ->getQuery()
             ->getResult();
-
 
         $existingStatusMap = [];
         foreach ($existingStatuses as $status) {
@@ -47,11 +46,11 @@ final class UserStatusRepository implements UserStatusRepositoryInterface
 
         foreach ($userStatuses as $userStatus) {
             $userId = $userStatus->getUserId()->toRfc4122();
-            
+
             if (isset($existingStatusMap[$userId])) {
                 $existingStatusMap[$userId]->updateStatus(
                     isOnline: $userStatus->isOnline(),
-                    lastActivityAt: $userStatus->getLastActivityAt()
+                    lastActivityAt: $userStatus->getLastOnlineAt()
                 );
             } else {
                 $this->entityManager->persist($userStatus);
@@ -63,7 +62,20 @@ final class UserStatusRepository implements UserStatusRepositoryInterface
 
     public function findByUserId(UserId $userId): ?UserStatus
     {
-        /** @var UserStatus|null */
+        /* @var UserStatus|null */
         return $this->repository->find($userId->toRfc4122());
+    }
+
+    /**
+     * @return UserStatus[]
+     */
+    public function findAllOnline(): array
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+
+        return $qb->select('us')
+            ->andWhere('us.isOnline = :status')
+            ->setParameter('status', true)
+            ->getQuery()->getResult();
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Profile\UserStatus\DomainModel\Model;
 
 use Doctrine\ORM\Mapping as ORM;
-use Profile\UserStatus\DomainModel\Dto\UserUpdateStatus;
 use Shared\DomainModel\ValueObject\UserId;
 
 #[ORM\Entity]
@@ -14,7 +13,7 @@ class UserStatus
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "bigint")]
+    #[ORM\Column(type: 'bigint')]
     private ?int $id = null;
 
     #[ORM\Column(name: 'user_id', type: 'uuid')]
@@ -37,14 +36,9 @@ class UserStatus
     {
         return new self(
             new UserId($data['user_id']),
-            (bool)$data['is_online'],
+            (bool) $data['is_online'],
             new \DateTimeImmutable($data['last_online_at']),
         );
-    }
-
-    public function transformToUserUpdateStatus(): UserUpdateStatus
-    {
-        return new UserUpdateStatus($this->userId, $this->isOnline, $this->lastOnlineAt);
     }
 
     public function getUserId(): UserId
@@ -57,7 +51,7 @@ class UserStatus
         return $this->isOnline;
     }
 
-    public function getLastActivityAt(): ?\DateTimeImmutable
+    public function getLastOnlineAt(): ?\DateTimeImmutable
     {
         return $this->lastOnlineAt;
     }

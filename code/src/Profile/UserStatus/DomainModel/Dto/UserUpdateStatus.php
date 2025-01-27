@@ -28,7 +28,7 @@ final readonly class UserUpdateStatus implements \JsonSerializable
     {
         return new self(
             new UserId($data['user_id']),
-            (bool)$data['is_online'],
+            (bool) $data['is_online'],
             new \DateTimeImmutable($data['last_online_at']),
         );
     }

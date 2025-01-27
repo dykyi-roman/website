@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Profile\UserStatus\Presentation\Console;
 
 use Profile\UserStatus\Application\UpdateUserStatus\Command\UpdateUserStatusCommand;
+use Profile\UserStatus\DomainModel\Dto\UserUpdateStatus;
+use Profile\UserStatus\DomainModel\Repository\UserStatusRepositoryInterface;
 use Profile\UserStatus\DomainModel\Service\UserStatusCache;
 use Shared\DomainModel\Services\MessageBusInterface;
 use Symfony\Component\Console\Command\Command;
@@ -18,6 +20,7 @@ final class SynchronizeUserStatusCommand extends Command
 
     public function __construct(
         private readonly UserStatusCache $userStatusCache,
+        private readonly UserStatusRepositoryInterface $userStatusRepository,
         private readonly MessageBusInterface $messageBus,
     ) {
         parent::__construct();
@@ -41,25 +44,34 @@ final class SynchronizeUserStatusCommand extends Command
     {
         $output->writeln('<info>Starting synchronization...</info>');
 
-        $batchSize = (int) $input->getOption('batch-size');
-        $userUpdateStatuses = $this->userStatusCache->getAllUserStatuses();
-        $totalStatuses = count($userUpdateStatuses);
-        $processedStatuses = 0;
+        $onlineUsersFromRedis = $this->userStatusCache->getAllUserStatuses();
+        $onlineUsersInDb = $this->userStatusRepository->findAllOnline();
 
-        foreach (array_chunk($userUpdateStatuses, $batchSize) as $batchUserUpdateStatuses) {
-            $updateItems = [];
-            foreach ($batchUserUpdateStatuses as $userUpdateStatus) {
-                $updateItems[] = $userUpdateStatus::jsonSerialize();
-                $processedStatuses++;
+        $batchSize = (int) $input->getOption('batch-size');
+
+        $onlineUserIdsFromRedis = array_column($onlineUsersFromRedis, 'userId');
+        foreach ($onlineUsersInDb as $userStatus) {
+            if (!in_array($userStatus->getUserId(), $onlineUserIdsFromRedis, true)) {
+                $this->messageBus->dispatch(
+                    new UpdateUserStatusCommand([
+                        [
+                            'user_id' => $userStatus->getUserId(),
+                            'is_online' => false,
+                            'last_online_at' => $userStatus->getLastOnlineAt(),
+                        ],
+                    ])
+                );
             }
-            
-            $this->messageBus->dispatch(new UpdateUserStatusCommand($updateItems));
-            
-            $progress = round(($processedStatuses / $totalStatuses) * 100, 2);
-            $output->writeln(sprintf('<info>Progress: %s%% (%d/%d)</info>', $progress, $processedStatuses, $totalStatuses));
         }
 
-        $output->writeln('<info>Synchronization complete!</info>');
+        /** @var UserUpdateStatus[] $batch */
+        foreach (array_chunk($onlineUsersFromRedis, $batchSize) as $batch) {
+            $updateItems = array_map(static fn (UserUpdateStatus $status) => $status->jsonSerialize(), $batch);
+            $this->messageBus->dispatch(new UpdateUserStatusCommand($updateItems));
+
+            $progress = round((count($batch) / count($onlineUsersFromRedis)) * 100, 2);
+            $output->writeln(sprintf('<info>Progress: %s%%</info>', $progress));
+        }
 
         return Command::SUCCESS;
     }

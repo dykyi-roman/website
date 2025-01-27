@@ -7,7 +7,7 @@ namespace Profile\UserStatus\Application\GetUserStatus\Query;
 use Shared\DomainModel\ValueObject\UserId;
 
 /**
- * @see \Profile\UserStatus\Application\GetUserStatus\Query\GetUserStatusQueryHandler
+ * @see GetUserStatusQueryHandler
  */
 final class GetUserStatusQuery
 {
