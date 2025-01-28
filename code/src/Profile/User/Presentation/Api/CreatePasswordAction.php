@@ -6,10 +6,10 @@ namespace Profile\User\Presentation\Api;
 
 use OpenApi\Attributes as OA;
 use Profile\User\Application\UserAuthentication\Command\CreateUserPasswordCommand;
-use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
 use Profile\User\Presentation\Api\Request\CreatePasswordRequestDto;
 use Profile\User\Presentation\Api\Response\CreatePasswordJsonResponder;
 use Shared\DomainModel\Services\MessageBusInterface;
+use Shared\DomainModel\Services\UserFetcherInterface;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;

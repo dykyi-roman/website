@@ -8,7 +8,7 @@ use Notifications\DomainModel\Service\NotificationServiceInterface;
 use Notifications\Presentation\Api\Request\NotificationListDto;
 use Notifications\Presentation\Api\Response\ListOfNotificationJsonResponder;
 use OpenApi\Attributes as OA;
-use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
+use Shared\DomainModel\Services\UserFetcherInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
 

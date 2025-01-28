@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Site\Registration\Presentation\Web\Twig;
 
-use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
+use Shared\DomainModel\Services\UserFetcherInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 

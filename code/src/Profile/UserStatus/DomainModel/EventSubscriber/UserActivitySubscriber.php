@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Profile\UserStatus\DomainModel\EventSubscriber;
 
-use Profile\User\DomainModel\Model\UserInterface;
 use Profile\UserStatus\DomainModel\Dto\UserUpdateStatus;
 use Profile\UserStatus\DomainModel\Event\UserWentOnlineEvent;
 use Profile\UserStatus\DomainModel\Service\UserStatusInterface;
+use Shared\DomainModel\Exception\AuthenticationException;
 use Shared\DomainModel\Services\MessageBusInterface;
-use Symfony\Bundle\SecurityBundle\Security;
+use Shared\DomainModel\Services\UserFetcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 final readonly class UserActivitySubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private Security $security,
+        private UserFetcherInterface $userFetcher,
         private UserStatusInterface $userStatus,
         private MessageBusInterface $eventBus,
     ) {
@@ -31,13 +31,9 @@ final readonly class UserActivitySubscriber implements EventSubscriberInterface
 
     public function onKernelRequest(): void
     {
-        $token = $this->security->getToken();
-        if (null === $token) {
-            return;
-        }
-
-        $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
+        try {
+            $user = $this->userFetcher->fetch();
+        } catch (AuthenticationException) {
             return;
         }
 

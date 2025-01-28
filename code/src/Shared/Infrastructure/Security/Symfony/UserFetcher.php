@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Profile\User\Application\UserAuthentication\Service;
+namespace Shared\Infrastructure\Security\Symfony;
 
-use Profile\User\DomainModel\Exception\AuthenticationException;
 use Profile\User\DomainModel\Model\UserInterface;
+use Shared\DomainModel\Exception\AuthenticationException;
+use Shared\DomainModel\Services\UserFetcherInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 
 final readonly class UserFetcher implements UserFetcherInterface

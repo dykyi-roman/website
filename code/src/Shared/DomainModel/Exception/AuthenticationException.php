@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Profile\User\DomainModel\Exception;
+namespace Shared\DomainModel\Exception;
 
 final class AuthenticationException extends \RuntimeException
 {

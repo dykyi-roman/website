@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Profile\User\Application\UserAuthentication\Service;
+namespace Shared\DomainModel\Services;
 
 use Profile\User\DomainModel\Model\UserInterface;
 
@@ -11,7 +11,7 @@ interface UserFetcherInterface
     public function isLogin(): bool;
 
     /**
-     * @throw AuthenticationException
+     * @throws \Shared\DomainModel\Exception\AuthenticationException
      */
     public function fetch(): UserInterface;
 }

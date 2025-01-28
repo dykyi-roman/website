@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Profile\User\Presentation\Api;
 
 use OpenApi\Attributes as OA;
-use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
 use Profile\User\Application\UserManagement\Command\DeleteUserAccountCommand;
 use Profile\User\Presentation\Api\Response\DeleteUserJsonResponder;
 use Shared\DomainModel\Services\MessageBusInterface;
+use Shared\DomainModel\Services\UserFetcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;

@@ -6,11 +6,11 @@ namespace Profile\Setting\Presentation\Web;
 
 use Profile\Setting\Presentation\Web\Request\ActivateAccountRequestDto;
 use Profile\Setting\Presentation\Web\Response\PrivacyJsonResponder;
-use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
 use Profile\User\Application\UserManagement\Command\ActivateUserAccountCommand;
 use Profile\User\Application\UserManagement\Command\DeleteUserAccountCommand;
 use Profile\User\DomainModel\Enum\UserStatus;
 use Shared\DomainModel\Services\MessageBusInterface;
+use Shared\DomainModel\Services\UserFetcherInterface;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;

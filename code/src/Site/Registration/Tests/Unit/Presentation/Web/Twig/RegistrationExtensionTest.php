@@ -6,7 +6,7 @@ namespace Site\Registration\Tests\Unit\Presentation\Web\Twig;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
+use Shared\DomainModel\Services\UserFetcherInterface;
 use Site\Registration\Presentation\Web\Twig\RegistrationExtension;
 
 #[CoversClass(RegistrationExtension::class)]

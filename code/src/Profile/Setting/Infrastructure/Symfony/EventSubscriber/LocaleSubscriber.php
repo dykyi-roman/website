@@ -6,9 +6,8 @@ namespace Profile\Setting\Infrastructure\Symfony\EventSubscriber;
 
 use Profile\Setting\DomainModel\Enum\PropertyName;
 use Profile\Setting\DomainModel\Repository\SettingRepositoryInterface;
-use Profile\User\DomainModel\Exception\AuthenticationException;
-use Profile\User\DomainModel\Model\UserInterface;
-use Symfony\Bundle\SecurityBundle\Security;
+use Shared\DomainModel\Exception\AuthenticationException;
+use Shared\DomainModel\Services\UserFetcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -19,7 +18,7 @@ final readonly class LocaleSubscriber implements EventSubscriberInterface
     public function __construct(
         private LocaleSwitcher $localeSwitcher,
         private SettingRepositoryInterface $settingRepository,
-        private Security $security,
+        private UserFetcherInterface $userFetcher,
     ) {
     }
 
@@ -38,7 +37,7 @@ final readonly class LocaleSubscriber implements EventSubscriberInterface
         }
 
         try {
-            $user = $this->fetch();
+            $user = $this->userFetcher->fetch();
         } catch (AuthenticationException) {
             return;
         }
@@ -52,20 +51,5 @@ final readonly class LocaleSubscriber implements EventSubscriberInterface
         $this->localeSwitcher->setLocale($locale);
         $request->cookies->set('locale', $locale);
         $request->setLocale($locale);
-    }
-
-    private function fetch(): UserInterface
-    {
-        $token = $this->security->getToken();
-        if (null === $token) {
-            throw AuthenticationException::userNotFound();
-        }
-
-        $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
-            throw AuthenticationException::userNotFound();
-        }
-
-        return $user;
     }
 }

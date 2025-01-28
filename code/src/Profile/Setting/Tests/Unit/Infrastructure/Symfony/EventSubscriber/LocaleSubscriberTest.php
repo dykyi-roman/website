@@ -15,6 +15,7 @@ use Profile\Setting\DomainModel\ValueObject\Property;
 use Profile\Setting\Infrastructure\Symfony\EventSubscriber\LocaleSubscriber;
 use Profile\User\DomainModel\Model\User;
 use Shared\DomainModel\ValueObject\UserId;
+use Shared\Infrastructure\Security\Symfony\UserFetcher;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -38,7 +39,7 @@ final class LocaleSubscriberTest extends TestCase
         $this->subscriber = new LocaleSubscriber(
             $this->localeSwitcher,
             $this->settingRepository,
-            $this->security
+            new UserFetcher($this->security),
         );
     }
 

@@ -8,7 +8,7 @@ use Notifications\DomainModel\Service\NotificationServiceInterface;
 use Notifications\DomainModel\ValueObject\UserNotificationId;
 use Notifications\Presentation\Api\Response\DeleteNotificationJsonResponder;
 use OpenApi\Attributes as OA;
-use Profile\User\Application\UserAuthentication\Service\UserFetcherInterface;
+use Shared\DomainModel\Services\UserFetcherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class DeleteNotificationAction
