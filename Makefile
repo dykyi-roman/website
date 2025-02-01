@@ -100,8 +100,7 @@ deptrac: ## Check dependencies between domains (no cache)
 	@echo "Deptrac done!"
 
 psalm: ## Run Psalm static analysis (no cache)
-	#docker exec -it $(php) bash -c "cd /var/www/html/code && php vendor/bin/psalm --config=../tools/psalm.xml --no-cache"
-	@echo "Psalm not support php 8.4!"
+	docker exec -it $(php) bash -c "cd /var/www/html/code && php vendor/bin/psalm --config=../tools/psalm.xml --no-cache"
 	@echo "Psalm done!"
 
 phpmetrics: ## Generate PHP Metrics report

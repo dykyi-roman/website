@@ -20,6 +20,7 @@
         "league/oauth2-google": "^4.0",
         "php-http/discovery": "^1.19",
         "psr/http-client": "^1.0",
+        "saloonphp/saloon": "^3.0",
         "sentry/sentry": "^4.0",
         "symfony/asset": "7.2.*",
         "symfony/asset-mapper": "7.2.*",
