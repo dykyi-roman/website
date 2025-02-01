@@ -8,5 +8,6 @@ parameters:
         - ../code/src
     excludePaths:
         - '../code/src/Shared/Tests/*'
+        - '../code/src/Profile/UserStatus/Tests/*'
         - '../code/src/Site/Registration/Tests/*'
     treatPhpDocTypesAsCertain: false

@@ -20,16 +20,19 @@ final readonly class GetUserStatusQueryHandler
 
     public function __invoke(GetUserStatusQuery $query): ?UserUpdateStatus
     {
-        $status = $this->userStatus->getStatus($query->userId);
-        if (null === $status) {
-            $userStatus = $this->userStatusRepository->findByUserId($query->userId);
-            if (null !== $userStatus) {
-                return new UserUpdateStatus(
-                    $userStatus->getUserId(),
-                    $userStatus->isOnline(),
-                    $userStatus->getLastOnlineAt(),
-                );
-            }
+        // Try to get status from cache
+        if ($status = $this->userStatus->getStatus($query->userId)) {
+            return $status;
+        }
+
+        // If not in cache, try to get from repository
+        $userStatus = $this->userStatusRepository->findByUserId($query->userId);
+        if ($userStatus) {
+            return new UserUpdateStatus(
+                $userStatus->getUserId(),
+                $userStatus->isOnline(),
+                $userStatus->getLastOnlineAt(),
+            );
         }
 
         return null;
